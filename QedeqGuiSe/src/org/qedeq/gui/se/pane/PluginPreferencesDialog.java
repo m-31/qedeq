@@ -91,6 +91,9 @@ public class PluginPreferencesDialog extends JDialog {
     /** Text field for maximum column of QEDEQ to UTF-8 plugin. */
     private JTextField qedeq2Utf8MaximumColumnTF;
 
+    /** Checkbox for brief parameter of QEDEQ to UTF-8 plugin. */
+    private JCheckBox qedeq2Utf8BriefCB;
+
     /** Plugin for converting QEDEQ modules into LaTeX. */
     private final Qedeq2LatexPlugin qedeq2latex;
 
@@ -267,6 +270,7 @@ public class PluginPreferencesDialog extends JDialog {
                     parameters.getBoolean("info"));
                 builder.append(qedeq2LatexInfoCB);
 
+                builder.nextLine();
                 qedeq2LatexBriefCB = new JCheckBox(" Leave out main text entries. Creates a very brief document.",
                     parameters.getBoolean("brief"));
                 builder.append(qedeq2LatexBriefCB);
@@ -303,6 +307,11 @@ public class PluginPreferencesDialog extends JDialog {
                 qedeq2Utf8MaximumColumnTF.setToolTipText("After this character number the line is broken."
                     + "0 means no break at all.");
                 builder.append(qedeq2Utf8MaximumColumnTF);
+
+                builder.nextLine();
+                qedeq2Utf8BriefCB = new JCheckBox(" Leave out main text entries. Creates a very brief document.",
+                    parameters.getBoolean("brief"));
+                builder.append(qedeq2Utf8BriefCB);
 
                 return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
             }
@@ -703,6 +712,7 @@ public class PluginPreferencesDialog extends JDialog {
                 QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "info", qedeq2Utf8InfoCB.isSelected());
                 QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "maximumColumn",
                     qedeq2Utf8MaximumColumnTF.getText());
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "brief", qedeq2Utf8BriefCB.isSelected());
             }
 // LATER 20101222 m31: remove if not used for a long time
 //            {
