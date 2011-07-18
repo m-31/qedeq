@@ -23,8 +23,6 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class XmlNormalizerHandler extends DefaultHandler {
     
-    private Locator locator;
-
     private Map namespaces = new HashMap();
 
     private StringBuffer buffer = new StringBuffer();
@@ -35,20 +33,13 @@ public class XmlNormalizerHandler extends DefaultHandler {
         
     Stack hasSubs = new Stack();
 
-    private OutputStream os;
-
     private PrintStream ps;
 
 
     public final void parse(final InputStream is, final OutputStream os) throws SAXException, IOException {
-        this.os = os;
         ps = new PrintStream(os, false, "UTF-8");
         parser.setContentHandler(this);
         parser.parse(new InputSource(is));
-    }
-
-    public void setDocumentLocator(final Locator locator) {
-        this.locator = locator;
     }
 
     public void startDocument() throws SAXException {
