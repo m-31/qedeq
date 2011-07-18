@@ -515,7 +515,6 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
                         }
                     }
                 }
-                hasFormalContent = true;
             } while (false);
             if (!hasFormalContent) {
                 setBlocked(true);
@@ -567,7 +566,6 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
                         break;
                     }
                 }
-                hasFormalContent = true;
             } while (false);
             if (!hasFormalContent) {
                 setBlocked(true);

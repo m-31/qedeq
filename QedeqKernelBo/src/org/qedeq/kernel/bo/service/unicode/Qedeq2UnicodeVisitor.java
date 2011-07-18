@@ -64,8 +64,11 @@ import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
+import org.qedeq.kernel.se.base.module.SectionList;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.base.module.Subsection;
+import org.qedeq.kernel.se.base.module.SubsectionList;
+import org.qedeq.kernel.se.base.module.SubsectionType;
 import org.qedeq.kernel.se.base.module.SubstFree;
 import org.qedeq.kernel.se.base.module.SubstFunc;
 import org.qedeq.kernel.se.base.module.SubstPred;
@@ -348,6 +351,38 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     }
 
     public void visitEnter(final Chapter chapter) {
+        // check if we print only brief and test for non text subnodes
+        if (brief) {
+            boolean hasFormalContent = false;
+            do {
+                final SectionList sections = chapter.getSectionList();
+                if (sections == null) {
+                    break;
+                }
+                for (int i = 0; i < sections.size() && !hasFormalContent; i++) {
+                    final Section section = sections.get(i);
+                    if (section == null) {
+                        continue;
+                    }
+                    final SubsectionList subSections = section.getSubsectionList();
+                    if (subSections == null) {
+                        continue;
+                    }
+                    for (int j = 0; j < subSections.size(); j++) {
+                        final SubsectionType subSection = subSections.get(j);
+                        if (!(subSection instanceof Subsection)) {
+                            hasFormalContent = true;
+                            break;
+                        }
+                    }
+                }
+                hasFormalContent = true;
+            } while (false);
+            if (!hasFormalContent) {
+                setBlocked(true);
+                return;
+            }
+        }
         final QedeqNumbers numbers = getCurrentNumbers();
         if (numbers.isChapterNumbering()) {
             if ("de".equals(language)) {
@@ -380,9 +415,32 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         printer.println("___________________________________________________");
         printer.println();
         printer.println();
+        setBlocked(false);
     }
 
     public void visitEnter(final Section section) {
+        // check if we print only brief and test for non text subnodes
+        if (brief) {
+            boolean hasFormalContent = false;
+            do {
+                final SubsectionList subSections = section.getSubsectionList();
+                if (subSections == null) {
+                    break;
+                }
+                for (int j = 0; j < subSections.size(); j++) {
+                    final SubsectionType subSection = subSections.get(j);
+                    if (!(subSection instanceof Subsection)) {
+                        hasFormalContent = true;
+                        break;
+                    }
+                }
+                hasFormalContent = true;
+            } while (false);
+            if (!hasFormalContent) {
+                setBlocked(true);
+                return;
+            }
+        }
         final QedeqNumbers numbers = getCurrentNumbers();
         final StringBuffer buffer = new StringBuffer();
         if (numbers.isChapterNumbering()) {
@@ -410,6 +468,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
 
     public void visitLeave(final Section section) {
         printer.println();
+        setBlocked(false);
     }
 
     public void visitEnter(final Subsection subsection) {
