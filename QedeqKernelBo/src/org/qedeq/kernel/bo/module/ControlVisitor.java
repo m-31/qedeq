@@ -28,6 +28,7 @@ import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.RuleKey;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.visitor.AbstractModuleVisitor;
@@ -268,6 +269,16 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      */
     public QedeqNumbers getCurrentNumbers() {
         return traverser.getCurrentNumbers();
+    }
+
+    /**
+     * Get current (QEDEQ module local) rule version for given rule name.
+     *
+     * @param   name    Rule name
+     * @return  Current (local) rule version. Might be <code>null</code>.
+     */
+    public RuleKey getLocalRuleKey(final String name) {
+        return traverser.getLocalRuleKey(name);
     }
 
     /**

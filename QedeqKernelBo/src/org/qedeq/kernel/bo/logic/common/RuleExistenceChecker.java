@@ -15,6 +15,8 @@
 
 package org.qedeq.kernel.bo.logic.common;
 
+import org.qedeq.kernel.se.common.RuleKey;
+
 
 /**
  * Check if a rule is already defined.

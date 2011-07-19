@@ -24,9 +24,9 @@ import org.qedeq.kernel.bo.logic.common.FunctionKey;
 import org.qedeq.kernel.bo.logic.common.IdentityOperatorAlreadyExistsException;
 import org.qedeq.kernel.bo.logic.common.PredicateConstant;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
-import org.qedeq.kernel.bo.logic.common.RuleKey;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.common.RuleKey;
 
 /**
  * Contains methods for existence checking of various operands.

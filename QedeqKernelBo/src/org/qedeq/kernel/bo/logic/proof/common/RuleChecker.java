@@ -15,7 +15,7 @@
 
 package org.qedeq.kernel.bo.logic.proof.common;
 
-import org.qedeq.kernel.bo.logic.common.RuleKey;
+import org.qedeq.kernel.se.common.RuleKey;
 
 
 /**

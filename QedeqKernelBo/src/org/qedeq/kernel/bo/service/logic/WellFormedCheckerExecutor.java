@@ -31,7 +31,6 @@ import org.qedeq.kernel.bo.logic.common.FunctionKey;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.PredicateConstant;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
-import org.qedeq.kernel.bo.logic.common.RuleKey;
 import org.qedeq.kernel.bo.logic.wf.FormulaCheckerImpl;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
@@ -39,6 +38,8 @@ import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Axiom;
+import org.qedeq.kernel.se.base.module.ChangedRule;
+import org.qedeq.kernel.se.base.module.ChangedRuleList;
 import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.FormalProof;
 import org.qedeq.kernel.se.base.module.FormalProofLine;
@@ -61,6 +62,7 @@ import org.qedeq.kernel.se.common.IllegalModuleDataException;
 import org.qedeq.kernel.se.common.LogicalModuleState;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.RuleKey;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.dto.list.ElementSet;
@@ -849,7 +851,8 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         }
         // we start checking
         getNodeBo().setWellFormed(CheckLevel.UNCHECKED);
-        if (rule.getName() != null) {
+        if (rule.getName() != null && rule.getName().length() > 0 && rule.getVersion() != null
+                && rule.getVersion().length() > 0) {
             final RuleKey ruleKey = new RuleKey(rule.getName(), rule.getVersion());
             if (existence.ruleExists(ruleKey)) {
                 addError(new IllegalModuleDataException(
@@ -865,15 +868,38 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                 }
                 existence.add(ruleKey, rule);
             }
-            if ("CP".equals(rule.getName()) && Version.equals("0.02.00", rule.getVersion())) {
-                addNewRuleVersionBecauseOfCP(rule, "MP");
-                addNewRuleVersionBecauseOfCP(rule, "Add");
-                addNewRuleVersionBecauseOfCP(rule, "Rename");
-                addNewRuleVersionBecauseOfCP(rule, "SubstFree");
-                addNewRuleVersionBecauseOfCP(rule, "SubstPred");
-                addNewRuleVersionBecauseOfCP(rule, "SubstFun");
-                addNewRuleVersionBecauseOfCP(rule, "Universal");
-                addNewRuleVersionBecauseOfCP(rule, "Existential");
+// FIXME remove if ok
+//            if ("CP".equals(rule.getName()) && Version.equals("0.02.00", rule.getVersion())) {
+//                addNewRuleVersionBecauseOfCP(rule, "MP");
+//                addNewRuleVersionBecauseOfCP(rule, "Add");
+//                addNewRuleVersionBecauseOfCP(rule, "Rename");
+//                addNewRuleVersionBecauseOfCP(rule, "SubstFree");
+//                addNewRuleVersionBecauseOfCP(rule, "SubstPred");
+//                addNewRuleVersionBecauseOfCP(rule, "SubstFun");
+//                addNewRuleVersionBecauseOfCP(rule, "Universal");
+//                addNewRuleVersionBecauseOfCP(rule, "Existential");
+//            }
+            if (rule.getChangedRuleList() != null) {
+                final ChangedRuleList list = rule.getChangedRuleList();
+                for (int i = 0; i < list.size(); i++) {
+                    final ChangedRule r = list.get(i);
+                    if (r == null || r.getName() == null || r.getName().length() <= 0
+                            || r.getVersion() == null || r.getVersion().length() <= 0) {
+                        continue;
+                    }
+                    final String ruleName = r.getName();
+                    final String ruleVersion = r.getVersion();
+                    final RuleKey key1 = existence.getRuleKey(ruleName);
+                    System.out.println("old: " + key1);
+                    if (key1 != null) {
+                        final RuleKey key2 = new RuleKey(ruleName, ruleVersion);
+                        if (!existence.ruleExists(key2)) {
+                            System.out.println("new: " + key2);
+                            existence.add(key2, rule);
+                        }
+                    }
+                    // FIXME add errors if conditions are not fulfilled
+                }
             }
         } else {
             getNodeBo().setWellFormed(CheckLevel.FAILURE);

@@ -26,10 +26,7 @@ import org.qedeq.kernel.xml.handler.common.SimpleAttributes;
  *
  * @author  Michael Meyling
  */
-public class ChangedRuleHandler extends AbstractSimpleHandler {
-
-    /** Handler for rule description. */
-    private final LatexListHandler descriptionHandler;
+public class ChangedRuleHandler extends LatexListHandler {
 
     /** Rule value object. */
     private ChangedRuleVo rule;
@@ -41,10 +38,10 @@ public class ChangedRuleHandler extends AbstractSimpleHandler {
      */
     public ChangedRuleHandler(final AbstractSimpleHandler handler) {
         super(handler, "CHANGED_RULE");
-        descriptionHandler = new LatexListHandler(this, "CHANGED_RULE");
     }
 
     public final void init() {
+        super.init();
         rule = null;
     }
 
@@ -72,15 +69,15 @@ public class ChangedRuleHandler extends AbstractSimpleHandler {
                 throw XmlSyntaxException.createMissingAttributeException(name, "version");
             }
         } else {
-            changeHandler(descriptionHandler, name, attributes);
+            super.startElement(name, attributes);
         }
     }
 
     public final void endElement(final String name) throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
-            rule.setDescription(descriptionHandler.getLatexList());
+            rule.setDescription(getLatexList());
         } else {
-            throw XmlSyntaxException.createUnexpectedTagException(name);
+            super.endElement(name);
         }
     }
 

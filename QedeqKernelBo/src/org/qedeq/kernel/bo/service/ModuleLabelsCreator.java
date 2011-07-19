@@ -22,6 +22,8 @@ import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.se.base.module.Axiom;
+import org.qedeq.kernel.se.base.module.ChangedRule;
+import org.qedeq.kernel.se.base.module.ChangedRuleList;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.Node;
@@ -110,6 +112,13 @@ public final class ModuleLabelsCreator extends ControlVisitor {
         setBlocked(true);   // block further traverse
         // we always save the definition, even if there already exists an entry
         labels.addRule(nodeId, rule, getCurrentContext());
+        if (rule.getChangedRuleList() != null) {
+            final ChangedRuleList list = rule.getChangedRuleList();
+            for (int i = 0; i < list.size() && list.get(i) != null; i++) {
+                final ChangedRule r = list.get(i);
+                labels.addChangedRule(nodeId, rule, r, getCurrentContext());
+            }
+        }
     }
 
     public void visitEnter(final Node node) {

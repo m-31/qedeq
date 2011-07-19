@@ -32,7 +32,6 @@ import org.qedeq.base.utility.DateUtility;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
-import org.qedeq.kernel.bo.logic.common.RuleKey;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -86,6 +85,7 @@ import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.RuleKey;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 
@@ -1408,12 +1408,21 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     private String getRuleReference(final String ruleName) {
         final String method = "getRuleReference(String, String)";
         Trace.param(CLASS, this, method, "ruleName", ruleName);
-        RuleKey key = getQedeqBo().getLabels().getRuleKey(ruleName);
-        if (getQedeqBo().getExistenceChecker() != null
-                && getQedeqBo().getExistenceChecker().getRuleKey(ruleName) != null) {
-            key = getQedeqBo().getExistenceChecker().getRuleKey(ruleName);
+        System.out.println("looking for key " + ruleName);  // FIXME
+        RuleKey key = getLocalRuleKey(ruleName);
+        System.out.println("key1 = " + key);  // FIXME
+        if (key == null && getQedeqBo().getExistenceChecker() != null) {
+            key = getQedeqBo().getExistenceChecker().getParentRuleKey(ruleName);
+            System.out.println("key2 = " + key);  // FIXME
         }
-        final KernelQedeqBo qedeq = getQedeqBo().getExistenceChecker().getQedeq(key);
+        if (key == null) {
+            key = getQedeqBo().getLabels().getRuleKey(ruleName);
+            System.out.println("key3 = " + key);  // FIXME
+        }
+        KernelQedeqBo qedeq = getQedeqBo();
+        if (getQedeqBo().getExistenceChecker() != null) {
+            qedeq = getQedeqBo().getExistenceChecker().getQedeq(key);
+        }
         boolean local = getQedeqBo().equals(qedeq);
         if (local) {
             return "\\hyperref[" + getQedeqBo().getLabels().getRuleLabel(key) + "]{"

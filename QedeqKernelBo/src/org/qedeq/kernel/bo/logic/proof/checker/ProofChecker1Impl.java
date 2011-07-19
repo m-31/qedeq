@@ -26,7 +26,6 @@ import org.qedeq.kernel.bo.logic.common.FormulaUtility;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.bo.logic.common.ReferenceResolver;
-import org.qedeq.kernel.bo.logic.common.RuleKey;
 import org.qedeq.kernel.bo.logic.proof.common.ProofChecker;
 import org.qedeq.kernel.bo.logic.proof.common.RuleChecker;
 import org.qedeq.kernel.se.base.list.Element;
@@ -44,6 +43,7 @@ import org.qedeq.kernel.se.base.module.SubstFunc;
 import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.common.RuleKey;
 import org.qedeq.kernel.se.dto.list.DefaultElementList;
 import org.qedeq.kernel.se.dto.list.ElementSet;
 

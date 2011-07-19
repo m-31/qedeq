@@ -24,10 +24,10 @@ import org.qedeq.kernel.bo.logic.common.FunctionConstant;
 import org.qedeq.kernel.bo.logic.common.FunctionKey;
 import org.qedeq.kernel.bo.logic.common.PredicateConstant;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
-import org.qedeq.kernel.bo.logic.common.RuleKey;
 import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
 import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.Rule;
+import org.qedeq.kernel.se.common.RuleKey;
 
 
 /**
@@ -52,7 +52,7 @@ public class DefaultExistenceChecker implements ExistenceChecker {
     /** Maps {@link FunctionKey} identifiers to {@link FunctionConstant}s. */
     private final Map functionDefinitions = new HashMap();
 
-    /** Maps {@link Rule} identifiers to {@link Rules}s. */
+    /** Maps {@link RuleKey}s to {@link Rules}s. */
     private final Map ruleDefinitions = new HashMap();
 
     /** Is the class operator already defined? */

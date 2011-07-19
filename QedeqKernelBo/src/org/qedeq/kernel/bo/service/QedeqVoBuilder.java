@@ -846,7 +846,7 @@ public class QedeqVoBuilder {
         }
         final ChangedRuleListVo list = new ChangedRuleListVo();
         final String context = getCurrentContext().getLocationWithinModule();
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < changedRuleList.size(); i++) {
             setLocationWithinModule(context + ".get(" + i + ")");
             list.add(create(changedRuleList.get(i)));
         }

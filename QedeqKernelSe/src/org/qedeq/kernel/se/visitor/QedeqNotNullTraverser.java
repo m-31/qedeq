@@ -15,6 +15,8 @@
 
 package org.qedeq.kernel.se.visitor;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 import org.qedeq.kernel.se.base.list.Atom;
@@ -75,6 +77,7 @@ import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
+import org.qedeq.kernel.se.common.RuleKey;
 import org.qedeq.kernel.se.dto.module.FormulaVo;
 import org.qedeq.kernel.se.dto.module.TermVo;
 
@@ -111,6 +114,9 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     /** Currently visited node element of QEDEQ module. Might be <code>null</code>. */
     private Node node;
 
+    /** Maps local {@link ruleName}s to local {@link RuleKey}s. */
+    private Map ruleExistence;
+
     /**
      * Constructor.
      *
@@ -123,6 +129,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Qedeq qedeq) throws ModuleDataException {
+        ruleExistence = new HashMap();
         setLocation("started");
         if (qedeq == null) {
             throw new NullPointerException("null QEDEQ module");
@@ -784,6 +791,8 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         setLocationWithinModule(context);
         visitor.visitLeave(rule);
         setLocationWithinModule(context);
+        final RuleKey newRuleKey = new RuleKey(rule.getName(), rule.getVersion());
+        ruleExistence.put(rule.getName(), newRuleKey);
     }
 
     public void accept(final ChangedRuleList list) throws ModuleDataException {
@@ -820,6 +829,8 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         setLocationWithinModule(context);
         visitor.visitLeave(rule);
         setLocationWithinModule(context);
+        final RuleKey newRuleKey = new RuleKey(rule.getName(), rule.getVersion());
+        ruleExistence.put(rule.getName(), newRuleKey);
     }
 
     public void accept(final LinkList linkList) throws ModuleDataException {
@@ -1403,6 +1414,16 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
      */
     public QedeqNumbers getCurrentNumbers() {
         return new QedeqNumbers(data);
+    }
+
+    /**
+     * Get current (QEDEQ module local) rule version for given rule name.
+     *
+     * @param   name    Rule name
+     * @return  Current (local) rule version. Might be <code>null</code>.
+     */
+    public RuleKey getLocalRuleKey(final String name) {
+        return (RuleKey) ruleExistence.get(name);
     }
 
 }

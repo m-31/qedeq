@@ -18,7 +18,7 @@ package org.qedeq.kernel.bo.logic.wf;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.common.FunctionKey;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
-import org.qedeq.kernel.bo.logic.common.RuleKey;
+import org.qedeq.kernel.se.common.RuleKey;
 
 
 /**

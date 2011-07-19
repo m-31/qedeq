@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic.common;
+package org.qedeq.kernel.se.common;
 
 import org.qedeq.base.utility.EqualsUtility;
 

@@ -48,7 +48,7 @@ public class LatexListHandler extends AbstractSimpleHandler {
         super(handler, startTag);
     }
 
-    public final void init() {
+    public void init() {
         list = new LatexListVo();
     }
 
@@ -61,7 +61,7 @@ public class LatexListHandler extends AbstractSimpleHandler {
         return list;
     }
 
-    public final void startElement(final String name, final SimpleAttributes attributes)
+    public void startElement(final String name, final SimpleAttributes attributes)
             throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             // ignore
@@ -73,7 +73,7 @@ public class LatexListHandler extends AbstractSimpleHandler {
         }
     }
 
-    public final void endElement(final String name) throws XmlSyntaxException {
+    public void endElement(final String name) throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             // ignore
         } else if ("LATEX".equals(name)) {

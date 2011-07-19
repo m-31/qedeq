@@ -35,6 +35,8 @@ import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
+import org.qedeq.kernel.se.base.module.ChangedRule;
+import org.qedeq.kernel.se.base.module.ChangedRuleList;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.Conclusion;
 import org.qedeq.kernel.se.base.module.ConditionalProof;
@@ -991,6 +993,34 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
             }
         };
         printer.println();
+    }
+
+    public void visitEnter(final ChangedRuleList list) {
+        if (list.size() <= 0) {
+            return;
+        }
+        printer.println();
+        if ("de".equals(language)) {
+            printer.println("Die folgenden Regeln müssen erweitert werden.");
+        } else {
+            if (!"en".equals(language)) {
+                printer.println("%%% TODO unknown language: " + language);
+            }
+            printer.println("The following rules have to be extended.");
+        }
+        printer.println();
+    }
+
+    public void visitEnter(final ChangedRule rule) {
+        printer.println((rule.getName() != null ? "  Name: " + rule.getName() : "")
+            + (rule.getVersion() != null ? "  -  Version: " + rule.getVersion() : ""));
+        printer.println();
+        if (rule.getDescription() != null) {
+            printer.append(getLatexListEntry("getDescription()", rule.getDescription()));
+            printer.println();
+            printer.println();
+        }
+
     }
 
     public void visitEnter(final LiteratureItemList list) {

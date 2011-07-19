@@ -19,12 +19,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.qedeq.kernel.bo.common.ModuleReferenceList;
-import org.qedeq.kernel.bo.logic.common.RuleKey;
+import org.qedeq.kernel.se.base.module.ChangedRule;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.common.IllegalModuleDataException;
 import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.common.RuleKey;
 import org.qedeq.kernel.se.dto.module.NodeVo;
 import org.qedeq.kernel.se.visitor.QedeqNumbers;
 
@@ -53,10 +54,10 @@ public final class ModuleLabels {
     /** Maps function identifiers to {@link FunctionDefinition}s. */
     private final Map functionDefinitions = new HashMap();
 
-    /** Maps predicate identifiers to {@link ModuleContext}s. */
+    /** Maps function identifiers to {@link ModuleContext}s. */
     private final Map functionContexts = new HashMap();
 
-    /** Maps rule names to maximum {@link RuleKey}s. (That is rule key with maximum version number. */
+    /** Maps rule names to maximum {@link RuleKey}s. (That is rule key with maximum version number). */
     private final Map ruleMaximum = new HashMap();
 
     /** Maps rule keys to {@link Rule}s. */
@@ -271,7 +272,29 @@ public final class ModuleLabels {
             ruleMaximum.put(definition.getName(), key);
         }
         getRuleDefinitions().put(key, definition);
-        functionContexts.put(key, new ModuleContext(context));
+        ruleContexts.put(key, new ModuleContext(context));
+    }
+
+    /**
+     * Add rule definition. If such a definition already exists it is overwritten. Also sets the
+     * key for the maximum rule version.
+     *
+     * @param   label       Node label the rule is defined within.
+     * @param   definition  Here we have the new rule.
+     * @param   cr          New modification to an old rule.
+     * @param   context     Here the definition stands.
+     */
+    public void addChangedRule(final String label, final Rule definition, final ChangedRule cr,
+            final ModuleContext context) {
+        final RuleKey key = new RuleKey(cr.getName(), cr.getVersion());
+        ruleLabels.put(key, label);
+        final RuleKey oldMaximum = (RuleKey) ruleMaximum.get(cr.getName());
+        if (oldMaximum == null || oldMaximum.getVersion() == null || (key.getVersion() != null
+                && 0 < key.getVersion().compareTo(oldMaximum.getVersion()))) {
+            ruleMaximum.put(cr.getName(), key);
+        }
+        getRuleDefinitions().put(key, definition);
+        ruleContexts.put(key, new ModuleContext(context));
     }
 
     /**
