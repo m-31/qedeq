@@ -1064,17 +1064,18 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         printer.println(getLatexListEntry("getDescription()", rule.getDescription()));
         printer.println("\\end{rul}");
 
-        if (brief) {
-            return;
-        }
-        if (rule.getProofList() != null) {
-            for (int i = 0; i < rule.getProofList().size(); i++) {
-                printer.println("\\begin{proof}");
-                printer.println(getLatexListEntry("getProofList().get(" + i + ")", rule.getProofList().get(i)
-                    .getNonFormalProof()));
-                printer.println("\\end{proof}");
-            }
-        }
+// FIXME 20110719 m31: remove if ok
+//        if (brief) {
+//            return;
+//        }
+//        if (rule.getProofList() != null) {
+//            for (int i = 0; i < rule.getProofList().size(); i++) {
+//                printer.println("\\begin{proof}");
+//                printer.println(getLatexListEntry("getProofList().get(" + i + ")", rule.getProofList().get(i)
+//                    .getNonFormalProof()));
+//                printer.println("\\end{proof}");
+//            }
+//        }
     }
 
     public void visitLeave(final Rule rule) {
