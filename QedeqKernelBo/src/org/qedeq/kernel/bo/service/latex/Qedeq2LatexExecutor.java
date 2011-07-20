@@ -42,6 +42,8 @@ import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
+import org.qedeq.kernel.se.base.module.ChangedRule;
+import org.qedeq.kernel.se.base.module.ChangedRuleList;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.Conclusion;
 import org.qedeq.kernel.se.base.module.ConditionalProof;
@@ -1063,19 +1065,6 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         printer.println();
         printer.println(getLatexListEntry("getDescription()", rule.getDescription()));
         printer.println("\\end{rul}");
-
-// FIXME 20110719 m31: remove if ok
-//        if (brief) {
-//            return;
-//        }
-//        if (rule.getProofList() != null) {
-//            for (int i = 0; i < rule.getProofList().size(); i++) {
-//                printer.println("\\begin{proof}");
-//                printer.println(getLatexListEntry("getProofList().get(" + i + ")", rule.getProofList().get(i)
-//                    .getNonFormalProof()));
-//                printer.println("\\end{proof}");
-//            }
-//        }
     }
 
     public void visitLeave(final Rule rule) {
@@ -1086,7 +1075,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
             return;
         }
         if ("de".equals(language)) {
-            printer.println("Basierend auf: ");
+            printer.println("Die folgenden Regeln müssen erweitert werden.");
         } else {
             if (!"en".equals(language)) {
                 printer.println("%%% TODO unknown language: " + language);
@@ -1100,6 +1089,38 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         };
         printer.println();
     }
+
+    public void visitEnter(final ChangedRuleList list) {
+        if (list.size() <= 0) {
+            return;
+        }
+        if ("de".equals(language)) {
+            printer.println("Basierend auf: ");
+        } else {
+            if (!"en".equals(language)) {
+                printer.println("%%% TODO unknown language: " + language);
+            }
+            printer.println("The following rules have to be extended.");
+        }
+        printer.println();
+    }
+
+    public void visitEnter(final ChangedRule rule) {
+        printer.println("\\par");
+        printer.println("\\label{" + id + "." + rule.getName() + "} \\hypertarget{" + id + "."
+                + rule.getName() + "}{}");
+        printer.println("{\\emph "
+            + (rule.getName() != null ? "  Name: \\verb]" + rule.getName() + "]" : "")
+            + (rule.getVersion() != null ? "  -  Version: \\verb]" + rule.getVersion() + "]" : "")
+            + "}");
+        printer.println();
+        if (rule.getDescription() != null) {
+            printer.println(getLatexListEntry("getDescription()", rule.getDescription()));
+            printer.println();
+            printer.println();
+        }
+    }
+
 
     public void visitEnter(final LiteratureItemList list) {
         printer.println("\\backmatter");
@@ -1406,6 +1427,10 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     private String getRuleReference(final String ruleName) {
+        return getRuleReference(ruleName, "");
+    }
+
+    private String getRuleReference(final String ruleName, final String changed) {
         final String method = "getRuleReference(String, String)";
         Trace.param(CLASS, this, method, "ruleName", ruleName);
         System.out.println("looking for key " + ruleName);  // FIXME
@@ -1426,9 +1451,10 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         boolean local = getQedeqBo().equals(qedeq);
         if (local) {
             return "\\hyperref[" + getQedeqBo().getLabels().getRuleLabel(key) + "]{"
-                + ruleName + "}";
+                + ruleName + (changed.length() == 0 ? "}" : "." + changed + "}");
         }
-        return "\\hyperref[" + getPdfLink(qedeq) + "}{" + ruleName + "}{"
+        return "\\hyperref[" + getPdfLink(qedeq) + "}{" + ruleName
+            + (changed.length() == 0 ? "" : "." + changed) + "}{"
             + qedeq.getLabels().getRuleLabel(key)
             + "}";
     }

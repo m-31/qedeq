@@ -2290,6 +2290,14 @@
                 ]]>
               </LATEX>
             </DESCRIPTION>
+            <CHANGED_RULE name="MP" version="0.02.00">
+              <LATEX language="en">
+                If we add all conditions to the proof line formula the proof line formula must be well formed.
+              </LATEX>
+              <LATEX language="de">
+                Wenn wir alle Annahmen zur Beweiszeilenformel hinzufügen, muss das Ergebnis wohlgeformt sein.
+              </LATEX>
+            </CHANGED_RULE>
             <PROOF kind="informal" level="1">
               <LATEX language="en">
                 TODO 20110613 m31
