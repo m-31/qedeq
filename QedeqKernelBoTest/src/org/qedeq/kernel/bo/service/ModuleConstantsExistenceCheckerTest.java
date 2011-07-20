@@ -355,8 +355,9 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqBoTestCase {
             SourceFileExceptionList warnings = getServices().getQedeqBo(address).getWarnings();
             assertNotNull(warnings);
             assertEquals(0, warnings.size());
+            System.out.println(errors);
             assertEquals(1, errors.size());
-            assertEquals(123478, errors.get(0).getErrorCode());
+            assertEquals(37260, errors.get(0).getErrorCode());
             assertEquals(118, errors.get(0).getSourceArea().getStartPosition().getRow());
             assertEquals(11, errors.get(0).getSourceArea().getStartPosition().getColumn());
         } else {
