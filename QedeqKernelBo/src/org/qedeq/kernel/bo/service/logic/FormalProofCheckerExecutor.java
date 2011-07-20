@@ -355,14 +355,13 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
 
     public void visitEnter(final Rule rule) throws ModuleDataException {
         final String context = getCurrentContext().getLocationWithinModule();
-        final RuleKey key = new RuleKey(rule.getName(), rule.getVersion());
         // FIXME 20110618 m31: check if this is really a higher version than before?
         getNodeBo().setProved(CheckLevel.UNCHECKED);
         final ChangedRuleList list = rule.getChangedRuleList();
         for (int i = 0; list != null && i < list.size(); i++) {
             setLocationWithinModule(context + ".getSpecification().getRuleVersion()");
             final ChangedRule r = list.get(i);
-            if (!Version.equals("0.02.00", r.getVersion())) {
+            if (!Version.equals(rule.getVersion(), r.getVersion())) {
                 addError(new ProofCheckException(
                     LogicErrors.OTHER_RULE_VERSION_EXPECTED_CODE,
                     LogicErrors.OTHER_RULE_VERSION_EXPECTED_TEXT1 + rule.getVersion()

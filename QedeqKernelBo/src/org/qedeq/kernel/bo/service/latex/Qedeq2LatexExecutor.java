@@ -1433,16 +1433,12 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     private String getRuleReference(final String ruleName, final String changed) {
         final String method = "getRuleReference(String, String)";
         Trace.param(CLASS, this, method, "ruleName", ruleName);
-        System.out.println("looking for key " + ruleName);  // FIXME
         RuleKey key = getLocalRuleKey(ruleName);
-        System.out.println("key1 = " + key);  // FIXME
         if (key == null && getQedeqBo().getExistenceChecker() != null) {
             key = getQedeqBo().getExistenceChecker().getParentRuleKey(ruleName);
-            System.out.println("key2 = " + key);  // FIXME
         }
         if (key == null) {
             key = getQedeqBo().getLabels().getRuleKey(ruleName);
-            System.out.println("key3 = " + key);  // FIXME
         }
         KernelQedeqBo qedeq = getQedeqBo();
         if (getQedeqBo().getExistenceChecker() != null) {

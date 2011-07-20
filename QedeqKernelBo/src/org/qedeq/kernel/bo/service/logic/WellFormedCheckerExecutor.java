@@ -94,6 +94,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
     /** Parameters for checker. */
     private Parameters parameters;
 
+    // FIXME check if all version numbers follow the correct pattern. check with Version.method
     /**
      * Constructor.
      *
@@ -888,10 +889,26 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                         final RuleKey key2 = new RuleKey(ruleName, ruleVersion);
                         if (existence.ruleExists(key2)) {
                             addError(new IllegalModuleDataException(
-                            LogicErrors.RULE_HAS_BEEN_DECLARED_BEFORE_CODE,
-                            LogicErrors.RULE_HAS_BEEN_DECLARED_BEFORE_TEXT
-                            + ruleName, getCurrentContext(), getQedeqBo().getLabels()
-                            .getRuleContext(key2)));
+                                LogicErrors.RULE_HAS_BEEN_DECLARED_BEFORE_CODE,
+                                LogicErrors.RULE_HAS_BEEN_DECLARED_BEFORE_TEXT
+                                + ruleName, getCurrentContext(), getQedeqBo().getLabels()
+                                .getRuleContext(key2)));
+                        } else {
+                            try {
+                                if (!Version.less(key1.getVersion(), key2.getVersion())) {
+                                    addError(new IllegalModuleDataException(
+                                        LogicErrors.NEW_RULE_HAS_LOWER_VERSION_NUMBER_CODE,
+                                        LogicErrors.NEW_RULE_HAS_LOWER_VERSION_NUMBER_TEXT
+                                        + key1 + " " + key2, getCurrentContext(), getQedeqBo().getLabels()
+                                        .getRuleContext(key2)));
+                                }
+                            } catch (RuntimeException e) {
+                                addError(new IllegalModuleDataException(
+                                    LogicErrors.OLD_OR_NEW_RULE_HAS_INVALID_VERSION_NUMBER_PATTERN_CODE,
+                                    LogicErrors.OLD_OR_NEW_RULE_HAS_INVALID_VERSION_NUMBER_PATTERN_TEXT
+                                    + key1 + " " + key2, getCurrentContext(), getQedeqBo().getLabels()
+                                    .getRuleContext(key2)));
+                            }
                         }
                         existence.add(key2, rule);
                     }

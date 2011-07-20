@@ -260,4 +260,20 @@ public interface LogicErrors extends ErrorCodes {
         = " but we got: ";
 
 
+    /** Error code. */
+    public static final int NEW_RULE_HAS_LOWER_VERSION_NUMBER_CODE = 37360;
+
+    /** Error message. */
+    public static final String NEW_RULE_HAS_LOWER_VERSION_NUMBER_TEXT
+        = "the new declared rule version must be higher than the old one: ";
+
+
+    /** Error code. */
+    public static final int OLD_OR_NEW_RULE_HAS_INVALID_VERSION_NUMBER_PATTERN_CODE = 37370;
+
+    /** Error message. */
+    public static final String OLD_OR_NEW_RULE_HAS_INVALID_VERSION_NUMBER_PATTERN_TEXT
+        = "the version numbers have not the allowed pattern (old or new rule version): ";
+
+
 }
