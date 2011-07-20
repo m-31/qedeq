@@ -241,11 +241,23 @@ public interface LogicErrors extends ErrorCodes {
 
 
     /** Error code. */
-    public static final int RULE_HAS_BEEN_DECLARED_BEFORE_CODE = 37330;
+    public static final int RULE_HAS_BEEN_DECLARED_BEFORE_CODE = 37340;
 
     /** Error message. */
     public static final String RULE_HAS_BEEN_DECLARED_BEFORE_TEXT
         = "a rule with this version was already declared: ";
+
+
+    /** Error code. */
+    public static final int OTHER_RULE_VERSION_EXPECTED_CODE = 37350;
+
+    /** Error message. */
+    public static final String OTHER_RULE_VERSION_EXPECTED_TEXT1
+        = "we expected this rule verson: ";
+
+    /** Error message. */
+    public static final String OTHER_RULE_VERSION_EXPECTED_TEXT2
+        = " but we got: ";
 
 
 }

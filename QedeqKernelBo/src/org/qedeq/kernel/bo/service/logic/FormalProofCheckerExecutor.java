@@ -15,9 +15,6 @@
 
 package org.qedeq.kernel.bo.service.logic;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
@@ -40,6 +37,8 @@ import org.qedeq.kernel.bo.module.Reference;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Axiom;
+import org.qedeq.kernel.se.base.module.ChangedRule;
+import org.qedeq.kernel.se.base.module.ChangedRuleList;
 import org.qedeq.kernel.se.base.module.FormalProof;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
@@ -79,10 +78,6 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
 
     /** Rule version the module claims to use at maximum. */
     private Version ruleVersion;
-
-    /** Maximum rule versions defined within this module during plugin execution. Maps name to
-     * rule key. */
-    private Map localMaximumRuleVersions;
 
     /**
      * Constructor.
@@ -160,7 +155,6 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
             return Boolean.FALSE;
         }
         try {
-            localMaximumRuleVersions = new HashMap();
             traverse();
         } catch (SourceFileExceptionList e) {
             final String msg = "Check of logical correctness failed";
@@ -176,7 +170,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
     }
 
     public void visitEnter(final Header header) throws ModuleDataException {
-        if (header == null || header.getSpecification() == null
+        if (header.getSpecification() == null
                 || header.getSpecification().getRuleVersion() == null) {
             return;
         }
@@ -202,9 +196,6 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
     }
 
     public void visitEnter(final Axiom axiom) throws ModuleDataException {
-        if (axiom == null) {
-            return;
-        }
         if (getNodeBo().isWellFormed()) {
             getNodeBo().setProved(CheckLevel.SUCCESS);
         } else {
@@ -224,9 +215,6 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
 
     public void visitEnter(final PredicateDefinition definition)
             throws ModuleDataException {
-        if (definition == null) {
-            return;
-        }
         if (getNodeBo().isWellFormed()) {
             getNodeBo().setProved(CheckLevel.SUCCESS);
         } else {
@@ -246,9 +234,6 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
 
     public void visitEnter(final InitialPredicateDefinition definition)
             throws ModuleDataException {
-        if (definition == null) {
-            return;
-        }
         if (getNodeBo().isWellFormed()) {
             getNodeBo().setProved(CheckLevel.SUCCESS);
         } else {
@@ -268,9 +253,6 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
 
     public void visitEnter(final InitialFunctionDefinition definition)
             throws ModuleDataException {
-        if (definition == null) {
-            return;
-        }
         if (getNodeBo().isWellFormed()) {
             getNodeBo().setProved(CheckLevel.SUCCESS);
         } else {
@@ -290,9 +272,6 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
 
     public void visitEnter(final FunctionDefinition definition)
             throws ModuleDataException {
-        if (definition == null) {
-            return;
-        }
         if (getNodeBo().isWellFormed()) {
             getNodeBo().setProved(CheckLevel.SUCCESS);
         } else {
@@ -312,9 +291,6 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
 
     public void visitEnter(final Proposition proposition)
             throws ModuleDataException {
-        if (proposition == null) {
-            return;
-        }
         // we only check this node, if the well formed check was successful
         if (!getNodeBo().isWellFormed()) {
             getNodeBo().setProved(CheckLevel.FAILURE);
@@ -378,22 +354,21 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
     }
 
     public void visitEnter(final Rule rule) throws ModuleDataException {
-        if (rule == null) {
-            return;
-        }
+        final String context = getCurrentContext().getLocationWithinModule();
         final RuleKey key = new RuleKey(rule.getName(), rule.getVersion());
-        // FIXME 20110618 m31: check if this is really a higher version than before
-        localMaximumRuleVersions.put(rule.getName(), key);
+        // FIXME 20110618 m31: check if this is really a higher version than before?
         getNodeBo().setProved(CheckLevel.UNCHECKED);
-        if ("CP".equals(rule.getName()) && Version.equals("0.02.00", rule.getVersion())) {
-            addNewRuleVersionBecauseOfCP(rule, "MP");
-            addNewRuleVersionBecauseOfCP(rule, "Add");
-            addNewRuleVersionBecauseOfCP(rule, "Rename");
-            addNewRuleVersionBecauseOfCP(rule, "SubstFree");
-            addNewRuleVersionBecauseOfCP(rule, "SubstPred");
-            addNewRuleVersionBecauseOfCP(rule, "SubstFun");
-            addNewRuleVersionBecauseOfCP(rule, "Universal");
-            addNewRuleVersionBecauseOfCP(rule, "Existential");
+        final ChangedRuleList list = rule.getChangedRuleList();
+        for (int i = 0; list != null && i < list.size(); i++) {
+            setLocationWithinModule(context + ".getSpecification().getRuleVersion()");
+            final ChangedRule r = list.get(i);
+            if (!Version.equals("0.02.00", r.getVersion())) {
+                addError(new ProofCheckException(
+                    LogicErrors.OTHER_RULE_VERSION_EXPECTED_CODE,
+                    LogicErrors.OTHER_RULE_VERSION_EXPECTED_TEXT1 + rule.getVersion()
+                    + LogicErrors.OTHER_RULE_VERSION_EXPECTED_TEXT2 + r.getVersion(),
+                    getCurrentContext()));
+            }
         }
 
         if (getNodeBo().isNotProved()) {
@@ -401,27 +376,6 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         } else {
             getNodeBo().setProved(CheckLevel.FAILURE);
         }
-        setBlocked(true);
-    }
-
-    /**
-     * Add a new 0.02.00 rule version for all 0.01.00 rule versions because
-     * we have a CP rule.
-     *
-     * @param   rule        Add this CP rule.
-     * @param   ruleName    For this original rule name.
-     */
-    private void addNewRuleVersionBecauseOfCP(final Rule rule,
-            final String ruleName) {
-        final RuleKey key1 = getRule(ruleName);
-        if (key1 != null && Version.equals("0.01.00", key1.getVersion())) {
-            final RuleKey key2 = new RuleKey(ruleName, "0.02.00");
-            localMaximumRuleVersions.put(ruleName, key2);
-        }
-    }
-
-    public void visitLeave(final Rule rule) {
-        setBlocked(false);
     }
 
     protected void addError(final ModuleDataException me) {
@@ -445,7 +399,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
      */
     public void setLocationWithinModule(final String locationWithinModule) {
         getCurrentContext().setLocationWithinModule(locationWithinModule);
-        // for testing
+        // FIXME for testing
 //        try {
 //            DynamicGetter.get(getQedeqBo().getQedeq(), getCurrentContext().getLocationWithinModule());
 //        } catch (RuntimeException e) {
@@ -568,11 +522,12 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
     }
 
     public RuleKey getRule(final String ruleName) {
-        if (localMaximumRuleVersions.containsKey(ruleName)) {
-            return (RuleKey) localMaximumRuleVersions.get(ruleName);
-        }
-        return getQedeqBo().getExistenceChecker().getParentRuleKey(
+        final RuleKey local = getLocalRuleKey(ruleName);
+        if (local == null) {
+            return getQedeqBo().getExistenceChecker().getParentRuleKey(
             ruleName);
+        }
+        return local;
     }
 
 

@@ -2292,10 +2292,66 @@
             </DESCRIPTION>
             <CHANGED_RULE name="MP" version="0.02.00">
               <LATEX language="en">
-                If we add all conditions to the proof line formula the proof line formula must be well formed.
+                See \qref{rule:CP}.
               </LATEX>
               <LATEX language="de">
-                Wenn wir alle Annahmen zur Beweiszeilenformel hinzufügen, muss das Ergebnis wohlgeformt sein.
+                Siehe \qref{rule:CP}.
+              </LATEX>
+            </CHANGED_RULE>
+            <CHANGED_RULE name="Add" version="0.02.00">
+              <LATEX language="en">
+                See \qref{rule:CP}.
+              </LATEX>
+              <LATEX language="de">
+                Siehe \qref{rule:CP}.
+              </LATEX>
+            </CHANGED_RULE>
+            <CHANGED_RULE name="Rename" version="0.02.00">
+              <LATEX language="en">
+                See \qref{rule:CP}.
+              </LATEX>
+              <LATEX language="de">
+                Siehe \qref{rule:CP}.
+              </LATEX>
+            </CHANGED_RULE>
+            <CHANGED_RULE name="SubstFree" version="0.02.00">
+              <LATEX language="en">
+                See \qref{rule:CP}.
+              </LATEX>
+              <LATEX language="de">
+                Siehe \qref{rule:CP}.
+              </LATEX>
+            </CHANGED_RULE>
+            <CHANGED_RULE name="SubstPred" version="0.02.00">
+              <LATEX language="en">
+                See \qref{rule:CP}.
+              </LATEX>
+              <LATEX language="de">
+                Siehe \qref{rule:CP}.
+              </LATEX>
+            </CHANGED_RULE>
+            <CHANGED_RULE name="SubstFun" version="0.02.00">
+              <LATEX language="en">
+                See \qref{rule:CP}.
+              </LATEX>
+              <LATEX language="de">
+                Siehe \qref{rule:CP}.
+              </LATEX>
+            </CHANGED_RULE>
+            <CHANGED_RULE name="Universal" version="0.02.00">
+              <LATEX language="en">
+                See \qref{rule:CP}.
+              </LATEX>
+              <LATEX language="de">
+                Siehe \qref{rule:CP}.
+              </LATEX>
+            </CHANGED_RULE>
+            <CHANGED_RULE name="Exsistence" version="0.02.00">
+              <LATEX language="en">
+                See \qref{rule:CP}.
+              </LATEX>
+              <LATEX language="de">
+                Siehe \qref{rule:CP}.
               </LATEX>
             </CHANGED_RULE>
             <PROOF kind="informal" level="1">
