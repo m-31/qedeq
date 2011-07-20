@@ -1075,7 +1075,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
             return;
         }
         if ("de".equals(language)) {
-            printer.println("Die folgenden Regeln müssen erweitert werden.");
+            printer.println("Basierend auf: ");
         } else {
             if (!"en".equals(language)) {
                 printer.println("%%% TODO unknown language: " + language);
@@ -1084,7 +1084,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         }
         for (int i = 0; i < linkList.size(); i++) {
             if (linkList.get(i) != null) {
-                printer.print(" \\ref{" + linkList.get(i) + "}");
+                printer.print(" " + getReference(linkList.get(i), "get(" + i + ")"));
             }
         };
         printer.println();
@@ -1095,7 +1095,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
             return;
         }
         if ("de".equals(language)) {
-            printer.println("Basierend auf: ");
+            printer.println("Die folgenden Regeln müssen erweitert werden.");
         } else {
             if (!"en".equals(language)) {
                 printer.println("%%% TODO unknown language: " + language);

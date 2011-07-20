@@ -27,6 +27,7 @@ import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
+import org.qedeq.kernel.se.base.module.ChangedRule;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.Conclusion;
 import org.qedeq.kernel.se.base.module.ConditionalProof;
@@ -178,7 +179,9 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
         } else if (last.endsWith(".getLatex()")) {
             printer.println("<TEXT>");
         } else if (last.endsWith(".getDescription()")) {
-            printer.println("<DESCRIPTION>");
+            if (last.indexOf(".getChangedRuleList().get(") < 0) {
+                printer.println("<DESCRIPTION>");
+            }
         }
         printer.pushLevel();
     }
@@ -201,7 +204,9 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
         } else if (last.endsWith(".getLatex()")) {
             printer.println("</TEXT>");
         } else if (last.endsWith(".getDescription()")) {
-            printer.println("</DESCRIPTION>");
+            if (last.indexOf(".getChangedRuleList().get(") < 0) {
+                printer.println("</DESCRIPTION>");
+            }
         }
     }
 
@@ -721,6 +726,21 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
             }
             printer.println("/>");
         };
+    }
+
+    public void visitEnter(final ChangedRule rule) {
+        printer.print("<CHANGED_RULE");
+        if (rule.getName() != null) {
+            printer.print(" name=\"" + StringUtility.escapeXml(rule.getName()) + "\"");
+        }
+        if (rule.getVersion() != null) {
+            printer.print(" version=\"" + StringUtility.escapeXml(rule.getVersion()) + "\"");
+        }
+        printer.println(">");
+    }
+
+    public void visitLeave(final ChangedRule rule) {
+        printer.println("</CHANGED_RULE>");
     }
 
     public void visitEnter(final Formula formula) {
