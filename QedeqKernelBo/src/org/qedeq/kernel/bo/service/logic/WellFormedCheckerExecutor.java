@@ -868,17 +868,6 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                 }
                 existence.add(ruleKey, rule);
             }
-// FIXME remove if ok
-//            if ("CP".equals(rule.getName()) && Version.equals("0.02.00", rule.getVersion())) {
-//                addNewRuleVersionBecauseOfCP(rule, "MP");
-//                addNewRuleVersionBecauseOfCP(rule, "Add");
-//                addNewRuleVersionBecauseOfCP(rule, "Rename");
-//                addNewRuleVersionBecauseOfCP(rule, "SubstFree");
-//                addNewRuleVersionBecauseOfCP(rule, "SubstPred");
-//                addNewRuleVersionBecauseOfCP(rule, "SubstFun");
-//                addNewRuleVersionBecauseOfCP(rule, "Universal");
-//                addNewRuleVersionBecauseOfCP(rule, "Existential");
-//            }
             if (rule.getChangedRuleList() != null) {
                 final ChangedRuleList list = rule.getChangedRuleList();
                 for (int i = 0; i < list.size(); i++) {
@@ -890,15 +879,22 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                     final String ruleName = r.getName();
                     final String ruleVersion = r.getVersion();
                     final RuleKey key1 = existence.getRuleKey(ruleName);
-                    System.out.println("old: " + key1);
-                    if (key1 != null) {
+                    if (key1 == null) {
+                        addError(new IllegalModuleDataException(
+                            LogicErrors.RULE_WAS_NOT_DECLARED_BEFORE_CODE,
+                            LogicErrors.RULE_WAS_NOT_DECLARED_BEFORE_TEXT
+                            + ruleName, getCurrentContext()));
+                    } else {
                         final RuleKey key2 = new RuleKey(ruleName, ruleVersion);
-                        if (!existence.ruleExists(key2)) {
-                            System.out.println("new: " + key2);
-                            existence.add(key2, rule);
+                        if (existence.ruleExists(key2)) {
+                            addError(new IllegalModuleDataException(
+                            LogicErrors.RULE_HAS_BEEN_DECLARED_BEFORE_CODE,
+                            LogicErrors.RULE_HAS_BEEN_DECLARED_BEFORE_TEXT
+                            + ruleName, getCurrentContext(), getQedeqBo().getLabels()
+                            .getRuleContext(key2)));
                         }
+                        existence.add(key2, rule);
                     }
-                    // FIXME add errors if conditions are not fulfilled
                 }
             }
         } else {

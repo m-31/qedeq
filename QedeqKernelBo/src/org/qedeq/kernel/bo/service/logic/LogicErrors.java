@@ -231,4 +231,21 @@ public interface LogicErrors extends ErrorCodes {
     public static final String MODULE_HAS_NO_HEADER_SPECIFICATION_TEXT
         = "module has no header specification";
 
+
+    /** Error code. */
+    public static final int RULE_WAS_NOT_DECLARED_BEFORE_CODE = 37330;
+
+    /** Error message. */
+    public static final String RULE_WAS_NOT_DECLARED_BEFORE_TEXT
+        = "a rule with this name was not declared yet: ";
+
+
+    /** Error code. */
+    public static final int RULE_HAS_BEEN_DECLARED_BEFORE_CODE = 37330;
+
+    /** Error message. */
+    public static final String RULE_HAS_BEEN_DECLARED_BEFORE_TEXT
+        = "a rule with this version was already declared: ";
+
+
 }
