@@ -847,9 +847,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
     }
 
     public void visitEnter(final Rule rule) throws ModuleDataException {
-        if (rule == null) {
-            return;
-        }
+        final String context = getCurrentContext().getLocationWithinModule();
         // we start checking
         getNodeBo().setWellFormed(CheckLevel.UNCHECKED);
         if (rule.getName() != null && rule.getName().length() > 0 && rule.getVersion() != null
@@ -877,9 +875,13 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                             || r.getVersion() == null || r.getVersion().length() <= 0) {
                         continue;
                     }
+                    setLocationWithinModule(context + ".getChangedRuleList().get(" + i + ").getVersion()");
                     final String ruleName = r.getName();
                     final String ruleVersion = r.getVersion();
-                    final RuleKey key1 = existence.getRuleKey(ruleName);
+                    RuleKey key1 = getLocalRuleKey(ruleName);
+                    if (key1 == null) {
+                        key1 = existence.getParentRuleKey(ruleName);
+                    }
                     if (key1 == null) {
                         addError(new IllegalModuleDataException(
                             LogicErrors.RULE_WAS_NOT_DECLARED_BEFORE_CODE,

@@ -309,8 +309,9 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
     }
 
     public Rule get(final RuleKey ruleKey) {
-        if (ruleExists(ruleKey)) {
-            return prop.getLabels().getRule(ruleKey);
+        final Rule local = super.get(ruleKey);
+        if (null != local) {
+            return local;
         }
         final ModuleReferenceList ref = prop.getRequiredModules();
         for (int i = 0; i < ref.size(); i++) {

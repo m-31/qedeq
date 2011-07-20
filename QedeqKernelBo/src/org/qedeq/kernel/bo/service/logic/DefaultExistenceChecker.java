@@ -239,12 +239,7 @@ public class DefaultExistenceChecker implements ExistenceChecker {
 
 
     public boolean ruleExists(final RuleKey ruleKey) {
-        final Rule ruleDefinition
-            = (Rule) ruleDefinitions.get(ruleKey);
-        if (ruleDefinition != null) {
-            return true;
-        }
-        return null != ruleDefinitions.get(ruleKey);
+        return null != get(ruleKey);
     }
 
     /**

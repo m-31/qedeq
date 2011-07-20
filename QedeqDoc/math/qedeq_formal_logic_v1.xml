@@ -2346,7 +2346,7 @@
                 Siehe \qref{rule:CP}.
               </LATEX>
             </CHANGED_RULE>
-            <CHANGED_RULE name="Exsistence" version="0.02.00">
+            <CHANGED_RULE name="Existential" version="0.02.00">
               <LATEX language="en">
                 See \qref{rule:CP}.
               </LATEX>
