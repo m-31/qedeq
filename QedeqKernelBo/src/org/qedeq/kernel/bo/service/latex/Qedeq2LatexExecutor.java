@@ -592,7 +592,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     public void visitLeave(final Section section) {
         setBlocked(false);
     }
- 
+
     public void visitEnter(final Subsection subsection) {
 /* LATER mime 20070131: use this information?
         if (subsection.getId() != null) {
