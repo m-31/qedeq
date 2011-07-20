@@ -1057,7 +1057,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         }
         printer.println();
         printer.println("\\par");
-        printer.println("{\\emph "
+        printer.println("\\emph{"
             + (rule.getName() != null ? "  Name: \\verb]" + rule.getName() + "]" : "")
             + (rule.getVersion() != null ? "  -  Version: \\verb]" + rule.getVersion() + "]" : "")
             + "}");
@@ -1109,7 +1109,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         printer.println("\\par");
         printer.println("\\label{" + id + "." + rule.getName() + "} \\hypertarget{" + id + "."
                 + rule.getName() + "}{}");
-        printer.println("{\\emph "
+        printer.println("\\emph{"
             + (rule.getName() != null ? "  Name: \\verb]" + rule.getName() + "]" : "")
             + (rule.getVersion() != null ? "  -  Version: \\verb]" + rule.getVersion() + "]" : "")
             + "}");
