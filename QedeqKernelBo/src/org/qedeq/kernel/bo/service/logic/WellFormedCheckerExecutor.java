@@ -72,8 +72,6 @@ import org.qedeq.kernel.se.dto.list.ElementSet;
  * Checks if all formulas of a QEDEQ module are well formed.
  * This plugin assumes all required modules are loaded!
  *
- * FIXME 20110329 m31: we must also check, that OR, AND, IMPL and EQUI have only 2 arguments
- *
  * @author  Michael Meyling
  */
 public final class WellFormedCheckerExecutor extends ControlVisitor implements PluginExecutor {
@@ -230,7 +228,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         }
         final String context = getCurrentContext().getLocationWithinModule();
         // we start checking if we have a correct version format
-        setLocationWithinModule(context + ".getRule()");
+        setLocationWithinModule(context + ".getRuleVersion()");
         final String version = specification.getRuleVersion();
         try {
             new Version(version);
@@ -850,9 +848,18 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         final String context = getCurrentContext().getLocationWithinModule();
         // we start checking
         getNodeBo().setWellFormed(CheckLevel.UNCHECKED);
+        final RuleKey ruleKey = new RuleKey(rule.getName(), rule.getVersion());
         if (rule.getName() != null && rule.getName().length() > 0 && rule.getVersion() != null
                 && rule.getVersion().length() > 0) {
-            final RuleKey ruleKey = new RuleKey(rule.getName(), rule.getVersion());
+            try {
+                setLocationWithinModule(context + ".getVersion()");
+                new Version(rule.getVersion());
+            } catch (RuntimeException e) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.THIS_IS_NOT_VALID_VERSION_FORMAT_CODE,
+                    LogicErrors.THIS_IS_NOT_VALID_VERSION_FORMAT_TEXT + e.getMessage(),
+                    getCurrentContext()));
+            }
             if (existence.ruleExists(ruleKey)) {
                 addError(new IllegalModuleDataException(
                         LogicErrors.RULE_ALREADY_DEFINED_CODE,
@@ -870,14 +877,28 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
             if (rule.getChangedRuleList() != null) {
                 final ChangedRuleList list = rule.getChangedRuleList();
                 for (int i = 0; i < list.size(); i++) {
+                    setLocationWithinModule(context + ".getChangedRuleList().get(" + i + ")");
                     final ChangedRule r = list.get(i);
                     if (r == null || r.getName() == null || r.getName().length() <= 0
                             || r.getVersion() == null || r.getVersion().length() <= 0) {
+                        addError(new IllegalModuleDataException(
+                            LogicErrors.RULE_HAS_NO_NAME_OR_VERSION_CODE,
+                            LogicErrors.RULE_HAS_NO_NAME_OR_VERSION_TEXT
+                            + (r == null ? "null" : r.getName() + " [" + r.getVersion() + "]"),
+                            getCurrentContext()));
                         continue;
                     }
                     setLocationWithinModule(context + ".getChangedRuleList().get(" + i + ").getVersion()");
                     final String ruleName = r.getName();
                     final String ruleVersion = r.getVersion();
+                    try {
+                        new Version(ruleVersion);
+                    } catch (RuntimeException e) {
+                        addError(new IllegalModuleDataException(
+                            LogicErrors.THIS_IS_NOT_VALID_VERSION_FORMAT_CODE,
+                            LogicErrors.THIS_IS_NOT_VALID_VERSION_FORMAT_TEXT + e.getMessage(),
+                            getCurrentContext()));
+                    }
                     RuleKey key1 = getLocalRuleKey(ruleName);
                     if (key1 == null) {
                         key1 = existence.getParentRuleKey(ruleName);
@@ -917,7 +938,10 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                 }
             }
         } else {
-            getNodeBo().setWellFormed(CheckLevel.FAILURE);
+            addError(new IllegalModuleDataException(
+                LogicErrors.RULE_HAS_NO_NAME_OR_VERSION_CODE,
+                LogicErrors.RULE_HAS_NO_NAME_OR_VERSION_TEXT
+                + ruleKey, getCurrentContext()));
         }
         // if we found no errors this node is ok
         if (!getNodeBo().isNotWellFormed()) {

@@ -276,4 +276,12 @@ public interface LogicErrors extends ErrorCodes {
         = "the version numbers have not the allowed pattern (old or new rule version): ";
 
 
+    /** Error code. */
+    public static final int RULE_HAS_NO_NAME_OR_VERSION_CODE = 37380;
+
+    /** Error message. */
+    public static final String RULE_HAS_NO_NAME_OR_VERSION_TEXT
+        = "this rule has no name or version: ";
+
+
 }
