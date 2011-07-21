@@ -39,6 +39,9 @@ import org.qedeq.kernel.se.visitor.QedeqNumbers;
 /**
  * Basic visitor that gives some error collecting features. Also hides the
  * traverser that does the work.
+ * <p>
+ * If you change the implementation of this class you also have to change the
+ * implementation of the same class in project QedeqKernelBoTest!!!
  *
  * @author  Michael Meyling
  */
