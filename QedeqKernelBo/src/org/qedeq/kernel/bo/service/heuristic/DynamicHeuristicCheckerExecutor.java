@@ -454,13 +454,5 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
     public String getLocationDescription() {
         return super.getLocationDescription() + "\n" + interpreter.toString();
     }
-    /**
-     * Set location information where are we within the original module.
-     *
-     * @param   locationWithinModule    Location within module.
-     */
-    public void setLocationWithinModule(final String locationWithinModule) {
-        getCurrentContext().setLocationWithinModule(locationWithinModule);
-    }
 
 }

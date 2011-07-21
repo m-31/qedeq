@@ -284,15 +284,6 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
         setBlocked(false);
     }
 
-    /**
-     * Set location information where are we within the original module.
-     *
-     * @param   locationWithinModule    Location within module.
-     */
-    public void setLocationWithinModule(final String locationWithinModule) {
-        getCurrentContext().setLocationWithinModule(locationWithinModule);
-    }
-
     public String getLocationDescription() {
         final String s = super.getLocationDescription();
         if (finder == null) {

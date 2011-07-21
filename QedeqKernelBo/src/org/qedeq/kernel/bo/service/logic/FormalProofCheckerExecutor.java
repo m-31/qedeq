@@ -15,10 +15,8 @@
 
 package org.qedeq.kernel.bo.service.logic;
 
-import java.lang.reflect.InvocationTargetException;
 
 import org.qedeq.base.io.Parameters;
-import org.qedeq.base.test.DynamicGetter;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.base.utility.Version;
@@ -392,27 +390,6 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
             getNodeBo().setProved(CheckLevel.FAILURE);
         }
         super.addError(me);
-    }
-
-    /**
-     * Set location information where are we within the original module.
-     *
-     * @param   locationWithinModule    Location within module.
-     */
-    public void setLocationWithinModule(final String locationWithinModule) {
-        getCurrentContext().setLocationWithinModule(locationWithinModule);
-        // FIXME for testing
-        try {
-            DynamicGetter.get(getQedeqBo().getQedeq(), getCurrentContext().getLocationWithinModule());
-        } catch (RuntimeException e) {
-            System.err.println(getCurrentContext().getLocationWithinModule());
-            throw e;
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        }
-
     }
 
     public boolean isProvedFormula(final String reference) {

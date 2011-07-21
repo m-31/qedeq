@@ -521,17 +521,16 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      */
     public void setLocationWithinModule(final String locationWithinModule) {
         getCurrentContext().setLocationWithinModule(locationWithinModule);
-// m31: for testing [code is integrated in JUnit test, this class is doubled in QedeqKernelBoTest
-//        try {
-//            DynamicGetter.get(getQedeqBo().getQedeq(), getCurrentContext().getLocationWithinModule());
-//        } catch (RuntimeException e) {
-//            System.err.println(getCurrentContext().getLocationWithinModule());
-//            throw e;
-//        } catch (IllegalAccessException e) {
-//            throw new RuntimeException(e);
-//        } catch (InvocationTargetException e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            DynamicGetter.get(getQedeqBo().getQedeq(), getCurrentContext().getLocationWithinModule());
+        } catch (RuntimeException e) {
+            System.err.println(getCurrentContext().getLocationWithinModule());
+            throw e;
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

@@ -89,6 +89,9 @@ public final class DynamicGetter {
         int posOld = 0; // last found "." position
         int pos = 0;    // current "." position
 
+        if (methodParam.length() == 0) {
+            return result;
+        }
         Trace.param(CLASS, "get(Object, String)", "methodParam", methodParam);
         // iterate expressions
         while (0  <= (pos = methodParam.indexOf(".", posOld))) {

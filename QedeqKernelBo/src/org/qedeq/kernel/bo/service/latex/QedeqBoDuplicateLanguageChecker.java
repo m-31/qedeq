@@ -85,13 +85,4 @@ public final class QedeqBoDuplicateLanguageChecker extends ControlVisitor {
         setBlocked(false);
     }
 
-    /**
-     * Set location information where are we within the original module.
-     *
-     * @param   locationWithinModule    Location within module.
-     */
-    public void setLocationWithinModule(final String locationWithinModule) {
-        getCurrentContext().setLocationWithinModule(locationWithinModule);
-    }
-
 }

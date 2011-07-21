@@ -268,7 +268,7 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
                         HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_TEXT
                                 + function, getCurrentContext()));
             } else {
-                setLocationWithinModule(context + ".getTerm().getElement()");
+                setLocationWithinModule(context + ".getFormula().getElement()");
                 test(definition.getFormula().getElement());
             }
         } catch (NumberFormatException e) {
@@ -315,15 +315,6 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
 
     public void visitLeave(final Rule rule) {
         setBlocked(false);
-    }
-
-    /**
-     * Set location information where are we within the original module.
-     *
-     * @param   locationWithinModule    Location within module.
-     */
-    public void setLocationWithinModule(final String locationWithinModule) {
-        getCurrentContext().setLocationWithinModule(locationWithinModule);
     }
 
 }

@@ -634,7 +634,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
             }
             for (int i = 1; i < size; i++) {
                 setLocationWithinModule(context + ".getFormula().getElement().getList().getElement(1)"
-                    + ".getList().get(" + i + ")");
+                    + ".getList().getElement(" + i + ")");
                 if (!FormulaUtility.isSubjectVariable(functionConstant.getElement(i))) {
                     addError(new IllegalModuleDataException(
                         LogicErrors.MUST_BE_A_SUBJECT_VARIABLE_CODE,
@@ -815,7 +815,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                 final Formula formula = line.getHypothesis().getFormula();;
                 if (formula != null && formula.getElement() != null) {
                     setLocationWithinModule(context
-                        + ".getHypothesis().getFormula().getFormula().getElement()");
+                        + ".getHypothesis().getFormula().getElement()");
                     elist = checkerFactory.createFormulaChecker().checkFormula(
                         formula.getElement(), getCurrentContext(), existence);
                     for (int k = 0; k < elist.size(); k++) {
@@ -831,7 +831,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                 final Formula formula = line.getConclusion().getFormula();;
                 if (formula != null && formula.getElement() != null) {
                     setLocationWithinModule(context
-                        + "getConclusion().getFormula().getFormula().getElement()");
+                        + ".getConclusion().getFormula().getElement()");
                     elist = checkerFactory.createFormulaChecker().checkFormula(
                         formula.getElement(), getCurrentContext(), existence);
                     for (int k = 0; k < elist.size(); k++) {
@@ -942,15 +942,6 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
             getNodeBo().setWellFormed(CheckLevel.FAILURE);
         }
         super.addError(me);
-    }
-
-    /**
-     * Set location information where are we within the original module.
-     *
-     * @param   locationWithinModule    Location within module.
-     */
-    public void setLocationWithinModule(final String locationWithinModule) {
-        getCurrentContext().setLocationWithinModule(locationWithinModule);
     }
 
 }
