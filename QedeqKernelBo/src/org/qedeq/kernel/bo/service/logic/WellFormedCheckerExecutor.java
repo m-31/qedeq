@@ -180,6 +180,9 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
             return Boolean.FALSE;
         }
         getQedeqBo().setLogicalProgressState(LogicalModuleState.STATE_INTERNAL_CHECKING);
+
+        // FIXME 20110721 m31: check if same rule version was definied in two different imported modules
+
         try {
             traverse();
         } catch (SourceFileExceptionList e) {
