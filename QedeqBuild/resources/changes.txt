@@ -10,31 +10,22 @@ Functional Changes
 
   Extensions
   ----------
-  - conditional formal proof method supported, this means we can add a
-    hypothesis, draw proof lines and a conclusion (hypothesis implies
-    last proof line);
-    one can check if the rule is correctly used with the proof checker;
-    see "doc/math/qedeq_formal_logic_v1.xml"
-  - proof finder can now be fine tuned in plugin preferences dialog; you
-    can define the order of rule usage and the number of proof lines the
-    rule is used before changing to the next rule
-   
+  - a rule has now a version too
+  - check definition of rule version before using it
+  - introducing and using "brief" parameter for LaTeX and UTF-8 plugin
+  - print rule name and rule version in LaTeX and UTF-8 plugin
+  - rules can change previous rules, so a rule can have a list of
+    rules that are affected
+  
 
   Fixed Bugs
   ----------
-  - don't save formal proofs twice any longer
+  - proofs for rules are not double any more
+  - some context setting errors resolved
 
   Other Changes
   -------------
-  - we classified the rule versions for modules in the following manner:
-    + 0.00.00 herein are no formal proofs supported
-    + 0.01.00 only basic proof methods can be used
-    + 0.02.00 we have the modified basic rules plus conditional proof
-    + 1.00.00 these rules we need to check "qedeq_set_theory_v1.xml",
-              not yet defined
-  - logging output was simplified, messages for the same module are
-    aggregated
-  - proof finder and model tester write now logging messages 
+  - version number checks included
 
 
 XML Files
@@ -42,18 +33,16 @@ XML Files
 
   Extensions
   ----------
-  - In "doc/math/qedeq_formal_logic_v1.xml" we develop our formal logic.
-    It includes the axioms and rules of predicate calculus and contains
-    only propositions that have formal proofs.
+  - added proposition with proof for (-B -> -A) -> (A -> B)
+  
 
   Fixed Bugs
   ----------
-  - some minor corrections
+  - 
 
   Other Changes
   -------------
-  - renamed "doc/math/qedeq_propositional_v1.xml" into
-    "doc/math/qedeq_formal_logic_v1.xml"
+  - 
 
 
 Source Code
@@ -61,27 +50,15 @@ Source Code
 
   Extensions
   ----------
-  - added ConditionalProof that is an extension of FormalProofLine and of
-    reason; also Hypothesis and Conclusion were added in this context
-  - new implementation of ProofChecker that supports ConditionalProof
-
+  -
 
   Fixed Bugs
   ----------
-  - we got rid of package cycles again
-
+  - 
 
   Other Changes
   -------------
-  - removed interface ReasonType and all implementations, now every
-    Reason implementation has an identifying method e.g.
-    ModusPonens.getModusPonens;
-  - IoUtility.toUrl calls getAbsoluteFile to get rid of relative path
-    elements
-  - LogicalCheckExceptionList has now a add(LogicalCheckExceptionList)
-    method
-  - ReferenceResolver has more methods
-  
+  - 
 
 
 XSD
@@ -89,8 +66,7 @@ XSD
 
   Extensions
   ----------
-  - we now support a "CP" element; that is a conditional proof that
-    contains a hypothesis, proof lines and a conclusion
+  - a rule has now a version too
 
   Fixed Bugs
   ----------
