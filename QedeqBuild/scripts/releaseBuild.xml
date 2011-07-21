@@ -106,10 +106,11 @@ currently in ants classpath
         <pathelement location="${qedeq.dest.module}/QedeqKernelSe/src/main/resources" />
         <pathelement location="${qedeq.dest.module}/QedeqKernelSe/src/test/resources" />
         <pathelement location="${qedeq.dest.module}/QedeqKernelSe/target/test-classes" />
+    	<!-- because of the doubled ControlVisitor class we must first include the test classes. -->
+        <pathelement location="${qedeq.dest.module}/QedeqKernelBo/target/test-classes" />
         <pathelement location="${qedeq.dest.module}/QedeqKernelBo/target/classes" />
         <pathelement location="${qedeq.dest.module}/QedeqKernelBo/src/main/resources" />
         <pathelement location="${qedeq.dest.module}/QedeqKernelBo/src/test/resources" />
-        <pathelement location="${qedeq.dest.module}/QedeqKernelBo/target/test-classes" />
         <pathelement location="${qedeq.dest.module}/QedeqKernelXml/target/classes" />
         <pathelement location="${qedeq.dest.module}/QedeqKernelXml/src/main/resources" />
         <pathelement location="${qedeq.dest.module}/QedeqKernelXml/src/test/resources" />
