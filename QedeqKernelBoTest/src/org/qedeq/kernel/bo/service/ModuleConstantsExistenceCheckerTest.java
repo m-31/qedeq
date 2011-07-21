@@ -359,7 +359,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqBoTestCase {
             assertEquals(1, errors.size());
             assertEquals(37260, errors.get(0).getErrorCode());
             assertEquals(118, errors.get(0).getSourceArea().getStartPosition().getRow());
-            assertEquals(11, errors.get(0).getSourceArea().getStartPosition().getColumn());
+            assertEquals(52, errors.get(0).getSourceArea().getStartPosition().getColumn());
         } else {
             fail("failure for double definition of class operator expected");
         }
