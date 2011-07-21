@@ -92,7 +92,6 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
     /** Parameters for checker. */
     private Parameters parameters;
 
-    // FIXME check if all version numbers follow the correct pattern. check with Version.method
     /**
      * Constructor.
      *
