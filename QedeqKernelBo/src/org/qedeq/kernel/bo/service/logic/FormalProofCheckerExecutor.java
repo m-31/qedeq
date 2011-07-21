@@ -15,7 +15,10 @@
 
 package org.qedeq.kernel.bo.service.logic;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.qedeq.base.io.Parameters;
+import org.qedeq.base.test.DynamicGetter;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.base.utility.Version;
@@ -359,7 +362,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         getNodeBo().setProved(CheckLevel.UNCHECKED);
         final ChangedRuleList list = rule.getChangedRuleList();
         for (int i = 0; list != null && i < list.size(); i++) {
-            setLocationWithinModule(context + ".getSpecification().getRuleVersion()");
+            setLocationWithinModule(context + ".getChangedRuleList().get(" + i + ").getVersion()");
             final ChangedRule r = list.get(i);
             if (!Version.equals(rule.getVersion(), r.getVersion())) {
                 addError(new ProofCheckException(
@@ -399,16 +402,16 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
     public void setLocationWithinModule(final String locationWithinModule) {
         getCurrentContext().setLocationWithinModule(locationWithinModule);
         // FIXME for testing
-//        try {
-//            DynamicGetter.get(getQedeqBo().getQedeq(), getCurrentContext().getLocationWithinModule());
-//        } catch (RuntimeException e) {
-//            System.err.println(getCurrentContext().getLocationWithinModule());
-//            throw e;
-//        } catch (IllegalAccessException e) {
-//            throw new RuntimeException(e);
-//        } catch (InvocationTargetException e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            DynamicGetter.get(getQedeqBo().getQedeq(), getCurrentContext().getLocationWithinModule());
+        } catch (RuntimeException e) {
+            System.err.println(getCurrentContext().getLocationWithinModule());
+            throw e;
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
