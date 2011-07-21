@@ -347,7 +347,7 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
      * @return  QEDEQ module where rule is defined. Could be <code>null</code>.
      */
     public KernelQedeqBo getQedeq(final RuleKey ruleKey) {
-        if (ruleExists(ruleKey)) {
+        if (super.get(ruleKey) != null) {
             return prop;
         }
         final ModuleReferenceList ref = prop.getRequiredModules();

@@ -221,7 +221,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         }
     }
 
-    public void visit(final Specification specification) throws ModuleDataException {
+    public void visitEnter(final Specification specification) throws ModuleDataException {
         if (specification == null) {
             return;
         }
@@ -863,7 +863,8 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                 addError(new IllegalModuleDataException(
                         LogicErrors.RULE_ALREADY_DEFINED_CODE,
                         LogicErrors.RULE_ALREADY_DEFINED_TEXT
-                            + ruleKey, getCurrentContext()));
+                            + ruleKey + "  " + existence.getQedeq(ruleKey).getUrl(),
+                            getCurrentContext()));
             } else {
                 if (CLASS_DEFINITION_VIA_FORMULA_RULE.equals(ruleKey)) {
                     // TODO 20080114 m31: check if this rule can be proposed
