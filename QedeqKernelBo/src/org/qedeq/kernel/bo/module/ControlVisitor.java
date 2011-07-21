@@ -15,10 +15,7 @@
 
 package org.qedeq.kernel.bo.module;
 
-import java.lang.reflect.InvocationTargetException;
-
 import org.qedeq.base.io.SourceArea;
-import org.qedeq.base.test.DynamicGetter;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.se.base.module.Axiom;
