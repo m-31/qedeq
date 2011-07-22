@@ -1427,8 +1427,6 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
             external = "file:" + external.substring("file://".length());
         }
         return "\\hyperref{" +  external + "}{}{"
-            + ref.getExternalQedeqLabel()
-            + "."
             + ref.getNodeLabel()
             + (ref.isSubReference() ? "/" + ref.getSubLabel() : "")
             + (ref.isProofLineReference() ? "!" + ref.getProofLineLabel() : "")
