@@ -456,7 +456,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     }
 
     public boolean isSupportedLanguage(final String language) {
-        return StringUtility.isNotIn(language, getSupportedLanguages());
+        return StringUtility.isIn(language, getSupportedLanguages());
     }
 
     public String getOriginalLanguage() {

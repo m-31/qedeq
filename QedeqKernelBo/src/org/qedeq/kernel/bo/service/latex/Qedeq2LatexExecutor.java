@@ -1161,7 +1161,8 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
                     //   to verify the document contents
                     // TODO m31 20100727: get other informations like authors, title, etc
                     // TODO m31 20100727: link to pdf?
-                    printer.print("\\url{" + getUrl(getQedeqBo().getModuleAddress(), spec) + "}");
+//                    printer.print("\\url{" + getUrl(getQedeqBo().getModuleAddress(), spec) + "}");
+                    printer.print("\\url{" + getPdfLink((KernelQedeqBo) getQedeqBo().getLabels().getReferences().getQedeqBo(imp.getLabel())) + "}");
                 }
                 printer.println();
             }
@@ -1420,7 +1421,11 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
             // if we want to show the text "description": \href{my_url}{description}
         }
 
-        return "\\hyperlink{" + getPdfLink(ref.getExternalQedeq()) + "}{}{"
+        String external = getPdfLink(ref.getExternalQedeq());
+        if (external.startsWith("file://")) {
+            external = "file:" + external.substring("file://".length());
+        }
+        return "\\hyperref{" +  external + "}{}{"
             + ref.getExternalQedeqLabel()
             + "."
             + ref.getNodeLabel()
@@ -1464,7 +1469,11 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         if (local) {
             return "\\hyperlink{" + localRef + "}{" + caption + "}";
         }
-        return "\\hyperlink{" + getPdfLink(qedeq) + "}{" + caption + "}{"
+        String external = getPdfLink(qedeq);
+        if (external.startsWith("file://")) {
+            external = "file:" + external.substring("file://".length());
+        }
+        return "\\hyperref{" + external + "}{}{" + caption + "}{"
             + localRef + "}";
     }
 
@@ -1524,7 +1533,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         final String url = prop.getUrl();
         final int dot = url.lastIndexOf(".");
         if (prop.isSupportedLanguage(language)) {
-            return url.substring(0, dot) + language + ".pdf";
+            return url.substring(0, dot) + "_" + language + ".pdf";
         }
         final String a = prop.getOriginalLanguage();
         return url.substring(0, dot) + (a.length() > 0 ? "_" + a : "") + ".pdf";
