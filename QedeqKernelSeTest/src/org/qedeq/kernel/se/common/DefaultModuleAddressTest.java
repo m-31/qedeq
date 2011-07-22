@@ -58,7 +58,7 @@ public class DefaultModuleAddressTest extends QedeqTestCase {
         assertEquals("memory:", dflt.getHeader());
         assertEquals("default", dflt.getName());
         assertEquals("", dflt.getPath());
-        assertEquals("memory:default", dflt.getUrl());
+        assertEquals("memory://default", dflt.getUrl());
         assertEquals(false, dflt.isFileAddress());
         assertEquals(true, dflt.isRelativeAddress());
         assertEquals(dflt, dflt.createModuleContext().getModuleLocation());
@@ -67,33 +67,33 @@ public class DefaultModuleAddressTest extends QedeqTestCase {
         assertEquals("memory:", dflt.getHeader());
         assertEquals("uzsdaf234", dflt.getName());
         assertEquals("", dflt.getPath());
-        assertEquals("memory:uzsdaf234", dflt.getUrl());
+        assertEquals("memory://uzsdaf234", dflt.getUrl());
         assertEquals(false, dflt.isFileAddress());
         assertEquals(true, dflt.isRelativeAddress());
         assertEquals(dflt, dflt.createModuleContext().getModuleLocation());
         dflt = new DefaultModuleAddress("hulouo.xml");
         assertEquals("hulouo.xml", dflt.getFileName());
-        assertEquals("file:", dflt.getHeader());
+        assertEquals("file://", dflt.getHeader());
         assertEquals("hulouo", dflt.getName());
         assertEquals("", dflt.getPath());
-        assertEquals("file:hulouo.xml", dflt.getUrl());
+        assertEquals("file://hulouo.xml", dflt.getUrl());
         assertEquals(true, dflt.isFileAddress());
         assertEquals(true, dflt.isRelativeAddress());
         assertEquals(dflt, dflt.createModuleContext().getModuleLocation());
         dflt = new DefaultModuleAddress("file:hulouo.xml");
         assertEquals("hulouo.xml", dflt.getFileName());
-        assertEquals("file:", dflt.getHeader());
+        assertEquals("file://", dflt.getHeader());
         assertEquals("hulouo", dflt.getName());
         assertEquals("", dflt.getPath());
-        assertEquals("file:hulouo.xml", dflt.getUrl());
+        assertEquals("file://hulouo.xml", dflt.getUrl());
         assertEquals(true, dflt.isFileAddress());
         assertEquals(true, dflt.isRelativeAddress());
         dflt = new DefaultModuleAddress("file:///root/hulouo.xml");
         assertEquals("hulouo.xml", dflt.getFileName());
-        assertEquals("file:", dflt.getHeader());
+        assertEquals("file://", dflt.getHeader());
         assertEquals("hulouo", dflt.getName());
         assertEquals("/root/", dflt.getPath());
-        assertEquals("file:/root/hulouo.xml", dflt.getUrl());
+        assertEquals("file:///root/hulouo.xml", dflt.getUrl());
         assertEquals(true, dflt.isFileAddress());
         assertEquals(false, dflt.isRelativeAddress());
         assertEquals(dflt, dflt.createModuleContext().getModuleLocation());
@@ -151,12 +151,13 @@ public class DefaultModuleAddressTest extends QedeqTestCase {
         final File file = new File("unknown/hulouo.xml");
         dflt = new DefaultModuleAddress(file);
         assertEquals("hulouo.xml", dflt.getFileName());
-        assertEquals("file:", dflt.getHeader());
+        assertEquals("file://", dflt.getHeader());
         assertEquals("hulouo", dflt.getName());
         assertEquals((SystemUtils.IS_OS_WINDOWS ? "/" : "") + FilenameUtils.separatorsToUnix(
             file.getCanonicalFile().getParentFile().getPath()) + "/", dflt.getPath());
-        assertEquals("file:" + (SystemUtils.IS_OS_WINDOWS ? "/" : "")+ FilenameUtils.separatorsToUnix(
-                file.getCanonicalPath()), dflt.getUrl());
+        assertEquals("file://" + (SystemUtils.IS_OS_WINDOWS ? "/" : "")
+            + FilenameUtils.separatorsToUnix(
+            file.getCanonicalPath()), dflt.getUrl());
         assertEquals(true, dflt.isFileAddress());
         assertEquals(false, dflt.isRelativeAddress());
         assertEquals(dflt, dflt.createModuleContext().getModuleLocation());
@@ -165,10 +166,10 @@ public class DefaultModuleAddressTest extends QedeqTestCase {
     public void testCreateModuleContext() throws Exception {
         dflt = new DefaultModuleAddress("unknown/hulouo.xml");
         assertEquals("hulouo.xml", dflt.getFileName());
-        assertEquals("file:", dflt.getHeader());
+        assertEquals("file://", dflt.getHeader());
         assertEquals("hulouo", dflt.getName());
         assertEquals("unknown/", dflt.getPath());
-        assertEquals("file:unknown/hulouo.xml", dflt.getUrl());
+        assertEquals("file://unknown/hulouo.xml", dflt.getUrl());
         assertEquals(true, dflt.isFileAddress());
         assertEquals(true, dflt.isRelativeAddress());
         final ModuleContext context = dflt.createModuleContext(); 
