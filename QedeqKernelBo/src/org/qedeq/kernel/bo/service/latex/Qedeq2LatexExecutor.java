@@ -318,6 +318,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         printer.println("   colorlinks,linkcolor=webgreen,pagebackref]{hyperlink}");
         printer.println("\\definecolor{webgreen}{rgb}{0,.5,0}");
         printer.println("\\usepackage{graphicx}");
+        printer.println("\\usepackage{hyperref}");
         printer.println("\\usepackage{xr}");
         printer.println("\\usepackage{epsfig,longtable}");
         printer.println("\\usepackage{tabularx}");
