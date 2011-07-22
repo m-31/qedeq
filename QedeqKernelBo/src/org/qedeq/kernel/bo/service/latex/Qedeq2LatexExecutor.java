@@ -315,7 +315,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         printer.println("\\usepackage{amsmath,amsthm,amssymb}");
         printer.println("\\usepackage{color}");
         printer.println("\\usepackage[bookmarks,bookmarksnumbered,bookmarksopen,");
-        printer.println("   colorlinks,linkcolor=webgreen,pagebackref]{hyperref}");
+        printer.println("   colorlinks,linkcolor=webgreen,pagebackref]{hyperlink}");
         printer.println("\\definecolor{webgreen}{rgb}{0,.5,0}");
         printer.println("\\usepackage{graphicx}");
         printer.println("\\usepackage{xr}");
@@ -1383,17 +1383,17 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
 
         final Reference ref = getReference(reference, getCurrentContext(start, end), true, false);
         if (ref.isNodeLocalReference() && ref.isSubReference()) {
-            return "\\hyperref[" + ref.getNodeLabel() + "/" + ref.getSubLabel() + "]{" + "("
+            return "\\hyperlink[" + ref.getNodeLabel() + "/" + ref.getSubLabel() + "]{" + "("
                 + ref.getSubLabel() + ")" + "}";
         }
 
         if (ref.isNodeLocalReference() && ref.isProofLineReference()) {
-            return "\\hyperref[" + ref.getNodeLabel() + "!" + ref.getProofLineLabel() + "]{" + "("
+            return "\\hyperlink[" + ref.getNodeLabel() + "!" + ref.getProofLineLabel() + "]{" + "("
                 + ref.getProofLineLabel() + ")" + "}";
         }
 
         if (!ref.isExternal()) {
-            return "\\hyperref[" + ref.getNodeLabel()
+            return "\\hyperlink[" + ref.getNodeLabel()
                 + (ref.isSubReference() ? "/" + ref.getSubLabel() : "")
                 + (ref.isProofLineReference() ? "!" + ref.getProofLineLabel() : "")
                 + "]{"
@@ -1410,7 +1410,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
             // if we want to show the text "description": \href{my_url}{description}
         }
 
-        return "\\hyperref{" + getPdfLink(ref.getExternalQedeq()) + "}{}{"
+        return "\\hyperlink{" + getPdfLink(ref.getExternalQedeq()) + "}{}{"
             + ref.getExternalQedeqLabel()
             + "."
             + ref.getNodeLabel()
@@ -1456,9 +1456,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         qedeq.getLabels().getRule(key).getName();
         boolean local = getQedeqBo().equals(qedeq);
         if (local) {
-            return "\\hyperref[" + localRef + "]{" + ruleName + "}";
+            return "\\hyperlink[" + localRef + "]{" + ruleName + "}";
         }
-        return "\\hyperref[" + getPdfLink(qedeq) + "}{" + ruleName + "}{"
+        return "\\hyperlink[" + getPdfLink(qedeq) + "}{" + ruleName + "}{"
             + localRef + "}";
     }
 
