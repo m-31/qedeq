@@ -1444,15 +1444,22 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         if (getQedeqBo().getExistenceChecker() != null) {
             qedeq = getQedeqBo().getExistenceChecker().getQedeq(key);
         }
+        String localRef = getQedeqBo().getLabels().getRuleLabel(key);
+        if (changed.length() == 0) {
+            final String refRuleName = qedeq.getLabels().getRule(key).getName();
+            if (!ruleName.equals(refRuleName)) {
+                localRef += "." + ruleName;
+            }
+        } else {
+            localRef += "." + changed;
+        }
+        qedeq.getLabels().getRule(key).getName();
         boolean local = getQedeqBo().equals(qedeq);
         if (local) {
-            return "\\hyperref[" + getQedeqBo().getLabels().getRuleLabel(key) + "]{"
-                + ruleName + (changed.length() == 0 ? "}" : "." + changed + "}");
+            return "\\hyperref[" + localRef + "]{" + ruleName + "}";
         }
-        return "\\hyperref[" + getPdfLink(qedeq) + "}{" + ruleName
-            + (changed.length() == 0 ? "" : "." + changed) + "}{"
-            + qedeq.getLabels().getRuleLabel(key)
-            + "}";
+        return "\\hyperref[" + getPdfLink(qedeq) + "}{" + ruleName + "}{"
+            + localRef + "}";
     }
 
     /**
