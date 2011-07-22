@@ -1162,7 +1162,8 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
                     // TODO m31 20100727: get other informations like authors, title, etc
                     // TODO m31 20100727: link to pdf?
 //                    printer.print("\\url{" + getUrl(getQedeqBo().getModuleAddress(), spec) + "}");
-                    printer.print("\\url{" + getPdfLink((KernelQedeqBo) getQedeqBo().getLabels().getReferences().getQedeqBo(imp.getLabel())) + "}");
+                    printer.print("\\url{" + getPdfLink((KernelQedeqBo) getQedeqBo()
+                        .getLabels().getReferences().getQedeqBo(imp.getLabel())) + "}");
                 }
                 printer.println();
             }
