@@ -1107,7 +1107,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
 
     public void visitEnter(final ChangedRule rule) {
         printer.println("\\par");
-        printer.println("\\label{" + id + "." + rule.getName() + "} \\hypertarget{" + id + "."
+        printer.println("\\label{" + id + "." + rule.getName() + "} \\hypertarget{" + id + "!"
                 + rule.getName() + "}{}");
         printer.println("{\\em "
             + (rule.getName() != null ? "  Name: \\verb]" + rule.getName() + "]" : "")
@@ -1448,10 +1448,10 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         if (changed.length() == 0) {
             final String refRuleName = qedeq.getLabels().getRule(key).getName();
             if (!ruleName.equals(refRuleName)) {
-                localRef += "." + ruleName;
+                localRef += "!" + ruleName;
             }
         } else {
-            localRef += "." + changed;
+            localRef += "!" + changed;
         }
         qedeq.getLabels().getRule(key).getName();
         boolean local = getQedeqBo().equals(qedeq);
