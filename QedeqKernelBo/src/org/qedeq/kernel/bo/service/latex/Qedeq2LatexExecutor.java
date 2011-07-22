@@ -36,6 +36,7 @@ import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.Reference;
+import org.qedeq.kernel.bo.service.logic.LogicErrors;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Add;
@@ -83,6 +84,7 @@ import org.qedeq.kernel.se.base.module.SubstFunc;
 import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
+import org.qedeq.kernel.se.common.IllegalModuleDataException;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
@@ -1109,10 +1111,19 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         printer.println("\\par");
         printer.println("\\label{" + id + "!" + rule.getName() + "} \\hypertarget{" + id + "!"
                 + rule.getName() + "}{}");
-        printer.println("{\\em "
+        printer.print("{\\em "
             + (rule.getName() != null ? "  Name: \\verb]" + rule.getName() + "]" : "")
-            + (rule.getVersion() != null ? "  -  Version: \\verb]" + rule.getVersion() + "]" : "")
-            + "}");
+            + (rule.getVersion() != null ? "  -  Version: \\verb]" + rule.getVersion() + "]" : ""));
+        RuleKey old = getLocalRuleKey(rule.getName());
+        if (old == null && getQedeqBo().getExistenceChecker() != null) {
+            old = getQedeqBo().getExistenceChecker().getParentRuleKey(rule.getName());
+        }
+        if (old != null) {
+            printer.print("  -  Old Version: "
+                + getRuleReference(rule.getName(), rule.getVersion()));
+        }
+        printer.println("}");
+        rule.getName();
         printer.println();
         if (rule.getDescription() != null) {
             printer.println(getLatexListEntry("getDescription()", rule.getDescription()));
@@ -1427,10 +1438,10 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     private String getRuleReference(final String ruleName) {
-        return getRuleReference(ruleName, "");
+        return getRuleReference(ruleName, ruleName);
     }
 
-    private String getRuleReference(final String ruleName, final String changed) {
+    private String getRuleReference(final String ruleName, final String caption) {
         final String method = "getRuleReference(String, String)";
         Trace.param(CLASS, this, method, "ruleName", ruleName);
         RuleKey key = getLocalRuleKey(ruleName);
@@ -1445,20 +1456,16 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
             qedeq = getQedeqBo().getExistenceChecker().getQedeq(key);
         }
         String localRef = getQedeqBo().getLabels().getRuleLabel(key);
-        if (changed.length() == 0) {
-            final String refRuleName = qedeq.getLabels().getRule(key).getName();
-            if (!ruleName.equals(refRuleName)) {
-                localRef += "!" + ruleName;
-            }
-        } else {
-            localRef += "!" + changed;
+        final String refRuleName = qedeq.getLabels().getRule(key).getName();
+        if (!ruleName.equals(refRuleName)) {
+            localRef += "!" + ruleName;
         }
         qedeq.getLabels().getRule(key).getName();
         boolean local = getQedeqBo().equals(qedeq);
         if (local) {
-            return "\\hyperlink{" + localRef + "}{" + ruleName + "}";
+            return "\\hyperlink{" + localRef + "}{" + caption + "}";
         }
-        return "\\hyperlink{" + getPdfLink(qedeq) + "}{" + ruleName + "}{"
+        return "\\hyperlink{" + getPdfLink(qedeq) + "}{" + caption + "}{"
             + localRef + "}";
     }
 
