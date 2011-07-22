@@ -1107,7 +1107,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
 
     public void visitEnter(final ChangedRule rule) {
         printer.println("\\par");
-        printer.println("\\label{" + id + "." + rule.getName() + "} \\hypertarget{" + id + "!"
+        printer.println("\\label{" + id + "!" + rule.getName() + "} \\hypertarget{" + id + "!"
                 + rule.getName() + "}{}");
         printer.println("{\\em "
             + (rule.getName() != null ? "  Name: \\verb]" + rule.getName() + "]" : "")
