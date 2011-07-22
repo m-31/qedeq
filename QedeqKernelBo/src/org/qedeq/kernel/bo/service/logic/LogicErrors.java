@@ -284,4 +284,12 @@ public interface LogicErrors extends ErrorCodes {
         = "this rule has no name or version: ";
 
 
+    /** Error code. */
+    public static final int RULE_DECLARED_IN_DIFFERENT_IMPORT_MODULES_CODE = 37390;
+
+    /** Error message. */
+    public static final String RULE_DECLARED_IN_DIFFERENT_IMPORT_MODULES_TEXT
+        = "this rule is defined in two different modules: ";
+
+
 }

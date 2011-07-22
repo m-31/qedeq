@@ -15,6 +15,10 @@
 
 package org.qedeq.kernel.bo.service.logic;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
@@ -35,6 +39,7 @@ import org.qedeq.kernel.bo.logic.wf.FormulaCheckerImpl;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.ModuleConstantsExistenceChecker;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Axiom;
@@ -156,6 +161,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         }
         getQedeqBo().setLogicalProgressState(LogicalModuleState.STATE_EXTERNAL_CHECKING);
         final SourceFileExceptionList sfl = new DefaultSourceFileExceptionList();
+        final Map rules = new HashMap(); // map RuleKey to KernelQedeqBo
         KernelModuleReferenceList list = (KernelModuleReferenceList) getQedeqBo().getRequiredModules();
         for (int i = 0; i < list.size(); i++) {
             Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label", list.getLabel(i));
@@ -169,6 +175,26 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                     + list.getQedeqBo(i).getModuleAddress(),
                     list.getModuleContext(i));
                 sfl.add(getQedeqBo().createSourceFileException(getPlugin(), md));
+            }
+            final ModuleConstantsExistenceChecker existenceChecker
+                = list.getKernelQedeqBo(i).getExistenceChecker();
+            if (existenceChecker != null) {
+                final Iterator iter = existenceChecker.getRules().keySet().iterator();
+                while (iter.hasNext()) {
+                    final RuleKey key = (RuleKey) iter.next();
+                    final KernelQedeqBo newQedeq = existenceChecker.getQedeq(key);
+                    final KernelQedeqBo previousQedeq = (KernelQedeqBo) rules.get(key);
+                    if (previousQedeq != null && !newQedeq.equals(previousQedeq)) {
+                        ModuleDataException md = new CheckRequiredModuleException(
+                            LogicErrors.RULE_DECLARED_IN_DIFFERENT_IMPORT_MODULES_CODE,
+                            LogicErrors.RULE_DECLARED_IN_DIFFERENT_IMPORT_MODULES_TEXT
+                            + key + " " + previousQedeq.getUrl() + " " + newQedeq.getUrl(),
+                            list.getModuleContext(i));
+                        sfl.add(getQedeqBo().createSourceFileException(getPlugin(), md));
+                    } else {
+                        rules.put(key, newQedeq);
+                    }
+                }
             }
         }
         // has at least one import errors?

@@ -331,7 +331,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqBoTestCase {
             assertNotNull(warnings);
             assertEquals(0, warnings.size());
             assertEquals(1, errors.size());
-            assertEquals(123478, errors.get(0).getErrorCode());
+            assertEquals(37390, errors.get(0).getErrorCode());
             assertEquals(38, errors.get(0).getSourceArea().getStartPosition().getRow());
             assertEquals(15, errors.get(0).getSourceArea().getStartPosition().getColumn());
         } else {

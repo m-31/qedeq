@@ -340,7 +340,6 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
     }
 
     /**
-    /**
      * Get QEDEQ module where given rule is defined.
      *
      * @param   ruleKey   Rule we look for.
