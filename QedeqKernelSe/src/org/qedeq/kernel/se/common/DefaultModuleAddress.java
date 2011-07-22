@@ -114,7 +114,7 @@ public class DefaultModuleAddress implements ModuleAddress {
         if (!memory) {
             throw new IllegalArgumentException("memory must be true");
         }
-        url = "memory:" + identifier;
+        url = "memory://" + identifier;
         name = identifier;
         fileAddress = false;
         fileName = identifier;
@@ -162,8 +162,16 @@ public class DefaultModuleAddress implements ModuleAddress {
             }
         }
         Trace.trace(CLASS, this, method, "protocol=" + urmel.getProtocol());
-        url = urmel.toString();
         fileAddress = urmel.getProtocol().equalsIgnoreCase("file");
+        if (!fileAddress) {
+            url = urmel.toString();
+        } else {
+            String urm = urmel.toString();
+            if (urm.startsWith("file:") && !urm.startsWith("file://")) {
+                urm = "file://" + urm.substring("file:".length());
+            }
+            url = urm;
+        }
 /*
         Trace.trace(this, METHOD, "url.getFile=" + this.url.getFile());
         Trace.trace(this, METHOD, "url.getPath=" + this.url.getPath());
