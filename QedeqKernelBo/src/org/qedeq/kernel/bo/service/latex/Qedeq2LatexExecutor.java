@@ -36,7 +36,6 @@ import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.Reference;
-import org.qedeq.kernel.bo.service.logic.LogicErrors;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Add;
@@ -84,7 +83,6 @@ import org.qedeq.kernel.se.base.module.SubstFunc;
 import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
-import org.qedeq.kernel.se.common.IllegalModuleDataException;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
@@ -316,8 +314,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         printer.println("\\usepackage{makeidx}");
         printer.println("\\usepackage{amsmath,amsthm,amssymb}");
         printer.println("\\usepackage{color}");
-        printer.println("\\usepackage[bookmarks,bookmarksnumbered,bookmarksopen,");
-        printer.println("   colorlinks,linkcolor=webgreen,pagebackref]{hyperref}");
+        printer.println("\\usepackage[bookmarks=true,bookmarksnumbered,bookmarksopen,");
+        printer.println("   unicode=true,colorlinks=true,linkcolor=webgreen,");
+        printer.println("   pagebackref=true,pdfnewwindow=true]{hyperref}");
         printer.println("\\definecolor{webgreen}{rgb}{0,.5,0}");
         printer.println("\\usepackage{graphicx}");
         printer.println("\\usepackage{xr}");
@@ -1120,7 +1119,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         }
         if (old != null) {
             printer.print("  -  Old Version: "
-                + getRuleReference(rule.getName(), rule.getVersion()));
+                + getRuleReference(rule.getName(), old.getVersion()));
         }
         printer.println("}");
         rule.getName();
