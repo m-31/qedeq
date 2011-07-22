@@ -314,14 +314,16 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         printer.println("\\usepackage{makeidx}");
         printer.println("\\usepackage{amsmath,amsthm,amssymb}");
         printer.println("\\usepackage{color}");
+        printer.println("\\usepackage{xr}");
+        printer.println("\\usepackage{tabularx}");
+        printer.println("\\usepackage{epsfig,longtable}");
+        printer.println("\\usepackage{ltabptch}");
         printer.println("\\usepackage[bookmarks=true,bookmarksnumbered,bookmarksopen,");
         printer.println("   unicode=true,colorlinks=true,linkcolor=webgreen,");
         printer.println("   pagebackref=true,pdfnewwindow=true,pdfstartview=FitH]{hyperref}");
         printer.println("\\definecolor{webgreen}{rgb}{0,.5,0}");
         printer.println("\\usepackage{graphicx}");
-        printer.println("\\usepackage{xr}");
-        printer.println("\\usepackage{epsfig,longtable}");
-        printer.println("\\usepackage{tabularx}");
+        printer.println("\\usepackage[all]{hypcap}");
         printer.println();
         if ("de".equals(language)) {
 // TODO m31 20100313: validate different counter types
@@ -361,6 +363,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
             printer.println("\\newtheorem{rem}[thm]{Remark}");
             printer.println("\\newtheorem*{notation}{Notation}");
         }
+        printer.println();
         printer.println();
         printer.println("\\addtolength{\\textheight}{7\\baselineskip}");
         printer.println("\\addtolength{\\topmargin}{-5\\baselineskip}");
@@ -760,7 +763,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         if (label.length() > 0) {
             String display = getNodeBo().getNodeVo().getId() + "!" + label;
             printer.print("\\label{" + display + "} \\hypertarget{" + display
-                + "}{} \\mbox{(" + label + ")} ");
+                + "}{\\mbox{(" + label + ")}} ");
         }
         printer.print(" \\ &  \\ ");
         for (int i = 0; i < tabLevel; i++) {
