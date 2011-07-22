@@ -316,12 +316,13 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         printer.println("\\usepackage{color}");
         printer.println("\\usepackage{xr}");
         printer.println("\\usepackage{tabularx}");
-        printer.println("\\usepackage{epsfig,longtable}");
-        printer.println("\\usepackage{ltabptch}");
+//        printer.println("\\usepackage{epsfig,longtable}");
+//        printer.println("\\usepackage{ltabptch}");    // not installed on our server
         printer.println("\\usepackage[bookmarks=true,bookmarksnumbered,bookmarksopen,");
         printer.println("   unicode=true,colorlinks=true,linkcolor=webgreen,");
         printer.println("   pagebackref=true,pdfnewwindow=true,pdfstartview=FitH]{hyperref}");
         printer.println("\\definecolor{webgreen}{rgb}{0,.5,0}");
+        printer.println("\\usepackage{epsfig,longtable}");
         printer.println("\\usepackage{graphicx}");
         printer.println("\\usepackage[all]{hypcap}");
         printer.println();
