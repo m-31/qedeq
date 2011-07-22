@@ -757,7 +757,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
             return;
         }
         if (label.length() > 0) {
-            String display = getNodeBo().getNodeVo().getId() + ":" + label;
+            String display = getNodeBo().getNodeVo().getId() + "!" + label;
             printer.print("\\label{" + display + "} \\hypertarget{" + display
                 + "}{} \\mbox{(" + label + ")} ");
         }
@@ -1388,7 +1388,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         }
 
         if (ref.isNodeLocalReference() && ref.isProofLineReference()) {
-            return "\\hyperref[" + ref.getNodeLabel() + "/" + ref.getProofLineLabel() + "]{" + "("
+            return "\\hyperref[" + ref.getNodeLabel() + "!" + ref.getProofLineLabel() + "]{" + "("
                 + ref.getProofLineLabel() + ")" + "}";
         }
 
