@@ -684,5 +684,16 @@ public final class StringUtility {
         return true;
     }
 
+    /**
+     * Does a given string is an element of a given string array?
+     *
+     * @param   lookFor Look for this string.
+     * @param   array   The array we look through.
+     * @return  Is the given string an element of the array?
+     */
+    public static boolean isIn(final String lookFor, final String[] array) {
+        return !isNotIn(lookFor, array);
+    }
+
 
 }
