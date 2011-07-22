@@ -1383,20 +1383,20 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
 
         final Reference ref = getReference(reference, getCurrentContext(start, end), true, false);
         if (ref.isNodeLocalReference() && ref.isSubReference()) {
-            return "\\hyperlink[" + ref.getNodeLabel() + "/" + ref.getSubLabel() + "]{" + "("
+            return "\\hyperlink{" + ref.getNodeLabel() + "/" + ref.getSubLabel() + "}{" + "("
                 + ref.getSubLabel() + ")" + "}";
         }
 
         if (ref.isNodeLocalReference() && ref.isProofLineReference()) {
-            return "\\hyperlink[" + ref.getNodeLabel() + "!" + ref.getProofLineLabel() + "]{" + "("
+            return "\\hyperlink{" + ref.getNodeLabel() + "!" + ref.getProofLineLabel() + "}{" + "("
                 + ref.getProofLineLabel() + ")" + "}";
         }
 
         if (!ref.isExternal()) {
-            return "\\hyperlink[" + ref.getNodeLabel()
+            return "\\hyperlink{" + ref.getNodeLabel()
                 + (ref.isSubReference() ? "/" + ref.getSubLabel() : "")
                 + (ref.isProofLineReference() ? "!" + ref.getProofLineLabel() : "")
-                + "]{"
+                + "}{"
                 + getNodeDisplay(ref.getNodeLabel(), ref.getNode())
                 + (ref.isSubReference() ? " (" + ref.getSubLabel() + ")" : "")
                 + (ref.isProofLineReference() ? " (" + ref.getProofLineLabel() + ")" : "")
@@ -1456,9 +1456,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         qedeq.getLabels().getRule(key).getName();
         boolean local = getQedeqBo().equals(qedeq);
         if (local) {
-            return "\\hyperlink[" + localRef + "]{" + ruleName + "}";
+            return "\\hyperlink{" + localRef + "}{" + ruleName + "}";
         }
-        return "\\hyperlink[" + getPdfLink(qedeq) + "}{" + ruleName + "}{"
+        return "\\hyperlink{" + getPdfLink(qedeq) + "}{" + ruleName + "}{"
             + localRef + "}";
     }
 
