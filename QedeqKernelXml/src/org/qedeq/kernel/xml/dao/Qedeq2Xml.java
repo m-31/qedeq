@@ -90,7 +90,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
      * @param   bo      QEDEQ BO.
      * @param   printer Print herein.
      */
-    private Qedeq2Xml(final Plugin plugin, final KernelQedeqBo bo, final TextOutput printer) {
+    public Qedeq2Xml(final Plugin plugin, final KernelQedeqBo bo, final TextOutput printer) {
         super(plugin, bo);
         this.printer = printer;
     }
