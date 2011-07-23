@@ -99,6 +99,9 @@ public class QedeqController {
     /** Show parser window. */
     private final Action textParserAction;
 
+    /** Show parser window. */
+    private final Action proofTextParserAction;
+
     /** List of already wanted QEDEQ modules.*/
     private final ArrayList moduleHistory;
 
@@ -121,6 +124,7 @@ public class QedeqController {
         pluginPreferencesAction = new PluginPreferencesAction(this);
         latexParserAction = new LatexParserAction(this);
         textParserAction = new TextParserAction(this);
+        proofTextParserAction = new ProofTextParserAction(this);
         exitAction = new ExitAction();
         addAction = new AddAction(this);
         addFileAction = new AddFileAction(this);
@@ -226,6 +230,15 @@ public class QedeqController {
      */
     public Action getTextParserAction() {
         return textParserAction;
+    }
+
+    /**
+     * Get parser window startup action.
+     *
+     * @return  Action.
+     */
+    public Action getProofTextParserAction() {
+        return proofTextParserAction;
     }
 
     /**

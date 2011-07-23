@@ -206,9 +206,15 @@ public class QedeqMenuBar extends JMenuBar {
         item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/format-indent-more.png"));
         menu.add(item);
 
-        item = MenuHelper.createMenuItem("Text to QEDEQ", 'L');
+        item = MenuHelper.createMenuItem("Text to QEDEQ", 'T');
         item.addActionListener(controller.getTextParserAction());
         item.setToolTipText("Enter text formulas and transform them into QEDEQ syntax.");
+        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/format-indent-more.png"));
+        menu.add(item);
+
+        item = MenuHelper.createMenuItem("Proof Text to QEDEQ", 'R');
+        item.addActionListener(controller.getProofTextParserAction());
+        item.setToolTipText("Enter proof text and transform it into QEDEQ syntax.");
         item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/format-indent-more.png"));
         menu.add(item);
 
