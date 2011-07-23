@@ -34,6 +34,7 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.visitor.AbstractModuleVisitor;
 import org.qedeq.kernel.se.visitor.QedeqNotNullTraverser;
 import org.qedeq.kernel.se.visitor.QedeqNumbers;
+import org.qedeq.kernel.se.visitor.QedeqTraverser;
 
 
 /**
@@ -534,4 +535,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
 //        }
     }
 
+    public QedeqTraverser getTraverser() {
+        return traverser;
+    }
 }

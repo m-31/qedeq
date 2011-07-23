@@ -176,6 +176,22 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
      */
     public void generateUtf8(final AbstractOutput printer, final String language,
             final String level) throws SourceFileExceptionList, IOException {
+        setParameters(printer, language);
+        try {
+            traverse();
+        } finally {
+            getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
+        }
+    }
+
+    /**
+     * Set parameters.
+     *
+     * @param   printer     Print herein.
+     * @param   language    Choose this language.
+     */
+    public void setParameters(final AbstractOutput printer,
+            final String language) {
         this.printer = printer;
         this.printer.setColumns(maxColumns);
         // TODO 20110208 m31: perhaps we should have some config parameters for those percentage splittings
@@ -211,12 +227,6 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
 //        }
 
         init();
-
-        try {
-            traverse();
-        } finally {
-            getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
-        }
     }
 
     /**
@@ -705,7 +715,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
 
     private void setFormula(final Formula f) {
         if (f != null && f.getElement() != null) {
-            lineData.setFormula(getQedeqBo().getElement2Utf8().getUtf8(f.getElement(),
+            lineData.setFormula(getUtf8(f.getElement(),
                 formulaWidth - tab.length()));
         }
     }
@@ -1137,16 +1147,6 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     }
 
     /**
-     * Get Utf8 element presentation.
-     *
-     * @param   element    Get presentation of this element.
-     * @return  UTF-8 form of element.
-     */
-    private String getUtf8(final Element element) {
-        return getUtf8(getQedeqBo().getElement2Latex().getLatex(element));
-    }
-
-    /**
      * Filters correct entry out of LaTeX list. Filter criterion is for example the correct
      * language.
      *
@@ -1245,6 +1245,28 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         if (addWarnings) {
             addWarning(new UnicodeException(code, msg, getCurrentContext()));
         }
+    }
+
+    /**
+     * Get Utf8 element presentation.
+     *
+     * @param   element     Get presentation of this element.
+     * @param   max         Maximum column.
+     * @return  UTF-8 form of element.
+     */
+    protected String[] getUtf8(final Element element, final int max) {
+        return getQedeqBo().getElement2Utf8().getUtf8(element, max);
+    }
+
+
+    /**
+     * Get Utf8 element presentation.
+     *
+     * @param   element    Get presentation of this element.
+     * @return  UTF-8 form of element.
+     */
+    protected String getUtf8(final Element element) {
+        return getUtf8(getQedeqBo().getElement2Latex().getLatex(element));
     }
 
     /**
