@@ -90,7 +90,7 @@
           I am deeply grateful to my wife \emph{Gesine~Dräger} and our son \emph{Lennart} for their support and patience.
 
           \par
-          \vspace*{1cm} Hamburg, december 2010 \\
+          \vspace*{1cm} Hamburg, july 2011 \\
           \hspace*{\fill} Michael Meyling
         ]]>
       </LATEX>
@@ -111,7 +111,7 @@
           Besonderer Dank geht an meine Frau \emph{Gesine~Dräger} und unseren Sohn \emph{Lennart} für ihre Unterstützung und ihr Verständnis für ihnen fehlende Zeit.
 
           \par
-          \vspace*{1cm} Hamburg, Dezember 2010 \\
+          \vspace*{1cm} Hamburg, Juli 2011 \\
           \hspace*{\fill} Michael Meyling
         ]]>
       </LATEX>
@@ -440,7 +440,7 @@
                   Additional to the identity definition we need the following form of the extensionality axiom: $(x = y \land x \in z) \ \rightarrow y \in z$. This is a special case of the Leibniz's replacement rule that we know already as \qref{l.axiom:leibnizReplacement}. The correctness of the general rule can be proved by recursion over formula building. See also \cite{schmidt} \S 6.
                   
                   \par
-                  Alternatively one can define $(x = y \leftrightarrow (\forall z \ (x \in z \ \rightarrow \ y \in z)) \land \forall z \ (x \in z \ \rightarrow \ z \in y))$.}
+                  Alternatively one can define $(x = y \leftrightarrow (\forall z \ (x \in z \ \rightarrow \ y \in z)) \land \forall z \ (z \in x \ \rightarrow \ z \in y))$.}
               ]]>
             </LATEX>
             <LATEX language="de">
@@ -859,7 +859,7 @@
           <SUCCEEDING>
             <LATEX language="en">
               <![CDATA[
-                In particular the substitution rules must be adapted because now a term can have bound subject variables. \footnote{Luckily we formulated the substitution rules with this extension already in our mind, so we have nothing to do.}
+                In particular the substitution rules must be adapted because now a term can have bound subject variables.\footnote{Luckily we formulated the substitution rules with this extension already in our mind, so we have nothing to do.}
                 In the following this new notation is used.
               ]]>
             </LATEX>
@@ -1008,9 +1008,9 @@
                       </PREDVAR>
                     </CLASS>
                     <CLASS>
-                      <VAR id="x"/>
+                      <VAR id="y"/>
                       <PREDVAR id="\psi">
-                        <VAR id="x"/>
+                        <VAR id="y"/>
                       </PREDVAR>
                     </CLASS>
                   </PREDCON>
@@ -1029,9 +1029,9 @@
                       <PREDCON ref="in">
                         <VAR id="z"/>
                         <CLASS>
-                          <VAR id="x"/>
+                          <VAR id="y"/>
                           <PREDVAR id="\psi">
-                            <VAR id="x"/>
+                            <VAR id="y"/>
                           </PREDVAR>
                         </CLASS>
                       </PREDCON>
@@ -1047,9 +1047,9 @@
                       </PREDVAR>
                     </CLASS>
                     <CLASS>
-                      <VAR id="x"/>
+                      <VAR id="y"/>
                       <PREDVAR id="\psi">
-                        <VAR id="x"/>
+                        <VAR id="y"/>
                       </PREDVAR>
                     </CLASS>
                   </PREDCON>
@@ -1071,9 +1071,9 @@
                           <PREDCON ref="l.equal">
                             <VAR id="v"/>
                             <CLASS>
-                              <VAR id="x"/>
+                              <VAR id="y"/>
                               <PREDVAR id="\psi">
-                                <VAR id="x"/>
+                                <VAR id="y"/>
                               </PREDVAR>
                             </CLASS>
                           </PREDCON>
@@ -1124,12 +1124,12 @@
                   \begin{align}
                   y \in \{ x~|~\phi(x) \} & \leftrightarrow  \mathfrak{M}(y) \land \phi(y) \tag{a} \\
                   y = \{ x~|~ \phi(x) \} & \leftrightarrow  \forall z \ (z \in y \leftrightarrow z \in \{ x~|~\phi(x) \}) \tag{b} \\
-                  \{ x~|~\phi(x) \} = \{ x~|~\psi(x) \} & \leftrightarrow \forall z \ (z \in \{ x~|~\phi(x) \} \tag{c} \\
+                  \{ x~|~\phi(x) \} = \{ y~|~\psi(y) \} & \leftrightarrow \forall z \ (z \in \{ x~|~\phi(x) \} \tag{c} \\
                   \begin{split}
-                    & \qquad \leftrightarrow z \in \{x~|~\psi(x) \}) \nonumber \\
-                  \{ x~|~\phi(x) \} \in \{ x~|~\psi(x) \} & \leftrightarrow  \forall u \ \forall
+                    & \qquad \leftrightarrow z \in \{y~|~\psi(y) \}) \nonumber \\
+                  \{ x~|~\phi(x) \} \in \{ y~|~\psi(y) \} & \leftrightarrow  \forall u \ \forall
                   v \ ((u  = \{ x~|~\phi(x) \} \\
-                    & \qquad \land \ v = \{ x~|~\psi(x) \}) \rightarrow u \in v) 
+                    & \qquad \land \ v = \{ y~|~\psi(y) \}) \rightarrow u \in v) 
                   \end{split} \tag{d} \\
                   \{ x~|~\phi(x) \} \in y & \leftrightarrow  \forall u \ (u  = \{ x~|~\phi(x) \}  \rightarrow u \in y) \tag{e} 
                   \end{align}
@@ -1141,12 +1141,12 @@
                   \begin{align}
                   y \in \{ x~|~\phi(x) \} & \leftrightarrow  \mathfrak{M}(y) \land \phi(y) \tag{a} \\
                   y = \{ x~|~ \phi(x) \} & \leftrightarrow  \forall z \ (z \in y \leftrightarrow z \in \{ x~|~\phi(x) \}) \tag{b} \\
-                  \{ x~|~\phi(x) \} = \{ x~|~\psi(x) \} & \leftrightarrow \forall z \ (z \in \{ x~|~\phi(x) \} \tag{c} \\
+                  \{ x~|~\phi(x) \} = \{ y~|~\psi(y) \} & \leftrightarrow \forall z \ (z \in \{ x~|~\phi(x) \} \tag{c} \\
                   \begin{split}
-                    & \qquad \leftrightarrow z \in \{x~|~\psi(x) \}) \nonumber \\
-                  \{ x~|~\phi(x) \} \in \{ x~|~\psi(x) \} & \leftrightarrow  \forall u \ \forall
+                    & \qquad \leftrightarrow z \in \{y~|~\psi(y) \}) \nonumber \\
+                  \{ x~|~\phi(x) \} \in \{ y~|~\psi(y) \} & \leftrightarrow  \forall u \ \forall
                   v \ ((u  = \{ x~|~\phi(x) \} \\
-                    & \qquad \land \ v = \{ x~|~\psi(x) \}) \rightarrow u \in v) 
+                    & \qquad \land \ v = \{ y~|~\psi(y) \}) \rightarrow u \in v) 
                   \end{split} \tag{d} \\
                   \{ x~|~\phi(x) \} \in y & \leftrightarrow  \forall u \ (u  = \{ x~|~\phi(x) \}  \rightarrow u \in y) \tag{e} 
                   \end{align}
@@ -1156,12 +1156,12 @@
             <PROOF kind="informal" level="1">
               <LATEX language="en">
                 <![CDATA[
-                  The formula a) is simply \qref{axiom:classDefinition}. We get b) and c) with \qref{theorem:extensonalityEquivalence}. And d) and e) come from identity theormes. 
+                  The formula a) is simply \qref{axiom:classDefinition}. We get b) and c) with \qref{theorem:extensonalityEquivalence}. And d) and e) come from identity theorms. 
                 ]]>
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                  Die Formel in a) ist einfach \qref{axiom:classDefinition}. Mit \qref{theorem:extensonalityEquivalence} erhalten wir b) und c). Mit Identitätsgesetzen bekommen wir d) und e). 
+                  Die Formel in a) ist einfach \qref{axiom:classDefinition}. Mit \qref{theorem:extensonalityEquivalence} erhalten wir b) und c). Mit den Identitätsgesetzen bekommen wir d) und e). 
                 ]]>
               </LATEX>
             </PROOF>
@@ -1169,7 +1169,7 @@
           <SUCCEEDING>
             <LATEX language="en">
               <![CDATA[
-                Therefore the new syntax can be eliminated by successive applying the above theorems.
+                Therefore the new syntax can be eliminated by successively applying the above theorems.
               ]]>
             </LATEX>
             <LATEX language="de">
