@@ -63,7 +63,7 @@ import org.xml.sax.SAXException;
 
 
 /**
- * View for QEDEQ XML files.
+ * Transform formulas into  QEDEQ syntax formulas.
  *
  * @author  Michael Meyling
  */
@@ -182,7 +182,7 @@ public class ParserPane extends JFrame {
                     for (int j = 0; j < parsed.length; j++) {
                         result.append(parsed[j] + "\n");
                     }
-                    result.append("\n\n");
+                    result.append("\n");
                 }
                 final TextPaneWindow window = new TextPaneWindow("QEDEQ formulas as unicode text",
                     GuiHelper.readImageIcon("oil/" + QedeqGuiConfig.getInstance().getIconSize()
@@ -387,7 +387,7 @@ public class ParserPane extends JFrame {
     private String printMath(final String text)  {
         final StringBuffer buffer = new StringBuffer(text);
         final TextInput input = new TextInput(buffer);
-        parser.setParameters(text, operators);
+        parser.setParameters(input, operators);
         final StringBuffer out = new StringBuffer();
         errorPosition = -1;
         try {
