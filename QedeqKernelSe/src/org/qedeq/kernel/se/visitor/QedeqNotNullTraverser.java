@@ -97,7 +97,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     private final Stack location = new Stack();
 
     /** Herein are various counters for the current node. */
-    private QedeqNumbers data;
+    private QedeqNumbers data = new QedeqNumbers(0, 0);
 
     /** Converts chapter and other titles into text. */
     private final LatexList2Text transform = new LatexList2Text();
