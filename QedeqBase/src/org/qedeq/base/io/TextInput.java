@@ -348,6 +348,16 @@ public class TextInput extends InputStream {
     }
 
     /**
+     * Skip forward to end of line.
+     */
+    public final void skipToEndOfLine() {
+        int c = 0;
+        do {
+            c = read();
+        } while (!isEmpty() && c != CR);
+    }
+
+    /**
      * Skip current position forward to end of an XML tag.
      * This is mainly something like <code>&gt;</code>. Quoted data is skipped.
      *
