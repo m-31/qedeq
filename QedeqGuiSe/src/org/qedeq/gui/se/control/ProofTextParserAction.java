@@ -53,11 +53,13 @@ class ProofTextParserAction extends AbstractAction {
             final ProofParserPane pane = new ProofParserPane("Proof Text", new AsciiMathParser(),
                 "QEDEQ Proof Text Parser Sample",
                 resourceName,
-                "      A v A -> A\n"
-                + "(1)  A -> A\n"
-                + "(2)  (A -> C) -> ((B -> C) -> ((A v B) -> C))\n"
-                + "(3)  (A -> C) -> ((A -> C) -> ((A v A) -> C))\n"
-                + "(4)  (A -> A) -> ((A -> A) -> (/A v A) -> A))\n"
+                   "     A -> A & A\n"
+                + "(1)  B -> (A -> (A & B))   Add axiom:AND-3\n"
+                + "(2)  A -> (A -> (A & A))   subpred B A 1\n"
+                + "(3)     A                  Hypothesis\n"
+                + "(4)     A -> (A & A)       MP 2, 3\n"
+                + "(5)    A & A               MP 4, 3\n"
+                + "(6) A -> (A & A)           Conclusion\n\n\n\n\n\n\n\n\n"
                 );
             pane.setVisible(true);
         } catch (final SourceFileExceptionList xl) {

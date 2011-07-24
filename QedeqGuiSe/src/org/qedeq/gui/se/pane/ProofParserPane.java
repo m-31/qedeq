@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Stack;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFrame;
@@ -65,14 +66,22 @@ import org.qedeq.kernel.bo.service.unicode.Qedeq2UnicodeVisitor;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
+import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.dto.module.AddVo;
+import org.qedeq.kernel.se.dto.module.ConclusionVo;
+import org.qedeq.kernel.se.dto.module.ConditionalProofVo;
 import org.qedeq.kernel.se.dto.module.FormalProofLineListVo;
 import org.qedeq.kernel.se.dto.module.FormalProofLineVo;
 import org.qedeq.kernel.se.dto.module.FormalProofVo;
 import org.qedeq.kernel.se.dto.module.FormulaVo;
+import org.qedeq.kernel.se.dto.module.HypothesisVo;
+import org.qedeq.kernel.se.dto.module.ModusPonensVo;
 import org.qedeq.kernel.se.dto.module.NodeVo;
 import org.qedeq.kernel.se.dto.module.PropositionVo;
+import org.qedeq.kernel.se.dto.module.SubstPredVo;
+import org.qedeq.kernel.se.visitor.QedeqNumbers;
 import org.qedeq.kernel.xml.dao.Qedeq2Xml;
 import org.qedeq.kernel.xml.handler.parser.LoadXmlOperatorListUtility;
 import org.qedeq.kernel.xml.parser.BasicParser;
@@ -318,7 +327,7 @@ public class ProofParserPane extends JFrame {
         menu.add(helpMenu);
 
         setJMenuBar(menu);
-        setSize(900, 800);
+        setSize(1000, 800);
     }
 
     private String getTextResult() {
@@ -355,9 +364,6 @@ public class ProofParserPane extends JFrame {
         if (text == null || text.trim().length() == 0) {
             return null;
         }
-        ModuleLabels labels = new ModuleLabels();
-        Element2LatexImpl converter = new Element2LatexImpl(labels);
-        Element2Utf8Impl textConverter = new Element2Utf8Impl(converter);
         Element[] elements = new Element[0];
         try {
             elements = BasicParser.createElements(text);
@@ -424,29 +430,119 @@ public class ProofParserPane extends JFrame {
             proposition = new PropositionVo();
             final FormalProofVo fp = new FormalProofVo();
             proposition.addFormalProof(fp);
-            final FormalProofLineListVo proof = new FormalProofLineListVo();
+            FormalProofLineListVo proof = new FormalProofLineListVo();
             fp.setFormalProofLineList(proof);
+            Stack proofStack = new Stack();
             Term term = null;
             do {
-                final FormulaVo formula = new FormulaVo();
                 final String line = input.getLine().trim();
-                if (line.startsWith("(") && Character.isDigit(line.charAt(1))) {
-                    // we assume a proof line
+                if (line.toLowerCase().endsWith("hypothesis")) {
+                    final ConditionalProofVo conditional = new ConditionalProofVo();
+                    input.skipWhiteSpace();
+                    input.read();
+                    String label = input.readLetterDigitString();
+                    input.skipWhiteSpace();
+                    input.readString(1);  // should be ")"
+                    final HypothesisVo hypothesis = new HypothesisVo();
+                    final FormulaVo formula = new FormulaVo();
+                    term = parser.readTerm();
+                    if (term != null) {
+                        formula.setElement(getElement(term.getQedeqXml()));
+                    }
+                    hypothesis.setFormula(formula);
+                    hypothesis.setLabel(label);
+                    conditional.setHypothesis(hypothesis);
+                    proof.add(conditional);
+                    proofStack.push(proof);
+                    proofStack.push(conditional);
+                    proof = new FormalProofLineListVo();
+                    conditional.setFormalProofLineList(proof);
+                    input.skipToEndOfLine();
+                } else if (line.toLowerCase().endsWith("conclusion")) {
+                    input.skipWhiteSpace();
+                    input.read();
+                    String label = input.readLetterDigitString();
+                    input.skipWhiteSpace();
+                    input.readString(1);  // should be ")"
+                    final ConclusionVo conclusion = new ConclusionVo();
+                    final FormulaVo formula = new FormulaVo();
+                    term = parser.readTerm();
+                    if (term != null) {
+                        formula.setElement(getElement(term.getQedeqXml()));
+                    }
+                    conclusion.setFormula(formula);
+                    conclusion.setLabel(label);
+                    final ConditionalProofVo conditional = (ConditionalProofVo) proofStack.pop();
+                    conditional.setConclusion(conclusion);
+                    proof = (FormalProofLineListVo) proofStack.pop();
+                    input.skipToEndOfLine();
+                } else if (line.startsWith("(") && Character.isDigit(line.charAt(1))) {
+                    // we assume a common proof line
                     input.skipWhiteSpace();
                     input.read();
                     final String label = input.readLetterDigitString();
                     input.skipWhiteSpace();
                     input.readString(1);  // should be ")"
                     final FormalProofLineVo l = new FormalProofLineVo();
+                    final FormulaVo formula = new FormulaVo();
                     term = parser.readTerm();
                     if (term != null) {
                         formula.setElement(getElement(term.getQedeqXml()));
                     }
                     l.setFormula(formula);
                     l.setLabel(label);
+                    // remember position
+                    final int mark = input.getPosition();
+                    String reason = "";
+                    try {
+                        reason = input.readStringTilWhitespace().toLowerCase();
+                    } catch (RuntimeException e) {
+                        // ignore
+                    }
+                    System.out.println("reason = "  + reason);
+                    if ("add".equals(reason)) {
+                        final AddVo add = new AddVo();
+                        add.setReference(input.readStringTilWhitespace());
+                        l.setReason(add);
+                    } else if ("mp".equals(reason)) {
+                        final ModusPonensVo mp = new ModusPonensVo();
+                        String ref1 = input.readStringTilWhitespace();
+                        String ref2 = "";
+                        if (ref1.endsWith(",")) {
+                            ref1 = ref1.substring(0, ref1.length() - 1);
+                        } else {
+                            if (ref1.contains(",")) {
+                                ref2 = ref1.substring(ref1.indexOf(",") + 1);
+                                ref1 = ref1.substring(0, ref1.indexOf(","));
+                            }
+                        }
+                        mp.setReference1(ref1);
+                        if (ref2.length() == 0) {
+                            ref2 = input.readStringTilWhitespace();
+                        }
+                        mp.setReference2(ref2);
+                        l.setReason(mp);
+                    } else if ("subpred".equals(reason)) {
+                        final SubstPredVo subpred = new SubstPredVo();
+                        term = parser.readTerm();
+                        if (term != null) {
+                            subpred.setPredicateVariable(getElement(term.getQedeqXml()));
+                        }
+                        term = parser.readTerm();
+                        if (term != null) {
+                            subpred.setSubstituteFormula(getElement(term.getQedeqXml()));
+                        }
+                        subpred.setReference(input.readStringTilWhitespace());
+                        l.setReason(subpred);
+                        input.setPosition(mark);
+                    } else {
+                        // spool back
+                        input.setPosition(mark);
+                    }
                     proof.add(l);
                     input.skipToEndOfLine();
                 } else {
+                    final FormulaVo formula = new FormulaVo();
                     term = parser.readTerm();
                     if (term != null) {
                         formula.setElement(getElement(term.getQedeqXml()));
@@ -506,9 +602,15 @@ public class ProofParserPane extends JFrame {
     }
 
     private String getUtf8(final Proposition proposition) throws ModuleDataException {
-        final KernelQedeqBo prop = new DefaultKernelQedeqBo(null, DefaultModuleAddress.MEMORY);
+        final DefaultKernelQedeqBo prop = new DefaultKernelQedeqBo(null, DefaultModuleAddress.MEMORY);
+        prop.setLabels(new ModuleLabels());
+        final NodeVo node = new NodeVo();
+        node.setId("unknown");
+        node.setNodeType(proposition);
+        prop.getLabels().addNode(new ModuleContext(DefaultModuleAddress.MEMORY), node, prop,
+                new QedeqNumbers(0, 0));
         final StringOutput output = new StringOutput();
-        final Qedeq2UnicodeVisitor visitor = new Qedeq2UnicodeVisitor(null, prop, true, 0, false,
+        final Qedeq2UnicodeVisitor visitor = new Qedeq2UnicodeVisitor(null, prop, true, 80, false,
               false) {
             protected String getUtf8(final Element element) {
                 if (element == null) {
@@ -521,60 +623,19 @@ public class ProofParserPane extends JFrame {
             }
 
             protected String[] getUtf8(final Element element, final int max) {
-                return new String[] {getUtf8(element)};
+                if (element == null) {
+                    return new String[] {""};
+                }
+                ModuleLabels labels = new ModuleLabels();
+                Element2LatexImpl converter = new Element2LatexImpl(labels);
+                Element2Utf8Impl textConverter = new Element2Utf8Impl(converter);
+                return textConverter.getUtf8(element, 0);
             }
 
         };
         visitor.setParameters(output, "en");
-        final NodeVo node = new NodeVo();
-        node.setNodeType(proposition);
         visitor.getTraverser().accept(node);
         return output.toString();
     }
-
-    private String getQedeqFormula(final String text)  {
-        final StringBuffer buffer = new StringBuffer(text);
-        final TextInput input = new TextInput(buffer);
-        parser.setParameters(text, operators);
-        final StringBuffer out = new StringBuffer();
-        errorPosition = -1;
-        try {
-            Term term = null;
-            do {
-                term = parser.readTerm();
-                if (term != null) {
-                    out.append(term.getQedeqXml()).append("\n");
-                    System.out.println(term.getQedeqXml());
-                }
-            } while (term != null || !parser.eof());
-        } catch (ParserException e) {
-            e.printStackTrace(System.out);
-            final StringBuffer result = new StringBuffer();
-            errorPosition = input.getPosition();
-            result.append(input.getRow() + ":" + input.getColumn() + ":" + "\n");
-            result.append(e.getMessage() + "\n");
-            result.append(input.getLine().replace('\t', ' ').replace('\015', ' ') + "\n");
-            final StringBuffer pointer = StringUtility.getSpaces(input.getColumn());
-            pointer.append('^');
-            result.append(pointer);
-            System.out.println(result.toString());
-            error.setText(result.toString());
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-            final StringBuffer result = new StringBuffer();
-            errorPosition = input.getPosition();
-            result.append(input.getRow() + ":" + input.getColumn() + ":" + "\n");
-            result.append(e.getMessage() + "\n");
-            result.append(input.getLine().replace('\t', ' ').replace('\015', ' ') + "\n");
-            final StringBuffer pointer = StringUtility.getSpaces(input.getColumn());
-            pointer.append('^');
-            result.append(pointer);
-            System.out.println(result.toString());
-            error.insert(result.toString() + "\n", error.getText().length());
-        }
-        IoUtility.close(input);  // to satisfy checkstyle
-        return out.toString();
-    }
-
 
 }
