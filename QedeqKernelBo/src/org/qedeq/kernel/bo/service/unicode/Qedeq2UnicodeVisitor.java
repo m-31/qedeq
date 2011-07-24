@@ -622,6 +622,11 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         }
     }
 
+    public void visitLeave(final FormalProof proof) {
+        setBlocked(false);
+    }
+
+
     public void visitEnter(final FormalProofLine line) {
         lineData.init();
         if (line.getLabel() != null) {
