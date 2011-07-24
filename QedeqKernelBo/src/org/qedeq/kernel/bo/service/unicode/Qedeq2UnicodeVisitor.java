@@ -761,12 +761,10 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     public void visitEnter(final Rename r) throws ModuleDataException {
         String buffer = r.getName();
         if (r.getOriginalSubjectVariable() != null) {
-            buffer += " " + getQedeqBo().getElement2Utf8().getUtf8(
-                r.getOriginalSubjectVariable());
+            buffer += " " + getUtf8(r.getOriginalSubjectVariable());
         }
         if (r.getReplacementSubjectVariable() != null) {
-            buffer += " by " + getQedeqBo().getElement2Utf8().getUtf8(
-                r.getReplacementSubjectVariable());
+            buffer += " by " + getUtf8(r.getReplacementSubjectVariable());
         }
         if (r.getReference() != null) {
             buffer += " in " + getReference(r.getReference());
@@ -777,12 +775,10 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     public void visitEnter(final SubstFree r) throws ModuleDataException {
         String buffer = r.getName();
         if (r.getSubjectVariable() != null) {
-            buffer += " " + getQedeqBo().getElement2Utf8().getUtf8(
-                r.getSubjectVariable());
+            buffer += " " + getUtf8(r.getSubjectVariable());
         }
         if (r.getSubstituteTerm() != null) {
-            buffer += " by " + getQedeqBo().getElement2Utf8().getUtf8(
-                r.getSubstituteTerm());
+            buffer += " by " + getUtf8(r.getSubstituteTerm());
         }
         if (r.getReference() != null) {
             buffer += " in " + getReference(r.getReference());
@@ -793,12 +789,10 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     public void visitEnter(final SubstFunc r) throws ModuleDataException {
         String buffer = r.getName();
         if (r.getFunctionVariable() != null) {
-            buffer += " " + getQedeqBo().getElement2Utf8().getUtf8(
-                r.getFunctionVariable());
+            buffer += " " + getUtf8(r.getFunctionVariable());
         }
         if (r.getSubstituteTerm() != null) {
-            buffer += " by " + getQedeqBo().getElement2Utf8().getUtf8(
-                r.getSubstituteTerm());
+            buffer += " by " + getUtf8(r.getSubstituteTerm());
         }
         if (r.getReference() != null) {
             buffer += " in " + getReference(r.getReference());
@@ -809,12 +803,10 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     public void visitEnter(final SubstPred r) throws ModuleDataException {
         String buffer = r.getName();
         if (r.getPredicateVariable() != null) {
-            buffer += " " + getQedeqBo().getElement2Utf8().getUtf8(
-                r.getPredicateVariable());
+            buffer += " " + getUtf8(r.getPredicateVariable());
         }
         if (r.getSubstituteFormula() != null) {
-            buffer += " by " + getQedeqBo().getElement2Utf8().getUtf8(
-                r.getSubstituteFormula());
+            buffer += " by " + getUtf8(r.getSubstituteFormula());
         }
         if (r.getReference() != null) {
             buffer += " in " + getReference(r.getReference());
@@ -825,8 +817,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     public void visitEnter(final Existential r) throws ModuleDataException {
         String buffer = r.getName();
         if (r.getSubjectVariable() != null) {
-            buffer += " with " + getQedeqBo().getElement2Utf8().getUtf8(
-                r.getSubjectVariable());
+            buffer += " with " + getUtf8(r.getSubjectVariable());
         }
         if (r.getReference() != null) {
             buffer += " in " + getReference(r.getReference());

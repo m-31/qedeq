@@ -580,7 +580,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     }
 
     public void visitEnter(final ConditionalProof reason) {
-        printer.print("<CP>");
+        printer.println("<CP>");
         printer.pushLevel();
     }
 

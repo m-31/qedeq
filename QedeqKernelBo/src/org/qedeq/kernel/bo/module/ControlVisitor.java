@@ -106,7 +106,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      */
     public KernelNodeBo getNodeBo() {
         final Node node = traverser.getNode();
-        if (node == null) {
+        if (node == null || getQedeqBo() == null) {
             return null;
         }
         return getQedeqBo().getLabels().getNode(node.getId());
