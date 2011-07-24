@@ -95,6 +95,9 @@ import org.xml.sax.SAXException;
  */
 public class ProofParserPane extends JFrame {
 
+    /** This is the default proposition id. */
+    private static final String UNKNOWN_PROPOSITION_ID = "proposition:unknown";
+
     /** This class. */
     private static final Class CLASS = ProofParserPane.class;
 
@@ -137,6 +140,7 @@ public class ProofParserPane extends JFrame {
     /** Use this parser. */
     private final MathParser parser;
 
+    /** Resulting proposition. */
     private PropositionVo proposition;
 
 
@@ -425,7 +429,6 @@ public class ProofParserPane extends JFrame {
         final TextInput input = new TextInput(buffer);
         parser.setParameters(input, operators);
         errorPosition = -1;
-        final StringBuffer out = new StringBuffer();
         try {
             proposition = new PropositionVo();
             final FormalProofVo fp = new FormalProofVo();
@@ -590,6 +593,7 @@ public class ProofParserPane extends JFrame {
         final TextOutput output = new TextOutput("out", outputStream, "UTF-8");
         final Qedeq2Xml visitor = new Qedeq2Xml(null, prop, output);
         final NodeVo node = new NodeVo();
+        node.setId(UNKNOWN_PROPOSITION_ID);
         node.setNodeType(proposition);
         visitor.getTraverser().accept(node);
         try {
@@ -605,7 +609,7 @@ public class ProofParserPane extends JFrame {
         final DefaultKernelQedeqBo prop = new DefaultKernelQedeqBo(null, DefaultModuleAddress.MEMORY);
         prop.setLabels(new ModuleLabels());
         final NodeVo node = new NodeVo();
-        node.setId("unknown");
+        node.setId(UNKNOWN_PROPOSITION_ID);
         node.setNodeType(proposition);
         prop.getLabels().addNode(new ModuleContext(DefaultModuleAddress.MEMORY), node, prop,
                 new QedeqNumbers(0, 0));
