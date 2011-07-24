@@ -492,6 +492,22 @@ public class TextInput extends InputStream {
     }
 
     /**
+     * Reads the next string until whitespace occurs,
+     * leading whitespace is skipped.
+     * Changes (probably) reading position.
+     *
+     * @return  read string
+     */
+    public final String readStringTilWhitespace() {
+        skipWhiteSpace();
+        StringBuffer buffer = new StringBuffer();
+        while (!isEmpty() && !Character.isWhitespace((char) getChar())) {
+            buffer.append((char) read());
+        }
+        return buffer.toString();
+    }
+
+    /**
      * Reads the next integer, leading whitespace is skipped. Signs like - or + are not
      * accepted. Resulting integer
      * Changes reading position.
