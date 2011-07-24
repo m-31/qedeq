@@ -953,7 +953,7 @@
               <AND>
                 <EQUI>
                   <PREDCON ref="in">
-                    <VAR id="y"/>
+                    <VAR id="z"/>
                     <CLASS>
                       <VAR id="x"/>
                       <PREDVAR id="\phi">
@@ -963,16 +963,16 @@
                   </PREDCON>
                   <AND>
                     <PREDCON ref="isSet">
-                      <VAR id="y"/>
+                      <VAR id="z"/>
                     </PREDCON>
                     <PREDVAR id="\phi">
-                      <VAR id="y"/>
+                      <VAR id="z"/>
                     </PREDVAR>
                   </AND>
                 </EQUI>
                 <EQUI>
                   <PREDCON ref="l.equal">
-                    <VAR id="y"/>
+                    <VAR id="z"/>
                     <CLASS>
                       <VAR id="x"/>
                       <PREDVAR id="\phi">
@@ -981,14 +981,14 @@
                     </CLASS>
                   </PREDCON>
                   <FORALL>
-                    <VAR id="z"/>
+                    <VAR id="u"/>
                     <EQUI>
                       <PREDCON ref="in">
+                        <VAR id="u"/>
                         <VAR id="z"/>
-                        <VAR id="y"/>
                       </PREDCON>
                       <PREDCON ref="in">
-                        <VAR id="z"/>
+                        <VAR id="u"/>
                         <CLASS>
                           <VAR id="x"/>
                           <PREDVAR id="\phi">
@@ -1008,17 +1008,17 @@
                       </PREDVAR>
                     </CLASS>
                     <CLASS>
-                      <VAR id="x"/>
+                      <VAR id="y"/>
                       <PREDVAR id="\psi">
-                        <VAR id="x"/>
+                        <VAR id="y"/>
                       </PREDVAR>
                     </CLASS>
                   </PREDCON>
                   <FORALL>
-                    <VAR id="z"/>
+                    <VAR id="u"/>
                     <EQUI>
                       <PREDCON ref="in">
-                        <VAR id="z"/>
+                        <VAR id="u"/>
                         <CLASS>
                           <VAR id="x"/>
                           <PREDVAR id="\phi">
@@ -1027,11 +1027,11 @@
                         </CLASS>
                       </PREDCON>
                       <PREDCON ref="in">
-                        <VAR id="z"/>
+                        <VAR id="u"/>
                         <CLASS>
-                          <VAR id="x"/>
+                          <VAR id="y"/>
                           <PREDVAR id="\psi">
-                            <VAR id="x"/>
+                            <VAR id="y"/>
                           </PREDVAR>
                         </CLASS>
                       </PREDCON>
@@ -1047,9 +1047,9 @@
                       </PREDVAR>
                     </CLASS>
                     <CLASS>
-                      <VAR id="x"/>
+                      <VAR id="y"/>
                       <PREDVAR id="\psi">
-                        <VAR id="x"/>
+                        <VAR id="y"/>
                       </PREDVAR>
                     </CLASS>
                   </PREDCON>
@@ -1071,9 +1071,9 @@
                           <PREDCON ref="l.equal">
                             <VAR id="v"/>
                             <CLASS>
-                              <VAR id="x"/>
+                              <VAR id="y"/>
                               <PREDVAR id="\psi">
-                                <VAR id="x"/>
+                                <VAR id="y"/>
                               </PREDVAR>
                             </CLASS>
                           </PREDCON>
@@ -1094,7 +1094,7 @@
                         <VAR id="x"/>
                       </PREDVAR>
                     </CLASS>
-                    <VAR id="y"/>
+                    <VAR id="z"/>
                   </PREDCON>
                   <FORALL>
                     <VAR id="u"/>
@@ -1110,7 +1110,7 @@
                       </PREDCON>
                       <PREDCON ref="in">
                         <VAR id="u"/>
-                        <VAR id="y"/>
+                        <VAR id="z"/>
                       </PREDCON>
                     </IMPL>
                   </FORALL>
@@ -1122,16 +1122,16 @@
                 <![CDATA[
                   +++ if the formula would be rendered correctly it should look like this: \\
                   \begin{align}
-                  y \in \{ x~|~\phi(x) \} & \leftrightarrow  \mathfrak{M}(y) \land \phi(y) \tag{a} \\
+                  z \in \{ x~|~\phi(x) \} & \leftrightarrow  \mathfrak{M}(z) \land \phi(z) \tag{a} \\
                   y = \{ x~|~ \phi(x) \} & \leftrightarrow  \forall z \ (z \in y \leftrightarrow z \in \{ x~|~\phi(x) \}) \tag{b} \\
-                  \{ x~|~\phi(x) \} = \{ x~|~\psi(x) \} & \leftrightarrow \forall z \ (z \in \{ x~|~\phi(x) \} \tag{c} \\
+                  \{ x~|~\phi(x) \} = \{ y~|~\psi(y) \} & \leftrightarrow \forall u \ (u \in \{ x~|~\phi(x) \} \tag{c} \\
                   \begin{split}
-                    & \qquad \leftrightarrow z \in \{x~|~\psi(x) \}) \nonumber \\
-                  \{ x~|~\phi(x) \} \in \{ x~|~\psi(x) \} & \leftrightarrow  \forall u \ \forall
+                    & \qquad \leftrightarrow u \in \{y~|~\psi(y) \}) \nonumber \\
+                  \{ x~|~\phi(x) \} \in \{ y~|~\psi(y) \} & \leftrightarrow  \forall u \ \forall
                   v \ ((u  = \{ x~|~\phi(x) \} \\
-                    & \qquad \land \ v = \{ x~|~\psi(x) \}) \rightarrow u \in v) 
+                    & \qquad \land \ v = \{ y~|~\psi(y) \}) \rightarrow u \in v) 
                   \end{split} \tag{d} \\
-                  \{ x~|~\phi(x) \} \in y & \leftrightarrow  \forall u \ (u  = \{ x~|~\phi(x) \}  \rightarrow u \in y) \tag{e} 
+                  \{ x~|~\phi(x) \} \in z & \leftrightarrow  \forall u \ (u  = \{ x~|~\phi(x) \}  \rightarrow u \in z) \tag{e} 
                   \end{align}
                 ]]>
               </LATEX>
