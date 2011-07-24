@@ -1008,9 +1008,9 @@
                       </PREDVAR>
                     </CLASS>
                     <CLASS>
-                      <VAR id="y"/>
+                      <VAR id="x"/>
                       <PREDVAR id="\psi">
-                        <VAR id="y"/>
+                        <VAR id="x"/>
                       </PREDVAR>
                     </CLASS>
                   </PREDCON>
@@ -1029,9 +1029,9 @@
                       <PREDCON ref="in">
                         <VAR id="z"/>
                         <CLASS>
-                          <VAR id="y"/>
+                          <VAR id="x"/>
                           <PREDVAR id="\psi">
-                            <VAR id="y"/>
+                            <VAR id="x"/>
                           </PREDVAR>
                         </CLASS>
                       </PREDCON>
@@ -1047,9 +1047,9 @@
                       </PREDVAR>
                     </CLASS>
                     <CLASS>
-                      <VAR id="y"/>
+                      <VAR id="x"/>
                       <PREDVAR id="\psi">
-                        <VAR id="y"/>
+                        <VAR id="x"/>
                       </PREDVAR>
                     </CLASS>
                   </PREDCON>
@@ -1071,9 +1071,9 @@
                           <PREDCON ref="l.equal">
                             <VAR id="v"/>
                             <CLASS>
-                              <VAR id="y"/>
+                              <VAR id="x"/>
                               <PREDVAR id="\psi">
-                                <VAR id="y"/>
+                                <VAR id="x"/>
                               </PREDVAR>
                             </CLASS>
                           </PREDCON>
@@ -1124,12 +1124,12 @@
                   \begin{align}
                   y \in \{ x~|~\phi(x) \} & \leftrightarrow  \mathfrak{M}(y) \land \phi(y) \tag{a} \\
                   y = \{ x~|~ \phi(x) \} & \leftrightarrow  \forall z \ (z \in y \leftrightarrow z \in \{ x~|~\phi(x) \}) \tag{b} \\
-                  \{ x~|~\phi(x) \} = \{ y~|~\psi(y) \} & \leftrightarrow \forall z \ (z \in \{ x~|~\phi(x) \} \tag{c} \\
+                  \{ x~|~\phi(x) \} = \{ x~|~\psi(x) \} & \leftrightarrow \forall z \ (z \in \{ x~|~\phi(x) \} \tag{c} \\
                   \begin{split}
-                    & \qquad \leftrightarrow z \in \{y~|~\psi(y) \}) \nonumber \\
-                  \{ x~|~\phi(x) \} \in \{ y~|~\psi(y) \} & \leftrightarrow  \forall u \ \forall
+                    & \qquad \leftrightarrow z \in \{x~|~\psi(x) \}) \nonumber \\
+                  \{ x~|~\phi(x) \} \in \{ x~|~\psi(x) \} & \leftrightarrow  \forall u \ \forall
                   v \ ((u  = \{ x~|~\phi(x) \} \\
-                    & \qquad \land \ v = \{ y~|~\psi(y) \}) \rightarrow u \in v) 
+                    & \qquad \land \ v = \{ x~|~\psi(x) \}) \rightarrow u \in v) 
                   \end{split} \tag{d} \\
                   \{ x~|~\phi(x) \} \in y & \leftrightarrow  \forall u \ (u  = \{ x~|~\phi(x) \}  \rightarrow u \in y) \tag{e} 
                   \end{align}
@@ -1141,12 +1141,12 @@
                   \begin{align}
                   y \in \{ x~|~\phi(x) \} & \leftrightarrow  \mathfrak{M}(y) \land \phi(y) \tag{a} \\
                   y = \{ x~|~ \phi(x) \} & \leftrightarrow  \forall z \ (z \in y \leftrightarrow z \in \{ x~|~\phi(x) \}) \tag{b} \\
-                  \{ x~|~\phi(x) \} = \{ y~|~\psi(y) \} & \leftrightarrow \forall z \ (z \in \{ x~|~\phi(x) \} \tag{c} \\
+                  \{ x~|~\phi(x) \} = \{ x~|~\psi(x) \} & \leftrightarrow \forall z \ (z \in \{ x~|~\phi(x) \} \tag{c} \\
                   \begin{split}
-                    & \qquad \leftrightarrow z \in \{y~|~\psi(y) \}) \nonumber \\
-                  \{ x~|~\phi(x) \} \in \{ y~|~\psi(y) \} & \leftrightarrow  \forall u \ \forall
+                    & \qquad \leftrightarrow z \in \{x~|~\psi(x) \}) \nonumber \\
+                  \{ x~|~\phi(x) \} \in \{ x~|~\psi(x) \} & \leftrightarrow  \forall u \ \forall
                   v \ ((u  = \{ x~|~\phi(x) \} \\
-                    & \qquad \land \ v = \{ y~|~\psi(y) \}) \rightarrow u \in v) 
+                    & \qquad \land \ v = \{ x~|~\psi(x) \}) \rightarrow u \in v) 
                   \end{split} \tag{d} \\
                   \{ x~|~\phi(x) \} \in y & \leftrightarrow  \forall u \ (u  = \{ x~|~\phi(x) \}  \rightarrow u \in y) \tag{e} 
                   \end{align}
