@@ -514,7 +514,7 @@ public class ProofParserPane extends JFrame {
                         if (ref1.endsWith(",")) {
                             ref1 = ref1.substring(0, ref1.length() - 1);
                         } else {
-                            if (ref1.contains(",")) {
+                            if (ref1.indexOf(",") >= 0) {
                                 ref2 = ref1.substring(ref1.indexOf(",") + 1);
                                 ref1 = ref1.substring(0, ref1.indexOf(","));
                             }
