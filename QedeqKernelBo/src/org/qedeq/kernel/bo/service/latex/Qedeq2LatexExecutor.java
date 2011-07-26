@@ -29,6 +29,7 @@ import org.qedeq.base.io.TextInput;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.DateUtility;
+import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
@@ -1292,20 +1293,25 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
                     return getLatex(list.get(i));
                 }
             }
-            // assume entry with missing language as default
+            // OK, we didn't found the language, so we take the default language
+            final String def = getQedeqBo().getOriginalLanguage();
             for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).getLanguage() == null) {
+                if (EqualsUtility.equals(def, list.get(i).getLanguage())) {
                     if (method.length() > 0) {
                         subContext = method + ".get(" + i + ")";
                     }
                     return getLatex(list.get(i));
                 }
             }
-            for (int i = 0; i < list.size(); i++) { // LATER mime 20050222: evaluate default?
+            // OK, we didn't find wanted and default language, so we take the first non empty one
+            for (int i = 0; i < list.size(); i++) {
                 if (method.length() > 0) {
                     subContext = method + ".get(" + i + ")";
                 }
-                return "MISSING! OTHER: " + getLatex(list.get(i));
+                if (null != list.get(i) && null != list.get(i).getLatex()
+                        && list.get(i).getLatex().trim().length() > 0) {
+                    return "MISSING! OTHER: " + getLatex(list.get(i));
+                }
             }
             return "MISSING!";
         } finally {
