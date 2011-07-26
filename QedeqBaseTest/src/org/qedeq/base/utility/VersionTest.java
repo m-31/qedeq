@@ -15,6 +15,7 @@
 
 package org.qedeq.base.utility;
 
+import org.qedeq.base.io.Version;
 import org.qedeq.base.test.QedeqTestCase;
 
 /**

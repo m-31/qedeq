@@ -17,6 +17,8 @@ package org.qedeq.base.utility;
 
 import java.util.Iterator;
 
+import org.qedeq.base.io.Version;
+import org.qedeq.base.io.VersionSet;
 import org.qedeq.base.test.QedeqTestCase;
 
 /**
