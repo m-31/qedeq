@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.base.utility;
+package org.qedeq.base.io;
 
 import org.qedeq.base.io.Version;
 import org.qedeq.base.test.QedeqTestCase;

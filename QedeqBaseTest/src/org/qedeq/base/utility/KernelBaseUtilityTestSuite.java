@@ -17,6 +17,8 @@ package org.qedeq.base.utility;
 
 import junit.framework.Test;
 
+import org.qedeq.base.io.VersionSetTest;
+import org.qedeq.base.io.VersionTest;
 import org.qedeq.base.test.QedeqTestSuite;
 
 /**
@@ -46,8 +48,6 @@ public class KernelBaseUtilityTestSuite extends QedeqTestSuite {
         addTestSuite(EqualsUtilityTest.class);
         addTestSuite(SplitterTest.class);
         addTestSuite(StringUtilityTest.class);
-        addTestSuite(VersionTest.class);
-        addTestSuite(VersionSetTest.class);
         addTestSuite(YodaUtilityTest.class);
     }
 }

@@ -50,6 +50,8 @@ public class KernelBaseIoTestSuite extends QedeqTestSuite {
         addTestSuite(StringOutputTest.class);
         addTestSuite(TextInputTest.class);
         addTestSuite(TextOutputTest.class);
+        addTestSuite(VersionSetTest.class);
+        addTestSuite(VersionTest.class);
     }
 }
 

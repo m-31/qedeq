@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.base.utility;
+package org.qedeq.base.io;
 
 import java.util.Iterator;
 
