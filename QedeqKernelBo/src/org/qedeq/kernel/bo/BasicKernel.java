@@ -40,7 +40,7 @@ public final class BasicKernel implements KernelProperties {
 
     /** Kernel version dedication. */
     private static final String KERNEL_DEDICATED
-        = "dedicated to the one I have chosen among all these stars twenty years ago";
+        = "dedicated to the pearl of the northern seas: Amrum";
 
     /** Descriptive version information of this kernel. */
     private static final String DESCRIPTIVE_KERNEL_VERSION
