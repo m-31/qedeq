@@ -28,9 +28,6 @@ import java.util.Map;
  */
 public final class ThreeModel implements Model {
 
-    /** This class. */
-    private static final Class CLASS = ThreeModel.class;
-
     /** "Zero" or empty set. */
     public static final Entity ZERO = new Entity(0, "0", "{} or empty set");
 

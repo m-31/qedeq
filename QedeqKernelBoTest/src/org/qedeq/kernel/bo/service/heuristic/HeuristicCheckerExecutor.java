@@ -134,25 +134,6 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
         }
     }
 
-    /**
-     * Check truth value in our model. If it is no tautology an warning is added.
-     * This also happens if our model doesn't support an operator found in the formula.
-     *
-     * @param   context Mark this local context if it is no tautology.
-     * @param   test    Test formula.
-     */
-    private void test(final String context, final Element test) {
-        try {
-            if (!CalculateTruth.isTautology(getCurrentContext(), model, test)) {
-                setLocationWithinModule(context);
-                addWarning(new HeuristicException(HeuristicErrorCodes.EVALUATED_NOT_TRUE_CODE,
-                    HeuristicErrorCodes.EVALUATED_NOT_TRUE_TEXT, getCurrentContext()));
-            }
-        } catch (HeuristicException e) {
-            addWarning(e);
-        }
-    }
-
     public void visitEnter(final Axiom axiom) throws ModuleDataException {
         if (axiom == null) {
             return;
@@ -206,7 +187,6 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
 
     public void visitEnter(final PredicateDefinition definition)
             throws ModuleDataException {
-        final String method = "visitEnter(PredicateDefinition)";
         if (definition == null) {
             return;
         }
