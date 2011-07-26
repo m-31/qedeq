@@ -251,17 +251,6 @@ public class ProofParserPane extends JFrame {
 
         pane.add(globalPane);
 
-        final JMenuItem item = new JMenuItem("Show as Text");
-        item.addActionListener(new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
-                final TextPaneWindow window = new TextPaneWindow("QEDEQ formulas as unicode text",
-                    GuiHelper.readImageIcon("oil/" + QedeqGuiConfig.getInstance().getIconSize()
-                    + "/apps/education-mathematics.png"), getTextResult());
-                window.setVisible(true);
-            }
-
-        });
-        resultQedeqField.addMenuItem(item);
         addComponentListener(new ComponentAdapter() {
             public void componentHidden(final ComponentEvent e) {
                 Trace.trace(CLASS, this, "componentHidden", e);
@@ -332,36 +321,6 @@ public class ProofParserPane extends JFrame {
 
         setJMenuBar(menu);
         setSize(1000, 800);
-    }
-
-    private String getTextResult() {
-        final String text = resultQedeqField.getText().trim();
-        if (text.length() == 0) {
-            return "";
-        }
-        ModuleLabels labels = new ModuleLabels();
-        Element2LatexImpl converter = new Element2LatexImpl(labels);
-        Element2Utf8Impl textConverter = new Element2Utf8Impl(converter);
-        Element[] elements = new Element[0];
-        try {
-            elements = BasicParser.createElements(text);
-        } catch (final ParserConfigurationException e1) {
-            Trace.fatal(CLASS, "setupView$actionPerformed",
-                    "Parser configuration error", e1);
-            return "";
-        } catch (final SAXException e1) {
-            // ignore
-            return "";
-        }
-        final StringBuffer result = new StringBuffer();
-        for (int i = 0; i < elements.length; i++) {
-            final String[] parsed = textConverter.getUtf8(elements[i], 120);
-            for (int j = 0; j < parsed.length; j++) {
-                result.append(parsed[j] + "\n");
-            }
-            result.append("\n");
-        }
-        return result.toString();
     }
 
     private Element getElement(final String text) {
