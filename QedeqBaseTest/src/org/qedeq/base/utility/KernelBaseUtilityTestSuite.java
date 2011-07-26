@@ -17,8 +17,6 @@ package org.qedeq.base.utility;
 
 import junit.framework.Test;
 
-import org.qedeq.base.io.VersionSetTest;
-import org.qedeq.base.io.VersionTest;
 import org.qedeq.base.test.QedeqTestSuite;
 
 /**
