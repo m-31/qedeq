@@ -18,10 +18,10 @@ package org.qedeq.kernel.bo.logic.proof.checker;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.qedeq.base.io.Version;
 import org.qedeq.base.utility.Enumerator;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.base.utility.Version;
 import org.qedeq.kernel.bo.logic.common.FormulaUtility;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.Operators;

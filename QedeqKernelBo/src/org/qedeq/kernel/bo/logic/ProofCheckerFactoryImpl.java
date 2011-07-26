@@ -15,7 +15,7 @@
 
 package org.qedeq.kernel.bo.logic;
 
-import org.qedeq.base.utility.Version;
+import org.qedeq.base.io.Version;
 import org.qedeq.kernel.bo.logic.proof.checker.ProofChecker0Impl;
 import org.qedeq.kernel.bo.logic.proof.checker.ProofChecker1Impl;
 import org.qedeq.kernel.bo.logic.proof.checker.ProofChecker2Impl;

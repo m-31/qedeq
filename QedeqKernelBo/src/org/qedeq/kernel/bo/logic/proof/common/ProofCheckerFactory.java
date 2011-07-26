@@ -15,7 +15,7 @@
 
 package org.qedeq.kernel.bo.logic.proof.common;
 
-import org.qedeq.base.utility.Version;
+import org.qedeq.base.io.Version;
 
 
 

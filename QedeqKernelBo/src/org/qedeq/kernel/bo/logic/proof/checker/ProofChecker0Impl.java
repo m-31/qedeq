@@ -15,7 +15,7 @@
 
 package org.qedeq.kernel.bo.logic.proof.checker;
 
-import org.qedeq.base.utility.Version;
+import org.qedeq.base.io.Version;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.ReferenceResolver;
 import org.qedeq.kernel.bo.logic.proof.common.ProofChecker;

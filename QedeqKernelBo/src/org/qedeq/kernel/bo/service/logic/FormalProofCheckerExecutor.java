@@ -17,9 +17,9 @@ package org.qedeq.kernel.bo.service.logic;
 
 
 import org.qedeq.base.io.Parameters;
+import org.qedeq.base.io.Version;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.base.utility.Version;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.ProofCheckerFactoryImpl;
