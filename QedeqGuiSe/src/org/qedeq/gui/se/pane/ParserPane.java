@@ -165,7 +165,7 @@ public class ParserPane extends JFrame {
                 ModuleLabels labels = new ModuleLabels();
                 Element2LatexImpl converter = new Element2LatexImpl(labels);
                 Element2Utf8Impl textConverter = new Element2Utf8Impl(converter);
-                Element[] elements = new Element[0];
+                Element[] elements = null;
                 try {
                     elements = BasicParser.createElements(text);
                 } catch (final ParserConfigurationException e1) {
