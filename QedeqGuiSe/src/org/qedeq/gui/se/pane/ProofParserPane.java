@@ -19,7 +19,6 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
@@ -51,7 +50,6 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.gui.se.element.CPTextArea;
-import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -184,7 +182,7 @@ public class ProofParserPane extends JFrame {
         source.setCaretPosition(0);
         source.setEditable(true);
         source.getCaret().setVisible(false);
-        source.setLineWrap(true);
+        source.setLineWrap(false);
         source.setWrapStyleWord(true);
         source.setFocusable(true);
 
@@ -368,7 +366,7 @@ public class ProofParserPane extends JFrame {
         final String method = "updateView()";
         Trace.begin(CLASS, this, method);
 
-        splitPane2.setDividerLocation(0.5);
+        splitPane2.setDividerLocation(0.35);
         if (errorPosition >= 0) {
             // reserve 3 text lines for error description
             globalPane.setDividerLocation(globalPane.getHeight()
@@ -573,7 +571,7 @@ public class ProofParserPane extends JFrame {
         prop.getLabels().addNode(new ModuleContext(DefaultModuleAddress.MEMORY), node, prop,
                 new QedeqNumbers(0, 0));
         final StringOutput output = new StringOutput();
-        final Qedeq2UnicodeVisitor visitor = new Qedeq2UnicodeVisitor(null, prop, true, 80, false,
+        final Qedeq2UnicodeVisitor visitor = new Qedeq2UnicodeVisitor(null, prop, true, 120, false,
               false) {
             protected String getUtf8(final Element element) {
                 if (element == null) {
