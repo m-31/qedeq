@@ -287,11 +287,9 @@ public class ProofParserPane extends JFrame {
                         resultQedeqField.setText(getQedeqXml(proposition));
                         resultTextField.setText(getUtf8(proposition));
                     } catch (ModuleDataException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
+                        error.setText(error.getText() + e + "\n");
+                        Trace.fatal(CLASS, this, "setupView$transform", "Problem during parsing", e);
                     }
-//                    resultQedeqField.setText(getQedeq(source.getText()));
-//                    resultTextField.setText(getTextResult());
                     updateView();
                 }
             });
@@ -556,8 +554,7 @@ public class ProofParserPane extends JFrame {
         try {
             return outputStream.toString("UTF-8");
         } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            // should never happen
             throw new RuntimeException(e);
         }
     }
