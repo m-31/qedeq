@@ -71,4 +71,9 @@
       <Bug pattern="WMI_WRONG_MAP_ITERATOR" />
     </Match>
 
+    <Match>
+      <Class name="org.qedeq.base.io.Version" />
+      <Bug pattern="EQ_UNUSUAL" />
+    </Match>
+
 </FindBugsFilter>
