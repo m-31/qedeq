@@ -10,12 +10,22 @@ Functional Changes
 
   Extensions
   ----------
+  - we have now a parser that can read a propositional calculus proof
+    written in ASCII text format and transform it into a QEDEQ XML NODE
+    element. It was quickly hacked together but enables us to speed up
+    proof integration. Later on we should have a syntax description for
+    the text format, support for other proof rules and a better error
+    handling. It can be accessed via GUI menu entry
+     Tools / Proof Text to QEDEQ
   - a rule has now a version too
   - check definition of rule version before using it
   - introducing and using "brief" parameter for LaTeX and UTF-8 plugin
   - print rule name and rule version in LaTeX and UTF-8 plugin
   - rules can change previous rules, so a rule can have a list of
     rules that are affected
+  - links to rule definition are included in LaTeX plugin output
+    for rule usages
+  
   
 
   Fixed Bugs
@@ -34,15 +44,18 @@ XML Files
   Extensions
   ----------
   - added proposition with proof for (-B -> -A) -> (A -> B)
+  - some more propositions proved also the associative laws
+    for conjunction and disjunction
   
 
   Fixed Bugs
   ----------
-  - 
+  - none
 
   Other Changes
   -------------
-  - 
+  - title change
+  - reorganization of content 
 
 
 Source Code
