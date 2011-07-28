@@ -31,7 +31,7 @@ information about this project could be found.
 
 This file contains the axioms and first definitions of the axiomatic set 
 theory due to Morse and Kelley (MK) - a variant of the von Neumann-Bernays-
-G�del set theory (NBG).
+Gödel set theory (NBG).
 
 The following logical operator symbols are used in formulas:
 
