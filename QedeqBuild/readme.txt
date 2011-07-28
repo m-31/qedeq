@@ -1,45 +1,43 @@
 Code Name:   gaffsie
 Version:     0.04.04
-Timestamp:   2011-06-13 11:03:12
+Timestamp:   2011-07-29 01:30:12
 Subversion:  qedeq_unstable_0_04_04_20110613110312
 
-This is an unstable development release of *Hilbert II*. Again this
-release is not fully tested, not all FIXMEs were solved, and the
-texts are still written in terribly, awfully, bad English - but you
-are welcome to change that ;-)
+This is an unstable development release of *Hilbert II*. Once again 
+this release is not completely tested, not all FIXMEs were solved, 
+and the texts are still written in terribly, awfully, bad English 
+- but you are welcome to change that ;-)
 
 This release contains a program suite that can produce LaTeX files
 and UTF-8 text files out of QEDEQ XML files. The QEDEQ files can be
-checked for syntactic correctness. Also part of this suite is a
+checked for syntactic correctness. Part of this suite is also a
 semantical checker for some finite models of set theory. So you
-can check which formula is valid in which model. Newly integrated is
-a proof checker that can verify the integrity of simple formal
+can check which formula is valid in which model. Integrated is
+a proof checker that can verify the integrity of very simple formal
 proofs.
 
-Samples and a script with the beginning of axiomatic set theory are
-included. See "doc/math/qedeq_set_theory_v1.pdf" for the script.
+A script with the beginning of axiomatic set theory is included. See
+"doc/math/qedeq_set_theory_v1.pdf" for the script.
 The logical background of this project is described in 
 "doc/math/qedeq_logic_v1.pdf". Both documents were generated with
 the current program suite. All formulas of axioms, definitions and
-propositions are written in a formal language.
-
-Included are also samples showing the error handling for incorrect
-QEDEQ files. Beside the XSD verification there are some semantic
-checks: "are all defined labels different" and "are all formulas
-well formed"?
-
-A beginning of a fully formal development can be found in
+propositions are written in a formal language. A fully formal 
+mathematical development can be found in 
 "doc/math/qedeq_formal_logic_v1_en.pdf". It contains all necessary
 axioms and inference rules for predicate calculus. Here you find
-some logical propositions and their formal proofs. A first meta
+logical propositions and their formal proofs. A first meta
 rule - conditional proof - is also introduced and can also be checked
-with the proof checker. See "sample/qedeq_sample3.xml" for some other
+with the proof checker. This document will be further extended.
+
+See "sample/qedeq_sample3.xml" for some other
 proof samples. See "doc/project/qedeq_logic_language_en.pdf" for 
-more details of the formal language. "set_theory_v1" contains some
-informal proofs that are close to 
+more details of the formal language. Included are also samples
+showing the error handling for incorrect QEDEQ files. Beside the XSD 
+verification there are some semantic checks: "are all defined labels 
+different" and "are all formulas well formed"?
 
 So one question remains: why is this a "gaffsie" release and not a
-"misabel"? We can write down simple formal proofs and check them!
+"misabel"? We can write down formal proofs and check them!
 Yes that is true, but we still can only write very simple formal
 proofs; and although the proof checkers were tested there are still
 some JUnit tests to write and the documentation of the formal
