@@ -56,6 +56,7 @@ public final class Qedeq2Utf8Plugin implements PluginBo {
     public void setDefaultValuesForEmptyPluginParameters(final Parameters parameters) {
         parameters.setDefault("language", "en");
         parameters.setDefault("info", true);
+        parameters.setDefault("brief", false);
         // automatically line break after this column. 0 means no automatic line breaking
         parameters.setDefault("maximumColumn", 80);
     }

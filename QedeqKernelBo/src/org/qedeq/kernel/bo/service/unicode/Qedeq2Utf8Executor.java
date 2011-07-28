@@ -72,7 +72,10 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
     public Qedeq2Utf8Executor(final Plugin plugin, final KernelQedeqBo prop, final Parameters parameters) {
         final boolean info = parameters.getBoolean("info");
         // automatically line break after this column. 0 means no automatic line breaking
-        maxColumns = Math.max(10, parameters.getInt("maximumColumn"));
+        maxColumns = parameters.getInt("maximumColumn");
+        if (parameters.getInt("maximumColumn") != 0) {
+            maxColumns = Math.max(10, maxColumns);
+        }
         final boolean brief = parameters.getBoolean("brief");
         visitor = new Qedeq2UnicodeVisitor(plugin, prop, info , maxColumns, true, brief);
     }

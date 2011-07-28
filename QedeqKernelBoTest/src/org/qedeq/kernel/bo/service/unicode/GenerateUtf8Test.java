@@ -202,6 +202,8 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
             Trace.param(CLASS, method, "level", level);
             final Map parameters = new HashMap();
             parameters.put("info", "true");
+            parameters.put("brief", "false");
+            parameters.put("maximumColumn", "0");
             final String source =(new Qedeq2Utf8Executor(new Qedeq2Utf8Plugin(), prop, new Parameters(parameters)))
                 .generateUtf8(language, "1");
             if (to != null) {
