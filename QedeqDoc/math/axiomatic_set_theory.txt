@@ -333,7 +333,7 @@ Die letzten beiden Sätze [thm:set:in:union] und [thm:set:in:intersection]
 zeigen die Übertragbarkeit der Eigenschaften der logischen Verknüpfungen 
 \qedeq{v} und\qedeq{&} auf die Mengenverknüpfungen \qedeq{+} und \qedeq{*}. 
 Deshalb lassen sich die entsprechenden logischen Gesetzmässigkeiten direkt 
-auf die Mengenverknüpfungen �bertragen.
+auf die Mengenverknüpfungen übertragen.
 
 
 (thm:union:asso)
