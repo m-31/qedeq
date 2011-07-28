@@ -204,7 +204,8 @@ public final class Main {
         System.err.println();
         System.err.println("Example");
         System.err.println("-------");
-        System.err.println("http://www.qedeq.org/0_04_04/sample/qedeq_sample4.xml");
+        System.err.println("http://www.qedeq.org/" + KernelContext.getInstance().getKernelVersionDirectory()
+            + "/sample/qedeq_sample4.xml");
         System.err.println();
     }
 
