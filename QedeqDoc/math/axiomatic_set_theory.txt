@@ -215,7 +215,7 @@ kann auch für die Negation und die Quantifizierung argumentiert werden.}.
 Deshalb wird die Leibniz'sche Ersetzbarkeit als Metaregel aufgenommen.
 Nach ihrer Anwendung muss allerdings das Prädikat durch ein konkretes
 mengentheoretisches Prädikat ersetzt werden. \par
-Aus dieser Form der Leibniz'schen Ersetzbarkeit kann auch die sch�rfere
+Aus dieser Form der Leibniz'schen Ersetzbarkeit kann auch die schärfere
 Formulierung \qedeq{(x = y -> (P(x) <-> P(y))} abgeleitet werden.
 Für gleiche Mengen gelten also dieselben Aussagen.
 
