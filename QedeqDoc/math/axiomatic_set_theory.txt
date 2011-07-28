@@ -100,7 +100,7 @@ If x is a member of a class, it is called a {\bf set}.
 The axiom of class constructing is the following:
 
 Axiom
-ExAy(y in x <-> set(y) & P(y))	 // if x does not occure free in P(y)
+ExAy(y in x <-> set(y) & P(y))	 // if x does not occur free in P(y)
 
 This axiom (or rather axiom schema) is also called 'comprehension axiom'.
 Notice that for \qedeq{P(y)} arbitrary formulas could be 
@@ -198,7 +198,7 @@ x = y & x in z -> y in z
 
 (rule:leibniz)
 Rule
-Neben der Reflexivit�t ist die "Leibniz'sche Ersetzbarkeit" eine 
+Neben der Reflexivität ist die "Leibniz'sche Ersetzbarkeit" eine 
 wichtige Forderung an die mathematische Gleichheit:
 \qedeq{(x = y & P(x)) -> P(y)}. Da die Gleichheit hier 
 innerhalb der Mengenlehre definiert wurde, kann die Aussage in dieser
