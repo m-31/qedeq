@@ -107,7 +107,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     private static final Class CLASS = Qedeq2LatexExecutor.class;
 
 // TODO m31 20100316: check number area for error codes
-// FIXME m31 20100803: add JUnit tests for all error codes
+// TODO m31 20100803: add JUnit tests for all error codes
 
     /** Output goes here. */
     private TextOutput printer;
@@ -1300,7 +1300,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
                     if (method.length() > 0) {
                         subContext = method + ".get(" + i + ")";
                     }
-                    return getLatex(list.get(i));
+                    return "MISSING! OTHER: " + getLatex(list.get(i));
                 }
             }
             // OK, we didn't find wanted and default language, so we take the first non empty one
