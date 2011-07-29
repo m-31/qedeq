@@ -130,6 +130,14 @@ currently in ants classpath
 
    
     <target name="clean">
+        <echoproperties prefix="qedeq."/>
+        <echo>
+            version=  ${qedeq.release.version}
+            code name=${qedeq.release.codename}
+            directory=${qedeq.release.directory}
+            timestamp=${qedeq.se.timestamp}
+            buildId=  ${qedeq.se.buildId}
+        </echo>
         <delete dir="${qedeq.dest}" failonerror="true" />
         <mkdir dir="${qedeq.dest}" />
         <delete dir="${qedeq.dest.module}" failonerror="true" />
