@@ -22,7 +22,7 @@ Preliminary Build
   + check java doc
     > is every package there
     > look at the messages during build project
-  + exaime index.html and update it
+  + examine index.html and update it
   + transfer release to WebPage
     [ now done by build script: ]
     > copy xml-apis.jar and xercesImpl.jar from eclipse/webstart
