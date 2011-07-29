@@ -185,6 +185,101 @@
             </FORMULA>
           </AXIOM>
         </NODE>
+        <NODE id="rule:addProvenFormula">
+          <NAME>
+            <LATEX language="en">
+              <![CDATA[
+                add true formula
+              ]]>
+            </LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">
+              <![CDATA[
+                Add true formula
+              ]]>
+            </LATEX>
+          </TITLE>
+          <RULE name="Add" version="0.01.00">
+            <DESCRIPTION>
+              <LATEX language="en">
+                <![CDATA[
+                  Addition of an axiom, definition or already proven formula. We have to reference to the location of a true formula.
+                ]]>
+              </LATEX>
+            </DESCRIPTION>
+          </RULE>
+        </NODE>
+        <NODE id="rule:modusPonens">
+          <NAME>
+            <LATEX language="en">
+              <![CDATA[
+                modus ponens
+              ]]>
+            </LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">
+              <![CDATA[
+                Modus Ponens\index{Modus Ponens}
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Abtrennung, Modus Ponens\index{Modus Ponens}\index{Abtrennungsregel}
+              ]]>
+            </LATEX>
+          </TITLE>
+          <RULE name="MP" version="0.01.00">
+            <DESCRIPTION>
+              <LATEX language="en">
+                <![CDATA[
+                  If both formulas $\alpha$ and $\alpha \rightarrow \beta$ are true, then we can conclude that $\beta$ is true as well.
+                ]]>
+              </LATEX>
+            </DESCRIPTION>
+          </RULE>
+        </NODE>
+        <NODE id="rule:substPred">
+          <NAME>
+            <LATEX language="en">
+              <![CDATA[
+                replace predicate variable
+              ]]>
+            </LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">
+              <![CDATA[
+                Replace Predicate Variable
+              ]]>
+            </LATEX>
+          </TITLE>
+          <RULE name="SubstPred" version="0.01.00">
+            <DESCRIPTION>
+              <LATEX language="en">
+                <![CDATA[
+                  Let $\alpha$ be a true formula that contains a predicate variable $p$ of arity $n$, let $x_1$, \ldots, $x_n$ be pairwise different subject variables and let $\beta(x_1, \ldots, x_n)$ be a formula where $x_1$, \ldots, $x_n$ are not bound. The formula $\beta(x_1, \ldots, x_n)$ must not contain all $x_1$, \ldots, $x_n$ as free subject variables. Furthermore it can also have other subject variables either free or bound.
+                  
+                  If the following conditions are fulfilled, then a replacement of all occurrences of $p(t_1, \ldots, t_n)$ each with appropriate terms $t_1$, \ldots, $t_n$ in $\alpha$ by $\beta(t_1, \ldots, t_n)$ results in another true formula.
+
+                  \begin{itemize}
+
+                  \item
+                  the free variables of $\beta(x_1, \ldots, x_n)$ without $x_1$, \ldots, $x_n$ do not occur as bound variables in $\alpha$ 
+                  
+                  \item 
+                  each occurrence of $p(t_1, \ldots, t_n)$ in $\alpha$ contains no bound variable of $\beta(x_1, \ldots, x_n)$ 
+
+                  \item
+                  the result of the substitution is a well-formed formula
+
+                  \end{itemize}
+                ]]>
+              </LATEX>
+            </DESCRIPTION>
+          </RULE>
+        </NODE>
       </SUBSECTIONS>
     </SECTION>
     <SECTION>
