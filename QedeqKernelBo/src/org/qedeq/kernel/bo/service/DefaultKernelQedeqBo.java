@@ -448,7 +448,8 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         final LatexList list = getQedeq().getHeader().getTitle();
         final List result = new ArrayList(list.size());
         for (int i = 0; i < list.size(); i++) {
-            if (null != list.get(i)) {
+            if (null != list.get(i) && list.get(i).getLanguage() != null
+                    && list.get(i).getLanguage().trim().length() > 0) {
                 result.add(list.get(i).getLanguage());
             }
         }
