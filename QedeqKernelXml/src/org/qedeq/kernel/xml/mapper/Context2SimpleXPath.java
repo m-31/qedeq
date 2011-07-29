@@ -259,7 +259,11 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         } else if (context.endsWith(".getLatex()")) {
             name = "TEXT";
         } else if (context.endsWith(".getDescription()")) {
-            name = "DESCRIPTION";
+            if (context.indexOf(".getChangedRuleList().get(") < 0) {
+                name = "DESCRIPTION";
+            } else {
+                name = null;
+            }
         } else if (context.endsWith(".getNonFormalProof()")) {  // no extra XSD element
             name = null;
         } else if (context.endsWith(".getItem()")) {            // no extra XSD element
@@ -279,7 +283,8 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitLeave(final LatexList latexList) {
         final String context = traverser.getCurrentContext().getLocationWithinModule();
         if (!context.endsWith(".getNonFormalProof()")       // no extra XSD element
-                && !context.endsWith(".getItem()")) {
+                && !context.endsWith(".getItem()") && !(context.endsWith(".getDescription()")
+                && context.indexOf(".getChangedRuleList().get(") >= 0)) {
             leave();
         }
     }
