@@ -28,13 +28,16 @@ public class LocationNotFoundException extends ModuleDataException {
     /**
      * Constructs an exception.
      *
-     * @param   context     Context that was searched for.
+     * @param   context     Context we currently are.
      * @param   matching    Last matching begin of search context.
+     * @param   find        Context that was searched for.
      */
-    public LocationNotFoundException(final ModuleContext context, final String matching) {
+    public LocationNotFoundException(final ModuleContext context, final String matching,
+            final String find) {
         super(50001, "location was not found for module " + context.getModuleLocation()
-            + "\n local context: " + context.getLocationWithinModule()
-            + "\n last match:    " + matching, context);
+            + "\n current context: " + context.getLocationWithinModule()
+            + "\n last match:     " + matching
+            + "\n searched for:   " + find, context);
     }
 
 }

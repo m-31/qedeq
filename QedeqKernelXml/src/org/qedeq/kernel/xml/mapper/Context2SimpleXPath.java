@@ -190,7 +190,8 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         }
         Trace.param(CLASS, this, method, "level", level);  // level should be equal to zero now
         Trace.info(CLASS, this, method, "location was not found");
-        throw new LocationNotFoundException(find, "");
+        throw new LocationNotFoundException(traverser.getCurrentContext(), "",
+            find.getLocationWithinModule());
     }
 
     public final void visitEnter(final Qedeq qedeq) throws ModuleDataException {
@@ -551,7 +552,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final ProofList proofList) throws ModuleDataException {
         final String method = "visitEnter(ProofList)";
         // because no equivalent level of "getProofList()" exists in the XSD we simply
-        // point to the current location that must be within the element "THEOREM"
+        // point to the current location that must be within the element "THEOREM" or "RULE"
         checkMatching(method);
     }
 
@@ -1133,7 +1134,8 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
                     // do we really want to fail?
                     if (Boolean.TRUE.toString().equalsIgnoreCase(
                             System.getProperty("qedeq.test.xmlLocationFailures"))) {
-                        throw new LocationNotFoundException(find, matchingBegin);  // when we really want to fail
+                        throw new LocationNotFoundException(traverser.getCurrentContext(),
+                            matchingBegin, find.getLocationWithinModule());
                     }
 
                     Trace.traceStack(CLASS, this, method);

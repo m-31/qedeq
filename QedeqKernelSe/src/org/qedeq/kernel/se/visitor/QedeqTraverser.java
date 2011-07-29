@@ -22,6 +22,8 @@ import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
+import org.qedeq.kernel.se.base.module.ChangedRule;
+import org.qedeq.kernel.se.base.module.ChangedRuleList;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
 import org.qedeq.kernel.se.base.module.Conclusion;
@@ -286,6 +288,22 @@ public interface QedeqTraverser {
      * @throws  ModuleDataException     Severe error during occurred.
      */
     public void accept(final Rule rule) throws ModuleDataException;
+
+    /**
+     * Traverse changed rule list.
+     *
+     * @param   list            Traverse this element.
+     * @throws  ModuleDataException     Severe error during occurred.
+     */
+    public void accept(final ChangedRuleList list) throws ModuleDataException;
+
+    /**
+     * Traverse changed rule.
+     *
+     * @param   rule            Traverse this element.
+     * @throws  ModuleDataException     Severe error during occurred.
+     */
+    public void accept(final ChangedRule rule) throws ModuleDataException;
 
     /**
      * Traverse link list.
