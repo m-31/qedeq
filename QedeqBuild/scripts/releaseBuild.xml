@@ -128,8 +128,7 @@ currently in ants classpath
         <pathelement location="${qedeq.dest.module}/qedeq_gui_se/src/main/resources" />
     </path>
 
-   
-    <target name="clean">
+    <target name="init">
         <echoproperties prefix="qedeq."/>
         <echo>
             version=  ${qedeq.release.version}
@@ -138,6 +137,9 @@ currently in ants classpath
             timestamp=${qedeq.se.timestamp}
             buildId=  ${qedeq.se.buildId}
         </echo>
+    </target>
+   
+    <target name="clean">
         <delete dir="${qedeq.dest}" failonerror="true" />
         <mkdir dir="${qedeq.dest}" />
         <delete dir="${qedeq.dest.module}" failonerror="true" />
@@ -659,7 +661,7 @@ currently in ants classpath
     </target>
  
     <target name="all"
-        depends="clean,compile,test,package,doc,assemble,release,webstart">
+        depends="init,clean,compile,test,package,doc,assemble,release,webstart">
     </target>
 
 </project>
