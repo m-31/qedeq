@@ -129,7 +129,6 @@ currently in ants classpath
     </path>
 
     <target name="init">
-        <echoproperties prefix="qedeq."/>
         <echo>
             version=  ${qedeq.release.version}
             code name=${qedeq.release.codename}
@@ -137,6 +136,7 @@ currently in ants classpath
             timestamp=${qedeq.se.timestamp}
             buildId=  ${qedeq.se.buildId}
         </echo>
+        <echoproperties />
     </target>
    
     <target name="clean">
