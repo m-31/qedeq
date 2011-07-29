@@ -463,10 +463,10 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         // FIXME 20110316 m31: rework qedeq.xsd to have a default language
         final String[] supported = getSupportedLanguages();
         if (StringUtility.isNotIn("de", supported)) {
-            if (supported.length > 0) {
-                return supported[0];
+            if (supported.length == 0) {
+                return "en";    // we have no German only documents
             }
-            return "";
+            return supported[0];
         }
         return "de";
     }
