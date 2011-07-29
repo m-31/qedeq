@@ -446,7 +446,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     }
 
     public final void visitLeave(final SectionList sectionList) {
-        traverser.setBlocked(false);  // free sub node search
+        traverser.setBlocked(false);  // free node search again
     }
 
     public final void visitEnter(final Section section) throws ModuleDataException {
@@ -932,6 +932,10 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         checkMatching(method);
     }
 
+    public final void visitLeave(final ChangedRuleList list) {
+        traverser.setBlocked(false);  // free node search again
+    }
+
     public final void visitEnter(final ChangedRule rule) throws ModuleDataException {
         enter("CHANGED_RULE");
         final String method = "visitEnter(ChangedRule)";
@@ -1169,7 +1173,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     private final void leave() {
         level--;
         current.deleteLastElement();
-        traverser.setBlocked(false);  //  enable further search in sub notes
+        traverser.setBlocked(false);  //  enable further search in nodes
     }
 
     /**
