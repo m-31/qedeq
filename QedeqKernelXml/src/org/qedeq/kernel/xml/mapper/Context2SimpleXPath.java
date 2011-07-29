@@ -260,10 +260,10 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         } else if (context.endsWith(".getLatex()")) {
             name = "TEXT";
         } else if (context.endsWith(".getDescription()")) {
-            if (context.indexOf(".getChangedRuleList().get(") < 0) {
-                name = "DESCRIPTION";
-            } else {
+            if (context.indexOf(".getChangedRuleList().get(") >= 0) {
                 name = null;
+            } else {
+                name = "DESCRIPTION";
             }
         } else if (context.endsWith(".getNonFormalProof()")) {  // no extra XSD element
             name = null;
