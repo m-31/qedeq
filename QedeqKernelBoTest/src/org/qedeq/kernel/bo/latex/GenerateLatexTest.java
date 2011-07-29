@@ -56,14 +56,19 @@ public class GenerateLatexTest extends QedeqBoTestCase {
      * @throws Exception
      */
     public void testGeneration() throws Exception {
-        generate(getDocDir(), "math/qedeq_logic_v1.xml", getGenDir(), false, false);
-        generate(getDocDir(), "math/qedeq_set_theory_v1.xml", getGenDir(), false, false);
-        generate(getDocDir(), "math/qedeq_formal_logic_v1.xml", getGenDir(), false, false);
-        generate(getDocDir(), "sample/qedeq_sample1.xml", getGenDir(), false, false);
-        generate(getDocDir(), "sample/qedeq_sample2.xml", getGenDir(), false, false);
-        generate(getDocDir(), "sample/qedeq_sample3.xml", getGenDir(), false, false);
-        generate(getDocDir(), "project/qedeq_basic_concept.xml", getGenDir(), false, false);
-        generate(getDocDir(), "project/qedeq_logic_language.xml", getGenDir(), true, false);
+        System.setProperty("qedeq.test.xmlLocationFailures", Boolean.TRUE.toString());
+        try {
+            generate(getDocDir(), "math/qedeq_logic_v1.xml", getGenDir(), false, false);
+            generate(getDocDir(), "math/qedeq_set_theory_v1.xml", getGenDir(), false, false);
+            generate(getDocDir(), "math/qedeq_formal_logic_v1.xml", getGenDir(), false, false);
+            generate(getDocDir(), "sample/qedeq_sample1.xml", getGenDir(), false, false);
+            generate(getDocDir(), "sample/qedeq_sample2.xml", getGenDir(), false, false);
+            generate(getDocDir(), "sample/qedeq_sample3.xml", getGenDir(), false, false);
+            generate(getDocDir(), "project/qedeq_basic_concept.xml", getGenDir(), false, false);
+            generate(getDocDir(), "project/qedeq_logic_language.xml", getGenDir(), true, false);
+        } finally {
+            System.setProperty("qedeq.test.xmlLocationFailures", Boolean.FALSE.toString());
+        }
     }
 
     /**
