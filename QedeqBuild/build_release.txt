@@ -78,16 +78,16 @@ Final Release
 - modify readme.txt and commit it
 - update directory "/current" on web page
 - tag CVS as in the following example:
-  qedeq_unstable_0_03_12_20080802043913
+  qedeq_unstable_0_04_04_20110730003526
 - tag subversion
   + open team create Branch/Tags on project
   + browse
   + create new entry in tags: right mouse click and new tag directory
   + choose destination folder
-    https://pmii.svn.sourceforge.net/svnroot/pmii/tags/qedeq_unstable_0_03_12_20100918020312
+    https://pmii.svn.sourceforge.net/svnroot/pmii/tags/qedeq_unstable_0_04_04_20110730003526
     and check "create intermediate folders" 
     for QedeqKernelSe for example:
-    https://pmii.svn.sourceforge.net/svnroot/pmii/tags/qedeq_unstable_0_03_12_20080802043913/QedeqKernelSe
+    https://pmii.svn.sourceforge.net/svnroot/pmii/tags/qedeq_unstable_0_04_04_20110730003526/QedeqKernelSe
     with version as comment
 
 
