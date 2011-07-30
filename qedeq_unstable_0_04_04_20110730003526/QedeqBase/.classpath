@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/QedeqLib/commons-io-1.4.jar" sourcepath="/QedeqLib/src/commons-io-1.4-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/QedeqLib/commons-lang-2.4.jar" sourcepath="/QedeqLib/src/commons-lang-2.4-sources.jar"/>
+	<classpathentry kind="lib" path="/QedeqLib/commons-logging-1.1.1.jar" sourcepath="/QedeqLib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
