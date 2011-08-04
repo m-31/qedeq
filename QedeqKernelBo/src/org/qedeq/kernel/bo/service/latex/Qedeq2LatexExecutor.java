@@ -1101,7 +1101,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
             return;
         }
         if ("de".equals(language)) {
-            printer.println("Die folgenden Regeln müssen erweitert werden.");
+            printer.println("Die folgenden Regeln m\00FCssen erweitert werden.");
         } else {
             if (!"en".equals(language)) {
                 printer.println("%%% TODO unknown language: " + language);
