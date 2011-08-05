@@ -1346,7 +1346,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
 
         transformQref(result);
 
-        return result.toString();
+        return getLatex(result.toString());
     }
 
     /**
@@ -1578,7 +1578,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         StringUtility.replace(buffer, "<", "\\textless");
         StringUtility.replace(buffer, ">", "\\textgreater");
         StringUtility.deleteLineLeadingWhitespace(buffer);
-        return escapeUmlauts(buffer.toString().trim());
+        return buffer.toString().trim();
     }
 
     /**
