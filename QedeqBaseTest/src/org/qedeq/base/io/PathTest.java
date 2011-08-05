@@ -95,6 +95,50 @@ public class PathTest extends QedeqTestCase {
     }
 
     /**
+     * Test constructor and getters.
+     *
+     * @throws  Exception   Test failure.
+     */
+    public void testConstructor3() throws Exception {
+        {
+            final Path p1 = new Path(new String[] {"a", "b", "c"}, "");
+            assertEquals("a/b/c/", p1.getDirectory());
+            assertEquals("", p1.getFileName());
+            assertEquals(false, p1.isAbsolute());
+            assertEquals(true, p1.isRelative());
+            assertEquals("a/b/c/", p1.toString());
+            assertEquals(true, p1.isDirectory());
+        }
+        {
+            final Path p1 = new Path(new String[] {"", "a", "b", "c"}, "");
+            assertEquals("/a/b/c/", p1.getDirectory());
+            assertEquals("", p1.getFileName());
+            assertEquals(true, p1.isAbsolute());
+            assertEquals(false, p1.isRelative());
+            assertEquals("/a/b/c/", p1.toString());
+            assertEquals(true, p1.isDirectory());
+        }
+        {
+            final Path p1 = new Path(new String[] {"a", "b", "c"}, null);
+            assertEquals("a/b/c/", p1.getDirectory());
+            assertEquals("", p1.getFileName());
+            assertEquals(false, p1.isAbsolute());
+            assertEquals(true, p1.isRelative());
+            assertEquals("a/b/c/", p1.toString());
+            assertEquals(true, p1.isDirectory());
+        }
+        {
+            final Path p1 = new Path(new String[] {"a", "b", "c"}, "d");
+            assertEquals("a/b/c/", p1.getDirectory());
+            assertEquals("d", p1.getFileName());
+            assertEquals(false, p1.isAbsolute());
+            assertEquals(true, p1.isRelative());
+            assertEquals("a/b/c/d", p1.toString());
+            assertEquals(false, p1.isDirectory());
+        }
+    }
+
+    /**
      * Test equals.
      *
      * @throws  Exception   Test failure.
