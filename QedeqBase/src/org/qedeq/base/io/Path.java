@@ -121,50 +121,6 @@ public final class Path {
     }
 
     /**
-     * Create relative address. Assume only file paths.
-     *
-     * @param   org     This is the original location.
-     * @param   nex     This should be the next location.
-     * @return  Relative path (if possible).
-     */
-    public String makeRelative(final String org, final String nex) {
-        final String[] orgas = removeRelativeDirs(StringUtility.split(org, "/"));
-        final String[] nexas = removeRelativeDirs(StringUtility.split(nex, "/"));
-        int max = 0;
-        while (max < orgas.length && max < nexas.length) {
-            if (!"..".equals(orgas[max]) && EqualsUtility.equals(orgas[max], nexas[max])) {
-                max++;
-            } else {
-                break;
-            }
-        }
-        int d = -1;
-        if (orgas.length == 0) {
-            d = 0;
-        }
-        String[] r = new String[orgas.length - max + nexas.length - max + d];
-        for (int i = max; i < orgas.length + d; i++) {
-            r[i - max] = "..";
-        }
-        for (int i = max; i < nexas.length; i++) {
-            r[i - max + orgas.length + d - max] = nexas[i];
-        }
-        return toDir(r);
-    }
-
-    private String toDir(final String[] dirs) {
-        final String[] r = removeRelativeDirs(dirs);
-        StringBuffer result = new StringBuffer();
-        for (int i = 0; i < r.length; i++) {
-            if (i > 0) {
-                result.append("/");
-            }
-            result.append(r[i]);
-        }
-        return result.toString();
-    }
-
-    /**
      * Describes this path a directory?
      *
      * @return  Is directory?
