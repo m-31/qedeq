@@ -34,7 +34,8 @@ import org.qedeq.base.utility.StringUtility;
  */
 public final class Path {
 
-    /** Path to file with "/" as directory name separator. */
+    /** Directories that build up the path. If this is an absolute path the first
+     * name is empty. */
     private final String[] path;
 
     /** File name. */
@@ -57,9 +58,9 @@ public final class Path {
      * Create file with given path and name. Relative directories are removed from
      * the file path if possible.
      *
-     * @param   dirPath    Directory path to file with "/" as directory name separator.
-     *                     This value can end with a "/" but it must not.
-     * @param   fileName   File name. It should not contain "/" but this is not checked.
+     * @param   dirPath     Directory path to file with "/" as directory name separator.
+     *                      This value can end with a "/" but it must not.
+     * @param   fileName    File name. It should not contain "/" but this is not checked.
      */
     public Path(final String dirPath, final String fileName) {
         this((dirPath.endsWith("/") ? StringUtility.split(dirPath.substring(0,
@@ -70,8 +71,9 @@ public final class Path {
      * Create file with given path and name. Relative directories are removed
      * from the file path if possible.
      *
-     * @param   dirNames    Directory names.
-     * @param   fileName   File name. It should not contain "/" but this is not checked.
+     * @param   dirNames    Directory names. If this is an absolute path the first
+     *                      name is empty.
+     * @param   fileName    File name. It should not contain "/" but this is not checked.
      */
     public Path(final String[] dirNames, final String fileName) {
         path = removeRelativeDirs(dirNames);
@@ -186,6 +188,12 @@ public final class Path {
         return result;
     }
 
+    /**
+     * Remove ".." and "." directories out of path if possible.
+     *
+     * @param   dirNames    Directories that build up the path.
+     * @return  Directories that build up the same path.
+     */
     private String[] removeRelativeDirs(final String[] dirNames) {
         List d = new ArrayList();
         for (int i = 0; i < dirNames.length; i++) {
