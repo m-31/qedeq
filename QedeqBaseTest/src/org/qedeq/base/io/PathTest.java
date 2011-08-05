@@ -196,6 +196,10 @@ public class PathTest extends QedeqTestCase {
             final Path p1 = new Path("/a/b/c/");
             assertEquals("", p1.createRelative("/a/b/c/").toString());
         }
+        {
+            final Path p1 = new Path("/a/b/c/");
+            assertEquals("../d/e", p1.createRelative("/a/b/d/e").toString());
+        }
     }
 
     /**
