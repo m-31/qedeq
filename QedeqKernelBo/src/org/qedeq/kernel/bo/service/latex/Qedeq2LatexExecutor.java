@@ -459,7 +459,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
             printer.println("\\par");
             if ("de".equals(language)) {
                 printer.println("Bei Fragen, Anregungen oder Bitte um Aufnahme in die Liste der"
-                    + " abh{\"a}ngigen Module schicken Sie bitte eine EMail an die Adresse "
+                    + " abh\u00e4ngigen Module schicken Sie bitte eine EMail an die Adresse "
                     + emailUrl);
                 printer.println();
                 printer.println("\\par");
