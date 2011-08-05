@@ -1346,7 +1346,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
 
         transformQref(result);
 
-        return escapeUmlauts(result.toString());
+        return result.toString();
     }
 
     /**
