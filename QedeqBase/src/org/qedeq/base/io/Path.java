@@ -44,7 +44,9 @@ public final class Path {
     /**
      * Create file with given path and name.
      *
-     * @param   filePath    Path to file with "/" as directory name separator.
+     * @param   filePath    Path to file with "/" as directory name separator. Relative directories
+     *                      are removed from the file path if possible.  Must not be
+     *                      <code>null</code>. Might be "" this is called the <em>empty path</em>.
      */
     public Path(final String filePath) {
         final String[] p = StringUtility.split(filePath, "/");
@@ -59,7 +61,7 @@ public final class Path {
      * the file path if possible.
      *
      * @param   dirPath     Directory path to file with "/" as directory name separator.
-     *                      This value can end with a "/" but it must not.
+     *                      This value can end with a "/" but it must not be <code>null</code>.
      * @param   fileName    File name. It should not contain "/" but this is not checked.
      */
     public Path(final String dirPath, final String fileName) {
@@ -72,7 +74,7 @@ public final class Path {
      * from the file path if possible.
      *
      * @param   dirNames    Directory names. If this is an absolute path the first
-     *                      name is empty.
+     *                      name is empty. Must not be <code>null</code>.
      * @param   fileName    File name. It should not contain "/" but this is not checked.
      */
     public Path(final String[] dirNames, final String fileName) {
@@ -81,7 +83,8 @@ public final class Path {
     }
 
     /**
-     * Create new file path relative to given one.
+     * Create new file path relative to given one. If the original path or <code>filePath</code>
+     * is a relative path it will return <code>filePath</code>.
      *
      * @param   filePath    Path to file relative to <code>this</code>.
      * @return  Relative file path (if possible).
@@ -105,7 +108,7 @@ public final class Path {
                 break;
             }
         }
-        String[] r = new String[path.length - max + to.path.length - max];
+        final String[] r = new String[path.length - max + to.path.length - max];
         for (int i = max; i < path.length; i++) {
             r[i - max] = "..";
         }
@@ -159,27 +162,58 @@ public final class Path {
         return result.toString();
     }
 
-
+    /**
+     * Describes this path a directory?
+     *
+     * @return  Is directory?
+     */
     public boolean isDirectory() {
         return name.length() == 0;
     }
 
+    /**
+     * Describes this path a file (and not a directory)?
+     *
+     * @return  Is this a path to a file?
+     */
     public boolean isFile() {
         return !isDirectory();
     }
 
+    /**
+     * Is this an absolute path?
+     *
+     * @return  Is absolute path?
+     */
     public boolean isAbsolute() {
         return path.length > 0 && path[0].length() == 0;
     }
 
+    /**
+     * Is this a relative path?
+     *
+     * @return  Is this a relative path?
+     */
     public boolean isRelative() {
         return !isAbsolute();
     }
 
+    /**
+     * Get filename. Is "" if this is a pure directory path.
+     *
+     * @return  File name. Might be "" but not <code>null</code>.
+     */
     public String getFileName() {
         return name;
     }
 
+    /**
+     * Get directory of this path. This might be a relative or absolute
+     * path and ends with "/". (Only the empty path "" has no ending "/".)
+     *
+     * @return  Directory this path points to. Will end with "/" if this is not
+     *          an empty path.
+     */
     public String getDirectory() {
         String result = "";
         for (int i = 0; i < path.length; i++) {

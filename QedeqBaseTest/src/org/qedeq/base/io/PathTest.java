@@ -48,6 +48,21 @@ public class PathTest extends QedeqTestCase {
             assertEquals("/a/b/c/", p1.toString());
             assertEquals(true, p1.isDirectory());
         }
+        {
+            final Path p1 = new Path("");
+            assertEquals("", p1.getDirectory());
+            assertEquals("", p1.getFileName());
+            assertEquals(false, p1.isAbsolute());
+            assertEquals(true, p1.isRelative());
+            assertEquals("", p1.toString());
+            assertEquals(true, p1.isDirectory());
+        }
+        try {
+            new Path(null);
+            fail("RuntimeException expected");
+        } catch (RuntimeException e) {
+            // ok
+        }
     }
 
     /**
@@ -92,6 +107,12 @@ public class PathTest extends QedeqTestCase {
             assertEquals("a/b/c/d", p1.toString());
             assertEquals(false, p1.isDirectory());
         }
+        try {
+            new Path((String[]) null, "");
+            fail("RuntimeException expected");
+        } catch (RuntimeException e) {
+            // ok
+        }
     }
 
     /**
@@ -135,6 +156,45 @@ public class PathTest extends QedeqTestCase {
             assertEquals(true, p1.isRelative());
             assertEquals("a/b/c/d", p1.toString());
             assertEquals(false, p1.isDirectory());
+        }
+    }
+
+    /**
+     * Test createRelative.
+     * 
+     */
+    public void testCreateRelative() throws Exception {
+        {
+            final Path p1 = new Path("/a/b/c");
+            assertEquals("d", p1.createRelative("/a/b/d").toString());
+        }
+        {
+            final Path p1 = new Path("/a/b/c/");
+            assertEquals("d/e", p1.createRelative("d/e").toString());
+        }
+        {
+            final Path p1 = new Path("/a/b/c/");
+            assertEquals("d/", p1.createRelative("d/").toString());
+        }
+        {
+            final Path p1 = new Path("/a/b/c/");
+            assertEquals("../../../d/", p1.createRelative("/d/").toString());
+        }
+        {
+            final Path p1 = new Path("a/b/c/");
+            assertEquals("/d", p1.createRelative("/d").toString());
+        }
+        {
+            final Path p1 = new Path("a/b/c/");
+            assertEquals("/d/e", p1.createRelative("/d/e").toString());
+        }
+        {
+            final Path p1 = new Path("a/b/c/");
+            assertEquals("a/b/d", p1.createRelative("a/b/d").toString());
+        }
+        {
+            final Path p1 = new Path("/a/b/c/");
+            assertEquals("", p1.createRelative("/a/b/c/").toString());
         }
     }
 
