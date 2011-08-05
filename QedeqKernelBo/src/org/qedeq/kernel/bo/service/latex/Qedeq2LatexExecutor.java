@@ -1346,7 +1346,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
 
         transformQref(result);
 
-        return getLatex(result.toString());
+        return deleteLineLeadingWhitespace(result.toString());
     }
 
     /**
@@ -1577,6 +1577,18 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         StringUtility.replace(buffer, "^", "\\textasciicircum");
         StringUtility.replace(buffer, "<", "\\textless");
         StringUtility.replace(buffer, ">", "\\textgreater");
+        StringUtility.deleteLineLeadingWhitespace(buffer);
+        return buffer.toString().trim();
+    }
+
+    /**
+     * Trims text.  Also gets rid of leading spaces if they are equal among the lines.
+     *
+     * @param   text   Text.
+     * @return  Untrimed text.
+     */
+    private String deleteLineLeadingWhitespace(final String text) {
+        final StringBuffer buffer = new StringBuffer(text);
         StringUtility.deleteLineLeadingWhitespace(buffer);
         return buffer.toString().trim();
     }
