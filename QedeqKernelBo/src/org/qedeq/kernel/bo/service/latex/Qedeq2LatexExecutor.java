@@ -254,10 +254,18 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
             // TODO 20110204 m31: here we should choose the correct encoding; perhaps GUI configurable?
             if ("de".equals(language)) {
                 printer = new TextOutput(getQedeqBo().getName(), new FileOutputStream(destination),
-                    "ISO-8859-1");
+                    "ISO-8859-1") {
+                    public void append(final String txt) {
+                        super.append(escapeUmlauts(txt));
+                    }
+                };
             } else {
                 printer = new TextOutput(getQedeqBo().getName(), new FileOutputStream(destination),
-                    "UTF-8");
+                    "UTF-8") {
+                    public void append(final String txt) {
+                        super.append(escapeUmlauts(txt));
+                    }
+                };
             }
             traverse();
         } finally {
