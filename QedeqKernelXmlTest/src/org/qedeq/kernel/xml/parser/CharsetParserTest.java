@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.qedeq.base.io.TextInput;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
@@ -107,7 +108,7 @@ public class CharsetParserTest extends QedeqBoTestCase {
                 list.add(buf.toString());
             }
         }
-        return (String[]) list.toArray(new String[]{});
+        return (String[]) list.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
 
