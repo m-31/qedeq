@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
@@ -443,7 +444,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         // get all supported languages. Time for a new visitor?
         if (!isLoaded() || getQedeq() == null || getQedeq().getHeader() == null
                 || getQedeq().getHeader().getTitle() == null) {
-            return new String[]{};
+            return ArrayUtils.EMPTY_STRING_ARRAY;
         }
         final LatexList list = getQedeq().getHeader().getTitle();
         final List result = new ArrayList(list.size());
@@ -453,7 +454,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
                 result.add(list.get(i).getLanguage());
             }
         }
-        return (String[]) result.toArray(new String[]{});
+        return (String[]) result.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
     public boolean isSupportedLanguage(final String language) {

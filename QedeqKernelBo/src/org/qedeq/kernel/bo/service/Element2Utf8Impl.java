@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.common.Element2Utf8;
 import org.qedeq.kernel.bo.service.unicode.Latex2UnicodeParser;
@@ -58,7 +59,7 @@ public final class Element2Utf8Impl implements Element2Utf8 {
             list.add(StringUtility.substring(result, index, maxCols));
             index += maxCols;
         }
-        return (String[]) list.toArray(new String[] {});
+        return (String[]) list.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
 }
