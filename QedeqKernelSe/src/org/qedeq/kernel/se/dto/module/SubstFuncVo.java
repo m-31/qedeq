@@ -15,6 +15,7 @@
 
 package org.qedeq.kernel.se.dto.module;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.SubstFunc;
@@ -77,7 +78,7 @@ public class SubstFuncVo implements SubstFunc {
 
     public String[] getReferences() {
         if (reference == null || reference.length() == 0) {
-            return new String[] {};
+            return ArrayUtils.EMPTY_STRING_ARRAY;
         } else {
             return new String[] {reference };
         }

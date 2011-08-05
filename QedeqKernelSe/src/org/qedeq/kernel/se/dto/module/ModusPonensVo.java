@@ -15,6 +15,7 @@
 
 package org.qedeq.kernel.se.dto.module;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.base.module.ModusPonens;
 
@@ -83,7 +84,7 @@ public class ModusPonensVo implements ModusPonens {
     public String[] getReferences() {
         if (reference1 == null || reference1.length() == 0) {
             if (reference2 == null || reference2.length() == 0) {
-                return new String[] {};
+                return ArrayUtils.EMPTY_STRING_ARRAY;
             } else {
                 return new String[] {reference2 };
             }
