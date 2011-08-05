@@ -29,6 +29,8 @@ import org.qedeq.base.utility.StringUtility;
  * This class makes some assumptions about a file path:
  * "/" is the directory separator, "/" is also the root directory and ".." specifies
  * the parent directory. "." is the current directory.
+ * A directory path must end with a "/" if a path ends not with a "/" it will be a file path
+ * (but the empty path "" is a directory).
  *
  * @author  Michael Meyling
  */
@@ -238,6 +240,7 @@ public final class Path {
                     && !"..".equals(d.get(i - 1))) {
                 d.remove(i - 1);
                 d.remove(i - 1);
+                i--;
             } else if (".".equals(d.get(i))) {
                 d.remove(i);
             } else {

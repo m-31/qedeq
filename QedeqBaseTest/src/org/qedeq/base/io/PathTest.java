@@ -63,6 +63,24 @@ public class PathTest extends QedeqTestCase {
         } catch (RuntimeException e) {
             // ok
         }
+        {
+            final Path p1 = new Path("a/b/c/../../d/e");
+            assertEquals("a/d/", p1.getDirectory());
+            assertEquals("e", p1.getFileName());
+            assertEquals(false, p1.isAbsolute());
+            assertEquals(true, p1.isRelative());
+            assertEquals("a/d/e", p1.toString());
+            assertEquals(false, p1.isDirectory());
+        }
+        {
+            final Path p1 = new Path("a/b/c/../../../d/e/");
+            assertEquals("d/e/", p1.getDirectory());
+            assertEquals("", p1.getFileName());
+            assertEquals(false, p1.isAbsolute());
+            assertEquals(true, p1.isRelative());
+            assertEquals("d/e/", p1.toString());
+            assertEquals(true, p1.isDirectory());
+        }
     }
 
     /**
