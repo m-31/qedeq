@@ -1576,6 +1576,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         StringUtility.replace(buffer, "^", "\\textasciicircum");
         StringUtility.replace(buffer, "<", "\\textless");
         StringUtility.replace(buffer, ">", "\\textgreater");
+        StringUtility.deleteLineLeadingWhitespace(buffer);
         return escapeUmlauts(buffer.toString());
     }
 
@@ -1596,7 +1597,6 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
 //        System.out.println(buffer);
 //        System.out.println();
 //        System.out.println("after");
-        StringUtility.deleteLineLeadingWhitespace(buffer);
 //        System.out.println(buffer);
 //        System.out.println("*******************************************************************");
         StringUtility.replace(buffer, "\u00fc", "{\\\"u}");
