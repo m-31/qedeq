@@ -59,7 +59,7 @@ public final class Path {
      *
      * @param   dirPath    Directory path to file with "/" as directory name separator.
      *                     This value can end with a "/" but it must not.
-     * @param   fileName    File name.
+     * @param   fileName   File name. It should not contain "/" but this is not checked.
      */
     public Path(final String dirPath, final String fileName) {
         this((dirPath.endsWith("/") ? StringUtility.split(dirPath.substring(0,
@@ -71,7 +71,7 @@ public final class Path {
      * from the file path if possible.
      *
      * @param   dirNames    Directory names.
-     * @param   fileName    File name.
+     * @param   fileName   File name. It should not contain "/" but this is not checked.
      */
     public Path(final String[] dirNames, final String fileName) {
         path = removeRelativeDirs(dirNames);
@@ -191,35 +191,15 @@ public final class Path {
         for (int i = 0; i < dirNames.length; i++) {
             d.add(dirNames[i]);
         }
-        int up = 0;
         for (int i = 0; i < d.size(); ) {
-//            for (up = 0; up < d.size() && "..".equals(d.get(up)); up++) { };
-//            if (i > up && "..".equals(d.get(i))) {
-            if (i > 0 && "..".equals(d.get(i)) && !"".equals(d.get(i - 1)) && !"..".equals(d.get(i - 1))) {
+            if (i > 0 && "..".equals(d.get(i)) && !"".equals(d.get(i - 1))
+                    && !"..".equals(d.get(i - 1))) {
                 d.remove(i - 1);
                 d.remove(i - 1);
             } else if (".".equals(d.get(i))) {
                 d.remove(i);
             } else {
                 i++;
-            }
-        }
-        return (String[]) d.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
-    }
-
-    private String[] removeRelativeDirsOld(final String[] dirNames) {
-        List d = new ArrayList();
-        for (int i = 0; i < dirNames.length; i++) {
-            d.add(dirNames[i]);
-        }
-        int up = 0;
-        for (int i = 0; i < d.size(); i++) {
-            for (up = 0; up < d.size() && "..".equals(d.get(up)); up++) { };
-            if (i > up && "..".equals(d.get(i))) {
-                d.remove(i - 1);
-                d.remove(i - 1);
-            } else if (".".equals(d.get(i))) {
-                d.remove(i);
             }
         }
         return (String[]) d.toArray(ArrayUtils.EMPTY_STRING_ARRAY);

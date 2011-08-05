@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 
@@ -622,7 +623,7 @@ public final class StringUtility {
             start = found + delimiter.length();
         }
         list.add(text.substring(start));
-        return (String[]) list.toArray(new String[]{});
+        return (String[]) list.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
     /**
