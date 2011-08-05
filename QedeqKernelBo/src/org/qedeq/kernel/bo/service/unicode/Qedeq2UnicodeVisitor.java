@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.qedeq.base.io.AbstractOutput;
 import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.io.TextOutput;
@@ -716,7 +717,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
             list.add(StringUtility.substring(reasonString, index, reasonWidth));
             index += reasonWidth;
         }
-        lineData.setReason((String[]) list.toArray(new String[] {}));
+        lineData.setReason((String[]) list.toArray(ArrayUtils.EMPTY_STRING_ARRAY));
     }
 
     private void setFormula(final Formula f) {
