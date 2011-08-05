@@ -1558,6 +1558,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
 
     /**
      * Get LaTeX from string. Escapes common characters.
+     * Also gets rid of leading spaces if they are equal among the lines.
      *
      * @param   text   Unescaped text.
      * @return  LaTeX.
@@ -1577,12 +1578,11 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         StringUtility.replace(buffer, "<", "\\textless");
         StringUtility.replace(buffer, ">", "\\textgreater");
         StringUtility.deleteLineLeadingWhitespace(buffer);
-        return escapeUmlauts(buffer.toString());
+        return escapeUmlauts(buffer.toString().trim());
     }
 
     /**
      * Get really LaTeX. Does some simple character replacements for umlauts.
-     * Also gets rid of leading spaces if they are equal among the lines.
      * LATER mime 20050205: filter more than German umlauts
      *
      * @param   nearlyLatex   Unescaped text.
@@ -1606,7 +1606,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         StringUtility.replace(buffer, "\u00d6", "{\\\"O}");
         StringUtility.replace(buffer, "\u00c4", "{\\\"A}");
         StringUtility.replace(buffer, "\u00df", "{\\ss}");
-        return buffer.toString().trim();
+        return buffer.toString();
     }
 
 }
