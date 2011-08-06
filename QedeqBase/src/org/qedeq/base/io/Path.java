@@ -173,11 +173,11 @@ public final class Path {
      *          an empty path.
      */
     public String getDirectory() {
-        String result = "";
+        StringBuffer result = new StringBuffer(256);
         for (int i = 0; i < path.length; i++) {
-            result += path[i] + "/";
+            result.append(path[i]).append("/");
         }
-        return result;
+        return result.toString();
     }
 
     /**
@@ -207,12 +207,12 @@ public final class Path {
     }
 
     public String toString() {
-        String result = "";
+        StringBuffer result = new StringBuffer(256);
         for (int i = 0; i < path.length; i++) {
-            result += path[i] + "/";
+            result.append(path[i]).append("/");
         }
-        result += name;
-        return result;
+        result.append(name);
+        return result.toString();
     }
 
     public boolean equals(final Object obj) {
