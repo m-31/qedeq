@@ -21,6 +21,7 @@ import java.net.URL;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.SystemUtils;
+import org.qedeq.base.io.Path;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.dto.module.LocationListVo;
@@ -227,7 +228,7 @@ public class DefaultModuleAddressTest extends QedeqTestCase {
     }
 
     // should also work with relative addresses!
-    public void pestGetModulePaths3() throws Exception {
+    public void testGetModulePaths3() throws Exception {
         dflt = new DefaultModuleAddress("unknown/hulouo.xml");
         ModuleAddress[] r = dflt.getModulePaths(new SpecificationVo());
         assertEquals(0, r.length);
@@ -247,17 +248,22 @@ public class DefaultModuleAddressTest extends QedeqTestCase {
     }
 
     public void testCreateRelativeAddress() {
-        assertEquals("ho", DefaultModuleAddress.createRelativeAddress("hi", "ho"));
         assertEquals("ho", DefaultModuleAddress.createRelativeAddress("http://hi/ti", "http://hi/ho"));
         assertEquals("ho.xml", DefaultModuleAddress.createRelativeAddress("http://hi/tic.xml", "http://hi/ho.xml"));
         assertEquals("http://gu/hi/ho.xml", DefaultModuleAddress.createRelativeAddress("http://go/hi/tic.xml", "http://gu/hi/ho.xml"));
         assertEquals("../ho.xml", DefaultModuleAddress.createRelativeAddress("http://go/hi/tic.xml", "http://go/ho.xml"));
+        assertEquals("/../now/hulouo.xml", (new Path("/../now/hulouo.xml")).toString());
         
     }
 
-    // FIXME 20110227 m31: test should work also for this:
-    public void pestCreateRelativeAddress2() {
-        assertEquals("./ho", DefaultModuleAddress.createRelativeAddress("hi/ti", "hi/ho"));
+    public void testCreateRelativeAddress2() {
+        assertEquals("hi/ho", DefaultModuleAddress.createRelativeAddress("hi/ti", "hi/ho"));
+        assertEquals("ho", DefaultModuleAddress.createRelativeAddress("/hi", "/ho"));
+        assertEquals("ho", DefaultModuleAddress.createRelativeAddress("/ti/hi", "/ti/ho"));
+        assertEquals("ho", DefaultModuleAddress.createRelativeAddress("hi", "ho"));
+        assertEquals("ho", DefaultModuleAddress.createRelativeAddress("hi/ti", "ho"));
+        assertEquals("hi/ti/hu", DefaultModuleAddress.createRelativeAddress("hi/ti/ta/ten", "hi/ti/hu"));
+        assertEquals("ho", DefaultModuleAddress.createRelativeAddress("hi/ho", "ho"));
     }
 
 }

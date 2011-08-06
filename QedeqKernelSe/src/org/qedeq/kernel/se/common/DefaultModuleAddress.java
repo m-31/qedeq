@@ -21,7 +21,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.Path;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.se.base.module.LocationList;
 import org.qedeq.kernel.se.base.module.Specification;
 
@@ -142,7 +144,7 @@ public class DefaultModuleAddress implements ModuleAddress {
         URL urmel;
         try {
             if (parent != null) {
-                urmel = new URL(new URL(parent.getUrl()), address);
+                urmel = new URL(new URL(StringUtility.replace(parent.getUrl(), "file://", "file:")), address);
             } else {
                 urmel = new URL(address);
             }
@@ -161,51 +163,35 @@ public class DefaultModuleAddress implements ModuleAddress {
                 throw e;    // throw original exception
             }
         }
-        Trace.trace(CLASS, this, method, "protocol=" + urmel.getProtocol());
-        fileAddress = urmel.getProtocol().equalsIgnoreCase("file");
-        if (!fileAddress) {
-            url = urmel.toString();
-        } else {
-            String urm = urmel.toString();
-            if (urm.startsWith("file:") && !urm.startsWith("file://")) {
-                urm = "file://" + urm.substring("file:".length());
-            }
-            url = urm;
-        }
-/*
-        Trace.trace(this, METHOD, "url.getFile=" + this.url.getFile());
-        Trace.trace(this, METHOD, "url.getPath=" + this.url.getPath());
-        try {
-            Trace.trace(this, METHOD, "URI File=" +
-                new File(new URI(this.address)).getAbsoluteFile());
-        } catch (URISyntaxException e1) {
-            e1.printStackTrace();
-        }
-*/
-        final String p = urmel.getFile();
-        final int position = p.lastIndexOf("/");
-        if (position >= 0 && position + 1 < p.length()) {
-            this.path = p.substring(0, position) + "/";
-            this.fileName = p.substring(position + 1);
-        } else {
-            this.path = "";
-            this.fileName = p;
-        }
+        final Path p = new Path(urmel.getPath());
+        this.path = p.getDirectory();
+        this.fileName = p.getFileName();
         Trace.trace(CLASS, this, method, "path=" + this.path);
         Trace.trace(CLASS, this, method, "fileName=" + this.fileName);
-        this.relativeAddress = !this.path.startsWith("/");
+        this.relativeAddress = p.isRelative();
         if (!this.fileName.endsWith(".xml")) {
             throw new MalformedURLException("file name doesn't end with \".xml\": "
                 + this.fileName);
         }
+        Trace.trace(CLASS, this, method, "protocol=" + urmel.getProtocol());
+        fileAddress = urmel.getProtocol().equalsIgnoreCase("file");
+        String urm = urmel.toString();
+        System.out.println("replacing " + urmel.getPath() + "\n       by " + p.toString()); // FIXME
+        urm = StringUtility.replace(urm, urmel.getPath(), p.toString());
+        if (fileAddress) {
+            if (urm.startsWith("file:") && !urm.startsWith("file://")) {
+                urm = "file://" + urm.substring("file:".length());
+            }
+        }
+        url = urm;
         final int positionBefore = this.fileName.lastIndexOf(".");
         final String mname = this.fileName.substring(0, positionBefore);
         this.name = mname;
-        final int positionPath = url.lastIndexOf(this.path + this.fileName);
+        final int positionPath = url.lastIndexOf(p.toString());
         if (positionPath < 0) {
             throw new IllegalArgumentException(
                 "couldn't determine begin of file path: "
-                + url);
+                + url + "\nsearching for: " + p);
         }
         this.header = url.substring(0, positionPath);
     }
@@ -291,7 +277,6 @@ public class DefaultModuleAddress implements ModuleAddress {
         return url.hashCode();
     }
 
-    // FIXME m31 20100820: what if we have "hoho/hello/sample.xml" and "hoho/hello/../hello/sample.xml"
     public final boolean equals(final Object object) {
         if (object == null || !(object instanceof DefaultModuleAddress)) {
             return false;
@@ -331,7 +316,7 @@ public class DefaultModuleAddress implements ModuleAddress {
     }
 
     /**
-     * Create relative address from <code>orgin</code> to <code>next</code>.
+     * Create relative address from <code>origin</code> to <code>next</code>.
      *
      * @param   origin  This is the original location (URL!).
      * @param   next    This should be the next location (URL!).
@@ -342,38 +327,21 @@ public class DefaultModuleAddress implements ModuleAddress {
         if (origin.equals(next)) {
             return "";
         }
+        final URL urlOrgin;
         try {
-            final URL urlOrgin = new URL(origin);
-            final URL urlNext = new URL(next);
+            urlOrgin = new URL(origin);
+        } catch (MalformedURLException e) {
+            return createRelative(origin, next);
+        }
+        try {
+            final URL urlNext = new URL(next);  // FIXME without path?
 
             if (urlOrgin.getProtocol().equals(urlNext.getProtocol())
                     && urlOrgin.getHost().equals(urlNext.getHost())
                     && urlOrgin.getPort() == urlNext.getPort()) {
                 final String org = urlOrgin.getFile();
                 final String nex = urlNext.getFile();
-                int i = -1; // position of next '/'
-                int j = 0;  // position of last '/'
-                while (0 <= (i = org.indexOf("/", j))) {
-                    if (i >= 0 && nex.length() > i
-                            && org.substring(j, i).equals(
-                            nex.substring(j, i))) {
-                        j = i + 1;
-                    } else {
-                        break;
-                    }
-                }
-                if (j > 0) {
-                    i = j;
-                    StringBuffer result = new StringBuffer(nex.length());
-                    while (0 <= (i = org.indexOf("/", i))) {
-                        i++;
-                        result.append("../");
-                    }
-                    result.append(nex.substring(j));
-                    return result.toString();
-                } else {
-                    return "/" + nex;
-                }
+                return createRelative(org, nex);
             } else {    // no relative address possible
                 return urlNext.toString();
             }
@@ -383,6 +351,17 @@ public class DefaultModuleAddress implements ModuleAddress {
 
     }
 
+    /**
+     * Create relative address. Assume only file paths.
+     *
+     * @param   org     This is the original location.
+     * @param   nex     This should be the next location.
+     * @return  Relative path (if possible).
+     */
+    public static String createRelative(final String org, final String nex) {
+        final Path from = new Path(org);
+        return from.createRelative(nex).toString();
+    }
 
 }
 
