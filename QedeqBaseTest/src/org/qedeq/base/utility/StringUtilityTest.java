@@ -146,7 +146,7 @@ public class StringUtilityTest extends QedeqTestCase {
     private void doReplace(final StringBuffer buffer, final String expected, final String text,
             final String search, final String replacement) {
         buffer.setLength(0);
-        buffer.append(expected);
+        buffer.append(text);
         StringUtility.replace(buffer, search, replacement);
         assertEquals(expected, buffer.toString());
     }
