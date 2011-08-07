@@ -146,11 +146,11 @@ public final class StringUtility {
     }
 
     /**
-     * Returns a readable presentation of a String array. Something like "(a, null, c)" if the
-     * Strings are "a", null, "c"
+     * Returns a readable presentation of an Object array. Something like "(a, null, 13)" if we have
+     * the "a", null, 13. Objects of type {@link CharSequence} are quoted.
      *
-     * @param   list  List of Strings.
-     * @return  Set notation for list.
+     * @param   list  List of Objects.
+     * @return  List notation.
      */
     public static String toString(final Object[] list) {
         final StringBuffer buffer = new StringBuffer(30);
@@ -160,12 +160,12 @@ public final class StringUtility {
                 if (i > 0) {
                     buffer.append(", ");
                 }
-                if (list[i] == null) {
-                    buffer.append("null");
+                if (list[i] instanceof CharSequence) {
+                    buffer.append("\"");
+                    buffer.append(list[i].toString());
+                    buffer.append("\"");
                 } else {
-                    buffer.append("\"");
-                    buffer.append(list[i]);
-                    buffer.append("\"");
+                    buffer.append(String.valueOf(list[i]));
                 }
             }
         }

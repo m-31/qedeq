@@ -151,6 +151,12 @@ public class StringUtilityTest extends QedeqTestCase {
         assertEquals(expected, buffer.toString());
     }
 
+    public void testToStringObjectArray() throws Exception {
+        assertEquals("(\"a\", 1, null, \"gu\")", StringUtility.toString(new Object[] {
+            "a", new Integer(1), null, "gu"}));
+        assertEquals("()", StringUtility.toString((Object[]) null));
+    }
+
     /**
      * Test {@link StringUtility#quote(String)}.
      *
