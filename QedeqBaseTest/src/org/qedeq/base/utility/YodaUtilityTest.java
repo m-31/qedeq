@@ -58,6 +58,77 @@ public class YodaUtilityTest extends QedeqTestCase {
     public void testExecuteMethod() throws Exception {
         assertEquals(getOutdir(),  YodaUtility.executeMethod(this, "getOutdir",
             new Class[]{}, new Object[]{}));
+        try { 
+            YodaUtility.executeMethod(this, "getoutdir",
+                new Class[]{}, new Object[]{});
+            fail("exception expected");
+        } catch (NoSuchMethodException e) {
+            // ok
+        }
+        final String time = "" + System.currentTimeMillis();
+        assertEquals(myTestMethod(time), 
+            YodaUtility.executeMethod(this, "myTestMethod",
+            new Class[]{String.class}, new Object[]{ time}));
+        try { 
+            YodaUtility.executeMethod(this, "myTestMethodi",
+                new Class[]{String.class}, new Object[]{ time});
+            fail("exception expected");
+        } catch (NoSuchMethodException e) {
+            // ok
+        }
+        try { 
+            YodaUtility.executeMethod(this, "myTestMethod",
+                new Class[]{}, new Object[]{});
+            fail("exception expected");
+        } catch (NoSuchMethodException e) {
+            // ok
+        }
+    }
+
+    private String myTestMethod(final String my) {
+        return my + "done!";
+    }
+
+    /**
+     * Test {@link YodaUtility#executeMethod(String, String, Class[], Object[]).
+     *
+     * @throws Exception    Something bad happened.
+     */
+    public void testExecuteMethod2() throws Exception {
+        try {
+            YodaUtility.executeMethod(this.getClass().getName(), "getOutdir",
+                new Class[]{}, new Object[]{});
+            fail("exception expected");
+        } catch (NoSuchMethodException e) {
+            // ok
+        }
+        try { 
+            YodaUtility.executeMethod(this.getClass().getName(), "getoutdir",
+              new Class[]{}, new Object[]{});
+            fail("exception expected");
+        } catch (NoSuchMethodException e) {
+            // ok
+        }
+        final String time = "" + System.currentTimeMillis();
+        assertEquals(myStaticTestMethod(time), 
+            YodaUtility.executeMethod(this.getClass().getName(), "myStaticTestMethod",
+            new Class[]{String.class}, new Object[]{ time}));
+        try { 
+            YodaUtility.executeMethod(this.getClass().getName(), "myStaticTestMethodi",
+            new Class[]{String.class}, new Object[]{ time});
+        } catch (NoSuchMethodException e) {
+            // ok
+        }
+        try { 
+            YodaUtility.executeMethod(this.getClass().getName(), "myStaticTestMethod",
+            new Class[]{}, new Object[]{});
+        } catch (NoSuchMethodException e) {
+            // ok
+        }
+    }
+
+    private static String myStaticTestMethod(final String my) {
+        return my + "done!";
     }
 
     /**
