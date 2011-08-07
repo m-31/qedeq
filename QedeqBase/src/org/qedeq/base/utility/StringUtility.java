@@ -146,7 +146,7 @@ public final class StringUtility {
     }
 
     /**
-     * Returns a readable presentation of an Object array. Something like "(a, null, 13)" if we have
+     * Returns a readable presentation of an Object array. Something like ("a", null, 13)" if we have
      * the "a", null, 13. Objects of type {@link CharSequence} are quoted.
      *
      * @param   list  List of Objects.
@@ -174,8 +174,8 @@ public final class StringUtility {
     }
 
     /**
-     * Returns a readable presentation of a Set. Something like "{a, null, c}" if the
-     * Strings are "a", null, "c"
+     * Returns a readable presentation of a Set. Something like {"a", null, "13} if we have
+     * "a", null, 13. Objects of type {@link CharSequence} are quoted.
      *
      * @param   set Set of objects.
      * @return  Set notation for toString() results.
@@ -192,7 +192,14 @@ public final class StringUtility {
                 } else {
                     notFirst = true;
                 }
-                buffer.append(String.valueOf(e.next()));
+                final Object obj = e.next();
+                if (obj instanceof CharSequence) {
+                    buffer.append("\"");
+                    buffer.append(String.valueOf(obj));
+                    buffer.append("\"");
+                } else {
+                    buffer.append(String.valueOf(obj));
+                }
             }
         }
         buffer.append("}");

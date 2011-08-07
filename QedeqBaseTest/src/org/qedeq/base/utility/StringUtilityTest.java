@@ -16,6 +16,8 @@
 package org.qedeq.base.utility;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.qedeq.base.test.QedeqTestCase;
 
@@ -155,6 +157,16 @@ public class StringUtilityTest extends QedeqTestCase {
         assertEquals("(\"a\", 1, null, \"gu\")", StringUtility.toString(new Object[] {
             "a", new Integer(1), null, "gu"}));
         assertEquals("()", StringUtility.toString((Object[]) null));
+    }
+
+    public void testToStringSet() throws Exception {
+        final HashSet set = new HashSet();
+        set.add("a");
+        set.add(new Integer(1));
+        set.add(null);
+        set.add("gu");
+        assertEquals("{null, 1, \"a\", \"gu\"}", StringUtility.toString(set));
+        assertEquals("{}", StringUtility.toString((Set) null));
     }
 
     /**
