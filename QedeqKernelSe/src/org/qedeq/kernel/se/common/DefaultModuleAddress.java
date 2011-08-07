@@ -176,7 +176,7 @@ public class DefaultModuleAddress implements ModuleAddress {
         Trace.trace(CLASS, this, method, "protocol=" + urmel.getProtocol());
         fileAddress = urmel.getProtocol().equalsIgnoreCase("file");
         String urm = urmel.toString();
-        System.out.println("replacing " + urmel.getPath() + "\n       by " + p.toString()); // FIXME
+        Trace.trace(CLASS, this, method, "replacing " + urmel.getPath() + " by " + p.toString());
         urm = StringUtility.replace(urm, urmel.getPath(), p.toString());
         if (fileAddress) {
             if (urm.startsWith("file:") && !urm.startsWith("file://")) {
@@ -317,6 +317,7 @@ public class DefaultModuleAddress implements ModuleAddress {
 
     /**
      * Create relative address from <code>origin</code> to <code>next</code>.
+     * If both addresses point to the same file we return "".
      *
      * @param   origin  This is the original location (URL!).
      * @param   next    This should be the next location (URL!).
@@ -334,8 +335,7 @@ public class DefaultModuleAddress implements ModuleAddress {
             return createRelative(origin, next);
         }
         try {
-            final URL urlNext = new URL(next);  // FIXME without path?
-
+            final URL urlNext = new URL(next);
             if (urlOrgin.getProtocol().equals(urlNext.getProtocol())
                     && urlOrgin.getHost().equals(urlNext.getHost())
                     && urlOrgin.getPort() == urlNext.getPort()) {
@@ -348,7 +348,6 @@ public class DefaultModuleAddress implements ModuleAddress {
         } catch (MalformedURLException e) {
             return next;
         }
-
     }
 
     /**
