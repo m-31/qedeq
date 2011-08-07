@@ -94,4 +94,20 @@ public class YodaUtilityTest extends QedeqTestCase {
         assertEquals(37846, changeMe);;
     }
 
+    /**
+     * Test {@link YodaUtility#existsMethod(String, String, Class[])}.
+     *
+     * @throws Exception    Something bad happened.
+     */
+    public void testExistsMethod2() throws Exception {
+        assertTrue(YodaUtility.existsMethod(this.getClass().getName(), "getOutdir",
+            new Class[]{}));
+        assertFalse(YodaUtility.existsMethod(this.getClass().getName(), "getOutdir",
+                new Class[]{Integer.TYPE}));
+        assertFalse(YodaUtility.existsMethod(this.getClass().getName(), "getTevqOutdir",
+                new Class[]{}));
+        assertTrue(YodaUtility.existsMethod(this.getClass().getName(), "testExistsMethod2",
+                new Class[]{}));
+    }
+    
 }
