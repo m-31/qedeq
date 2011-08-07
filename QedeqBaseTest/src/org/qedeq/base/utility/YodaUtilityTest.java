@@ -108,6 +108,8 @@ public class YodaUtilityTest extends QedeqTestCase {
                 new Class[]{}));
         assertTrue(YodaUtility.existsMethod(this.getClass().getName(), "testExistsMethod2",
                 new Class[]{}));
+        assertFalse(YodaUtility.existsMethod("this.is.a.non.existing.Class", "getOutdir",
+            new Class[]{}));
     }
     
 }
