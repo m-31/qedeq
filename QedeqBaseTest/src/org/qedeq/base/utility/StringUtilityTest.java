@@ -17,7 +17,9 @@ package org.qedeq.base.utility;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.qedeq.base.test.QedeqTestCase;
 
@@ -167,6 +169,16 @@ public class StringUtilityTest extends QedeqTestCase {
         set.add("gu");
         assertEquals("{null, 1, \"a\", \"gu\"}", StringUtility.toString(set));
         assertEquals("{}", StringUtility.toString((Set) null));
+    }
+
+    public void testToStringMap() throws Exception {
+        final TreeMap map = new TreeMap();
+        map.put("v1", "a");
+        map.put("v2", new Integer(1));
+        map.put("v4", null);
+        map.put("v5", "gu");
+        assertEquals("{v1=\"a\", v2=1, v4=null, v5=\"gu\"}", StringUtility.toString(map));
+        assertEquals("{}", StringUtility.toString((Map) null));
     }
 
     /**
