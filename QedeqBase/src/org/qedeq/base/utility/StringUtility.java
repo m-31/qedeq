@@ -244,6 +244,7 @@ public final class StringUtility {
 
     /**
      * Evaluates toString at the elements of a Set and returns them as line separated Strings.
+     * After the last element no carriage return is inserted.
      *
      * @param   set Set of objects.
      * @return  List of toString() results.
@@ -397,33 +398,29 @@ public final class StringUtility {
         try {
             newprops.store(out, null);
         } catch (IOException e) {
+            // should never occur
             throw new RuntimeException(e);
         }
         try {
             final String file = out.toString("ISO-8859-1");
             return file.substring(file.indexOf('\n') + 1 + "key=".length()).trim();
         } catch (UnsupportedEncodingException e) {
+            // should never occur
             throw new RuntimeException(e);
         }
     }
 
     /**
-     * Trim an integer with leading spaces to a given maximum length.
+     * Trim an integer with leading spaces to a given maximum length. If <code>length</code> is
+     * shorter than the String representation of <code>number</code> no digit is cut. So the
+     * resulting String might be longer than <code>length</code>.
      *
      * @param   number  Format this long.
      * @param   length  Maximum length. Must not be bigger than 20 and less than 1.
-     * @return  String with minimum <code>length</code>, trimmed with leading zeros.
+     * @return  String with minimum <code>length</code>, trimmed with leading spaces.
      */
     public static final String alignRight(final long number, final int length) {
-        if (length > FORMATED_SPACES.length()) {
-            throw new IllegalArgumentException("maximum length " + FORMATED_SPACES + " exceeded: "
-                + length);
-        }
-        if (length < 1) {
-            throw new IllegalArgumentException("length must be bigger than 0: " + length);
-        }
-        final String temp = FORMATED_SPACES + number;
-        return temp.substring(temp.length() - length);
+        return alignRight("" + number, length);
     }
 
     /**
@@ -431,7 +428,7 @@ public final class StringUtility {
      *
      * @param   string  Format this string.
      * @param   length  Maximum length. Must not be bigger than 20 and less than 1.
-     * @return  String with minimum <code>length</code>, trimmed with leading zeros.
+     * @return  String with minimum <code>length</code>, trimmed with leading spaces.
      */
     public static final String alignRight(final String string, final int length) {
         if (length > FORMATED_SPACES.length()) {
@@ -442,7 +439,7 @@ public final class StringUtility {
             throw new IllegalArgumentException("length must be bigger than 0: " + length);
         }
         final String temp = FORMATED_SPACES + string;
-        return temp.substring(temp.length() - length);
+        return temp.substring(Math.min(temp.length() - length, FORMATED_SPACES.length()));
     }
 
     /**
@@ -461,7 +458,7 @@ public final class StringUtility {
             throw new IllegalArgumentException("length must be bigger than 0: " + length);
         }
         final String temp = FORMATED_ZERO + number;
-        return temp.substring(temp.length() - length);
+        return temp.substring(Math.min(temp.length() - length, FORMATED_ZERO.length()));
     }
 
     /**
@@ -491,7 +488,7 @@ public final class StringUtility {
     }
 
     /**
-     * Get a hex string representation for a String.
+     * Get a hex string representation for a String. Uses UTF-8 encoding.
      *
      * @param   data    String to work on
      * @return  hex     String of hex codes.
@@ -553,7 +550,7 @@ public final class StringUtility {
     }
 
     /**
-     * Get a String out of a hex string representation.
+     * Get a String out of a hex string representation. Uses UTF-8 encoding.
      *
      * @param   hex     Hex string representation of data.
      * @return  Data as String.

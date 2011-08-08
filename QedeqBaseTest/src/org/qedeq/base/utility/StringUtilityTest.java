@@ -181,6 +181,16 @@ public class StringUtilityTest extends QedeqTestCase {
         assertEquals("{}", StringUtility.toString((Map) null));
     }
 
+    public void testAsLines() throws Exception {
+        final HashSet set = new HashSet();
+        set.add("a");
+        set.add(new Integer(1));
+        set.add(null);
+        set.add("gu");
+        assertEquals("null\n1\na\ngu", StringUtility.asLines(set));
+        assertEquals("", StringUtility.asLines((Set) null));
+    }
+
     /**
      * Test {@link StringUtility#quote(String)}.
      *
@@ -311,6 +321,54 @@ public class StringUtilityTest extends QedeqTestCase {
     public void testEscapeProperty() throws Exception {
         assertEquals("\\u00E4\\u00FC\\u00F6\\u00DF\\u20AC\\u00C4\\u00DC\\u00D6\\u00B3",
             StringUtility.escapeProperty("\u00E4\u00FC\u00F6\u00DF\u20AC\u00C4\u00DC\u00D6\u00B3"));
+    }
+
+    public void testAlignRightLongInt() throws Exception {
+        try {
+            StringUtility.alignRight(13l, 0);
+            fail("Exception expected");
+        } catch (RuntimeException e) {
+            // expected
+        }
+        try {
+            StringUtility.alignRight(13l, -10);
+            fail("Exception expected");
+        } catch (RuntimeException e) {
+            // expected
+        }
+        assertEquals("13", StringUtility.alignRight(13l, 2));
+        assertEquals("13", StringUtility.alignRight(13l, 1));
+        assertEquals("                  13", StringUtility.alignRight(13l, 20));
+        try {
+            StringUtility.alignRight(13l, 21);
+            fail("Exception expected");
+        } catch (RuntimeException e) {
+            // expected
+        }
+    }
+
+    public void testAlignRightStringInt() throws Exception {
+        try {
+            StringUtility.alignRight("13", 0);
+            fail("Exception expected");
+        } catch (RuntimeException e) {
+            // expected
+        }
+        try {
+            StringUtility.alignRight("13", -10);
+            fail("Exception expected");
+        } catch (RuntimeException e) {
+            // expected
+        }
+        assertEquals("13", StringUtility.alignRight("13", 2));
+        assertEquals("13", StringUtility.alignRight("13", 1));
+        assertEquals("                  13", StringUtility.alignRight("13", 20));
+        try {
+            StringUtility.alignRight("13", 21);
+            fail("Exception expected");
+        } catch (RuntimeException e) {
+            // expected
+        }
     }
 
     /**
@@ -448,6 +506,8 @@ public class StringUtilityTest extends QedeqTestCase {
             // expected
         }
         assertEquals("00123456", StringUtility.format(123456, 8));
+        assertEquals("123456", StringUtility.format(123456, 6));
+        assertEquals("123456", StringUtility.format(123456, 5));
         assertEquals("00000000000000123456", StringUtility.format(123456, 20));
         try {
             assertEquals("00000000000000000000000123456", StringUtility.format(123456, 30));
