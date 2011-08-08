@@ -543,7 +543,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         assertEquals("123456789 abcdefghi\n123456789", out.toString());
     }
 
-    public void pestAddWsToken19() throws Exception {
+    public void testAddWsToken19() throws Exception {
         out.setColumns(27);
         out.pushLevel("1234567");
         out.addToken("123456789");
@@ -551,6 +551,48 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.addToken("abcdefghi");
         out.addWs(" ");
         out.popLevel("1234567".length());
+        out.addToken("1");
+        out.flush();
+        assertEquals("1234567123456789 abcdefghi\n12345671", out.toString());
+    }
+
+    public void testAddWsToken20() throws Exception {
+        out.setColumns(27);
+        out.pushLevel("1234567");
+        out.addToken("123456789");
+        out.addWs(" ");
+        out.addToken("abcdefghi");
+        out.addWs(" ");
+        out.popLevel("1234567".length());
+        out.setTabLevel();
+        out.addToken("1");
+        out.flush();
+        assertEquals("1234567123456789 abcdefghi\n1", out.toString());
+    }
+
+    public void testAddWsToken21() throws Exception {
+        out.setColumns(27);
+        out.pushLevel("1234567");
+        out.addToken("123456789");
+        out.addWs(" ");
+        out.addToken("abcdefghi");
+        out.addWs(" ");
+        out.popLevel("1234567".length());
+        out.println();
+        out.addToken("1");
+        out.flush();
+        assertEquals("1234567123456789 abcdefghi\n1", out.toString());
+    }
+
+    public void testAddWsToken22() throws Exception {
+        out.setColumns(27);
+        out.pushLevel("1234567");
+        out.addToken("123456789");
+        out.popLevel("1234567".length());
+        out.addWs(" ");
+        out.addToken("abcdefghi");
+        out.addWs(" ");
+        out.println();
         out.addToken("1");
         out.flush();
         assertEquals("1234567123456789 abcdefghi\n1", out.toString());
