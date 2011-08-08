@@ -317,7 +317,7 @@ public abstract class AbstractOutput {
     }
 
     /**
-     * Increment tab level.
+     * Increment tab level (this are two spaces).
      */
     public final void pushLevel() {
         spaces.append("  ");

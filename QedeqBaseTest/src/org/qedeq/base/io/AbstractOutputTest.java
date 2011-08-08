@@ -356,5 +356,205 @@ public class AbstractOutputTest extends QedeqTestCase {
         assertEquals("  Hello\n  Hello", out.toString());
     }
 
+    public void testAddWsToken01() throws Exception {
+        out.setColumns(9);
+        out.addToken("123456789");
+        out.addWs(" ");
+        out.addWs("\n");
+        out.addWs("\t");
+        out.addToken("abcdefghi");
+        out.flush();
+        assertEquals("123456789\nabcdefghi", out.toString());
+    }
+
+    public void testAddWsToken02() throws Exception {
+        out.setColumns(18);
+        out.addToken("123456789");
+        out.addWs(" ");
+        out.addWs("\n");
+        out.addWs("\t");
+        out.addToken("abcdefghi");
+        out.flush();
+        assertEquals("123456789\nabcdefghi", out.toString());
+    }
+
+    public void testAddWsToken03() throws Exception {
+        out.setColumns(1);
+        out.addToken("123456789");
+        out.addWs(" ");
+        out.addWs("\n");
+        out.addWs("\t");
+        out.addToken("abcdefghi");
+        out.flush();
+        assertEquals("123456789\nabcdefghi", out.toString());
+    }
+
+    public void testAddWsToken04() throws Exception {
+        out.setColumns(21);
+        out.addToken("123456789");
+        out.addWs(" ");
+        out.addWs("\n");
+        out.addWs("\t");
+        out.addToken("abcdefghi");
+        out.flush();
+        assertEquals("123456789 \n\tabcdefghi", out.toString());
+    }
+
+    public void testAddWsToken05() throws Exception {
+        out.setColumns(20);
+        out.addToken("123456789");
+        out.addWs(" ");
+        out.addWs("\n");
+        out.addWs("\t");
+        out.addToken("abcdefghi");
+        out.flush();
+        assertEquals("123456789\nabcdefghi", out.toString());
+    }
+
+    public void testAddWsToken06() throws Exception {
+        out.setColumns(20);
+        out.addToken("123456789");
+        out.addWs("                   ");
+        out.addToken("abcdefghi");
+        out.flush();
+        assertEquals("123456789\nabcdefghi", out.toString());
+    }
+
+    public void testAddWsToken07() throws Exception {
+        out.setColumns(20);
+        out.addToken("123456789");
+        out.addWs("  ");
+        out.addToken("abcdefghi");
+        out.flush();
+        assertEquals("123456789  abcdefghi", out.toString());
+    }
+
+    public void testAddWsToken08() throws Exception {
+        out.setColumns(20);
+        out.addToken("123456789");
+        out.addWs(" ");
+        out.addToken("abcdefghi");
+        out.addWs(" ");
+        out.addToken("123456789");
+        out.flush();
+        assertEquals("123456789 abcdefghi\n123456789", out.toString());
+    }
+
+    public void testAddWsToken09() throws Exception {
+        out.setColumns(20);
+        out.addToken("123456789");
+        out.addWs(" ");
+        out.addToken("abcdefghi");
+        out.addWs(" ");
+        out.addToken("1");
+        out.flush();
+        assertEquals("123456789 abcdefghi\n1", out.toString());
+    }
+
+    public void testAddWsToken11() throws Exception {
+        out.setColumns(11);
+        out.pushLevel();
+        out.addToken("123456789");
+        out.addWs(" ");
+        out.addWs("\n");
+        out.addWs("\t");
+        out.addToken("abcdefghi");
+        out.flush();
+        assertEquals("  123456789\n  abcdefghi", out.toString());
+    }
+
+    public void testAddWsToken12() throws Exception {
+        out.setColumns(20);
+        out.pushLevel();
+        out.addToken("123456789");
+        out.addWs(" ");
+        out.addWs("\n");
+        out.addWs("\t");
+        out.addToken("abcdefghi");
+        out.flush();
+        assertEquals("  123456789\n  abcdefghi", out.toString());
+    }
+
+    public void testAddWsToken13() throws Exception {
+        out.setColumns(1);
+        out.pushLevel();
+        out.addToken("123456789");
+        out.addWs(" ");
+        out.addWs("\n");
+        out.addWs("\t");
+        out.addToken("abcdefghi");
+        out.flush();
+        assertEquals("  123456789\n  abcdefghi", out.toString());
+    }
+
+    public void testAddWsToken14() throws Exception {
+        out.setColumns(23);
+        out.pushLevel("  ");
+        out.addToken("123456789");
+        out.addWs(" ");
+        out.addWs("\n");
+        out.addWs("\t");
+        out.addToken("abcdefghi");
+        out.flush();
+        assertEquals("  123456789 \n\tabcdefghi", out.toString());
+    }
+
+    public void testAddWsToken15() throws Exception {
+        out.setColumns(22);
+        out.pushLevel("\t\t");
+        out.addToken("123456789");
+        out.addWs(" ");
+        out.addWs("\n");
+        out.addWs("\t");
+        out.addToken("abcdefghi");
+        out.flush();
+        assertEquals("\t\t123456789\n\t\tabcdefghi", out.toString());
+    }
+
+    public void testAddWsToken16() throws Exception {
+        out.setColumns(22);
+        out.pushLevel("**");
+        out.addToken("123456789");
+        out.addWs("                   ");
+        out.addToken("abcdefghi");
+        out.flush();
+        assertEquals("**123456789\n**abcdefghi", out.toString());
+    }
+
+    public void testAddWsToken17() throws Exception {
+        out.setColumns(24);
+        out.pushLevel("iiii");
+        out.addToken("123456789");
+        out.addWs("  ");
+        out.addToken("abcdefghi");
+        out.flush();
+        assertEquals("iiii123456789  abcdefghi", out.toString());
+    }
+
+    public void testAddWsToken18() throws Exception {
+        out.setColumns(20);
+        out.pushLevel("");
+        out.addToken("123456789");
+        out.addWs(" ");
+        out.addToken("abcdefghi");
+        out.addWs(" ");
+        out.addToken("123456789");
+        out.flush();
+        assertEquals("123456789 abcdefghi\n123456789", out.toString());
+    }
+
+    public void pestAddWsToken19() throws Exception {
+        out.setColumns(27);
+        out.pushLevel("1234567");
+        out.addToken("123456789");
+        out.addWs(" ");
+        out.addToken("abcdefghi");
+        out.addWs(" ");
+        out.popLevel("1234567".length());
+        out.addToken("1");
+        out.flush();
+        assertEquals("1234567123456789 abcdefghi\n1", out.toString());
+    }
+
 }
 
