@@ -565,4 +565,39 @@ public class StringUtilityTest extends QedeqTestCase {
         assertEquals("34", StringUtility.substring("1234", 2, 2));
         assertEquals("34", StringUtility.substring("1234", 2, 3));
     }
+
+    public void testEscapeXml() throws Exception {
+        assertEquals("&quot;bread&quot; &amp; &quot;butter&quot;",
+            StringUtility.escapeXml("\"bread\" & \"butter\""));
+    }
+
+    public void testUnEscapeXml() throws Exception {
+        assertEquals("\"bread\" & \"butter\"",
+            StringUtility.unescapeXml("&quot;bread&quot; &amp; &quot;butter&quot;"));
+    }
+
+    public void testIsNotIn() throws Exception {
+        assertTrue(StringUtility.isNotIn("12", new String[] { "11", "14", "13"}));
+        assertTrue(StringUtility.isNotIn("12", new String[] { "11", "14", null}));
+        assertFalse(StringUtility.isNotIn("12", new String[] { "12", "14", null}));
+        assertFalse(StringUtility.isNotIn("12", new String[] { null, "14", "12"}));
+        assertFalse(StringUtility.isNotIn("", new String[] { null, "14", "12"}));
+        assertFalse(StringUtility.isNotIn("", new String[] { "12", "14", "12"}));
+        assertFalse(StringUtility.isNotIn("", new String[] { "12", "", "12"}));
+        assertFalse(StringUtility.isNotIn(null, new String[] { null, "14", "12"}));
+        assertFalse(StringUtility.isNotIn(null, new String[] { "12", "14", "12"}));
+    }
+
+    public void testIsIn() throws Exception {
+        assertFalse(StringUtility.isIn("12", new String[] { "11", "14", "13"}));
+        assertFalse(StringUtility.isIn("12", new String[] { "11", "14", null}));
+        assertTrue(StringUtility.isIn("12", new String[] { "12", "14", null}));
+        assertTrue(StringUtility.isIn("12", new String[] { null, "14", "12"}));
+        assertTrue(StringUtility.isIn("", new String[] { null, "14", "12"}));
+        assertTrue(StringUtility.isIn("", new String[] { "12", "14", "12"}));
+        assertTrue(StringUtility.isIn("", new String[] { "12", "", "12"}));
+        assertTrue(StringUtility.isIn(null, new String[] { null, "14", "12"}));
+        assertTrue(StringUtility.isIn(null, new String[] { "12", "14", "12"}));
+    }
+
 }
