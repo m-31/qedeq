@@ -66,11 +66,20 @@ public class ParametersTest extends QedeqTestCase {
         map5.put("hum", new Integer(9));
         map5.put("hom", "  12  ");
         map5.put("him", "-13");
-        object6 = new Parameters(null);
+        object6 = new Parameters(new HashMap());
     }
 
     protected void tearDown() throws Exception {
         super.tearDown();
+    }
+
+    public void testConstructor() {
+        try {
+            new Parameters(null);
+            fail("Exception expected");
+        } catch (RuntimeException e) {
+            // OK
+        }
     }
 
     public void testGetBoolean() {
@@ -80,6 +89,8 @@ public class ParametersTest extends QedeqTestCase {
         assertEquals(false, object3.getBoolean("hint"));
         assertEquals(true, object4.getBoolean("hum"));
         assertEquals(false, object4.getBoolean("hom"));
+        assertEquals(false, object5.getBoolean("hom"));
+        assertEquals(false, object6.getBoolean("hom"));
     }
 
     public void testGetBooleanStandard() {
@@ -88,6 +99,7 @@ public class ParametersTest extends QedeqTestCase {
         assertEquals(false, object4.getBoolean("hom", true));
         assertEquals(false, object3.getBoolean("hint", false));
         assertEquals(true, object5.getBoolean("hum", true));
+        assertEquals(false, object6.getBoolean("hom", false));
     }
 
     public void testGetInt() {
@@ -98,11 +110,15 @@ public class ParametersTest extends QedeqTestCase {
         assertEquals(0, object3.getInt("hint"));
         assertEquals(2147483647, object3.getInt("hilt"));
         assertEquals(-13, object5.getInt("him"));
+        assertEquals(12, object5.getInt("hom"));
+        assertEquals(0, object6.getInt("hom"));
     }
 
     public void testGetIntStandard() {
         assertEquals(9, object1.getInt("hello", 9));
         assertEquals(7, object2.getInt("hello"));
+        assertEquals(12, object5.getInt("hom", 0));
+        assertEquals(11, object6.getInt("hom", 11));
     }
 
     public void testGetString() {

@@ -34,12 +34,18 @@ public class Parameters {
     /**
      * Constructs parameter access object.
      *
-     * @param   map     Herein are the parameters.
+     * @param   map     Herein are the parameters. Must not be <code>null</code>.
      */
     public Parameters(final Map map) {
+        if (map == null) {
+            throw new NullPointerException("Map must not be null.");
+        }
         this.map = map;
     }
 
+    /**
+     * Constructs parameter access object.
+     */
     public Parameters() {
         this.map = new HashMap();
     }
