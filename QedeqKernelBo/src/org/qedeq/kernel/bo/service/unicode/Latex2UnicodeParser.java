@@ -80,6 +80,9 @@ public final class Latex2UnicodeParser {
     /** Stack for mathbb mode. */
     private Stack mathbbStack = new Stack();
 
+    /** Stack for skipWhitspace mode. */
+    private Stack skipWhitespaceStack = new Stack();
+
     /** Should I skip whitespace before printing the next token. */
     private boolean skipWhitespace;
 
@@ -141,7 +144,6 @@ public final class Latex2UnicodeParser {
         skipWhitespace = true;
         this.input = new SubTextInput(text);
         parseAndPrint(this.input);
-        output.flush();
         return output.toString();
     }
 
@@ -158,6 +160,7 @@ public final class Latex2UnicodeParser {
         emphStack.push(Boolean.valueOf(emph));
         boldStack.push(Boolean.valueOf(bold));
         mathbbStack.push(Boolean.valueOf(mathbb));
+        skipWhitespaceStack.push(Boolean.valueOf(skipWhitespace));
         try {
             this.input = input;
             boolean whitespace = false;
@@ -170,7 +173,7 @@ public final class Latex2UnicodeParser {
                     whitespace = true;
                     continue;
                 }
-                if (whitespace) {
+                if (whitespace && !"\\par".equals(token)) {
                     print(" ");
                     whitespace = false;
                 }
@@ -298,6 +301,8 @@ public final class Latex2UnicodeParser {
             mathfrak = ((Boolean) mathfrakStack.pop()).booleanValue();
             emph = ((Boolean) emphStack.pop()).booleanValue();
             bold = ((Boolean) boldStack.pop()).booleanValue();
+            skipWhitespace = ((Boolean) skipWhitespaceStack.pop()).booleanValue();
+            output.flush();
         }
     }
 
