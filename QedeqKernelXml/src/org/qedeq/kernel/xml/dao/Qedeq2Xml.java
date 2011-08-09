@@ -219,7 +219,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
         if (latex.getLatex() != null) {
             printer.pushLevel();
             printer.println("<![CDATA[");
-            printer.print("  ");
+            printer.addToken("  "); // we must fool the printer, this is token not whitespace!
             final String tabs = printer.getLevel();
             printer.clearLevel();
             // escape ]]>

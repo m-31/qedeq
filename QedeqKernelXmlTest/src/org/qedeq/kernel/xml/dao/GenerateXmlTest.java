@@ -116,8 +116,8 @@ public final class GenerateXmlTest extends QedeqBoTestCase {
         Xml2Xml.generate((InternalKernelServices) getServices(), xmlFile, destination);
         if (!normalize) {
             assertEquals(true, IoUtility.compareTextFiles(xmlFile, destination, "UTF-8"));
-//        assertEquals(IoUtility.loadFile(xmlFile.getAbsolutePath(), "ISO-8859-1"), 
-//            IoUtility.loadFile(destination.getAbsolutePath(), "ISO-8859-1"));
+//            assertEquals(IoUtility.loadFile(xmlFile.getAbsolutePath(), "UTF-8"), 
+//                IoUtility.loadFile(destination.getAbsolutePath(), "UTF-8"));
         } else {
             final File xmlFile2 = new File(destinationDirectory, xmlFile.getName() + "2_").getAbsoluteFile();
             XmlNormalizer.normalize(xmlFile, xmlFile2);
