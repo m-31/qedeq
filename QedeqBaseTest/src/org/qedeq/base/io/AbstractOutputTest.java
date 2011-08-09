@@ -163,7 +163,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.addWs(" ");
         out.addToken("Hello");
         out.flush();
-        assertEquals("Hello\nHello", out.toString());
+        assertEquals("Hello \nHello", out.toString());
     }
 
     public void testAdd02() throws Exception {
@@ -172,7 +172,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.addWs(" ");
         out.addToken(" Hello");
         out.flush();
-        assertEquals(" Hello\n Hello", out.toString());
+        assertEquals(" Hello \n Hello", out.toString());
     }
 
     public void testAdd03() throws Exception {
@@ -182,7 +182,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.addWs(" ");
         out.addToken("Hello");
         out.flush();
-        assertEquals("  Hello\n  Hello", out.toString());
+        assertEquals("  Hello \n  Hello", out.toString());
     }
 
     public void testAdd04() throws Exception {
@@ -202,7 +202,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.addWs("  ");
         out.addToken("Hello");
         out.flush();
-        assertEquals("  Hello\n  Hello", out.toString());
+        assertEquals("  Hello  \n  Hello", out.toString());
     }
 
     public void testAdd06() throws Exception {
@@ -214,7 +214,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.addWs(" ");
         out.addToken("Hel");
         out.flush();
-        assertEquals("  Hel\n  Hel", out.toString());
+        assertEquals("  Hel   \n  Hel", out.toString());
     }
 
     public void testAdd07() throws Exception {
@@ -244,7 +244,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.addToken("l");
         out.addToken("o");
         out.flush();
-        assertEquals("  Hello\n  Hello", out.toString());
+        assertEquals("  Hello \n  Hello", out.toString());
     }
 
     public void testAdd09() throws Exception {
@@ -274,7 +274,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.addWs(" ");
         out.addToken("Hello");
         out.flush();
-        assertEquals("  Hello\n  Hello", out.toString());
+        assertEquals("  Hello \n  Hello", out.toString());
     }
 
     public void testAdd12() throws Exception {
@@ -375,7 +375,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.addWs("\t");
         out.addToken("abcdefghi");
         out.flush();
-        assertEquals("123456789\nabcdefghi", out.toString());
+        assertEquals("123456789 \n\tabcdefghi", out.toString());
     }
 
     public void testAddWsToken03() throws Exception {
@@ -408,7 +408,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.addWs("\t");
         out.addToken("abcdefghi");
         out.flush();
-        assertEquals("123456789\nabcdefghi", out.toString());
+        assertEquals("123456789 \n\tabcdefghi", out.toString());
     }
 
     public void testAddWsToken06() throws Exception {
@@ -417,7 +417,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.addWs("                   ");
         out.addToken("abcdefghi");
         out.flush();
-        assertEquals("123456789\nabcdefghi", out.toString());
+        assertEquals("123456789           \nabcdefghi", out.toString());
     }
 
     public void testAddWsToken07() throws Exception {
@@ -437,7 +437,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.addWs(" ");
         out.addToken("123456789");
         out.flush();
-        assertEquals("123456789 abcdefghi\n123456789", out.toString());
+        assertEquals("123456789 abcdefghi \n123456789", out.toString());
     }
 
     public void testAddWsToken09() throws Exception {
@@ -448,7 +448,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.addWs(" ");
         out.addToken("1");
         out.flush();
-        assertEquals("123456789 abcdefghi\n1", out.toString());
+        assertEquals("123456789 abcdefghi \n1", out.toString());
     }
 
     public void testAddWsToken11() throws Exception {
@@ -460,7 +460,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.addWs("\t");
         out.addToken("abcdefghi");
         out.flush();
-        assertEquals("  123456789\n  abcdefghi", out.toString());
+        assertEquals("  123456789\n  \tabcdefghi", out.toString());
     }
 
     public void testAddWsToken12() throws Exception {
@@ -472,7 +472,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.addWs("\t");
         out.addToken("abcdefghi");
         out.flush();
-        assertEquals("  123456789\n  abcdefghi", out.toString());
+        assertEquals("  123456789 \n  \tabcdefghi", out.toString());
     }
 
     public void testAddWsToken13() throws Exception {
@@ -496,7 +496,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.addWs("\t");
         out.addToken("abcdefghi");
         out.flush();
-        assertEquals("  123456789 \n\tabcdefghi", out.toString());
+        assertEquals("  123456789 \n  \tabcdefghi", out.toString());
     }
 
     public void testAddWsToken15() throws Exception {
@@ -508,7 +508,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.addWs("\t");
         out.addToken("abcdefghi");
         out.flush();
-        assertEquals("\t\t123456789\n\t\tabcdefghi", out.toString());
+        assertEquals("\t\t123456789 \n\t\t\tabcdefghi", out.toString());
     }
 
     public void testAddWsToken16() throws Exception {
@@ -518,7 +518,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.addWs("                   ");
         out.addToken("abcdefghi");
         out.flush();
-        assertEquals("**123456789\n**abcdefghi", out.toString());
+        assertEquals("**123456789           \n**abcdefghi", out.toString());
     }
 
     public void testAddWsToken17() throws Exception {
@@ -540,7 +540,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.addWs(" ");
         out.addToken("123456789");
         out.flush();
-        assertEquals("123456789 abcdefghi\n123456789", out.toString());
+        assertEquals("123456789 abcdefghi \n123456789", out.toString());
     }
 
     public void testAddWsToken19() throws Exception {
@@ -553,7 +553,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.popLevel("1234567".length());
         out.addToken("1");
         out.flush();
-        assertEquals("1234567123456789 abcdefghi\n12345671", out.toString());
+        assertEquals("1234567123456789 abcdefghi \n12345671", out.toString());
     }
 
     public void testAddWsToken20() throws Exception {
@@ -567,7 +567,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.setTabLevel();
         out.addToken("1");
         out.flush();
-        assertEquals("1234567123456789 abcdefghi\n1", out.toString());
+        assertEquals("1234567123456789 abcdefghi \n1", out.toString());
     }
 
     public void testAddWsToken21() throws Exception {
@@ -581,7 +581,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.println();
         out.addToken("1");
         out.flush();
-        assertEquals("1234567123456789 abcdefghi\n1", out.toString());
+        assertEquals("1234567123456789 abcdefghi \n1", out.toString());
     }
 
     public void testAddWsToken22() throws Exception {
@@ -595,7 +595,7 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.println();
         out.addToken("1");
         out.flush();
-        assertEquals("1234567123456789 abcdefghi\n1", out.toString());
+        assertEquals("1234567123456789 abcdefghi \n1", out.toString());
     }
 
     public void testPrintChar01() throws Exception {

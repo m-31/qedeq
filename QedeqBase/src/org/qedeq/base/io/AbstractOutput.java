@@ -59,6 +59,21 @@ public abstract class AbstractOutput {
      * @param   ws  Add this whitespace.
      */
     public void addWs(final String ws) {
+        final String[] lines = StringUtility.split(ws, "\n");
+        for (int i = 0; i < lines.length; i++) {
+            if (i > 0) {
+                println();
+            }
+            addWsWithoutCR(lines[i]);
+        }
+    }
+
+    /**
+     * Add whitespace to output. Must not contain CRs.
+     *
+     * @param   ws  Add this whitespace.
+     */
+    private void addWsWithoutCR(final String ws) {
         if (tokenBuffer.length() > 0) {
             if (fits(wsBuffer.length() + tokenBuffer.length())) {
                 if (col == 0) {
@@ -69,8 +84,9 @@ public abstract class AbstractOutput {
                 append(tokenBuffer.toString());
                 col += tokenBuffer.length();
             } else {
-                // forget old and new whitespace
+                // forget non fitting part of white space
                 if (col != 0) {
+                    appendFittingPart(wsBuffer.toString());
                     append("\n");
                 }
                 col = 0;
@@ -101,8 +117,30 @@ public abstract class AbstractOutput {
      * Flush output.
      */
     public void flush() {
-        addWs("");
+        addWsWithoutCR("");
+        appendFittingPart(wsBuffer.toString());
         wsBuffer.setLength(0);
+    }
+
+    /**
+     * Append a part of given text so that the current maximum column is not exceeded.
+     *
+     * @param   txt     Write this text.
+     * @return  Length of written characters.
+     */
+    private int appendFittingPart(final String txt) {
+        final int columnsLeft = columnsLeft();
+        if (columnsLeft > 0) {
+            final String part = StringUtility.substring(txt, 0, columnsLeft);
+            append(part);
+            col += part.length();
+            return part.length();
+        } else if (columnsLeft < 0) {
+            append(txt);
+            col += txt.length();
+            return txt.length();
+        }
+        return 0;
     }
 
     /**
@@ -122,30 +160,26 @@ public abstract class AbstractOutput {
     public void print(final String text) {
         flush();
         if (text == null) {
-            printWithoutSplit("null");
-            return;
-        }
-        final String[] lines = StringUtility.split(text, "\n");
-        for (int i = 0; i < lines.length; i++) {
-            final Splitter split = new Splitter(lines[i]);
-            while (split.hasNext()) {
-                final String token = split.nextToken();
-                final boolean isWhitespace = token.trim().length() == 0;
-                if (!fits(token)) {
+            addToken("null");
+        } else {
+            final String[] lines = StringUtility.split(text, "\n");
+            for (int i = 0; i < lines.length; i++) {
+                final Splitter split = new Splitter(lines[i]);
+                while (split.hasNext()) {
+                    final String token = split.nextToken();
+                    final boolean isWhitespace = token.trim().length() == 0;
                     if (isWhitespace) {
-                        printWithoutSplit(token.substring(0, columnsLeft()));
+                        addWsWithoutCR(token);
                     } else {
-                        println();
-                        printWithoutSplit(token);
+                        addToken(token);
                     }
-                } else {
-                    printWithoutSplit(token);
+                }
+                if (i + 1 < lines.length) {
+                    println();
                 }
             }
-            if (i + 1 < lines.length) {
-                println();
-            }
         }
+        flush();
     }
 
     /**
@@ -219,7 +253,7 @@ public abstract class AbstractOutput {
         if (breakAt <= 0) {
             return -1;
         } else {
-            return breakAt - col;
+            return Math.max(0, breakAt - col);
         }
     }
 
