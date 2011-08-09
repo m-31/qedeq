@@ -112,23 +112,10 @@ public abstract class AbstractOutput {
      */
     public void print(final char c) {
         print("" + c);
-//        if ('\n' == c) {
-//            println();
-//            return;
-//        }
-//        if (col == 0) {
-//            appendSpaces();
-//        } else if (breakAt > 0 && col + 1 > breakAt) {
-//            lastColBeforeBreak = col;
-//            println();
-//            appendSpaces();
-//        }
-//        append("" + c);
-//        col++;
     }
 
     /**
-     * Print spaces and text to output. Treads spaces and CR specially.
+     * Print text and split at white space if text doesn't fit within maximum column size.
      *
      * @param   text    Append this.
      */
@@ -143,8 +130,14 @@ public abstract class AbstractOutput {
             final Splitter split = new Splitter(lines[i]);
             while (split.hasNext()) {
                 final String token = split.nextToken();
-//                if (breakNecessary(token) && lastChar() == ' '
-                if (!fits(token) && " ".equals(token)) {
+                final boolean isWhitespace = token.trim().length() == 0;
+                if (!fits(token)) {
+                    if (isWhitespace) {
+                        printWithoutSplit(token.substring(0, columnsLeft()));
+                    } else {
+                        println();
+                        printWithoutSplit(token);
+                    }
                 } else {
                     printWithoutSplit(token);
                 }
@@ -215,6 +208,19 @@ public abstract class AbstractOutput {
      */
     private boolean fits(final int length) {
         return breakAt <= 0 || col + length <= breakAt;
+    }
+
+    /**
+     * How many columns have we left?
+     *
+     * @return  Columns left. Returns -1 if there is no limit.
+     */
+    public int columnsLeft() {
+        if (breakAt <= 0) {
+            return -1;
+        } else {
+            return breakAt - col;
+        }
     }
 
     /**

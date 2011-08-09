@@ -19,7 +19,7 @@ import java.util.Iterator;
 
 
 /**
- * Split given string into parts delimited by space.
+ * Split given string into parts delimited by white space.
  *
  * @author  Michael Meyling
  */
@@ -27,9 +27,6 @@ public final class Splitter implements Iterator {
 
     /** Text to split. */
     private final String text;
-
-    /** Separating delimiter. */
-    private final char delimiter;
 
     /** Last found position. */
     private int found;
@@ -44,13 +41,12 @@ public final class Splitter implements Iterator {
     private String token;
 
     /**
-     * Constructor, should never be called.
+     * Constructor.
      *
      * @param   text        Text to split.
      */
     public Splitter(final String text) {
         this.text = text;
-        delimiter = ' ';
         iterate();
     }
 
@@ -58,6 +54,7 @@ public final class Splitter implements Iterator {
      * Split String by given delimiter.
      * "a b c" is converted to "a", " ", "b", " ", "c".
      * "a b c " is converted to "a", " ", "b", " ", "c", " ".
+     * "a  b  c" is converted to "a", "  ", "b", "  ", "c".
      *
      * @return  Split text.
      */
@@ -89,18 +86,18 @@ public final class Splitter implements Iterator {
      * Iterate token and whitespace.
      */
     private void iterate() {
-        found = text.indexOf(delimiter, start);
-        if (-1 < found) {
+        found = start;
+        while (found < text.length() && !Character.isWhitespace(text.charAt(found))) {
+            found++;
+        }
+        if (found < text.length()) {
             token = text.substring(start, found);
             start = found;
-            while (found < text.length() && text.charAt(found) == ' ') {
+            while (found < text.length() && Character.isWhitespace(text.charAt(found))) {
                 found++;
             }
             separator = text.substring(start, found);
             start = found;
-            if (found >= text.length()) {
-                found = -1;
-            }
         } else {
             separator = null;
             token = text.substring(start);

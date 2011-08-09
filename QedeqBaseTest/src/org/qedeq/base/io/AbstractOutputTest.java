@@ -598,5 +598,58 @@ public class AbstractOutputTest extends QedeqTestCase {
         assertEquals("1234567123456789 abcdefghi\n1", out.toString());
     }
 
+    public void testPrintChar01() throws Exception {
+        out.setColumns(3);
+        out.print('1');
+        out.print('2');
+        out.print('3');
+        out.print('4');
+        out.flush();
+        assertEquals("123\n4", out.toString());
+    }
+
+    public void testPrintChar02() throws Exception {
+        out.setColumns(5);
+        out.setLevel("--");
+        out.print('1');
+        out.print('2');
+        out.print('3');
+        out.print('4');
+        out.flush();
+        assertEquals("--123\n--4", out.toString());
+    }
+
+    public void testPrintString01() throws Exception {
+        out.setColumns(5);
+        out.setLevel("++");
+        out.print("1");
+        out.print("2");
+        out.print("3");
+        out.print("4");
+        out.flush();
+        assertEquals("++123\n++4", out.toString());
+    }
+
+    public void testPrintString02() throws Exception {
+        out.setColumns(5);
+        out.print("1 2 3 4");
+        out.flush();
+        assertEquals("1 2 3\n4", out.toString());
+    }
+
+    public void testPrintString03() throws Exception {
+        out.setColumns(6);
+        out.print("1 2 3 4");
+        out.flush();
+        assertEquals("1 2 3 \n4", out.toString());
+    }
+
+    public void testPrintString04() throws Exception {
+        out.setColumns(4);
+        out.print("1  2  3");
+        out.flush();
+        assertEquals("1  2\n3", out.toString());
+    }
+
 }
 

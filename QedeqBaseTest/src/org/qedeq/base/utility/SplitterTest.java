@@ -222,4 +222,24 @@ public class SplitterTest extends QedeqTestCase {
         assertFalse(splitter.hasNext());
     }
 
+    /**
+     * Test "a  b  c".
+     *
+     * @throws Exception
+     */
+    public void testSplitter12() throws Exception {
+        final Splitter splitter = new Splitter("a  b  c");
+        assertTrue(splitter.hasNext());
+        assertEquals("a", splitter.nextToken());
+        assertTrue(splitter.hasNext());
+        assertEquals("  ", splitter.nextToken());
+        assertTrue(splitter.hasNext());
+        assertEquals("b", splitter.nextToken());
+        assertTrue(splitter.hasNext());
+        assertEquals("  ", splitter.nextToken());
+        assertTrue(splitter.hasNext());
+        assertEquals("c", splitter.nextToken());
+        assertFalse(splitter.hasNext());
+    }
+
 }

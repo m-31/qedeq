@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.qedeq.base.test.QedeqTestCase;
 
@@ -162,13 +163,23 @@ public class StringUtilityTest extends QedeqTestCase {
     }
 
     public void testToStringSet() throws Exception {
-        final HashSet set = new HashSet();
+        final TreeSet set = new TreeSet();
         set.add("a");
-        set.add(new Integer(1));
-        set.add(null);
+        set.add("1");
+        set.add("");
         set.add("gu");
-        assertEquals("{null, 1, \"a\", \"gu\"}", StringUtility.toString(set));
+        assertEquals("{\"\", \"1\", \"a\", \"gu\"}", StringUtility.toString(set));
         assertEquals("{}", StringUtility.toString((Set) null));
+        final HashSet set2 = new HashSet();
+        set2.add("a");
+        set2.add(new Integer(1));
+        set2.add(null);
+        set2.add("gu");
+        final String result = StringUtility.toString(set2);
+        assertTrue(result.indexOf("null") >= 0);
+        assertTrue(result.indexOf("1") >= 0);
+        assertTrue(result.indexOf("\"a\"") >= 0);
+        assertTrue(result.indexOf("\"gu\"") >= 0);
     }
 
     public void testToStringMap() throws Exception {
@@ -187,7 +198,11 @@ public class StringUtilityTest extends QedeqTestCase {
         set.add(new Integer(1));
         set.add(null);
         set.add("gu");
-        assertEquals("null\n1\na\ngu", StringUtility.asLines(set));
+        final String[] array = StringUtility.split(StringUtility.asLines(set), "\n");
+        assertTrue(StringUtility.isIn("null", array));
+        assertTrue(StringUtility.isIn("1", array));
+        assertTrue(StringUtility.isIn("a", array));
+        assertTrue(StringUtility.isIn("gu", array));
         assertEquals("", StringUtility.asLines((Set) null));
     }
 
