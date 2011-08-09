@@ -28,7 +28,7 @@ public class KernelSeEachClassHasATest extends EachClassHasATestCase {
     public String getPackagePrefix() {
         return "org.qedeq.kernel.se";
     }
-/*
+
     public void testIfEveryClassIsTested() {
         // FIXME m31 20110119: add missing tests
         try {
@@ -37,5 +37,5 @@ public class KernelSeEachClassHasATest extends EachClassHasATestCase {
             // ignore
         }
     }
-*/
+
 }
