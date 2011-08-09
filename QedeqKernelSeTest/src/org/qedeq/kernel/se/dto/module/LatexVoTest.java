@@ -21,7 +21,7 @@ package org.qedeq.kernel.se.dto.module;
  *
  * @author    Michael Meyling
  */
-public class LatexVoTest extends AbstractVoModuleTest {
+public class LatexVoTest extends AbstractVoModuleTestCase {
 
     /** This class is tested. */
     private Class clazz = LatexVo.class;

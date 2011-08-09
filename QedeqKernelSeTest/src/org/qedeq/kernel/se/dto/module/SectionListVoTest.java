@@ -21,7 +21,7 @@ package org.qedeq.kernel.se.dto.module;
  *
  * @author    Michael Meyling
  */
-public class SectionListVoTest extends AbstractVoModuleTest {
+public class SectionListVoTest extends AbstractVoModuleTestCase {
 
     /** This class is tested. */
     private Class clazz = SectionListVo.class;

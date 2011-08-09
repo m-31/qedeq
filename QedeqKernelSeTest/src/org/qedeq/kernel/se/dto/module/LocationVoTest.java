@@ -21,7 +21,7 @@ package org.qedeq.kernel.se.dto.module;
  *
  * @author    Michael Meyling
  */
-public class LocationVoTest extends AbstractVoModuleTest {
+public class LocationVoTest extends AbstractVoModuleTestCase {
 
     /** This class is tested. */
     private Class clazz = LocationVo.class;

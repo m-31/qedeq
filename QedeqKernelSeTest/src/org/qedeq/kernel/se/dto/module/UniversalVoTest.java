@@ -24,7 +24,7 @@ import org.qedeq.kernel.se.dto.list.DefaultAtom;
  *
  * @author  Michael Meyling
  */
-public class UniversalVoTest extends AbstractVoModuleTest {
+public class UniversalVoTest extends AbstractVoModuleTestCase {
 
     /** This class is tested. */
     private Class clazz = UniversalVo.class;

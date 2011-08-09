@@ -23,7 +23,7 @@ import org.qedeq.base.utility.EqualsUtility;
  *
  * @author  Michael Meyling
  */
-public class AddVoTest extends AbstractVoModuleTest {
+public class AddVoTest extends AbstractVoModuleTestCase {
 
     /** This class is tested. */
     private Class clazz = AddVo.class;

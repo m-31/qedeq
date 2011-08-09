@@ -21,7 +21,7 @@ package org.qedeq.kernel.se.dto.module;
  *
  * @author    Michael Meyling
  */
-public class ChangedRuleListVoTest extends AbstractVoModuleTest {
+public class ChangedRuleListVoTest extends AbstractVoModuleTestCase {
 
     /** This class is tested. */
     private Class clazz = ChangedRuleListVo.class;

@@ -24,7 +24,7 @@ import org.qedeq.kernel.se.dto.list.DefaultAtom;
  *
  * @author  Michael Meyling
  */
-public class SubstFuncVoTest extends AbstractVoModuleTest {
+public class SubstFuncVoTest extends AbstractVoModuleTestCase {
 
     /** This class is tested. */
     private Class clazz = SubstFuncVo.class;

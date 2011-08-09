@@ -35,7 +35,7 @@ import org.qedeq.kernel.se.dto.list.DefaultAtom;
  *
  * @author    Michael Meyling
  */
-public abstract class AbstractValueObjectTest extends QedeqTestCase {
+public abstract class AbstractValueObjectTestCase extends QedeqTestCase {
 
     /** Set of all methods to check. */
     private Set methodsToCheck;

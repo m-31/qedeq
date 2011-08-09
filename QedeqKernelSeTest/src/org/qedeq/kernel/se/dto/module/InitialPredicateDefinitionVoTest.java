@@ -21,7 +21,7 @@ package org.qedeq.kernel.se.dto.module;
  *
  * @author    Michael Meyling
  */
-public class InitialPredicateDefinitionVoTest extends AbstractVoModuleTest {
+public class InitialPredicateDefinitionVoTest extends AbstractVoModuleTestCase {
 
     /** This class is tested. */
     private Class clazz = InitialPredicateDefinitionVo.class;

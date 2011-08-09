@@ -8,9 +8,9 @@ import org.qedeq.kernel.bo.parser.ParserException;
 import org.qedeq.kernel.bo.parser.Term;
 
 
-public abstract class AbstractParserTest extends QedeqTestCase {
+public abstract class AbstractParserTestCase extends QedeqTestCase {
 
-    public AbstractParserTest(final String arg0) {
+    public AbstractParserTestCase(final String arg0) {
         super(arg0);
     }
 

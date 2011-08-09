@@ -7,7 +7,7 @@ import org.qedeq.base.io.TextInput;
 import org.qedeq.kernel.bo.test.DummyInternalKernalServices;
 import org.qedeq.kernel.xml.handler.parser.LoadXmlOperatorListUtility;
 
-public class SimpleMathParserTest extends AbstractParserTest {
+public class SimpleMathParserTest extends AbstractParserTestCase {
 
     private static String[][] test = new String[][] {
         {    // 00

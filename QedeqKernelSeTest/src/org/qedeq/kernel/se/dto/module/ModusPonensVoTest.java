@@ -23,7 +23,7 @@ import org.qedeq.base.utility.EqualsUtility;
  *
  * @author  Michael Meyling
  */
-public class ModusPonensVoTest extends AbstractVoModuleTest {
+public class ModusPonensVoTest extends AbstractVoModuleTestCase {
 
     /** This class is tested. */
     private Class clazz = ModusPonensVo.class;

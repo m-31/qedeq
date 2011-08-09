@@ -21,7 +21,7 @@ package org.qedeq.kernel.se.dto.module;
  *
  * @author  Michael Meyling
  */
-public class FormalProofLineVoTest extends AbstractVoModuleTest {
+public class FormalProofLineVoTest extends AbstractVoModuleTestCase {
 
     /** This class is tested. */
     private Class clazz = FormalProofLineVo.class;

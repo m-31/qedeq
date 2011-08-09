@@ -21,7 +21,7 @@ package org.qedeq.kernel.se.dto.module;
  *
  * @author    Michael Meyling
  */
-public class AxiomVoTest extends AbstractVoModuleTest {
+public class AxiomVoTest extends AbstractVoModuleTestCase {
 
     /** This class is tested. */
     private Class clazz = AxiomVo.class;

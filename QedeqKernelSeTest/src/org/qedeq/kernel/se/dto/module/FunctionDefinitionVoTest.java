@@ -21,7 +21,7 @@ package org.qedeq.kernel.se.dto.module;
  *
  * @author    Michael Meyling
  */
-public class FunctionDefinitionVoTest extends AbstractVoModuleTest {
+public class FunctionDefinitionVoTest extends AbstractVoModuleTestCase {
 
     /** This class is tested. */
     private Class clazz = FunctionDefinitionVo.class;

@@ -69,14 +69,14 @@ import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Term;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
-import org.qedeq.kernel.se.test.AbstractValueObjectTest;
+import org.qedeq.kernel.se.test.AbstractValueObjectTestCase;
 
 /**
  * Test helper. Gives concrete class for an interface.
  *
  * @author    Michael Meyling
  */
-public abstract class AbstractVoModuleTest extends AbstractValueObjectTest {
+public abstract class AbstractVoModuleTestCase extends AbstractValueObjectTestCase {
 
     /** Maps abstract classes to an implementation class. */
     private static final Map interface2ConcreteClass = new HashMap();
