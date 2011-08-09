@@ -36,7 +36,7 @@ public abstract class AbstractOutput {
      * written. After writing to the current line this value is fixed and doesn't change even
      * if the tab level is changed.
      */
-    private String spacesForCurrentLine;
+    private String spacesForCurrentLine = "";
 
     /** Current column. */
     private int col;
