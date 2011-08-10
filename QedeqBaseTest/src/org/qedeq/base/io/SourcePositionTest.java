@@ -97,6 +97,8 @@ public class SourcePositionTest extends QedeqTestCase {
         assertTrue(!object4.equals(object2));
         assertTrue(!object2.equals(object5));
         assertTrue(!object5.equals(object2));
+        assertFalse(object5.equals(null));
+        assertFalse(object5.equals("hi"));
     }
 
     public void testToString() {
