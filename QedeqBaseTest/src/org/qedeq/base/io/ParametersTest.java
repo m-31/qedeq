@@ -80,6 +80,20 @@ public class ParametersTest extends QedeqTestCase {
         } catch (RuntimeException e) {
             // OK
         }
+        final Parameters p1 = new Parameters();
+        assertTrue(p1.keySet().isEmpty());
+        final Parameters p2 = new Parameters(new HashMap());
+        assertTrue(p2.keySet().isEmpty());
+        final Map m3 = new HashMap();
+        final Parameters p3 = new Parameters(m3);
+        assertTrue(p3.keySet().isEmpty());
+        m3.put("xmass", "december");
+        assertEquals("december", p3.getString("xmass"));
+        m3.put("number", new Integer(7));
+        assertEquals("", p3.getString("number"));
+        assertEquals("", p3.getString("unknown"));
+        assertEquals(0, p3.getInt("number"));
+        assertEquals(0, p3.getInt("unknown"));
     }
 
     public void testGetBoolean() {
@@ -131,6 +145,22 @@ public class ParametersTest extends QedeqTestCase {
         assertEquals("hum", object1.getString("hello", "hum"));
         assertEquals("hom", object2.getString("holly", "hom"));
         assertEquals("hunter", object5.getString("hum", "hunter"));
+    }
+
+    public void testGetParameterString() {
+        final Parameters p1 = new Parameters();
+        assertEquals("", p1.getParameterString());
+        p1.setDefault("one", 1);
+        assertEquals("one=1", p1.getParameterString());
+        p1.setDefault("one", 2);
+        assertEquals("one=1", p1.getParameterString());
+        p1.setDefault("b", false);
+        assertTrue("one=1, b=false".equals(p1.getParameterString()) ||
+            "b=false, one=1".equals(p1.getParameterString()));
+        final Parameters p2 = new Parameters();
+        assertEquals("", p2.getParameterString());
+        p2.setDefault("one", "first");
+        assertEquals("one=first", p2.getParameterString());
     }
 
 

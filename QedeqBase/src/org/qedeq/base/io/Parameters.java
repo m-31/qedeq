@@ -20,9 +20,12 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.qedeq.base.utility.StringUtility;
+
 
 /**
  * Provides convenience methods for getting parameters out of a {@link Map}.
+ * The keys and the values are stored as Strings.
  *
  * @author  Michael Meyling
  */
@@ -154,7 +157,7 @@ public class Parameters {
     }
 
     /**
-     * Get all parameters as a long string.
+     * Get all parameters as a long string. Strings are not quoted.
      *
      * @return  String in form "a=b, c=d" and so on.
      */
@@ -215,6 +218,11 @@ public class Parameters {
         }
     }
 
+    /**
+     * Return key set for internal map.
+     *
+     * @return  Key set.
+     */
     public Set keySet() {
         return map.keySet();
     }
