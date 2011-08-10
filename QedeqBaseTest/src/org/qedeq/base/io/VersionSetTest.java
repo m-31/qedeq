@@ -164,6 +164,7 @@ public class VersionSetTest extends QedeqTestCase {
         assertFalse(v1.contains(version2.toString()));
         assertFalse(v1.contains(version3.toString()));
         assertFalse(v1.contains(version4.toString()));
+        assertFalse(v1.contains("1.2.3.4"));
     }
 
     public void testAddAndEquals() throws Exception {
@@ -197,6 +198,9 @@ public class VersionSetTest extends QedeqTestCase {
         assertFalse(v4.equals(v2));
         v1.addAll(v2);
         assertEquals(v1, v3);
+        assertFalse(v1.equals(null));
+        assertFalse(v2.equals(""));
+        assertFalse(v4.equals("other"));
     }
 
     public void testIterator() throws Exception {
@@ -212,5 +216,31 @@ public class VersionSetTest extends QedeqTestCase {
         assertTrue(i.hasNext());
         assertEquals(new Version("0.02.00"), i.next());
         assertFalse(i.hasNext());
+    }
+
+    public void testHashCode() {
+        final VersionSet v1 = new VersionSet();
+        v1.add(version1);
+        v1.add(version2.toString());
+        final VersionSet v2 = new VersionSet();
+        v2.add(version3);
+        v2.add(version4.toString());
+        assertFalse(v1.hashCode() == v2.hashCode());
+    }
+
+    public void testToString() {
+        final VersionSet v1 = new VersionSet();
+        assertEquals("{}", v1.toString());
+        v1.add("0.00.01");
+        v1.add("0.00.02");
+        assertEquals("{0.00.01, 0.00.02}", v1.toString());
+        final VersionSet v2 = new VersionSet();
+        v2.add("0.00.01");
+        assertEquals("{0.00.01}", v2.toString());
+        v2.add("0.00.01");
+        assertEquals("{0.00.01}", v2.toString());
+        final VersionSet v3 = new VersionSet();
+        v3.add("0.0.0");
+        assertEquals("{0.00.00}", v3.toString());
     }
 }
