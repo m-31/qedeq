@@ -226,6 +226,10 @@ public class VersionSetTest extends QedeqTestCase {
         v2.add(version3);
         v2.add(version4.toString());
         assertFalse(v1.hashCode() == v2.hashCode());
+        final VersionSet v3 = new VersionSet();
+        v3.add(version1);
+        v3.add(version2);
+        assertTrue(v1.hashCode() == v3.hashCode());
     }
 
     public void testToString() {
