@@ -603,12 +603,12 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
             printer.println("Proof:");
         }
         printer.append(getLatexListEntry("getNonFormalProof()", proof.getNonFormalProof()));
-        printer.println();
-        printer.println("q.e.d.");
-        printer.println();
     }
 
     public void visitLeave(final Proof proof) {
+        printer.println();
+        printer.println("q.e.d.");
+        printer.println();
         setBlocked(false);
     }
 
@@ -625,6 +625,8 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     }
 
     public void visitLeave(final FormalProof proof) {
+        printer.println("q.e.d.");
+        printer.println();
         setBlocked(false);
     }
 
