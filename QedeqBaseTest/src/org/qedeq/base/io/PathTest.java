@@ -40,6 +40,15 @@ public class PathTest extends QedeqTestCase {
             assertEquals(false, p1.isDirectory());
         }
         {
+            final Path p1 = new Path("a/b/./c");
+            assertEquals("a/b/", p1.getDirectory());
+            assertEquals("c", p1.getFileName());
+            assertEquals(false, p1.isAbsolute());
+            assertEquals(true, p1.isRelative());
+            assertEquals("a/b/c", p1.toString());
+            assertEquals(false, p1.isDirectory());
+        }
+        {
             final Path p1 = new Path("/a/b/c/");
             assertEquals("/a/b/c/", p1.getDirectory());
             assertEquals("", p1.getFileName());
@@ -74,6 +83,15 @@ public class PathTest extends QedeqTestCase {
         }
         {
             final Path p1 = new Path("a/b/c/../../../d/e/");
+            assertEquals("d/e/", p1.getDirectory());
+            assertEquals("", p1.getFileName());
+            assertEquals(false, p1.isAbsolute());
+            assertEquals(true, p1.isRelative());
+            assertEquals("d/e/", p1.toString());
+            assertEquals(true, p1.isDirectory());
+        }
+        {
+            final Path p1 = new Path("a/b/./c/../../../d/e/");
             assertEquals("d/e/", p1.getDirectory());
             assertEquals("", p1.getFileName());
             assertEquals(false, p1.isAbsolute());
@@ -165,6 +183,7 @@ public class PathTest extends QedeqTestCase {
             assertEquals(true, p1.isRelative());
             assertEquals("a/b/c/", p1.toString());
             assertEquals(true, p1.isDirectory());
+            assertEquals(false, p1.isFile());
         }
         {
             final Path p1 = new Path(new String[] {"a", "b", "c"}, "d");
@@ -174,6 +193,7 @@ public class PathTest extends QedeqTestCase {
             assertEquals(true, p1.isRelative());
             assertEquals("a/b/c/d", p1.toString());
             assertEquals(false, p1.isDirectory());
+            assertEquals(true, p1.isFile());
         }
     }
 
