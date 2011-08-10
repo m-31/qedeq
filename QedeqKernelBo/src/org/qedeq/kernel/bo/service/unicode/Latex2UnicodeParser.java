@@ -253,7 +253,7 @@ public final class Latex2UnicodeParser {
                         readCurlyBraceContents();
                         // ignore
                     }
-                    output.println("_______________________________________");
+                    output.addToken("_______________________________________");
                     println();
                 } else if ("\\item".equals(token)) {
                     output.popLevel(3);
@@ -386,6 +386,7 @@ public final class Latex2UnicodeParser {
             || "eqnarray*".equals(kind)
             || "equation*".equals(kind)) {
             mathMode = true;
+            skipWhitespace = false;
             parseAndPrint(content);
             println();
             mathMode = false;

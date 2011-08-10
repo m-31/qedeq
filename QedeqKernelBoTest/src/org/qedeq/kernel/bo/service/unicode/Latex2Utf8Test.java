@@ -53,7 +53,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
             
             public String getReferenceLink(String reference,
                     SourcePosition startDelta, SourcePosition endDelta) {
-                System.out.println("reference: " + reference);
+//                System.out.println("reference: " + reference);
                 if ("missing".equals(reference)) {
                     addWarning(1, "reference not found: " + reference, startDelta, endDelta);
                     return "[" + reference + "?]";
@@ -184,8 +184,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
             + "      of inferences according to the schema\n"
             + "          A   \n"
             + "         A \u2192 B  \n"
-            + " _______________________________________\n"
-            + "\n"
+            + "       _______________________________________\n"
             + "         B  \n"
             + "       where each of the premises, that is, the formulae, A and A \u2192 B in the \n"
             + "      array either is an axiom or directly from an axiom by substitution, or \n"
@@ -194,7 +193,6 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
             + "      provable if it is either an axiom or the end formula of a proof.\u201d\n";
 //        System.out.println(warnings);
         assertEquals(result, Latex2UnicodeParser.transform(finder, text, 80));
-        // FIXME the cline must be more right oriented!!!!
         assertEquals(0, warnings.size());
     }
 
@@ -219,7 +217,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
         final String text  = "    \\qref{123] missing";
         final String result = "123] missing";
         assertEquals(result, Latex2UnicodeParser.transform(finder, text, 80));
-        System.out.println(warnings);
+//        System.out.println(warnings);
         assertEquals(2, warnings.size());
         final SourceFileException first = warnings.get(0);
         assertEquals("memory:1:10:1:23", first.getSourceArea().toString());
@@ -295,7 +293,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
         final String text  = "    in \\qref{gold} we trust.";
         final String result = "in [gold] we trust.";
         assertEquals(result, Latex2UnicodeParser.transform(finder, text, 80));
-        System.out.println(warnings);
+//        System.out.println(warnings);
         assertEquals(0, warnings.size());
     }
 
@@ -308,7 +306,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
         final String text  = "\n    we {crossed} the \\qref{missing} river at noon";
         final String result = "we crossed the [missing?] river at noon";
         assertEquals(result, Latex2UnicodeParser.transform(finder, text, 80));
-        System.out.println(warnings);
+//        System.out.println(warnings);
         assertEquals(1, warnings.size());
         final SourceFileException first = warnings.get(0);
         assertEquals("memory:2:27:2:36", first.getSourceArea().toString());
@@ -323,7 +321,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
         final String text  = "\n    {we {crossed} the \\qref{missing} river at noon}";
         final String result = "we crossed the [missing?] river at noon";
         assertEquals(result, Latex2UnicodeParser.transform(finder, text, 80));
-        System.out.println(warnings);
+//        System.out.println(warnings);
         assertEquals(1, warnings.size());
         final SourceFileException first = warnings.get(0);
         assertEquals("memory:2:28:2:37", first.getSourceArea().toString());
@@ -338,13 +336,13 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
         final String text  = "\n    {we {crossed} the \\qref{missing} river at \\qref{missing} }";
         final String result = "we crossed the [missing?] river at [missing?]";
         assertEquals(result, Latex2UnicodeParser.transform(finder, text, 80));
-        System.out.println(warnings);
+//        System.out.println(warnings);
         assertEquals(2, warnings.size()); 
         final SourceFileException first = warnings.get(0);
-        System.out.println("Area: " + (new TextInput(text)).getSourceArea(first.getSourceArea()));
+//        System.out.println("Area: " + (new TextInput(text)).getSourceArea(first.getSourceArea()));
         assertEquals("memory:2:28:2:37", first.getSourceArea().toString());
         final SourceFileException second = warnings.get(1);
-        System.out.println("Area: " + (new TextInput(text)).getSourceArea(second.getSourceArea()));
+//        System.out.println("Area: " + (new TextInput(text)).getSourceArea(second.getSourceArea()));
         assertEquals("memory:2:52:2:61", second.getSourceArea().toString());
     }
 
@@ -357,10 +355,10 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
         final String text  = "\n    {we {crossed} the \\qref{missing{}} river at \\qref{missing} }";
         final String result = "we crossed the missing river at [missing?]";
         assertEquals(result, Latex2UnicodeParser.transform(finder, text, 80));
-        System.out.println(warnings);
+//        System.out.println(warnings);
         assertEquals(2, warnings.size());
         final SourceFileException first = warnings.get(0);
-        System.out.println("Area: " + (new TextInput(text)).getSourceArea(first.getSourceArea()));
+//        System.out.println("Area: " + (new TextInput(text)).getSourceArea(first.getSourceArea()));
         assertEquals("memory:2:28:2:39", first.getSourceArea().toString());
     }
 
