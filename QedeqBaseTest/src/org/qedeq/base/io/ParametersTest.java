@@ -163,5 +163,43 @@ public class ParametersTest extends QedeqTestCase {
         assertEquals("one=first", p2.getParameterString());
     }
 
+    public void testSetDefaultBoolean() {
+        assertFalse(object1.getBoolean("him"));
+        assertTrue(object1.getBoolean("him", true));
+        assertFalse(object1.getBoolean("holly"));
+        assertTrue(object1.getBoolean("holly", true));
+        object1.setDefault("him", true);
+        assertTrue(object1.getBoolean("him"));
+        assertTrue(object1.getBoolean("him", false));
+        object1.setDefault("holly", true);
+        assertTrue(object1.getBoolean("holly"));
+        assertTrue(object1.getBoolean("holly", false));
+    }
+
+    public void testSetDefaultInt() {
+        assertEquals(0, object1.getInt("him"));
+        assertEquals(13, object1.getInt("him", 13));
+        assertEquals(0, object1.getInt("holly"));
+        assertEquals(18, object1.getInt("holly", 18));
+        object1.setDefault("him", 11);
+        assertEquals(11, object1.getInt("him"));
+        assertEquals(11, object1.getInt("him", 7));
+        object1.setDefault("holly", 21);
+        assertEquals(21, object1.getInt("holly"));
+        assertEquals(21, object1.getInt("holly", 3));
+    }
+
+    public void testSetDefaultString() {
+        assertEquals("", object1.getString("him"));
+        assertEquals("hol", object1.getString("him", "hol"));
+        assertEquals("", object1.getString("holly"));
+        assertEquals("whole", object1.getString("holly", "whole"));
+        object1.setDefault("him", "she");
+        assertEquals("she", object1.getString("him"));
+        assertEquals("she", object1.getString("him", "he"));
+        object1.setDefault("holly", "tree");
+        assertEquals("tree", object1.getString("holly"));
+        assertEquals("tree", object1.getString("holly", "animal"));
+    }
 
 }
