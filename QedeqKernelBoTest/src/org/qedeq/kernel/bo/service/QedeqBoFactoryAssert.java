@@ -17,10 +17,10 @@ package org.qedeq.kernel.bo.service;
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.test.DynamicGetter;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.latex.QedeqBoDuplicateLanguageChecker;
@@ -83,8 +83,13 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, xl);
             throw xl;
         }
-        final InternalKernelServices services = (InternalKernelServices) IoUtility
-            .getFieldContent(KernelFacade.getKernelContext(), "services");
+        InternalKernelServices services;
+        try {
+            services = (InternalKernelServices) YodaUtility.getFieldValue(
+                KernelFacade.getKernelContext(), "services");
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
         final QedeqFileDao loader = new XmlQedeqFileDao();
         loader.setServices(services);
         prop.setQedeqFileDao(loader);
@@ -143,8 +148,13 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
         }
         Trace.param(CLASS, "setLocationWithinModule(String)",
             "xpath                < ", xpath);
-        final InternalKernelServices services = (InternalKernelServices) IoUtility
-            .getFieldContent(KernelFacade.getKernelContext(), "services");
+        InternalKernelServices services;
+        try {
+            services = (InternalKernelServices) YodaUtility
+                .getFieldValue(KernelFacade.getKernelContext(), "services");
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
         final SourceArea find = XPathLocationParser.findSourceArea(
             services.getLocalFilePath(
             getCurrentContext().getModuleLocation()), xpath);
