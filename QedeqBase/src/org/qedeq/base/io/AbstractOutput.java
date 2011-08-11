@@ -154,6 +154,7 @@ public abstract class AbstractOutput {
 
     /**
      * Print text and split at white space if text doesn't fit within maximum column size.
+     * Also flushes output.
      *
      * @param   text    Append this.
      */

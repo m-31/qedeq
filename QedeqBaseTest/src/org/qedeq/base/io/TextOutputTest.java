@@ -18,6 +18,7 @@ package org.qedeq.base.io;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintStream;
 
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.utility.StringUtility;
@@ -158,6 +159,7 @@ public class TextOutputTest extends QedeqTestCase {
             }
         };
         TextOutput out = new TextOutput("flying toasters", to, "UTF-8");
+        assertEquals("flying toasters", out.getName());
         assertFalse(out.checkError());
         assertNull(out.getError());
         out.flush();
@@ -169,5 +171,34 @@ public class TextOutputTest extends QedeqTestCase {
         assertEquals("Writing failed.", out.getError().getMessage());
 
     }
+
+    public void testConstructorAndGetName() throws Exception {
+        final ByteArrayOutputStream to = new ByteArrayOutputStream();
+        final TextOutput out = new TextOutput("jumper", to, "UTF-8");
+        assertEquals("jumper", out.getName());
+        assertFalse(out.checkError());
+        assertNull(out.getError());
+        try {
+            new TextOutput("jumper", to, "i do not exist");
+            fail("Exception expected");
+        } catch (RuntimeException e) {
+            // expected
+        }
+        final TextOutput out2 = new TextOutput("jumper", new PrintStream(to));
+        assertEquals("jumper", out2.getName());
+        assertFalse(out2.checkError());
+        assertNull(out2.getError());
+    }
+
+    public void testGetPosition() throws Exception {
+        final ByteArrayOutputStream to = new ByteArrayOutputStream();
+        final TextOutput out = new TextOutput("heaven", to, "UTF-16");
+        assertEquals(0, out.getPosition());
+        out.append("1234567890");
+        assertEquals(10, out.getPosition());
+        out.print("hi");
+        assertEquals(12, out.getPosition());
+    }
+
 }
 
