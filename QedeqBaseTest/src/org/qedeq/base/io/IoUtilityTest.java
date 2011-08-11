@@ -83,7 +83,7 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testLoadFileStringString() throws Exception {
-        final File file = new File("IoUtilityTestLoadStringString.txt");
+        final File file = new File(getOutdir(), "IoUtilityTestLoadStringString.txt");
         if (file.exists()) {
             assertTrue(file.delete());
         }
@@ -119,13 +119,15 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testCreateRelativePath() throws Exception {
-        assertEquals("local", IoUtility.createRelativePath(new File("."), new File("local")));
-        assertEquals("text", IoUtility.createRelativePath(new File("/local/data"),
+        assertEquals("local/", IoUtility.createRelativePath(new File("."), new File("local")));
+        assertEquals("text/", IoUtility.createRelativePath(new File("/local/data"),
             new File("/local/data/text")));
-        assertEquals("../../green", IoUtility.createRelativePath(new File("/local/data"),
-            new File("/green")));
-        assertEquals("../green", IoUtility.createRelativePath(new File("/local/data"),
+        assertEquals("../../green/", IoUtility.createRelativePath(new File("/local/data"),
+            new File("/green/")));
+        assertEquals("../green/", IoUtility.createRelativePath(new File("/local/data"),
             new File("/local/green")));
+        assertEquals("", IoUtility.createRelativePath(new File("/blue/../green/yellow"),
+                new File("/green/yellow")));
     }
 
     /**
@@ -134,7 +136,7 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testLoadStreamInputStreamStringBuffer() throws Exception {
-        final File file = new File("testLoadStreamInputStreamStringBuffer.txt");
+        final File file = new File(getOutdir(), "testLoadStreamInputStreamStringBuffer.txt");
         if (file.exists()) {
             assertTrue(file.delete());
         }
@@ -180,7 +182,7 @@ public class IoUtilityTest extends QedeqTestCase {
     }
 
     private String streamLoad(final String expected, final int length) throws IOException {
-        final File file = new File("testLoadStreamWithoutException.txt");
+        final File file = new File(getOutdir(), "testLoadStreamWithoutException.txt");
         if (file.exists()) {
             assertTrue(file.delete());
         }
@@ -213,7 +215,7 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testLoadReader() throws Exception {
-        final File file = new File("testLoadReaderStringBuffer.txt");
+        final File file = new File(getOutdir(), "testLoadReaderStringBuffer.txt");
         if (file.exists()) {
             assertTrue(file.delete());
         }
@@ -236,7 +238,7 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testLoadFileFileStringBuffer() throws Exception {
-        final File file = new File("testLoadFileFileStringBuffer.txt");
+        final File file = new File(getOutdir(), "testLoadFileFileStringBuffer.txt");
         if (file.exists()) {
             assertTrue(file.delete());
         }
@@ -256,7 +258,7 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testLoadFileFileStringBufferString() throws Exception {
-        final File file = new File("testLoadFileFileStringBufferString.txt");
+        final File file = new File(getOutdir(), "testLoadFileFileStringBufferString.txt");
         if (file.exists()) {
             assertTrue(file.delete());
         }
@@ -300,7 +302,7 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testLoadFileBinary1() throws Exception {
-        final File file = new File("IoUtilityTestLoadBinary1.bin");
+        final File file = new File(getOutdir(), "IoUtilityTestLoadBinary1.bin");
         if (file.exists()) {
             assertTrue(file.delete());
         }
@@ -332,7 +334,7 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testLoadFileBinary2() throws Exception {
-        final File file = new File("IoUtilityTestLoadBinary2.bin");
+        final File file = new File(getOutdir(), "IoUtilityTestLoadBinary2.bin");
         if (file.exists()) {
             assertTrue(file.delete());
         }
@@ -368,7 +370,7 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testSaveFileBinary() throws Exception {
-        final File file = new File("IoUtilityTestSaveFileBinary.bin");
+        final File file = new File(getOutdir(), "IoUtilityTestSaveFileBinary.bin");
         if (file.exists()) {
             assertTrue(file.delete());
         }
@@ -398,7 +400,7 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testLoadAndSaveFileBinary() throws Exception {
-        final File file = new File("testLoadAndSaveFileBinary.bin");
+        final File file = new File(getOutdir(), "testLoadAndSaveFileBinary.bin");
         if (file.exists()) {
             assertTrue(file.delete());
         }
@@ -421,11 +423,11 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testCompareFileBinary() throws Exception {
-        final File file1 = new File("IoUtilityTestLoadBinary1.bin");
+        final File file1 = new File(getOutdir(), "IoUtilityTestLoadBinary1.bin");
         if (file1.exists()) {
             assertTrue(file1.delete());
         }
-        final File file2 = new File("IoUtilityTestLoadBinary2.bin");
+        final File file2 = new File(getOutdir(), "IoUtilityTestLoadBinary2.bin");
         if (file2.exists()) {
             assertTrue(file2.delete());
         }
@@ -471,7 +473,7 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testLoadFileURLStringBuffer() throws Exception {
-        final File file = new File("testLoadFileURLStringBuffer.txt");
+        final File file = new File(getOutdir(), "testLoadFileURLStringBuffer.txt");
         if (file.exists()) {
             assertTrue(file.delete());
         }
@@ -491,7 +493,7 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testLoadFileURLStringBufferString() throws Exception {
-        final File file = new File("testLoadFileURLStringBufferString.txt");
+        final File file = new File(getOutdir(), "testLoadFileURLStringBufferString.txt");
         if (file.exists()) {
             assertTrue(file.delete());
         }
@@ -520,8 +522,8 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testSaveFileURLFile() throws Exception {
-        final File file1 = new File("testSaveFileURLFile1.txt");
-        final File file2 = new File("testSaveFileURLFile2.txt");
+        final File file1 = new File(getOutdir(), "testSaveFileURLFile1.txt");
+        final File file2 = new File(getOutdir(), "testSaveFileURLFile2.txt");
         if (file1.exists()) {
             assertTrue(file1.delete());
         }
@@ -546,8 +548,8 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testSaveFileInputStreamFile() throws Exception {
-        final File file1 = new File("testSaveFileInputStreamFile1.txt");
-        final File file2 = new File("testSaveFileInputStreamFile2.txt");
+        final File file1 = new File(getOutdir(), "testSaveFileInputStreamFile1.txt");
+        final File file2 = new File(getOutdir(), "testSaveFileInputStreamFile2.txt");
         InputStream in = null;
         try {
             if (file1.exists()) {
@@ -604,8 +606,8 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testSaveFileFileString() throws Exception {
-        final File file1 = new File("testSaveFileFileString1.txt");
-        final File file2 = new File("testSaveFileFileString2.txt");
+        final File file1 = new File(getOutdir(), "testSaveFileFileString1.txt");
+        final File file2 = new File(getOutdir(), "testSaveFileFileString2.txt");
         InputStream in = null;
         try {
             if (file1.exists()) {
@@ -638,8 +640,8 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testSaveFileFileStringBuffer() throws Exception {
-        final File file1 = new File("testSaveFileFileStringBuffer1.txt");
-        final File file2 = new File("testSaveFileFileStringBuffer2.txt");
+        final File file1 = new File(getOutdir(), "testSaveFileFileStringBuffer1.txt");
+        final File file2 = new File(getOutdir(), "testSaveFileFileStringBuffer2.txt");
         InputStream in = null;
         try {
             if (file1.exists()) {
@@ -673,9 +675,9 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testSaveFileFileStringString() throws Exception {
-        final File file1 = new File("testSaveFileFileStringString1.txt");
-        final File file2 = new File("testSaveFileFileStringString2.txt");
-        final File file3 = new File("testSaveFileFileStringString3.txt");
+        final File file1 = new File(getOutdir(), "testSaveFileFileStringString1.txt");
+        final File file2 = new File(getOutdir(), "testSaveFileFileStringString2.txt");
+        final File file3 = new File(getOutdir(), "testSaveFileFileStringString3.txt");
         InputStream in = null;
         try {
             if (file1.exists()) {
@@ -716,8 +718,8 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testSaveFileStringString() throws Exception {
-        final File file1 = new File("testSaveFileStringString1.txt");
-        final File file2 = new File("testSaveFileStringString2.txt");
+        final File file1 = new File(getOutdir(), "testSaveFileStringString1.txt");
+        final File file2 = new File(getOutdir(), "testSaveFileStringString2.txt");
         InputStream in = null;
         try {
             if (file1.exists()) {
@@ -751,8 +753,8 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testSaveFileStringStringBuffer() throws Exception {
-        final File file1 = new File("testSaveFileStringString1.txt");
-        final File file2 = new File("testSaveFileStringString2.txt");
+        final File file1 = new File(getOutdir(), "testSaveFileStringString1.txt");
+        final File file2 = new File(getOutdir(), "testSaveFileStringString2.txt");
         InputStream in = null;
         try {
             if (file1.exists()) {
@@ -786,9 +788,9 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testSaveFileFileStringBufferString() throws Exception {
-        final File file1 = new File("testSaveFileFileStringBufferString1.txt");
-        final File file2 = new File("testSaveFileFileStringBufferString2.txt");
-        final File file3 = new File("testSaveFileFileStringBufferString3.txt");
+        final File file1 = new File(getOutdir(), "testSaveFileFileStringBufferString1.txt");
+        final File file2 = new File(getOutdir(), "testSaveFileFileStringBufferString2.txt");
+        final File file3 = new File(getOutdir(), "testSaveFileFileStringBufferString3.txt");
         InputStream in = null;
         try {
             if (file1.exists()) {
@@ -832,11 +834,11 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testCopyFile() throws Exception {
-        final File file1 = new File("IoUtilityTestCopyFile1.bin");
+        final File file1 = new File(getOutdir(), "IoUtilityTestCopyFile1.bin");
         if (file1.exists()) {
             assertTrue(file1.delete());
         }
-        final File file2 = new File("IoUtilityTestCopyFile2.bin");
+        final File file2 = new File(getOutdir(), "IoUtilityTestCopyFile2.bin");
         if (file2.exists()) {
             assertTrue(file2.delete());
         }
@@ -860,11 +862,11 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testCompareTextFiles1() throws Exception {
-        final File file1 = new File("testCompareTextFiles1.txt");
+        final File file1 = new File(getOutdir(), "testCompareTextFiles1.txt");
         if (file1.exists()) {
             assertTrue(file1.delete());
         }
-        final File file2 = new File("testCompareTextFiles2.txt");
+        final File file2 = new File(getOutdir(), "testCompareTextFiles2.txt");
         if (file2.exists()) {
             assertTrue(file2.delete());
         }
@@ -932,11 +934,11 @@ public class IoUtilityTest extends QedeqTestCase {
             + "I am the tailors face and hands and@" + "I know Im fakin it,@"
             + "Im not really makin it.@" + "This feeling of fakin it--@"
             + "I still havent shaken it.";
-        final File file1 = new File("testCompareTextFiles1.txt");
+        final File file1 = new File(getOutdir(), "testCompareTextFiles1.txt");
         if (file1.exists()) {
             assertTrue(file1.delete());
         }
-        final File file2 = new File("testCompareTextFiles2.txt");
+        final File file2 = new File(getOutdir(), "testCompareTextFiles2.txt");
         if (file2.exists()) {
             assertTrue(file2.delete());
         }
@@ -1060,7 +1062,7 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testDeleteDirFileBoolean() throws Exception {
-        final File dir1 = new File("testDeleteDirFileBoolean_directory");
+        final File dir1 = new File(getOutdir(), "testDeleteDirFileBoolean_directory");
         if (dir1.exists()) {
             assertTrue(IoUtility.deleteDir(dir1, true));
         }
@@ -1083,7 +1085,7 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testDeleteDirFileFileFilter() throws Exception {
-        final File dir1 = new File("testDeleteDirFileFileFilter_directory");
+        final File dir1 = new File(getOutdir(), "testDeleteDirFileFileFilter_directory");
         if (dir1.exists()) {
             assertTrue(IoUtility.deleteDir(dir1, true));
         }

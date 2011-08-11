@@ -789,27 +789,24 @@ public final class IoUtility {
     /**
      * Delete file directory recursive.
      *
-     * @param   directory   Directory to delete.
+     * @param   directory   Directory to delete. Must not be a symbolic link.
      * @param   deleteDir   Delete directory itself too?
      * @return  Was deletion successful?
      */
     public static boolean deleteDir(final File directory, final boolean deleteDir) {
-        // to see if this directory is actually a symbolic link to a directory,
-        // we want to get its canonical path - that is, we follow the link to
-        // the file it's actually linked to
-        File candir;
+
+        // first we check if the file is a symbolic link
         try {
-            candir = directory.getCanonicalFile();
+            if (isSymbolicLink(directory)) {
+                return false;
+            }
         } catch (IOException e) {
             return false;
         }
-
-        // a symbolic link has a different canonical path than its actual path,
-        // unless it's a link to itself
-        if (!candir.equals(directory.getAbsoluteFile())) {
-            // this file is a symbolic link, and there's no reason for us to
-            // follow it, because then we might be deleting something outside of
-            // the directory we were told to delete
+        final File candir;
+        try {
+            candir = directory.getCanonicalFile();
+        } catch (IOException e) {
             return false;
         }
 
@@ -839,7 +836,6 @@ public final class IoUtility {
         }
 
         // now that we tried to clear the directory out, we can try to delete it
-        // again
         if (deleteDir) {
             return directory.delete();
         }
@@ -855,22 +851,18 @@ public final class IoUtility {
      * @return  Was deletion successful?
      */
     public static boolean deleteDir(final File directory, final FileFilter filter) {
-        // to see if this directory is actually a symbolic link to a directory,
-        // we want to get its canonical path - that is, we follow the link to
-        // the file it's actually linked to
-        File candir;
+        // first we check if the file is a symbolic link
         try {
-            candir = directory.getCanonicalFile();
+            if (isSymbolicLink(directory)) {
+                return false;
+            }
         } catch (IOException e) {
             return false;
         }
-
-        // a symbolic link has a different canonical path than its actual path,
-        // unless it's a link to itself
-        if (!candir.equals(directory.getAbsoluteFile())) {
-            // this file is a symbolic link, and there's no reason for us to
-            // follow it, because then we might be deleting something outside of
-            // the directory we were told to delete
+        final File candir;
+        try {
+            candir = directory.getCanonicalFile();
+        } catch (IOException e) {
             return false;
         }
 
@@ -900,6 +892,36 @@ public final class IoUtility {
         }
 
         return success;
+    }
+
+    /**
+     * Determines whether the specified file is a symbolic link rather than an actual file.
+     * See {@link
+     * https://svn.apache.org/repos/asf/commons/proper/io/trunk/src/main/java/org/apache/commons/io/FileUtils.java}.
+     * @param   file    File to check.
+     * @return  Is the file is a symbolic link?
+     * @throws  IOException     IO error while checking the file.
+     */
+    public static boolean isSymbolicLink(final File file) throws IOException {
+        if (file == null) {
+            throw new NullPointerException("File must not be null");
+        }
+        // is windows file system in use?
+        if (File.separatorChar == '\\') {
+            // we have no symbolic links
+            return false;
+        }
+        File fileInCanonicalDir = null;
+        if (file.getParent() == null) {
+            fileInCanonicalDir = file;
+        } else {
+            File canonicalDir = file.getParentFile().getCanonicalFile();
+            fileInCanonicalDir = new File(canonicalDir, file.getName());
+        }
+        if (fileInCanonicalDir.getCanonicalFile().equals(fileInCanonicalDir.getAbsoluteFile())) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -981,57 +1003,22 @@ public final class IoUtility {
     }
 
     /**
-     * Create relative address from <code>orgin</code> to <code>next</code>.
+     * Create relative address from <code>origin</code> to <code>next</code>.
+     * The resulting file path has "/" as directory name separator.
+     * If the resulting file path is the same as origin specifies, we return "".
+     * Otherwise the result will always have an "/" as last character.
      *
-     * @param   orgin   this is the original location
-     * @param   next    this should be the next location
-     * @return  relative (or if necessary absolute) file path
+     * @param   origin  This is the original location. Must be a directory.
+     * @param   next    This should be the next location. Must also be a directory.
+     * @return  Relative (or if necessary absolute) file path.
      */
-    public static final String createRelativePath(final File orgin, final File next) {
-        try {
-            if (orgin.equals(next)) {
-                return "";
-            }
-            try {
-                String org = orgin.getCanonicalPath().replace('\\', '/');
-                if (!org.endsWith("/")) {
-                    org += ('/');
-                }
-                String nex = next.getCanonicalPath().replace('\\', '/');
-                if (!nex.endsWith("/")) {
-                    nex += ('/');
-                }
-                if (org.equals(nex)) {
-                    return "";
-                }
-                int i = -1; // position of next '/'
-                int j = 0;  // position of last '/'
-                while (0 <= (i = org.indexOf("/", j))) {
-                    if (i >= 0 && nex.length() > i
-                            && org.substring(j, i).equals(
-                            nex.substring(j, i))) {
-                        j = i + 1;
-                    } else {
-                        break;
-                    }
-                }
-                if (j > 0) {
-                    i = j;
-                    final StringBuffer result = new StringBuffer(nex.length());
-                    while (0 <= (i = org.indexOf("/", i))) {
-                        i++;
-                        result.append("../");
-                    }
-                    result.append(nex.substring(j, nex.length() - 1));
-                    return result.toString();
-                }
-                return nex.substring(0, nex.length() - 1);
-            } catch (RuntimeException e) {
-                return next.toString();
-            }
-        } catch (IOException e) {
-            return new File(orgin, next.getPath()).getPath();
+    public static final String createRelativePath(final File origin, final File next) {
+        if (origin.equals(next)) {
+            return "";
         }
+        final Path org = new Path(origin.getPath().replace(File.separatorChar, '/'), "");
+        final Path ne = new Path(next.getPath().replace(File.separatorChar, '/'), "");
+        return org.createRelative(ne.toString()).toString();
     }
 
     /**
