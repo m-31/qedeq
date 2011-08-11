@@ -16,10 +16,7 @@ package org.qedeq.kernel.bo.service.unicode;
 
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.io.SourcePosition;
-import org.qedeq.base.io.TextInput;
 import org.qedeq.kernel.bo.service.latex.LatexContentException;
-import org.qedeq.kernel.bo.service.unicode.Latex2UnicodeParser;
-import org.qedeq.kernel.bo.service.unicode.ReferenceFinder;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
