@@ -591,11 +591,33 @@ public final class IoUtility {
     public static List listFilesRecursively(final File sourceLocation, final FileFilter filter)
             throws IOException {
         final List result = new ArrayList();
+        if (sourceLocation.isDirectory()) {
+            final File[] children = sourceLocation.listFiles();
+            for (int i = 0; i < children.length; i++) { // recursive call for all children
+                result.addAll(listFilesRecursivelyIntern(children[i], filter));
+            }
+        }
+        return result;
+    }
+
+    /**
+     * List all matching files. Searches all matching sub directories recursively.
+     * Remember to return <code>true</code> for <code>accept(File pathname)</code> if
+     * <code>pathname</code> is a directory if you want to search all sub directories!
+     *
+     * @param   sourceLocation  Check all files in this directory.
+     * @param   filter          Accept only these directories and files.
+     * @return  List of matching files. Contains no directories.
+     * @throws  IOException     Something went wrong.
+     */
+    private static List listFilesRecursivelyIntern(final File sourceLocation,
+            final FileFilter filter) throws IOException {
+        final List result = new ArrayList();
         if (filter.accept(sourceLocation)) {
             if (sourceLocation.isDirectory()) {
                 File[] children = sourceLocation.listFiles();
                 for (int i = 0; i < children.length; i++) { // recursive call for all children
-                    result.addAll(listFilesRecursively(children[i], filter));
+                    result.addAll(listFilesRecursivelyIntern(children[i], filter));
                 }
             } else {
                 result.add(sourceLocation);
