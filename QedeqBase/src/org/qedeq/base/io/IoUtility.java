@@ -391,6 +391,7 @@ public final class IoUtility {
         try {
             return new InputStreamReader(new ByteArrayInputStream(data.getBytes("ISO-8859-1")));
         } catch (UnsupportedEncodingException e) {
+            // should never occur
             throw new RuntimeException(e);
         }
     }
@@ -540,16 +541,16 @@ public final class IoUtility {
     }
 
     /**
-     * Copy one directory to another location.
+     * Copy one file or directory to another location.
      * If targetLocation does not exist, it will be created.
      *
-     * @param   sourceLocation  Copy from here.
-     * @param   targetLocation  Copy to this location
+     * @param   sourceLocation  Copy from here. This can be a file or a directory.
+     * @param   targetLocation  Copy to this location. If source is a file this must be a file too.
      * @throws  IOException     Something went wrong.
      */
     public static void copy(final String sourceLocation, final String targetLocation)
             throws IOException {
-        copyDirectory(new File(sourceLocation), new File(targetLocation));
+        copy(new File(sourceLocation), new File(targetLocation));
     }
 
     /**
@@ -560,7 +561,7 @@ public final class IoUtility {
      * @param   targetLocation  Copy to this location
      * @throws  IOException     Something went wrong.
      */
-    public static void copyDirectory(final File sourceLocation, final File targetLocation)
+    public static void copy(final File sourceLocation, final File targetLocation)
             throws IOException {
 
         if (sourceLocation.isDirectory()) {
@@ -569,7 +570,7 @@ public final class IoUtility {
             }
             String[] children = sourceLocation.list();
             for (int i = 0; i < children.length; i++) { // recursive call for all children
-                copyDirectory(new File(sourceLocation, children[i]),
+                copy(new File(sourceLocation, children[i]),
                         new File(targetLocation, children[i]));
             }
         } else {    // copy file
@@ -578,11 +579,13 @@ public final class IoUtility {
     }
 
     /**
-     * List all matching files. Includes all matching sub directories recursively.
+     * List all matching files. Searches all matching sub directories recursively.
+     * Remember to return <code>true</code> for <code>accept(File pathname)</code> if
+     * <code>pathname</code> is a directory if you want to search all sub directories!
      *
-     * @param   sourceLocation  Check all files.
-     * @param   filter          Accept only these files.
-     * @return  List of matching files.
+     * @param   sourceLocation  Check all files in this directory.
+     * @param   filter          Accept only these directories and files.
+     * @return  List of matching files. Contains no directories.
      * @throws  IOException     Something went wrong.
      */
     public static List listFilesRecursively(final File sourceLocation, final FileFilter filter)
@@ -1144,93 +1147,6 @@ public final class IoUtility {
             close(in);
         }
         return newprops;
-    }
-
-    /**
-     * This method returns the contents of an object variable (even if it is private).
-     *
-     * @param   obj     Object.
-     * @param   name    Variable name
-     * @return  Contents of variable.
-     */
-    public static Object getFieldContent(final Object obj, final String name) {
-        final Field field;
-        try {
-            field = obj.getClass().getDeclaredField(name);
-            field.setAccessible(true);
-        } catch (SecurityException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            return field.get(obj);
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * This method returns the contents of an object variable (even if it is private).
-     *
-     * @param   obj     Object.
-     * @param   name    Variable name
-     * @return  Contents of variable.
-     */
-    public static Object getFieldContentSuper(final Object obj, final String name) {
-        Field field = null;
-        try {
-            Class cl = obj.getClass();
-            while (!Object.class.equals(cl)) {
-                try {
-                    field = cl.getDeclaredField(name);
-                    break;
-                } catch (NoSuchFieldException ex) {
-                    cl = cl.getSuperclass();
-                }
-            }
-            if (field == null) {
-                throw new NullPointerException("field not found: " + name);
-            }
-            field.setAccessible(true);
-        } catch (SecurityException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            return field.get(obj);
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * This method sets the contents of an object variable (even if it is private).
-     *
-     * @param   obj     Object.
-     * @param   name    Variable name.
-     * @param   value   Value to set.
-     */
-    public static void setFieldContent(final Object obj, final String name, final Object value) {
-        final Field field;
-        try {
-            field = obj.getClass().getDeclaredField(name);
-            field.setAccessible(true);
-        } catch (SecurityException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            field.set(obj, value);
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /**

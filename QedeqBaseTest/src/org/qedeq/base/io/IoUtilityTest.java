@@ -30,6 +30,7 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.util.List;
 import java.util.Random;
 
 import org.qedeq.base.test.QedeqTestCase;
@@ -855,6 +856,120 @@ public class IoUtilityTest extends QedeqTestCase {
         file2.delete();
     }
 
+    /**
+     * Test {@link IoUtility#copy(File, File)}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testCopyDirectory() throws Exception {
+        final File dir1 = new File(getOutdir(), "testCopyDirectory_directory1");
+        if (dir1.exists()) {
+            assertTrue(IoUtility.deleteDir(dir1, true));
+        }
+        final File dir2 = new File(dir1, "dir2");
+        final File file1 = new File(dir1, "test1.txt");
+        final File file2 = new File(dir1, "test2.txt");
+        final File file3 = new File(dir2, "test3.txt");
+        assertTrue(dir2.mkdirs());
+        IoUtility.saveFile(file1, "File 1", "ISO-8859-1");
+        IoUtility.saveFile(file2, "File 2", "ISO-8859-1");
+        IoUtility.saveFile(file3, "File 3", "ISO-8859-1");
+        final File dir3 = new File(dir1, "dir3");
+        assertTrue(dir3.mkdirs());
+        final File file5 = new File(dir3, "test5.bin");
+        Random random = new Random(1007);
+        final byte[] data = new byte[1025];
+        for (int i = 0; i < data.length; i++) {
+            data[i] = (byte) random.nextInt();
+        }
+        IoUtility.saveFileBinary(file5, data);
+        
+        final File copy = new File(getOutdir(), "testCopyDirectory_directory2");
+        IoUtility.copy(dir1,  copy);
+        final File copyDir2 = new File(copy, "dir2");
+        final File copyFile1 = new File(copy, "test1.txt");
+        final File copyFile2 = new File(copy, "test2.txt");
+        final File copyFile3 = new File(copyDir2, "test3.txt");
+        final File copyDir3 = new File(copy, "dir3");
+        final File copyFile5 = new File(copyDir3, "test5.bin");
+        assertTrue(IoUtility.compareFilesBinary(file1, copyFile1));
+        assertTrue(IoUtility.compareFilesBinary(file2, copyFile2));
+        assertTrue(IoUtility.compareFilesBinary(file3, copyFile3));
+        assertTrue(IoUtility.compareFilesBinary(file5, copyFile5));
+        assertTrue(IoUtility.deleteDir(dir1, true));
+        assertTrue(IoUtility.deleteDir(copy, true));
+    }
+
+    /**
+     * Test {@link IoUtility#copy(File, File)}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testCopyDirectory2() throws Exception {
+        final File file1 = new File(getOutdir(), "testCopyDirectory2_1.bin");
+        if (file1.exists()) {
+            assertTrue(file1.delete());
+        }
+        final File file2 = new File(getOutdir(), "testCopyDirectory2_2.bin");
+        if (file2.exists()) {
+            assertTrue(file2.delete());
+        }
+        Random random = new Random(1007);
+        final byte[] data = new byte[1025];
+        for (int i = 0; i < data.length; i++) {
+            data[i] = (byte) random.nextInt();
+        }
+        IoUtility.saveFileBinary(file1, data);
+        IoUtility.copy(file1, file2);
+        assertTrue(IoUtility.compareFilesBinary(file1, file2));
+        file1.delete();
+        file2.delete();
+    }
+
+    /**
+     * Test {@link IoUtility#copy(String, String)}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testCopyDirectory3() throws Exception {
+        final File dir1 = new File(getOutdir(), "testCopyDirectory3_directory1");
+        if (dir1.exists()) {
+            assertTrue(IoUtility.deleteDir(dir1, true));
+        }
+        final File dir2 = new File(dir1, "dir2");
+        final File file1 = new File(dir1, "test1.txt");
+        final File file2 = new File(dir1, "test2.txt");
+        final File file3 = new File(dir2, "test3.txt");
+        assertTrue(dir2.mkdirs());
+        IoUtility.saveFile(file1, "File 1", "ISO-8859-1");
+        IoUtility.saveFile(file2, "File 2", "ISO-8859-1");
+        IoUtility.saveFile(file3, "File 3", "ISO-8859-1");
+        final File dir3 = new File(dir1, "dir3");
+        assertTrue(dir3.mkdirs());
+        final File file5 = new File(dir3, "test5.bin");
+        Random random = new Random(1007);
+        final byte[] data = new byte[1025];
+        for (int i = 0; i < data.length; i++) {
+            data[i] = (byte) random.nextInt();
+        }
+        IoUtility.saveFileBinary(file5, data);
+        
+        final File copy = new File(getOutdir(), "testCopyDirectory3_directory2");
+        IoUtility.copy(dir1.getPath(),  copy.getPath());
+        
+        final File copyDir2 = new File(copy, "dir2");
+        final File copyFile1 = new File(copy, "test1.txt");
+        final File copyFile2 = new File(copy, "test2.txt");
+        final File copyFile3 = new File(copyDir2, "test3.txt");
+        final File copyDir3 = new File(copy, "dir3");
+        final File copyFile5 = new File(copyDir3, "test5.bin");
+        assertTrue(IoUtility.compareFilesBinary(file1, copyFile1));
+        assertTrue(IoUtility.compareFilesBinary(file2, copyFile2));
+        assertTrue(IoUtility.compareFilesBinary(file3, copyFile3));
+        assertTrue(IoUtility.compareFilesBinary(file5, copyFile5));
+        assertTrue(IoUtility.deleteDir(dir1, true));
+        assertTrue(IoUtility.deleteDir(copy, true));
+    }
 
     /**
      * Test {@link IoUtility#compareTextFiles(File, File, String)}.
@@ -911,6 +1026,49 @@ public class IoUtilityTest extends QedeqTestCase {
         assertTrue(IoUtility.compareTextFiles(file2, file2, "ISO-8859-1"));
         assertTrue(file1.delete());
         assertTrue(file2.delete());
+    }
+
+    public void testListFilesRecursively() throws Exception {
+        final File dir1 = new File(getOutdir(), "testListFilesRecursively");
+        if (dir1.exists()) {
+            assertTrue(IoUtility.deleteDir(dir1, true));
+        }
+        final File dir2 = new File(dir1, "dir2");
+        final File file1 = new File(dir1, "dingo.txt");
+        final File file2 = new File(dir1, "dongo.txt");
+        final File file3 = new File(dir2, "bingo.txt");
+        assertTrue(dir2.mkdirs());
+        IoUtility.saveFile(file1, "File 1", "ISO-8859-1");
+        IoUtility.saveFile(file2, "File 2", "ISO-8859-1");
+        IoUtility.saveFile(file3, "File 3", "ISO-8859-1");
+        final File dir3 = new File(dir1, "dir3");
+        assertTrue(dir3.mkdirs());
+        final File file5 = new File(dir3, "bongo.txt");
+        IoUtility.saveFile(file5, "File 5", "ISO-8859-1");
+        final List list = IoUtility.listFilesRecursively(dir1, new FileFilter() {
+            public boolean accept(File pathname) {
+                return pathname.getName().equals("bongo.txt");
+            }
+        });
+        assertEquals(0, list.size());
+        final List list1 = IoUtility.listFilesRecursively(dir1, new FileFilter() {
+            public boolean accept(File pathname) {
+                return pathname.isDirectory() || pathname.getName().equals("bongo.txt");
+            }
+        });
+        assertEquals(1, list1.size());
+        final List list2 = IoUtility.listFilesRecursively(dir1, new FileFilter() {
+            public boolean accept(File pathname) {
+                return pathname.getName().endsWith(".txt");
+            }
+        });
+        assertEquals(2, list2.size());
+        final List list3 = IoUtility.listFilesRecursively(dir1, new FileFilter() {
+            public boolean accept(File pathname) {
+                return pathname.isDirectory() || pathname.getName().endsWith(".txt");
+            }
+        });
+        assertEquals(4, list3.size());
     }
 
     /**
