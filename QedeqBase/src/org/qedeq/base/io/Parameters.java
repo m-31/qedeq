@@ -20,8 +20,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.qedeq.base.utility.StringUtility;
-
 
 /**
  * Provides convenience methods for getting parameters out of a {@link Map}.
@@ -163,21 +161,19 @@ public class Parameters {
      */
     public String getParameterString() {
         final StringBuffer buffer = new StringBuffer(30);
-        if (map != null) {
-            Iterator e = map.entrySet().iterator();
-            boolean notFirst = false;
-            while (e.hasNext()) {
-                final Map.Entry entry = (Map.Entry) e.next();
-                String key = String.valueOf(entry.getKey());
-                if (notFirst) {
-                    buffer.append(", ");
-                } else {
-                    notFirst = true;
-                }
-                buffer.append(key);
-                buffer.append("=");
-                buffer.append(String.valueOf(entry.getValue()));
+        Iterator e = map.entrySet().iterator();
+        boolean notFirst = false;
+        while (e.hasNext()) {
+            final Map.Entry entry = (Map.Entry) e.next();
+            String key = String.valueOf(entry.getKey());
+            if (notFirst) {
+                buffer.append(", ");
+            } else {
+                notFirst = true;
             }
+            buffer.append(key);
+            buffer.append("=");
+            buffer.append(String.valueOf(entry.getValue()));
         }
         return buffer.toString();
     }
@@ -189,7 +185,7 @@ public class Parameters {
      * @param   value       Default value.
      */
     public void setDefault(final String key, final int value) {
-        if (!map.containsKey(key)) {
+        if (!map.containsKey(key) || !(map.get(key) instanceof String)) {
             map.put(key, "" + value);
         }
     }
@@ -201,7 +197,7 @@ public class Parameters {
      * @param   value       Default value.
      */
     public void setDefault(final String key, final String value) {
-        if (!map.containsKey(key)) {
+        if (!map.containsKey(key) || !(map.get(key) instanceof String)) {
             map.put(key, value);
         }
     }
@@ -213,7 +209,7 @@ public class Parameters {
      * @param   value       Default value.
      */
     public void setDefault(final String key, final boolean value) {
-        if (!map.containsKey(key)) {
+        if (!map.containsKey(key) || !(map.get(key) instanceof String)) {
             map.put(key, "" + value);
         }
     }

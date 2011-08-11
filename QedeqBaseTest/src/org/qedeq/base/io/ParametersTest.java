@@ -65,7 +65,8 @@ public class ParametersTest extends QedeqTestCase {
         object5 = new Parameters(map5);
         map5.put("hum", new Integer(9));
         map5.put("hom", "  12  ");
-        map5.put("him", "-13");
+        map5.put("him", new RuntimeException("-13"));
+        map5.put("she", "-13");
         object6 = new Parameters(new HashMap());
     }
 
@@ -123,7 +124,7 @@ public class ParametersTest extends QedeqTestCase {
         assertEquals(12, object5.getInt("hom"));
         assertEquals(0, object3.getInt("hint"));
         assertEquals(2147483647, object3.getInt("hilt"));
-        assertEquals(-13, object5.getInt("him"));
+        assertEquals(-13, object5.getInt("she"));
         assertEquals(12, object5.getInt("hom"));
         assertEquals(0, object6.getInt("hom"));
     }
@@ -164,42 +165,42 @@ public class ParametersTest extends QedeqTestCase {
     }
 
     public void testSetDefaultBoolean() {
-        assertFalse(object1.getBoolean("him"));
-        assertTrue(object1.getBoolean("him", true));
-        assertFalse(object1.getBoolean("holly"));
-        assertTrue(object1.getBoolean("holly", true));
-        object1.setDefault("him", true);
-        assertTrue(object1.getBoolean("him"));
-        assertTrue(object1.getBoolean("him", false));
-        object1.setDefault("holly", true);
-        assertTrue(object1.getBoolean("holly"));
-        assertTrue(object1.getBoolean("holly", false));
+        assertFalse(object5.getBoolean("him"));
+        assertTrue(object5.getBoolean("him", true));
+        assertFalse(object5.getBoolean("holly"));
+        assertTrue(object5.getBoolean("holly", true));
+        object5.setDefault("him", true);
+        assertTrue(object5.getBoolean("him"));
+        assertTrue(object5.getBoolean("him", false));
+        object5.setDefault("holly", true);
+        assertTrue(object5.getBoolean("holly"));
+        assertTrue(object5.getBoolean("holly", false));
     }
 
     public void testSetDefaultInt() {
-        assertEquals(0, object1.getInt("him"));
-        assertEquals(13, object1.getInt("him", 13));
-        assertEquals(0, object1.getInt("holly"));
-        assertEquals(18, object1.getInt("holly", 18));
-        object1.setDefault("him", 11);
-        assertEquals(11, object1.getInt("him"));
-        assertEquals(11, object1.getInt("him", 7));
-        object1.setDefault("holly", 21);
-        assertEquals(21, object1.getInt("holly"));
-        assertEquals(21, object1.getInt("holly", 3));
+        assertEquals(0, object5.getInt("him"));
+        assertEquals(13, object5.getInt("him", 13));
+        assertEquals(0, object5.getInt("holly"));
+        assertEquals(18, object5.getInt("holly", 18));
+        object5.setDefault("him", 11);
+        assertEquals(11, object5.getInt("him"));
+        assertEquals(11, object5.getInt("him", 7));
+        object5.setDefault("holly", 21);
+        assertEquals(21, object5.getInt("holly"));
+        assertEquals(21, object5.getInt("holly", 3));
     }
 
     public void testSetDefaultString() {
-        assertEquals("", object1.getString("him"));
-        assertEquals("hol", object1.getString("him", "hol"));
-        assertEquals("", object1.getString("holly"));
-        assertEquals("whole", object1.getString("holly", "whole"));
-        object1.setDefault("him", "she");
-        assertEquals("she", object1.getString("him"));
-        assertEquals("she", object1.getString("him", "he"));
-        object1.setDefault("holly", "tree");
-        assertEquals("tree", object1.getString("holly"));
-        assertEquals("tree", object1.getString("holly", "animal"));
+        assertEquals("", object5.getString("him"));
+        assertEquals("hol", object5.getString("him", "hol"));
+        assertEquals("", object5.getString("holly"));
+        assertEquals("whole", object5.getString("holly", "whole"));
+        object5.setDefault("him", "she");
+        assertEquals("she", object5.getString("him"));
+        assertEquals("she", object5.getString("him", "he"));
+        object5.setDefault("holly", "tree");
+        assertEquals("tree", object5.getString("holly"));
+        assertEquals("tree", object5.getString("holly", "animal"));
     }
 
 }
