@@ -871,7 +871,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         Trace.param(CLASS, this, method, "file", url.getFile());
         if (address.isFileAddress()) {
             try {
-                return IoUtility.toFile(url.getFile());
+                return IoUtility.transformURLPathToFilePath(url);
             } catch (IllegalArgumentException e) {
                 // should not occur because check for validy must be done in constructor of address
                 Trace.fatal(CLASS, this, method, "Loading failed of local file with URL=" + url, e);

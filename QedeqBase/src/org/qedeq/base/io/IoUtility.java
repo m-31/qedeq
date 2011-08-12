@@ -986,14 +986,14 @@ public final class IoUtility {
     }
 
     /**
-     * Convert URL path in file. Call this method with the value of URL.getQuery().
+     * Convert URL path in file path.
      *
-     * @param   path    Convert this URL path.
-     * @return  File.
+     * @param   url    Convert this URL path.
+     * @return  File path.
      */
-    public static File toFile(final String path) {
+    public static File transformURLPathToFilePath(final URL url) {
         try {
-            return new File(URLDecoder.decode(path, "UTF-8"));
+            return new File(URLDecoder.decode(url.getFile(), "UTF-8"));
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
@@ -1234,7 +1234,7 @@ public final class IoUtility {
             final URL u = new URL(url);
             // is this a file URL?
             if (u.getProtocol().equalsIgnoreCase("file")) {
-                return toFile(u.getFile()).getCanonicalPath();
+                return transformURLPathToFilePath(u).getCanonicalPath();
             }
         } catch (RuntimeException e) {
             //  ignore

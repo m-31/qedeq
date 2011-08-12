@@ -30,6 +30,7 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.net.URL;
 import java.util.List;
 import java.util.Random;
 
@@ -38,33 +39,22 @@ import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
 
 /**
- * Test {@link org.qedeq.kernel.utility.TextInput}.
+ * Test {@link org.qedeq.kernel.utility.IoUtility}.
  *
  * @author  Michael Meyling
  */
 public class IoUtilityTest extends QedeqTestCase {
 
 
-    /*
-     * @see TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    /*
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    public void testPrintAllSystemProperties() {
+        // we just call the method - at least we have some infos in the log about system properties
+        IoUtility.printAllSystemProperties();
     }
 
     /**
-     * Test {@link IoUtility#getDefaultEncoding()}. TODO mime 20090630 throws no exception no more
-     *
-     * @throws Exception Test failed.
+     * Test {@link IoUtility#getDefaultEncoding()}.
      */
-    public void testGetDefaultEncoding() throws Exception {
+    public void testGetDefaultEncoding() {
         assertEquals(System.getProperty("file.encoding"), IoUtility.getDefaultEncoding());
         final String encoding = new InputStreamReader(new ByteArrayInputStream(
             new byte[0])).getEncoding();
@@ -1235,7 +1225,6 @@ public class IoUtilityTest extends QedeqTestCase {
             + "I am the tailors face and hands and@" + "I know Im fakin it,@"
             + "Im not really makin it.@" + "This feeling of fakin it--@"
             + "I still havent shaken it.";
-        int s = 0;
         compareFilesAt(text, -1);
         compareFilesAt(text, 0);
         compareFilesAt(text, 20);
@@ -1444,6 +1433,26 @@ public class IoUtilityTest extends QedeqTestCase {
         assertFalse(file2.exists());
         assertFalse(file3.exists());
         assertTrue(IoUtility.deleteDir(dir1, true));
+    }
+
+    public void testGetUserHomeDirectory() throws Exception {
+        assertTrue(IoUtility.getUserHomeDirectory().exists());
+        assertEquals(new File(System.getProperty("user.home")).getCanonicalPath(),
+            IoUtility.getUserHomeDirectory().getCanonicalPath());
+    }
+
+    public void testToUrl() throws Exception {
+        assertEquals(new File(".").getCanonicalPath(),
+            new File(IoUtility.toUrl(new File(".")).toURI()).getCanonicalPath());
+    }
+
+    public void testToFile() throws Exception {
+        final File start = new File("empty path");
+        System.out.println(IoUtility.toUrl(start));
+        final URL url = IoUtility.toUrl(start);
+        System.out.println(IoUtility.transformURLPathToFilePath(url));
+        assertEquals(IoUtility.transformURLPathToFilePath(IoUtility.toUrl(start)).getCanonicalPath(),
+            start.getCanonicalPath());
     }
 
 }
