@@ -746,7 +746,7 @@ public final class IoUtility {
 
     /**
      * Compare two text files. Ignores different line separators. As there are:
-     * LF, CR, CR + LF, NEL, FF, LS, PS.
+     * LF, CR, CR + LF
      *
      * @param   from        Compare source.
      * @param   with        Compare with this file.
@@ -768,7 +768,9 @@ public final class IoUtility {
         if (from.getAbsoluteFile().equals(with.getAbsoluteFile())) {
             return true;
         }
-
+        if (startAtLine < 0) {
+            return true;
+        }
         BufferedReader one = null;
         BufferedReader two = null;
         FileInputStream fromIn = null;

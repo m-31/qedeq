@@ -1215,7 +1215,183 @@ public class IoUtilityTest extends QedeqTestCase {
     }
 
     /**
-     * Test {@link IoUtility#testCompareTextFiles(File, File, String)}.
+     * Test {@link IoUtility#compareTextFiles(File, File, int, String)}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testCompareTextFiles3() throws Exception {
+        final String text = "When she goes, shes gone.@" + "If she stays, she stays here.@"
+            + "The girl does what she wants to do.@" + "She knows what she wants to do.@"
+            + "And I know Im fakin it,@" + "Im not really makin it.@" + "@"
+            + "Im such a dubious soul,@" + "And a walk in the garden@" + "Wears me down.@"
+            + "Tangled in the fallen vines,@" + "Pickin up the punch lines,@"
+            + "Ive just been fakin it,@" + "Not really makin it.@" + "@" + "Is there any danger?@"
+            + "No, no, not really.@" + "Just lean on me.@" + "Takin time to treat@"
+            + "Your friendly neighbors honestly.@" + "Ive just been fakin it,@"
+            + "Im not really makin it.@" + "This feeling of fakin it--@"
+            + "I still havent shaken it.@" + "@" + "Prior to this lifetime@"
+            + "I surely was a tailor.@" + "(good morning, mr. leitch.@"
+            + "Have you had a busy day? )@" + "I own the tailors face and hands.@"
+            + "I am the tailors face and hands and@" + "I know Im fakin it,@"
+            + "Im not really makin it.@" + "This feeling of fakin it--@"
+            + "I still havent shaken it.";
+        int s = 0;
+        compareFilesAt(text, -1);
+        compareFilesAt(text, 0);
+        compareFilesAt(text, 20);
+//        compareFilesAt(text, 200);
+    }
+
+    private void compareFilesAt(final String text, int s) throws IOException {
+        final File file1 = new File(getOutdir(), "testCompareTextFiles1.txt");
+        if (file1.exists()) {
+            assertTrue(file1.delete());
+        }
+        final File file2 = new File(getOutdir(), "testCompareTextFiles2.txt");
+        if (file2.exists()) {
+            assertTrue(file2.delete());
+        }
+        IoUtility.saveFile(file1, "Line1", "ISO-8859-1");
+        IoUtility.saveFile(file2, "Line1", "ISO-8859-1");
+
+        assertFalse(IoUtility.compareTextFiles(null, file1, s, "ISO-8859-1"));
+        assertFalse(IoUtility.compareTextFiles(file2, null, s, "ISO-8859-1"));
+        assertTrue(IoUtility.compareTextFiles(null, null, s, "ISO-8859-1"));
+        try {
+            IoUtility.compareTextFiles(file1, file2, s, "iso");
+            if (s >= 0) {
+                fail("UnsupportedEncodingException expected");
+            }
+        } catch (UnsupportedEncodingException e) {
+            // expected;
+        }
+        IoUtility.saveFile(file2, "line1", "ISO-8859-1");
+        if (s == 0) {
+            assertFalse(IoUtility.compareTextFiles(file1, file2, s, "ISO-8859-1"));
+            assertFalse(IoUtility.compareTextFiles(file2, file1, s, "ISO-8859-1"));
+        } else {
+            assertTrue(IoUtility.compareTextFiles(file1, file2, s, "ISO-8859-1"));
+            assertTrue(IoUtility.compareTextFiles(file2, file1, s, "ISO-8859-1"));
+        }
+
+        IoUtility.saveFile(file1, StringUtility.replace(text, "@", "\n"), "ISO-8859-1");
+        IoUtility.saveFile(file2, StringUtility.replace(text, "@", "\n"), "ISO-8859-1");
+        assertTrue(IoUtility.compareTextFiles(file1, file2, s, "ISO-8859-1"));
+        assertTrue(IoUtility.compareTextFiles(file2, file1, s, "ISO-8859-1"));
+
+        IoUtility.saveFile(file1, StringUtility.replace(text, "@", "\015\012"), "ISO-8859-1");
+        IoUtility.saveFile(file2, StringUtility.replace(text, "@", "\015\012"), "ISO-8859-1");
+        assertTrue(IoUtility.compareTextFiles(file1, file2, s, "ISO-8859-1"));
+        assertTrue(IoUtility.compareTextFiles(file2, file1, s, "ISO-8859-1"));
+
+        IoUtility.saveFile(file1, StringUtility.replace(text, "@", "\012"), "ISO-8859-1");
+        IoUtility.saveFile(file2, StringUtility.replace(text, "@", "\015\012"), "ISO-8859-1");
+        assertTrue(IoUtility.compareTextFiles(file1, file2, s, "ISO-8859-1"));
+        assertTrue(IoUtility.compareTextFiles(file2, file1, s, "ISO-8859-1"));
+
+        IoUtility.saveFile(file1, StringUtility.replace(text + "@", "@", "\012"), "ISO-8859-1");
+        IoUtility.saveFile(file2, StringUtility.replace(text, "@", "\015\012"), "ISO-8859-1");
+        assertTrue(IoUtility.compareTextFiles(file1, file2, s, "ISO-8859-1"));
+        assertTrue(IoUtility.compareTextFiles(file2, file1, s, "ISO-8859-1"));
+
+        IoUtility.saveFile(file1, StringUtility.replace(text, "@", "\012"), "ISO-8859-1");
+        IoUtility.saveFile(file2, StringUtility.replace(text + "@", "@", "\015\012"), "ISO-8859-1");
+        assertTrue(IoUtility.compareTextFiles(file1, file2, s, "ISO-8859-1"));
+        assertTrue(IoUtility.compareTextFiles(file2, file1, s, "ISO-8859-1"));
+
+        IoUtility.saveFile(file1, StringUtility.replace(text + "@", "@", "\012"), "ISO-8859-1");
+        IoUtility.saveFile(file2, StringUtility.replace(text + "@", "@", "\015\012"), "ISO-8859-1");
+        assertTrue(IoUtility.compareTextFiles(file1, file2, s, "ISO-8859-1"));
+        assertTrue(IoUtility.compareTextFiles(file2, file1, s, "ISO-8859-1"));
+        assertTrue(IoUtility.compareTextFiles(file1, file2, s, "UTF8"));
+        assertTrue(IoUtility.compareTextFiles(file2, file1, s, "UTF8"));
+        if (s == 0) {
+            assertFalse(IoUtility.compareTextFiles(file1, file2, s, "UTF-16"));
+            assertFalse(IoUtility.compareTextFiles(file2, file1, s, "UTF-16"));
+        } else {
+            assertTrue(IoUtility.compareTextFiles(file1, file2, s, "UTF-16"));
+            assertTrue(IoUtility.compareTextFiles(file2, file1, s, "UTF-16"));
+        }
+        IoUtility.saveFile(file1, StringUtility.replace(text, "@", "\012"), "ISO-8859-1");
+        IoUtility.saveFile(file2, StringUtility.replace(text, "@", "\012"), "UTF8");
+        assertTrue(IoUtility.compareTextFiles(file1, file2, s, "ISO-8859-1"));
+        assertTrue(IoUtility.compareTextFiles(file2, file1, s, "ISO-8859-1"));
+        assertTrue(IoUtility.compareTextFiles(file1, file2, s, "UTF8"));
+        assertTrue(IoUtility.compareTextFiles(file2, file1, s, "UTF8"));
+        assertTrue(IoUtility.compareTextFiles(file1, file2, s, "UTF-16"));
+        assertTrue(IoUtility.compareTextFiles(file2, file1, s, "UTF-16"));
+
+        IoUtility.saveFile(file1, StringUtility.replace(text, "@", "\012"), "UTF16");
+        IoUtility.saveFile(file2, StringUtility.replace(text, "@", "\012"), "UTF8");
+        if (s == 0) {
+            assertFalse(IoUtility.compareTextFiles(file1, file2, s, "UTF-16"));
+            assertFalse(IoUtility.compareTextFiles(file2, file1, s, "UTF8"));
+        } else if (s < 0){
+            assertTrue(IoUtility.compareTextFiles(file1, file2, s, "UTF-16"));
+            assertTrue(IoUtility.compareTextFiles(file2, file1, s, "UTF8"));
+        }
+
+        IoUtility.saveFile(file1, StringUtility.replace(text, "@", "\012"), "UTF-16");
+        IoUtility.saveFile(file2, StringUtility.replace(text, "@", "\012"), "UTF-16");
+        assertTrue(IoUtility.compareTextFiles(file1, file2, s, "ISO-8859-1"));
+        assertTrue(IoUtility.compareTextFiles(file2, file1, s, "ISO-8859-1"));
+        assertTrue(IoUtility.compareTextFiles(file1, file2, s, "UTF8"));
+        assertTrue(IoUtility.compareTextFiles(file2, file1, s, "UTF8"));
+        assertTrue(IoUtility.compareTextFiles(file1, file2, s, "UTF-16"));
+        assertTrue(IoUtility.compareTextFiles(file2, file1, "UTF-16"));
+
+        IoUtility.saveFile(file1, StringUtility.replace(text, "@", "\012"), "UTF-16");
+        IoUtility.saveFile(file2, StringUtility.replace(text, "@", "\012\015"), "UTF-16");
+        if (s >= 0) {
+            assertFalse(IoUtility.compareTextFiles(file1, file2, s, "ISO-8859-1"));
+            assertFalse(IoUtility.compareTextFiles(file2, file1, s, "ISO-8859-1"));
+            assertFalse(IoUtility.compareTextFiles(file1, file2, s, "UTF8"));
+            assertFalse(IoUtility.compareTextFiles(file2, file1, s, "UTF8"));
+            assertFalse(IoUtility.compareTextFiles(file1, file2, s, "UTF16"));
+            assertFalse(IoUtility.compareTextFiles(file2, file1, s, "UTF16"));
+        }
+
+        IoUtility.saveFile(file1, StringUtility.replace(text, "@", "\012"), "UTF-16");
+        IoUtility.saveFile(file2, StringUtility.replace(text, "@", "\015\012"), "UTF-16");
+        if (s >= 0) {
+            assertFalse(IoUtility.compareTextFiles(file1, file2, s, "ISO-8859-1"));
+            assertFalse(IoUtility.compareTextFiles(file2, file1, s, "ISO-8859-1"));
+            assertFalse(IoUtility.compareTextFiles(file1, file2, s, "UTF8"));
+            assertFalse(IoUtility.compareTextFiles(file2, file1, s, "UTF8"));
+            assertTrue(IoUtility.compareTextFiles(file1, file2, s, "UTF-16"));
+            assertTrue(IoUtility.compareTextFiles(file2, file1, s, "UTF-16"));
+        }
+
+        IoUtility.saveFile(file1, StringUtility.replace(text, "@", "\012"), "ISO-8859-1");
+        IoUtility.saveFile(file2, StringUtility.replace(text, "@", "\015"), "ISO-8859-1");
+        assertTrue(IoUtility.compareTextFiles(file1, file2, s, "ISO-8859-1"));
+        assertTrue(IoUtility.compareTextFiles(file2, file1, s, "ISO-8859-1"));
+        assertTrue(IoUtility.compareTextFiles(file1, file2, s, "UTF8"));
+        assertTrue(IoUtility.compareTextFiles(file2, file1, s, "UTF8"));
+        if (s == 0) {
+            assertFalse(IoUtility.compareTextFiles(file1, file2, s, "UTF-16"));
+            assertFalse(IoUtility.compareTextFiles(file2, file1, s, "UTF-16"));
+        } else {
+            assertTrue(IoUtility.compareTextFiles(file1, file2, s, "UTF-16"));
+            assertTrue(IoUtility.compareTextFiles(file2, file1, s, "UTF-16"));
+        }
+
+//        IoUtility.saveFile(file1, StringUtility.replace(text, "@", "\015\012"), "ISO-8859-1");
+//        IoUtility.saveFile(file2, StringUtility.replace(text, "@", "" + (char) 0x2029),
+//            "ISO-8859-1");
+//        assertTrue(IoUtility.compareTextFiles(file1, file2, s, "ISO-8859-1"));
+//        assertTrue(IoUtility.compareTextFiles(file2, file1, s, "ISO-8859-1"));
+//        assertTrue(IoUtility.compareTextFiles(file1, file2, s, "UTF8"));
+//        assertTrue(IoUtility.compareTextFiles(file2, file1, s, "UTF8"));
+//        assertFalse(IoUtility.compareTextFiles(file1, file2, s, "UTF-16"));
+//        assertFalse(IoUtility.compareTextFiles(file2, file1, s, "UTF-16"));
+
+        assertTrue(file1.delete());
+        assertTrue(file2.delete());
+    }
+
+    /**
+     * Test {@link IoUtility#deleteDir(File, boolean)}.
      *
      * @throws Exception Test failed.
      */
@@ -1238,7 +1414,7 @@ public class IoUtilityTest extends QedeqTestCase {
     }
 
     /**
-     * Test {@link IoUtility#testCompareTextFiles(File, File, String)}.
+     * Test {@link IoUtility#deleteDir(File, FileFilter)}.
      *
      * @throws Exception Test failed.
      */
