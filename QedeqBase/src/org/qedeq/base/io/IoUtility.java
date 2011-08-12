@@ -862,7 +862,7 @@ public final class IoUtility {
         }
 
         // now that we tried to clear the directory out, we can try to delete it
-        if (deleteDir) {
+        if (deleteDir && directory.exists()) {
             return directory.delete();
         }
         return success;
@@ -1000,30 +1000,16 @@ public final class IoUtility {
     }
 
     /**
-     * Convert file in URL string.
-     *
-     * @param   file    File.
-     * @return  URL string.
-     */
-    public static String toUrlString(final File file) {
-        try {
-            return file.toURI().toURL().toString();
-        } catch (MalformedURLException e) { // should only happen if there is a bug in the JDK
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
      * Creates necessary parent directories for a file.
      *
      * @param   file    File.
      * @throws  IOException Creation failed.
      */
-    public static void createNecessaryDirectories(final File file) throws  IOException {
+    public static void createNecessaryDirectories(final File file) throws IOException {
         if (file.getParentFile() != null) {
             file.getParentFile().mkdirs();
             if (!file.getParentFile().exists()) {
-                throw new IOException("creation of directory failed: " + file.getParent());
+                throw new IOException("directory creation failed: " + file.getParent());
             }
         }
     }

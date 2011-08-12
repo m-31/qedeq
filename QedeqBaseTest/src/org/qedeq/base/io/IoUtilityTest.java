@@ -105,23 +105,6 @@ public class IoUtilityTest extends QedeqTestCase {
     }
 
     /**
-     * Test {@link IoUtility#createRelativePath(final File origin, final File next)}.
-     *
-     * @throws Exception Test failed.
-     */
-    public void testCreateRelativePath() throws Exception {
-        assertEquals("local/", IoUtility.createRelativePath(new File("."), new File("local")));
-        assertEquals("text/", IoUtility.createRelativePath(new File("/local/data"),
-            new File("/local/data/text")));
-        assertEquals("../../green/", IoUtility.createRelativePath(new File("/local/data"),
-            new File("/green/")));
-        assertEquals("../green/", IoUtility.createRelativePath(new File("/local/data"),
-            new File("/local/green")));
-        assertEquals("", IoUtility.createRelativePath(new File("/blue/../green/yellow"),
-                new File("/green/yellow")));
-    }
-
-    /**
      * Test {@link IoUtility#loadStream(InputStream, StringBuffer)}.
      *
      * @throws Exception Test failed.
@@ -1400,6 +1383,13 @@ public class IoUtilityTest extends QedeqTestCase {
         IoUtility.saveFile(file3, "File 3", "ISO-8859-1");
         assertTrue(IoUtility.deleteDir(dir1, true));
         assertTrue(!dir1.exists());
+
+        assertTrue(IoUtility.deleteDir(new File(getOutdir(), "testDeleteDirFileBoolean"), true));
+        final File file = new File(getOutdir() + "/testDeleteDirFileBoolean/my/test/path");
+        IoUtility.createNecessaryDirectories(file);
+        IoUtility.saveFile(file, new StringBuffer("hei"), "UTF-8");
+        assertTrue(IoUtility.deleteDir(new File(getOutdir(), "testDeleteDirFileBoolean"), true));
+
     }
 
     /**
@@ -1448,11 +1438,161 @@ public class IoUtilityTest extends QedeqTestCase {
 
     public void testToFile() throws Exception {
         final File start = new File("empty path");
-        System.out.println(IoUtility.toUrl(start));
         final URL url = IoUtility.toUrl(start);
-        System.out.println(IoUtility.transformURLPathToFilePath(url));
         assertEquals(IoUtility.transformURLPathToFilePath(IoUtility.toUrl(start)).getCanonicalPath(),
             start.getCanonicalPath());
+    }
+
+    public void testCreateNecessaryDirectories() throws Exception {
+        assertTrue(IoUtility.deleteDir(new File(getOutdir(), "createNecessaryDirectories"), true));
+        final File file = new File(getOutdir() + "/createNecessaryDirectories/my/test/path");
+        IoUtility.createNecessaryDirectories(file);
+        IoUtility.saveFile(file, new StringBuffer("hei"), "UTF-8");
+        assertTrue(IoUtility.deleteDir(new File(getOutdir(), "createNecessaryDirectories"), true));
+    }
+
+    public void testCreateRelativePath() throws Exception {
+        final File dir1 = new File(getOutdir(), "createRelativePath1").getCanonicalFile();
+        final File dir2 = new File(getOutdir(), "createRelativePath2/subdir").getCanonicalFile();
+        assertEquals("../createRelativePath2/subdir/", IoUtility.createRelativePath(dir1, dir2));
+    }
+
+    /**
+     * Test {@link IoUtility#createRelativePath(final File origin, final File next)}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testCreateRelativePath2() throws Exception {
+        assertEquals("local/", IoUtility.createRelativePath(new File("."), new File("local")));
+        assertEquals("text/", IoUtility.createRelativePath(new File("/local/data"),
+            new File("/local/data/text")));
+        assertEquals("../../green/", IoUtility.createRelativePath(new File("/local/data"),
+            new File("/green/")));
+        assertEquals("../green/", IoUtility.createRelativePath(new File("/local/data"),
+            new File("/local/green")));
+        assertEquals("", IoUtility.createRelativePath(new File("/blue/../green/yellow"),
+                new File("/green/yellow")));
+    }
+
+    public void testWaitln() {
+        final InputStream save = System.in;
+        final String input = "\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+        IoUtility.waitln();
+        System.setIn(save);
+    }
+
+    public void testCloseInputStream() throws Exception {
+        IoUtility.close((InputStream) null);
+        final InputStream in = new InputStream() {
+            boolean isClosed = false;
+            public void close() throws IOException {
+                if (isClosed) {
+                    throw new IOException("is already closed");
+                }
+                isClosed = true;
+            }
+            public int read() throws IOException {
+                if (isClosed) {
+                    return 0;
+                } else {
+                    return 1;
+                }
+            }
+        };
+        assertEquals(1, in.read());
+        IoUtility.close(in);
+        assertEquals(0, in.read());
+        IoUtility.close(in);
+    }
+
+    public void testCloseReader() throws Exception {
+        IoUtility.close((Reader) null);
+        final Reader in = new Reader() {
+            boolean isClosed = false;
+            public void close() throws IOException {
+                if (isClosed) {
+                    throw new IOException("is already closed");
+                }
+                isClosed = true;
+            }
+            public int read() throws IOException {
+                if (isClosed) {
+                    return 0;
+                } else {
+                    return 1;
+                }
+            }
+            public int read(char[] cbuf, int off, int len) throws IOException {
+                if (isClosed) {
+                    return 0;
+                } else {
+                    return 1;
+                }
+            }
+        };
+        assertEquals(1, in.read(null, 0, 0));
+        IoUtility.close(in);
+        assertEquals(0, in.read(null, 0, 0));
+        IoUtility.close(in);
+    }
+
+    public void testCloseOutputStream() throws Exception {
+        IoUtility.close((OutputStream) null);
+        final OutputStream out = new OutputStream() {
+            boolean isClosed = false;
+            public void close() throws IOException {
+                if (isClosed) {
+                    throw new IOException("is already closed");
+                }
+                isClosed = true;
+            }
+            public void write(int b) throws IOException {
+                if (isClosed) {
+                    throw new IOException("is already closed");
+                }
+            }
+        };
+        out.write(0);
+        IoUtility.close(out);
+        try {
+            out.write(0);
+            fail("Exception expected");
+        } catch (IOException e) {
+            // OK
+        }
+        IoUtility.close(out);
+    }
+
+    public void testCloseWriter() throws Exception {
+        IoUtility.close((Writer) null);
+        final Writer out = new Writer() {
+            boolean isClosed = false;
+            public void close() throws IOException {
+                if (isClosed) {
+                    throw new IOException("is already closed");
+                }
+                isClosed = true;
+            }
+            public void write(int b) throws IOException {
+                if (isClosed) {
+                    throw new IOException("is already closed");
+                }
+            }
+            public void flush() throws IOException {
+            }
+            public void write(char[] cbuf, int off, int len) throws IOException {
+            }
+        };
+        out.write(0);
+        IoUtility.close(out);
+        try {
+            out.write(0);
+            fail("Exception expected");
+        } catch (IOException e) {
+            // OK
+        }
+        IoUtility.close(out);
     }
 
 }
