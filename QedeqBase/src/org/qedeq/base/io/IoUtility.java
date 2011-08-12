@@ -1120,8 +1120,7 @@ public final class IoUtility {
     public static final File getStartDirectory(final String application) {
         final File startDirectory;
         if (isWebStarted()) {
-            final String userHome = System.getProperty("user.home", ".");
-            startDirectory = new File(new File(userHome), "." + application);
+            startDirectory = new File(getUserHomeDirectory(), "." + application);
         } else {
             startDirectory = new File(".");
         }

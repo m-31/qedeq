@@ -1595,4 +1595,18 @@ public class IoUtilityTest extends QedeqTestCase {
         IoUtility.close(out);
     }
 
+    public void testGetStartDirectory() {
+        final String webStart = (String) System.getProperties().get("javawebstart.version");
+        System.clearProperty("javawebstart.version");
+        assertEquals(new File("."), IoUtility.getStartDirectory("qedeq"));
+        System.setProperty("javawebstart.version", "1.7");
+        assertEquals(new File(IoUtility.getUserHomeDirectory(), ".qedeq"),
+            IoUtility.getStartDirectory("qedeq"));
+        if (webStart != null) {
+            System.setProperty("javawebstart.version", webStart);
+        } else {
+            System.clearProperty("javawebstart.version");
+        }
+    }
+
 }
