@@ -437,6 +437,8 @@ public class IoUtilityTest extends QedeqTestCase {
         IoUtility.saveFileBinary(file2, new byte[] {'A', 'B', 'C'});
         assertFalse(IoUtility.compareFilesBinary(file1, file2));
         assertFalse(IoUtility.compareFilesBinary(file2, file1));
+        IoUtility.saveFileBinary(file1, data);
+        assertFalse(IoUtility.compareFilesBinary(file1, file2));
         assertTrue(file1.delete());
         assertTrue(file2.delete());
     }
@@ -1042,6 +1044,20 @@ public class IoUtilityTest extends QedeqTestCase {
             }
         });
         assertEquals(4, list3.size());
+        final List list4 = IoUtility.listFilesRecursively(file5, new FileFilter() {
+            public boolean accept(File pathname) {
+                return false;
+            }
+        });
+        assertEquals(1, list4.size());
+        assertEquals(file5, list4.get(0));
+        assertEquals(4, list3.size());
+        final List list5 = IoUtility.listFilesRecursively(dir1, new FileFilter() {
+            public boolean accept(File pathname) {
+                return false;
+            }
+        });
+        assertEquals(0, list5.size());
     }
 
     /**

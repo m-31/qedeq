@@ -581,8 +581,10 @@ public final class IoUtility {
      * List all matching files. Searches all matching sub directories recursively.
      * Remember to return <code>true</code> for <code>accept(File pathname)</code> if
      * <code>pathname</code> is a directory if you want to search all sub directories!
+     * If <code>sourceLocation</code> is a single file, this is the only file that will
+     * be in the resulting list.
      *
-     * @param   sourceLocation  Check all files in this directory.
+     * @param   sourceLocation  Check all files in this directory. (Or add this single file.)
      * @param   filter          Accept only these directories and files.
      * @return  List of matching files. Contains no directories.
      * @throws  IOException     Something went wrong.
@@ -595,6 +597,8 @@ public final class IoUtility {
             for (int i = 0; i < children.length; i++) { // recursive call for all children
                 result.addAll(listFilesRecursivelyIntern(children[i], filter));
             }
+        } else {
+            result.add(sourceLocation);
         }
         return result;
     }
