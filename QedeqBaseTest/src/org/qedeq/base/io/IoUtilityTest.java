@@ -30,7 +30,6 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.net.URL;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
@@ -1455,7 +1454,6 @@ public class IoUtilityTest extends QedeqTestCase {
 
     public void testToFile() throws Exception {
         final File start = new File("empty path");
-        final URL url = IoUtility.toUrl(start);
         assertEquals(IoUtility.transformURLPathToFilePath(IoUtility.toUrl(start)).getCanonicalPath(),
             start.getCanonicalPath());
     }
