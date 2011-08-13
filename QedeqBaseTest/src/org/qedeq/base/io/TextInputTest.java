@@ -272,6 +272,32 @@ public class TextInputTest extends QedeqTestCase {
         }
     }
 
+    public void testGetSubstring() {
+        final String text = "one two three";
+        final TextInput ti = new TextInput(text);
+        assertEquals(text, ti.getSubstring(-10, 999));
+        assertEquals(text, ti.getSubstring(-10, text.length()));
+        assertEquals(text, ti.getSubstring(0, 997));
+        assertEquals("one", ti.getSubstring(-1, 3));
+        assertEquals("thre", ti.getSubstring(8, text.length() - 1));
+        assertEquals("three", ti.getSubstring(8, text.length()));
+        assertEquals("three", ti.getSubstring(8, text.length()+ 1));
+        assertEquals("two", ti.getSubstring(4, 7));
+    }
+
+    public void testAsString() {
+        final String text = "one two three";
+        final TextInput ti = new TextInput(text);
+        assertEquals(text, ti.asString());
+    }
+
+    public void testReplace() {
+        final String text = "one two three";
+        final TextInput ti = new TextInput(text);
+        ti.replace(4, 7, "2");
+        assertEquals("one 2 three", ti.asString());
+    }
+
     /**
      * Test {@link TextInput#skipWhiteSpace()}.
      */
