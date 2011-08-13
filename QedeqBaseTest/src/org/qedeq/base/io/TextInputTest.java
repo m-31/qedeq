@@ -16,8 +16,11 @@
 package org.qedeq.base.io;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.Reader;
 
 import org.qedeq.base.test.QedeqTestCase;
+import org.qedeq.base.utility.StringUtility;
 
 /**
  * Test {@link TextInput}.
@@ -121,6 +124,41 @@ public class TextInputTest extends QedeqTestCase {
         }
         try {
             new TextInput((StringBuffer) null);
+            fail("NullPointerException expected");
+        } catch (NullPointerException e) {
+            // expected
+        }
+    }
+
+    /**
+     * Test constructor {@link TextInput#TextInput(Reader)}.
+     */
+    public void testTextInputReader() throws Exception {
+        final TextInput ti = new TextInput(new Reader() {
+            int pos = 0;
+
+            public void close() throws IOException {
+            }
+
+            public int read(char[] cbuf, int off, int len) throws IOException {
+                if (pos >= XML_DATA.length()) {
+                    return -1;
+                }
+                final String result = StringUtility.substring(XML_DATA, pos, len);
+                for (int i = 0; i < result.length(); i++) {
+                    cbuf[off + i] = result.charAt(i);
+                }
+                pos += result.length();
+                return result.length();
+            }
+            
+        });
+        int i = 0;
+        while (!ti.isEmpty()) {
+            assertEquals(ti.read(), XML_DATA.charAt(i++));
+        }
+        try {
+            new TextInput((Reader) null);
             fail("NullPointerException expected");
         } catch (NullPointerException e) {
             // expected
