@@ -222,6 +222,21 @@ public class TextInputTest extends QedeqTestCase {
         }
     }
 
+    public void testForwardInt() {
+        qedeqInput.forward(7);
+        assertEquals(7, qedeqInput.getPosition());
+        qedeqInput.forward(9);
+        assertEquals(16, qedeqInput.getPosition());
+    }
+
+    public void testForwardString() {
+        qedeqInput.forward("zafsduizasif");
+        assertEquals(832, qedeqInput.getPosition());
+        qedeqInput.setPosition(0);
+        qedeqInput.forward("<?xml");
+        assertEquals(0, qedeqInput.getPosition());
+    }
+
     /**
      * Test {@link TextInput#getChar(int)}.
      */
