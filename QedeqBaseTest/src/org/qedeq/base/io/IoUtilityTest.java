@@ -1642,4 +1642,30 @@ public class IoUtilityTest extends QedeqTestCase {
         assertEquals("is a cat", prop.getProperty("sharif"));
         assertTrue(file.delete());
     }
+
+    public void testSleep() {
+        long start = System.currentTimeMillis();
+        IoUtility.sleep(1150);
+        long time = System.currentTimeMillis() - start;
+        assertTrue(time > 1100);
+        assertTrue(time < 1200);
+    }
+
+    public void testGetJavaVersion() {
+        // at least there should be no Exception ...
+        IoUtility.getJavaVersion();
+    }
+
+    public void testEasyUrl() {
+        final String url1 = "http://www.qedeq.org/sample.html#poke";
+        assertEquals(url1, IoUtility.easyUrl(url1));
+        final String file = "/user/home/qedeq/sample1.qedeq";
+        assertEquals(file, IoUtility.easyUrl("file://" + file));
+    }
+
+    public void testGetSortedSystemProperties() {
+        // at least there should be no Exception ...
+        IoUtility.getSortedSystemProperties();
+    }
+
 }
