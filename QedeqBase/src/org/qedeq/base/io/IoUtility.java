@@ -1144,7 +1144,7 @@ public final class IoUtility {
     /**
      * Loads a property file from given URL.
      *
-     * @param   url     URL to load properties from.
+     * @param   url     URL to load properties from. Must not be <code>null</code>.
      * @return  Loaded properties.
      * @throws  IOException             Reading error.
      */

@@ -32,6 +32,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.URL;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
 
 import org.qedeq.base.test.QedeqTestCase;
@@ -408,6 +409,7 @@ public class IoUtilityTest extends QedeqTestCase {
         assertFalse(IoUtility.compareFilesBinary(null, file1));
         assertFalse(IoUtility.compareFilesBinary(file2, null));
         assertTrue(IoUtility.compareFilesBinary(null, null));
+        assertTrue(IoUtility.compareFilesBinary(file1, file1));
         try {
             assertTrue(IoUtility.compareFilesBinary(file1, file2));
             fail("FileNotFoundException expected");
@@ -962,6 +964,7 @@ public class IoUtilityTest extends QedeqTestCase {
         }
         assertFalse(IoUtility.compareTextFiles(null, file1, "ISO-8859-1"));
         assertFalse(IoUtility.compareTextFiles(file2, null, "ISO-8859-1"));
+        assertTrue(IoUtility.compareTextFiles(file1, file1, "ISO-8859-1"));
         try {
             assertTrue(IoUtility.compareTextFiles(file1, file2, "ISO-8859-1"));
             fail("FileNotFoundException expected");
@@ -1415,9 +1418,7 @@ public class IoUtilityTest extends QedeqTestCase {
      */
     public void testDeleteDirFileFileFilter() throws Exception {
         final File dir1 = new File(getOutdir(), "testDeleteDirFileFileFilter_directory");
-        if (dir1.exists()) {
-            assertTrue(IoUtility.deleteDir(dir1, true));
-        }
+        assertTrue(IoUtility.deleteDir(dir1, true));
         final File dir2 = new File(dir1, "testDeleteDirFileFileFilter_directory2");
         final File file1 = new File(dir1, "testDeleteDirFileFileFilter1.txt");
         final File file2 = new File(dir1, "testDeleteDirFileFileFilter2.txt");
@@ -1469,8 +1470,10 @@ public class IoUtilityTest extends QedeqTestCase {
 
     public void testCreateRelativePath() throws Exception {
         final File dir1 = new File(getOutdir(), "createRelativePath1").getCanonicalFile();
+        assertEquals("", IoUtility.createRelativePath(dir1, dir1));
         final File dir2 = new File(getOutdir(), "createRelativePath2/subdir").getCanonicalFile();
         assertEquals("../createRelativePath2/subdir/", IoUtility.createRelativePath(dir1, dir2));
+        assertEquals("", IoUtility.createRelativePath(dir2, dir2));
     }
 
     /**
@@ -1625,4 +1628,18 @@ public class IoUtilityTest extends QedeqTestCase {
         }
     }
 
+    public void testLoadPropertiesUrl() throws Exception {
+        try {
+            IoUtility.loadProperties(null);
+            fail("Exception expected");
+        } catch (RuntimeException e) {
+            // OK
+        }
+        final File file = new File(getOutdir(), "loadProperties.properties");
+        assertTrue(IoUtility.deleteDir(file, true));
+        IoUtility.saveFile(file, "sharif=is a cat", "ISO-8859-1");
+        final Properties prop = IoUtility.loadProperties(IoUtility.toUrl(file));
+        assertEquals("is a cat", prop.getProperty("sharif"));
+        assertTrue(file.delete());
+    }
 }
