@@ -87,13 +87,19 @@ public class TextInputTest extends QedeqTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTextInputFileString() throws Exception {
-        final File file = new File(this.getClass().getName() + ".testTexFileInput.impl");
+        final File file = new File(getOutdir(), this.getClass().getName() + ".testTexFileInput.impl");
         IoUtility.saveFile(file, XML_DATA, IoUtility.getDefaultEncoding());
         TextInput ti = new TextInput(file, IoUtility.getDefaultEncoding());
         while (!qedeqInput.isEmpty()) {
             assertEquals(qedeqInput.read(), ti.read());
         }
-        file.delete();
+        try {
+            new TextInput((File) null, "UTF-8");
+            fail("Exception expected");
+        } catch (RuntimeException e) {
+            // OK
+        }
+        assertTrue(file.delete());
     }
 
     /**
