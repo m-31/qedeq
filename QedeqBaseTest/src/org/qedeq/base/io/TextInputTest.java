@@ -443,6 +443,103 @@ public class TextInputTest extends QedeqTestCase {
         }
     }
 
+    public void testReadXmlName() {
+        final TextInput ti = new TextInput("<Head this=\">is not the end\">zulu");
+        try {
+            ti.readNextXmlName();
+            fail("Exception expected"); // we are not within the tag yet
+        } catch (RuntimeException e) {
+            // OK
+        }
+        ti.read();
+        assertEquals("Head", ti.readNextXmlName());
+        assertEquals("this", ti.readNextXmlName());
+        try {
+            System.out.println("name=" + ti.readNextXmlName());
+            fail("Exception expected"); // now we have the value
+        } catch (RuntimeException e) {
+            // OK
+        }
+        assertEquals(">is not the end", ti.readNextAttributeValue());
+        try {
+            System.out.println("name=" + ti.readNextXmlName());
+            fail("Exception expected"); // now we have the value
+        } catch (RuntimeException e) {
+            // OK
+        }
+    }
+
+    public void testReadNextAttributeValue() {
+        final TextInput ti = new TextInput("<Head this=\">is not the end\" we=zorg go=\"hi");
+        try {
+            System.out.println("attribute=" + ti.readNextAttributeValue());
+            fail("Exception expected"); // now we have the value
+        } catch (RuntimeException e) {
+            // OK
+        }
+        ti.read();  // skip <
+        try {
+            System.out.println("attribute=" + ti.readNextAttributeValue());
+            fail("Exception expected"); // now we have the value
+        } catch (RuntimeException e) {
+            // OK
+        }
+        assertEquals("Head", ti.readNextXmlName());
+        try {
+            System.out.println("attribute=" + ti.readNextAttributeValue());
+            fail("Exception expected"); // now we have the value
+        } catch (RuntimeException e) {
+            // OK
+        }
+        assertEquals("this", ti.readNextXmlName());
+        assertEquals(">is not the end", ti.readNextAttributeValue());
+        assertEquals("we", ti.readNextXmlName());
+        assertEquals("zorg", ti.readNextAttributeValue());
+        assertEquals("go", ti.readNextXmlName());
+        try {
+            System.out.println("attribute=" + ti.readNextAttributeValue());
+            fail("Exception expected"); // now we have the value
+        } catch (RuntimeException e) {
+            // OK
+        }
+    }
+
+    public void testReadNextAttributeValue2() {
+        final TextInput ti = new TextInput("<Head  this=\">is not \n the end\" we\n=\tzorg   "
+            + " go   =    \"hi");
+        try {
+            System.out.println("attribute=" + ti.readNextAttributeValue());
+            fail("Exception expected"); // now we have the value
+        } catch (RuntimeException e) {
+            // OK
+        }
+        ti.read();  // skip <
+        try {
+            System.out.println("attribute=" + ti.readNextAttributeValue());
+            fail("Exception expected"); // now we have the value
+        } catch (RuntimeException e) {
+            // OK
+        }
+        assertEquals("Head", ti.readNextXmlName());
+        try {
+            System.out.println("attribute=" + ti.readNextAttributeValue());
+            fail("Exception expected"); // now we have the value
+        } catch (RuntimeException e) {
+            // OK
+        }
+        assertEquals("this", ti.readNextXmlName());
+        assertEquals(">is not \n the end", ti.readNextAttributeValue());
+        assertEquals("we", ti.readNextXmlName());
+        assertEquals("zorg", ti.readNextAttributeValue());
+        assertEquals("go", ti.readNextXmlName());
+        try {
+            System.out.println("attribute=" + ti.readNextAttributeValue());
+            fail("Exception expected"); // now we have the value
+        } catch (RuntimeException e) {
+            // OK
+        }
+    }
+
     /**
      * Test {@link TextInput#isEmpty()}.
      */
@@ -568,22 +665,6 @@ public class TextInputTest extends QedeqTestCase {
         assertEquals(-1, qedeqInput.readInverse());
         assertEquals('<', qedeqInput.read());
         assertEquals('<', qedeqInput.readInverse());
-    }
-
-    /**
-     * Test {@link TextInput#readNextAttributeValue()}.
-     */
-    public void pestReadNextAttributeValue() {
-        // qedeqInput.readNextAttributeValue();
-        fail("not implemented");
-    }
-
-    /**
-     * Test {@link TextInput#readNextXmlName()}.
-     */
-    public void pestReadNextXmlName() {
-        qedeqInput.readNextXmlName();
-        fail("not implemented");
     }
 
     /**

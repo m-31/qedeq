@@ -384,7 +384,8 @@ public class TextInput extends InputStream {
 
     /**
      * Reads tag or attribute name out of XML stream. Whitespace is skipped and
-     * characters are read till &quot;=&quot; or &quot;&gt;&quot; or whitespace is found.
+     * characters are read till &quot;=&quot; or &quot;&gt;&quot; or &quot;&lt; or whitespace is
+     * found. We must be within the tag, so we can not start with something like &lt;.
      *
      * @return  Name of tag or attribute.
      * @throws  IllegalArgumentException    Next non white space character is &quot;=&quot;
@@ -392,12 +393,12 @@ public class TextInput extends InputStream {
      */
     public final String readNextXmlName() {
         skipWhiteSpace();
-        if (isEmpty() || '=' == getChar() || '>' == getChar()) {
+        if (isEmpty() || '=' == getChar() || '>' == getChar() || '<' == getChar()) {
             throw new IllegalArgumentException(
-                "begin of attribute expected");
+                "begin of attribute or tag expected");
         }
         StringBuffer buffer = new StringBuffer();
-        while (!isEmpty() && '=' != getChar() && '>' != getChar()
+        while (!isEmpty() && '=' != getChar() && '>' != getChar() && '<' != getChar()
                 && !Character.isWhitespace((char) getChar())) {
             buffer.append((char) read());
         }
