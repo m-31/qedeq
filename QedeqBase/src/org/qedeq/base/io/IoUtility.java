@@ -1010,7 +1010,7 @@ public final class IoUtility {
      * @throws  IOException Creation failed.
      */
     public static void createNecessaryDirectories(final File file) throws IOException {
-        if (file.getParentFile() != null) {
+        if (file != null && file.getParentFile() != null) {
             file.getParentFile().mkdirs();
             if (!file.getParentFile().exists()) {
                 throw new IOException("directory creation failed: " + file.getParent());
