@@ -403,6 +403,14 @@ public class TextInputTest extends QedeqTestCase {
         assertEquals(4, ti.getPosition());
     }
 
+    public void testSkipForwardToEndOfXmlTag() {
+        qedeqInput.skipForwardToEndOfXmlTag();
+        assertEquals('\n', qedeqInput.getChar());
+        qedeqInput.skipForwardToEndOfXmlTag();
+        assertEquals('\n', qedeqInput.read());
+        assertEquals("  <HEADER", qedeqInput.readString("  <HEADER".length()));
+    }
+
     /**
      * Test {@link TextInput#isEmpty()}.
      */
