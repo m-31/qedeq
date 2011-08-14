@@ -363,6 +363,14 @@ public class TextInputTest extends QedeqTestCase {
      * Tests {@link TextInput#skipBackToBeginOfXmlTag()}.
      */
     public void testSkipBackToBeginOfXmlTag() {
+        final TextInput ti = new TextInput("hiso \"<\"hiso >goto blub > &");
+        ti.setPosition(300);
+        try {
+            ti.skipBackToBeginOfXmlTag();
+            fail("Exception expected");
+        } catch (RuntimeException e) {
+            // OK
+        }
         final String first = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";
         qedeqInput.setPosition(first.length());
         qedeqInput.skipBackToBeginOfXmlTag();
@@ -377,6 +385,22 @@ public class TextInputTest extends QedeqTestCase {
         // now we are just before "<"
         qedeqInput.skipBackToBeginOfXmlTag();
         assertEquals(0, qedeqInput.getPosition());
+    }
+
+    public void testSkipToEndOfLine() {
+        qedeqInput.skipToEndOfLine();
+        assertEquals('\n', qedeqInput.readInverse());
+        final TextInput ti = new TextInput("\n\n\n\n");
+        ti.skipToEndOfLine();
+        assertEquals(1, ti.getPosition());
+        ti.skipToEndOfLine();
+        assertEquals(2, ti.getPosition());
+        ti.skipToEndOfLine();
+        assertEquals(3, ti.getPosition());
+        ti.skipToEndOfLine();
+        assertEquals(4, ti.getPosition());
+        ti.skipToEndOfLine();
+        assertEquals(4, ti.getPosition());
     }
 
     /**
