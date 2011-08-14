@@ -201,7 +201,7 @@ public class TextInput extends InputStream {
      * Skips a given amount of characters and increments the reading position
      * accordingly.
      *
-     * @param   number  Amount of characters to read
+     * @param   number  Amount of characters to read. Must be positive - if not nothing happens.
      */
     public final void forward(final int number) {
         for (int i = 0; i < number; i++) {
@@ -263,14 +263,16 @@ public class TextInput extends InputStream {
 
 
    /**
-    * Reads a substring. Doesn't change reading position.
+    * Reads a substring. Doesn't change reading position. Throws never an Exception.
     *
     * @param   from Absolute reading position.
     * @param   to   Read to this position.
     * @return  Resulting string.
-    * @throws  StringIndexOutOfBoundsException  If from > to.
     */
    public final String getSubstring(final int from, final int to) {
+       if (from >= to) {
+           return "";
+       }
        final int l = source.length();
        final int f = (from < 0 ? 0 : (from > l ? l : from));
        final int t = (to < 0 ? 0 : (to > l ? l : to));

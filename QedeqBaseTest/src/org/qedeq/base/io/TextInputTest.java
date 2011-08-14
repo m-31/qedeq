@@ -223,10 +223,18 @@ public class TextInputTest extends QedeqTestCase {
     }
 
     public void testForwardInt() {
-        qedeqInput.forward(7);
+        qedeqInput.forward(-1);
+        assertEquals(0, qedeqInput.getPosition());
+        qedeqInput.forward(0);
+        assertEquals(0, qedeqInput.getPosition());
+        qedeqInput.forward(1);
+        assertEquals(1, qedeqInput.getPosition());
+        qedeqInput.forward(6);
         assertEquals(7, qedeqInput.getPosition());
         qedeqInput.forward(9);
         assertEquals(16, qedeqInput.getPosition());
+        qedeqInput.forward(99999);
+        assertEquals(XML_DATA.length(), qedeqInput.getPosition());
     }
 
     public void testForwardString() {
@@ -275,6 +283,16 @@ public class TextInputTest extends QedeqTestCase {
     public void testGetSubstring() {
         final String text = "one two three";
         final TextInput ti = new TextInput(text);
+        assertEquals("", ti.getSubstring(text.length(), text.length()));
+        assertEquals("", ti.getSubstring(-1, -1));
+        assertEquals("", ti.getSubstring(0, 0));
+        assertEquals("", ti.getSubstring(text.length(), 0));
+        assertEquals("", ti.getSubstring(text.length(), text.length() + 1));
+        assertEquals("e", ti.getSubstring(text.length() - 1, text.length() + 1));
+        assertEquals("e", ti.getSubstring(text.length() - 1, text.length()));
+        assertEquals("", ti.getSubstring(text.length() + 1, 0));
+        assertEquals("", ti.getSubstring(text.length() + 1, text.length()));
+        assertEquals("", ti.getSubstring(text.length() + 1, -1));
         assertEquals(text, ti.getSubstring(-10, 999));
         assertEquals(text, ti.getSubstring(-10, text.length()));
         assertEquals(text, ti.getSubstring(0, 997));
