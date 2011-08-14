@@ -360,8 +360,8 @@ public class TextInput extends InputStream {
     }
 
     /**
-     * Skip current position forward to end of an XML tag.
-     * This is mainly something like <code>&gt;</code>. Quoted data is skipped.
+     * Skip current position forward to end of an XML tag. It is assumed the current position is
+     * within the the XML tag. Now we search for <code>&gt;</code>. Quoted data is skipped.
      *
      * @throws  IllegalArgumentException    No end of XML tag found.
      */
@@ -370,15 +370,14 @@ public class TextInput extends InputStream {
             return;
         }
         boolean quoted = false;
-        while ('>' != getChar()) {
-            if ('\"' == getChar()) {
+        while (!isEmpty() && (quoted || '>' != getChar())) {
+            int c = read();
+            if ('\"' == c) {
                 quoted = !quoted;
             }
-            if (!quoted) {
-                if (-1 == read()) {
-                    throw new IllegalArgumentException("end of xml tag not found");
-                }
-            }
+        }
+        if (isEmpty()) {
+            throw new IllegalArgumentException("end of xml tag not found");
         }
         read(); // skip '>'
     }

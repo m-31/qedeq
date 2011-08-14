@@ -314,6 +314,10 @@ public class TextInputTest extends QedeqTestCase {
         final TextInput ti = new TextInput(text);
         ti.replace(4, 7, "2");
         assertEquals("one 2 three", ti.asString());
+        ti.skipToEndOfLine();
+        ti.replace(0, 3, "1");
+        ti.setPosition(2);
+        ti.replace(0, 2, "");
     }
 
     /**
@@ -385,6 +389,14 @@ public class TextInputTest extends QedeqTestCase {
         // now we are just before "<"
         qedeqInput.skipBackToBeginOfXmlTag();
         assertEquals(0, qedeqInput.getPosition());
+        final TextInput ti2 = new TextInput("we will test if this is working");
+        ti2.setPosition(300);
+        try {
+            ti2.skipBackToBeginOfXmlTag();
+            fail("Exception expected");
+        } catch (RuntimeException e) {
+            // OK
+        }
     }
 
     public void testSkipToEndOfLine() {
@@ -409,6 +421,26 @@ public class TextInputTest extends QedeqTestCase {
         qedeqInput.skipForwardToEndOfXmlTag();
         assertEquals('\n', qedeqInput.read());
         assertEquals("  <HEADER", qedeqInput.readString("  <HEADER".length()));
+        final TextInput ti = new TextInput("<Head this=\">is not the end\">zulu");
+        ti.skipForwardToEndOfXmlTag();
+        assertEquals("zulu", ti.readString(4));
+        final TextInput ti2 = new TextInput("<Head this=\"one\" that=\"two\">zulu");
+        ti2.skipForwardToEndOfXmlTag();
+        assertEquals("zulu", ti2.readString(4));
+        final TextInput ti3 = new TextInput("<Head this=\"one\" that=\"two>zulu");
+        try {
+            ti3.skipForwardToEndOfXmlTag();
+            fail("Exception expected"); // the quotation is not ended!
+        } catch (RuntimeException e) {
+            // OK
+        }
+        final TextInput ti4 = new TextInput("<Head this=\"one\" that=\"two\" this= that");
+        try {
+            ti4.skipForwardToEndOfXmlTag();
+            fail("Exception expected"); // the tag is not ended with >
+        } catch (RuntimeException e) {
+            // OK
+        }
     }
 
     /**
