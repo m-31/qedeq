@@ -1244,6 +1244,7 @@ public class IoUtilityTest extends QedeqTestCase {
         IoUtility.saveFile(file1, "Line1", "ISO-8859-1");
         IoUtility.saveFile(file2, "Line1", "ISO-8859-1");
 
+        assertTrue(IoUtility.compareTextFiles(file1, file1, s, "ISO-8859-1"));
         assertFalse(IoUtility.compareTextFiles(null, file1, s, "ISO-8859-1"));
         assertFalse(IoUtility.compareTextFiles(file2, null, s, "ISO-8859-1"));
         assertTrue(IoUtility.compareTextFiles(null, null, s, "ISO-8859-1"));
