@@ -1468,11 +1468,19 @@ public class IoUtilityTest extends QedeqTestCase {
     }
 
     public void testCreateRelativePath() throws Exception {
+        IoUtility.createNecessaryDirectories(null);
         final File dir1 = new File(getOutdir(), "createRelativePath1").getCanonicalFile();
         assertEquals("", IoUtility.createRelativePath(dir1, dir1));
         final File dir2 = new File(getOutdir(), "createRelativePath2/subdir").getCanonicalFile();
         assertEquals("../createRelativePath2/subdir/", IoUtility.createRelativePath(dir1, dir2));
         assertEquals("", IoUtility.createRelativePath(dir2, dir2));
+        try {
+            IoUtility.createNecessaryDirectories(new File(
+                new File("/../../../../../../../../../../../../../../../../qedeq"), "test.txt"));
+            fail("Exception expected");
+        } catch (IOException e) {
+            // OK
+        }
     }
 
     /**
