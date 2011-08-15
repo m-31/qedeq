@@ -139,7 +139,8 @@ public final class Path {
     }
 
     /**
-     * Is this an absolute path?
+     * Is this an absolute path? If first path directory name is empty or ends with ":"
+     * (MS windows tribute) this the case.
      *
      * @return  Is absolute path?
      */
