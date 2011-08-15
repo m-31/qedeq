@@ -144,7 +144,7 @@ public final class Path {
      * @return  Is absolute path?
      */
     public boolean isAbsolute() {
-        return path.length > 0 && path[0].length() == 0;
+        return path.length > 0 && (path[0].length() == 0 || path[0].endsWith(":"));
     }
 
     /**

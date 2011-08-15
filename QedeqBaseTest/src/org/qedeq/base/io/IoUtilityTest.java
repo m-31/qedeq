@@ -30,6 +30,10 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.sql.Savepoint;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
@@ -1449,8 +1453,10 @@ public class IoUtilityTest extends QedeqTestCase {
     }
 
     public void testToUrl() throws Exception {
+        final URL url = IoUtility.toUrl(new File("."));
+        final URI uri = new URI(url.toString());
         assertEquals(new File(".").getCanonicalPath(),
-            new File(IoUtility.toUrl(new File(".")).toURI()).getCanonicalPath());
+            new File(uri).getCanonicalPath());
     }
 
     public void testToFile() throws Exception {
@@ -1464,6 +1470,15 @@ public class IoUtilityTest extends QedeqTestCase {
         final File file = new File(getOutdir() + "/createNecessaryDirectories/my/test/path");
         IoUtility.createNecessaryDirectories(file);
         IoUtility.saveFile(file, new StringBuffer("hei"), "UTF-8");
+        try {
+            final File file1 = new File(getOutdir(), "createNecessaryDirectories/my");
+            IoUtility.saveFile(file1, "hi", "UTF-8");
+            final File file2 = new File(getOutdir(), "createNecessaryDirectories/my/test.txt");
+            IoUtility.createNecessaryDirectories(file2);
+            fail("Exception expected");
+        } catch (IOException e) {
+            // OK
+        }
         assertTrue(IoUtility.deleteDir(new File(getOutdir(), "createNecessaryDirectories"), true));
     }
 
@@ -1474,13 +1489,6 @@ public class IoUtilityTest extends QedeqTestCase {
         final File dir2 = new File(getOutdir(), "createRelativePath2/subdir").getCanonicalFile();
         assertEquals("../createRelativePath2/subdir/", IoUtility.createRelativePath(dir1, dir2));
         assertEquals("", IoUtility.createRelativePath(dir2, dir2));
-        try {
-            IoUtility.createNecessaryDirectories(new File(
-                new File("/../../../../../../../../../../../../../../../../qedeq"), "test.txt"));
-            fail("Exception expected");
-        } catch (IOException e) {
-            // OK
-        }
     }
 
     /**
@@ -1623,7 +1631,8 @@ public class IoUtilityTest extends QedeqTestCase {
 
     public void testGetStartDirectory() {
         final String webStart = (String) System.getProperties().get("javawebstart.version");
-        System.clearProperty("javawebstart.version");
+        final Properties sysProps = System.getProperties();
+        sysProps.remove("javawebstart.version");
         assertEquals(new File("."), IoUtility.getStartDirectory("qedeq"));
         System.setProperty("javawebstart.version", "1.7");
         assertEquals(new File(IoUtility.getUserHomeDirectory(), ".qedeq"),
@@ -1631,7 +1640,7 @@ public class IoUtilityTest extends QedeqTestCase {
         if (webStart != null) {
             System.setProperty("javawebstart.version", webStart);
         } else {
-            System.clearProperty("javawebstart.version");
+            sysProps.remove("javawebstart.version");
         }
     }
 
@@ -1663,11 +1672,12 @@ public class IoUtilityTest extends QedeqTestCase {
         IoUtility.getJavaVersion();
     }
 
-    public void testEasyUrl() {
+    public void testEasyUrl() throws Exception {
         final String url1 = "http://www.qedeq.org/sample.html#poke";
         assertEquals(url1, IoUtility.easyUrl(url1));
         final String file = "/user/home/qedeq/sample1.qedeq";
-        assertEquals(file, IoUtility.easyUrl("file://" + file));
+        assertEquals(new File(file.replace('/', File.separatorChar)).getCanonicalPath(),
+            IoUtility.easyUrl("file://" + file));
     }
 
     public void testGetSortedSystemProperties() {
