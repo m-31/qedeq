@@ -30,8 +30,6 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.net.URI;
-import java.net.URL;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
@@ -1450,16 +1448,9 @@ public class IoUtilityTest extends QedeqTestCase {
             IoUtility.getUserHomeDirectory().getCanonicalPath());
     }
 
-    public void testToUrl() throws Exception {
-        final URL url = IoUtility.toUrl(new File("."));
-        final URI uri = new URI(url.toString());
-        assertEquals(new File(".").getCanonicalPath(),
-            new File(uri).getCanonicalPath());
-    }
-
-    public void testToFile() throws Exception {
+    public void testTransformURLPathToFilePath() throws Exception {
         final File start = new File("empty path");
-        assertEquals(IoUtility.transformURLPathToFilePath(IoUtility.toUrl(start)).getCanonicalPath(),
+        assertEquals(UrlUtility.transformURLPathToFilePath(UrlUtility.toUrl(start)).getCanonicalPath(),
             start.getCanonicalPath());
     }
 
@@ -1652,7 +1643,7 @@ public class IoUtilityTest extends QedeqTestCase {
         final File file = new File(getOutdir(), "loadProperties.properties");
         assertTrue(IoUtility.deleteDir(file, true));
         IoUtility.saveFile(file, "sharif=is a cat", "ISO-8859-1");
-        final Properties prop = IoUtility.loadProperties(IoUtility.toUrl(file));
+        final Properties prop = IoUtility.loadProperties(UrlUtility.toUrl(file));
         assertEquals("is a cat", prop.getProperty("sharif"));
         assertTrue(file.delete());
     }
@@ -1668,14 +1659,6 @@ public class IoUtilityTest extends QedeqTestCase {
     public void testGetJavaVersion() {
         // at least there should be no Exception ...
         IoUtility.getJavaVersion();
-    }
-
-    public void testEasyUrl() throws Exception {
-        final String url1 = "http://www.qedeq.org/sample.html#poke";
-        assertEquals(url1, IoUtility.easyUrl(url1));
-        final String file = "/user/home/qedeq/sample1.qedeq";
-        assertEquals(new File(file.replace('/', File.separatorChar)).getCanonicalPath(),
-            IoUtility.easyUrl("file://" + file));
     }
 
     public void testGetSortedSystemProperties() {

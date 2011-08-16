@@ -24,7 +24,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.helpers.Loader;
 import org.apache.log4j.xml.DOMConfigurator;
-import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.UrlUtility;
 
 /**
  * Basis class for all tests.
@@ -40,14 +40,14 @@ public abstract class QedeqTestCase extends TestCase {
             "../../../qedeq_gen/config/log4j.xml"));
             URL url = null;
             if (logConfig.canRead()) {
-                url  = IoUtility.toUrl(logConfig);
+                url  = UrlUtility.toUrl(logConfig);
             }
             if (url == null) {
                 url = Loader.getResource("config/log4j.xml");
             }
             if (url == null) {
                 // try development environment
-                url = IoUtility.toUrl(new File("../QedeqBuild/resources/config/log4j.xml"));
+                url = UrlUtility.toUrl(new File("../QedeqBuild/resources/config/log4j.xml"));
             }
 //            System.out.println(url);
             if (url != null) {
