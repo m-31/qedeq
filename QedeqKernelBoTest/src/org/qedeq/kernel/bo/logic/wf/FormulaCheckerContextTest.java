@@ -22,8 +22,8 @@ import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.Parameters;
+import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.logic.common.FormulaChecker;
@@ -186,7 +186,7 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
             ParserConfigurationException, SAXException, ModuleDataException,
             SourceFileExceptionList, NoSuchFieldException {
         final ModuleAddress context = getServices().getModuleAddress(
-            IoUtility.toUrl(xmlFile.getAbsoluteFile()));
+            UrlUtility.toUrl(xmlFile.getAbsoluteFile()));
         SaxDefaultHandler handler = new SaxDefaultHandler(new DummyPlugin());
         QedeqHandler simple = new QedeqHandler(handler);
         handler.setBasisDocumentHandler(simple);
@@ -223,7 +223,7 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
      */
     public void checkViaKernel(final File xmlFile) throws NoSuchFieldException, SourceFileExceptionList, IOException {
         final ModuleAddress address = getServices().getModuleAddress(
-            IoUtility.toUrl(xmlFile.getAbsoluteFile()));
+            UrlUtility.toUrl(xmlFile.getAbsoluteFile()));
         KernelQedeqBo qedeqBo= (KernelQedeqBo) getServices().loadModule(address);
         final WellFormedCheckerPlugin plugin = new WellFormedCheckerPlugin();
         final Map parameters = new HashMap();

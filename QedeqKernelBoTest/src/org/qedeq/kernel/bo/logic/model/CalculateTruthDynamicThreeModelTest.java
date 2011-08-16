@@ -19,7 +19,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.logic.common.SubjectVariable;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -49,7 +49,7 @@ public class CalculateTruthDynamicThreeModelTest extends CalculateTruthTestCase 
     public void setUp() throws Exception {
         super.setUp();
         final ModuleAddress address = getServices().getModuleAddress(
-                IoUtility.toUrl(new File(getDocDir(), "math/qedeq_set_theory_v1.xml")));
+                UrlUtility.toUrl(new File(getDocDir(), "math/qedeq_set_theory_v1.xml")));
         final KernelQedeqBo prop = (KernelQedeqBo) getServices().loadModule(
             address);
         interpreter = new DynamicInterpreter((DynamicModel) getModel(), prop);

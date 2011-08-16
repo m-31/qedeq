@@ -20,8 +20,8 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.Parameters;
+import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.logic.common.FormulaChecker;
@@ -154,7 +154,7 @@ public final class QedeqBoFormalLogicCheckerDirectTest extends QedeqBoTestCase {
             ParserConfigurationException, SAXException, ModuleDataException,
             SourceFileExceptionList, NoSuchFieldException {
         final ModuleAddress context = getServices().getModuleAddress(
-            IoUtility.toUrl(xmlFile.getAbsoluteFile()));
+            UrlUtility.toUrl(xmlFile.getAbsoluteFile()));
         SaxDefaultHandler handler = new SaxDefaultHandler(new DummyPlugin());
         QedeqHandler simple = new QedeqHandler(handler);
         handler.setBasisDocumentHandler(simple);

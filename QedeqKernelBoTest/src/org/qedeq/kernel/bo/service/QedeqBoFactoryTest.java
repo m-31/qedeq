@@ -20,7 +20,7 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.test.DynamicGetter;
 import org.qedeq.base.test.ObjectProxy;
 import org.qedeq.base.test.QedeqTestCase;
@@ -100,7 +100,7 @@ public class QedeqBoFactoryTest extends QedeqBoTestCase {
             SAXException, ModuleDataException, SourceFileExceptionList {
         final String method = "testCreateStringQedeq()";
         final ModuleAddress address = getServices().getModuleAddress(
-            IoUtility.toUrl(errorFile.getCanonicalFile()));
+            UrlUtility.toUrl(errorFile.getCanonicalFile()));
         final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) KernelFacade
             .getKernelContext().getQedeqBo(address);
         try {
@@ -179,7 +179,7 @@ public class QedeqBoFactoryTest extends QedeqBoTestCase {
             ModuleDataException, ParserConfigurationException, SAXException,
             SourceFileExceptionList {
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
-            IoUtility.toUrl(file.getCanonicalFile()));
+            UrlUtility.toUrl(file.getCanonicalFile()));
         final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) KernelFacade
             .getKernelContext().getQedeqBo(address);
         QedeqBoFactoryAssert.createQedeq(prop, createQedeqFromFile(file));

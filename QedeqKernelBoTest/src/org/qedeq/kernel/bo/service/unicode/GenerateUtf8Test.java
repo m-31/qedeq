@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.Parameters;
+import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -138,7 +139,7 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
             final File destinationDirectory) throws IOException, SourceFileExceptionList {
         final File xmlFile = new File(dir, xml);
         final ModuleAddress address = getServices().getModuleAddress(
-            IoUtility.toUrl(xmlFile));
+            UrlUtility.toUrl(xmlFile));
         final KernelQedeqBo prop = (KernelQedeqBo) getServices().loadModule(
             address);
         if (prop.hasErrors()) {

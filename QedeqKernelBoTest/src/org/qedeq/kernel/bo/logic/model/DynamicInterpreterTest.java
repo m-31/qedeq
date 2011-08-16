@@ -17,7 +17,7 @@ package org.qedeq.kernel.bo.logic.model;
 
 import java.io.File;
 
-import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.UrlUtility;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.base.list.Element;
@@ -47,7 +47,7 @@ public class DynamicInterpreterTest extends QedeqBoTestCase {
     public void setUp() throws Exception {
         super.setUp();
         final ModuleAddress address = getServices().getModuleAddress(
-                IoUtility.toUrl(new File(getDocDir(), "math/qedeq_set_theory_v1.xml")));
+            UrlUtility.toUrl(new File(getDocDir(), "math/qedeq_set_theory_v1.xml")));
         final KernelQedeqBo prop = (KernelQedeqBo) getServices().loadModule(
             address);
         interpreter = new DynamicInterpreter(new SixDynamicModel(), prop);

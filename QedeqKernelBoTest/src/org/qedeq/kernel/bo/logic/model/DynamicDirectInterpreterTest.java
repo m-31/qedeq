@@ -18,7 +18,7 @@ package org.qedeq.kernel.bo.logic.model;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 
-import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.test.DynamicGetter;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
@@ -50,7 +50,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
     public void setUp() throws Exception {
         super.setUp();
         final ModuleAddress address = getServices().getModuleAddress(
-                IoUtility.toUrl(new File(getDocDir(), "math/qedeq_set_theory_v1.xml")));
+                UrlUtility.toUrl(new File(getDocDir(), "math/qedeq_set_theory_v1.xml")));
         prop = (KernelQedeqBo) getServices().loadModule(
             address);
         if (!getServices().checkModule(prop.getModuleAddress())) {

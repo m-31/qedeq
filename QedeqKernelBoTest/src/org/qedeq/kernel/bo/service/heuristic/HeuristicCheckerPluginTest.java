@@ -17,7 +17,7 @@ package org.qedeq.kernel.bo.service.heuristic;
 import java.io.File;
 import java.io.IOException;
 
-import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.UrlUtility;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.logic.model.Model;
 import org.qedeq.kernel.bo.logic.model.ThreeModel;
@@ -50,7 +50,7 @@ public class HeuristicCheckerPluginTest extends QedeqBoTestCase {
             SourceFileExceptionList {
         final File xmlFile = new File(dir, xml);
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
-            IoUtility.toUrl(xmlFile));
+            UrlUtility.toUrl(xmlFile));
         final KernelQedeqBo prop = (KernelQedeqBo) KernelFacade.getKernelContext().loadModule(
             address);
         if (prop.hasErrors()) {
