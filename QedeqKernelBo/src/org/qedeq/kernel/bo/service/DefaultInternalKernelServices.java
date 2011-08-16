@@ -17,33 +17,23 @@ package org.qedeq.kernel.bo.service;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.LoadingListener;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.io.TextInput;
+import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.KernelProperties;
 import org.qedeq.kernel.bo.common.QedeqBo;
@@ -639,150 +629,6 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         final String method = "saveQedeqFromWebToBuffer(DefaultKernelQedeqBo)";
         Trace.begin(CLASS, this, method);
 
-        // if we are not web started and running under Java 1.4 we use apache commons
-        // httpclient library (so we can set timeouts)
-        if (!KernelContext.getInstance().isSetConnectionTimeOutSupported()
-                && !IoUtility.isWebStarted()) {
-            saveQedeqFromWebToBufferApache(prop);
-            Trace.end(CLASS, this, method);
-            return;
-        }
-
-        // set proxy properties according to kernel configuration (if not webstarted)
-        if (!IoUtility.isWebStarted()) {
-            if (config.getHttpProxyHost() != null) {
-                System.setProperty("http.proxyHost", config.getHttpProxyHost());
-            }
-            if (config.getHttpProxyPort() != null) {
-                System.setProperty("http.proxyPort", config.getHttpProxyPort());
-            }
-            if (config.getHttpNonProxyHosts() != null) {
-                System.setProperty("http.nonProxyHosts", config.getHttpNonProxyHosts());
-            }
-        }
-
-        if (prop.getModuleAddress().isFileAddress()) { // this is already a local file
-            Trace.fatal(CLASS, this, method, "tried to make a local copy for a local module", null);
-            Trace.end(CLASS, this, method);
-            return;
-        }
-        prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_WEB);
-
-        FileOutputStream out = null;
-        InputStream in = null;
-        final File f = getLocalFilePath(prop.getModuleAddress());
-        try {
-            final URLConnection connection = new URL(prop.getUrl()).openConnection();
-
-            if (connection instanceof HttpURLConnection) {
-                final HttpURLConnection httpConnection = (HttpURLConnection) connection;
-                // if we are running at least under Java 1.5 the following code should be executed
-                if (KernelContext.getInstance().isSetConnectionTimeOutSupported()) {
-                    try {
-                        YodaUtility.executeMethod(httpConnection, "setConnectTimeout",
-                            new Class[] {Integer.TYPE}, new Object[] {new Integer(
-                            config.getConnectTimeout())});
-                    } catch (NoSuchMethodException e) {
-                        Trace.fatal(CLASS, this, method,
-                            "URLConnection.setConnectTimeout was previously found", e);
-                    } catch (InvocationTargetException e) {
-                        Trace.fatal(CLASS, this, method,
-                            "URLConnection.setConnectTimeout throwed an error", e);
-                    }
-                }
-                // if we are running at least under Java 1.5 the following code should be executed
-                if (KernelContext.getInstance().isSetReadTimeoutSupported()) {
-                    try {
-                        YodaUtility.executeMethod(httpConnection, "setReadTimeout",
-                            new Class[] {Integer.TYPE}, new Object[] {new Integer(
-                            config.getReadTimeout())});
-                    } catch (NoSuchMethodException e) {
-                        Trace.fatal(CLASS, this, method,
-                            "URLConnection.setReadTimeout was previously found", e);
-                    } catch (InvocationTargetException e) {
-                        Trace.fatal(CLASS, this, method,
-                            "URLConnection.setReadTimeout throwed an error", e);
-                    }
-                }
-                int responseCode = httpConnection.getResponseCode();
-                if (responseCode == 200) {
-                    in = httpConnection.getInputStream();
-                } else {
-                    in = httpConnection.getErrorStream();
-                    final String errorText = IoUtility.loadStreamWithoutException(in, 1000);
-                    throw new IOException("Response code from HTTP server was " + responseCode
-                        + (errorText.length() > 0 ? "\nResponse  text from HTTP server was:\n"
-                        + errorText : ""));
-                }
-            } else {
-                Trace.paramInfo(CLASS, this, method, "connection.getClass", connection.getClass()
-                    .toString());
-                in = connection.getInputStream();
-            }
-
-            if (!prop.getUrl().equals(connection.getURL().toString())) {
-                throw new FileNotFoundException("\"" + prop.getUrl() + "\" was substituted by "
-                    + "\"" + connection.getURL() + "\" from server");
-            }
-            final int maximum = connection.getContentLength();
-            IoUtility.createNecessaryDirectories(f);
-            out = new FileOutputStream(f);
-            final byte[] buffer = new byte[4096];
-            int bytesRead; // bytes read during one buffer read
-            int position = 0; // current reading position within the whole document
-            // continue writing
-            while ((bytesRead = in.read(buffer)) != -1) {
-                position += bytesRead;
-                out.write(buffer, 0, bytesRead);
-                if (maximum > 0) {
-                    long completeness = (long) (position * 100 / maximum);
-                    if (completeness < 0) {
-                        completeness = 0;
-                    }
-                    if (completeness > 100) {
-                        completeness = 100;
-                    }
-                    prop.setLoadingCompleteness((int) completeness);
-                }
-            }
-            prop.setLoadingCompleteness(100);
-        } catch (IOException e) {
-            Trace.trace(CLASS, this, method, e);
-            IoUtility.close(out);
-            out = null;
-            try {
-                f.delete();
-            } catch (Exception ex) {
-                Trace.trace(CLASS, this, method, ex);
-            }
-            final SourceFileExceptionList sfl = createSourceFileExceptionList(
-                ServiceErrors.LOADING_FROM_WEB_FAILED_CODE,
-                ServiceErrors.LOADING_FROM_WEB_FAILED_TEXT,
-                prop.getUrl(), e);
-            prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_WEB_FAILED, sfl);
-            Trace.trace(CLASS, this, method, "Couldn't access " + prop.getUrl());
-            throw sfl;
-        } finally {
-            IoUtility.close(out);
-            IoUtility.close(in);
-            Trace.end(CLASS, this, method);
-        }
-    }
-
-    /**
-     * Make local copy of a http accessable module if it is no file address.
-     * This method uses apaches HttpClient, but it dosn't work under webstart with proxy
-     * configuration. If we don't use this method, the apache commons-httpclient
-     * library can be removed
-     *
-     * @param   prop    Module properties.
-     * @throws  SourceFileExceptionList Address was malformed or the file can not be found.
-     */
-    private void saveQedeqFromWebToBufferApache(final DefaultKernelQedeqBo prop)
-            throws SourceFileExceptionList {
-        final String method = "saveQedeqFromWebToBufferOld(DefaultKernelQedeqBo)";
-        Trace.begin(CLASS, this, method);
-
         if (prop.getModuleAddress().isFileAddress()) { // this is already a local file
             Trace.fatal(CLASS, this, method, "tried to make a local copy for a local module", null);
             Trace.end(CLASS, this, method);
@@ -791,49 +637,14 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_WEB);
 
         final File f = getLocalFilePath(prop.getModuleAddress());
-        // Create an instance of HttpClient.
-        HttpClient client = new HttpClient();
-
-        // set proxy properties according to kernel configuration (if not webstarted)
-        if (!IoUtility.isWebStarted() && config.getHttpProxyHost() != null) {
-            final String pHost = config.getHttpProxyHost();
-            int pPort = 80;
-            if (config.getHttpProxyPort() != null) {
-                try {
-                    pPort = Integer.parseInt(config.getHttpProxyPort());
-                } catch (RuntimeException e) {
-                    Trace.fatal(CLASS, this, method, "proxy port not numeric: "
-                        + config.getHttpProxyPort(), e);
-                }
-            }
-            if (pHost.length() > 0) {
-                client.getHostConfiguration().setProxy(pHost, pPort);
-            }
-        }
-
-        // Create a method instance.
-        GetMethod httpMethod = new GetMethod(prop.getUrl());
-
         try {
-            // Provide custom retry handler is necessary
-            httpMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER,
-                    new DefaultHttpMethodRetryHandler(3, false));
-
-            httpMethod.getParams().setSoTimeout(config.getConnectTimeout());
-            // Throws IOException on TimeOut.
-
-            int statusCode = client.executeMethod(httpMethod);
-
-            if (statusCode != HttpStatus.SC_OK) {
-                throw new FileNotFoundException("Problems loading: " + prop.getUrl() + "\n"
-                    + httpMethod.getStatusLine());
-            }
-
-            // Read the response body.
-            byte[] responseBody = httpMethod.getResponseBody();
-            IoUtility.createNecessaryDirectories(f);
-            IoUtility.saveFileBinary(f, responseBody);
-            prop.setLoadingCompleteness(100);
+            UrlUtility.saveUrlToFile(prop.getUrl(), f,
+            config.getHttpProxyHost(), config.getHttpProxyPort(), config.getHttpNonProxyHosts(),
+            config.getConnectTimeout(), config.getReadTimeout(), new LoadingListener() {
+                public void loadingCompletenessChanged(final double completeness) {
+                    prop.setLoadingCompleteness((int) completeness * 100);
+                }
+            });
         } catch (IOException e) {
             Trace.trace(CLASS, this, method, e);
             try {
@@ -849,8 +660,6 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             Trace.trace(CLASS, this, method, "Couldn't access " + prop.getUrl());
             throw sfl;
         } finally {
-            // Release the connection.
-            httpMethod.releaseConnection();
             Trace.end(CLASS, this, method);
         }
     }
@@ -871,7 +680,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         Trace.param(CLASS, this, method, "file", url.getFile());
         if (address.isFileAddress()) {
             try {
-                return IoUtility.transformURLPathToFilePath(url);
+                return UrlUtility.transformURLPathToFilePath(url);
             } catch (IllegalArgumentException e) {
                 // should not occur because check for validy must be done in constructor of address
                 Trace.fatal(CLASS, this, method, "Loading failed of local file with URL=" + url, e);
