@@ -22,6 +22,7 @@ import java.net.URL;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.gui.se.pane.QedeqGuiConfig;
 import org.qedeq.kernel.bo.KernelContext;
@@ -99,14 +100,14 @@ public final class Main {
 // for a properties file:
 //                        IoUtility.escapeProperty(traceFile.toString().replace('\\', '/')));
                     IoUtility.saveFile(resource, buffer, "ISO-8859-1");
-                    res = IoUtility.toUrl(resource).toString();
+                    res = UrlUtility.toUrl(resource).toString();
                 } catch (IOException e1) {
                     errorPrintln("Resource can not be saved: " + resource.getAbsolutePath());
                     e1.printStackTrace();
                 }
             }
         } else {
-            res = IoUtility.toUrl(resource).toString();
+            res = UrlUtility.toUrl(resource).toString();
         }
         System.setProperty("log4j.configDebug", "true");
         System.setProperty("log4j.configuration", res);

@@ -31,7 +31,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
-import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.element.CPTextPane;
 import org.qedeq.kernel.bo.log.LogListener;
@@ -125,7 +125,7 @@ public class LogPane extends JPanel implements LogListener {
                 try {
                     if (!lastModuleUrl.equals(url)) {
                         textPane.getDocument().insertString(textPane.getDocument().getLength(),
-                            IoUtility.easyUrl(url) + "\n", messageAttrs);
+                            UrlUtility.easyUrl(url) + "\n", messageAttrs);
                         lastModuleUrl = (url != null ? url : "");
                     }
                     textPane.getDocument().insertString(textPane.getDocument().getLength(),
@@ -146,7 +146,7 @@ public class LogPane extends JPanel implements LogListener {
                 try {
                     if (!lastModuleUrl.equals(url)) {
                         textPane.getDocument().insertString(textPane.getDocument().getLength(),
-                            IoUtility.easyUrl(url) + "\n", messageAttrs);
+                            UrlUtility.easyUrl(url) + "\n", messageAttrs);
                         lastModuleUrl = (url != null ? url : "");
                     }
                     textPane.getDocument().insertString(textPane.getDocument().getLength(),
@@ -167,7 +167,7 @@ public class LogPane extends JPanel implements LogListener {
                 try {
                     if (!lastModuleUrl.equals(url)) {
                         textPane.getDocument().insertString(textPane.getDocument().getLength(),
-                            IoUtility.easyUrl(url) + "\n", messageAttrs);
+                            UrlUtility.easyUrl(url) + "\n", messageAttrs);
                         lastModuleUrl = (url != null ? url : "");
                     }
                     textPane.getDocument().insertString(textPane.getDocument().getLength(),
@@ -188,7 +188,7 @@ public class LogPane extends JPanel implements LogListener {
                 try {
                     if (!lastModuleUrl.equals(url)) {
                         textPane.getDocument().insertString(textPane.getDocument().getLength(),
-                            IoUtility.easyUrl(url) + "\n", messageAttrs);
+                            UrlUtility.easyUrl(url) + "\n", messageAttrs);
                         lastModuleUrl = (url != null ? url : "");
                     }
                     textPane.getDocument().insertString(textPane.getDocument().getLength(),
@@ -209,7 +209,7 @@ public class LogPane extends JPanel implements LogListener {
                 try {
                     if (!lastModuleUrl.equals(url)) {
                         textPane.getDocument().insertString(textPane.getDocument().getLength(),
-                            IoUtility.easyUrl(url) + "\n", messageAttrs);
+                            UrlUtility.easyUrl(url) + "\n", messageAttrs);
                         lastModuleUrl = (url != null ? url : "");
                     }
                     textPane.getDocument().insertString(textPane.getDocument().getLength(),
@@ -230,7 +230,7 @@ public class LogPane extends JPanel implements LogListener {
                 try {
                     if (!lastModuleUrl.equals(url)) {
                         textPane.getDocument().insertString(textPane.getDocument().getLength(),
-                            IoUtility.easyUrl(url) + "\n", messageAttrs);
+                            UrlUtility.easyUrl(url) + "\n", messageAttrs);
                         lastModuleUrl = (url != null ? url : "");
                     }
                     textPane.getDocument().insertString(textPane.getDocument().getLength(),
