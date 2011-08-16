@@ -217,7 +217,7 @@ public final class StringUtility {
         final StringBuffer buffer = new StringBuffer(30);
         buffer.append("{");
         if (map != null) {
-            Iterator e = map.keySet().iterator();
+            Iterator e = map.entrySet().iterator();
             boolean notFirst = false;
             while (e.hasNext()) {
                 if (notFirst) {
@@ -225,10 +225,10 @@ public final class StringUtility {
                 } else {
                     notFirst = true;
                 }
-                final Object key = e.next();
-                buffer.append(String.valueOf(key));
+                final Map.Entry entry = (Map.Entry) e.next();
+                buffer.append(String.valueOf(entry.getKey()));
                 buffer.append("=");
-                final Object value = map.get(key);
+                final Object value = entry.getValue();
                 if (value instanceof CharSequence) {
                     buffer.append("\"");
                     buffer.append(String.valueOf(value));
