@@ -24,6 +24,7 @@ import java.util.Locale;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.TextOutput;
+import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.KernelServices;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
@@ -74,7 +75,7 @@ public final class Xml2Xml implements Plugin {
                 }
                 destination = new File(from.getParentFile(), xml + "_.xml").getCanonicalFile();
             }
-            return generate(services, IoUtility.toUrl(from), destination);
+            return generate(services, UrlUtility.toUrl(from), destination);
         } catch (IOException e) {
             Trace.fatal(CLASS, "Writing failed destionation", method, e);
             throw services.createSourceFileExceptionList(

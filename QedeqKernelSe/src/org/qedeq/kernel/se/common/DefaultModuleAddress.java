@@ -20,8 +20,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.Path;
+import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.se.base.module.LocationList;
@@ -94,7 +94,7 @@ public class DefaultModuleAddress implements ModuleAddress {
      * @throws  IOException Problem with file location.
      */
     public DefaultModuleAddress(final File file) throws IOException {
-        this(IoUtility.toUrl(file.getCanonicalFile()));
+        this(UrlUtility.toUrl(file.getCanonicalFile()));
     }
 
     /**
