@@ -20,6 +20,7 @@ import java.net.URI;
 import java.net.URL;
 
 import org.qedeq.base.test.QedeqTestCase;
+import org.qedeq.base.test.WebServer;
 
 /**
  * Test {@link org.qedeq.kernel.utility.IoUtility}.
@@ -48,6 +49,23 @@ public class UrlUtilityTest extends QedeqTestCase {
         final String file = "/user/home/qedeq/sample1.qedeq";
         assertEquals(new File(file.replace('/', File.separatorChar)).getCanonicalPath(),
             UrlUtility.easyUrl("file://" + file));
+    }
+
+    public void testSaveUrlToFile() throws Exception {
+        final File original = new File(getOutdir(), "testSaveUrlToFile1.txt");
+        IoUtility.saveFile(original, "we don't need another hero");
+        final File save = new File(getOutdir(), "testSaveUrlToFile2.txt");
+        final WebServer server = new WebServer(8082, getOutdir(), 5000, true);
+        server.start();
+        UrlUtility.saveUrlToFile("http://localhost:8082/" + original.getName(), save, null, null, null, 0, 0,
+            new LoadingListener() {
+                public void loadingCompletenessChanged(double completeness) {
+                    System.out.println(completeness);
+                }
+            }
+        );
+        assertTrue(IoUtility.compareFilesBinary(original, save));
+        server.stop();
     }
 
 }
