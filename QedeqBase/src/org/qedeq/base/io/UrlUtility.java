@@ -221,7 +221,7 @@ public final class UrlUtility {
                 throw new FileNotFoundException("\"" + url + "\" was substituted by "
                     + "\"" + connection.getURL() + "\" from server");
             }
-            final int maximum = connection.getContentLength();
+            final double maximum = connection.getContentLength();
             IoUtility.createNecessaryDirectories(f);
             out = new FileOutputStream(f);
             final byte[] buffer = new byte[4096];
