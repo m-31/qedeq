@@ -33,9 +33,7 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -976,34 +974,6 @@ public final class IoUtility {
     }
 
     /**
-     * Convert file in URL.
-     *
-     * @param   file    File.
-     * @return  URL.
-     */
-    public static URL toUrl(final File file) {
-        try {
-            return file.getAbsoluteFile().toURI().toURL();
-        } catch (MalformedURLException e) { // should only happen if there is a bug in the JDK
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Convert URL path in file path.
-     *
-     * @param   url    Convert this URL path.
-     * @return  File path.
-     */
-    public static File transformURLPathToFilePath(final URL url) {
-        try {
-            return new File(URLDecoder.decode(url.getFile(), "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
      * Creates necessary parent directories for a file.
      *
      * @param   file    File.
@@ -1207,28 +1177,6 @@ public final class IoUtility {
         final int[] result = new int[numbers.size()];
         for (int i = 0; i < numbers.size(); i++) {
             result[i] = ((Integer) numbers.get(i)).intValue();
-        }
-        return result;
-    }
-
-    /**
-     * Simplify file URL by returning a file path.
-     *
-     * @param   url     URL to simplify.
-     * @return  File path (if protocol is "file"). Otherwise just return <code>url</code>.
-     */
-    public static String easyUrl(final String url) {
-        String result = url;
-        try {
-            final URL u = new URL(url);
-            // is this a file URL?
-            if (u.getProtocol().equalsIgnoreCase("file")) {
-                return transformURLPathToFilePath(u).getCanonicalPath();
-            }
-        } catch (RuntimeException e) {
-            //  ignore
-        } catch (IOException e) {
-            //  ignore
         }
         return result;
     }

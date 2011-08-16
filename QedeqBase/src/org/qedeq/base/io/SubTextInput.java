@@ -16,7 +16,6 @@
 package org.qedeq.base.io;
 
 
-
 /**
  * Wraps a text output stream.
  *
