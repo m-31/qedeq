@@ -4,7 +4,5 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/QedeqBase"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/QedeqKernelSe"/>
-	<classpathentry kind="lib" path="/QedeqLib/commons-httpclient-3.1.jar" sourcepath="/QedeqLib/src/commons-httpclient-3.1-src.zip"/>
-	<classpathentry kind="lib" path="/QedeqLib/commons-codec-1.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
