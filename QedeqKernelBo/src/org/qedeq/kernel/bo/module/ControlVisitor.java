@@ -535,6 +535,11 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
 //        }
     }
 
+    /**
+     * Get traverser for QEDEQ module.
+     *
+     * @return  Traverser used.
+     */
     public QedeqTraverser getTraverser() {
         return traverser;
     }
