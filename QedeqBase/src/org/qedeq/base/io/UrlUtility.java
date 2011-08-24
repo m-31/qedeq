@@ -356,13 +356,22 @@ public final class UrlUtility {
 
     }
 
+    /**
+     * Is setting of connection timeout supported in current environment?
+     *
+     * @return  Setting connection timeout supported?
+     */
     public static boolean isSetConnectionTimeOutSupported() {
         return LazyHolderTimeoutMethods.IS_SET_CONNECTION_TIMEOUT_SUPPORTED;
     }
 
+    /**
+     * Is setting of read timeout supported in current environment?
+     *
+     * @return  Setting read timeout supported?
+     */
     public static boolean isSetReadTimeoutSupported() {
         return LazyHolderTimeoutMethods.IS_SET_READ_TIMEOUT_SUSPPORTED;
     }
-
 
 }
