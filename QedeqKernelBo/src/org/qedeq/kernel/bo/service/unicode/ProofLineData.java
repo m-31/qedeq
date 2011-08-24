@@ -92,26 +92,57 @@ public class ProofLineData {
         return Math.max(getFormula().length, getReason().length);
     }
 
+    /**
+     * Get label for proof line.
+     *
+     * @return  Proof line label.
+     */
     public String getLineLabel() {
         return lineLabel;
     }
 
+    /**
+     * Set label for proof line.
+     *
+     * @param   lineLabel   Proof line label.
+     */
     public void setLineLabel(final String lineLabel) {
         this.lineLabel = lineLabel;
     }
 
+    /**
+     * Get proof line formula.
+     *
+     * @return  Proof line formula.
+     */
     public String[] getFormula() {
         return formula;
     }
 
+    /**
+     * Set proof line formula.
+     *
+     * @param  formula  Proof line formula.
+     */
     public void setFormula(final String[] formula) {
         this.formula = formula;
     }
 
+    /**
+     * Get derive reason for proof line. Already formatted in several lines.
+     *
+     * @return  Reason for getting this proof line.
+     */
     public String[] getReason() {
         return reason;
     }
 
+    /**
+     * Set derive reason for proof line.
+     *
+     * @param  reason   Reason for getting this proof line. Must be already formatted in serveral
+     *                  lines.
+     */
     public void setReason(final String[] reason) {
         this.reason = reason;
     }
