@@ -104,7 +104,7 @@
         max         = "2"
     />
     <functionOperator 
-        startSymbol = "C"
+        startSymbol = "Cp"
         qedeq       = "FUNCON"
         qedeqArgument   = "complement"
         priority    = "400"
