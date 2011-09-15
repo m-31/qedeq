@@ -141,6 +141,7 @@ public class ModulePropertiesPane extends JPanel {
             name.setText("");
             ruleVersion.setText("");
             url.setText("");
+            errorsAndWarnings.setText("");
         }
         invalidate();
         repaint();
