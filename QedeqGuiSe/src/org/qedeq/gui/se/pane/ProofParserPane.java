@@ -546,6 +546,10 @@ public class ProofParserPane extends JFrame {
         final KernelQedeqBo prop = new DefaultKernelQedeqBo(null, DefaultModuleAddress.MEMORY);
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         final TextOutput output = new TextOutput("out", outputStream, "UTF-8");
+        output.pushLevel();
+        output.pushLevel();
+        output.pushLevel();
+        output.pushLevel();
         final Qedeq2Xml visitor = new Qedeq2Xml(null, prop, output);
         final NodeVo node = new NodeVo();
         node.setId(UNKNOWN_PROPOSITION_ID);
