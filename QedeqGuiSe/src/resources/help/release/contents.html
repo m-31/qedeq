@@ -20,26 +20,30 @@
   </tr>
   <tr>
   <td><code>bin</code></td>
-  <td>executable files, currently empty</td>
+  <td>special executable files</td>
+  </tr>
+  <tr>
+  <td><code>buffer</code></td>
+  <td>local file buffer for remote QEDEQ modules</td>
   </tr>
   <tr>
   <td><code>config</code></td>
   <td>configuration files</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;log4j.xml</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;log4j.xml</code></td>
   <td>log4j property file, change "error" to "debug" to get a little more log output; change it to "fatal" to reduce the logging events. To enable logging you also have to mark "Tools / Preferences / Enable trace output generation"</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;latexMathOperators.xml</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;latexMathOperators.xml</code></td>
   <td>LaTeX operator information, used from the parser to transform LaTeX formulas into QEDEQ XML; can be manually edited</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;textMathOperators.xml</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;textMathOperators.xml</code></td>
   <td>text operator information, used from the parser to transform text formulas into QEDEQ XML; can be manually edited</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;proofTextMathOperators.xml</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;proofTextMathOperators.xml</code></td>
   <td>text operator information, used from the parser to transform text formulas with proofs into QEDEQ XML; can be manually edited</td>
   </tr>
   <tr>
@@ -51,19 +55,19 @@
   <td>project specific</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;&nbsp;&nbsp;qedeq_basic_concept_en.pdf</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;&nbsp;&nbsp;qedeq_basic_concept_en.pdf</code></td>
   <td>basic concept of <b>Hilbert&nbsp;II</b></td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;&nbsp;&nbsp;qedeq_logic_language_en.pdf</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;&nbsp;&nbsp;qedeq_logic_language_en.pdf</code></td>
   <td>explanation of the logical language of <b>Hilbert&nbsp;II</b> (in development)</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;&nbsp;&nbsp;projektbeschreibung.pdf</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;&nbsp;&nbsp;projektbeschreibung.pdf</code></td>
   <td>project description (in German, a little bit outdated)</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;&nbsp;&nbsp;changes.txt</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;&nbsp;&nbsp;changes.txt</code></td>
   <td>change history to previous versions</td>
   </tr>
   <tr>
@@ -71,59 +75,71 @@
   <td>mathematical texts</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;&nbsp;&nbsp;qedeq_set_theory_v1_en.pdf</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;&nbsp;&nbsp;qedeq_set_theory_v1_en.pdf</code></td>
+  <td>Logical background of this project. Contains main logical axioms, definitions, rules and propositions.</td>
+  </tr>
+  <tr>
+  <td valign="top"><code>&nbsp;&nbsp;&nbsp;&nbsp;qedeq_set_theory_v1_en.pdf</code></td>
   <td>beginning of axiomatic set theory, this is already a QEDEQ module</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;&nbsp;&nbsp;axiomatic_set_theory.txt</code></td>
-  <td>beginning of set theory as non formal (ASCII text) file, it shows the intention of this project (parts in German)</td>
+  <td valign="top"><code>&nbsp;&nbsp;&nbsp;&nbsp;axiomatic_set_theory.txt</code></td>
+  <td>beginning of set theory as non formal (ASCII text) file, shows the intention of this project (parts in German)</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;&nbsp;&nbsp;qedeq_logic_v1_en.pdf</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;&nbsp;&nbsp;qedeq_logic_v1_en.pdf</code></td>
   <td>logical background</td>
+  </tr>
+  <tr>
+  <td valign="top"><code>&nbsp;&nbsp;&nbsp;&nbsp;qedeq_set_theory_v1_en.pdf</code></td>
+  <td>beginning of axiomatic set theory, this is already a QEDEQ module</td>
+  </tr>
+  <tr>
+  <td valign="top"><code>&nbsp;&nbsp;&nbsp;&nbsp;qedeq_formal_logic_v1_en.pdf</code></td>
+  <td>Here are all propositional calculus axioms and propositions with formal proofs. The corresponding QEDEQ module was successfully checked with the application proof checker. Will be expanded.</td>
   </tr>
   <tr>
   <td><code>lib</code></td>
   <td>libraries for running the application</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;commons-io-1.4.jar</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;commons-io-1.4.jar</code></td>
   <td>apache commons io component</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;commons-lang-2.4.jar</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;commons-lang-2.4.jar</code></td>
   <td>apache commons lang component</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;commons-logging-1.1.1.jar</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;commons-logging-1.1.1.jar</code></td>
   <td>apache commons logging component</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;forms-1.1.0.jar</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;forms-1.1.0.jar</code></td>
   <td>JGoodies Forms GUI support</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;log4j-1.2.14.jar</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;log4j-1.2.14.jar</code></td>
   <td>log4j logging implementation</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;looks-2.1.4.jar</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;looks-2.1.4.jar</code></td>
   <td>JGoodies Looks GUI support</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;qedeq_gui_se-0.03.12.jar</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;qedeq_gui_se-@QEDEQ_VERSION@.jar</code></td>
   <td>binary GUI release of <b>Hilbert&nbsp;II</b></td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;qedeq_kernel-0.03.12.jar</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;qedeq_kernel-@QEDEQ_VERSION@.jar</code></td>
   <td>binary kernel release of <b>Hilbert&nbsp;II</b></td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;xercesImpl.jar</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;xercesImpl.jar</code></td>
   <td>apache XML parser xerces</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;xml-apis.jar</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;xml-apis.jar</code></td>
   <td>XML standard API definition</td>
   </tr>
   <tr>
@@ -131,31 +147,31 @@
   <td>various license files</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;license/apache_license.txt</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;license/apache_license.txt</code></td>
   <td>apache software license</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;license/cc_legal_code.html</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;license/cc_legal_code.html</code></td>
   <td>>Creative Commons Attribution-ShareAlike 3.0 license</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;license/fdl.html</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;license/fdl.html</code></td>
   <td>GNU Free Documentation License</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;license/gpl.html</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;license/gpl.html</code></td>
   <td>GNU General Public License</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;license/forms_license.txt</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;license/forms_license.txt</code></td>
   <td>BSD license for JGoodies Forms</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;license/looks_license.txt</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;license/looks_license.txt</code></td>
   <td>BSD license for JGoodies Looks</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;license/tango_license.txt</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;license/tango_license.txt</code></td>
   <td>Creative Commons Attribution Share-Alike license for the tango theme</td>
   </tr>
   <tr>
@@ -167,123 +183,119 @@
   <td>sample XML files</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;qedeq_basic_concept.xml</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;qedeq_basic_concept.xml</code></td>
   <td>qedeq basic concept as QEDEQ XML document</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;qedeq_set_theory_v1.xml</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;qedeq_set_theory_v1.xml</code></td>
   <td>beginning of axiomatic set theory</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;qedeq_sample1.xml</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;qedeq_sample1.xml</code></td>
   <td>mathematical sample module</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;qedeq_error_sample_00.xml</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;qedeq_error_sample_00.xml</code></td>
   <td>usage of an unknown logical operator</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;qedeq_error_sample_01.xml</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;qedeq_error_sample_01.xml</code></td>
   <td>too many arguments for logical implication operator</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;qedeq_error_sample_02.xml</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;qedeq_error_sample_02.xml</code></td>
   <td>second quantification over same variable</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;qedeq_error_sample_03.xml</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;qedeq_error_sample_03.xml</code></td>
   <td>subject variable occurs free and bound</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;qedeq_error_sample_04.xml</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;qedeq_error_sample_04.xml</code></td>
   <td>subject variable occurs bound and free</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;qedeq_sample2_error.xml</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;qedeq_sample2_error.xml</code></td>
   <td>semantic error in QEDEQ file, a node id is used twice</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;qedeq_sample3_error.xml</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;qedeq_sample3_error.xml</code></td>
   <td>syntax error in XML file, violates XML syntax</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;qedeq_sample4_error.xml</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;qedeq_sample4_error.xml</code></td>
   <td>syntax error in XML file, violates XSD</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;qedeq_sample5_error.xml</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;qedeq_sample5_error.xml</code></td>
   <td>logic error in XML file, quantify over already bound subject variable</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;qedeq_sample6_error.xml</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;qedeq_sample6_error.xml</code></td>
   <td>logic error in XML file, "unknown" is an unknown predicate</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;qedeq_sample7_error.xml</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;qedeq_sample7_error.xml</code></td>
   <td>logic error in XML file, a subject variable occurs free and bound</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;qedeq_sample8_error.xml</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;qedeq_sample8_error.xml</code></td>
   <td>semantic error in XML file, duplicate language entries</td>
   </tr>
   <tr>
-  <td><code>src</code></td>
+  <td valign="top"><code>src</code></td>
   <td>source code of <b>Hilbert&nbsp;II</b></td>
   </tr>
   <tr>
-  <td><code><i>&nbsp;&nbsp;eclipse</i></code></td>
+  <td valign="top"><code><i>&nbsp;&nbsp;eclipse</i></code></td>
   <td><i>only development version: all needed eclipse projects</i></td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;maven</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;maven</code></td>
   <td>project structure in maven format</td>
   </tr>
   <tr>
-  <td><code><i>&nbsp;&nbsp;reports</i></code></td>
+  <td valign="top"><code><i>&nbsp;&nbsp;reports</i></code></td>
   <td><i>only development version: various project reports</i></td>
   </tr>
   <tr>
-  <td><code><i>&nbsp;&nbsp;&nbsp;&nbsp;qedeq_kernel</i></code></td>
+  <td valign="top"><code><i>&nbsp;&nbsp;&nbsp;&nbsp;qedeq_kernel</i></code></td>
   <td><i>QEDEQ kernel</i></td>
   </tr>
   <tr>
-  <td><code><i>&nbsp;&nbsp;&nbsp;&nbsp;qedeq_kernel/clover</i></code></td>
+  <td valign="top"><code><i>&nbsp;&nbsp;&nbsp;&nbsp;qedeq_kernel/clover</i></code></td>
   <td><i>code coverage report</i></td>
   </tr>
   <tr>
-  <td><code>xml</code></td>
+  <td valign="top"><code><i>&nbsp;&nbsp;&nbsp;&nbsp;qedeq_gui_se</i></code></td>
+  <td><i>QEDEQ GUI</i></td>
+  </tr>
+  <tr>
+  <td valign="top"><code>xml</code></td>
   <td>XML schemata and their documentation</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;&nbsp;&nbsp;qedeq_gui_se</code></td>
-  <td>QEDEQ GUI</td>
-  </tr>
-  <tr>
-  <td><code>xml</code></td>
-  <td>XML schemata and their documentation</td>
-  </tr>
-  <tr>
-  <td><code>&nbsp;&nbsp;qedeq.xsd</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;qedeq.xsd</code></td>
   <td>XSD for QEDEQ format</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;qedeq.html</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;qedeq.html</code></td>
   <td>documentation of QEDEQ XSD</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;parser.xsd</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;parser.xsd</code></td>
   <td>XSD for operator definition for text parser</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;parser.html</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;parser.html</code></td>
   <td>documentation of parser XSD</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;qedeq</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;qedeq</code></td>
   <td></td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;&nbsp;&nbsp;index.html</code></td>
+  <td valign="top"><code>&nbsp;&nbsp;&nbsp;&nbsp;index.html</code></td>
   <td>another documentation of QEDEQ XSD</td>
   </tr>
   </table>
