@@ -257,7 +257,7 @@ Beside logical ones the only axioms in <font color="#d97d49"><b>Hilbert II</b></
   So what can we do? You can load existing QEDEQ modules from the local file system or via http. Files loaded from web are stored in a local buffer directory. Even after successfully buffering a QEDEQ module loading it might fail due to XML validation or elementary application errors. In such a case the tree icon changes its color to red. A successfully loaded module looks dark grey. To get some modules we just select <em>File / Load all from QEDEQ.org</em>. Depending from your internet connection you will see new modules appearing in the tree at the left side. They will successive change their color from baby pink into dark grey. Some modules even get a little bit of red color. The log panel lists all module states changes.
   </p>
   <p>
-  By selecting a red module at the three the state panel will show more details about the selected module. If you select the error module  <em>qedeq_error_sample_00</em> and activate the pane labeled <em>Errors</em> you will see an entry like <em>cvc-complex-type.2.4.a: Invalid content was found starting with element 'XOR'. One of '{"":FORMULATYPE}' is expected.</em> This list entry describes am XML parsing error that occurs in line 36. If you click on this entry the XML source will open at the error location in the QEDEQ panel. The error location is marked and we see the usage of the unknown element 'XOR'.
+  By selecting a red module at the tree the state panel will show more details about the selected module. If you select the error module  <em>qedeq_error_sample_00</em> and activate the pane labeled <em>Errors</em> you will see an entry like <em>cvc-complex-type.2.4.a: Invalid content was found starting with element 'XOR'. One of '{"":FORMULATYPE}' is expected.</em> This list entry describes am XML parsing error that occurs in line 36. If you click on this entry the XML source will open at the error location in the QEDEQ panel. The error location is marked and we see the usage of the unknown element 'XOR'.
   </p>
   <p>
   If you look at <em>qedeq_error_sample_12</em> you can see an application error. This module has two <a href="xml/qedeq.html#element_NODE">Nodes</a> that have the same <em>id</em>. This is a violation of the uniqueness of nodes and leads to an loading error. By the way, the state of the module is <em>loading into memory failed</em> the other red modules have the state <em>loading from local buffer failed</em>.
@@ -316,6 +316,10 @@ You have to clear the buffer via <em>File / Clear Buffer</em>.
   <tr>
   <td><code><a href="bin/">bin</a></code></td>
   <td>executable files, currently containing script for finding simple propositional proofs</td>
+  </tr>
+  <tr>
+  <td><code><a href="buffer/">buffer</a></code></td>
+  <td>local file buffer for remote QEDEQ modules</td>
   </tr>
   <tr>
   <td><code><a href="config/">config</a></code></td>
