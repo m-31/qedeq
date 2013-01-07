@@ -14,7 +14,7 @@ Functional Changes
 
   Fixed Bugs
   ----------
-  none
+  proofTextMathOperators.xml has now no double "C" functionOperator any longer
 
   Other Changes
   -------------
