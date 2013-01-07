@@ -10,37 +10,15 @@ Functional Changes
 
   Extensions
   ----------
-  - we have now a parser that can read a propositional calculus proof
-    written in ASCII text format and transform it into a QEDEQ XML NODE
-    element. It was quickly hacked together but enables us to speed up
-    proof integration. Later on we should have a syntax description for
-    the text format, support for other proof rules and a better error
-    handling. It can be accessed via GUI menu entry
-     Tools / Proof Text to QEDEQ
-  - a rule has now a version too and name plus version must be unique,
-    also some new checks tests if the version numbers are correct
-  - check definition of rule version before using it
-  - introducing and using "brief" parameter for LaTeX and UTF-8 plugin
-  - print rule name and rule version in LaTeX and UTF-8 plugin
-  - rules can change previous rules, so a rule can have a list of
-    rules that are affected
-  - links to rule definition are included in LaTeX plugin output
-    for rule usages
-  - rule names now harmonized throughout the application
+  none
 
   Fixed Bugs
   ----------
-  - proof line links within PDF document is working again
-  - proofs for rules are not double any more
-  - some context setting errors resolved
-  - now we can produce UTF-8 text files without automatic line breaking
-    again
+  none
 
   Other Changes
   -------------
-  - we now use package hyperref for links
-  - version number checks included
-  - link to external QEDEQ modules get now correct language PDF
+  none
 
 
 XML Files
@@ -48,21 +26,22 @@ XML Files
 
   Extensions
   ----------
-  - added proposition with proof for (-B -> -A) -> (A -> B)
-  - some more propositions proved also the associative laws
-    for conjunction and disjunction
-  
+  - qedeq_formal_logic_v1.xml:
+      added proposition with proof for A -> (B -> (A & B))
+      added proposition with proof for ((A -> B) & (B -> C)) -> (A -> C)
+      added a section for mixing conjunction and disjunction
+      added proposition with proof for ((A -> C) & (B -> C)) -> ((A ∨ B) -> C)
+      added proposition with proof for ((A & B) v C) -> ((A v C) & (B v C))
+      added proposition with proof for ((A ∨ C) & (B ∨ C)) -> ((A & B) ∨ C)
+      
 
   Fixed Bugs
   ----------
-  - none
+  none
 
   Other Changes
   -------------
-  - title change
-  - reorganization of content
-  - rule version integration, rule name harmonization
-    SET_DEFINION_BY_FORMULA -> CLASS_DEFINITION_BY_FORMULA
+  none
 
 
 Source Code
@@ -70,44 +49,22 @@ Source Code
 
   Extensions
   ----------
-  - TextInput has new methods: skipToEndOfLine,
-    readStringTilWhitespace, readNonNegativeInt
-  - new classes Version and VersionSet for version numbering according
-    to the standard in http://semver.org  this format is also checked
-    when running WellFormedCheckerPlugin
-  - ProofParserPane (and further classes) added for text proof parser
-  - StringUtility has new method: isIn
-  - integrated new RuleExistenceChecker
-  - new classes RuleKey, ChangedRule and ChangedRuleList (for changes
-    done by a new rule to existing rules) and further classes
-    integrated
+  - 
  
   Fixed Bugs
   ----------
-  - ParserPane shows now (more) correct error position
-  - QedeqKernelBo isSupportedLanguage works now
-  - some characters of axiomatic_set_theory.txt corrected
-  - Qedeq2Utf8Executor supports now a maximum column length of 0
-    (no automatic line breaking) again
-  
+  - 
 
   Other Changes
   -------------
-  - the build script includes now QedeqBoTest classes before QedeqBo
-    classes in class path because we replace ControlVisitor with an
-    another method implementation of setLocationWithinModule that
-    checks for object existence of the given context - so now every
-    context set within a JUnit test is checked for existence!
-  - DefaultModuleAddress returns now "file://" instead of "file:"
-    this seems to be something in the the URL constructor ...
-    as a result the file links in PDF files should work now
+  - 
 
 XSD
 ---
 
   Extensions
   ----------
-  - a rule has now a version too
+  none
 
   Fixed Bugs
   ----------
