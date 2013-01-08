@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QEDEQ
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_04/xml/qedeq.xsd">
+    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_05/xml/qedeq.xsd">
   <HEADER email="mime@qedeq.org">
     <SPECIFICATION name="qedeq_set_theory_v1" ruleVersion="1.00.00">
       <LOCATIONS>
-        <LOCATION value="http://www.qedeq.org/0_04_04/doc/math"/>
+        <LOCATION value="http://www.qedeq.org/0_04_05/doc/math"/>
       </LOCATIONS>
     </SPECIFICATION>
     <TITLE>
@@ -54,7 +54,7 @@
         <SPECIFICATION name="qedeq_logic_v1" ruleVersion="1.00.00">
           <LOCATIONS>
             <LOCATION value="."/>
-            <LOCATION value="http://www.qedeq.org/0_04_04/doc/math"/>
+            <LOCATION value="http://www.qedeq.org/0_04_05/doc/math"/>
           </LOCATIONS>
         </SPECIFICATION>
       </IMPORT>
@@ -90,7 +90,7 @@
           I am deeply grateful to my wife \emph{Gesine~Dräger} and our son \emph{Lennart} for their support and patience.
 
           \par
-          \vspace*{1cm} Hamburg, july 2011 \\
+          \vspace*{1cm} Hamburg, January 2013 \\
           \hspace*{\fill} Michael Meyling
         ]]>
       </LATEX>
@@ -111,7 +111,7 @@
           Besonderer Dank geht an meine Frau \emph{Gesine~Dräger} und unseren Sohn \emph{Lennart} für ihre Unterstützung und ihr Verständnis für ihnen fehlende Zeit.
 
           \par
-          \vspace*{1cm} Hamburg, Juli 2011 \\
+          \vspace*{1cm} Hamburg, Januar 2013 \\
           \hspace*{\fill} Michael Meyling
         ]]>
       </LATEX>
