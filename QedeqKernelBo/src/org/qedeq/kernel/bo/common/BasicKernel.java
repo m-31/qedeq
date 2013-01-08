@@ -39,7 +39,7 @@ public final class BasicKernel implements KernelProperties {
 
     /** Kernel version dedication. */
     private static final String KERNEL_DEDICATED
-        = "dedicated to the the Blade Runner Deckard";
+        = "dedicated to the the blade runner Rick Deckard and the glittering c-beams in the dark near the Tannh\u00e4user Gate";
 
     /** Descriptive version information of this kernel. */
     private static final String DESCRIPTIVE_KERNEL_VERSION
