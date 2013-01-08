@@ -29,7 +29,7 @@ public final class BasicKernel implements KernelProperties {
 
 
     /** Version of this kernel. */
-    private static final String KERNEL_VERSION = "0.04.04";
+    private static final String KERNEL_VERSION = "0.04.05";
 
     /** Version dependent directory of this kernel. */
     private static final String KERNEL_VERSION_DIRECTORY = KERNEL_VERSION.replace('.', '_');
@@ -39,7 +39,7 @@ public final class BasicKernel implements KernelProperties {
 
     /** Kernel version dedication. */
     private static final String KERNEL_DEDICATED
-        = "dedicated to the pearl of the northern seas: Amrum";
+        = "dedicated to the the Blade Runner Deckard";
 
     /** Descriptive version information of this kernel. */
     private static final String DESCRIPTIVE_KERNEL_VERSION
