@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <parser 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_04/xml/parser.xsd">
+    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_05/xml/parser.xsd">
  	<prefixOperator 
  		startSymbol	="~"
  		qedeq		="NOT"

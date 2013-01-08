@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QEDEQ 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_04/xml/qedeq.xsd">
+    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_05/xml/qedeq.xsd">
   <HEADER email="mime@qedeq.org">
     <SPECIFICATION name="LRM013" ruleVersion="1.00.00">
       <LOCATIONS>
