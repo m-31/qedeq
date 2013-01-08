@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.test;
 import junit.framework.Test;
 
 import org.qedeq.base.test.QedeqTestSuite;
+import org.qedeq.kernel.bo.common.KernelBoCommonTestSuite;
 import org.qedeq.kernel.bo.latex.ExtendedGenerateLatexTest;
 import org.qedeq.kernel.bo.latex.GenerateLatexTest;
 import org.qedeq.kernel.bo.logic.KernelBoLogicTestSuite;
@@ -67,6 +68,7 @@ public class KernelBoTestSuite extends QedeqTestSuite {
      */
     public KernelBoTestSuite(final boolean withTest, final boolean withPest) {
         super(withTest, withPest);
+        addTest(KernelBoCommonTestSuite.suite());
         addTest(KernelBoLogicProofFinderTestSuite.suite());
         addTest(KernelBoLogicTestSuite.suite());
         addTest(KernelBoLogicWfTestSuite.suite());

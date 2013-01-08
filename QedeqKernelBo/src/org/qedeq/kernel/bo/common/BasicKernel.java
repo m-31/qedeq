@@ -13,12 +13,11 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo;
+package org.qedeq.kernel.bo.common;
 
 import java.net.URLConnection;
 
 import org.qedeq.base.utility.YodaUtility;
-import org.qedeq.kernel.bo.common.KernelProperties;
 
 
 /**
@@ -53,7 +52,7 @@ public final class BasicKernel implements KernelProperties {
     /**
      * Constructor.
      */
-    BasicKernel() {
+    public BasicKernel() {
     }
 
     /**
@@ -99,6 +98,7 @@ public final class BasicKernel implements KernelProperties {
     }
 
     public final boolean isRuleVersionSupported(final String ruleVersion) {
+        // FIXME 20130113 m31: this must change if we really want to use it
         return MAXIMAL_RULE_VERSION.equals(ruleVersion);
     }
 

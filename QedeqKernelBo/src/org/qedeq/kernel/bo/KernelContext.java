@@ -24,6 +24,7 @@ import java.nio.channels.FileLock;
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.kernel.bo.common.BasicKernel;
 import org.qedeq.kernel.bo.common.KernelProperties;
 import org.qedeq.kernel.bo.common.KernelServices;
 import org.qedeq.kernel.bo.common.KernelState;
