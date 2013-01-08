@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QEDEQ 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_04/xml/qedeq.xsd">
+    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_05/xml/qedeq.xsd">
   <HEADER email="mime@qedeq.org">
     <SPECIFICATION name="qedeq_basic_concept" ruleVersion="0.00.00">
       <LOCATIONS>
-        <LOCATION value="http://www.qedeq.org/0_04_04/doc/project"/>
+        <LOCATION value="http://www.qedeq.org/0_04_05/doc/project"/>
       </LOCATIONS>
     </SPECIFICATION>
     <TITLE>
@@ -107,7 +107,7 @@
           \par
           I am deeply grateful to my wife \emph{Gesine~Dräger} and our son \emph{Lennart} for their support and patience.
           \par
-          \vspace*{1cm} Hamburg, March 2011 \\
+          \vspace*{1cm} Hamburg, January, 2013 \\
           \hspace*{\fill} Michael Meyling
         ]]>
       </LATEX>
