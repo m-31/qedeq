@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QEDEQ
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_04/xml/qedeq.xsd">
+    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_05/xml/qedeq.xsd">
   <HEADER email="mime@qedeq.org">
     <SPECIFICATION name="qedeq_sample2" ruleVersion="1.00.00">
       <LOCATIONS>
-        <LOCATION value="http://www.qedeq.org/0_04_04/sample" />
+        <LOCATION value="http://www.qedeq.org/0_04_05/sample" />
       </LOCATIONS>
     </SPECIFICATION>
     <TITLE>
@@ -49,7 +49,7 @@
           <LOCATIONS>
             <LOCATION value="../doc/math" />
             <LOCATION value="../math" />
-            <LOCATION value="http://www.qedeq.org/0_04_04/doc/math" />
+            <LOCATION value="http://www.qedeq.org/0_04_05/doc/math" />
           </LOCATIONS>
         </SPECIFICATION>
       </IMPORT>
@@ -58,7 +58,7 @@
           <LOCATIONS>
             <LOCATION value="../doc/math" />
             <LOCATION value="../math" />
-            <LOCATION value="http://www.qedeq.org/0_04_04/doc/math" />
+            <LOCATION value="http://www.qedeq.org/0_04_05/doc/math" />
           </LOCATIONS>
         </SPECIFICATION>
       </IMPORT>
