@@ -107,7 +107,6 @@ public class DefaultModuleEventListenerTest extends QedeqBoTestCase {
                 return ArrayUtils.EMPTY_STRING_ARRAY;
             }
             
-            @Override
             public String getStateDescription() {
                 return LoadingState.STATE_LOADING_INTO_MEMORY.getText();
             }
@@ -162,8 +161,8 @@ public class DefaultModuleEventListenerTest extends QedeqBoTestCase {
         listener.addModule(qedeq);
 //        System.out.println(out.toString("UTF-8"));
         assertTrue(out.toString("UTF-8").trim().endsWith("dummy"));
-        assertTrue(out.toString("UTF-8").contains("Module added"));
-        assertTrue(out.toString("UTF-8").contains(
+        assertTrue(0 <= out.toString("UTF-8").indexOf("Module added"));
+        assertTrue(0 <= out.toString("UTF-8").indexOf(
             LoadingState.STATE_LOADING_INTO_MEMORY.getText()));
     }
 
@@ -171,8 +170,8 @@ public class DefaultModuleEventListenerTest extends QedeqBoTestCase {
         listener.removeModule(qedeq);
 //        System.out.println(out.toString("UTF-8"));
         assertTrue(out.toString("UTF-8").trim().endsWith("dummy"));
-        assertTrue(out.toString("UTF-8").contains("Module removed"));
-        assertTrue(out.toString("UTF-8").contains(
+        assertTrue(0 <= out.toString("UTF-8").indexOf("Module removed"));
+        assertTrue(0 <= out.toString("UTF-8").indexOf(
             LoadingState.STATE_LOADING_INTO_MEMORY.getText()));
     }
 
@@ -180,8 +179,8 @@ public class DefaultModuleEventListenerTest extends QedeqBoTestCase {
         listener.stateChanged(qedeq);
 //        System.out.println(out.toString("UTF-8"));
         assertTrue(out.toString("UTF-8").trim().endsWith("dummy"));
-        assertTrue(out.toString("UTF-8").contains("Module state changed"));
-        assertTrue(out.toString("UTF-8").contains(
+        assertTrue(0 <= out.toString("UTF-8").indexOf("Module state changed"));
+        assertTrue(0 <= out.toString("UTF-8").indexOf(
             LoadingState.STATE_LOADING_INTO_MEMORY.getText()));
     }
 
@@ -191,8 +190,8 @@ public class DefaultModuleEventListenerTest extends QedeqBoTestCase {
         listener.addModule(qedeq);
         System.out.println(out2.toString("UTF-8"));
         assertTrue(out2.toString("UTF-8").trim().endsWith("dummy"));
-        assertTrue(out2.toString("UTF-8").contains("Module added"));
-        assertTrue(out2.toString("UTF-8").contains(
+        assertTrue(0 <= out2.toString("UTF-8").indexOf("Module added"));
+        assertTrue(0 <= out2.toString("UTF-8").indexOf(
             LoadingState.STATE_LOADING_INTO_MEMORY.getText()));
     }
 
