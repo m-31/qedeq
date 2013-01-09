@@ -39,7 +39,8 @@ public final class BasicKernel implements KernelProperties {
 
     /** Kernel version dedication. */
     private static final String KERNEL_DEDICATED
-        = "dedicated to the the blade runner Rick Deckard and the glittering c-beams in the dark near the Tannh\u00e4user Gate";
+        = "dedicated to the the blade runner Rick Deckard and the glittering c-beams in the dark "
+            + "near the Tannh\u00e4user Gate";
 
     /** Descriptive version information of this kernel. */
     private static final String DESCRIPTIVE_KERNEL_VERSION
@@ -120,8 +121,8 @@ public final class BasicKernel implements KernelProperties {
          * <code>URLConnection.setReadTimeout</code>. This depends on the currently running
          * JVM. */
         private static final boolean IS_SET_READ_TIMEOUT_SUSPPORTED = YodaUtility.existsMethod(
-                URLConnection.class, "setReadTimeout",
-                new Class[] {Integer.TYPE});
+            URLConnection.class, "setReadTimeout",
+            new Class[] {Integer.TYPE});
 
         /**
          * Hidden constructor.
