@@ -60,7 +60,7 @@ public abstract class Operator {
     }
 
     public int hashCode() {
-        return name.hashCode() ^ number;
+        return name.hashCode() ^ number ^ getClass().hashCode();
     }
 
     public boolean equals(final Object other) {
@@ -89,4 +89,5 @@ public abstract class Operator {
         }
         return buffer.toString();
     }
+
 }
