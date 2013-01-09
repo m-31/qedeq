@@ -43,8 +43,14 @@ public class KernelBoLogicModelTestSuite extends QedeqTestSuite {
         super();
         addTestSuite(CalculateTruthDynamicThreeModelTest.class);
         addTestSuite(CalculateTruthThreeModelTest.class);
-        addTestSuite(CalculateTruthZeroModelTest.class);
+        addTestSuite(CalculateTruthDynamicUnaryModelTest.class);
+        addTestSuite(CalculateTruthUnaryModelTest.class);
         addTestSuite(DynamicInterpreterTest.class);
         addTestSuite(DynamicDirectInterpreterTest.class);
+        addTestSuite(FunctionVariableTest.class);
+        addTestSuite(ModelFunctionConstantTest.class);
+        addTestSuite(ModelPredicateConstantTest.class);
+        addTestSuite(OperatorTest.class);
+        addTestSuite(PredicateVariableTest.class);
     }
 }

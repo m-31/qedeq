@@ -24,12 +24,12 @@ import org.qedeq.kernel.xml.parser.BasicParser;
  *
  * @author  Michael Meyling
  */
-public class CalculateTruthZeroModelTest extends CalculateTruthTestCase {
+public class CalculateTruthUnaryModelTest extends CalculateTruthTestCase {
 
     /**
      * Constructor.
      */
-    public CalculateTruthZeroModelTest() {
+    public CalculateTruthUnaryModelTest() {
         super(new UnaryModel());
     }
     
