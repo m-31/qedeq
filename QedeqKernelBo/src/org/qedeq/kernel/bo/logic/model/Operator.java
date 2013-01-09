@@ -89,5 +89,4 @@ public abstract class Operator {
         }
         return buffer.toString();
     }
-
 }
