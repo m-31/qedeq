@@ -406,6 +406,8 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
     public void setClassOperatorModule(final KernelQedeqBo classOperatorModule,
             final ModuleContext context) throws  ClassOperatorAlreadyExistsException {
         if (this.classOperatorModule != null && classOperatorModule != null) {
+            // FIXME 20130109 m31: why do we have this if question? If we define
+            // the class operator twice in the same module we also want to get an error!
             if (!this.classOperatorModule.equals(classOperatorModule)) {
                 throw new ClassOperatorAlreadyExistsException(
                     LogicErrors.CLASS_OPERATOR_ALREADY_DEFINED_CODE,
