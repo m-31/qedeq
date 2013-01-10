@@ -19,7 +19,9 @@ import org.qedeq.kernel.bo.logic.common.FunctionConstant;
 import org.qedeq.kernel.bo.logic.common.FunctionKey;
 import org.qedeq.kernel.bo.logic.common.PredicateConstant;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
+import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceChecker;
+import org.qedeq.kernel.bo.service.logic.ModuleConstantsExistenceCheckerImpl;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
@@ -50,7 +52,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqBoTestCase {
      *
      * @throws Exception
      */
-    public void testModuleConstancsExistenceChecker_01() throws Exception {
+    public void testModuleConstantsExistenceChecker_01() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC011.xml"));
         if (!getServices().checkModule(address)) {
             getServices().getQedeqBo(address).getErrors().printStackTrace(System.out);
@@ -75,7 +77,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqBoTestCase {
      *
      * @throws Exception
      */
-    public void testModuleConstancsExistenceChecker_02() throws Exception {
+    public void testModuleConstantsExistenceChecker_02() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC021.xml"));
         if (!getServices().checkModule(address)) {
             SourceFileExceptionList errors = getServices().getQedeqBo(address).getErrors();
@@ -101,7 +103,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqBoTestCase {
      *
      * @throws Exception
      */
-    public void testModuleConstancsExistenceChecker_03() throws Exception {
+    public void testModuleConstantsExistenceChecker_03() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC031.xml"));
         if (!getServices().checkModule(address)) {
             SourceFileExceptionList errors = getServices().getQedeqBo(address).getErrors();
@@ -127,7 +129,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqBoTestCase {
      *
      * @throws Exception
      */
-    public void testModuleConstancsExistenceChecker_04() throws Exception {
+    public void testModuleConstantsExistenceChecker_04() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC041.xml"));
         SourceFileExceptionList errors;
         if (!getServices().checkModule(address)) {
@@ -151,7 +153,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqBoTestCase {
      *
      * @throws Exception
      */
-    public void testModuleConstancsExistenceChecker_05() throws Exception {
+    public void testModuleConstantsExistenceChecker_05() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC051.xml"));
         if (!getServices().checkModule(address)) {
             getServices().getQedeqBo(address).getErrors().printStackTrace(System.out);
@@ -266,7 +268,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqBoTestCase {
      *
      * @throws Exception
      */
-    public void testModuleConstancsExistenceChecker_06() throws Exception {
+    public void testModuleConstantsExistenceChecker_06() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC061.xml"));
         if (!getServices().checkModule(address)) {
             getServices().getQedeqBo(address).getErrors().printStackTrace(System.out);
@@ -323,7 +325,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqBoTestCase {
      *
      * @throws Exception
      */
-    public void testModuleConstancsExistenceChecker_07() throws Exception {
+    public void testModuleConstantsExistenceChecker_07() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC071.xml"));
         if (!getServices().checkModule(address)) {
             SourceFileExceptionList errors = getServices().getQedeqBo(address).getErrors();
@@ -348,7 +350,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqBoTestCase {
      *
      * @throws Exception
      */
-    public void testModuleConstancsExistenceChecker_08() throws Exception {
+    public void testModuleConstantsExistenceChecker_08() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC081.xml"));
         if (!getServices().checkModule(address)) {
             SourceFileExceptionList errors = getServices().getQedeqBo(address).getErrors();
@@ -374,7 +376,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqBoTestCase {
      *
      * @throws Exception
      */
-    public void testModuleConstancsExistenceChecker_09() throws Exception {
+    public void testModuleConstantsExistenceChecker_09() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC091.xml"));
         if (!getServices().checkModule(address)) {
             SourceFileExceptionList errors = getServices().getQedeqBo(address).getErrors();
@@ -400,7 +402,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqBoTestCase {
      *
      * @throws Exception
      */
-    public void testModuleConstancsExistenceChecker_10() throws Exception {
+    public void testModuleConstantsExistenceChecker_10() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC101.xml"));
         if (!getServices().checkModule(address)) {
             SourceFileExceptionList errors = getServices().getQedeqBo(address).getErrors();
@@ -413,8 +415,53 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqBoTestCase {
             assertEquals(151, errors.get(0).getSourceArea().getStartPosition().getRow());
             assertEquals(15, errors.get(0).getSourceArea().getStartPosition().getColumn());
         } else {
+            fail("usage of identitiy opererator before definition of identity operator");
+        }
+    }
+
+    /**
+     * Load following dependencies:
+     * <pre>
+     * 111
+     * </pre>
+     * In <code>111</code> the class operator is defined twice.
+     *
+     * @throws Exception
+     */
+    public void testModuleConstantsExistenceChecker_11() throws Exception {
+        final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC111.xml"));
+        if (!getServices().checkModule(address)) {
+            SourceFileExceptionList errors = getServices().getQedeqBo(address).getErrors();
+            SourceFileExceptionList warnings = getServices().getQedeqBo(address).getWarnings();
+            assertNotNull(warnings);
+            assertEquals(0, warnings.size());
+//            System.out.println(errors);
+            assertEquals(1, errors.size());
+            assertEquals(37260, errors.get(0).getErrorCode());
+            assertEquals(146, errors.get(0).getSourceArea().getStartPosition().getRow());
+            assertEquals(52, errors.get(0).getSourceArea().getStartPosition().getColumn());
+        } else {
             fail("failure for double definition of class operator expected");
         }
+    }
+
+    /**
+     * Load following dependencies:
+     * <pre>
+     * 121
+     * </pre>
+     * In <code>121</code> the class operator is defined twice.
+     *
+     * @throws Exception
+     */
+    public void testModuleConstantsExistenceChecker_11b() throws Exception {
+        final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC121.xml"));
+        if (!getServices().checkModule(address)) {
+            fail("failure for double definition of class operator expected");
+        }
+        final KernelQedeqBo qedeq = (KernelQedeqBo) getServices().getQedeqBo(address);
+        final ModuleConstantsExistenceCheckerImpl checker = (ModuleConstantsExistenceCheckerImpl) qedeq.getExistenceChecker();
+        // FIXME 20130109 m31: add again a class operator definition
     }
 
 }

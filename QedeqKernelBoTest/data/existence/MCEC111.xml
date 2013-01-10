@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QEDEQ 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_05/xml/qedeq.xsd">
+  <HEADER email="mime@qedeq.org">
+    <SPECIFICATION name="MCEC111" ruleVersion="1.00.00">
+      <LOCATIONS>
+        <LOCATION value="file:///."/>
+      </LOCATIONS>
+    </SPECIFICATION>
+    <TITLE>
+      <LATEX language="en">
+         Class Operator Definition
+      </LATEX>
+    </TITLE>
+    <ABSTRACT>
+      <LATEX language="en">
+         We define the class operator constant and some other things.
+      </LATEX>
+    </ABSTRACT>
+    <AUTHORS>
+      <AUTHOR email="michael@meyling.com">
+        <NAME>
+          <LATEX language="de">
+            Michael Meyling
+          </LATEX>
+        </NAME>
+      </AUTHOR>
+    </AUTHORS>
+  </HEADER>
+  <CHAPTER>
+    <TITLE>
+      <LATEX language="en">
+        The Only One
+      </LATEX>
+    </TITLE>
+    <INTRODUCTION>
+      <LATEX language="en">
+        <![CDATA[
+          This module is for testing purposes only.
+        ]]>
+      </LATEX>
+    </INTRODUCTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">Identity</LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            We have a definition some axioms and a proposition.
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+      <SUBSECTIONS>
+        <NODE id="definition:in">
+          <NAME>
+            <LATEX language="en">is a member of</LATEX>
+            <LATEX language="de">ist enthalten in</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Membership Operator</LATEX>
+            <LATEX language="de">Elementbeziehung</LATEX>
+          </TITLE>
+          <PRECEDING>
+            <LATEX language="en">
+              <![CDATA[
+                The theory of sets introduced here has initial objects, called \emph{classes}. Furthermore the only predefined symbol is for a binary relation called \emph{membership}.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Die hier vorgestellte Mengenlehre hat als Ausgangsobjekte \emph{Klassen}.
+                Weiterhin wird nur ein einziges Symbol für eine binäre Relation vorausgesetzt: der \emph{Enthaltenseinoperator}.
+              ]]>
+            </LATEX>
+          </PRECEDING>
+          <DEFINITION_PREDICATE_INITIAL arguments="2" name="in">
+            <LATEXPATTERN>#1 \in #2</LATEXPATTERN>
+            <PREDCON ref="in">
+              <VAR id="x"/>
+              <VAR id="y"/>
+            </PREDCON>
+          </DEFINITION_PREDICATE_INITIAL>
+          <SUCCEEDING>
+            <LATEX language="en">
+              <![CDATA[
+                We also say ``$x$ \emph{is element of} $y$'', ``$x$ \emph{belongs to} $y$'', ``$x$ \emph{is a member of} $y$'' or ``$x$ \emph{is in} $y$''.
+                Beside identity this is the only predicate we start with. All other will be defined. Also no function constants are initially given. Later on we will successively fix their meaning.
+              ]]>
+            </LATEX>
+          </SUCCEEDING>
+        </NODE>
+
+        <NODE id="rule:classDefinition">
+          <NAME>
+            <LATEX language="en">class definition</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Class definition</LATEX>
+          </TITLE>
+          <PRECEDING>
+            <LATEX language="en">
+              <![CDATA[
+                Starting with \qref{theorem:comprehension} we can extend the syntax and provide a new abbreviation.
+              ]]>
+            </LATEX>
+          </PRECEDING>
+          <RULE name="CLASS_DEFINITION_BY_FORMULA" version="1.00.00">
+            <LINK id="theorem:comprehension"/>
+            <DESCRIPTION>
+              <LATEX language="en">
+                <![CDATA[
+                  For every formula $\alpha(x_1)$ we define the term expression $\{ x_1 \ | \ \alpha(x_1)\}$ where $x_1$ is a subject variable that is not bound within $\alpha(x_1)$. The free variables of $\{ x_1 \ | \ \alpha(x_1)\}$ are the are the free variables of $\alpha(x_1)$. The bound variables correspond to the bound variables of $\alpha(x_1)$ enhanced by $x_1$. 
+                  \par
+                  All deduction rules are accordingly extended.
+                  
+                ]]>
+              </LATEX>
+            </DESCRIPTION>
+          </RULE>
+          <SUCCEEDING>
+            <LATEX language="en">
+              <![CDATA[
+                In particular the substitution rules must be adapted because now a term can have bound subject variables. \footnote{Luckily we formulated the substitution rules with this extension already in our mind, so we have nothing to do.}
+                In the following this new notation is used.
+              ]]>
+            </LATEX>
+          </SUCCEEDING>
+        </NODE>
+       
+        <NODE id="rule:classDefinition2">
+          <NAME>
+            <LATEX language="en">class definition</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Class definition</LATEX>
+          </TITLE>
+          <PRECEDING>
+            <LATEX language="en">
+              <![CDATA[
+                Starting with \qref{theorem:comprehension} we can extend the syntax and provide a new abbreviation.
+              ]]>
+            </LATEX>
+          </PRECEDING>
+          <RULE name="CLASS_DEFINITION_BY_FORMULA" version="1.00.00">
+            <LINK id="theorem:comprehension"/>
+            <DESCRIPTION>
+              <LATEX language="en">
+                <![CDATA[
+                  For every formula $\alpha(x_1)$ we define the term expression $\{ x_1 \ | \ \alpha(x_1)\}$ where $x_1$ is a subject variable that is not bound within $\alpha(x_1)$. The free variables of $\{ x_1 \ | \ \alpha(x_1)\}$ are the are the free variables of $\alpha(x_1)$. The bound variables correspond to the bound variables of $\alpha(x_1)$ enhanced by $x_1$. 
+                  \par
+                  All deduction rules are accordingly extended.
+                  
+                ]]>
+              </LATEX>
+            </DESCRIPTION>
+          </RULE>
+          <SUCCEEDING>
+            <LATEX language="en">
+              <![CDATA[
+                In particular the substitution rules must be adapted because now a term can have bound subject variables. \footnote{Luckily we formulated the substitution rules with this extension already in our mind, so we have nothing to do.}
+                In the following this new notation is used.
+              ]]>
+            </LATEX>
+          </SUCCEEDING>
+        </NODE>
+       
+
+      </SUBSECTIONS>
+    </SECTION>
+  </CHAPTER>
+</QEDEQ>
