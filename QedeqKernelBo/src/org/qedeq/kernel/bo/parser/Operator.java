@@ -20,8 +20,9 @@ package org.qedeq.kernel.bo.parser;
  * This class describes an term or logical operator. An operator is of either
  * prefix, infix or postfix type and has a minimum and maximum number of operands.
  * It has a symbol or token that enables to recognize it and a QEDEQ representation.
+ * Each instance of this class is unique so two instances with the same parameters are
+ * different from each other.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class Operator {
