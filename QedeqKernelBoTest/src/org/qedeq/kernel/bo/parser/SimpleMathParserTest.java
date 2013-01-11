@@ -101,6 +101,9 @@ public class SimpleMathParserTest extends AbstractParserTestCase {
 
     };
 
+    /**
+     * Constructor.
+     */
     public SimpleMathParserTest(String arg0) {
         super(arg0);
     }
