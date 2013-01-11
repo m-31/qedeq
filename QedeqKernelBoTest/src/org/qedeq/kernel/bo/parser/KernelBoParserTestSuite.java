@@ -43,6 +43,7 @@ public class KernelBoParserTestSuite extends QedeqTestSuite {
         super();
         addTestSuite(AsciiMathParserTest.class);
         addTestSuite(LatexMathParserTest.class);
+        addTestSuite(OperatorTest.class);
         addTestSuite(SimpleMathParserTest.class);
     }
 }
