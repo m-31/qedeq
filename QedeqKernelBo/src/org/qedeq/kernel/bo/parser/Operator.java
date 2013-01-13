@@ -339,6 +339,9 @@ public final class Operator {
         if (isInfix()) {
             buffer.append(", is infix");
         }
+        if (isPostfix()) {
+            buffer.append(", is postfix");
+        }
         return buffer.toString();
     }
 
