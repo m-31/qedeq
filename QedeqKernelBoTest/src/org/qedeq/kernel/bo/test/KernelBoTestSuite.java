@@ -32,6 +32,7 @@ import org.qedeq.kernel.bo.module.KernelBoModuleTestSuite;
 import org.qedeq.kernel.bo.parser.KernelBoParserTestSuite;
 import org.qedeq.kernel.bo.service.KernelBoServiceTestSuite;
 import org.qedeq.kernel.bo.service.heuristic.KernelBoServiceHeuristicTestSuite;
+import org.qedeq.kernel.bo.service.latex.KernelBoServiceLatexTestSuite;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexTest;
 import org.qedeq.kernel.bo.service.logic.KernelBoServiceLogicTestSuite;
 import org.qedeq.kernel.bo.service.unicode.GenerateUtf8Test;
@@ -77,11 +78,11 @@ public class KernelBoTestSuite extends QedeqTestSuite {
         addTest(KernelBoModuleTestSuite.suite());
         addTest(KernelBoParserTestSuite.suite());
         addTest(KernelBoServiceTestSuite.suite());
+        addTest(KernelBoServiceLatexTestSuite.suite());
         addTest(KernelBoLogicModelTestSuite.suite());
         addTest(KernelBoServiceHeuristicTestSuite.suite());
         addTest(KernelBoServiceLogicTestSuite.suite());
 
-        addTestSuite(Qedeq2LatexTest.class);
         addTestSuite(GenerateLatexTest.class);
         addTestSuite(Latex2Utf8Test.class);
         addTestSuite(GenerateUtf8Test.class);

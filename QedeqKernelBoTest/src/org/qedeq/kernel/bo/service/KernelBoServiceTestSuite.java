@@ -44,6 +44,7 @@ public class KernelBoServiceTestSuite extends QedeqTestSuite {
         super();
         addTestSuite(CheckRequiredModuleExceptionTest.class);
         addTestSuite(DefaultKernelQedeqBoTest.class);
+        addTestSuite(Element2LatexImplTest.class);
         addTestSuite(LoadRequiredModulesTest.class);
         addTestSuite(ModuleConstantsExistenceCheckerTest.class);
         addTestSuite(QedeqBoFormalLogicCheckerTest.class);
