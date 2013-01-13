@@ -163,7 +163,23 @@ public class OperatorTest extends QedeqBoTestCase {
         assertEquals("post[0, ..], is postfix", post1.toString());
     }
 
-    public void testHashCode() throws Exception {
+    public void testIsFix() {
+        assertTrue(and.isInfix());
+        assertFalse(and.isPrefix());
+        assertFalse(and.isPostfix());
+        assertFalse(and.isFunction());
+        assertTrue(impl.isInfix());
+        assertFalse(impl.isPrefix());
+        assertFalse(impl.isPostfix());
+        assertFalse(impl.isFunction());
+        assertFalse(alpha.isInfix());
+        assertTrue(alpha.isPrefix());
+        assertFalse(alpha.isPostfix());
+        assertTrue(alpha.isFunction());
+        assertFalse(post1.isPrefix());
+        assertTrue(post1.isPostfix());
+        assertFalse(post1.isFunction());
+        assertFalse(post1.isInfix());
     }
 
 }
