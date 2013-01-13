@@ -155,12 +155,12 @@ public class OperatorTest extends QedeqBoTestCase {
     }
 
     public void testToString() throws Exception {
-        System.out.println(and);
-        System.out.println(impl);
-        System.out.println(forall);
-        System.out.println(clasDef);
-        System.out.println(classList);
-        System.out.println(post1);
+        assertEquals("land[2, ..], is infix", and.toString());
+        assertEquals("impl[2, 2], is infix", impl.toString());
+        assertEquals("forall[2, 2], is prefix", forall.toString());
+        assertEquals("{[2, 2] | }, is prefix", clasDef.toString());
+        assertEquals("{[0, ..] , }, is prefix", classList.toString());
+        assertEquals("post[0, ..], is postfix", post1.toString());
     }
 
     public void testHashCode() throws Exception {
