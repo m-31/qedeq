@@ -18,7 +18,6 @@ package org.qedeq.kernel.bo.parser;
 /**
  * Expected end symbol of expression not found.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class EndSymbolNotFoundException extends ParserException {
