@@ -15,7 +15,6 @@
 package org.qedeq.kernel.bo.service;
 
 import org.qedeq.base.test.QedeqTestCase;
-import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.dto.list.DefaultAtom;
@@ -94,6 +93,10 @@ public class Element2LatexImplTest extends QedeqTestCase {
             })
         });
         assertEquals("psi(x, x, y, y, z, z, u, u, v, v, w, w, x_1, x_2)", transform.getLatex(ele3));
+        final Element ele4 = new DefaultElementList("VAR", new Element[] {
+                new DefaultAtom(" 1")});
+//            System.out.println(transform.getLatex(ele4));
+            assertEquals(" 1", transform.getLatex(ele4));
     }
 
     public void testFuncon() {
@@ -215,8 +218,47 @@ public class Element2LatexImplTest extends QedeqTestCase {
         assertEquals("y \\ = \\ \\{ x \\ | \\ \\phi(x) \\} \\ \\leftrightarrow\\ "
             + "\\forall z\\ (z \\in y\\ \\leftrightarrow\\ z \\in \\{ x \\ | \\ \\phi(x) \\} )",
             transform.getLatex(ele));
+        assertEquals("(y \\ = \\ \\{ x \\ | \\ \\phi(x) \\} \\ \\leftrightarrow\\ "
+                + "\\forall z\\ (z \\in y\\ \\leftrightarrow\\ z \\in \\{ x \\ | \\ \\phi(x) \\} ))",
+                transform.getLatex(ele, false));
     }
 
+    public void testBinaryLogical() {
+        Element ele = new DefaultElementList("AND", new Element[] {
+            new DefaultElementList("PREDVAR", new Element[] {
+                new DefaultAtom("\\alpha"),
+                new DefaultElementList("VAR", new Element[] {
+                    new DefaultAtom("x"),
+                })
+            }),
+            new DefaultElementList("PREDVAR", new Element[] {
+                new DefaultAtom("\\beta"),
+                new DefaultElementList("VAR", new Element[] {
+                    new DefaultAtom("y")
+                })
+            }),
+            new DefaultElementList("IMPL", new Element[] {
+                new DefaultElementList("PREDVAR", new Element[] {
+                    new DefaultAtom("\\alpha"),
+                    new DefaultElementList("VAR", new Element[] {
+                        new DefaultAtom("x")
+                    })
+                }),
+                new DefaultElementList("PREDVAR", new Element[] {
+                    new DefaultAtom("\\beta"),
+                    new DefaultElementList("VAR", new Element[] {
+                        new DefaultAtom("y")
+                    })
+                })
+            })
+        });
+//        System.out.println(transform.getLatex(ele));
+        assertEquals("\\alpha(x)\\ \\land\\ \\beta(y)\\ \\land\\ (\\alpha(x)\\ \\rightarrow\\ \\beta(y))",
+            transform.getLatex(ele));
+        assertEquals("(\\alpha(x)\\ \\land\\ \\beta(y)\\ \\land\\ (\\alpha(x)\\ \\rightarrow\\ \\beta(y)))",
+                transform.getLatex(ele, false));
+    }
+ 
     public void testVarious2() {
         Element ele = new DefaultElementList("myOperator", new Element[] {
             new DefaultAtom("Hello"),
@@ -228,7 +270,45 @@ public class Element2LatexImplTest extends QedeqTestCase {
             })
         });
         assertEquals("myOperator(Hello, Again, again(one, two, three))", transform.getLatex(ele));
+        assertEquals("myOperator(Hello, Again, again(one, two, three))", transform.getLatex(ele, false));
     }
 
+    public void testClass() {
+        Element ele = new DefaultElementList("CLASS", new Element[] {
+            new DefaultElementList("VAR", new Element[] {
+                new DefaultAtom("x"),
+            }),
+            new DefaultElementList("PREDVAR", new Element[] {
+                new DefaultAtom("\\beta"),
+                new DefaultElementList("VAR", new Element[] {
+                    new DefaultAtom("y")
+                })
+            })
+        });
+//        System.out.println(transform.getLatex(ele));
+        assertEquals("\\{ x \\ | \\ \\beta(y) \\} ",
+            transform.getLatex(ele));
+        assertEquals("\\{ x \\ | \\ \\beta(y) \\} ",
+                transform.getLatex(ele, false));
+    }
+ 
+    public void testClasslist() {
+        Element ele = new DefaultElementList("CLASSLIST", new Element[] {
+            new DefaultElementList("VAR", new Element[] {
+                new DefaultAtom("x"),
+            }),
+            new DefaultElementList("VAR", new Element[] {
+                    new DefaultAtom("y"),
+                }),
+            new DefaultElementList("VAR", new Element[] {
+                    new DefaultAtom("z"),
+                })
+        });
+        System.out.println(transform.getLatex(ele));
+        assertEquals("\\{ x, \\ y, \\ z \\} ",
+            transform.getLatex(ele));
+        assertEquals("\\{ x, \\ y, \\ z \\} ",
+                transform.getLatex(ele, false));
+    }
 }
 

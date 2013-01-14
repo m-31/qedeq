@@ -608,7 +608,7 @@ public final class Element2LatexImpl implements Element2Latex {
     }
 
     /**
-     * LATER mime 20080126: needed?
+     * If we don't now what kind of type we have we do this.
      */
     class Unknown implements ListType {
         public String getLatex(final ElementList list, final boolean first) {
