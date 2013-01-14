@@ -98,9 +98,13 @@ public class Element2LatexImplTest extends QedeqTestCase {
 
     public void testFuncon() {
         final Element ele = new DefaultElementList("FUNCON", new Element[] {
-            new DefaultAtom("phi")});
+            new DefaultAtom("RussellClass")});
 //        System.out.println(transform.getLatex(ele));
-        assertEquals("phi_0()", transform.getLatex(ele));
+        assertEquals("\\mathfrak{Ru}", transform.getLatex(ele));
+        final Element ele2 = new DefaultElementList("FUNCON", new Element[] {
+            new DefaultAtom("phi")});
+//        System.out.println(transform.getLatex(ele2));
+        assertEquals("phi_0()", transform.getLatex(ele2));
     }
 
     public void testFunvar() {
@@ -116,6 +120,42 @@ public class Element2LatexImplTest extends QedeqTestCase {
         });
 //        System.out.println(transform.getLatex(ele2));
         assertEquals("phi(x)", transform.getLatex(ele2));
+    }
+
+    public void testPredcon() {
+        final Element ele = new DefaultElementList("PREDCON", new Element[] {
+            new DefaultAtom("isSet"),
+            new DefaultElementList("VAR", new Element[] {
+                new DefaultAtom("x"),
+            })
+        });
+//        System.out.println(transform.getLatex(ele));
+        assertEquals("\\mathfrak{M}(x)", transform.getLatex(ele));
+        final Element ele2 = new DefaultElementList("PREDCON", new Element[] {
+            new DefaultAtom("isSet")
+        });
+//        System.out.println(transform.getLatex(ele));
+        assertEquals("isSet_0()", transform.getLatex(ele2));
+        final Element ele3 = new DefaultElementList("PREDCON", new Element[] {
+            new DefaultAtom("isMyOwnPredcon")
+        });
+//        System.out.println(transform.getLatex(ele));
+        assertEquals("isMyOwnPredcon_0()", transform.getLatex(ele3));
+    }
+
+    public void testPredvar() {
+        final Element ele = new DefaultElementList("PREDVAR", new Element[] {
+            new DefaultAtom("alpha")});
+//        System.out.println(transform.getLatex(ele));
+        assertEquals("alpha", transform.getLatex(ele));
+        final Element ele2 = new DefaultElementList("PREDVAR", new Element[] {
+            new DefaultAtom("alpha"),
+            new DefaultElementList("VAR", new Element[] {
+                new DefaultAtom("x"),
+            })
+        });
+//        System.out.println(transform.getLatex(ele2));
+        assertEquals("alpha(x)", transform.getLatex(ele2));
     }
 
     public void testVarious1() {
