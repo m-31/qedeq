@@ -18,6 +18,7 @@ package org.qedeq.gui.se.element;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -67,6 +69,9 @@ public class FindDialog extends JDialog {
 
     /** Search for this text. */
     private JComboBox searchText;
+
+    /** Search for this text. */
+    private JLabel status;
 
     /**
      * Creates new Panel.
@@ -126,7 +131,7 @@ public class FindDialog extends JDialog {
 
         final JPanel allOptions = new JPanel();
         allOptions.setBorder(GuiHelper.getEmptyBorder());
-        allOptions.setLayout(new BoxLayout(allOptions, BoxLayout.Y_AXIS));
+        allOptions.setLayout(new FlowLayout(FlowLayout.LEFT));
         allOptions.add(searchPanel());
         allOptions.add(Box.createVerticalStrut(GuiHelper.getEmptyBorderPixelsY()));
 
@@ -138,6 +143,10 @@ public class FindDialog extends JDialog {
         content.add(tabbedPane);
 
         content.add(GuiHelper.addSpaceAndAlignRight(createButtonPanel()));
+        status = new JLabel("");
+        final JPanel panel = new JPanel();
+        panel.add(status);
+        content.add(GuiHelper.alignLeft(panel));
 
         // let the container calculate the ideal size
         pack();
@@ -154,16 +163,25 @@ public class FindDialog extends JDialog {
      */
     private JPanel createButtonPanel() {
         ButtonBarBuilder bbuilder = ButtonBarBuilder.createLeftToRightBuilder();
-
         JButton findB = new JButton("Find");
         findB.addActionListener(new  ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
                 try {
 //                    text.getCaret().setVisible(true);
-                    final int pos1 = findCaretPosition(0);
+                    int pos1 = findCaretPosition(text.getCaretPosition());
+                    if (pos1 < 0) {
+                        pos1 = findCaretPosition(0);
+                        if (pos1 < 0) {
+                            status.setText("String Not Found");
+                            return;
+                        }
+                    }
+                    status.setText("");
                     final int pos2 = pos1 + searchText.getSelectedItem().toString().length();
-                    text.setSelectionStart(pos1);
-                    text.setSelectionEnd(pos2);
+                    text.setCaretPosition(pos1);
+                    text.moveCaretPosition(pos2);
+                    text.requestFocus();
+//                    text.setCaretPosition(pos2);
                 } catch (Exception e) {
                     e.printStackTrace(System.out);
                 }
@@ -204,7 +222,7 @@ public class FindDialog extends JDialog {
             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     }
 
-    void save() { 
+    void save() {
     }
 
     private final int findCaretPosition(final int start) {

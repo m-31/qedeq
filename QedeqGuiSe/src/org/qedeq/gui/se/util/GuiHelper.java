@@ -285,6 +285,21 @@ public final class GuiHelper {
     }
 
     /**
+     * Adds boarder space and floats panel to the left.
+     *
+     * @param   panel   Panel to decorate.
+     * @return  Panel with more decorations.
+     */
+    public static JComponent alignLeft(final JPanel panel) {
+        JPanel withSpace = new JPanel();
+        withSpace.add(panel);
+        JPanel alignLeft = new JPanel();
+        alignLeft.setLayout(new FlowLayout(FlowLayout.LEFT));
+        alignLeft.add(withSpace);
+        return alignLeft;
+    }
+
+    /**
      * Width of horizontal empty border.
      *
      * @return  Return horizontal empty boarder pixel distance.
