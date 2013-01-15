@@ -56,28 +56,35 @@ class ClipboardListener extends MouseAdapter implements ActionListener {
         selectAll1.addActionListener(this);
         selectAll1.setActionCommand("selectAll");
         popEdit.add(selectAll1);
+
         final JMenuItem copy1 = new JMenuItem("Copy");
         copy1.addActionListener(this);
         copy1.setActionCommand("copy");
         popEdit.add(copy1);
 
-        popNoEdit = new JPopupMenu();
-        final JMenuItem selectAll2 = new JMenuItem("Select All");
-        selectAll2.addActionListener(this);
-        selectAll2.setActionCommand("selectAll");
-        popNoEdit.add(selectAll2);
-        final JMenuItem jmenuitem1b = new JMenuItem("Copy");
-        jmenuitem1b.addActionListener(this);
-        jmenuitem1b.setActionCommand("copy");
-        popNoEdit.add(jmenuitem1b);
+        final JMenuItem find1 = new JMenuItem("Find");
+        find1.addActionListener(this);
+        find1.setActionCommand("find");
+        popEdit.add(find1);
+
         final JMenuItem jmenuitem2 = new JMenuItem("Cut");
         jmenuitem2.addActionListener(this);
         jmenuitem2.setActionCommand("cut");
         popEdit.add(jmenuitem2);
+
         final JMenuItem jmenuitem3 = new JMenuItem("Paste");
         jmenuitem3.addActionListener(this);
         jmenuitem3.setActionCommand("paste");
         popEdit.add(jmenuitem3);
+
+        popNoEdit = new JPopupMenu();
+
+        popNoEdit.add(selectAll1);
+
+        popNoEdit.add(copy1);
+
+        popNoEdit.add(find1);
+
     }
 
     /**
@@ -110,7 +117,15 @@ class ClipboardListener extends MouseAdapter implements ActionListener {
             outer.paste();
         } else if (s.equals("selectAll")) {
             outer.selectAll();
+        } else if (s.equals("find")) {
+            find();
         }
+    }
+
+    private void find()  {
+        System.out.println("####################################### find");
+        FindDialog finder = new FindDialog(outer);
+        finder.show();
     }
 
 }
