@@ -204,7 +204,7 @@ public class FindDialog extends JDialog {
             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     }
 
-    void save() {
+    void save() { 
     }
 
     private final int findCaretPosition(final int start) {
