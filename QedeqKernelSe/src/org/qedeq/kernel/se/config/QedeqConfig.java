@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.Parameters;
+import org.qedeq.base.io.Path;
 import org.qedeq.kernel.se.common.Plugin;
 
 
@@ -66,7 +67,7 @@ public class QedeqConfig {
     public QedeqConfig(final File configFile, final String description, final File basisDirectory)
             throws IOException {
         configAccess = new ConfigAccess(configFile, description);
-        this.basisDirectory = basisDirectory;
+        this.basisDirectory = basisDirectory.getCanonicalFile();
     }
 
     /**
@@ -220,15 +221,27 @@ public class QedeqConfig {
      * Get file path starting from basis directory of this application.
      *
      * @param   path    Go to this path starting from basis directory.
-     * @return  File path resolved against basis application directory.
+     * @return  File path resolved against basis application directory as an absolute path.
      */
     public final File createAbsolutePath(final String path) {
-        File result = new File(getBasisDirectory(), path);
+        File result = new File(path);
+        final Path ptest = new Path(path.replace(File.separatorChar, '/'), "");
+        if (ptest.isAbsolute()) {
+            try {
+                return result.getCanonicalFile();
+            } catch (Exception e) {
+                // we don't know if we can log something already
+                e.printStackTrace(System.out);
+                System.out.println("we try to continue with file " + result);
+                return result;
+            }
+        }
+        result = new File(getBasisDirectory(), path);
         try {
             result = result.getCanonicalFile();
         } catch (IOException e) {
             // we don't know if we can log something already
-            e.printStackTrace();
+            e.printStackTrace(System.out);
         }
         return result;
     }
