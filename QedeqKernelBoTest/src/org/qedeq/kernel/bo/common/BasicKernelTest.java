@@ -83,14 +83,20 @@ public class BasicKernelTest extends QedeqBoTestCase {
         assertEquals("1.01.00", kernel.getMaximalRuleVersion());
     }
 
-    // TODO 20130108 m31: do we really never want to test with java 1.4 any more?
     public void testIsSetConnectionTimeOutSupported() {
-        assertTrue(kernel.isSetConnectionTimeOutSupported());
+        if (System.getProperty("java.runtime.version").compareTo("1.5") <= 0) {
+            assertFalse(kernel.isSetConnectionTimeOutSupported());
+        } else {
+            assertTrue(kernel.isSetConnectionTimeOutSupported());
+        }
     }
 
-    // TODO 20130108 m31: do we really never want to test with java 1.4 any more?
     public void testIsSetReadTimeoutSupported() {
-        assertTrue(kernel.isSetReadTimeoutSupported());
+        if (System.getProperty("java.runtime.version").compareTo("1.5") <= 0) {
+            assertFalse(kernel.isSetReadTimeoutSupported());
+        } else {
+            assertTrue(kernel.isSetReadTimeoutSupported());
+        }
     }
 
 
