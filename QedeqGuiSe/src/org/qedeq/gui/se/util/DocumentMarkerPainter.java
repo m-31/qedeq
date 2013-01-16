@@ -26,7 +26,6 @@ import javax.swing.text.JTextComponent;
  * Paint marked text blocks in another color. Precondition is an installed
  * {@link org.qedeq.gui.se.util.CurrentLineHighlighterUtility} for that text component.
  *
- * @version $Revision: 1.1 $
  * @author  Santhosh Kumar T
  * @author  Michael Meyling
  */
