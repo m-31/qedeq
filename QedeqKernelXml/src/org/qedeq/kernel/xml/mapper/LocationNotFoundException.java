@@ -34,10 +34,10 @@ public class LocationNotFoundException extends ModuleDataException {
      */
     public LocationNotFoundException(final ModuleContext context, final String matching,
             final String find) {
-        super(50001, "location was not found for module " + context.getModuleLocation()
+        super(50001, "location was not found within module " + context.getModuleLocation()
             + "\n current context: " + context.getLocationWithinModule()
-            + "\n last match:     " + matching
-            + "\n searched for:   " + find, context);
+            + "\n last match:      " + matching
+            + "\n searched for:    " + find, context);
     }
 
 }

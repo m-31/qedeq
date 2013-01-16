@@ -1132,8 +1132,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
                     Trace.info(CLASS, this, method, "matching lost");
                     Trace.paramInfo(CLASS, this, method, "last match     ", matchingBegin);
                     Trace.paramInfo(CLASS, this, method, "current context", context);
-                    Trace.paramInfo(CLASS, this, method,
-                        "find context   ", find.getLocationWithinModule());
+                    Trace.paramInfo(CLASS, this, method, "find context   ", find.getLocationWithinModule());
 
                     // do we really want to fail?
                     if (Boolean.TRUE.toString().equalsIgnoreCase(
