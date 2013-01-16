@@ -426,13 +426,15 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                             + predicateKey, getCurrentContext()));
                 break;
             }
-            existence.add(constant);
-            // a final check, we don't expect any errors here, but hey - we want to be very sure!
-            setLocationWithinModule(context + ".getFormula().getElement().getList()");
-            final LogicalCheckExceptionList errorlist = checkerFactory.createFormulaChecker()
-                .checkFormula(completeFormula, getCurrentContext(), existence);
-            for (int i = 0; i < errorlist.size(); i++) {
-                addError(errorlist.get(i));
+            // a final check, we don't expect any new errors here, but hey - we want to be very sure!
+            if (!getNodeBo().isNotWellFormed()) {
+                existence.add(constant);
+                setLocationWithinModule(context + ".getFormula().getElement()");
+                final LogicalCheckExceptionList errorlist = checkerFactory.createFormulaChecker()
+                    .checkFormula(completeFormula, getCurrentContext(), existence);
+                for (int i = 0; i < errorlist.size(); i++) {
+                    addError(errorlist.get(i));
+                }
             }
         } while (false);
 
@@ -681,13 +683,16 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
             if (list.size() > 0) {
                 break;
             }
-            setLocationWithinModule(context + ".getFormula().getElement().getList()");
-            existence.add(new FunctionConstant(function, formula, getCurrentContext()));
-            // a final check, we don't expect any errors here, but hey - we want to be very sure!
-            final LogicalCheckExceptionList listComplete = checkerFactory.createFormulaChecker()
-                .checkFormula(formulaArgument.getElement(), getCurrentContext(), existence);
-            for (int i = 0; i < listComplete.size(); i++) {
-                addError(listComplete.get(i));
+            setLocationWithinModule(context + ".getFormula().getElement()");
+            // if we found no errors
+            if (!getNodeBo().isNotWellFormed()) {
+                existence.add(new FunctionConstant(function, formula, getCurrentContext()));
+                // a final check, we don't expect any new errors here, but hey - we want to be very sure!
+                final LogicalCheckExceptionList listComplete = checkerFactory.createFormulaChecker()
+                    .checkFormula(formulaArgument.getElement(), getCurrentContext(), existence);
+                for (int i = 0; i < listComplete.size(); i++) {
+                    addError(listComplete.get(i));
+                }
             }
         } while (false);
         setLocationWithinModule(context);
