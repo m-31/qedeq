@@ -38,8 +38,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
+import javax.swing.text.Segment;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.util.GuiHelper;
@@ -178,6 +182,8 @@ public class FindDialog extends JDialog {
                     }
                     status.setText("");
                     final int pos2 = pos1 + searchText.getSelectedItem().toString().length();
+//                    JTextPane pane = (JTextPane) text;
+//                    pane.getDocument().
                     text.setCaretPosition(pos1);
                     text.moveCaretPosition(pos2);
                     text.requestFocus();
@@ -226,10 +232,21 @@ public class FindDialog extends JDialog {
     }
 
     private final int findCaretPosition(final int start) {
-        final String s = text.getText();
+        final Document doc = text.getDocument();
+        int nleft = doc.getLength();
+        String data = "";
+        Segment s = new Segment();
+        int offs = 0;
+        s.setPartialReturn(false);
+        try {
+            doc.getText(offs, nleft, s);
+            data = s.toString();
+        } catch (BadLocationException e) {
+            data = text.getText();
+        }
         final String m = searchText.getSelectedItem().toString();
         System.out.println("searching for " + m + " from " + start);
-        final int result =  s.indexOf(m, start);
+        final int result =  data.indexOf(m, start);
         System.out.println("result = " + result);
         return result;
     }
