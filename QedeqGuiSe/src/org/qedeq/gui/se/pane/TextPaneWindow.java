@@ -162,7 +162,15 @@ public class TextPaneWindow extends JFrame {
         pack();
 
         final Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setLocation((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2);
+        int height = getHeight();
+        if (screenSize.height - getHeight() < 20) {
+            height = height - 20;
+        }
+        int width = getWidth();
+        if (screenSize.width - getWidth() > 20) {
+            width = width + 20;
+        }
+        setBounds((screenSize.width - width) / 2, (screenSize.height - height) / 2, width, height);
 
 //        final Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 //            setBounds((screenSize.width - getWidth()) / 3, (screenSize.height - getHeight()) / 3,
@@ -176,7 +184,8 @@ public class TextPaneWindow extends JFrame {
      * @return  Created panel.
      */
     private final JPanel createTextPanel(final String text) {
-        textPane = new CPTextPane(false) {
+//        textPane = new CPTextPane(false) {    // FIXME
+        textPane = new CPTextPane(true) {
             public boolean getScrollableTracksViewportWidth() {
                 return TextPaneWindow.this.wordWrap;
             }
@@ -204,8 +213,11 @@ public class TextPaneWindow extends JFrame {
         textPane.setDragEnabled(true);
         textPane.setAutoscrolls(true);
         textPane.setCaretPosition(0);
-        textPane.setEditable(false);
-        textPane.getCaret().setVisible(false);
+// FIXME
+//        textPane.setEditable(false);
+//        textPane.getCaret().setVisible(false);
+        textPane.setEditable(true);
+        textPane.getCaret().setVisible(true);
 //      final DefaultCaret caret = (DefaultCaret) text.getCaret();
 //      caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);  // LATER mime JRE 1.5
         textPane.setFocusable(true);
