@@ -88,6 +88,9 @@ public final class GuiHelper {
     /** Width of empty border. */
     private static final int DEFAULT_EMPTY_BORDER_PIXEL_Y = 10;
 
+    /** Width of text box for search text. */
+    private static final int SEARCH_TEXT_BOX_WIDTH = 500;
+
     /**
      * Hidden constructor.
      */
@@ -385,6 +388,15 @@ public final class GuiHelper {
             }
             totalWidth += column.getPreferredWidth();
         }
+    }
+
+    /**
+     * Width for text search box.
+     *
+     * @return  Width for text search box.
+     */
+    public static int getSearchTextBoxWidth() {
+        return SEARCH_TEXT_BOX_WIDTH;
     }
 
     public static JComponent addSpaceAndTitle(final JPanel panel, final String title) {

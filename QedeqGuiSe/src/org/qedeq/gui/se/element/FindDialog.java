@@ -48,6 +48,7 @@ import javax.swing.text.Segment;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.util.GuiHelper;
+import org.qedeq.kernel.se.common.LogicalModuleState;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -119,6 +120,8 @@ public class FindDialog extends JDialog {
         for (int i = 0; i < history.size(); i++) {
             searchText.addItem(history.get(i));
         }
+        searchText.setPreferredSize(new Dimension(GuiHelper.getSearchTextBoxWidth(),
+            searchText.getPreferredSize().height));
         searchText.setEditable(true);
 
         builder.append("Search text", searchText);
@@ -246,19 +249,22 @@ public class FindDialog extends JDialog {
         } catch (BadLocationException e) {
             data = text.getText();
         }
-        final String m = searchText.getSelectedItem().toString();
+        String m = searchText.getSelectedItem().toString();
         history.remove(m);
         history.add(0, m);
-//        MutableComboBoxModel model = (MutableComboBoxModel) searchText.getModel();
-//        model.removeElement(m);
-//        model.insertElementAt(m, model.getSize() - 1);
+        // consolidate combo box
         searchText.removeAllItems();
         for (int i = 0; i < history.size(); i++) {
             searchText.addItem(history.get(i));
         }
-        System.out.println("searching for " + m + " from " + start);
+        final boolean cs = caseSensitive.isSelected();
+        if (!cs) {
+            data = data.toLowerCase();
+            m = m.toLowerCase();
+        }
+        Trace.trace(CLASS, "findCaretPosition(int)", "searching for " + m + " from " + start);
         final int result =  data.indexOf(m, start);
-        System.out.println("result = " + result);
+        Trace.trace(CLASS, "findCaretPosition(int)", "result = " + result);
         return result;
     }
 }
