@@ -164,8 +164,6 @@ public class TextPaneWindow extends JFrame {
         final Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         int height = getHeight();
         int width = getWidth();
-        System.out.println("Screen height: " + screenSize.height);
-        System.out.println("Window height: " + height);
         if (screenSize.height - getHeight() < 50) {
             height = screenSize.height - 50;
         }
