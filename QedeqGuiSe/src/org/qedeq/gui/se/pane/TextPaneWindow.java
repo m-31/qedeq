@@ -217,11 +217,8 @@ public class TextPaneWindow extends JFrame {
         textPane.setDragEnabled(true);
         textPane.setAutoscrolls(true);
         textPane.setCaretPosition(0);
-// FIXME
-//        textPane.setEditable(false);
-//        textPane.getCaret().setVisible(false);
-        textPane.setEditable(true);
-        textPane.getCaret().setVisible(true);
+        textPane.setEditable(false);
+        textPane.getCaret().setVisible(false);
 //      final DefaultCaret caret = (DefaultCaret) text.getCaret();
 //      caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);  // LATER mime JRE 1.5
         textPane.setFocusable(true);
