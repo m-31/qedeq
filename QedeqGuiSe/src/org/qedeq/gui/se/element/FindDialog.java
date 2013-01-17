@@ -39,6 +39,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.MutableComboBoxModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
@@ -172,6 +173,7 @@ public class FindDialog extends JDialog {
             public void actionPerformed(final ActionEvent actionEvent) {
                 try {
 //                    text.getCaret().setVisible(true);
+
                     int pos1 = findCaretPosition(text.getCaretPosition());
                     if (pos1 < 0) {
                         pos1 = findCaretPosition(0);
@@ -245,6 +247,15 @@ public class FindDialog extends JDialog {
             data = text.getText();
         }
         final String m = searchText.getSelectedItem().toString();
+        history.remove(m);
+        history.add(0, m);
+//        MutableComboBoxModel model = (MutableComboBoxModel) searchText.getModel();
+//        model.removeElement(m);
+//        model.insertElementAt(m, model.getSize() - 1);
+        searchText.removeAllItems();
+        for (int i = 0; i < history.size(); i++) {
+            searchText.addItem(history.get(i));
+        }
         System.out.println("searching for " + m + " from " + start);
         final int result =  data.indexOf(m, start);
         System.out.println("result = " + result);
