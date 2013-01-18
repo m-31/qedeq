@@ -147,17 +147,15 @@ public final class VersionSet {
     public String toString() {
         final StringBuffer buffer = new StringBuffer(30);
         buffer.append("{");
-        if (set != null) {
-            Iterator e = set.iterator();
-            boolean notFirst = false;
-            while (e.hasNext()) {
-                if (notFirst) {
-                    buffer.append(", ");
-                } else {
-                    notFirst = true;
-                }
-                buffer.append(String.valueOf(e.next()));
+        Iterator e = set.iterator();
+        boolean notFirst = false;
+        while (e.hasNext()) {
+            if (notFirst) {
+                buffer.append(", ");
+            } else {
+                notFirst = true;
             }
+            buffer.append(String.valueOf(e.next()));
         }
         buffer.append("}");
         return buffer.toString();
