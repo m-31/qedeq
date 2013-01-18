@@ -25,7 +25,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -73,7 +72,7 @@ public final class SaxParser {
     private final SimpleHandler deflt;
 
     /** Saved errors of parsing. */
-    private DefaultSourceFileExceptionList exceptionList;
+    private SourceFileExceptionList exceptionList;
 
     /** Plugin we work for. */
     private Plugin plugin;
@@ -163,7 +162,7 @@ public final class SaxParser {
             throws SourceFileExceptionList {
         final String method = "parse(URL, boolean, InputStream)";
         InputStream stream = null;
-        exceptionList = new DefaultSourceFileExceptionList();
+        exceptionList = new SourceFileExceptionList();
         try {
             stream = new FileInputStream(in);
             final InputSource input = new InputSource(stream);
@@ -244,7 +243,7 @@ public final class SaxParser {
      *
      * @return  List with collected Exceptions.
      */
-    public DefaultSourceFileExceptionList getExceptionList() {
+    public SourceFileExceptionList getExceptionList() {
         return exceptionList;
     }
 

@@ -26,7 +26,7 @@ import javax.xml.parsers.SAXParserFactory;
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.se.base.list.Element;
-import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.xml.handler.common.SaxDefaultHandler;
 import org.qedeq.kernel.xml.handler.list.BasicHandler;
@@ -101,7 +101,7 @@ public final class BasicParser {
             throws IOException, SAXException {
         final String method = "parse(URL, boolean, InputStream)";
         BufferedReader dis = null;
-        DefaultSourceFileExceptionList exceptionList = new DefaultSourceFileExceptionList();;
+        SourceFileExceptionList exceptionList = new SourceFileExceptionList();;
         try {
             dis = new BufferedReader(in);
             final InputSource input = new InputSource(dis);

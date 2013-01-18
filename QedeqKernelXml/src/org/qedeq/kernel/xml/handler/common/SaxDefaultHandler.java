@@ -19,9 +19,9 @@ import java.util.Stack;
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -34,7 +34,7 @@ import org.xml.sax.SAXParseException;
  * which could also delegate events to other
  * {@link org.qedeq.kernel.xml.handler.common.AbstractSimpleHandler}s.
  * <p>
- * Before anything is parsed the method {@link #setExceptionList(DefaultSourceFileExceptionList)}
+ * Before anything is parsed the method {@link #setExceptionList(SourceFileExceptionList)}
  * must be called.
  *
  * @author  Michael Meyling
@@ -54,7 +54,7 @@ public class SaxDefaultHandler extends SimpleHandler {
     private AbstractSimpleHandler basisHandler;
 
     /** Collect errors in this object. */
-    private DefaultSourceFileExceptionList errorList;
+    private SourceFileExceptionList errorList;
 
     /** Buffer for combining character events. */
     private StringBuffer buffer = new StringBuffer(2000);
@@ -86,7 +86,7 @@ public class SaxDefaultHandler extends SimpleHandler {
      *
      * @param   errorList  Collect errors here.
      */
-    public void setExceptionList(final DefaultSourceFileExceptionList errorList) {
+    public void setExceptionList(final SourceFileExceptionList errorList) {
         this.errorList = errorList;
     }
 

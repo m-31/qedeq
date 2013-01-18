@@ -18,9 +18,9 @@ package org.qedeq.kernel.xml.parser;
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -46,7 +46,7 @@ public class SaxErrorHandler implements ErrorHandler {
     private final String url;
 
     /** Collects errors. */
-    private final DefaultSourceFileExceptionList list;
+    private final SourceFileExceptionList list;
 
     /**
      * Constructor.
@@ -56,7 +56,7 @@ public class SaxErrorHandler implements ErrorHandler {
      * @param   list    Collector for the SAX exceptions.
      */
     public SaxErrorHandler(final Plugin plugin, final String url,
-            final DefaultSourceFileExceptionList list) {
+            final SourceFileExceptionList list) {
         super();
         Trace.param(CLASS, this, "SaxErrorHandler", "url", url);
         this.plugin = plugin;
