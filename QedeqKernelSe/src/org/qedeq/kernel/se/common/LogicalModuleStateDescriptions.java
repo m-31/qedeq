@@ -38,7 +38,7 @@ public interface LogicalModuleStateDescriptions {
     public static final int STATE_CODE_EXTERNAL_CHECKING_FAILED = 2;
 
     /** Description for external check failure. */
-    public static final String STATE_STRING_EXTERNAL_CHECKING_FAILED = "import check failed";
+    public static final String STATE_STRING_EXTERNAL_CHECKING_FAILED = "checking imports failed";
 
     /** Code for internal checking phase. */
     public static final int STATE_CODE_INTERNAL_CHECKING = 3;
@@ -50,7 +50,7 @@ public interface LogicalModuleStateDescriptions {
     public static final int STATE_CODE_INTERNAL_CHECKING_FAILED = 4;
 
     /** Description for check failure. */
-    public static final String STATE_STRING_INTERNAL_CHECKING_FAILED = "wf check failed";
+    public static final String STATE_STRING_INTERNAL_CHECKING_FAILED = "wf checking failed";
 
     /** Code for successfully completely checked state. */
     public static final int STATE_CODE_COMPLETELY_CHECKED = 5;
