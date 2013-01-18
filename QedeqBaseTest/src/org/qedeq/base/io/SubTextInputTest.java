@@ -530,4 +530,18 @@ public class SubTextInputTest extends QedeqTestCase {
         assertEquals("Me", input.getAbsoluteSubstring(8, 10));
     }
 
+    public void testGetAbsoluteEnd() {
+        SubTextInput input = new SubTextInput(new SubTextInput("Michael Meyling and"), 8, 15);
+        assertEquals(15, input.getAbsoluteEnd());
+        input.readLetterDigitString();
+        assertEquals(15, input.getAbsoluteEnd());
+    }
+
+    public void testGetAbsoluteStart() {
+        SubTextInput input = new SubTextInput(new SubTextInput("Michael Meyling or"), 8, 15);
+        assertEquals(8, input.getAbsoluteStart());
+        input.readLetterDigitString();
+        assertEquals(8, input.getAbsoluteStart());
+    }
+
 }
