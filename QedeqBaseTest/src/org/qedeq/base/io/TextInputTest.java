@@ -285,6 +285,7 @@ public class TextInputTest extends QedeqTestCase {
         final TextInput ti = new TextInput(text);
         assertEquals("", ti.getSubstring(text.length(), text.length()));
         assertEquals("", ti.getSubstring(-1, -1));
+        assertEquals("", (new TextInput("")).getSubstring(-100, 100));
         assertEquals("", ti.getSubstring(0, 0));
         assertEquals("", ti.getSubstring(text.length(), 0));
         assertEquals("", ti.getSubstring(text.length(), text.length() + 1));
