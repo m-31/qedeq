@@ -23,15 +23,15 @@ import org.qedeq.base.test.QedeqTestCase;
  *
  * @author Michael Meyling
  */
-public class DefaultSourceFileExceptionListTest extends QedeqTestCase {
+public class SourceFileExceptionListTest extends QedeqTestCase {
 
-    private DefaultSourceFileExceptionList empty;
+    private SourceFileExceptionList empty;
 
-    private DefaultSourceFileExceptionList one;
+    private SourceFileExceptionList one;
 
-    private DefaultSourceFileExceptionList two;
+    private SourceFileExceptionList two;
 
-    private DefaultSourceFileExceptionList three;
+    private SourceFileExceptionList three;
 
     private final Plugin plugin = new Plugin(){
         public String getPluginDescription() {
@@ -47,23 +47,23 @@ public class DefaultSourceFileExceptionListTest extends QedeqTestCase {
         }
     };
 
-    public DefaultSourceFileExceptionListTest(){
+    public SourceFileExceptionListTest(){
         super();
     }
 
-    public DefaultSourceFileExceptionListTest(final String name){
+    public SourceFileExceptionListTest(final String name){
         super(name);
     }
 
     protected void setUp() throws Exception {
         super.setUp();
-        empty = new DefaultSourceFileExceptionList();
-        one = new DefaultSourceFileExceptionList(new SourceFileException(plugin, 4711,
+        empty = new SourceFileExceptionList();
+        one = new SourceFileExceptionList(new SourceFileException(plugin, 4711,
             "no big problem", new RuntimeException("something bad"), (SourceArea) null, (SourceArea) null));
-        two = new DefaultSourceFileExceptionList(one);
+        two = new SourceFileExceptionList(one);
         two.add(new SourceFileException(plugin, 815,
                 "no big problem", new RuntimeException("something else"), (SourceArea) null, (SourceArea) null));
-        three = new DefaultSourceFileExceptionList();
+        three = new SourceFileExceptionList();
         three.add(two);
         three.add(new SourceFileException(plugin, 17234,
                 "no big problem", new RuntimeException("something other"), (SourceArea) null, (SourceArea) null));
@@ -134,7 +134,7 @@ public class DefaultSourceFileExceptionListTest extends QedeqTestCase {
      * Test getCause.
      */
     public void testToString() throws Exception {
-        assertEquals(three.toString(), "org.qedeq.kernel.se.common.DefaultSourceFileExceptionList\n"
+        assertEquals(three.toString(), "org.qedeq.kernel.se.common.SourceFileExceptionList\n"
             + "0: \t4711: no big problem; something bad\n"
             + "1: \t815: no big problem; something else\n"
             + "2: \t17234: no big problem; something other");
