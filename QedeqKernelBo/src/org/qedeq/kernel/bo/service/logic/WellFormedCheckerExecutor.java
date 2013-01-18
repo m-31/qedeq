@@ -62,7 +62,6 @@ import org.qedeq.kernel.se.base.module.SubstFree;
 import org.qedeq.kernel.se.base.module.SubstFunc;
 import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.common.CheckLevel;
-import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.IllegalModuleDataException;
 import org.qedeq.kernel.se.common.LogicalModuleState;
 import org.qedeq.kernel.se.common.ModuleDataException;
@@ -160,7 +159,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
             return Boolean.FALSE;
         }
         getQedeqBo().setLogicalProgressState(LogicalModuleState.STATE_EXTERNAL_CHECKING);
-        final SourceFileExceptionList sfl = new DefaultSourceFileExceptionList();
+        final SourceFileExceptionList sfl = new SourceFileExceptionList();
         final Map rules = new HashMap(); // map RuleKey to KernelQedeqBo
         KernelModuleReferenceList list = (KernelModuleReferenceList) getQedeqBo().getRequiredModules();
         for (int i = 0; i < list.size(); i++) {
