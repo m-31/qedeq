@@ -15,7 +15,6 @@
 
 package org.qedeq.kernel.bo.module;
 
-import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 /**
@@ -26,17 +25,17 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
 public class PluginResults {
 
     /** Errors that occurred. */
-    private DefaultSourceFileExceptionList errors;
+    private SourceFileExceptionList errors;
 
     /** Warnings that occurred. */
-    private DefaultSourceFileExceptionList warnings;
+    private SourceFileExceptionList warnings;
 
     /**
      * Creates a new result container.
      */
     public PluginResults() {
-        errors = new DefaultSourceFileExceptionList();
-        warnings = new DefaultSourceFileExceptionList();
+        errors = new SourceFileExceptionList();
+        warnings = new SourceFileExceptionList();
     }
 
     /**
