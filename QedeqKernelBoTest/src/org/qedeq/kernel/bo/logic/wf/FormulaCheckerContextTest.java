@@ -39,7 +39,6 @@ import org.qedeq.kernel.bo.service.logic.WellFormedCheckerPlugin;
 import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
-import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.SourceFileException;
@@ -73,8 +72,8 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
     public void testNegative00() throws Exception {
         try {
             check(getFile("qedeq_error_sample_00.xml"));
-            fail("DefaultSourceFileExceptionList expected");
-        } catch (DefaultSourceFileExceptionList ex) {
+            fail("SourceFileExceptionList expected");
+        } catch (SourceFileExceptionList ex) {
             Trace.trace(CLASS, this, "testNegative00", ex);
             assertEquals(1, ex.size());
             final SourceFileException check = ex.get(0);
@@ -90,8 +89,8 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
     public void testNegative01() throws Exception {
         try {
             check(getFile("qedeq_error_sample_01.xml"));
-            fail("DefaultSourceFileExceptionList expected");
-        } catch (DefaultSourceFileExceptionList ex) {
+            fail("SourceFileExceptionList expected");
+        } catch (SourceFileExceptionList ex) {
             Trace.trace(CLASS, this, "testNegative01", ex);
             assertEquals(1, ex.size());
             final SourceFileException check = ex.get(0);
@@ -106,7 +105,7 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
     public void testNegative02() throws Exception {
         try {
             check(getFile("qedeq_error_sample_02.xml"));
-            fail("ModuleDataException expected");
+            fail("SourceFileExceptionList expected");
         } catch (SourceFileExceptionList sfl) {
             Trace.trace(CLASS, this, "testNegative02", sfl);
             final Exception e = (Exception) sfl.get(0).getCause();
@@ -122,7 +121,7 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
     public void testNegative03() throws Exception {
         try {
             check(getFile("qedeq_error_sample_03.xml"));
-            fail("ModuleDataException expected");
+            fail("SourceFileExceptionList expected");
         } catch (SourceFileExceptionList sfl) {
             Trace.trace(CLASS, this, "testNegative03", sfl);
             final Exception e = (Exception) sfl.get(0).getCause();
@@ -137,7 +136,7 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
     public void testNegative04() throws Exception {
         try {
             checkViaKernel(getFile("qedeq_error_sample_04.xml"));
-            fail("ModuleDataException expected");
+            fail("SourceFileExceptionList expected");
         } catch (SourceFileExceptionList sfl) {
             Trace.trace(CLASS, this, "testNegative04", sfl);
             final Exception e = (Exception) sfl.get(0).getCause();

@@ -24,11 +24,11 @@ import org.qedeq.kernel.bo.service.logic.ModuleConstantsExistenceCheckerImpl;
 import org.qedeq.kernel.bo.test.DummyInternalKernalServices;
 import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
-import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.DependencyState;
 import org.qedeq.kernel.se.common.LoadingState;
 import org.qedeq.kernel.se.common.QedeqException;
 import org.qedeq.kernel.se.common.SourceFileException;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.dto.module.QedeqVo;
 
 /**
@@ -55,7 +55,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         bo = new DefaultKernelQedeqBo(services, new DefaultModuleAddress("qedeq.org/test.xml"));
         assertFalse(bo.hasErrors());
         bo.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED,
-            new DefaultSourceFileExceptionList(new SourceFileException(DummyPlugin.getInstance(),
+            new SourceFileExceptionList(new SourceFileException(DummyPlugin.getInstance(),
                 new QedeqException(1, "myError") {}, null, null)));
         assertTrue(bo.hasErrors());
         ModuleLabels labels = new ModuleLabels();
@@ -66,7 +66,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         bo = new DefaultKernelQedeqBo(services, new DefaultModuleAddress("qedeq.org/test.xml"));
         bo.setLoaded(new QedeqVo(), labels, converter, textConverter);
         bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
-            new DefaultSourceFileExceptionList(new SourceFileException(DummyPlugin.getInstance(),
+            new SourceFileExceptionList(new SourceFileException(DummyPlugin.getInstance(),
                     new QedeqException(1, "myError") {}, null, null)));
         assertTrue(bo.hasErrors());
         bo.setLoadedRequiredModules(new KernelModuleReferenceList());
@@ -88,8 +88,8 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         } catch (NullPointerException e) {
             // expected
         }
-        final DefaultSourceFileExceptionList defaultSourceFileExceptionList
-            = new DefaultSourceFileExceptionList(new SourceFileException(DummyPlugin.getInstance(),
+        final SourceFileExceptionList defaultSourceFileExceptionList
+            = new SourceFileExceptionList(new SourceFileException(DummyPlugin.getInstance(),
                 new QedeqException(1, "myError") {}, null, null));
         try {
             bo.setLoadingFailureState(null,
@@ -227,8 +227,8 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         } catch (NullPointerException e) {
             // expected
         }
-        final DefaultSourceFileExceptionList defaultSourceFileExceptionList
-            = new DefaultSourceFileExceptionList(new SourceFileException(DummyPlugin.getInstance(),
+        final SourceFileExceptionList defaultSourceFileExceptionList
+            = new SourceFileExceptionList(new SourceFileException(DummyPlugin.getInstance(),
                 new QedeqException(1, "myError") {}, null, null));
         try {
             bo.setLoadingFailureState(null,

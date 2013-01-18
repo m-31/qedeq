@@ -33,7 +33,6 @@ import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
 import org.qedeq.kernel.bo.service.latex.QedeqBoDuplicateLanguageChecker;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
-import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
@@ -94,7 +93,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
         try {
             generate(getIndir(), "proof/proof_002.xml", getGenDir(), true, false);
         } catch (SourceFileExceptionList list) {
-            DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
+            SourceFileExceptionList ex = (SourceFileExceptionList) list;
             assertEquals(8, ex.size());
             SourceFileException e0 = ex.get(0);
             assertTrue(e0.getCause() instanceof ModuleDataException);
@@ -146,7 +145,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             generate(getIndir(), "qedeq_error_sample_12.xml", "de", new File(getGenDir(), "null"), false);
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
-            DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
+            SourceFileExceptionList ex = (SourceFileExceptionList) list;
             assertEquals(1, ex.size());
             SourceFileException e = ex.get(0);
             assertTrue(e.getCause() instanceof ModuleDataException);
@@ -161,7 +160,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             generate(getIndir(), "qedeq_error_sample_13.xml", "en", new File(getGenDir(), "null"), false);
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
-            DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
+            SourceFileExceptionList ex = (SourceFileExceptionList) list;
             assertEquals(1, ex.size());
             SourceFileException e = ex.get(0);
             assertTrue(e.getCause() instanceof SAXParseException);
@@ -178,7 +177,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             generate(getIndir(), "qedeq_error_sample_14.xml", "en", new File(getGenDir(), "null"), false);
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
-            DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
+            SourceFileExceptionList ex = (SourceFileExceptionList) list;
             assertEquals(7, ex.size());
             SourceFileException e = ex.get(0);
             assertTrue(e.getCause() instanceof SAXParseException);
@@ -237,7 +236,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             generate(getIndir(), "qedeq_error_sample_15.xml", "en", new File(getGenDir(), "null"), false);
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
-            DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
+            SourceFileExceptionList ex = (SourceFileExceptionList) list;
             assertEquals(1, ex.size());
             SourceFileException e = ex.get(0);
             assertTrue(e.getCause() instanceof LogicalCheckException);
@@ -252,7 +251,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             generate(getIndir(), "qedeq_error_sample_16.xml", "en", new File(getGenDir(), "null"), false);
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
-            DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
+            SourceFileExceptionList ex = (SourceFileExceptionList) list;
             assertEquals(1, ex.size());
             SourceFileException e = ex.get(0);
             assertTrue(e.getCause() instanceof LogicalCheckException);
@@ -267,7 +266,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             generate(getIndir(), "qedeq_error_sample_17.xml", "en", new File(getGenDir(), "null"), false);
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
-            DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
+            SourceFileExceptionList ex = (SourceFileExceptionList) list;
             assertEquals(1, ex.size());
             SourceFileException e = ex.get(0);
             assertTrue(e.getCause() instanceof LogicalCheckException);
@@ -282,7 +281,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             generate(getIndir(), "qedeq_error_sample_18.xml", "en", new File(getGenDir(), "null"), false);
             fail("SourceFileExceptionList expected");
         } catch (SourceFileExceptionList list) {
-            DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
+            SourceFileExceptionList ex = (SourceFileExceptionList) list;
             assertEquals(1, ex.size());
             SourceFileException e = ex.get(0);
             assertTrue(e.getCause() instanceof ModuleDataException);

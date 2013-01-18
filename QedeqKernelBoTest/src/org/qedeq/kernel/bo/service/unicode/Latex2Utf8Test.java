@@ -19,7 +19,6 @@ import org.qedeq.base.io.SourcePosition;
 import org.qedeq.kernel.bo.service.latex.LatexContentException;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
-import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
@@ -69,7 +68,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
                 
             }
         };
-        warnings = new DefaultSourceFileExceptionList();
+        warnings = new SourceFileExceptionList();
     }
 
     /**

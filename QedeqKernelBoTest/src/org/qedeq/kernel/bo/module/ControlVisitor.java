@@ -27,7 +27,6 @@ import org.qedeq.kernel.se.base.module.Node;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Rule;
-import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
@@ -60,10 +59,10 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
     private final QedeqNotNullTraverser traverser;
 
     /** List of Exceptions of type error during Module visit. */
-    private DefaultSourceFileExceptionList errorList;
+    private SourceFileExceptionList errorList;
 
     /** List of Exceptions of type warnings during Module visit. */
-    private DefaultSourceFileExceptionList warningList;
+    private SourceFileExceptionList warningList;
 
 
     /**
@@ -114,7 +113,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
     /**
      * Start traverse of QedeqBo. If during the traverse a {@link ModuleDataException}
      * occurs it is thrown till high level and transformed into a
-     * {@link DefaultSourceFileExceptionList}. Otherwise all collected exceptions
+     * {@link SourceFileExceptionList}. Otherwise all collected exceptions
      * (via {@link #addError(ModuleDataException)} and
      * {@link #addError(SourceFileException)}) are thrown.
      *
@@ -169,7 +168,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      */
     protected void addError(final SourceFileException sf) {
         if (errorList == null) {
-            errorList = new DefaultSourceFileExceptionList(sf);
+            errorList = new SourceFileExceptionList(sf);
         } else {
             errorList.add(sf);
         }
@@ -205,7 +204,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      */
     private void addWarning(final SourceFileException sf) {
         if (warningList == null) {
-            warningList = new DefaultSourceFileExceptionList(sf);
+            warningList = new SourceFileExceptionList(sf);
         } else {
             warningList.add(sf);
         }

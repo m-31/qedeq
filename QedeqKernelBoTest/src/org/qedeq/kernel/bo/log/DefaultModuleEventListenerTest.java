@@ -25,7 +25,6 @@ import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
-import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.DependencyState;
 import org.qedeq.kernel.se.common.LoadingState;
 import org.qedeq.kernel.se.common.LogicalModuleState;
@@ -96,7 +95,7 @@ public class DefaultModuleEventListenerTest extends QedeqBoTestCase {
             }
             
             public SourceFileExceptionList getWarnings() {
-                return new DefaultSourceFileExceptionList();
+                return new SourceFileExceptionList();
             }
             
             public String getUrl() {
@@ -148,7 +147,7 @@ public class DefaultModuleEventListenerTest extends QedeqBoTestCase {
             }
             
             public SourceFileExceptionList getErrors() {
-                return new DefaultSourceFileExceptionList();
+                return new SourceFileExceptionList();
             }
             
             public DependencyState getDependencyState() {
