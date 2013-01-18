@@ -42,6 +42,7 @@ public class KernelCommonTestSuite extends QedeqTestSuite {
         super();
         addTestSuite(DefaultModuleAddressTest.class);
         addTestSuite(DependencyStateTest.class);
+        addTestSuite(IllegalModuleDataExceptionTest.class);
         addTestSuite(SourceFileExceptionListTest.class);
         addTestSuite(LogicalModuleStateTest.class);
         addTestSuite(LoadingStateTest.class);
