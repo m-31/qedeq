@@ -15,10 +15,8 @@
 
 package org.qedeq.gui.se.element;
 
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -35,12 +33,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.MutableComboBoxModel;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
@@ -48,7 +41,6 @@ import javax.swing.text.Segment;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.util.GuiHelper;
-import org.qedeq.kernel.se.common.LogicalModuleState;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -65,7 +57,11 @@ public class FindDialog extends JDialog {
     /** This class. */
     private static final Class CLASS = FindDialog.class;
 
-    public final static List history = new ArrayList();
+    /** Number of previous search texts we remember. */
+    private static final int MAX_HISTORY_SIZE = 20;
+
+    /** Here we remember all previous search texts. */
+    public static final List HISTORY = new ArrayList();
 
     /** Search in this text field. */
     private JTextComponent text;
@@ -107,30 +103,38 @@ public class FindDialog extends JDialog {
      */
     private JComponent searchPanel() {
         FormLayout layout = new FormLayout(
-        "left:pref");    // columns
+//        "left:pref, fill:50dlu:grow");    // columns
+//        "fill:50dlu:grow");    // columns
+        "right:pref, 5dlu, fill:pref:grow");    // columns
 
         DefaultFormBuilder builder = new DefaultFormBuilder(layout);
         builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         builder.getPanel().setOpaque(false);
 
-        caseSensitive = new JCheckBox(" Case sensitive", false);
-        builder.append(caseSensitive);
-
         searchText = new JComboBox();
-        for (int i = 0; i < history.size(); i++) {
-            searchText.addItem(history.get(i));
+        for (int i = 0; i < HISTORY.size() && i < MAX_HISTORY_SIZE; i++) {
+            searchText.addItem(HISTORY.get(i));
         }
-        searchText.setPreferredSize(new Dimension(GuiHelper.getSearchTextBoxWidth(),
-            searchText.getPreferredSize().height));
+//        searchText.setPreferredSize(new Dimension(GuiHelper.getSearchTextBoxWidth(),
+//        searchText.getPreferredSize().height));
         searchText.setEditable(true);
 
-        builder.append("Search text", searchText);
+        builder.append("Search:", searchText);
+
+//      caseSensitive = new JCheckBox(" Case sensitive", false);
+        caseSensitive = new JCheckBox("", false);
+        builder.append(caseSensitive);
+        builder.append(new JLabel("Case sensitive"));
+
+
         return GuiHelper.addSpaceAndTitle(builder.getPanel(), "Find");
 
     }
 
     /**
      * Assembles the GUI components of the panel.
+     *
+     * @param   text    We search in this text component.
      */
     public final void setupView(final JTextComponent text) {
         this.text = text;
@@ -139,7 +143,7 @@ public class FindDialog extends JDialog {
 
         final JPanel allOptions = new JPanel();
         allOptions.setBorder(GuiHelper.getEmptyBorder());
-        allOptions.setLayout(new FlowLayout(FlowLayout.LEFT));
+        allOptions.setLayout(new BoxLayout(allOptions, BoxLayout.Y_AXIS));
         allOptions.add(searchPanel());
         allOptions.add(Box.createVerticalStrut(GuiHelper.getEmptyBorderPixelsY()));
 
@@ -179,13 +183,15 @@ public class FindDialog extends JDialog {
 
                     int pos1 = findCaretPosition(text.getCaretPosition());
                     if (pos1 < 0) {
+                        status.setText("Search from beginning");
                         pos1 = findCaretPosition(0);
                         if (pos1 < 0) {
-                            status.setText("String Not Found");
+                            status.setText("String not found");
                             return;
                         }
+                    } else {
+                        status.setText("");
                     }
-                    status.setText("");
                     final int pos2 = pos1 + searchText.getSelectedItem().toString().length();
 //                    JTextPane pane = (JTextPane) text;
 //                    pane.getDocument().
@@ -202,7 +208,6 @@ public class FindDialog extends JDialog {
         JButton close = new JButton("Close");
         close.addActionListener(new  ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
-                FindDialog.this.save();
                 FindDialog.this.dispose();
             }
         });
@@ -221,21 +226,6 @@ public class FindDialog extends JDialog {
         repaint();
     }
 
-    private JTextField createTextField(final String selectedText, final boolean editable) {
-        JTextField combo = new JTextField(selectedText);
-        combo.setEditable(editable);
-        return combo;
-    }
-
-    private Component wrapWithScrollPane(final Component c) {
-        return new JScrollPane(c,
-            ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
-            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-    }
-
-    void save() {
-    }
-
     private final int findCaretPosition(final int start) {
         final Document doc = text.getDocument();
         int nleft = doc.getLength();
@@ -250,12 +240,12 @@ public class FindDialog extends JDialog {
             data = text.getText();
         }
         String m = searchText.getSelectedItem().toString();
-        history.remove(m);
-        history.add(0, m);
+        HISTORY.remove(m);
+        HISTORY.add(0, m);
         // consolidate combo box
         searchText.removeAllItems();
-        for (int i = 0; i < history.size(); i++) {
-            searchText.addItem(history.get(i));
+        for (int i = 0; i < HISTORY.size(); i++) {
+            searchText.addItem(HISTORY.get(i));
         }
         final boolean cs = caseSensitive.isSelected();
         if (!cs) {
