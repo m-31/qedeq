@@ -20,6 +20,9 @@ import org.qedeq.base.utility.EqualsUtility;
 /**
  * Data validation error for a QEDEQ module. An error has always a reference to its
  * location. Maybe an additional reference for another location is provided.
+ * <br/>
+ * An error code, message and location should fix a certain data validation error, so only these
+ * informations are used for {@link #hashCode()} and {@link #equals(Object)}.
  *
  * @author  Michael Meyling
  */
@@ -117,8 +120,7 @@ public abstract class ModuleDataException extends QedeqException {
     }
 
     public final int hashCode() {
-        return getErrorCode() ^ context.hashCode() ^ getMessage().hashCode()
-            ^ (referenceContext != null ? referenceContext.hashCode() : 13);
+        return getErrorCode() ^ context.hashCode() ^ getMessage().hashCode();
     }
 
     public final boolean equals(final Object obj) {
@@ -128,8 +130,7 @@ public abstract class ModuleDataException extends QedeqException {
         final ModuleDataException other = (ModuleDataException) obj;
         return  (getErrorCode() == other.getErrorCode())
             && EqualsUtility.equals(getMessage(), other.getMessage())
-            && EqualsUtility.equals(context, other.context)
-            && EqualsUtility.equals(referenceContext, other.referenceContext);
+            && EqualsUtility.equals(context, other.context);
     }
 
 
