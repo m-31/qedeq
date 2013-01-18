@@ -82,14 +82,19 @@ public abstract class EachClassHasATestCase extends TestCase {
 //                    System.out.println(c + " " + finder.getLocationOf(c));
                     classesToTest.add(c);
                 }
+
+            
             }
         }
         final Set result = new TreeSet(ClassFinder.CLASS_COMPARATOR);
         final Iterator j = classesToTest.iterator();
         while (j.hasNext()) {
             Class c = (Class) j.next();
-            if (!testClasses.contains(c.getName() + "Test")) {
+            if (!testClasses.contains(c.getName() + "Test") && !c.getName().endsWith("TestCase")) {
+//                System.out.println("missing test for " + c.getName() + " mod: " +c.getModifiers());
                 result.add(c.getName());
+            } else {
+//                System.out.println("no need to test  " + c.getName() + " mod: " +c.getModifiers());
             }
         }
         if (!result.isEmpty()) {
