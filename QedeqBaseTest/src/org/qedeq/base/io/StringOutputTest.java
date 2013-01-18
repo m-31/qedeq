@@ -132,6 +132,13 @@ public class StringOutputTest extends QedeqTestCase {
 //        System.out.println(to.toString());
     }
 
+    public void testGetPosition() {
+        final AbstractOutput out = new StringOutput();
+        out.pushLevel();
+        out.print("James Bond");
+        assertEquals("  James Bond".length(), out.getPosition());
+    }
+
     public void testPushPop() throws Exception {
         final AbstractOutput out = new StringOutput();
         out.popLevel();
