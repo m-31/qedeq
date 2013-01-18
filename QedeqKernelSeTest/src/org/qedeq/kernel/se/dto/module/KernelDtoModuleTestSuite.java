@@ -48,6 +48,8 @@ public class KernelDtoModuleTestSuite extends QedeqTestSuite {
         addTestSuite(ChangedRuleListVoTest.class);
         addTestSuite(ChapterVoTest.class);
         addTestSuite(ChapterListVoTest.class);
+        addTestSuite(ConclusionVoTest.class);
+        addTestSuite(HypothesisVoTest.class);
         addTestSuite(InitialPredicateDefinitionVoTest.class);
         addTestSuite(PredicateDefinitionVoTest.class);
         addTestSuite(ExistentialVoTest.class);
