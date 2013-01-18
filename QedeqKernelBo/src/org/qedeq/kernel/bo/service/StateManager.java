@@ -24,7 +24,6 @@ import org.qedeq.kernel.bo.log.ModuleEventLog;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceChecker;
 import org.qedeq.kernel.bo.module.ModuleLabels;
-import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.DependencyState;
 import org.qedeq.kernel.se.common.LoadingState;
 import org.qedeq.kernel.se.common.LogicalModuleState;
@@ -644,7 +643,7 @@ public class StateManager {
      * @return  Errors. Is a newly created list.
      */
     public SourceFileExceptionList getErrors() {
-        final DefaultSourceFileExceptionList result = new DefaultSourceFileExceptionList(errors);
+        final SourceFileExceptionList result = new SourceFileExceptionList(errors);
         result.add(pluginResults.getAllErrors());
         return result;
     }
@@ -655,7 +654,7 @@ public class StateManager {
      * @return  Warnings. Is a newly created list.
      */
     public SourceFileExceptionList getWarnings() {
-        final DefaultSourceFileExceptionList result = new DefaultSourceFileExceptionList();
+        final SourceFileExceptionList result = new SourceFileExceptionList();
         result.add(pluginResults.getAllWarnings());
         return result;
     }

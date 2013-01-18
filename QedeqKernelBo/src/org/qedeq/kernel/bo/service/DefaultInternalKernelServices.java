@@ -49,7 +49,6 @@ import org.qedeq.kernel.bo.service.logic.WellFormedCheckerPlugin;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
-import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.LoadingState;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleDataException;
@@ -848,19 +847,19 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
 
     public SourceFileExceptionList createSourceFileExceptionList(final int code,
             final String message, final String address, final IOException e) {
-        return new DefaultSourceFileExceptionList(new SourceFileException(this,
+        return new SourceFileExceptionList(new SourceFileException(this,
             code, message, e, new SourceArea(address), null));
     }
 
     public SourceFileExceptionList createSourceFileExceptionList(final int code,
             final String message, final String address, final RuntimeException e) {
-        return new DefaultSourceFileExceptionList(new SourceFileException(this,
+        return new SourceFileExceptionList(new SourceFileException(this,
             code, message, e, new SourceArea(address), null));
     }
 
     public SourceFileExceptionList createSourceFileExceptionList(final int code,
             final String message, final String address, final Exception e) {
-        return new DefaultSourceFileExceptionList(new SourceFileException(this,
+        return new SourceFileExceptionList(new SourceFileException(this,
             code, message, e, new SourceArea(address), null));
     }
 

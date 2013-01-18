@@ -21,7 +21,6 @@ import java.util.Map;
 
 import org.qedeq.kernel.bo.module.PluginBo;
 import org.qedeq.kernel.bo.module.PluginResults;
-import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
@@ -93,7 +92,7 @@ public class PluginResultManager {
      * @return  Error list.
      */
     public SourceFileExceptionList getAllErrors() {
-        final DefaultSourceFileExceptionList errors = new DefaultSourceFileExceptionList();
+        final SourceFileExceptionList errors = new SourceFileExceptionList();
         Iterator iterator = plugins.keySet().iterator();
         while (iterator.hasNext()) {
             errors.add(((PluginResults) plugins.get(iterator.next())).getErrors());
@@ -107,7 +106,7 @@ public class PluginResultManager {
      * @return  Warnings list.
      */
     public SourceFileExceptionList getAllWarnings() {
-        final DefaultSourceFileExceptionList warnings = new DefaultSourceFileExceptionList();
+        final SourceFileExceptionList warnings = new SourceFileExceptionList();
         Iterator iterator = plugins.keySet().iterator();
         while (iterator.hasNext()) {
             warnings.add(((PluginResults) plugins.get(iterator.next())).getWarnings());

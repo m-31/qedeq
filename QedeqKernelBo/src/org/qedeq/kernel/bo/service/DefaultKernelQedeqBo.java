@@ -34,7 +34,6 @@ import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.base.module.Qedeq;
-import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.DependencyState;
 import org.qedeq.kernel.se.common.LoadingState;
 import org.qedeq.kernel.se.common.LogicalModuleState;
@@ -377,7 +376,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         }
         final SourceFileException e = new SourceFileException(plugin, exception,
             createSourceArea(qedeq, exception.getContext()), referenceArea);
-        final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(e);
+        final SourceFileExceptionList list = new SourceFileExceptionList(e);
         return list;
     }
 
@@ -395,7 +394,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         final SourceFileException e = new SourceFileException(plugin, exception,
             createSourceArea(qedeq, exception.getContext()), createSourceArea(qedeq,
                 exception.getReferenceContext()));
-        final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(e);
+        final SourceFileExceptionList list = new SourceFileExceptionList(e);
         return list;
     }
 

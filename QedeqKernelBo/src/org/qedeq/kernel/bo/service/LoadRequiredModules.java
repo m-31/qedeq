@@ -20,7 +20,6 @@ import java.util.Map;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
-import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.DependencyState;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
@@ -111,7 +110,7 @@ public final class LoadRequiredModules {
                         required.getModuleContext(i));
                     final SourceFileException sf = prop.createSourceFileException(plugin, me);
                     if (sfl == null) {
-                        sfl = new DefaultSourceFileExceptionList(sf);
+                        sfl = new SourceFileExceptionList(sf);
                     } else {
                         sfl.add(sf);
                     }
@@ -126,7 +125,7 @@ public final class LoadRequiredModules {
                     required.getModuleContext(i));
                     final SourceFileException sf = prop.createSourceFileException(plugin, me);
                     if (sfl == null) {
-                        sfl = new DefaultSourceFileExceptionList(sf);
+                        sfl = new SourceFileExceptionList(sf);
                     } else {
                         sfl.add(sf);
                     }
