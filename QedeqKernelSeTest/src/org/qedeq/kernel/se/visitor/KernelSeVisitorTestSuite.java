@@ -25,7 +25,7 @@ import org.qedeq.kernel.se.visitor.QedeqNotNullTraverserTest;
  *
  * @author  Michael Meyling
  */
-public class KernelVisitorTestSuite extends QedeqTestSuite {
+public class KernelSeVisitorTestSuite extends QedeqTestSuite {
 
     /**
      * Get a new <code>KernelVoModuleTestSuite</code>.
@@ -33,13 +33,13 @@ public class KernelVisitorTestSuite extends QedeqTestSuite {
      * @return  Test.
      */
     public static Test suite() {
-        return new KernelVisitorTestSuite();
+        return new KernelSeVisitorTestSuite();
     }
 
     /**
      * Constructor.
      */
-    public KernelVisitorTestSuite() {
+    public KernelSeVisitorTestSuite() {
         super();
         addTestSuite(QedeqNotNullTraverserTest.class);
         addTestSuite(QedeqNumbersTest.class);

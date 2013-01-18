@@ -18,9 +18,9 @@ package org.qedeq.kernel.se.test;
 import junit.framework.Test;
 
 import org.qedeq.base.test.QedeqTestSuite;
-import org.qedeq.kernel.se.common.KernelCommonTestSuite;
+import org.qedeq.kernel.se.common.KernelSeCommonTestSuite;
 import org.qedeq.kernel.se.dto.module.KernelDtoModuleTestSuite;
-import org.qedeq.kernel.se.visitor.KernelVisitorTestSuite;
+import org.qedeq.kernel.se.visitor.KernelSeVisitorTestSuite;
 
 /**
  * Run all tests for the project.
@@ -54,8 +54,8 @@ public class KernelSeTestSuite extends QedeqTestSuite {
     public KernelSeTestSuite(final boolean withTest, final boolean withPest) {
         super(withTest, withPest);
         addTest(KernelDtoModuleTestSuite.suite());
-        addTest(KernelCommonTestSuite.suite());
-        addTest(KernelVisitorTestSuite.suite());
+        addTest(KernelSeCommonTestSuite.suite());
+        addTest(KernelSeVisitorTestSuite.suite());
 
         // test if all classes have tests
         addTestSuite(KernelSeEachClassHasATest.class);

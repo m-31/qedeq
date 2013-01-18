@@ -24,7 +24,7 @@ import org.qedeq.base.test.QedeqTestSuite;
  *
  * @author  Michael Meyling
  */
-public class KernelCommonTestSuite extends QedeqTestSuite {
+public class KernelSeCommonTestSuite extends QedeqTestSuite {
 
     /**
      * Get a new <code>KernelVoModuleTestSuite</code>.
@@ -32,13 +32,13 @@ public class KernelCommonTestSuite extends QedeqTestSuite {
      * @return  Test.
      */
     public static Test suite() {
-        return new KernelCommonTestSuite();
+        return new KernelSeCommonTestSuite();
     }
 
     /**
      * Constructor.
      */
-    public KernelCommonTestSuite() {
+    public KernelSeCommonTestSuite() {
         super();
         addTestSuite(DefaultModuleAddressTest.class);
         addTestSuite(DependencyStateTest.class);
