@@ -31,6 +31,7 @@ public class ModuleDataExceptionTest extends QedeqTestCase {
     private ModuleDataException ex5;
     private ModuleDataException ex6;
     private ModuleDataException ex7;
+    private ModuleDataException ex8;
 
     public ModuleDataExceptionTest(){
         super();
@@ -59,6 +60,9 @@ public class ModuleDataExceptionTest extends QedeqTestCase {
             new DefaultModuleAddress())) {};
         this.ex7 = new ModuleDataException(107, "I am a bug!", new ModuleContext(
             new DefaultModuleAddress(true, "bee"))) {};
+        this.ex8 = new ModuleDataException(107, "I am a bug!", new ModuleContext(
+            new DefaultModuleAddress(true, "bee")), new ModuleContext(
+                new DefaultModuleAddress(true, "fly"))) {};
     }
  
     /**
@@ -87,6 +91,27 @@ public class ModuleDataExceptionTest extends QedeqTestCase {
         assertEquals("I am the next reason.", ex4.getCause().getMessage());
         assertEquals(new ModuleContext(new DefaultModuleAddress(true, "bee")),
             ex4.getReferenceContext());
+        assertNull(ex8.getCause());
+        assertEquals(new ModuleContext(new DefaultModuleAddress(true, "fly")),
+            ex8.getReferenceContext());
+        assertEquals(new ModuleContext(new DefaultModuleAddress(true, "bee")),
+            ex8.getContext());
+        ModuleDataException e1 = new ModuleDataException(107, "I am a bug!",null, new ModuleContext(new DefaultModuleAddress(true, "bee")),
+            new RuntimeException("I am the reason.")) {};
+        assertNull(e1.getContext());
+        ModuleDataException e2 = new ModuleDataException(107, "I am a bug!", new ModuleContext(
+            new DefaultModuleAddress()), null,
+            new RuntimeException("I am the reason.")) {};
+        assertNull(e2.getReferenceContext());
+        ModuleDataException e3 = new ModuleDataException(107, "I am a bug!", null, 
+                new ModuleContext(new DefaultModuleAddress(true, "bee"))) {};
+        assertNull(e3.getContext());
+        ModuleDataException e4 = new ModuleDataException(107, "I am a bug!", new ModuleContext(
+            new DefaultModuleAddress()), (ModuleContext) null) {};
+        assertNull(e4.getReferenceContext());
+        ModuleDataException e5 = new ModuleDataException(107, "I am a bug!", null) {};
+        assertNull(e5.getContext());
+        assertNull(e5.getReferenceContext());
     }
 
     /**

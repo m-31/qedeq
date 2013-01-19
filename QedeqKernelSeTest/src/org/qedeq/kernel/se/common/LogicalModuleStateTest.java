@@ -50,6 +50,15 @@ public class LogicalModuleStateTest extends QedeqTestCase {
         assertEquals("well formed", LogicalModuleState.STATE_CHECKED.getText());
     }
 
+    public void testToString() {
+        assertEquals("unchecked", LogicalModuleState.STATE_UNCHECKED.toString());
+        assertEquals("checking imports", LogicalModuleState.STATE_EXTERNAL_CHECKING.toString());
+        assertEquals("checking imports failed", LogicalModuleState.STATE_EXTERNAL_CHECKING_FAILED.toString());
+        assertEquals("wf checking", LogicalModuleState.STATE_INTERNAL_CHECKING.toString());
+        assertEquals("wf checking failed", LogicalModuleState.STATE_INTERNAL_CHECKING_FAILED.toString());
+        assertEquals("well formed", LogicalModuleState.STATE_CHECKED.toString());
+    }
+
     public void testIsFailure() {
         assertFalse(LogicalModuleState.STATE_UNCHECKED.isFailure());
         assertFalse(LogicalModuleState.STATE_EXTERNAL_CHECKING.isFailure());
@@ -63,6 +72,8 @@ public class LogicalModuleStateTest extends QedeqTestCase {
         assertEquals(LogicalModuleState.STATE_CHECKED, LogicalModuleState.STATE_CHECKED);
         assertFalse(LogicalModuleState.STATE_CHECKED.equals(
             LogicalModuleState.STATE_INTERNAL_CHECKING_FAILED));
+        assertFalse(LogicalModuleState.STATE_CHECKED.equals(
+            LogicalModuleState.STATE_CHECKED.toString()));
     }
 
     public void testHashCode() {

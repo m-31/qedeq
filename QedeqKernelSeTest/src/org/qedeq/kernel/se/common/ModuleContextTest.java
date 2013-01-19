@@ -72,6 +72,42 @@ public class ModuleContextTest extends QedeqTestCase {
         assertEquals(con51, con5);
         con5.setLocationWithinModule("another location");
         assertFalse(con51.equals(con5));
+        try {
+            new ModuleContext((ModuleAddress) null);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        try {
+            new ModuleContext((ModuleContext) null);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        try {
+            new ModuleContext((ModuleContext) null, null);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        try {
+            new ModuleContext((ModuleAddress) null, null);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        try {
+            new ModuleContext(this.con1, null);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        try {
+            new ModuleContext(this.con1.getModuleLocation(), null);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
     }
 
     /**

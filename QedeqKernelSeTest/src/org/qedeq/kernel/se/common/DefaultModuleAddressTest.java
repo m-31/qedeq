@@ -61,7 +61,7 @@ public class DefaultModuleAddressTest extends QedeqTestCase {
         assertEquals("", dflt.getPath());
         assertEquals("memory://default", dflt.getUrl());
         assertEquals(false, dflt.isFileAddress());
-        assertEquals(true, dflt.isRelativeAddress());
+        assertEquals(false, dflt.isRelativeAddress());
         assertEquals(dflt, dflt.createModuleContext().getModuleLocation());
         dflt = new DefaultModuleAddress(true, "uzsdaf234");
         assertEquals("uzsdaf234", dflt.getFileName());
@@ -70,7 +70,7 @@ public class DefaultModuleAddressTest extends QedeqTestCase {
         assertEquals("", dflt.getPath());
         assertEquals("memory://uzsdaf234", dflt.getUrl());
         assertEquals(false, dflt.isFileAddress());
-        assertEquals(true, dflt.isRelativeAddress());
+        assertEquals(false, dflt.isRelativeAddress());
         assertEquals(dflt, dflt.createModuleContext().getModuleLocation());
         dflt = new DefaultModuleAddress("hulouo.xml");
         assertEquals("hulouo.xml", dflt.getFileName());
@@ -125,6 +125,19 @@ public class DefaultModuleAddressTest extends QedeqTestCase {
         assertEquals(false, dflt.isFileAddress());
         assertEquals(false, dflt.isRelativeAddress());
         assertEquals(dflt, dflt.createModuleContext().getModuleLocation());
+        dflt = new DefaultModuleAddress(true, "i am only a memory");
+        assertFalse(dflt.isFileAddress());
+        assertFalse(dflt.isRelativeAddress());
+        try {
+            new DefaultModuleAddress(false, "i am only a memory");
+            fail("Exception expected");
+        } catch (Exception e) {
+        }
+        try {
+            new DefaultModuleAddress(true, null);
+            fail("Exception expected");
+        } catch (Exception e) {
+        }
     }
 
     /**
@@ -186,7 +199,15 @@ public class DefaultModuleAddressTest extends QedeqTestCase {
         final DefaultModuleAddress second = new DefaultModuleAddress(url);
         assertEquals(dflt, second);
         final DefaultModuleAddress third = new DefaultModuleAddress("ftp://asmith@ftp.example.org/xy/hulouo.xml");
-        assertTrue(!EqualsUtility.equals(dflt, third));
+        assertFalse(EqualsUtility.equals(dflt, third));
+        assertFalse(EqualsUtility.equals(url, dflt));
+        assertFalse(dflt.equals(null));
+    }
+
+    public void testToString() throws Exception {
+        final String url = "ftp://asmith@ftp.example.org/xx/hulouo.xml";
+        dflt = new DefaultModuleAddress(url);
+        assertEquals(url, dflt.toString());
     }
 
     public void testGetModulePaths1() throws Exception {
@@ -253,7 +274,7 @@ public class DefaultModuleAddressTest extends QedeqTestCase {
         assertEquals("http://gu/hi/ho.xml", DefaultModuleAddress.createRelativeAddress("http://go/hi/tic.xml", "http://gu/hi/ho.xml"));
         assertEquals("../ho.xml", DefaultModuleAddress.createRelativeAddress("http://go/hi/tic.xml", "http://go/ho.xml"));
         assertEquals("/../now/hulouo.xml", (new Path("/../now/hulouo.xml")).toString());
-        
+        assertEquals("", DefaultModuleAddress.createRelativeAddress("http://hi/ti", "http://hi/ti"));
     }
 
     public void testCreateRelativeAddress2() {

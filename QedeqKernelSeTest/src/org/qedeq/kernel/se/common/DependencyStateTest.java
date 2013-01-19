@@ -46,6 +46,13 @@ public class DependencyStateTest extends QedeqTestCase {
         assertEquals("loaded required modules", DependencyState.STATE_LOADED_REQUIRED_MODULES.getText());
     }
 
+    public void testToString() {
+        assertEquals("undefined", DependencyState.STATE_UNDEFINED.toString());
+        assertEquals("loading required modules", DependencyState.STATE_LOADING_REQUIRED_MODULES.toString());
+        assertEquals("loading required modules failed", DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED.toString());
+        assertEquals("loaded required modules", DependencyState.STATE_LOADED_REQUIRED_MODULES.toString());
+    }
+
     public void testIsFailure() {
         assertFalse(DependencyState.STATE_UNDEFINED.isFailure());
         assertFalse(DependencyState.STATE_LOADING_REQUIRED_MODULES.isFailure());

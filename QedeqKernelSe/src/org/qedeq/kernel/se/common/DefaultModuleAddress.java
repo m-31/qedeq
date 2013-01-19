@@ -110,11 +110,14 @@ public class DefaultModuleAddress implements ModuleAddress {
      *                    refactor code and create extra memory module address class!
      *
      * @param   memory      Must be true. If not a runtime exception occurs.
-     * @param   identifier  Identifies the module in memory.
+     * @param   identifier  Identifies the module in memory. Must not be <code>null</code>.
      */
     public DefaultModuleAddress(final boolean memory, final String identifier) {
         if (!memory) {
             throw new IllegalArgumentException("memory must be true");
+        }
+        if (identifier == null) {
+            throw new NullPointerException();
         }
         url = "memory://" + identifier;
         name = identifier;
@@ -122,7 +125,7 @@ public class DefaultModuleAddress implements ModuleAddress {
         fileName = identifier;
         header = "memory:";
         path = "";
-        relativeAddress = true;
+        relativeAddress = false;
     }
 
     /**
@@ -278,7 +281,7 @@ public class DefaultModuleAddress implements ModuleAddress {
     }
 
     public final boolean equals(final Object object) {
-        if (object == null || !(object instanceof DefaultModuleAddress)) {
+        if (!(object instanceof DefaultModuleAddress)) {
             return false;
         }
         return url.equals(((DefaultModuleAddress) object).url);

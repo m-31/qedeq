@@ -62,6 +62,21 @@ public class LoadingStateTest extends QedeqTestCase {
         assertEquals("loaded", LoadingState.STATE_LOADED.getText());
     }
 
+    public void testToString() {
+        assertEquals("undefined", LoadingState.STATE_UNDEFINED.toString());
+        assertEquals("locating within web", LoadingState.STATE_LOCATING_WITHIN_WEB.toString());
+        assertEquals("locating within web failed", LoadingState.STATE_LOCATING_WITHIN_WEB_FAILED.toString());
+        assertEquals("loading from web", LoadingState.STATE_LOADING_FROM_WEB.toString());
+        assertEquals("loading from web failed", LoadingState.STATE_LOADING_FROM_WEB_FAILED.toString());
+        assertEquals("loading from local buffer", LoadingState.STATE_LOADING_FROM_BUFFER.toString());
+        assertEquals("loading from local buffer failed", LoadingState.STATE_LOADING_FROM_BUFFER_FAILED.toString());
+        assertEquals("loading from local file", LoadingState.STATE_LOADING_FROM_LOCAL_FILE.toString());
+        assertEquals("loading from local file failed", LoadingState.STATE_LOADING_FROM_LOCAL_FILE_FAILED.toString());
+        assertEquals("loading into memory", LoadingState.STATE_LOADING_INTO_MEMORY.toString());
+        assertEquals("loading into memory failed", LoadingState.STATE_LOADING_INTO_MEMORY_FAILED.toString());
+        assertEquals("loaded", LoadingState.STATE_LOADED.toString());
+    }
+
     public void testIsFailure() {
         assertFalse(LoadingState.STATE_UNDEFINED.isFailure());
         assertFalse(LoadingState.STATE_LOCATING_WITHIN_WEB.isFailure());
@@ -79,6 +94,8 @@ public class LoadingStateTest extends QedeqTestCase {
 
     public void testEquals() {
         assertEquals(LoadingState.STATE_UNDEFINED, LoadingState.STATE_UNDEFINED);
+        assertFalse(LoadingState.STATE_UNDEFINED.equals(LoadingState.STATE_LOADING_INTO_MEMORY));
+        assertFalse(LoadingState.STATE_LOADED.equals(LoadingState.STATE_LOADED.toString()));
     }
 
     public void testHashCode() {

@@ -31,6 +31,7 @@ public class IllegalModuleDataExceptionTest extends QedeqTestCase {
     private IllegalModuleDataException ex5;
     private IllegalModuleDataException ex6;
     private IllegalModuleDataException ex7;
+    private IllegalModuleDataException ex8;
 
     public IllegalModuleDataExceptionTest(){
         super();
@@ -59,6 +60,9 @@ public class IllegalModuleDataExceptionTest extends QedeqTestCase {
             new DefaultModuleAddress()));
         this.ex7 = new IllegalModuleDataException(107, "I am a bug!", new ModuleContext(
             new DefaultModuleAddress(true, "bee")));
+        this.ex8 = new IllegalModuleDataException(107, "I am a bug!", new ModuleContext(
+            new DefaultModuleAddress(true, "bee")), new ModuleContext(
+                new DefaultModuleAddress(true, "fly")));
     }
  
     /**
@@ -87,6 +91,11 @@ public class IllegalModuleDataExceptionTest extends QedeqTestCase {
         assertEquals("I am the next reason.", ex4.getCause().getMessage());
         assertEquals(new ModuleContext(new DefaultModuleAddress(true, "bee")),
             ex4.getReferenceContext());
+        assertNull(ex8.getCause());
+        assertEquals(new ModuleContext(new DefaultModuleAddress(true, "fly")),
+            ex8.getReferenceContext());
+        assertEquals(new ModuleContext(new DefaultModuleAddress(true, "bee")),
+            ex8.getContext());
     }
 
     /**
