@@ -32,6 +32,7 @@ public class ModuleContextTest extends QedeqTestCase {
     private ModuleContext con5;
     private ModuleContext con6;
     private ModuleContext con10;
+    private ModuleContext con11;
 
     public ModuleContextTest(){
         super();
@@ -52,6 +53,7 @@ public class ModuleContextTest extends QedeqTestCase {
         this.con10 = new ModuleContext(DefaultModuleAddress.MEMORY, "",
             new SourcePosition(1, 1),
             new SourcePosition(1, 2));
+        this.con11 = new ModuleContext(con10, "anotherLocation");
     }
  
     /**
@@ -68,6 +70,7 @@ public class ModuleContextTest extends QedeqTestCase {
         assertEquals("location!location!", con4.getLocationWithinModule());
         assertEquals(con1, new ModuleContext(con1));
         assertEquals(con6, new ModuleContext(con6));
+        assertEquals("anotherLocation", con11.getLocationWithinModule());
         ModuleContext con51 = new ModuleContext(con5);
         assertEquals(con51, con5);
         con5.setLocationWithinModule("another location");
