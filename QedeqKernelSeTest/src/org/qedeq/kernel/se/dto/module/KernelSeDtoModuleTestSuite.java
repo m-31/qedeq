@@ -24,7 +24,7 @@ import org.qedeq.base.test.QedeqTestSuite;
  *
  * @author    Michael Meyling
  */
-public class KernelDtoModuleTestSuite extends QedeqTestSuite {
+public class KernelSeDtoModuleTestSuite extends QedeqTestSuite {
 
     /**
      * Get a new <code>KernelVoModuleTestSuite</code>.
@@ -32,13 +32,13 @@ public class KernelDtoModuleTestSuite extends QedeqTestSuite {
      * @return  Test.
      */
     public static Test suite() {
-        return new KernelDtoModuleTestSuite();
+        return new KernelSeDtoModuleTestSuite();
     }
 
     /**
      * Constructor.
      */
-    public KernelDtoModuleTestSuite() {
+    public KernelSeDtoModuleTestSuite() {
         super();
         addTestSuite(AddVoTest.class);
         addTestSuite(AuthorListVoTest.class);
