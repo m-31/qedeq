@@ -80,7 +80,7 @@ public class SourceFileExceptionListTest extends QedeqTestCase {
     /**
      * Test size.
      */
-    public void testSize() throws Exception {
+    public void testSize() {
         assertEquals(0, empty.size());
         assertEquals(1, one.size());
         assertEquals(2, two.size());
@@ -88,9 +88,45 @@ public class SourceFileExceptionListTest extends QedeqTestCase {
     }
 
     /**
+     * Test equals.
+     */
+    public void testEquals() {
+        assertEquals(empty, empty);
+        assertEquals(one, one);
+        assertEquals(two, two);
+        assertEquals(three, three);
+        assertFalse(empty.equals(null));
+        assertFalse(empty.equals(empty.toString()));
+        assertFalse(empty.equals(one));
+        assertFalse(empty.equals(two));
+        assertFalse(empty.equals(three));
+        assertFalse(one.equals(null));
+        assertFalse(one.equals(one.toString()));
+        assertFalse(one.equals(empty));
+        assertFalse(one.equals(two));
+        assertFalse(one.equals(three));
+        assertFalse(two.equals(null));
+        assertFalse(two.equals(two.toString()));
+        assertFalse(two.equals(one));
+        assertFalse(two.equals(empty));
+        assertFalse(two.equals(three));
+        assertFalse(three.equals(null));
+        assertFalse(three.equals(three.toString()));
+        assertFalse(three.equals(one));
+        assertFalse(three.equals(empty));
+        assertFalse(three.equals(one));
+    }
+
+    public void testHashCode() {
+        assertFalse(empty.hashCode() == one.hashCode());
+        assertFalse(one.hashCode() == two.hashCode());
+        assertFalse(two.hashCode() == three.hashCode());
+    }
+
+    /**
      * Test get.
      */
-    public void testGet() throws Exception {
+    public void testGet() {
         try {
             empty.get(0);
             fail("wrong index exception expected");
@@ -120,7 +156,7 @@ public class SourceFileExceptionListTest extends QedeqTestCase {
     /**
      * Test getCause.
      */
-    public void testGetCause() throws Exception {
+    public void testGetCause() {
         assertTrue(one.getCause() instanceof SourceFileException);
         SourceFileException e = (SourceFileException) one.getCause();
         assertEquals(4711, e.getErrorCode());
@@ -133,7 +169,7 @@ public class SourceFileExceptionListTest extends QedeqTestCase {
     /**
      * Test getCause.
      */
-    public void testToString() throws Exception {
+    public void testToString() {
         assertEquals(three.toString(), "org.qedeq.kernel.se.common.SourceFileExceptionList\n"
             + "0: \t4711: no big problem; something bad\n"
             + "1: \t815: no big problem; something else\n"
