@@ -183,5 +183,15 @@ public class ModuleContextTest extends QedeqTestCase {
         assertFalse(con5.equals(con6));
     }
 
+    public void testToString() {
+        assertEquals("memory://default::null:null", con1.toString());
+        assertEquals("memory://bee::null:null", con2.toString());
+        assertEquals("memory://default:location!location!:null:null", con3.toString());
+        assertEquals("memory://bee:location!location!:null:null", con4.toString());
+        assertEquals("memory://default::null:null", con5.toString());
+        assertEquals("memory://bee:location!location:null:null", con6.toString());
+        assertEquals("memory://default::1:1:1:2", con10.toString());
+        assertEquals("memory://default:anotherLocation:null:null", con11.toString());
+    }
 
 }
