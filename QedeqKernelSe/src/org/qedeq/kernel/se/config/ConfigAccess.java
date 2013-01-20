@@ -118,7 +118,9 @@ final class ConfigAccess {
     public final void store() throws IOException {
         OutputStream out = null;
         try {
-            out = new FileOutputStream(getConfigFile());
+            final File file = getConfigFile();
+            IoUtility.createNecessaryDirectories(file);
+            out = new FileOutputStream(file);
             getProperties().store(out, getConfigDescription());
         } finally {
             if (out != null) {
