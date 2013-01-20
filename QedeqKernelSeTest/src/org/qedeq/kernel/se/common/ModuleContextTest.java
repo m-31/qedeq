@@ -160,6 +160,12 @@ public class ModuleContextTest extends QedeqTestCase {
         assertEquals(con5, con5);
         assertEquals(con6, con6);
         assertEquals(con10, con10);
+        assertFalse(con1.equals(null));
+        assertFalse(con1.equals(con1.toString()));
+        assertFalse(con2.equals(null));
+        assertFalse(con2.equals(con2.toString()));
+        assertFalse(con11.equals(null));
+        assertFalse(con11.equals(con11.toString()));
         assertFalse(con1.equals(con2));
         assertFalse(con1.equals(con3));
         assertFalse(con1.equals(con4));
