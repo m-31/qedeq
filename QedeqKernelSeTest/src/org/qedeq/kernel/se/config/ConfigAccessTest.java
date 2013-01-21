@@ -61,8 +61,11 @@ public class ConfigAccessTest extends QedeqTestCase {
         try {
             final String sep = System.getProperty("file.separator");
             String forbiddenName = "";
-            for (int i = 0; i < 260; i++) {
+            for (int i = 0; i < 10000; i++) {
                 forbiddenName += sep;
+            }
+            for (int i = 0; i < 10000; i++) {
+                forbiddenName += "|";
             }
             final File file2 = new File(forbiddenName);
             new ConfigAccess(file2, "never");
