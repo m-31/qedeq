@@ -31,6 +31,8 @@ public class SourceFileExceptionTest extends QedeqTestCase {
     private SourceFileException three;
     private SourceFileException four;
     private SourceFileException five;
+    private SourceFileException six;
+    private SourceFileException seven;
 
     private final Plugin plugin = new Plugin(){
         public String getPluginDescription() {
@@ -74,12 +76,24 @@ public class SourceFileExceptionTest extends QedeqTestCase {
             "one big problem", null,
             new SourceArea("test", SourcePosition.BEGIN, new SourcePosition(3, 17)),
             new SourceArea("toast", new SourcePosition(13, 7), SourcePosition.BEGIN));
+        six = new SourceFileException(plugin,
+                new IllegalModuleDataException(107, "I am a bug!", new ModuleContext(
+                new DefaultModuleAddress()), new ModuleContext(new DefaultModuleAddress(true, "bee")),
+                new RuntimeException("I am the next reason.")), null, null);
+        seven = new SourceFileException(null, 17234,
+                "no big problem", new RuntimeException("no big problem"),
+                new SourceArea("test", new SourcePosition(1, 2), new SourcePosition(3, 17)), 
+                new SourceArea("toast", new SourcePosition(13, 7), new SourcePosition(14, 19)));
     }
  
     protected void tearDown() throws Exception {
         one = null;
         two = null;
         three = null;
+        four = null;
+        five = null;
+        six = null;
+        seven = null;
         super.tearDown();
     }
 
@@ -98,11 +112,13 @@ public class SourceFileExceptionTest extends QedeqTestCase {
         } catch (Exception e) {
             // ok
         }
+        assertEquals(107, six.getErrorCode());
     }
 
     public void testGetMessage() {
         assertEquals("no big problem; something else", two.getMessage());
         assertEquals("no big problem", four.getMessage());
+        assertEquals("no big problem", seven.getMessage());
     }
 
     public void testGetCause() {
@@ -122,6 +138,7 @@ public class SourceFileExceptionTest extends QedeqTestCase {
 
     public void testGetPlugin() {
         assertEquals(plugin, one.getPlugin());
+        assertNull(seven.getPlugin());
     }
 
     public void testGetSourceArea() {
@@ -142,6 +159,25 @@ public class SourceFileExceptionTest extends QedeqTestCase {
         assertFalse(three.hashCode() == two.hashCode());
         assertFalse(three.hashCode() == four.hashCode());
         assertFalse(five.hashCode() == four.hashCode());
+        assertFalse(six.hashCode() == five.hashCode());
+        assertFalse(six.hashCode() == seven.hashCode());
+        assertFalse(one.hashCode() == three.hashCode());
+        assertFalse(one.hashCode() == four.hashCode());
+        assertFalse(one.hashCode() == five.hashCode());
+        assertFalse(one.hashCode() == six.hashCode());
+        assertFalse(one.hashCode() == seven.hashCode());
+        assertFalse(two.hashCode() == four.hashCode());
+        assertFalse(two.hashCode() == five.hashCode());
+        assertFalse(two.hashCode() == six.hashCode());
+        assertFalse(two.hashCode() == seven.hashCode());
+        assertFalse(three.hashCode() == five.hashCode());
+        assertFalse(three.hashCode() == six.hashCode());
+        assertFalse(three.hashCode() == seven.hashCode());
+        assertFalse(four.hashCode() == five.hashCode());
+        assertFalse(four.hashCode() == six.hashCode());
+        assertFalse(four.hashCode() == seven.hashCode());
+        assertFalse(five.hashCode() == six.hashCode());
+        assertFalse(five.hashCode() == seven.hashCode());
     }
 
     /**

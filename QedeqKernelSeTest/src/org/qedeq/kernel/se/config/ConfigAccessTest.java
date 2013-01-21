@@ -58,11 +58,24 @@ public class ConfigAccessTest extends QedeqTestCase {
         assertTrue(buffer.indexOf("never") > 0);
         final ConfigAccess con4 = new ConfigAccess(file, "never");
         assertEquals("we all live in a yellow submarine", con4.getString("testValue"));
+        try {
+            final String sep = System.getProperty("file.separator");
+            String forbiddenName = "";
+            for (int i = 0; i < 260; i++) {
+                forbiddenName += sep;
+            }
+            final File file2 = new File(forbiddenName);
+            new ConfigAccess(file2, "never");
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
     }
 
 
     public void testGetter() throws Exception {
         assertEquals(4711, con1.getInteger("testInteger"));
+        assertEquals(4711, con1.getInteger("testInteger", 4713));
         assertEquals(4713, con1.getInteger("testIntegerNonExisting", 4713));
         try {
             con1.getInteger("testIntegerNonExisting2");
@@ -78,14 +91,45 @@ public class ConfigAccessTest extends QedeqTestCase {
         } catch (Exception e) {
             // ok
         }
+        try {
+            con1.getInteger("testString", 4713);
+            fail("Exceptin expected");
+        } catch (Exception e) {
+            // ok
+        }
         assertEquals("t1", con2.getString("test.t1"));
         assertEquals("t2", con2.getString("test.t2"));
+        assertEquals("t2", con2.getString("test.t2", "default"));
+        assertEquals("default", con2.getString("dontexist", "default"));
         final Map test = con2.getProperties("test.");
         assertEquals(2, test.size());
         assertNull(test.get("test.t1"));
         assertNull(test.get("test.t2"));
         assertEquals("t1", test.get("t1"));
         assertEquals("t2", test.get("t2"));
+        assertEquals(0, con2.getProperties("notexisting").size());
+        final String[] values = con2.getStringProperties("test.");
+        assertEquals(2, values.length);
+        assertEquals("t1", values[0]);
+        assertEquals("t2", values[1]);
+        assertEquals(0, con2.getStringProperties("notexisting").length);
     }
 
+    public void testRemoveProperty() throws Exception {
+        assertEquals(4711, con1.getInteger("testInteger", 4713));
+        con1.removeProperty("testInteger");
+        assertEquals(4713, con1.getInteger("testInteger", 4713));
+    }
+
+    public void testRemoveProperties() {
+        assertEquals("t1", con2.getString("test.t1"));
+        assertEquals("t2", con2.getString("test.t2"));
+        assertEquals("t2", con2.getString("test.t2", "default"));
+        assertEquals("default", con2.getString("dontexist", "default"));
+        Map test = con2.getProperties("test.");
+        assertEquals(2, test.size());
+        con2.removeProperties("test.");
+        test = con2.getProperties("test.");
+        assertEquals(0, test.size());
+    }
 }
