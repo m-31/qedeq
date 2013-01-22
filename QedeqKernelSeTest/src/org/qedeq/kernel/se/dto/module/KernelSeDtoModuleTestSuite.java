@@ -48,6 +48,7 @@ public class KernelSeDtoModuleTestSuite extends QedeqTestSuite {
         addTestSuite(ChangedRuleListVoTest.class);
         addTestSuite(ChapterVoTest.class);
         addTestSuite(ChapterListVoTest.class);
+        addTestSuite(ConditionalProofVoTest.class);
         addTestSuite(ConclusionVoTest.class);
         addTestSuite(HypothesisVoTest.class);
         addTestSuite(InitialPredicateDefinitionVoTest.class);

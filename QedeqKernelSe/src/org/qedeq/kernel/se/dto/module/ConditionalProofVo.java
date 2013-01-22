@@ -37,7 +37,7 @@ public class ConditionalProofVo implements ConditionalProof {
     private Hypothesis hypothesis;
 
     /** Proof lines term. */
-    private FormalProofLineList proofLines;
+    private FormalProofLineList formalProofLineList;
 
     /** Conclusion. */
     private Conclusion conclusion;
@@ -52,7 +52,7 @@ public class ConditionalProofVo implements ConditionalProof {
     public ConditionalProofVo(final Hypothesis hypothesis, final FormalProofLineList proofLines,
             final Conclusion conclusion) {
         this.hypothesis = hypothesis;
-        this.proofLines = proofLines;
+        this.formalProofLineList = proofLines;
         this.conclusion = conclusion;
     }
 
@@ -85,25 +85,16 @@ public class ConditionalProofVo implements ConditionalProof {
     }
 
     /**
-     * Set proof.
+     * Set formal proof lines.
      *
-     * @param   list    Proof.
+     * @param   list    Proof lines that might use hypothesis.
      */
     public void setFormalProofLineList(final FormalProofLineList list) {
-        this.proofLines = list;
+        this.formalProofLineList = list;
     }
 
     public FormalProofLineList getFormalProofLineList() {
-        return proofLines;
-    }
-
-    /**
-     * Set formal proof lines.
-     *
-     * @param   proofLines  Proof lines that might use hypothesis.
-     */
-    public void setFormalProofLinesList(final FormalProofLineList proofLines) {
-        this.proofLines = proofLines;
+        return formalProofLineList;
     }
 
     public Conclusion getConclusion() {
@@ -147,28 +138,28 @@ public class ConditionalProofVo implements ConditionalProof {
         }
         final ConditionalProofVo other = (ConditionalProofVo) obj;
         return EqualsUtility.equals(hypothesis, other.hypothesis)
-            && EqualsUtility.equals(proofLines, other.proofLines)
+            && EqualsUtility.equals(formalProofLineList, other.formalProofLineList)
             && EqualsUtility.equals(conclusion, other.conclusion);
     }
 
     public int hashCode() {
         return (hypothesis != null ? hypothesis.hashCode() : 0)
-            ^ (proofLines != null ? 2 ^ proofLines.hashCode() : 0)
+            ^ (formalProofLineList != null ? 2 ^ formalProofLineList.hashCode() : 0)
             ^ (conclusion != null ? 4 ^ conclusion.hashCode() : 0);
     }
 
     public String toString() {
         StringBuffer result = new StringBuffer();
         result.append(getName());
-        if (hypothesis != null || proofLines != null) {
+        if (hypothesis != null || formalProofLineList != null || conclusion != null) {
             result.append(" (");
             if (hypothesis != null) {
                 result.append("\n");
                 result.append(hypothesis);
             }
-            if (proofLines != null) {
+            if (formalProofLineList != null) {
                 result.append("\n");
-                result.append(proofLines);
+                result.append(formalProofLineList);
             }
             if (conclusion != null) {
                 result.append("\n");

@@ -20,6 +20,7 @@ import junit.framework.Test;
 import org.qedeq.base.test.QedeqTestSuite;
 import org.qedeq.kernel.se.common.KernelSeCommonTestSuite;
 import org.qedeq.kernel.se.config.KernelSeConfigTestSuite;
+import org.qedeq.kernel.se.dto.list.KernelSeDtoListTestSuite;
 import org.qedeq.kernel.se.dto.module.KernelSeDtoModuleTestSuite;
 import org.qedeq.kernel.se.visitor.KernelSeVisitorTestSuite;
 
@@ -54,6 +55,7 @@ public class KernelSeTestSuite extends QedeqTestSuite {
      */
     public KernelSeTestSuite(final boolean withTest, final boolean withPest) {
         super(withTest, withPest);
+        addTest(KernelSeDtoListTestSuite.suite());
         addTest(KernelSeDtoModuleTestSuite.suite());
         addTest(KernelSeConfigTestSuite.suite());
         addTest(KernelSeCommonTestSuite.suite());

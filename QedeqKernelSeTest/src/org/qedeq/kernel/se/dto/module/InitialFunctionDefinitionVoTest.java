@@ -26,6 +26,8 @@ public class InitialFunctionDefinitionVoTest extends AbstractVoModuleTestCase {
     /** This class is tested. */
     private Class clazz = InitialFunctionDefinitionVo.class;
 
+    private InitialFunctionDefinitionVo vo;
+
     protected void setUp() throws Exception {
         super.setUp();
         removeMethodToCheck("getAxiom");
@@ -35,8 +37,19 @@ public class InitialFunctionDefinitionVoTest extends AbstractVoModuleTestCase {
         removeMethodToCheck("getFunctionDefinition");
         removeMethodToCheck("getProposition");
         removeMethodToCheck("getRule");
+        vo = new InitialFunctionDefinitionVo();
     }
 
+    public void testOtherGetters() {
+        assertNull(vo.getAxiom());
+        assertNull(vo.getInitialPredicateDefinition());
+        assertNull(vo.getPredicateDefinition());
+        assertEquals(vo, vo.getInitialFunctionDefinition());
+        assertNull(vo.getFunctionDefinition());
+        assertNull(vo.getProposition());
+        assertNull(vo.getRule());
+    }
+    
     protected Class getTestedClass() {
         return clazz;
     }
