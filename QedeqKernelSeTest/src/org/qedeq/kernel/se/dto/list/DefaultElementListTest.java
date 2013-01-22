@@ -15,8 +15,8 @@
 
 package org.qedeq.kernel.se.dto.list;
 
-import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.test.QedeqTestCase;
+import org.qedeq.kernel.se.base.list.Element;
 
 /**
  * Test class.
@@ -55,10 +55,13 @@ public class DefaultElementListTest extends QedeqTestCase {
         one = new DefaultElementList("one");
         two = new DefaultElementList("two");
         three = new DefaultElementList("two");
-        withNone = new DefaultElementList("");
-        withOne = new DefaultElementList("one");
-        withTwo = new DefaultElementList("two");
+        withNone = new DefaultElementList("", new Element[] {});
+        withOne = new DefaultElementList("one", new Element[] { new DefaultAtom("atom")});
+        withTwo = new DefaultElementList("two", new Element[] { new DefaultAtom("atom"),
+            new DefaultElementList("deep")});
         withTwo2 = new DefaultElementList("two");
+        withTwo2.add(new DefaultAtom("atom"));
+        withTwo2.add(new DefaultElementList("deep"));
     }
 
     protected void tearDown() throws Exception {
@@ -90,6 +93,10 @@ public class DefaultElementListTest extends QedeqTestCase {
         assertEquals("one", one.getOperator());
         assertEquals("two", two.getOperator());
         assertEquals("two", three.getOperator());
+        assertEquals("", withNone.getOperator());
+        assertEquals("one", withOne.getOperator());
+        assertEquals("two", withTwo.getOperator());
+        assertEquals("two", withTwo2.getOperator());
     }
 
     /**
@@ -100,6 +107,10 @@ public class DefaultElementListTest extends QedeqTestCase {
         assertEquals("one", one.toString());
         assertEquals("two", two.toString());
         assertEquals("two", three.toString());
+        assertEquals("", withNone.toString());
+        assertEquals("one ( \"atom\")", withOne.toString());
+        assertEquals("two ( \"atom\", deep)", withTwo.toString());
+        assertEquals("two ( \"atom\", deep)", withTwo2.toString());
     }
 
     /**
@@ -110,6 +121,11 @@ public class DefaultElementListTest extends QedeqTestCase {
         assertFalse(empty.hashCode() == one.hashCode());
         assertFalse(two.hashCode() == one.hashCode());
         assertTrue(two.hashCode() == three.hashCode());
+        assertFalse(withNone.hashCode() == one.hashCode());
+        assertTrue(withNone.hashCode() == empty.hashCode());
+        assertFalse(withOne.hashCode() == withTwo.hashCode());
+        assertFalse(withOne.hashCode() == withTwo2.hashCode());
+        assertTrue(withTwo.hashCode() == withTwo2.hashCode());
     }
 
     /**
@@ -132,6 +148,10 @@ public class DefaultElementListTest extends QedeqTestCase {
         assertFalse(three.equals(one));
         assertTrue(three.equals(two));
         assertTrue(three.equals(three));
+        assertTrue(withTwo.equals(withTwo2));
+        assertTrue(empty.equals(withNone));
+        assertFalse(empty.equals(""));
+        assertFalse(withTwo.equals(withOne));
     }
 
 }
