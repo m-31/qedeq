@@ -18,7 +18,6 @@ package org.qedeq.base.io;
 import java.io.Serializable;
 
 
-
 /**
  * Describes an area of an URL contents.
  *
@@ -29,10 +28,10 @@ public final class SourceArea implements Serializable {
     /** Address of input, for identifying source. */
     private final String address;
 
-    /** Start position. */
+    /** Start position. Must be not <code>null</code>. */
     private final SourcePosition startPosition;
 
-    /** End position. Might be <code>null</code>. */
+    /** End position. Must be not <code>null</code>. */
     private final SourcePosition endPosition;
 
     /**
