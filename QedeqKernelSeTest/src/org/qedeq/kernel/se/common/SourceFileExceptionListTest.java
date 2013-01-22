@@ -58,12 +58,15 @@ public class SourceFileExceptionListTest extends QedeqTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         empty = new SourceFileExceptionList();
-        one = new SourceFileExceptionList(new SourceFileException(plugin, 4711,
-            "no big problem", new RuntimeException("something bad"), (SourceArea) null, (SourceArea) null));
+        final SourceFileException oneEx = new SourceFileException(plugin, 4711,
+                "no big problem", new RuntimeException("something bad"), (SourceArea) null, (SourceArea) null);
+        one = new SourceFileExceptionList(oneEx);
+        one.add(oneEx);
         two = new SourceFileExceptionList(one);
         two.add(new SourceFileException(plugin, 815,
                 "no big problem", new RuntimeException("something else"), (SourceArea) null, (SourceArea) null));
         three = new SourceFileExceptionList();
+        three.add(two);
         three.add(two);
         three.add(new SourceFileException(plugin, 17234,
                 "no big problem", new RuntimeException("something other"), (SourceArea) null, (SourceArea) null));
@@ -77,6 +80,26 @@ public class SourceFileExceptionListTest extends QedeqTestCase {
         super.tearDown();
     }
 
+    public void testContructor() {
+        SourceFileExceptionList sf1 = new SourceFileExceptionList((SourceFileException) null);
+        assertEquals(0, sf1.size());
+        sf1.clear();
+        assertEquals(0, sf1.size());
+        SourceFileExceptionList sf2 = new SourceFileExceptionList((SourceFileExceptionList) null);
+        assertEquals(0, sf1.size());
+        sf2.clear();
+        assertEquals(0, sf2.size());
+    }
+    
+
+    public void testClear() {
+        assertEquals(1, one.size());
+        one.clear();
+        assertEquals(0, one.size());
+        assertEquals(3, three.size());
+        three.clear();
+        assertEquals(0, three.size());
+    }
     /**
      * Test size.
      */

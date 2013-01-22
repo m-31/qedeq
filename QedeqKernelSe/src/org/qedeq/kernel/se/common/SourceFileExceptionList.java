@@ -43,7 +43,9 @@ public class SourceFileExceptionList extends Exception {
      * @param   e   Wrap me.
      */
     public SourceFileExceptionList(final SourceFileException e) {
-        add(e);
+        if (e != null) {
+            add(e);
+        }
     }
 
     /**

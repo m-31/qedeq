@@ -104,7 +104,7 @@ public class ModuleDataExceptionTest extends QedeqTestCase {
             new RuntimeException("I am the reason.")) {};
         assertNull(e2.getReferenceContext());
         ModuleDataException e3 = new ModuleDataException(107, "I am a bug!", null, 
-                new ModuleContext(new DefaultModuleAddress(true, "bee"))) {};
+            new ModuleContext(new DefaultModuleAddress(true, "bee"))) {};
         assertNull(e3.getContext());
         ModuleDataException e4 = new ModuleDataException(107, "I am a bug!", new ModuleContext(
             new DefaultModuleAddress()), (ModuleContext) null) {};
@@ -112,6 +112,10 @@ public class ModuleDataExceptionTest extends QedeqTestCase {
         ModuleDataException e5 = new ModuleDataException(107, "I am a bug!", null) {};
         assertNull(e5.getContext());
         assertNull(e5.getReferenceContext());
+        ModuleDataException e9 = new ModuleDataException(107, "I am a bug!", new ModuleContext(
+            new DefaultModuleAddress(true, "bee")), null,
+            new RuntimeException("I am the reason.")) {};
+            assertNull(e9.getReferenceContext());
     }
 
     /**
