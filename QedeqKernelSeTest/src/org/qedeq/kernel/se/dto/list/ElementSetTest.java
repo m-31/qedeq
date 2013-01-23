@@ -86,6 +86,33 @@ public class ElementSetTest extends QedeqTestCase {
         } catch (Exception e) {
             // ok
         }
+        assertEquals(one, new ElementSet(new ElementSet(new Element[] {new DefaultAtom("one")})));
+    }
+
+    public void testSetOperations() {
+        DefaultAtom o = new DefaultAtom("one");
+        DefaultAtom t = new DefaultAtom("two");
+        assertTrue(one.contains(o));
+        DefaultAtom otto = new DefaultAtom("otto");
+        assertFalse(one.contains(otto));
+        one.remove(o);
+        assertEquals(empty, one);
+        one.remove(otto);
+        assertEquals(empty, one);
+        assertTrue(one.isEmpty());
+        assertFalse(two.isEmpty());
+        two.add(o);
+        assertEquals(two, oneTwo);
+        one.add(o);
+        assertTrue(one.contains(o));
+        assertFalse(one.contains(t));
+        one.intersection(oneTwo);
+        assertTrue(one.contains(o));
+        assertFalse(one.contains(t));
+        one.union(oneTwo);
+        assertTrue(one.contains(o));
+        assertTrue(one.contains(t));
+        assertEquals(2, one.size());
     }
 
     /**
