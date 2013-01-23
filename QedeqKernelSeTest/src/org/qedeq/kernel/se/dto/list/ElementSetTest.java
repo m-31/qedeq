@@ -23,30 +23,31 @@ import org.qedeq.kernel.se.base.list.Element;
  *
  * @author Michael Meyling
  */
-public class DefaultAtomTest extends QedeqTestCase {
+public class ElementSetTest extends QedeqTestCase {
 
-    private DefaultAtom empty;
+    private ElementSet empty;
 
-    private DefaultAtom one;
+    private ElementSet one;
 
-    private DefaultAtom two;
+    private ElementSet two;
 
-    private DefaultAtom three;
+    private ElementSet three;
 
-    public DefaultAtomTest(){
+    public ElementSetTest(){
         super();
     }
 
-    public DefaultAtomTest(final String name){
+    public ElementSetTest(final String name){
         super(name);
     }
 
     protected void setUp() throws Exception {
         super.setUp();
-        empty = new DefaultAtom("");
-        one = new DefaultAtom("one");
-        two = new DefaultAtom("two");
-        three = new DefaultAtom("two");
+        empty = new ElementSet();
+        one = new ElementSet(new Element[] {new DefaultAtom("one")});
+        two = new ElementSet(new Element[] {new DefaultAtom("two")});
+        three = new ElementSet();
+        three.add(new DefaultAtom("two"));
     }
 
     protected void tearDown() throws Exception {
@@ -63,73 +64,36 @@ public class DefaultAtomTest extends QedeqTestCase {
      */
     public void testConstructor() {
         try {
-            new DefaultAtom(null);
+            new ElementSet((Element []) null);
             fail("Exception expected");
         } catch (Exception e) {
             // ok
         }
-    }
-
-    /**
-     * Test getter.
-     */
-    public void testGet()  {
-        assertEquals("", empty.getString());
-        assertEquals("one", one.getString());
-        assertEquals("two", two.getString());
-        assertEquals("two", three.getString());
+        try {
+            new ElementSet((ElementSet) null);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
     }
 
     /**
      * Test toString.
      */
     public void testToString() {
-        assertEquals("\"\"", empty.toString());
-        assertEquals("\"one\"", one.toString());
-        assertEquals("\"two\"", two.toString());
-        assertEquals("\"two\"", three.toString());
-        assertEquals("\"ho\"\"hi\"", new DefaultAtom("ho\"hi").toString());
-    }
-
-    public void testGetList() {
-        try {
-            empty.getList();
-            fail("Exception expected");
-        } catch (Exception e) {
-            // ok
-        }
-        try {
-            two.getList();
-            fail("Exception expected");
-        } catch (Exception e) {
-            // ok
-        }
-    }
-
-    public void testGetAtom() {
-        assertEquals(empty, empty.getAtom());
-        assertEquals(one, one.getAtom());
-        assertEquals(two, two.getAtom());
-        assertEquals(two, three.getAtom());
-    }
-
-    public void testReplace() {
-        assertEquals(empty, empty.replace(null, null));
-        assertEquals(empty, empty.replace(one, null));
-        assertEquals(empty, empty.replace(one, two));
-        assertEquals(two, one.replace(one, two));
-        assertEquals(one, one.replace(two, one));
-        assertEquals(one, one.replace(new DefaultElementList("neu", new Element[]{ one}), two));
-        Element list = new DefaultElementList("two", new Element[] { new DefaultAtom("atom"),
-            new DefaultElementList("deep")});
-        assertEquals(list, one.replace(one, list));
+        assertEquals("{}", empty.toString());
+        assertEquals("{\"one\"}", one.toString());
+        assertEquals("{\"two\"}", two.toString());
+        assertEquals("{\"two\"}", three.toString());
+        assertEquals("{\"ho\"\"hi\"}", new ElementSet(new Element[] {new DefaultAtom("ho\"hi")})
+            .toString());
     }
 
     /**
      * Test hashCode.
      */
-    public void testHashCode()  {
-        assertFalse(0 == empty.hashCode());
+    public void testHashCode() {
+        assertFalse(empty.hashCode() == three.hashCode());
         assertFalse(empty.hashCode() == one.hashCode());
         assertFalse(two.hashCode() == one.hashCode());
         assertTrue(two.hashCode() == three.hashCode());

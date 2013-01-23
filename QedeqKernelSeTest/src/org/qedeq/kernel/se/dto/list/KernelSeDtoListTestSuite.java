@@ -42,5 +42,6 @@ public class KernelSeDtoListTestSuite extends QedeqTestSuite {
         super();
         addTestSuite(DefaultAtomTest.class);
         addTestSuite(DefaultElementListTest.class);
+        addTestSuite(ElementSetTest.class);
     }
 }
