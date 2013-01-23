@@ -25,13 +25,20 @@ import org.qedeq.kernel.se.base.list.Element;
  */
 public class ElementSetTest extends QedeqTestCase {
 
+    /** {} */
     private ElementSet empty;
 
+    /** {"one"} */
     private ElementSet one;
 
+    /** {"two"} */
     private ElementSet two;
 
-    private ElementSet three;
+    /** {"two"} */
+    private ElementSet two2;
+
+    /** {"one", "two"} */
+    private ElementSet oneTwo;
 
     public ElementSetTest(){
         super();
@@ -46,15 +53,19 @@ public class ElementSetTest extends QedeqTestCase {
         empty = new ElementSet();
         one = new ElementSet(new Element[] {new DefaultAtom("one")});
         two = new ElementSet(new Element[] {new DefaultAtom("two")});
-        three = new ElementSet();
-        three.add(new DefaultAtom("two"));
+        two2 = new ElementSet();
+        two2.add(new DefaultAtom("two"));
+        oneTwo = new ElementSet();
+        oneTwo.add(new DefaultAtom("one"));
+        oneTwo.add(new DefaultAtom("two"));
     }
 
     protected void tearDown() throws Exception {
         empty = null;
         one = null;
         two = null;
-        three = null;
+        two2 = null;
+        oneTwo = null;
         super.tearDown();
     }
 
@@ -84,19 +95,21 @@ public class ElementSetTest extends QedeqTestCase {
         assertEquals("{}", empty.toString());
         assertEquals("{\"one\"}", one.toString());
         assertEquals("{\"two\"}", two.toString());
-        assertEquals("{\"two\"}", three.toString());
+        assertEquals("{\"two\"}", two2.toString());
         assertEquals("{\"ho\"\"hi\"}", new ElementSet(new Element[] {new DefaultAtom("ho\"hi")})
             .toString());
+        assertTrue("{\"one\", \"two\"}".equals(oneTwo.toString())
+            || "{\"two\", \"one\"}".equals(oneTwo.toString()));
     }
 
     /**
      * Test hashCode.
      */
     public void testHashCode() {
-        assertFalse(empty.hashCode() == three.hashCode());
+        assertFalse(empty.hashCode() == two2.hashCode());
         assertFalse(empty.hashCode() == one.hashCode());
         assertFalse(two.hashCode() == one.hashCode());
-        assertTrue(two.hashCode() == three.hashCode());
+        assertTrue(two.hashCode() == two2.hashCode());
     }
 
     /**
@@ -106,19 +119,19 @@ public class ElementSetTest extends QedeqTestCase {
         assertFalse(empty.equals(null));
         assertFalse(empty.equals(one));
         assertFalse(empty.equals(two));
-        assertFalse(empty.equals(three));
+        assertFalse(empty.equals(two2));
         assertFalse(one.equals(null));
         assertTrue(one.equals(one));
         assertFalse(one.equals(two));
-        assertFalse(one.equals(three));
+        assertFalse(one.equals(two2));
         assertFalse(two.equals(null));
         assertFalse(two.equals(one));
         assertTrue(two.equals(two));
-        assertTrue(two.equals(three));
-        assertFalse(three.equals(null));
-        assertFalse(three.equals(one));
-        assertTrue(three.equals(two));
-        assertTrue(three.equals(three));
+        assertTrue(two.equals(two2));
+        assertFalse(two2.equals(null));
+        assertFalse(two2.equals(one));
+        assertTrue(two2.equals(two));
+        assertTrue(two2.equals(two2));
     }
 
 }
