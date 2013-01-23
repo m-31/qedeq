@@ -85,10 +85,55 @@ public class DefaultElementListTest extends QedeqTestCase {
         }
     }
 
-    /**
-     * Test getter.
-     */
-    public void testGet() throws Exception {
+    public void testGetList() {
+        assertEquals(empty, empty.getList());
+        assertEquals(one, one.getList());
+        assertEquals(two, two.getList());
+        assertEquals(two, three.getList());
+    }
+
+    public void testGetAtom() {
+        try {
+            empty.getAtom();
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        try {
+            two.getAtom();
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+    }
+
+    public void testIsList() {
+        assertTrue(empty.isList());
+        assertTrue(one.isList());
+        assertTrue(two.isList());
+    }
+
+    public void testIsAtom() {
+        assertFalse(empty.isAtom());
+        assertFalse(one.isAtom());
+        assertFalse(two.isAtom());
+    }
+
+    public void testReplace() {
+        assertEquals(empty, empty.replace(null, null));
+        assertEquals(empty, empty.replace(one, null));
+        assertEquals(empty, empty.replace(one, two));
+        assertEquals(two, one.replace(one, two));
+        assertEquals(one, one.replace(two, one));
+        assertEquals(one, one.replace(new DefaultElementList("neu", new Element[]{ one}), two));
+        Element list = new DefaultElementList("two", new Element[] { new DefaultAtom("atom"),
+            new DefaultElementList("deep")});
+        assertEquals(list, one.replace(one, list));
+    }
+
+
+    
+    public void testGetOperator() throws Exception {
         assertEquals("", empty.getOperator());
         assertEquals("one", one.getOperator());
         assertEquals("two", two.getOperator());
