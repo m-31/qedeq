@@ -129,6 +129,8 @@ public class DefaultElementListTest extends QedeqTestCase {
         Element list = new DefaultElementList("two", new Element[] { new DefaultAtom("atom"),
             new DefaultElementList("deep")});
         assertEquals(list, one.replace(one, list));
+        assertEquals("one ( \"ATOM\")", withOne.replace(new DefaultAtom("atom"),
+             new DefaultAtom("ATOM")).toString());
     }
 
 
