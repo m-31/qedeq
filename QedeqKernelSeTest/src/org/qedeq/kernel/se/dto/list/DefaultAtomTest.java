@@ -106,6 +106,18 @@ public class DefaultAtomTest extends QedeqTestCase {
         }
     }
 
+    public void testIsAtom() {
+        assertTrue(empty.isAtom());
+        assertTrue(one.isAtom());
+        assertTrue(two.isAtom());
+    }
+
+    public void testIsList() {
+        assertFalse(empty.isList());
+        assertFalse(one.isList());
+        assertFalse(two.isList());
+    }
+
     public void testGetAtom() {
         assertEquals(empty, empty.getAtom());
         assertEquals(one, one.getAtom());
