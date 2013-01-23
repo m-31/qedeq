@@ -69,11 +69,14 @@ public class SourceFileExceptionList extends Exception {
     }
 
     /**
-     * Add exception.
+     * Add exception. If we get <code>null</code> we do nothing.
      *
      * @param   e   Exception to add.
      */
     public void add(final SourceFileException e) {
+        if (e == null) {
+            return;
+        }
         if (size() == 0) {
             initCause(e);
         }
@@ -83,7 +86,7 @@ public class SourceFileExceptionList extends Exception {
     }
 
     /**
-     * Add exceptions of given list if they are not already included.
+     * Add exceptions of given list if they are not already included. If we get <code>null</code> we do nothing.
      *
      * @param   e   Add exceptions of this list.
      */

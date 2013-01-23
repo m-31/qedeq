@@ -15,8 +15,8 @@
 
 package org.qedeq.kernel.se.dto.list;
 
-import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.test.QedeqTestCase;
+import org.qedeq.kernel.se.base.list.Element;
 
 /**
  * Test class.
@@ -61,7 +61,7 @@ public class DefaultAtomTest extends QedeqTestCase {
     /**
      * Test constructor.
      */
-    public void testConstructor() throws Exception {
+    public void testConstructor() {
         try {
             new DefaultAtom(null);
             fail("Exception expected");
@@ -73,7 +73,7 @@ public class DefaultAtomTest extends QedeqTestCase {
     /**
      * Test getter.
      */
-    public void testGet() throws Exception {
+    public void testGet()  {
         assertEquals("", empty.getString());
         assertEquals("one", one.getString());
         assertEquals("two", two.getString());
@@ -83,17 +83,49 @@ public class DefaultAtomTest extends QedeqTestCase {
     /**
      * Test toString.
      */
-    public void testToString() throws Exception {
+    public void testToString() {
         assertEquals("\"\"", empty.toString());
         assertEquals("\"one\"", one.toString());
         assertEquals("\"two\"", two.toString());
         assertEquals("\"two\"", three.toString());
+        assertEquals("\"ho\"\"hi\"", new DefaultAtom("ho\"hi").toString());
+    }
+
+    public void testGetList() {
+        try {
+            empty.getList();
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        try {
+            two.getList();
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+    }
+
+    public void testGetAtom() {
+        assertEquals(empty, empty.getAtom());
+        assertEquals(one, one.getAtom());
+        assertEquals(two, two.getAtom());
+        assertEquals(two, three.getAtom());
+    }
+
+    public void testReplace() {
+        assertEquals(empty, empty.replace(null, null));
+        assertEquals(empty, empty.replace(one, null));
+        assertEquals(empty, empty.replace(one, two));
+        assertEquals(two, one.replace(one, two));
+        assertEquals(one, one.replace(two, one));
+        assertEquals(one, one.replace(new DefaultElementList("neu", new Element[]{ one}), two));
     }
 
     /**
      * Test hashCode.
      */
-    public void testHashCode() throws Exception {
+    public void testHashCode()  {
         assertFalse(0 == empty.hashCode());
         assertFalse(empty.hashCode() == one.hashCode());
         assertFalse(two.hashCode() == one.hashCode());
@@ -103,7 +135,7 @@ public class DefaultAtomTest extends QedeqTestCase {
     /**
      * Test equals.
      */
-    public void testEquals() throws Exception {
+    public void testEquals() {
         assertFalse(empty.equals(null));
         assertFalse(empty.equals(one));
         assertFalse(empty.equals(two));

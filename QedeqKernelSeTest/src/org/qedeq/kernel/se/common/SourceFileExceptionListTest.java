@@ -33,6 +33,8 @@ public class SourceFileExceptionListTest extends QedeqTestCase {
 
     private SourceFileExceptionList three;
 
+    private SourceFileExceptionList four;
+
     private final Plugin plugin = new Plugin(){
         public String getPluginDescription() {
             return "i am doing nothing";
@@ -70,6 +72,9 @@ public class SourceFileExceptionListTest extends QedeqTestCase {
         three.add(two);
         three.add(new SourceFileException(plugin, 17234,
                 "no big problem", new RuntimeException("something other"), (SourceArea) null, (SourceArea) null));
+        four = new SourceFileExceptionList(two);
+        four.add(new SourceFileException(plugin, 815,
+                "big problem", new RuntimeException("something else"), (SourceArea) null, (SourceArea) null));
     }
 
     protected void tearDown() throws Exception {
@@ -77,10 +82,12 @@ public class SourceFileExceptionListTest extends QedeqTestCase {
         one = null;
         two = null;
         three = null;
+        four = null;
         super.tearDown();
     }
 
     public void testContructor() {
+        assertEquals(0, empty.size());
         SourceFileExceptionList sf1 = new SourceFileExceptionList((SourceFileException) null);
         assertEquals(0, sf1.size());
         sf1.clear();
@@ -100,6 +107,33 @@ public class SourceFileExceptionListTest extends QedeqTestCase {
         three.clear();
         assertEquals(0, three.size());
     }
+
+    public void testAdd1() {
+        assertEquals(1, one.size());
+        one.add((SourceFileException) null);
+        assertEquals(1, one.size());
+        one.add(new SourceFileException(plugin, 4711,
+                "no big problem", new RuntimeException("something bad"), (SourceArea) null, (SourceArea) null));
+        assertEquals(1, one.size());
+        one.add(new SourceFileException(plugin, 4711,
+                "no big problem", new RuntimeException("something bad2"), (SourceArea) null, (SourceArea) null));
+        assertEquals(2, one.size());
+    }
+
+    public void testAdd2() {
+        assertEquals(1, one.size());
+        one.add((SourceFileExceptionList) null);
+        assertEquals(1, one.size());
+        one.add(one);
+        assertEquals(1, one.size());
+        one.add(two);
+        assertEquals(2, one.size());
+        three.add(new SourceFileException(plugin, 4711,
+                "no big problem", new RuntimeException("something bad2"), (SourceArea) null, (SourceArea) null));
+        one.add(three);
+        assertEquals(4, one.size());
+    }
+
     /**
      * Test size.
      */
@@ -108,6 +142,7 @@ public class SourceFileExceptionListTest extends QedeqTestCase {
         assertEquals(1, one.size());
         assertEquals(2, two.size());
         assertEquals(3, three.size());
+        assertEquals(3, four.size());
     }
 
     /**
@@ -138,6 +173,8 @@ public class SourceFileExceptionListTest extends QedeqTestCase {
         assertFalse(three.equals(one));
         assertFalse(three.equals(empty));
         assertFalse(three.equals(one));
+        assertFalse(three.equals(four));
+        assertFalse(four.equals(three));
     }
 
     public void testHashCode() {
