@@ -180,6 +180,12 @@ public class DefaultElementListTest extends QedeqTestCase {
         } catch (Exception e) {
             // ok
         }
+        try {
+            withTwo.insert(0, null);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
         assertEquals(0, one.size());
         assertEquals(2, withTwo.size());
         withTwo.add(new DefaultAtom("atom"));
