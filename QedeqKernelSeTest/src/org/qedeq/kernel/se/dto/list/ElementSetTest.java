@@ -209,18 +209,30 @@ public class ElementSetTest extends QedeqTestCase {
         } catch (Exception e) {
             // ok
         }
+    }
+
+    public void testMinus() {
         try {
             one.minus(null);
             fail("Exception expected");
         } catch (Exception e) {
             // ok
         }
+        assertEquals(empty, one.minus(one));
+        assertEquals(empty, one.minus(one));
+    }
+
+    public void testNewDelta() {
         try {
             one.newDelta(null);
             fail("Exception expected");
         } catch (Exception e) {
             // ok
         }
+        assertEquals(oneTwo, one.newDelta(two));
+        assertEquals(one, oneTwo.newDelta(two));
+        assertEquals(two, one.newDelta(oneTwo));
+        assertEquals(empty, oneTwo.newDelta(oneTwo));
     }
 
     public void testIsEmpty() {
