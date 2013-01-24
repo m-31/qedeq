@@ -162,6 +162,24 @@ public class DefaultElementListTest extends QedeqTestCase {
     }
 
     public void testAddAndSizeAndInsertAndRemove() {
+        try {
+            empty.add(null);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        try {
+            empty.remove(0);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        try {
+            withTwo.remove(-1);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
         assertEquals(0, one.size());
         assertEquals(2, withTwo.size());
         withTwo.add(new DefaultAtom("atom"));
