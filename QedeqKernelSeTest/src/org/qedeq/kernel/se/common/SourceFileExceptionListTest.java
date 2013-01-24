@@ -211,6 +211,7 @@ public class SourceFileExceptionListTest extends QedeqTestCase {
         assertEquals(4711, three.get(0).getErrorCode());
         assertEquals(815, three.get(1).getErrorCode());
         assertEquals(17234, three.get(2).getErrorCode());
+        assertEquals(17234, three.toArray()[2].getErrorCode());
     }
 
     /**
