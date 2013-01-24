@@ -188,19 +188,25 @@ public final class DefaultElementList implements ElementList {
     public final void replace(final int position, final Element element) {
         if (element == null) {
             throw new IllegalArgumentException(
-                "NullPointer couldn't be set");
+                "NullPointer is no element");
         }
         if (position >= 0 && position < this.elements.size()) {
             this.elements.set(position, element);
+            return;
         }
         if (size() == 0)  {
             throw new IllegalArgumentException(
                 "there are no elements, therefore no element number "
                 + position + " could be replaced");
         }
+        if (size() == 0)  {
+            throw new IllegalArgumentException(
+                "there is no element number " + position
+                + ", you have to choose a number between 0 and " + (size() - 1));
+        }
         throw new IllegalArgumentException(
             "there is no element number " + position
-            + " the maximum element number is " + size());
+            + ", you can only ask for the element at position 0");
     }
 
     public final void remove(final int i) {
