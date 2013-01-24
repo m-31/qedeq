@@ -15,8 +15,13 @@
 
 package org.qedeq.kernel.se.dto.list;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.qedeq.base.test.QedeqTestCase;
+import org.qedeq.kernel.se.base.list.Atom;
 import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.base.list.ElementList;
 
 /**
  * Test class.
@@ -86,7 +91,72 @@ public class ElementSetTest extends QedeqTestCase {
         } catch (Exception e) {
             // ok
         }
+        try {
+            new ElementSet((ElementList) null);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        try {
+            new ElementSet(new ElementList() {
+                public void add(Element element) {
+                }
+
+                public Element getElement(int i) {
+                    return null;
+                }
+
+                public List getElements() {
+                    return null;
+                }
+
+                public String getOperator() {
+                    return null;
+                }
+
+                public void insert(int position, Element element) {
+                }
+
+                public void remove(int i) {
+                }
+
+                public void replace(int position, Element element) {
+                }
+
+                public int size() {
+                    return 0;
+                }
+
+                public Element copy() {
+                    return null;
+                }
+
+                public Atom getAtom() {
+                    return null;
+                }
+
+                public ElementList getList() {
+                    return null;
+                }
+
+                public boolean isAtom() {
+                    return true;
+                }
+
+                public boolean isList() {
+                    return false;
+                }
+
+                public Element replace(Element search, Element replacement) {
+                    return null;
+                }});
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
         assertEquals(one, new ElementSet(new ElementSet(new Element[] {new DefaultAtom("one")})));
+        assertEquals(one, new ElementSet(
+            new DefaultElementList("list", new Element[] {new DefaultAtom("one")})));
     }
 
     public void testSetOperations() {
@@ -113,6 +183,58 @@ public class ElementSetTest extends QedeqTestCase {
         assertTrue(one.contains(o));
         assertTrue(one.contains(t));
         assertEquals(2, one.size());
+    }
+
+    public void testSetOperations2() {
+        try {
+            one.isSubset(null);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        assertTrue(one.isSubset(oneTwo));
+        assertFalse(oneTwo.isSubset(one));
+        assertTrue(oneTwo.isSubset(oneTwo));
+        assertTrue(empty.isSubset(oneTwo));
+        assertTrue(empty.isSubset(empty));
+        try {
+            one.union(null);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        try {
+            one.intersection(null);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        try {
+            one.minus(null);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        try {
+            one.newDelta(null);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+    }
+
+    public void testIsEmpty() {
+        assertTrue(empty.isEmpty());
+        assertFalse(oneTwo.isEmpty());
+    }
+
+    public void testIterator() {
+        Iterator iterator = empty.iterator();
+        assertFalse(iterator.hasNext());
+        Iterator iterator2 = one.iterator();
+        assertTrue(iterator2.hasNext());
+        assertEquals(new DefaultAtom("one"), iterator2.next());
+        assertFalse(iterator2.hasNext());
     }
 
     /**

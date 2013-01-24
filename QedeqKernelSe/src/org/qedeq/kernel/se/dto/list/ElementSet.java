@@ -124,17 +124,17 @@ public class ElementSet {
 
 
     /**
-     * Is <code>set</code> a subset of this set?
+     * Is <code>set</code> a superset of this set?
      *
      * @param   set    set to check for.
-     * @return  is <code>set</code> a subset of this set?
+     * @return  is this set a subset of <code>set</code>?
      * @throws  IllegalArgumentException if the set was a NullPointer
      */
     public final boolean isSubset(final ElementSet set) {
         if (set == null) {
             throw new IllegalArgumentException("NullPointer as set is not allowed");
         }
-        return this.elements.containsAll(set.elements);
+        return set.elements.containsAll(this.elements);
     }
 
 
