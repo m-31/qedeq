@@ -254,11 +254,11 @@ public class ElementSet {
     /**
      * Return all elements that are only in one of both sets.
      * This method returns the symmetric set difference of the
-     * two sets.
+     * two sets. This set is not modified.
      *
-     * @param   set    remove all elements that are in this set from
+     * @param   set    Build the symmetric difference with this set.
      *                 <code>this</code>
-     * @return  was <code>this</code> set changed?
+     * @return  Symmetric difference.
      * @throws  IllegalArgumentException if the set was a
      *          NullPointer
      */
