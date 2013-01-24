@@ -83,6 +83,56 @@ public class DefaultElementListTest extends QedeqTestCase {
         } catch (Exception e) {
             // ok
         }
+        try {
+            new DefaultElementList(null, (Element[]) null);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        try {
+            new DefaultElementList("operator", (Element[]) null);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        assertFalse(new DefaultElementList("one").equals(new DefaultAtom("on")));
+    }
+
+    public void testGetElement() {
+        try {
+            empty.getElement(0);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        try {
+            one.getElement(0);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        try {
+            one.getElement(-1);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        assertEquals(new DefaultAtom("atom"), withTwo.getElement(0));
+        assertEquals(new DefaultElementList("deep"), withTwo.getElement(1));
+        try {
+            withTwo.getElement(2);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        withTwo.remove(0);
+        assertEquals(new DefaultElementList("deep"), withTwo.getElement(0));
+        try {
+            withTwo.getElement(1);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
     }
 
     public void testGetList() {
@@ -90,6 +140,7 @@ public class DefaultElementListTest extends QedeqTestCase {
         assertEquals(one, one.getList());
         assertEquals(two, two.getList());
         assertEquals(two, three.getList());
+        assertEquals(withOne, withOne.getList());
     }
 
     public void testGetAtom() {
