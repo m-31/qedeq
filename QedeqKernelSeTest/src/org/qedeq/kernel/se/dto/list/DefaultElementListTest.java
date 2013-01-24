@@ -15,6 +15,8 @@
 
 package org.qedeq.kernel.se.dto.list;
 
+import java.util.Vector;
+
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.se.base.list.Element;
 
@@ -135,6 +137,57 @@ public class DefaultElementListTest extends QedeqTestCase {
         }
     }
 
+    public void testSize() {
+        assertEquals(0, empty.size());
+        assertEquals(0, one.size());
+        assertEquals(1, withOne.size());
+        assertEquals(2, withTwo.size());
+    }
+
+    public void testGetElements() {
+        assertEquals(new Vector() {}, empty.getElements());
+        Vector result = new Vector();
+        result.add(new DefaultAtom("atom"));
+        result.add(new DefaultElementList("deep"));
+        assertEquals(result, withTwo.getElements());
+    }
+
+    public void testCopy() {
+        Element copy = withTwo.copy();
+        assertEquals(withTwo, copy);
+        assertFalse(withTwo == copy);
+        copy = empty.copy();
+        assertEquals(empty, copy);
+        assertFalse(empty == copy);
+    }
+
+    public void testAddAndSizeAndInsertAndRemove() {
+        assertEquals(0, one.size());
+        assertEquals(2, withTwo.size());
+        withTwo.add(new DefaultAtom("atom"));
+        assertEquals(3, withTwo.size());
+        assertFalse(withTwo.equals(withTwo2));
+        withTwo.remove(0);
+        assertFalse(withTwo.equals(withTwo2));
+        withTwo.remove(0);
+        assertFalse(withTwo.equals(withOne));
+        try {
+            withTwo.remove(1);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        assertFalse(withTwo.equals(withOne));
+        withTwo.remove(0);
+        assertEquals(new DefaultElementList("two"), withTwo);
+        withTwo.insert(0, new DefaultAtom("atom"));
+        withTwo.insert(1, new DefaultElementList("deep"));
+        assertEquals(withTwo2, withTwo);
+        withTwo.insert(2, new DefaultAtom("multi"));
+        withTwo.remove(2);
+        assertEquals(withTwo2, withTwo);
+    }
+
     public void testGetList() {
         assertEquals(empty, empty.getList());
         assertEquals(one, one.getList());
@@ -170,7 +223,7 @@ public class DefaultElementListTest extends QedeqTestCase {
         assertFalse(two.isAtom());
     }
 
-    public void testReplace() {
+    public void testReplace1() {
         assertEquals(empty, empty.replace(null, null));
         assertEquals(empty, empty.replace(one, null));
         assertEquals(empty, empty.replace(one, two));
@@ -182,6 +235,23 @@ public class DefaultElementListTest extends QedeqTestCase {
         assertEquals(list, one.replace(one, list));
         assertEquals("one ( \"ATOM\")", withOne.replace(new DefaultAtom("atom"),
              new DefaultAtom("ATOM")).toString());
+    }
+
+    public void testReplace2() {
+        try {
+            empty.replace(0, null);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        try {
+            empty.replace(0, new DefaultAtom("one"));
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        withOne.replace(0, new DefaultAtom("expected"));
+        assertEquals(new DefaultAtom("expected"), withOne.getElement(0));
     }
 
 
