@@ -242,6 +242,49 @@ public class ElementSetTest extends QedeqTestCase {
         assertEquals(2, oneTwo.size());
     }
 
+    public void testRemove() {
+        try {
+            one.remove(null);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        assertEquals(one, one.remove(new DefaultAtom("two")));
+        assertEquals(1, one.size());
+        assertEquals(two, two.remove(new DefaultAtom("two")));
+        assertEquals(empty, two);
+        assertEquals(0, two.size());
+        assertEquals(oneTwo, oneTwo.remove(new DefaultAtom("two")));
+    }
+
+    public void testAdd() {
+        try {
+            one.add(null);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        assertEquals(one, one.add(new DefaultAtom("two")));
+        assertEquals(2, one.size());
+        assertEquals(oneTwo, one);
+        assertEquals(one, one.add(new DefaultAtom("two")));
+        assertEquals(2, one.size());
+        assertEquals(oneTwo, one);
+    }
+
+    public void testContains() {
+        try {
+            one.contains(null);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        assertFalse(empty.contains(new DefaultAtom("two")));
+        assertFalse(one.contains(new DefaultAtom("two")));
+        assertTrue(one.contains(new DefaultAtom("one")));
+        assertTrue(oneTwo.contains(new DefaultAtom("one")));
+    }
+
     public void testNewDelta() {
         try {
             one.newDelta(null);
@@ -253,6 +296,21 @@ public class ElementSetTest extends QedeqTestCase {
         assertEquals(one, oneTwo.newDelta(two));
         assertEquals(two, one.newDelta(oneTwo));
         assertEquals(empty, oneTwo.newDelta(oneTwo));
+    }
+
+    public void testNewIntersection() {
+        try {
+            one.newIntersection(null);
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        assertEquals(empty, one.newIntersection(two));
+        assertEquals(0, one.newIntersection(two).size());
+        assertEquals(two, oneTwo.newIntersection(two));
+        assertEquals(one, one.newIntersection(oneTwo));
+        assertEquals(oneTwo, oneTwo.newIntersection(oneTwo));
+        assertEquals(2, oneTwo.newIntersection(oneTwo).size());
     }
 
     public void testIsEmpty() {
