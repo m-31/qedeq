@@ -43,6 +43,10 @@ public class SubstFuncVoTest extends AbstractVoModuleTestCase {
         return clazz;
     }
 
+    public void testGetSubstFunc() {
+        assertEquals(subst, subst.getSubstFunc());
+    }
+
     public void testGetName() {
         assertEquals("SubstFun", subst.getName());
     }

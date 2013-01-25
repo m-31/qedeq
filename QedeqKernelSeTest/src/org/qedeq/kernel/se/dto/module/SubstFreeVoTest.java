@@ -43,6 +43,10 @@ public class SubstFreeVoTest extends AbstractVoModuleTestCase {
         return clazz;
     }
 
+    public void testGetSubstFree() {
+        assertEquals(free, free.getSubstFree());
+    }
+
     public void testGetName() {
         assertEquals("SubstFree", free.getName());
     }

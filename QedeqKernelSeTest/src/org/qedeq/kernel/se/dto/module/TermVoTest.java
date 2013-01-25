@@ -15,6 +15,8 @@
 
 package org.qedeq.kernel.se.dto.module;
 
+import org.qedeq.kernel.se.dto.list.DefaultAtom;
+
 
 /**
  * Test class {@link org.qedeq.kernel.se.dto.module.TermVo}.
@@ -26,7 +28,23 @@ public class TermVoTest extends AbstractVoModuleTestCase {
     /** This class is tested. */
     private Class clazz = TermVo.class;
 
+    private TermVo v0;
+
+    private TermVo v1;
+
+    protected void setUp() throws Exception {
+        super.setUp();
+        v0 = new TermVo();
+        v1 = new TermVo(new DefaultAtom("atom"));
+    }
+
     protected Class getTestedClass() {
         return clazz;
     }
+
+    public void testGetElement() {
+        assertNull(v0.getElement());
+        assertEquals(new DefaultAtom("atom"), v1.getElement());
+    }
+
 }

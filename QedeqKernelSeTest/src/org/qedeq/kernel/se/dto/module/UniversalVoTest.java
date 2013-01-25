@@ -43,6 +43,10 @@ public class UniversalVoTest extends AbstractVoModuleTestCase {
         return clazz;
     }
 
+    public void testGetUniversal() {
+        assertEquals(universal, universal.getUniversal());
+    }
+
     public void testGetName() {
         assertEquals("Universal", universal.getName());
     }

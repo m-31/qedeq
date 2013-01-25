@@ -43,6 +43,10 @@ public class SubstPredVoTest extends AbstractVoModuleTestCase {
         return clazz;
     }
 
+    public void testGetSubstPred() {
+        assertEquals(subst, subst.getSubstPred());
+    }
+
     public void testGetName() {
         assertEquals("SubstPred", subst.getName());
     }

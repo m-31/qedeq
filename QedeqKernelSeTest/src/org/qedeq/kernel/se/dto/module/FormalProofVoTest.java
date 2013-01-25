@@ -15,6 +15,8 @@
 
 package org.qedeq.kernel.se.dto.module;
 
+import org.qedeq.kernel.se.base.module.FormalProofLineList;
+
 
 /**
  * Test class {@link org.qedeq.kernel.se.dto.module.FormalProofVo}.
@@ -30,4 +32,15 @@ public class FormalProofVoTest extends AbstractVoModuleTestCase {
     protected Class getTestedClass() {
         return clazz;
     }
+
+    public void testConstructor() {
+        FormalProofVo vo = null;
+        vo = new FormalProofVo(null);
+        assertNull(vo.getFormalProofLineList());
+        FormalProofLineListVo lines = new FormalProofLineListVo();
+        lines.add(new FormalProofLineVo());
+        vo = new FormalProofVo(lines);
+        assertEquals(lines, vo.getFormalProofLineList());
+    }
+
 }

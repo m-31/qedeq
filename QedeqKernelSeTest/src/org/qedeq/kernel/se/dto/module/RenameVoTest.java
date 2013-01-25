@@ -43,6 +43,10 @@ public class RenameVoTest extends AbstractVoModuleTestCase {
         return clazz;
     }
 
+    public void testGetRename() {
+        assertEquals(rename, rename.getRename());
+    }
+
     public void testGetName() {
         assertEquals("Rename", rename.getName());
     }

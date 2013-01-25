@@ -15,6 +15,7 @@
 
 package org.qedeq.kernel.se.dto.module;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.SubstFree;
@@ -76,8 +77,8 @@ public class SubstFreeVo implements SubstFree {
     }
 
     public String[] getReferences() {
-        if (reference == null || reference.length() == 0) {
-            return new String[] {};
+        if (reference == null) {
+            return ArrayUtils.EMPTY_STRING_ARRAY;
         } else {
             return new String[] {reference };
         }

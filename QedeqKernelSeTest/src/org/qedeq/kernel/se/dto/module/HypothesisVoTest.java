@@ -29,11 +29,14 @@ public class HypothesisVoTest extends AbstractVoModuleTestCase {
     /** This class is tested. */
     private Class clazz = ConclusionVo.class;
 
-    private ConclusionVo vo;
+    private ConclusionVo v0;
+
+    private ConclusionVo v1;
 
     protected void setUp() throws Exception {
         super.setUp();
-        vo = new ConclusionVo("first", new FormulaVo(new DefaultAtom("dummy")));
+        v0 = new ConclusionVo(null, null);
+        v1 = new ConclusionVo("first", new FormulaVo(new DefaultAtom("dummy")));
     }
 
     protected Class getTestedClass() {
@@ -41,11 +44,13 @@ public class HypothesisVoTest extends AbstractVoModuleTestCase {
     }
 
     public void testGetLabel() {
-        assertEquals("first", vo.getLabel());
+        assertNull(v0.getLabel());
+        assertEquals("first", v1.getLabel());
     }
 
     public void testGetFormula() {
-        assertTrue(EqualsUtility.equals(new FormulaVo(new DefaultAtom("dummy")), vo.getFormula()));
+        assertNull(v0.getFormula());
+        assertTrue(EqualsUtility.equals(new FormulaVo(new DefaultAtom("dummy")), v1.getFormula()));
     }
 
 }

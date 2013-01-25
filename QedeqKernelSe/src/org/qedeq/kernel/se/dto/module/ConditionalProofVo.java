@@ -15,6 +15,7 @@
 
 package org.qedeq.kernel.se.dto.module;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.base.module.Conclusion;
 import org.qedeq.kernel.se.base.module.ConditionalProof;
@@ -81,7 +82,7 @@ public class ConditionalProofVo implements ConditionalProof {
     }
 
     public String[] getReferences() {
-        return new String[0];
+        return ArrayUtils.EMPTY_STRING_ARRAY;
     }
 
     /**

@@ -77,7 +77,7 @@ public class SubstPredVo implements SubstPred {
     }
 
     public String[] getReferences() {
-        if (reference == null || reference.length() == 0) {
+        if (reference == null) {
             return ArrayUtils.EMPTY_STRING_ARRAY;
         } else {
             return new String[] {reference };

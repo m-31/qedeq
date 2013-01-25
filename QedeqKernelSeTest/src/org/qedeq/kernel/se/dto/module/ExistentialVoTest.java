@@ -43,6 +43,10 @@ public class ExistentialVoTest extends AbstractVoModuleTestCase {
         return clazz;
     }
 
+    public void testGetExistential() {
+        assertEquals(existential, existential.getExistential());
+    }
+
     public void testGetName() {
         assertEquals("Existential", existential.getName());
     }
