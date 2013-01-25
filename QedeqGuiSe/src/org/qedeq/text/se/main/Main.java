@@ -55,7 +55,7 @@ public final class Main {
             throws IOException {
         // application log file directory
         {
-            final File file = new File(config.getBasisDirectory(), config.getLogFile());
+            final File file = config.getLogFile();
             final File dir = file.getParentFile();
             if (!dir.exists() &&  !dir.mkdirs()) {
                 throw new IOException("can't create directory: " + dir.getAbsolutePath());

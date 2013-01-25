@@ -614,7 +614,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
      */
     void createAllNecessaryDirectories() throws IOException {
         // log directory
-        final File logFile = new File(getConfig().getBasisDirectory(), getConfig().getLogFile());
+        final File logFile = getConfig().getLogFile();
         final File logDir = logFile.getParentFile();
         if (!logDir.exists() &&  !logDir.mkdirs()) {
             throw new IOException("can't create directory: " + logDir.getAbsolutePath());

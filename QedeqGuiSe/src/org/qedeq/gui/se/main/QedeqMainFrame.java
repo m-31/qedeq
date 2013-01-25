@@ -81,8 +81,7 @@ public class QedeqMainFrame extends JFrame {
         QedeqLog.getInstance().addLog(new TraceListener());     // trace file
         QedeqLog.getInstance()                                  // log file
             .addLog(new LogListenerImpl(new PrintStream(
-            new FileOutputStream(new File(QedeqGuiConfig.getInstance().getBasisDirectory(),
-                QedeqGuiConfig.getInstance().getLogFile()), true), true)));
+            new FileOutputStream(QedeqGuiConfig.getInstance().getLogFile(), true), true)));
         ModuleEventLog.getInstance().addLog(new ModuleEventListenerLog());  // all loggers
 
         // initialize the kernel, this may create already some logging events
@@ -114,7 +113,7 @@ public class QedeqMainFrame extends JFrame {
             throws IOException {
         // application log file directory
         {
-            final File file = new File(config.getBasisDirectory(), config.getLogFile());
+            final File file = config.getLogFile();
             final File dir = file.getParentFile();
             if (!dir.exists() &&  !dir.mkdirs()) {
                 throw new IOException("can't create directory: " + dir.getAbsolutePath());
