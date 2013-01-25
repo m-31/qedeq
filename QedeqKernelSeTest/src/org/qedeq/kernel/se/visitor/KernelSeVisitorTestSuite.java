@@ -42,6 +42,7 @@ public class KernelSeVisitorTestSuite extends QedeqTestSuite {
     public KernelSeVisitorTestSuite() {
         super();
         addTestSuite(AbstractModuleVisitorTest.class);
+        addTestSuite(InterruptExceptionTest.class);
         addTestSuite(QedeqNotNullTraverserTest.class);
         addTestSuite(QedeqNumbersTest.class);
     }
