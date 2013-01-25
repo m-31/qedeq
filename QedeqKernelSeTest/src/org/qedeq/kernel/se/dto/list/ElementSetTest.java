@@ -55,6 +55,13 @@ public class ElementSetTest extends QedeqTestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
+        initAttributes();
+    }
+
+    /**
+     * 
+     */
+    private void initAttributes() {
         empty = new ElementSet();
         one = new ElementSet(new Element[] {new DefaultAtom("one")});
         two = new ElementSet(new Element[] {new DefaultAtom("two")});
@@ -218,8 +225,21 @@ public class ElementSetTest extends QedeqTestCase {
         } catch (Exception e) {
             // ok
         }
-        assertEquals(empty, one.minus(one));
-        assertEquals(empty, one.minus(one));
+        assertEquals(oneTwo, oneTwo.minus(empty));
+        assertEquals(2, oneTwo.size());
+        assertEquals(one, one.minus(one));
+        assertEquals(0, one.size());
+        initAttributes();
+        assertEquals(oneTwo, oneTwo.minus(one));
+        assertEquals(new ElementSet(new Element[]{ new DefaultAtom("two")}), oneTwo);
+        initAttributes();
+        assertEquals(oneTwo, oneTwo.minus(two));
+        assertEquals(new ElementSet(new Element[]{ new DefaultAtom("one")}), oneTwo);
+        initAttributes();
+        assertEquals(2, oneTwo.size());
+        assertEquals(oneTwo, oneTwo.minus(new ElementSet(new Element[] {
+            new DefaultAtom("three") })));
+        assertEquals(2, oneTwo.size());
     }
 
     public void testNewDelta() {
