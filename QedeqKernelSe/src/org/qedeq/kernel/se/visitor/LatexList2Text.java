@@ -4,9 +4,15 @@ import org.qedeq.kernel.se.base.module.Latex;
 import org.qedeq.kernel.se.base.module.LatexList;
 
 /**
- * Transform latex list into text.
- *
- * TODO 20101221 m31: perhaps we should use the Latex2Utf8 converter?
+ * Transform latex list into text. We make here only a basic conversion to have a plain text
+ * description of such things as chapter titles. So we have to remove something like
+ * "\index".
+ * <br/>
+ * TODO 20130126 m31: this transformation is mainly used to get a good location description
+ * when a plugin is running. So it must work with chapter, section and subsection titles.
+ * We just have to check what LaTeX stuff is used there.
+ * <br/>
+ * Another problem: currently only the method {@link #transform(LatexList)} is called.
  *
  * @author  Michael Meyling
  */
@@ -34,8 +40,10 @@ public class LatexList2Text {
         if (list == null) {
             return "";
         }
+        // if we got no language we take "en"
+        String lan = (language != null ? language : "en");
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i) != null && language.equals(list.get(i).getLanguage())) {
+            if (list.get(i) != null && lan.equals(list.get(i).getLanguage())) {
                 return getLatex(list.get(i));
             }
         }
@@ -45,21 +53,38 @@ public class LatexList2Text {
                 return getLatex(list.get(i));
             }
         }
+        // if we haven't tried "en" yet we give it a try
+        if (!"en".equals(lan)) {
+            lan = "en";
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i) != null && lan.equals(list.get(i).getLanguage())) {
+                    return getLatex(list.get(i));
+                }
+            }
+        }
+        // fallback: now we take the first non empty entry
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i) != null) {
                 return getLatex(list.get(i));
             }
         }
+        // nothing found, so we return just an empty string
         return "";
     }
 
     protected String getLatex(final Latex latex) {
+        if (latex == null) {
+            return "";
+        }
         String result = latex.getLatex();
         if (result == null) {
             result = "";
         }
         result = result.trim();
         result = result.replaceAll("\\\\index\\{.*\\}", "");
+        result = result.replaceAll("\\\\(\\w*)\\{(.*)\\}", "$2");
+        result = result.replace("{", "");
+        result = result.replace("}", "");
         return result.trim();
     }
 

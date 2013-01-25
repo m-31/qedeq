@@ -100,8 +100,8 @@ public class ElementSet {
     /**
      * Is element in set?
      *
-     * @param   element    element to check for.
-     * @return  is <code>element</code> in this set?
+     * @param   element    Element to check for.
+     * @return  Is <code>element</code> in this set?
      * @throws  IllegalArgumentException if the element was a
      *          NullPointer
      */
@@ -112,11 +112,10 @@ public class ElementSet {
         return this.elements.contains(element);
     }
 
-
     /**
-     * Is set empty?
+     * Is this set empty?
      *
-     * @return  is set empty?
+     * @return  Is this set empty?
      */
     public final boolean isEmpty() {
         return elements.isEmpty();
@@ -126,8 +125,8 @@ public class ElementSet {
     /**
      * Is <code>set</code> a superset of this set?
      *
-     * @param   set    set to check for.
-     * @return  is this set a subset of <code>set</code>?
+     * @param   set    Set to check for.
+     * @return  Is this set a subset of <code>set</code>?
      * @throws  IllegalArgumentException if the set was a NullPointer
      */
     public final boolean isSubset(final ElementSet set) {
@@ -143,7 +142,7 @@ public class ElementSet {
      * union of this set with {<code>element</code>}
      *
      * @param   element    element to put into the set
-     * @return  was <code>this</code> set changed?
+     * @return  Possibly changed <code>this</code>.
      * @throws  IllegalArgumentException if the element was a
      *          NullPointer
      */
@@ -161,7 +160,7 @@ public class ElementSet {
      * After this method this object is the union of the two sets.
      *
      * @param   set    add all elements that are here
-     * @return  was <code>this</code> set changed?
+     * @return  Possibly changed <code>this</code>.
      * @throws  IllegalArgumentException if the set was a
      *          NullPointer
      */
@@ -176,10 +175,10 @@ public class ElementSet {
 
 
     /**
-     * Remove an element from set.
+     * Remove an element from this set.
      *
-     * @param   element    Element to remove from the set
-     * @return  was <code>this</code> set changed?
+     * @param   element    Element to remove from the set. Must not be <code>null</code>.
+     * @return  Possibly changed <code>this</code>.
      * @throws  IllegalArgumentException if the element was a
      *          NullPointer
      */
@@ -198,9 +197,9 @@ public class ElementSet {
      * After this method this object is the asymmetric set difference of the
      * two sets: <code>this</code> \ <code>set</code>.
      *
-     * @param   set    remove all elements that are in this set from
-     *                 <code>this</code>
-     * @return  was <code>this</code> set changed?
+     * @param   set    Remove all elements that are in this set from
+     *                 <code>this</code>.
+     * @return  Possibly changed <code>this</code>.
      * @throws  IllegalArgumentException if the set was a
      *          NullPointer
      */
@@ -217,8 +216,8 @@ public class ElementSet {
     /**
      * Build the intersection.
      *
-     * @param   set    check for these elements
-     * @return  was <code>this</code> set changed?
+     * @param   set    Check for these elements.
+     * @return  Possibly changed <code>this</code>.
      * @throws  IllegalArgumentException if the set was a
      *          NullPointer
      */
@@ -236,7 +235,8 @@ public class ElementSet {
      * Build a new intersection.
      *
      * @param   set    check for these elements
-     * @return  was <code>this</code> set changed?
+     * @return  New instance that contains all elements that were in <code>this</code>
+     *          and <code>set</code>.
      * @throws  IllegalArgumentException if the set was a
      *          NullPointer
      */
@@ -253,8 +253,8 @@ public class ElementSet {
 
     /**
      * Return all elements that are only in one of both sets.
-     * This method returns the symmetric set difference of the
-     * two sets. This set is not modified.
+     * This method returns a new instance that holds the symmetric set difference of the
+     * two sets. The original set is not modified.
      *
      * @param   set    Build the symmetric difference with this set.
      *                 <code>this</code>
