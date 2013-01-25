@@ -103,7 +103,7 @@ public class ConclusionVo implements Conclusion {
 
     public String toString() {
         return (label != null ? "[" + label + "] " : "    ") + getFormula() + " "
-            + "Hypothesis";
+            + "Conclusion";
     }
 
 }

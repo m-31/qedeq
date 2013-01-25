@@ -26,7 +26,19 @@ public class AuthorVoTest extends AbstractVoModuleTestCase {
     /** This class is tested. */
     private Class clazz = AuthorVo.class;
 
+    private AuthorVo vo;
+
     protected Class getTestedClass() {
         return clazz;
     }
+
+    public void testConstructor() {
+        vo = new AuthorVo(null, null);
+        assertNull(vo.getEmail());
+        assertNull(vo.getName());
+        vo = new AuthorVo(new LatexVo("en", "name"), "mail@mail.org");
+        assertEquals("mail@mail.org", vo.getEmail());
+        assertEquals(new LatexVo("en", "name"), vo.getName());
+    }
+
 }
