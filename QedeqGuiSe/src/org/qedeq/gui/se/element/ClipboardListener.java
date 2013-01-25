@@ -123,7 +123,6 @@ class ClipboardListener extends MouseAdapter implements ActionListener {
     }
 
     private void find()  {
-        System.out.println("################# ###################### find");
         FindDialog finder = new FindDialog(outer);
         finder.show();
     }
