@@ -62,6 +62,7 @@ public class QedeqNumbersTest extends QedeqTestCase {
         assertEquals(0, numbers.getSubsectionNumber());
         assertEquals(0, numbers.getNodeNumber());
         assertEquals(0, numbers.getAxiomNumber());
+        assertEquals(0, numbers.getPropositionNumber());
         assertEquals(0, numbers.getPredicateDefinitionNumber());
         assertEquals(0, numbers.getFunctionDefinitionNumber());
         assertEquals(0, numbers.getRuleNumber());
@@ -72,6 +73,7 @@ public class QedeqNumbersTest extends QedeqTestCase {
      * Test hashCode and equals.
      */
     public void testHashCodeAndEquals() throws Exception {
+        int remember = 0;
         numbers = new QedeqNumbers(11, 13);
         QedeqNumbers other = new QedeqNumbers(11, 13);
         assertEquals(numbers, other);
@@ -89,56 +91,72 @@ public class QedeqNumbersTest extends QedeqTestCase {
         assertEquals(numbers, other);
         assertEquals(numbers.hashCode(), other.hashCode());
 
+        remember = numbers.getChapterNumber();
         numbers.increaseChapterNumber(4, true);
+        assertEquals(remember + 1, numbers.getChapterNumber());
         assertFalse(numbers.equals(other));
         assertFalse(numbers.hashCode() == other.hashCode());
         other.increaseChapterNumber(4, true);
         assertEquals(numbers, other);
         assertEquals(numbers.hashCode(), other.hashCode());
 
+        remember = numbers.getSectionNumber();
         numbers.increaseSectionNumber(8, true);
+        assertEquals(remember + 1, numbers.getSectionNumber());
         assertFalse(numbers.equals(other));
         assertFalse(numbers.hashCode() == other.hashCode());
         other.increaseSectionNumber(8, true);
         assertEquals(numbers, other);
         assertEquals(numbers.hashCode(), other.hashCode());
 
+        remember = numbers.getSubsectionNumber();
         numbers.increaseSubsectionNumber();
+        assertEquals(remember + 1, numbers.getSubsectionNumber());
         assertFalse(numbers.equals(other));
         assertFalse(numbers.hashCode() == other.hashCode());
         other.increaseSubsectionNumber();
         assertEquals(numbers, other);
         assertEquals(numbers.hashCode(), other.hashCode());
 
+        remember = numbers.getAxiomNumber();
         numbers.increaseAxiomNumber();
+        assertEquals(remember + 1, numbers.getAxiomNumber());
         assertFalse(numbers.equals(other));
         assertFalse(numbers.hashCode() == other.hashCode());
         other.increaseAxiomNumber();
         assertEquals(numbers, other);
         assertEquals(numbers.hashCode(), other.hashCode());
 
+        remember = numbers.getPredicateDefinitionNumber();
         numbers.increasePredicateDefinitionNumber();
+        assertEquals(remember + 1, numbers.getPredicateDefinitionNumber());
         assertFalse(numbers.equals(other));
         assertFalse(numbers.hashCode() == other.hashCode());
         other.increasePredicateDefinitionNumber();
         assertEquals(numbers, other);
         assertEquals(numbers.hashCode(), other.hashCode());
 
+        remember = numbers.getFunctionDefinitionNumber();
         numbers.increaseFunctionDefinitionNumber();
+        assertEquals(remember + 1, numbers.getFunctionDefinitionNumber());
         assertFalse(numbers.equals(other));
         assertFalse(numbers.hashCode() == other.hashCode());
         other.increaseFunctionDefinitionNumber();
         assertEquals(numbers, other);
         assertEquals(numbers.hashCode(), other.hashCode());
 
+        remember = numbers.getPropositionNumber();
         numbers.increasePropositionNumber();
+        assertEquals(remember + 1, numbers.getPropositionNumber());
         assertFalse(numbers.equals(other));
         assertFalse(numbers.hashCode() == other.hashCode());
         other.increasePropositionNumber();
         assertEquals(numbers, other);
         assertEquals(numbers.hashCode(), other.hashCode());
 
+        remember = numbers.getRuleNumber();
         numbers.increaseRuleNumber();
+        assertEquals(remember + 1, numbers.getRuleNumber());
         assertFalse(numbers.equals(other));
         assertFalse(numbers.hashCode() == other.hashCode());
         other.increaseRuleNumber();
@@ -232,9 +250,13 @@ public class QedeqNumbersTest extends QedeqTestCase {
                 }
             }
         }
+        numbers.setFinished(true);
+        assertTrue(numbers.isFinished());
+        assertTrue(Math.abs(100 - numbers.getVisitPercentage()) < 1e10);
     }
 
     public void checkVarious() throws Exception {
+        assertFalse(numbers.isFinished());
         assertFalse(numbers.equals(old));
         if (old != null) {
             assertFalse(numbers.hashCode() == old.hashCode());
