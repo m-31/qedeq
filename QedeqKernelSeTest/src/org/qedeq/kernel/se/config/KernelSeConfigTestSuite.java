@@ -41,5 +41,6 @@ public class KernelSeConfigTestSuite extends QedeqTestSuite {
     public KernelSeConfigTestSuite() {
         super();
         addTestSuite(ConfigAccessTest.class);
+        addTestSuite(QedeqConfigTest.class);
     }
 }

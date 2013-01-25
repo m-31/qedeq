@@ -61,7 +61,7 @@ public class QedeqConfig {
      * @param   configFile       Config file.
      * @param   description      Config file description.
      * @param   basisDirectory   Basis directory of application for all variable data. Basis for all
-     *                           relative paths
+     *                           new relative paths
      * @throws  IOException      Config file couldn't be loaded.
      */
     public QedeqConfig(final File configFile, final String description, final File basisDirectory)
@@ -153,16 +153,25 @@ public class QedeqConfig {
     }
 
     /**
-     * Get local file location for log file.
+     * Get relative file location for log file.
      *
-     * @return  Log file path.
+     * @return  Log file path relative to basis directory.
      */
-    public final String getLogFile() {
+    private final String getLogFileString() {
         final String location = getKeyValue("logLocation");
         if (location == null) {
             return QedeqConfig.DEFAULT_LOG_FILE;
         }
         return location;
+    }
+
+    /**
+     * Get file location for log file.
+     *
+     * @return  Log file path.
+     */
+    public final File getLogFile() {
+        return new File(getBasisDirectory(), getLogFileString());
     }
 
     /**
