@@ -26,6 +26,8 @@ public class FunctionDefinitionVoTest extends AbstractVoModuleTestCase {
     /** This class is tested. */
     private Class clazz = FunctionDefinitionVo.class;
 
+    private FunctionDefinitionVo vo;
+
     protected void setUp() throws Exception {
         super.setUp();
         removeMethodToCheck("getAxiom");
@@ -35,8 +37,19 @@ public class FunctionDefinitionVoTest extends AbstractVoModuleTestCase {
         removeMethodToCheck("getFunctionDefinition");
         removeMethodToCheck("getProposition");
         removeMethodToCheck("getRule");
+        vo = new FunctionDefinitionVo();
     }
 
+    public void testOtherGetters() {
+        assertNull(vo.getAxiom());
+        assertNull(vo.getInitialPredicateDefinition());
+        assertNull(vo.getPredicateDefinition());
+        assertEquals(vo, vo.getFunctionDefinition());
+        assertNull(vo.getInitialFunctionDefinition());
+        assertNull(vo.getProposition());
+        assertNull(vo.getRule());
+    }
+    
     protected Class getTestedClass() {
         return clazz;
     }

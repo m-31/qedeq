@@ -36,8 +36,8 @@ public class ModusPonensVo implements ModusPonens {
     /**
      * Constructs a Modus Ponens argument.
      *
-     * @param   reference1  Usually reference to a formula like A -> B.
-     * @param   reference2  Usually reference to a formula like A.
+     * @param   reference1  Usually reference to a formula like A -> B. Might be <code>null</code>.
+     * @param   reference2  Usually reference to a formula like A. Might be <code>null</code>.
      */
     public ModusPonensVo(final String reference1, final String reference2) {
         this.reference1 = reference1;
@@ -62,7 +62,7 @@ public class ModusPonensVo implements ModusPonens {
     /**
      * Set first formula reference.
      *
-     * @param   reference1  Reference to formula.
+     * @param   reference1  Reference to formula. Might be <code>null</code>.
      */
     public void setReference1(final String reference1) {
         this.reference1 = reference1;
@@ -75,21 +75,21 @@ public class ModusPonensVo implements ModusPonens {
     /**
      * Set second formula reference.
      *
-     * @param   reference2  Reference to formula.
+     * @param   reference2  Reference to formula. Might be <code>null</code>.
      */
     public void setReference2(final String reference2) {
         this.reference2 = reference2;
     }
 
     public String[] getReferences() {
-        if (reference1 == null || reference1.length() == 0) {
-            if (reference2 == null || reference2.length() == 0) {
+        if (reference1 == null) {
+            if (reference2 == null) {
                 return ArrayUtils.EMPTY_STRING_ARRAY;
             } else {
                 return new String[] {reference2 };
             }
         } else {
-            if (reference2 == null || reference2.length() == 0) {
+            if (reference2 == null) {
                 return new String[] {reference1 };
             } else {
                 return new String[] {reference1, reference2 };

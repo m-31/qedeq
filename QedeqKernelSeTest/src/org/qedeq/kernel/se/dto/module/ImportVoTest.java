@@ -29,4 +29,12 @@ public class ImportVoTest extends AbstractVoModuleTestCase {
     protected Class getTestedClass() {
         return clazz;
     }
+
+    public void testConstructor() {
+        ImportVo vo = null;
+        vo = new ImportVo(null, null);
+        vo.hashCode();
+        assertEquals("null:null", vo.toString());
+    }
+
 }

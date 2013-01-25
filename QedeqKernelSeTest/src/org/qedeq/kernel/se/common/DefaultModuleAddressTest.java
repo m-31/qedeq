@@ -138,6 +138,26 @@ public class DefaultModuleAddressTest extends QedeqTestCase {
             fail("Exception expected");
         } catch (Exception e) {
         }
+        try {
+            new DefaultModuleAddress((File) null);
+            fail("Exception expected");
+        } catch (Exception e) {
+        }
+        try {
+            new DefaultModuleAddress((String) null);
+            fail("Exception expected");
+        } catch (Exception e) {
+        }
+        try {
+            new DefaultModuleAddress((URL) null);
+            fail("Exception expected");
+        } catch (Exception e) {
+        }
+        try {
+            new DefaultModuleAddress(null, null);
+            fail("Exception expected");
+        } catch (Exception e) {
+        }
     }
 
     /**

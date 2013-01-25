@@ -57,14 +57,14 @@ public class AddVo implements Add {
     /**
      * Set formula reference.
      *
-     * @param   reference   Reference to formula.
+     * @param   reference   Reference to formula. Might be <code>null</code>.
      */
     public void setReference(final String reference) {
         this.reference = reference;
     }
 
     public String[] getReferences() {
-        if (reference == null || reference.length() == 0) {
+        if (reference == null) {
             return ArrayUtils.EMPTY_STRING_ARRAY;
         } else {
             return new String[] {reference };

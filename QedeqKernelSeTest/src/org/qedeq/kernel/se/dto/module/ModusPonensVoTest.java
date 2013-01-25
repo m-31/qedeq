@@ -28,26 +28,45 @@ public class ModusPonensVoTest extends AbstractVoModuleTestCase {
     /** This class is tested. */
     private Class clazz = ModusPonensVo.class;
 
-    private ModusPonensVo mp;
+    private ModusPonensVo mp1;
+    private ModusPonensVo mp2;
 
     protected void setUp() throws Exception {
         super.setUp();
         removeMethodToCheck("getModusPonens");
         removeMethodToCheck("getName");
         removeMethodToCheck("getReferences");
-        mp = new ModusPonensVo("first", "second");
+        mp1 = new ModusPonensVo("first", "second");
+        mp2 = new ModusPonensVo();
     }
 
     protected Class getTestedClass() {
         return clazz;
     }
 
+    public void testGetModusPonens() {
+        assertEquals(mp1, mp1.getModusPonens());
+        assertEquals(mp2, mp2.getModusPonens());
+    }
+
     public void testGetName() {
-        assertEquals("MP", mp.getName());
+        assertEquals("MP", mp1.getName());
+        assertEquals("MP", mp2.getName());
+    }
+
+    public void testGetReference1() {
+        assertEquals("first", mp1.getReference1());
+        assertNull(mp2.getReference1());
+    }
+
+    public void testGetReference2() {
+        assertEquals("second", mp1.getReference2());
+        assertNull(mp2.getReference2());
     }
 
     public void testGetReferences() {
-        assertTrue(EqualsUtility.equals(new String[] {"first", "second"}, mp.getReferences()));
+        assertTrue(EqualsUtility.equals(new String[] {"first", "second"}, mp1.getReferences()));
+        assertTrue(EqualsUtility.equals(new String[] {}, mp2.getReferences()));
     }
 
 }

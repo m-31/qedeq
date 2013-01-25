@@ -33,7 +33,7 @@ public interface Reason {
     /**
      * Get references to previous formulas.
      *
-     * @return  List of references.
+     * @return  List of references. Contains no entries with value <code>null</code>.
      */
     public String[] getReferences();
 

@@ -28,14 +28,16 @@ public class AddVoTest extends AbstractVoModuleTestCase {
     /** This class is tested. */
     private Class clazz = AddVo.class;
 
-    private AddVo add;
+    private AddVo add1;
+    private AddVo add2;
 
     protected void setUp() throws Exception {
         super.setUp();
         removeMethodToCheck("getAdd");
         removeMethodToCheck("getName");
         removeMethodToCheck("getReferences");
-        add = new AddVo("first");
+        add1 = new AddVo("first");
+        add2 = new AddVo();
     }
 
     protected Class getTestedClass() {
@@ -43,11 +45,18 @@ public class AddVoTest extends AbstractVoModuleTestCase {
     }
 
     public void testGetName() {
-        assertEquals("Add", add.getName());
+        assertEquals("Add", add1.getName());
+        assertEquals("Add", add2.getName());
+    }
+
+    public void testGetModusPonens() {
+        assertEquals(add1, add1.getAdd());
+        assertEquals(add2, add2.getAdd());
     }
 
     public void testGetReferences() {
-        assertTrue(EqualsUtility.equals(new String[] {"first"}, add.getReferences()));
+        assertTrue(EqualsUtility.equals(new String[] {"first"}, add1.getReferences()));
+        assertTrue(EqualsUtility.equals(new String[] {}, add2.getReferences()));
     }
 
 }

@@ -30,4 +30,20 @@ public class FormalProofLineVoTest extends AbstractVoModuleTestCase {
         return clazz;
     }
 
+    public void testConstructos() {
+        FormalProofLineVo vo = null;
+        vo = new FormalProofLineVo(null, null);
+        assertNull(vo.getLabel());
+        assertNull(vo.getFormula());
+        assertNull(vo.getReason());
+        vo.hashCode();
+        assertEquals("    null null", vo.toString());
+        vo = new FormalProofLineVo(null, null, null);
+        assertNull(vo.getLabel());
+        assertNull(vo.getFormula());
+        assertNull(vo.getReason());
+        vo.hashCode();
+        assertEquals("    null null", vo.toString());
+    }
+    
 }
