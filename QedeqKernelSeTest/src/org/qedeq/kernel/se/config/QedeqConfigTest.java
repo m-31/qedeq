@@ -85,13 +85,19 @@ public class QedeqConfigTest extends QedeqTestCase {
         assertEquals(basis1.getCanonicalFile(), con1.getBasisDirectory());
     }
 
-    public void testGetBufferDirectory() throws Exception {
+    public void testGetSetBufferDirectory() throws Exception {
         assertEquals(new File(basis1, "buffer").getCanonicalFile(),
+            con1.getBufferDirectory().getCanonicalFile());
+        con1.setBufferDirectory(new File(con1.getBasisDirectory(), "newLocation"));
+        assertEquals(new File(basis1, "newLocation").getCanonicalFile(),
             con1.getBufferDirectory().getCanonicalFile());
     }
 
-    public void testGetGenerationDirectory() throws Exception {
+    public void testGetSetGenerationDirectory() throws Exception {
         assertEquals(new File(basis1, "generated").getCanonicalFile(),
+            con1.getGenerationDirectory().getCanonicalFile());
+        con1.setGenerationDirectory(new File(con1.getBasisDirectory(), "newGeneration"));
+        assertEquals(new File(basis1, "newGeneration").getCanonicalFile(),
             con1.getGenerationDirectory().getCanonicalFile());
     }
 
@@ -163,9 +169,15 @@ public class QedeqConfigTest extends QedeqTestCase {
 
     public void testGetPluginValues() throws Exception {
         Parameters paras = con1.getPluginEntries(plugin1);
-        assertEquals(19, paras.keySet().size());
+        assertEquals(20, paras.keySet().size());
+        assertEquals(6, paras.getInt("conjunctionOrder"));
+        assertTrue(paras.getBoolean("boolean"));
         paras = con1.getPluginEntries(plugin2);
         assertEquals(0, paras.keySet().size());
     }
 
+    public void testA() throws Exception {
+        Parameters paras = con1.getPluginEntries(plugin1);
+    }
+    
 }
