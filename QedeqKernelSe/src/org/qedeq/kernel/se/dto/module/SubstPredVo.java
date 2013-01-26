@@ -132,7 +132,7 @@ public class SubstPredVo implements SubstPred {
 
     public String toString() {
         StringBuffer result = new StringBuffer();
-        result.append("SubstPred");
+        result.append(getName());
         if (getReference() != null || getPredicateVariable() != null
                 || getSubstituteFormula() != null) {
             result.append(" (");

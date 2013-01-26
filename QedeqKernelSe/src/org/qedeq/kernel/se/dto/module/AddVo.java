@@ -88,9 +88,7 @@ public class AddVo implements Add {
         result.append("Add");
         if (reference != null) {
             result.append(" (");
-            if (reference != null) {
-                result.append(reference);
-            }
+            result.append(reference);
             result.append(")");
         }
         return result.toString();

@@ -132,7 +132,7 @@ public class SubstFuncVo implements SubstFunc {
 
     public String toString() {
         StringBuffer result = new StringBuffer();
-        result.append("SubstFree");
+        result.append(getName());
         if (reference != null || functionVariable != null
                 || substituteTerm != null) {
             result.append(" (");

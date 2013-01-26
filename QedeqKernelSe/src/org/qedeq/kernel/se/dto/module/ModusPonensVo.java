@@ -113,7 +113,7 @@ public class ModusPonensVo implements ModusPonens {
 
     public String toString() {
         StringBuffer result = new StringBuffer();
-        result.append("MP");
+        result.append(getName());
         if (getReference1() != null || getReference2() != null) {
             result.append(" (");
             if (getReference1() != null) {

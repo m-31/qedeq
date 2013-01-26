@@ -178,7 +178,7 @@ public class InitialPredicateDefinitionVo implements InitialPredicateDefinition 
 
     public String toString() {
         final StringBuffer buffer = new StringBuffer();
-        buffer.append("Predicate Definition arguments=" + getArgumentNumber() + "\n");
+        buffer.append("Initial Predicate Definition arguments=" + getArgumentNumber() + "\n");
         buffer.append("\tname=" + getName() + "\n");
         buffer.append("\tpattern=" + getLatexPattern() + "\n");
         buffer.append("\tpredCon=" + getPredCon() + "\n");

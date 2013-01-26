@@ -49,7 +49,9 @@ public class LatexList2TextTest extends QedeqTestCase {
 
     public void testTransform() {
         LatexListVo list = null;
+        assertEquals("", converter.transform(list));
         list = new LatexListVo();
+        assertEquals("", converter.transform(list));
         list.add(new LatexVo("de", "zwei"));
         list.add(new LatexVo("it", "tre"));
         list.add(new LatexVo("en", "one"));
@@ -64,8 +66,14 @@ public class LatexList2TextTest extends QedeqTestCase {
         list.add(new LatexVo("it", "tre"));
         assertEquals("zwei", converter.transform(list));
         assertEquals("tre", converter.transform(list, "it"));
+        assertEquals("zwei", converter.transform(list, "en"));
         list.add(new LatexVo("en", "one"));
         assertEquals("one", converter.transform(list));
+        list = new LatexListVo();
+        list.add(new LatexVo("de", "zwei"));
+        list.add(new LatexVo("it", "tre"));
+        assertEquals("zwei", converter.transform(list));
+        assertEquals("zwei", converter.transform(list, "en"));
     }
 
 }

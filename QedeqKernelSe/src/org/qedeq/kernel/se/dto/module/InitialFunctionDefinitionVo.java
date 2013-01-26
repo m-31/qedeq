@@ -178,7 +178,7 @@ public class InitialFunctionDefinitionVo implements InitialFunctionDefinition {
 
     public String toString() {
         final StringBuffer buffer = new StringBuffer();
-        buffer.append("Function Definition arguments=" + getArgumentNumber() + "\n");
+        buffer.append("Initial Function Definition arguments=" + getArgumentNumber() + "\n");
         buffer.append("\tname=" + getName() + "\n");
         buffer.append("\tpattern=" + getLatexPattern() + "\n");
         buffer.append("\tfuncon=" + getFunCon() + "\n");

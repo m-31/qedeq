@@ -33,10 +33,13 @@ public class ConclusionVoTest extends AbstractVoModuleTestCase {
 
     private ConclusionVo v1;
 
+    private ConclusionVo v2;
+
     protected void setUp() throws Exception {
         super.setUp();
         v0 = new ConclusionVo(null, null);
         v1 = new ConclusionVo("first", new FormulaVo(new DefaultAtom("dummy")));
+        v2 = new ConclusionVo(new FormulaVo(new DefaultAtom("dummy")));
     }
 
     protected Class getTestedClass() {
@@ -46,11 +49,13 @@ public class ConclusionVoTest extends AbstractVoModuleTestCase {
     public void testGetLabel() {
         assertNull(v0.getLabel());
         assertEquals("first", v1.getLabel());
+        assertNull(v2.getLabel());
     }
 
     public void testGetFormula() {
         assertNull(v0.getFormula());
         assertTrue(EqualsUtility.equals(new FormulaVo(new DefaultAtom("dummy")), v1.getFormula()));
+        assertTrue(EqualsUtility.equals(new FormulaVo(new DefaultAtom("dummy")), v2.getFormula()));
     }
 
 }

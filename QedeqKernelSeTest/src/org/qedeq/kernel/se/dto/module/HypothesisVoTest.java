@@ -20,23 +20,26 @@ import org.qedeq.kernel.se.dto.list.DefaultAtom;
 
 
 /**
- * Test class {@link org.qedeq.kernel.se.dto.module.ConclusionVo}.
+ * Test class {@link org.qedeq.kernel.se.dto.module.HypothesisVo}.
  *
  * @author  Michael Meyling
  */
 public class HypothesisVoTest extends AbstractVoModuleTestCase {
 
     /** This class is tested. */
-    private Class clazz = ConclusionVo.class;
+    private Class clazz = HypothesisVo.class;
 
-    private ConclusionVo v0;
+    private HypothesisVo v0;
 
-    private ConclusionVo v1;
+    private HypothesisVo v1;
+
+    private HypothesisVo v2;
 
     protected void setUp() throws Exception {
         super.setUp();
-        v0 = new ConclusionVo(null, null);
-        v1 = new ConclusionVo("first", new FormulaVo(new DefaultAtom("dummy")));
+        v0 = new HypothesisVo(null, null);
+        v1 = new HypothesisVo("first", new FormulaVo(new DefaultAtom("dummy")));
+        v2 = new HypothesisVo(new FormulaVo(new DefaultAtom("dummy")));
     }
 
     protected Class getTestedClass() {
@@ -46,11 +49,13 @@ public class HypothesisVoTest extends AbstractVoModuleTestCase {
     public void testGetLabel() {
         assertNull(v0.getLabel());
         assertEquals("first", v1.getLabel());
+        assertNull(v2.getLabel());
     }
 
     public void testGetFormula() {
         assertNull(v0.getFormula());
         assertTrue(EqualsUtility.equals(new FormulaVo(new DefaultAtom("dummy")), v1.getFormula()));
+        assertTrue(EqualsUtility.equals(new FormulaVo(new DefaultAtom("dummy")), v2.getFormula()));
     }
 
 }

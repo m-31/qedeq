@@ -118,7 +118,7 @@ public class UniversalVo implements Universal {
 
     public String toString() {
         StringBuffer result = new StringBuffer();
-        result.append("SubstFree");
+        result.append(getName());
         if (reference != null || subjectVariable != null) {
             result.append(" (");
             boolean w = false;

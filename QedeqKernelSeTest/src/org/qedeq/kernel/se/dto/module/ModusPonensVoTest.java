@@ -67,6 +67,10 @@ public class ModusPonensVoTest extends AbstractVoModuleTestCase {
     public void testGetReferences() {
         assertTrue(EqualsUtility.equals(new String[] {"first", "second"}, mp1.getReferences()));
         assertTrue(EqualsUtility.equals(new String[] {}, mp2.getReferences()));
+        assertTrue(EqualsUtility.equals(new String[] {"first"},
+            new ModusPonensVo("first", null).getReferences()));
+        assertTrue(EqualsUtility.equals(new String[] {"second"},
+            new ModusPonensVo(null, "second").getReferences()));
     }
 
 }

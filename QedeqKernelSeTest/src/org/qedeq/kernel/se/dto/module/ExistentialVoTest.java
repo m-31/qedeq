@@ -29,14 +29,16 @@ public class ExistentialVoTest extends AbstractVoModuleTestCase {
     /** This class is tested. */
     private Class clazz = ExistentialVo.class;
 
-    private ExistentialVo existential;
+    private ExistentialVo existential0;
+    private ExistentialVo existential1;
 
     protected void setUp() throws Exception {
         super.setUp();
         removeMethodToCheck("getExistential");
         removeMethodToCheck("getName");
         removeMethodToCheck("getReferences");
-        existential = new ExistentialVo("first", new DefaultAtom("first"));
+        existential0 = new ExistentialVo();
+        existential1 = new ExistentialVo("first", new DefaultAtom("first"));
     }
 
     protected Class getTestedClass() {
@@ -44,15 +46,18 @@ public class ExistentialVoTest extends AbstractVoModuleTestCase {
     }
 
     public void testGetExistential() {
-        assertEquals(existential, existential.getExistential());
+        assertEquals(existential0, existential0.getExistential());
+        assertEquals(existential1, existential1.getExistential());
     }
 
     public void testGetName() {
-        assertEquals("Existential", existential.getName());
+        assertEquals("Existential", existential0.getName());
+        assertEquals("Existential", existential1.getName());
     }
 
     public void testGetReferences() {
-        assertTrue(EqualsUtility.equals(new String[] {"first"}, existential.getReferences()));
+        assertTrue(EqualsUtility.equals(new String[] {}, existential0.getReferences()));
+        assertTrue(EqualsUtility.equals(new String[] {"first"}, existential1.getReferences()));
     }
 
 }

@@ -154,7 +154,7 @@ public class RenameVo implements Rename {
 
     public String toString() {
         StringBuffer result = new StringBuffer();
-        result.append("Rename");
+        result.append(getName());
         if (reference != null || originalSubjectVariable != null
                 || replacementSubjectVariable != null
                 || occurrence != 0) {

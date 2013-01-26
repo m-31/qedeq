@@ -29,14 +29,16 @@ public class UniversalVoTest extends AbstractVoModuleTestCase {
     /** This class is tested. */
     private Class clazz = UniversalVo.class;
 
-    private UniversalVo universal;
+    private UniversalVo universal0;
+    private UniversalVo universal1;
 
     protected void setUp() throws Exception {
         super.setUp();
         removeMethodToCheck("getUniversal");
         removeMethodToCheck("getName");
         removeMethodToCheck("getReferences");
-        universal = new UniversalVo("first", new DefaultAtom("first"));
+        universal0 = new UniversalVo(null, null);
+        universal1 = new UniversalVo("first", new DefaultAtom("first"));
     }
 
     protected Class getTestedClass() {
@@ -44,15 +46,18 @@ public class UniversalVoTest extends AbstractVoModuleTestCase {
     }
 
     public void testGetUniversal() {
-        assertEquals(universal, universal.getUniversal());
+        assertEquals(universal0, universal0.getUniversal());
+        assertEquals(universal1, universal1.getUniversal());
     }
 
     public void testGetName() {
-        assertEquals("Universal", universal.getName());
+        assertEquals("Universal", universal0.getName());
+        assertEquals("Universal", universal1.getName());
     }
 
     public void testGetReferences() {
-        assertTrue(EqualsUtility.equals(new String[] {"first"}, universal.getReferences()));
+        assertTrue(EqualsUtility.equals(new String[] {}, universal0.getReferences()));
+        assertTrue(EqualsUtility.equals(new String[] {"first"}, universal1.getReferences()));
     }
 
 }

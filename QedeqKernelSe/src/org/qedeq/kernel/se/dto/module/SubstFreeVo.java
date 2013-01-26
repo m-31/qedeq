@@ -132,7 +132,7 @@ public class SubstFreeVo implements SubstFree {
 
     public String toString() {
         StringBuffer result = new StringBuffer();
-        result.append("SubstFunc");
+        result.append(getName());
         if (reference != null || subjectVariable != null
                 || substituteTerm != null) {
             result.append(" (");

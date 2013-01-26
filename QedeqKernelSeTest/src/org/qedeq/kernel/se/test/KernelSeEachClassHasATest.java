@@ -30,13 +30,7 @@ public class KernelSeEachClassHasATest extends EachClassHasATestCase {
     }
 
     public void testIfEveryClassIsTested() {
-//        super.testIfEveryClassIsTested();
-        // FIXME m31 20110119: add missing tests
-        try {
-            super.testIfEveryClassIsTested();
-        } catch (Throwable e) {
-            // ignore
-        }
+        super.testIfEveryClassIsTested();
     }
 
 }
