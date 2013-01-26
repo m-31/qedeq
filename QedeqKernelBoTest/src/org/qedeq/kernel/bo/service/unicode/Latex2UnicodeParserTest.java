@@ -30,17 +30,17 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
  *
  * @author Michael Meyling
  */
-public class Latex2Utf8Test extends QedeqBoTestCase {
+public class Latex2UnicodeParserTest extends QedeqBoTestCase {
 
     private ReferenceFinder finder;
 
     private SourceFileExceptionList warnings;
     
-    public Latex2Utf8Test() {
+    public Latex2UnicodeParserTest() {
         super();
     }
 
-    public Latex2Utf8Test(final String name) {
+    public Latex2UnicodeParserTest(final String name) {
         super(name);
     }
 
