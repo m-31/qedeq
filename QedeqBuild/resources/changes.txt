@@ -10,7 +10,7 @@ Functional Changes
 
   Extensions
   ----------
-  none
+  - context menu for text areas includes now "find": one can search for strings
 
   Fixed Bugs
   ----------
@@ -18,7 +18,8 @@ Functional Changes
 
   Other Changes
   -------------
-  none
+  - initial window size for text viewing was optimized; now the window should
+    fit the screen more likely
 
 
 XML Files
@@ -49,8 +50,12 @@ Source Code
 
   Extensions
   ----------
+  - various test classes and tests were added
   - new class LoadingListener for for loading completeness events
   - new class Path as an abstraction for a file or directory path
+  - new class FindDialog to provide search capabilities
+  - new class UnderlineDocumentMarkerPainter enables us to underline text
+    (not used yet)
  
   Fixed Bugs
   ----------
@@ -58,6 +63,8 @@ Source Code
   - StringUtility: format and trim methods can handle extreme parameters
   - ModulePropertiesPane: if no model is set we empty errors and warnings text
   - Qedeq2UnicodeVisitor don't print q.e.d. if we are in brief mode
+  - model.Operator.hashCode takes now the current class into account
+  - DefaultElementList.replace(int, Element) should work correct now
 
   Other Changes
   -------------
@@ -81,10 +88,22 @@ Source Code
   - Qedeq2LatexExecutor umlaut handling changed
   - Latex2UnicodeParser remembers now skipWhitespace status when entering new
     level
-  - 
-  
-  
-  
+  - QedeqConfig.getLogFile gets the complete log file location
+  - DefaultSourceFileExceptionList and SourceFileExceptionList were joined into
+    a new SourceFileExceptionList
+  - implementations of Reason.getReferences return now only all not null
+    references; references that are empty strings are now included
+  - for memory modules DefaultModuleAddress.isRelativeAddress returns always
+    false
+  - the texts of LogicalModuleStateDescriptions were slightly changed
+  - an instance of ModuleDataException now uses only error code, message and
+    location for deciding if instances are equal
+  - ConfigAccess.store creates missing directories
+  - QedeqConfig uses basisDirectory.getCanonicalFile()
+  - QedeqConfig.createAbsolutePath now uses the new class Path to transform
+    the given path string into an absolute file path
+  - LatexList2Text takes now "en" as default if language was not found and more
+    latex constructs are stripped
   
 
 XSD
