@@ -17,7 +17,9 @@ package org.qedeq.kernel.se.config;
 
 import java.io.File;
 
+import org.qedeq.base.io.Parameters;
 import org.qedeq.base.test.QedeqTestCase;
+import org.qedeq.kernel.se.common.Plugin;
 
 /**
  * Test class.
@@ -32,6 +34,8 @@ public class QedeqConfigTest extends QedeqTestCase {
     private File file2;
     private File basis1;
     private File basis2;
+    private Plugin plugin1;
+    private Plugin plugin2;
 
     public QedeqConfigTest(){
         super();
@@ -43,6 +47,32 @@ public class QedeqConfigTest extends QedeqTestCase {
 
     public void setUp() throws Exception {
         super.setUp();
+        this.plugin1 = new Plugin() {
+            public String getPluginId() {
+                return "org.qedeq.kernel.bo.service.logic.SimpleProofFinderPlugin";
+            }
+
+            public String getPluginActionName() {
+                return "action";
+            }
+
+            public String getPluginDescription() {
+                return "description";
+            }};
+                
+        this.plugin2 = new Plugin() {
+            public String getPluginId() {
+                return Plugin.class.toString();
+            }
+
+            public String getPluginActionName() {
+                return "action";
+            }
+
+            public String getPluginDescription() {
+                return "description";
+            }};
+                
         file1 = getFile("QedeqConfig/qedeq1.properties");
         basis1 = file1.getParentFile();
         this.con1 = new QedeqConfig(file1, "QedeqConfig test 1", basis1); 
@@ -126,6 +156,16 @@ public class QedeqConfigTest extends QedeqTestCase {
         } catch (Exception e) {
             // ok
         }
+        assertEquals("2002", con1.getKeyValue("connectionTimeout"));
+        assertEquals(2002, con1.getKeyValue("connectionTimeout", 1003));
+        assertEquals(1003, con1.getKeyValue("connectionTimeoutFee", 1003));
     }
-    
+
+    public void testGetPluginValues() throws Exception {
+        Parameters paras = con1.getPluginEntries(plugin1);
+        assertEquals(19, paras.keySet().size());
+        paras = con1.getPluginEntries(plugin2);
+        assertEquals(0, paras.keySet().size());
+    }
+
 }

@@ -13,6 +13,9 @@ import org.qedeq.kernel.se.base.module.LatexList;
  * We just have to check what LaTeX stuff is used there.
  * <br/>
  * Another problem: currently only the method {@link #transform(LatexList)} is called.
+ * <br/>
+ * It might be a good idea to idea to externalize the usage. So one could use a better transformer
+ * transformer (like Latex2UnicodeParser) if we have it in our class path... 
  *
  * @author  Michael Meyling
  */
