@@ -371,6 +371,7 @@ public class ElementSetTest extends QedeqTestCase {
         assertFalse(two2.equals(one));
         assertTrue(two2.equals(two));
         assertTrue(two2.equals(two2));
+        assertFalse(empty.equals(new ElementSet() {}));
     }
 
 }
