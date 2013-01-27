@@ -298,6 +298,12 @@ public class DefaultElementListTest extends QedeqTestCase {
         } catch (Exception e) {
             // ok
         }
+        try {
+            withTwo.replace(2, new DefaultAtom("one"));
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
         withOne.replace(0, new DefaultAtom("expected"));
         assertEquals(new DefaultAtom("expected"), withOne.getElement(0));
     }
@@ -318,6 +324,18 @@ public class DefaultElementListTest extends QedeqTestCase {
         }
         empty.insert(0, new DefaultAtom("one"));
         assertEquals(new DefaultElementList("", new Element[] {new DefaultAtom("one") }), empty);
+        try {
+            withOne.insert(2, new DefaultAtom("one"));
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
+        try {
+            withTwo.insert(3, new DefaultAtom("one"));
+            fail("Exception expected");
+        } catch (Exception e) {
+            // ok
+        }
     }
 
     public void testGetOperator() throws Exception {

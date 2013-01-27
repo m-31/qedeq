@@ -199,7 +199,7 @@ public final class DefaultElementList implements ElementList {
                 "there are no elements, therefore no element number "
                 + position + " could be replaced");
         }
-        if (size() > 0)  {
+        if (size() > 1)  {
             throw new IllegalArgumentException(
                 "there is no element number " + position
                 + ", you have to choose a number between 0 and " + (size() - 1));
