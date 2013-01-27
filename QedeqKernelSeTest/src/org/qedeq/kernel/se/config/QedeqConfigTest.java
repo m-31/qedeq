@@ -19,6 +19,7 @@ import java.io.File;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.test.QedeqTestCase;
+import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.common.Plugin;
 
 /**
@@ -104,26 +105,39 @@ public class QedeqConfigTest extends QedeqTestCase {
     public void testGetLocalModulesDirectory() throws Exception {
         assertEquals(new File(basis1, "local").getCanonicalFile(),
             con1.getLocalModulesDirectory().getCanonicalFile());
+        con1.setLocalModulesDirectory(new File(con1.getBasisDirectory(), "newLocal"));
+        assertEquals(new File(basis1, "newLocal").getCanonicalFile(),
+            con1.getLocalModulesDirectory().getCanonicalFile());
     }
 
-    public void testGetConnectTimeout() throws Exception {
+    public void testGetSetConnectTimeout() throws Exception {
         assertEquals(2002, con1.getConnectTimeout());
+        con1.setConnectionTimeout(1007);
+        assertEquals(1007, con1.getConnectTimeout());
     }
 
-    public void testGetReadConnectTimeout() throws Exception {
+    public void testGetSetReadConnectTimeout() throws Exception {
         assertEquals(1001, con1.getReadTimeout());
+        con1.setReadTimeout(2801);
+        assertEquals(2801, con1.getReadTimeout());
     }
 
-    public void testGetHttpProxyHost() throws Exception {
+    public void testGetSetHttpProxyHost() throws Exception {
         assertEquals("proxy", con1.getHttpProxyHost());
+        con1.setHttpProxyHost("newProxy");
+        assertEquals("newProxy", con1.getHttpProxyHost());
     }
 
-    public void testGetHttpProxyPort() throws Exception {
+    public void testGetSetHttpProxyPort() throws Exception {
         assertEquals("", con1.getHttpProxyPort());
+        con1.setHttpProxyPort("888");
+        assertEquals("888", con1.getHttpProxyPort());
     }
 
-    public void testGetHttpNonProxyHosts() throws Exception {
+    public void testGetSetHttpNonProxyHosts() throws Exception {
         assertEquals("none", con1.getHttpNonProxyHosts());
+        con1.setHttpNonProxyHosts("all");
+        assertEquals("all", con1.getHttpNonProxyHosts());
     }
 
     public void testGetLogFile() throws Exception {
@@ -137,18 +151,27 @@ public class QedeqConfigTest extends QedeqTestCase {
         assertEquals("http://wwww.qedeq.org/0_04_05/doc/sample/qedeq_sample3.xml", history[10]);
     }
 
-    public void testGetPreviouslyCheckedModules() throws Exception {
-        final String[] checked = con1.getPreviouslyCheckedModules();
-        assertEquals(21, checked.length);
-        assertEquals("http://www.qedeq.org/0_04_05/sample/qedeq_error_sample_15.xml", checked[9]);
+    public void testGetSetPreviouslyLoadedModules() throws Exception {
+        final String[] loaded = con1.getPreviouslyLoadedModules();
+        assertEquals(21, loaded.length);
+        assertEquals("http://www.qedeq.org/0_04_05/sample/qedeq_error_sample_15.xml", loaded[9]);
+        final String[] newLoaded = new String[] {"one", "two", "three"};
+        con1.setPreviouslyLoadedModules(newLoaded);
+        assertTrue(EqualsUtility.equals(newLoaded, con1.getPreviouslyLoadedModules()));
     }
 
-    public void testGetKeyValueString() throws Exception {
+    public void testGetSetKeyValueString() throws Exception {
         assertEquals("true", con1.getKeyValue("automaticLogScroll"));
+        assertEquals("true", con1.getKeyValue("automaticLogScroll", "false"));
+        con1.setKeyValue("automaticLogScroll", "false");
+        assertEquals("false", con1.getKeyValue("automaticLogScroll"));
     }
 
     public void testGetKeyValueStringBoolean() throws Exception {
         assertEquals(true, con1.getKeyValue("automaticLogScroll", false));
+        con1.setKeyValue("automaticLogScroll", false);
+        assertEquals(false, con1.getKeyValue("automaticLogScroll", false));
+        assertEquals("false", con1.getKeyValue("automaticLogScroll"));
     }
 
     public void testGetKeyValueStringString() throws Exception {
