@@ -197,23 +197,23 @@ public class QedeqConfig {
     }
 
     /**
-     * Get list of previously checked modules.
+     * Get list of previously loaded modules.
      *
      * @return  list of modules.
      */
-    public final String[] getPreviouslyCheckedModules() {
-        return configAccess.getStringProperties("checkedModule.");
+    public final String[] getPreviouslyLoadedModules() {
+        return configAccess.getStringProperties("loadedModule.");
     }
 
     /**
-     * Set successfully list of successfully loaded QEDEQ modules.
+     * Set list of previously successfully loaded QEDEQ modules.
      *
-     * @param   moduleAddresses     This modules were successfully checked.
+     * @param   moduleAddresses     This modules were successfully loaded.
      */
-    public final void setLoadedModules(final String[] moduleAddresses) {
-        configAccess.removeProperties("checkedModule.");
+    public final void setPreviouslyLoadedModules(final String[] moduleAddresses) {
+        configAccess.removeProperties("loadedModule.");
         for (int i = 0; i < moduleAddresses.length; i++) {
-            setKeyValue("checkedModule." + (i + 1), moduleAddresses[i]);
+            setKeyValue("loadedModule." + (i + 1), moduleAddresses[i]);
         }
     }
 

@@ -29,14 +29,17 @@ public class SubstPredVoTest extends AbstractVoModuleTestCase {
     /** This class is tested. */
     private Class clazz = SubstPredVo.class;
 
-    private SubstPredVo subst;
+    private SubstPredVo subst0;
+
+    private SubstPredVo subst1;
 
     protected void setUp() throws Exception {
         super.setUp();
         removeMethodToCheck("getSubstPred");
         removeMethodToCheck("getName");
         removeMethodToCheck("getReferences");
-        subst = new SubstPredVo("first", new DefaultAtom("first"), new DefaultAtom("second"));
+        subst0 = new SubstPredVo();
+        subst1 = new SubstPredVo("first", new DefaultAtom("first"), new DefaultAtom("second"));
     }
 
     protected Class getTestedClass() {
@@ -44,15 +47,20 @@ public class SubstPredVoTest extends AbstractVoModuleTestCase {
     }
 
     public void testGetSubstPred() {
-        assertEquals(subst, subst.getSubstPred());
+        assertEquals(subst0, subst0.getSubstPred());
+        assertEquals(subst1, subst1.getSubstPred());
+        assertFalse(subst0.equals(subst1));
+        assertFalse(subst0.getSubstPred().equals(subst1.getSubstPred()));
     }
 
     public void testGetName() {
-        assertEquals("SubstPred", subst.getName());
+        assertEquals("SubstPred", subst0.getName());
+        assertEquals("SubstPred", subst1.getName());
     }
 
     public void testGetReferences() {
-        assertTrue(EqualsUtility.equals(new String[] {"first"}, subst.getReferences()));
+        assertTrue(EqualsUtility.equals(new String[] {}, subst0.getReferences()));
+        assertTrue(EqualsUtility.equals(new String[] {"first"}, subst1.getReferences()));
     }
 
 }

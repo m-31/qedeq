@@ -29,14 +29,17 @@ public class RenameVoTest extends AbstractVoModuleTestCase {
     /** This class is tested. */
     private Class clazz = RenameVo.class;
 
-    private RenameVo rename;
+    private RenameVo rename0;
+
+    private RenameVo rename1;
 
     protected void setUp() throws Exception {
         super.setUp();
         removeMethodToCheck("getRename");
         removeMethodToCheck("getName");
         removeMethodToCheck("getReferences");
-        rename = new RenameVo("first", new DefaultAtom("first"), new DefaultAtom("second"), 3);
+        rename0 = new RenameVo();
+        rename1 = new RenameVo("first", new DefaultAtom("first"), new DefaultAtom("second"), 3);
     }
 
     protected Class getTestedClass() {
@@ -44,15 +47,18 @@ public class RenameVoTest extends AbstractVoModuleTestCase {
     }
 
     public void testGetRename() {
-        assertEquals(rename, rename.getRename());
+        assertEquals(rename0, rename0.getRename());
+        assertEquals(rename1, rename1.getRename());
     }
 
     public void testGetName() {
-        assertEquals("Rename", rename.getName());
+        assertEquals("Rename", rename0.getName());
+        assertEquals("Rename", rename1.getName());
     }
 
     public void testGetReferences() {
-        assertTrue(EqualsUtility.equals(new String[] {"first"}, rename.getReferences()));
+        assertTrue(EqualsUtility.equals(new String[] {}, rename0.getReferences()));
+        assertTrue(EqualsUtility.equals(new String[] {"first"}, rename1.getReferences()));
     }
 
 }

@@ -305,7 +305,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
                 for (int i = 0; i < addresses.length; i++) {
                     buffer[i] = addresses[i].toString();
                 }
-                getConfig().setLoadedModules(buffer);
+                getConfig().setPreviouslyLoadedModules(buffer);
                 getConfig().store();
                 QedeqLog.getInstance().logMessage("Current config file successfully saved.");
             } catch (IOException e) {

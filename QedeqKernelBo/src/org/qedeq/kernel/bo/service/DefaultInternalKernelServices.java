@@ -150,7 +150,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                         Trace.begin(CLASS, this, method);
                         QedeqLog.getInstance().logMessage(
                             "Trying to load previously successfully loaded modules.");
-                        final int number = config.getPreviouslyCheckedModules().length;
+                        final int number = config.getPreviouslyLoadedModules().length;
                         if (loadPreviouslySuccessfullyLoadedModules()) {
                             QedeqLog.getInstance().logMessage(
                                 "Loading of " + number + " previously successfully loaded module"
@@ -548,7 +548,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     public boolean loadPreviouslySuccessfullyLoadedModules() {
         processInc();
         try {
-            final String[] list = config.getPreviouslyCheckedModules();
+            final String[] list = config.getPreviouslyLoadedModules();
             boolean errors = false;
             for (int i = 0; i < list.length; i++) {
                 try {

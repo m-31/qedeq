@@ -58,4 +58,15 @@ public class ConclusionVoTest extends AbstractVoModuleTestCase {
         assertTrue(EqualsUtility.equals(new FormulaVo(new DefaultAtom("dummy")), v2.getFormula()));
     }
 
+    public void testHashCode() {
+        assertFalse(v0.hashCode() == v1.hashCode());
+        assertFalse(v2.hashCode() == v1.hashCode());
+        assertFalse(v0.hashCode() == v2.hashCode());
+    }
+
+    public void testToString() {
+        assertEquals("    null Conclusion", v0.toString());
+        assertEquals("[first] \"dummy\" Conclusion", v1.toString());
+        assertEquals("    \"dummy\" Conclusion", v2.toString());
+    }
 }
