@@ -16,6 +16,8 @@
 package org.qedeq.kernel.se.config;
 
 import java.io.File;
+import java.util.List;
+import java.util.Vector;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.Parameters;
@@ -140,35 +142,57 @@ public class QedeqConfigTest extends QedeqTestCase {
         assertEquals(1001, con1.getReadTimeout());
         con1.setReadTimeout(2801);
         assertEquals(2801, con1.getReadTimeout());
+        assertEquals(1000, con2.getReadTimeout());
+        con2.setReadTimeout(1009);
+        assertEquals(1009, con2.getReadTimeout());
     }
 
     public void testGetSetHttpProxyHost() throws Exception {
         assertEquals("proxy", con1.getHttpProxyHost());
         con1.setHttpProxyHost("newProxy");
         assertEquals("newProxy", con1.getHttpProxyHost());
+        assertNull(con2.getHttpProxyHost());
+        con2.setHttpProxyHost("newProxys");
+        assertEquals("newProxys", con2.getHttpProxyHost());
     }
 
     public void testGetSetHttpProxyPort() throws Exception {
         assertEquals("", con1.getHttpProxyPort());
         con1.setHttpProxyPort("888");
         assertEquals("888", con1.getHttpProxyPort());
+        assertNull(con2.getHttpProxyPort());
+        con2.setHttpProxyPort("889");
+        assertEquals("889", con2.getHttpProxyPort());
     }
 
     public void testGetSetHttpNonProxyHosts() throws Exception {
         assertEquals("none", con1.getHttpNonProxyHosts());
         con1.setHttpNonProxyHosts("all");
         assertEquals("all", con1.getHttpNonProxyHosts());
+        assertNull(con2.getHttpNonProxyHosts());
+        con2.setHttpNonProxyHosts("zulu");
+        assertEquals("zulu", con2.getHttpNonProxyHosts());
     }
 
     public void testGetLogFile() throws Exception {
         assertEquals(new File(basis1.getCanonicalFile(), "search/for/me/log.txt"),
             con1.getLogFile());
+        assertEquals(new File(basis2.getCanonicalFile(), "log/log.txt"),
+            con2.getLogFile());
     }
 
-    public void testGetModuleHistory() throws Exception {
+    public void testGetSaveModuleHistory() throws Exception {
         final String[] history = con1.getModuleHistory();
         assertEquals(12, history.length);
         assertEquals("http://wwww.qedeq.org/0_04_05/doc/sample/qedeq_sample3.xml", history[10]);
+        List history0 = new Vector();
+        history0.add("We dont need no thought control");
+        con1.saveModuleHistory(history0);
+        final String[] history02 = con1.getModuleHistory();
+        assertEquals(1, history02.length);
+        assertEquals("We dont need no thought control", history02[0]);
+        final String[] history2 = con2.getModuleHistory();
+        assertEquals(0, history2.length);
     }
 
     public void testGetSetPreviouslyLoadedModules() throws Exception {
@@ -178,6 +202,8 @@ public class QedeqConfigTest extends QedeqTestCase {
         final String[] newLoaded = new String[] {"one", "two", "three"};
         con1.setPreviouslyLoadedModules(newLoaded);
         assertTrue(EqualsUtility.equals(newLoaded, con1.getPreviouslyLoadedModules()));
+        final String[] loaded2 = con2.getPreviouslyLoadedModules();
+        assertEquals(0, loaded2.length);
     }
 
     public void testGetSetKeyValueString() throws Exception {
@@ -190,8 +216,12 @@ public class QedeqConfigTest extends QedeqTestCase {
     public void testGetKeyValueStringBoolean() throws Exception {
         assertEquals(true, con1.getKeyValue("automaticLogScroll", false));
         con1.setKeyValue("automaticLogScroll", false);
-        assertEquals(false, con1.getKeyValue("automaticLogScroll", false));
+        assertEquals(false, con1.getKeyValue("automaticLogScroll", true));
         assertEquals("false", con1.getKeyValue("automaticLogScroll"));
+        con1.setKeyValue("automaticLogScroll", true);
+        assertEquals(true, con1.getKeyValue("automaticLogScroll", false));
+        assertEquals(false, con2.getKeyValue("automaticLogScroll2nowhere", false));
+        assertEquals(true, con2.getKeyValue("automaticLogScroll3nowhere", true));
     }
 
     public void testGetKeyValueStringString() throws Exception {
@@ -210,13 +240,59 @@ public class QedeqConfigTest extends QedeqTestCase {
         assertEquals(1003, con1.getKeyValue("connectionTimeoutFee", 1003));
     }
 
-    public void testGetPluginValues() {
+    public void testGetSetPluginValues() {
         Parameters paras = con1.getPluginEntries(plugin1);
         assertEquals(20, paras.keySet().size());
         assertEquals(6, paras.getInt("conjunctionOrder"));
         assertTrue(paras.getBoolean("boolean"));
         paras = con1.getPluginEntries(plugin2);
         assertEquals(0, paras.keySet().size());
+        paras = con2.getPluginEntries(plugin2);
+        assertEquals(0, paras.keySet().size());
+        paras = new Parameters();
+        paras.setDefault("mine", "value");
+        paras.setDefault("apollo", "11");
+        paras.setDefault("cheese", "true");
+        con2.setPluginKeyValues(plugin1, paras);
+        assertEquals("value", con2.getPluginKeyValue(plugin1, "mine", ""));
+        assertEquals(11, con2.getPluginKeyValue(plugin1, "apollo", 13));
+        assertEquals(true, con2.getPluginKeyValue(plugin1, "cheese", false));
+        Parameters paras2 = con2.getPluginEntries(plugin1);
+        assertEquals(3, paras2.keySet().size());
+        assertEquals("value", paras2.getString("mine"));
+        assertEquals("11", paras2.getString("apollo"));
+        assertEquals("true", paras2.getString("cheese"));
+        con1.setPluginKeyValue(plugin2, "mine", "value");
+        con1.setPluginKeyValue(plugin2, "apollo", 11);
+        con1.setPluginKeyValue(plugin2, "cheese", true);
+        Parameters paras3 = con1.getPluginEntries(plugin2);
+        assertEquals(3, paras3.keySet().size());
+        assertEquals("value", paras3.getString("mine"));
+        assertEquals("11", paras3.getString("apollo"));
+        assertEquals("true", paras3.getString("cheese"));
+    }
+
+    public void testCreateAbsolutePath() throws Exception {
+        new File(System.getProperty("file.separator"), "top").getCanonicalFile().equals(
+            con1.createAbsolutePath(System.getProperty("file.separator") + "top"));
+    }
+
+    public void testIsSetIsTraceOn() {
+        assertTrue(con1.isTraceOn());
+        con1.setTraceOn(false);
+        assertFalse(con1.isTraceOn());
+        assertFalse(con2.isTraceOn());
+        con2.setTraceOn(true);
+        assertTrue(con2.isTraceOn());
+    }
+
+    public void testIsSetAutoReloadLastSessionChecked() {
+        assertTrue(con1.isAutoReloadLastSessionChecked());
+        con1.setAutoReloadLastSessionChecked(false);
+        assertFalse(con1.isAutoReloadLastSessionChecked());
+        assertTrue(con2.isAutoReloadLastSessionChecked());
+        con2.setAutoReloadLastSessionChecked(false);
+        assertFalse(con2.isAutoReloadLastSessionChecked());
     }
 
     public void testStore() throws Exception {

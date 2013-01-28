@@ -352,7 +352,7 @@ public class QedeqConfig {
      * Get http proxy host. It might be a good idea to ignore this value, if the application
      * was started via Java Webstart.
      *
-     * @return  Http proxy host.
+     * @return  Http proxy host. Might be <code>null</code>.
      */
     public final String getHttpProxyHost() {
         final String def = System.getProperty("http.proxyHost");
@@ -375,7 +375,7 @@ public class QedeqConfig {
      * Get http proxy port. It might be a good idea to ignore this value, if the application
      * was started via Java Webstart.
      *
-     * @return  Http proxy port.
+     * @return  Http proxy port.  Might be <code>null</code>.
      */
     public final String getHttpProxyPort() {
         final String def = System.getProperty("http.proxyPort");
@@ -388,7 +388,7 @@ public class QedeqConfig {
     /**
      * Set http non proxy hosts.
      *
-     * @param  httpNonProxyHosts    Http non proxy hosts.
+     * @param  httpNonProxyHosts    Http non proxy hosts.  Might be <code>null</code>.
      */
     public final void setHttpNonProxyHosts(final String httpNonProxyHosts) {
         setKeyValue("http.nonProxyHosts", httpNonProxyHosts);
@@ -398,7 +398,7 @@ public class QedeqConfig {
      * Get non http proxy hosts. It might be a good idea to ignore this value, if the application
      * was started via Java Webstart.
      *
-     * @return  Http non proxy hosts.
+     * @return  Http non proxy hosts.  Might be <code>null</code>.
      */
     public final String getHttpNonProxyHosts() {
         final String def = System.getProperty("http.nonProxyHosts");
