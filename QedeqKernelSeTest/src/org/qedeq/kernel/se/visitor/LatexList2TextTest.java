@@ -74,6 +74,9 @@ public class LatexList2TextTest extends QedeqTestCase {
         list.add(new LatexVo("it", "tre"));
         assertEquals("zwei", converter.transform(list));
         assertEquals("zwei", converter.transform(list, "en"));
+        assertEquals("zwei", converter.transform(list, "sp"));
+        list.add(new LatexVo("en", "one"));
+        assertEquals("one", converter.transform(list, "sp"));
     }
 
 }
