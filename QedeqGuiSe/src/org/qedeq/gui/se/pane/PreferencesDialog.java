@@ -147,7 +147,7 @@ public class PreferencesDialog extends JDialog {
         builder.getPanel().setOpaque(false);
 
         builder.append("Connection Timeout");
-        connectionTimeoutTextField = createTextField("" + QedeqGuiConfig.getInstance().getConnectTimeout(), true);
+        connectionTimeoutTextField = createTextField("" + QedeqGuiConfig.getInstance().getConnectionTimeout(), true);
         connectionTimeoutTextField.setToolTipText("Sets a specified timeout value, in milliseconds, to be used when"
             + " opening a communications link a remote QEDEQ module. If the timeout expires before the connection can"
             + " be established, an error occurs. A timeout of zero is interpreted as an infinite timeout.");
@@ -552,7 +552,7 @@ public class PreferencesDialog extends JDialog {
                 QedeqGuiConfig.getInstance().getLookAndFeel()));
         if (KernelContext.getInstance().isSetConnectionTimeOutSupported()) {
             result = result || EqualsUtility.equals(connectionTimeoutTextField.getText(),
-                    "" + QedeqGuiConfig.getInstance().getConnectTimeout());
+                    "" + QedeqGuiConfig.getInstance().getConnectionTimeout());
         }
         if (KernelContext.getInstance().isSetReadTimeoutSupported()) {
             result = result || EqualsUtility.equals(readTimeoutTextField.getText(),

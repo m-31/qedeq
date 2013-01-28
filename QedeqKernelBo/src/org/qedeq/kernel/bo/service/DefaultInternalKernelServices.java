@@ -639,7 +639,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         try {
             UrlUtility.saveUrlToFile(prop.getUrl(), f,
             config.getHttpProxyHost(), config.getHttpProxyPort(), config.getHttpNonProxyHosts(),
-            config.getConnectTimeout(), config.getReadTimeout(), new LoadingListener() {
+            config.getConnectionTimeout(), config.getReadTimeout(), new LoadingListener() {
                 public void loadingCompletenessChanged(final double completeness) {
                     prop.setLoadingCompleteness((int) completeness * 100);
                 }
