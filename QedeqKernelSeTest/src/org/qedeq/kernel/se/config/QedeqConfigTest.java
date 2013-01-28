@@ -17,6 +17,7 @@ package org.qedeq.kernel.se.config;
 
 import java.io.File;
 
+import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.utility.EqualsUtility;
@@ -84,6 +85,7 @@ public class QedeqConfigTest extends QedeqTestCase {
  
     public void testGetBasisDirectory() throws Exception {
         assertEquals(basis1.getCanonicalFile(), con1.getBasisDirectory());
+        assertEquals(basis2.getCanonicalFile(), con2.getBasisDirectory());
     }
 
     public void testGetSetBufferDirectory() throws Exception {
@@ -92,6 +94,11 @@ public class QedeqConfigTest extends QedeqTestCase {
         con1.setBufferDirectory(new File(con1.getBasisDirectory(), "newLocation"));
         assertEquals(new File(basis1, "newLocation").getCanonicalFile(),
             con1.getBufferDirectory().getCanonicalFile());
+        assertEquals(new File(basis2, "buffer").getCanonicalFile(),
+            con2.getBufferDirectory().getCanonicalFile());
+        con2.setBufferDirectory(new File(con2.getBasisDirectory(), "newLocation"));
+        assertEquals(new File(basis2, "newLocation").getCanonicalFile(),
+            con2.getBufferDirectory().getCanonicalFile());
     }
 
     public void testGetSetGenerationDirectory() throws Exception {
@@ -100,6 +107,11 @@ public class QedeqConfigTest extends QedeqTestCase {
         con1.setGenerationDirectory(new File(con1.getBasisDirectory(), "newGeneration"));
         assertEquals(new File(basis1, "newGeneration").getCanonicalFile(),
             con1.getGenerationDirectory().getCanonicalFile());
+        assertEquals(new File(basis2, "generated").getCanonicalFile(),
+            con2.getGenerationDirectory().getCanonicalFile());
+        con2.setGenerationDirectory(new File(con2.getBasisDirectory(), "newGeneration"));
+        assertEquals(new File(basis2, "newGeneration").getCanonicalFile(),
+            con2.getGenerationDirectory().getCanonicalFile());
     }
 
     public void testGetLocalModulesDirectory() throws Exception {
@@ -108,12 +120,20 @@ public class QedeqConfigTest extends QedeqTestCase {
         con1.setLocalModulesDirectory(new File(con1.getBasisDirectory(), "newLocal"));
         assertEquals(new File(basis1, "newLocal").getCanonicalFile(),
             con1.getLocalModulesDirectory().getCanonicalFile());
+        assertEquals(new File(basis2, "local").getCanonicalFile(),
+            con2.getLocalModulesDirectory().getCanonicalFile());
+        con2.setLocalModulesDirectory(new File(con2.getBasisDirectory(), "newLocal"));
+        assertEquals(new File(basis2, "newLocal").getCanonicalFile(),
+            con2.getLocalModulesDirectory().getCanonicalFile());
     }
 
     public void testGetSetConnectTimeout() throws Exception {
-        assertEquals(2002, con1.getConnectTimeout());
+        assertEquals(2002, con1.getConnectionTimeout());
         con1.setConnectionTimeout(1007);
-        assertEquals(1007, con1.getConnectTimeout());
+        assertEquals(1007, con1.getConnectionTimeout());
+        assertEquals(2000, con2.getConnectionTimeout());
+        con2.setConnectionTimeout(1007);
+        assertEquals(1007, con2.getConnectionTimeout());
     }
 
     public void testGetSetReadConnectTimeout() throws Exception {
@@ -190,7 +210,7 @@ public class QedeqConfigTest extends QedeqTestCase {
         assertEquals(1003, con1.getKeyValue("connectionTimeoutFee", 1003));
     }
 
-    public void testGetPluginValues() throws Exception {
+    public void testGetPluginValues() {
         Parameters paras = con1.getPluginEntries(plugin1);
         assertEquals(20, paras.keySet().size());
         assertEquals(6, paras.getInt("conjunctionOrder"));
@@ -199,8 +219,16 @@ public class QedeqConfigTest extends QedeqTestCase {
         assertEquals(0, paras.keySet().size());
     }
 
-    public void testA() throws Exception {
-        Parameters paras = con1.getPluginEntries(plugin1);
+    public void testStore() throws Exception {
+        final File file3 = new File(getOutdir(), "testQedeqConfig/qedeq3.properties");
+        final File basis3 = file3.getParentFile();
+        IoUtility.deleteDir(basis3, true);
+        QedeqConfig con3 = new QedeqConfig(file3, "QedeqConfig test 3", basis3);
+        assertFalse(12345 == con3.getConnectionTimeout());
+        con3.setConnectionTimeout(12345);
+        con3.store();
+        QedeqConfig con4 = new QedeqConfig(file3, "ho", basis3);
+        assertEquals(12345, con4.getConnectionTimeout());
     }
     
 }

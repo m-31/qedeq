@@ -46,7 +46,7 @@ public class ConfigAccessTest extends QedeqTestCase {
     }
  
     public void testStore() throws Exception {
-        final File dir = new File(getOutdir(), "ConfigAccess");
+        final File dir = new File(getOutdir(), "testConfigAccess");
         IoUtility.deleteDir(dir, true);
         final File file = new File(dir, "con3.properties");
         final ConfigAccess con3 = new ConfigAccess(file, "never");

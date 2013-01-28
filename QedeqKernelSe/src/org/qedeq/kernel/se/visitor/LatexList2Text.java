@@ -1,5 +1,6 @@
 package org.qedeq.kernel.se.visitor;
 
+import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.se.base.module.Latex;
 import org.qedeq.kernel.se.base.module.LatexList;
 
@@ -86,8 +87,8 @@ public class LatexList2Text {
         result = result.trim();
         result = result.replaceAll("\\\\index\\{.*\\}", "");
         result = result.replaceAll("\\\\(\\w*)\\{(.*)\\}", "$2");
-        result = result.replace("{", "");
-        result = result.replace("}", "");
+        result = StringUtility.replace(result, "{", "");
+        result = StringUtility.replace(result, "}", "");
         return result.trim();
     }
 

@@ -308,7 +308,7 @@ public class QedeqConfig {
      *
      * @return  Connection timeout (in milliseconds).
      */
-    public int getConnectTimeout() {
+    public int getConnectionTimeout() {
         return getKeyValue("connectionTimeout", 2000);
     }
 
