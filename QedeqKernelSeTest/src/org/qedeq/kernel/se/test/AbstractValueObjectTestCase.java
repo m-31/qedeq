@@ -515,7 +515,7 @@ public abstract class AbstractValueObjectTestCase extends QedeqTestCase {
      * @throws  Exception   Something went wrong. Perhaps the preconditions in {@link #testAll()} were
      *                      violated.
      */
-    protected final Object getFilledObject(final Class clazz) throws Exception {
+    public final Object getFilledObject(final Class clazz) throws Exception {
         return getFilledObject(clazz, null, "", "");
     }
 
