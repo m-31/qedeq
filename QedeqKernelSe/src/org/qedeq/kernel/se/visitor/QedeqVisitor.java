@@ -648,10 +648,10 @@ public interface QedeqVisitor extends ListVisitor {
     /**
      * Visit certain element. End of visit.
      *
-     * @param   authorList          End visit of this element.
+     * @param   node            End visit of this element.
      * @throws  ModuleDataException Major problem occurred.
      */
-    public void visitLeave(Node authorList) throws ModuleDataException;
+    public void visitLeave(Node node) throws ModuleDataException;
 
     /**
      * Visit certain element. End of visit.
