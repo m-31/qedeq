@@ -583,7 +583,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
                 accept((PredicateDefinition) node.getNodeType());
             } else if (node.getNodeType() instanceof InitialFunctionDefinition) {
                 setLocationWithinModule(context + ".getNodeType().getInitialFunctionDefinition()");
-                accept((FunctionDefinition) node.getNodeType());
+                accept((InitialFunctionDefinition) node.getNodeType());
             } else if (node.getNodeType() instanceof FunctionDefinition) {
                 setLocationWithinModule(context + ".getNodeType().getFunctionDefinition()");
                 accept((FunctionDefinition) node.getNodeType());
@@ -1016,6 +1016,10 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         } else if (reason instanceof Universal) {
             setLocationWithinModule(context + ".getUniversal()");
             accept(((Universal) reason).getUniversal());
+        } else if (reason instanceof ConditionalProof) {
+            throw new IllegalArgumentException(
+                "proof line shall not have a conditional proof as a reason, instead the proof line "
+                + "itself should be the conditional proof!");
         } else {
             throw new IllegalArgumentException("unexpected reason type: "
                 + reason.getClass());
