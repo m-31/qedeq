@@ -17,7 +17,7 @@ package org.qedeq.kernel.se.visitor;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Stack;
 
@@ -849,7 +849,6 @@ public class QedeqNotNullTraverserTest extends QedeqTestCase {
     public void testQedeq() throws Exception {
         QedeqNotNullTraverser trans2 = new QedeqNotNullTraverser(address,
             visitor2);
-
         final List list = new QedeqVoCreator().create();
         for (int i = 0; i < list.size(); i++) {
 //        System.out.print(qedeq);
@@ -858,7 +857,34 @@ public class QedeqNotNullTraverserTest extends QedeqTestCase {
             trans2.accept((Qedeq) list.get(i));
             assertEquals(0, text.getLevel().length());
         }
-
     }
     
+
+    public void testQedeq2() throws Exception {
+        QedeqNotNullTraverser trans2 = new QedeqNotNullTraverser(address,
+            visitor2);
+        try {
+            trans2.accept((Qedeq) null);
+            fail("Execption expected");
+        } catch (Exception e) {
+            // ok
+        }
+    }
+
+    public void testAcceptors() throws Exception {
+        QedeqNotNullTraverser trans2 = new QedeqNotNullTraverser(address,
+            visitor2);
+        final Method[] methods = trans2.getClass().getMethods();
+        for (int i = 0; i < methods.length; i++) {
+            final Method method = methods[i];
+            if (!"accept".equals(method.getName())) {
+                continue;
+            }
+            assertEquals(1, method.getParameterTypes().length);
+            if (Qedeq.class == method.getParameterTypes()[0]) {
+                continue;
+            }
+            method.invoke(trans2, new Object[] {null });
+        }
+    }
 }
