@@ -86,7 +86,7 @@ import org.qedeq.kernel.se.dto.list.DefaultElementList;
 import org.qedeq.kernel.se.dto.module.QedeqVoTest;
 
 /**
- * Test visitor concept for {@link org.qedeq.kernel.visitor.ListVisitor}.
+ * Test visitor concept for {@link org.qedeq.kernel.visitor.QedeqVisitor}.
  * This class doesn't test much existing code directly, but checks that the
  * {@link QedeqNotNullTraverser} works correctly for
  * the list part.
