@@ -17,6 +17,7 @@ package org.qedeq.kernel.se.visitor;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Stack;
@@ -871,7 +872,7 @@ public class QedeqNotNullTraverserTest extends QedeqTestCase {
         }
     }
 
-    public void testAcceptors() throws Exception {
+    public void testAcceptors1() throws Exception {
         QedeqNotNullTraverser trans2 = new QedeqNotNullTraverser(address,
             visitor2);
         final Method[] methods = trans2.getClass().getMethods();
@@ -885,6 +886,34 @@ public class QedeqNotNullTraverserTest extends QedeqTestCase {
                 continue;
             }
             method.invoke(trans2, new Object[] {null });
+        }
+    }
+
+    public void testAcceptors2() throws Throwable {
+        QedeqNotNullTraverser trans2 = new QedeqNotNullTraverser(address,
+            visitor2);
+        final Method[] methods = trans2.getClass().getMethods();
+        for (int i = 0; i < methods.length; i++) {
+            final Method method = methods[i];
+            if (!"accept".equals(method.getName())) {
+                continue;
+            }
+            assertEquals(1, method.getParameterTypes().length);
+            if (Qedeq.class == method.getParameterTypes()[0]) {
+                continue;
+            }
+            Thread.currentThread().interrupt();
+            try {
+                method.invoke(trans2, new Object[] {null });
+                fail("Exception expected");
+            } catch (InvocationTargetException e) {
+                if (e.getCause() instanceof InterruptException) {
+                    // ok
+                } else {
+                    throw e.getCause();
+                }
+            }
+            assertFalse(Thread.interrupted());
         }
     }
 }
