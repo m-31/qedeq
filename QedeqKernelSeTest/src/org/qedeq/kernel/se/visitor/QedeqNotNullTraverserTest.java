@@ -17,6 +17,8 @@ package org.qedeq.kernel.se.visitor;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
+import java.util.List;
 import java.util.Stack;
 
 import org.qedeq.base.io.TextOutput;
@@ -83,7 +85,7 @@ import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.dto.list.DefaultAtom;
 import org.qedeq.kernel.se.dto.list.DefaultElementList;
-import org.qedeq.kernel.se.dto.module.QedeqVoTest;
+import org.qedeq.kernel.se.test.QedeqVoCreator;
 
 /**
  * Test visitor concept for {@link org.qedeq.kernel.visitor.QedeqVisitor}.
@@ -101,6 +103,8 @@ public class QedeqNotNullTraverserTest extends QedeqTestCase {
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
     private final TextOutput text = new TextOutput("local", out, "UTF-8");
+
+//    private final TextOutput text = new TextOutput("local", new PrintStream(System.out));
 
     private final Stack stack = new Stack();
 
@@ -846,13 +850,14 @@ public class QedeqNotNullTraverserTest extends QedeqTestCase {
         QedeqNotNullTraverser trans2 = new QedeqNotNullTraverser(address,
             visitor2);
 
-        QedeqVoTest qedeqTest = new QedeqVoTest();
-        final Qedeq qedeq = (Qedeq) qedeqTest.getFilledObject(Qedeq.class);
-
-        System.out.print(qedeq);
-        System.out.println();
-        trans2.accept(qedeq);
-        System.out.println(out.toString("UTF-8"));
+        final List list = new QedeqVoCreator().create();
+        for (int i = 0; i < list.size(); i++) {
+//        System.out.print(qedeq);
+//        System.out.println();
+//            System.out.println(out.toString("UTF-8"));
+            trans2.accept((Qedeq) list.get(i));
+            assertEquals(0, text.getLevel().length());
+        }
 
     }
     

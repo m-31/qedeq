@@ -157,7 +157,6 @@ public class QedeqVoCreator {
         interface2ConcreteClass.put(FunctionDefinition.class, FunctionDefinitionVo.class);
         interface2ConcreteClass.put(FormalProof.class, FormalProofVo.class);
         interface2ConcreteClass.put(FormalProofList.class, FormalProofListVo.class);
-        interface2ConcreteClass.put(FormalProofLine.class, FormalProofLineVo.class);
         interface2ConcreteClass.put(FormalProofLineList.class, FormalProofLineListVo.class);
         interface2ConcreteClass.put(Formula.class, FormulaVo.class);
         interface2ConcreteClass.put(Header.class, HeaderVo.class);
@@ -189,11 +188,6 @@ public class QedeqVoCreator {
         interface2ConcreteClass.put(Term.class, TermVo.class);
         interface2ConcreteClass.put(Universal.class, UniversalVo.class);
         interface2ConcreteClass.put(UsedByList.class, UsedByListVo.class);
-
-//        interface2ConcreteClass.put(Element.class, DefaultAtom.class);
-//        interface2ConcreteClass.put(NodeType.class, PredicateDefinitionVo.class);
-//        interface2ConcreteClass.put(SubsectionType.class, NodeVo.class);
-//        interface2ConcreteClass.put(Reason.class, ModusPonensVo.class);
     }
 
     private int intCounter;
@@ -227,6 +221,9 @@ public class QedeqVoCreator {
                 } else if (clazz == SubsectionType.class) {
                     result.add(NodeVo.class);
                     result.add(SubsectionVo.class);
+                } else if (clazz == FormalProofLine.class) {
+                    result.add(FormalProofLineVo.class);
+                    result.add(ConditionalProofVo.class);
                 } else if (clazz == Reason.class) {
                     result.add(ModusPonensVo.class);
                     result.add(SubstFreeVo.class);
@@ -236,7 +233,6 @@ public class QedeqVoCreator {
                     result.add(ExistentialVo.class);
                     result.add(UniversalVo.class);
                     result.add(SubstFuncVo.class);
-                    result.add(ConditionalProofVo.class);
                 }
             } else {
                 result.add(concreteClass);
@@ -253,8 +249,8 @@ public class QedeqVoCreator {
         final QedeqVoCreator c = new QedeqVoCreator();
         final List vos = c.create();
         for (int i = 0; i < vos.size(); i++) {
-            System.out.println(vos.get(i).toString());
-            System.out.println("**********************************");
+//            System.out.println(vos.get(i).toString());
+//            System.out.println("**********************************");
         }
     }
 
@@ -266,7 +262,7 @@ public class QedeqVoCreator {
      * @return  A list with objects that are instances of <code>clazz</code>.
      */
     public List create(Class clazz) { 
-        out.pushLevel(clazz.getName());
+//        out.pushLevel(clazz.getName());
 //        out.println("Creating new for  " + clazz.getName());
         final List result = new ArrayList();
 
@@ -309,7 +305,7 @@ public class QedeqVoCreator {
                         final Class setClazz = setter.getParameterTypes()[0];
                         final List values = create(setClazz);
                         for (int j = 0; j < values.size(); j++) {
-                            System.out.println(setter);
+//                            System.out.println(setter);
                             vo = getEmptyObject(clazz2);
                             try {
                                 setter.invoke(vo, new Object[] {values.get(j)});
@@ -334,7 +330,7 @@ public class QedeqVoCreator {
                         if (setClazz != clazz) {
                             final List values = create(setClazz);
                             for (int j = 0; j < values.size(); j++) {
-                                System.out.println(adder);
+//                                System.out.println(adder);
                                 vo = getEmptyObject(clazz2);
                                 try {
                                     adder.invoke(vo, new Object[] {values.get(j)});
@@ -348,8 +344,8 @@ public class QedeqVoCreator {
                 }
             }
         }
-        out.println("Creating done for " + clazz.getName());
-        out.popLevel(clazz.getName().length());
+//        out.println("Creating done for " + clazz.getName());
+//        out.popLevel(clazz.getName().length());
         return result;
     }
  
