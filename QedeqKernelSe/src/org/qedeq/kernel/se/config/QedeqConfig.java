@@ -350,7 +350,9 @@ public class QedeqConfig {
 
     /**
      * Get http proxy host. It might be a good idea to ignore this value, if the application
-     * was started via Java Webstart.
+     * was started via Java Webstart. If none is defined we take the value of the system property
+     * "http.proxyHost".
+
      *
      * @return  Http proxy host. Might be <code>null</code>.
      */
@@ -373,7 +375,8 @@ public class QedeqConfig {
 
     /**
      * Get http proxy port. It might be a good idea to ignore this value, if the application
-     * was started via Java Webstart.
+     * was started via Java Webstart. If none is defined we take the value of the system property
+     * "http.proxyPort".
      *
      * @return  Http proxy port.  Might be <code>null</code>.
      */
@@ -396,7 +399,8 @@ public class QedeqConfig {
 
     /**
      * Get non http proxy hosts. It might be a good idea to ignore this value, if the application
-     * was started via Java Webstart.
+     * was started via Java Webstart. If none is defined we take the value of the system property
+     * "http.nonProxyHosts".
      *
      * @return  Http non proxy hosts.  Might be <code>null</code>.
      */
