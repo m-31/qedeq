@@ -151,6 +151,15 @@ public class QedeqConfigTest extends QedeqTestCase {
         assertEquals("proxy", con1.getHttpProxyHost());
         con1.setHttpProxyHost("newProxy");
         assertEquals("newProxy", con1.getHttpProxyHost());
+        final String key = "http.proxyHost";
+        final String value = System.getProperty(key);
+        if (value != null) {
+            System.getProperties().remove(key);
+        }
+        assertNull(con2.getHttpProxyHost());
+        if (value != null) {
+            System.setProperty(key, value);
+        }
         assertNull(con2.getHttpProxyHost());
         con2.setHttpProxyHost("newProxys");
         assertEquals("newProxys", con2.getHttpProxyHost());
@@ -160,6 +169,15 @@ public class QedeqConfigTest extends QedeqTestCase {
         assertEquals("", con1.getHttpProxyPort());
         con1.setHttpProxyPort("888");
         assertEquals("888", con1.getHttpProxyPort());
+        final String key = "http.proxyPort";
+        final String value = System.getProperty(key);
+        if (value != null) {
+            System.getProperties().remove(key);
+        }
+        assertNull(con2.getHttpProxyPort());
+        if (value != null) {
+            System.setProperty(key, value);
+        }
         assertNull(con2.getHttpProxyPort());
         con2.setHttpProxyPort("889");
         assertEquals("889", con2.getHttpProxyPort());
@@ -169,9 +187,15 @@ public class QedeqConfigTest extends QedeqTestCase {
         assertEquals("none", con1.getHttpNonProxyHosts());
         con1.setHttpNonProxyHosts("all");
         assertEquals("all", con1.getHttpNonProxyHosts());
+        final String key = "http.nonProxyHosts";
+        final String value = System.getProperty(key);
+        if (value != null) {
+            System.getProperties().remove(key);
+        }
         assertNull(con2.getHttpNonProxyHosts());
-        con2.setHttpNonProxyHosts("zulu");
-        assertEquals("zulu", con2.getHttpNonProxyHosts());
+        if (value != null) {
+            System.setProperty(key, value);
+        }
     }
 
     public void testGetLogFile() throws Exception {
@@ -305,6 +329,16 @@ public class QedeqConfigTest extends QedeqTestCase {
         con3.store();
         QedeqConfig con4 = new QedeqConfig(file3, "ho", basis3);
         assertEquals(12345, con4.getConnectionTimeout());
+        final File file5 = new File(getOutdir(), "testQedeqConfig/qedeq5.properties/dir");
+        IoUtility.createNecessaryDirectories(file5);
+        final File file6 = new File(getOutdir(), "testQedeqConfig/qedeq5.properties");
+        QedeqConfig con5 = new QedeqConfig(file6, "ho", file6.getParentFile());
+        try {
+            con5.store();
+            fail("Exception expected, file name is already a directory!");
+        } catch (Exception e) {
+            // ok
+        }
     }
     
 }
