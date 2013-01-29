@@ -26,7 +26,6 @@ import org.qedeq.base.utility.StringUtility;
 /**
  * For testing QEDEQ modules.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public final class ObjectProxy implements InvocationHandler {
