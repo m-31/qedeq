@@ -194,8 +194,6 @@ public class QedeqVoCreator {
     
     private int stringCounter;
 
-    private boolean booleanCounter;
-
     public QedeqVoCreator() {
     }
     
@@ -269,7 +267,7 @@ public class QedeqVoCreator {
         Object vo = null;
         if (clazz.isPrimitive()) {
             if (clazz == Integer.TYPE) {
-                vo = new Integer(17);
+                vo = new Integer(++intCounter);
             } else {
                 throw new RuntimeException("not yet supported: " + clazz);
             }
@@ -278,7 +276,8 @@ public class QedeqVoCreator {
         } else if (clazz.equals(String.class)) {
             vo = "s" + (++stringCounter);
         } else if (clazz.equals(Boolean.class)) {
-            vo = Boolean.valueOf((booleanCounter = !booleanCounter));
+            result.add(Boolean.FALSE);
+            vo = Boolean.TRUE;
         } else if (clazz.equals(List.class)) {
             vo = new ArrayList();
         } else {
