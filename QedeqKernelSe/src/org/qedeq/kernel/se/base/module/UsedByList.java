@@ -19,7 +19,6 @@ package org.qedeq.kernel.se.base.module;
 /**
  * List of modules which use the current one.
  *
- * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public interface UsedByList {

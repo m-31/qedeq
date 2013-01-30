@@ -21,7 +21,6 @@ import org.qedeq.kernel.se.base.list.Element;
 /**
  * List of variables.
  *
- * @version $Revision: 1.8 $
  * @author  Michael Meyling
  */
 public interface VariableList {
