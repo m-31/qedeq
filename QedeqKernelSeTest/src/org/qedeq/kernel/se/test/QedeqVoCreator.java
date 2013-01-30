@@ -240,7 +240,7 @@ public class QedeqVoCreator {
     }
 
     public List create(){
-        return create(Qedeq.class);
+        return createValuesFor(Qedeq.class);
     }
 
     public static void main(final String[] args) {
@@ -253,13 +253,14 @@ public class QedeqVoCreator {
     }
 
     public TextOutput out = new TextOutput("out", new PrintStream(System.out));
+
     /**
      * Create variations of instances of given class.
      * 
      * @param   clazz
      * @return  A list with objects that are instances of <code>clazz</code>.
      */
-    public List create(Class clazz) { 
+    public List createValuesFor(Class clazz) { 
 //        out.pushLevel(clazz.getName());
 //        out.println("Creating new for  " + clazz.getName());
         final List result = new ArrayList();
@@ -302,14 +303,15 @@ public class QedeqVoCreator {
                             continue;
                         }
                         final Class setClazz = setter.getParameterTypes()[0];
-                        final List values = create(setClazz);
+                        final List values = createValuesFor(setClazz);
                         for (int j = 0; j < values.size(); j++) {
 //                            System.out.println(setter);
                             vo = getEmptyObject(clazz2);
                             try {
                                 setter.invoke(vo, new Object[] {values.get(j)});
                             } catch (Exception e) {
-                                e.printStackTrace();
+                                e.printStackTrace(System.out);
+                                throw new RuntimeException(e);
                             }
                             result.add(vo);
                         }
@@ -327,14 +329,15 @@ public class QedeqVoCreator {
                         }
                         final Class setClazz = adder.getParameterTypes()[0];
                         if (setClazz != clazz) {
-                            final List values = create(setClazz);
+                            final List values = createValuesFor(setClazz);
                             for (int j = 0; j < values.size(); j++) {
 //                                System.out.println(adder);
                                 vo = getEmptyObject(clazz2);
                                 try {
                                     adder.invoke(vo, new Object[] {values.get(j)});
                                 } catch (Exception e) {
-                                    e.printStackTrace();
+                                    e.printStackTrace(System.out);
+                                    throw new RuntimeException(e);
                                 }
                                 result.add(vo);
                             }
@@ -363,8 +366,11 @@ public class QedeqVoCreator {
      */
     private Object getEmptyObject(Class clazz) {
 
-        if (clazz.equals(Element.class)) {              // application specific
-            return new DefaultAtom("atom");
+        if (clazz.equals(DefaultAtom.class)) {              // application specific
+            return new DefaultAtom("s"  + (++stringCounter));
+        }
+        if (clazz.equals(DefaultElementList.class)) {              // application specific
+            return new DefaultElementList("s"  + (++stringCounter));
         }
         Constructor[] constructors = clazz.getConstructors();
         Constructor constructor = null;
@@ -374,7 +380,7 @@ public class QedeqVoCreator {
             }
         }
         if (constructor == null) {
-            return null;
+            throw new RuntimeException("no constructor found for clazz: " + clazz.getName());
         }
         try {
             return constructor.newInstance(new Object[0]);

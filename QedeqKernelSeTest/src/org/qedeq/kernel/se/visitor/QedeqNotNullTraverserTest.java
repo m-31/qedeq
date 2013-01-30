@@ -251,35 +251,6 @@ public class QedeqNotNullTraverserTest extends QedeqTestCase {
         super.tearDown();
     }
 
-/*
-    public void accept(final Element element) throws ModuleDataException {
-        if (element.isList()) {
-            accept(element.getList());
-        } else if (element.isAtom()) {
-            accept(element.getAtom());
-        } else {
-            throw new IllegalArgumentException("unexpected element type: "
-                + element.toString());
-        }
-    }
-
-    public void accept(final Atom atom) throws ModuleDataException {
-        visitEnter(atom);
-        visitLeave(atom);
-    }
-
-    public void accept(final ElementList list) throws ModuleDataException {
-        visitEnter(list);
-        for (int i = 0; i < list.size(); i++) {
-            if (i > 0) {
-                text.print(", ");
-            }
-            accept(list.getElement(i));
-        }
-        visitLeave(list);
-    }
-*/
-
     private final QedeqVisitor visitor2 = new QedeqVisitor() {
 
         public void visitEnter(Atom atom) {
@@ -837,15 +808,28 @@ public class QedeqNotNullTraverserTest extends QedeqTestCase {
     };
 
     public void testQedeq() throws Exception {
-        QedeqNotNullTraverser trans2 = new QedeqNotNullTraverser(address,
-            visitor2);
+//        QedeqNotNullTraverser trans2 = new QedeqNotNullTraverser(address,
+//            visitor2);
+        final QedeqNotNullTraverser trans2 = new QedeqNotNullTraverser(address);
+;
+        final QedeqVisitorTester testVisitor = new QedeqVisitorTester() {
+            public void checkEnter() {
+//                super.checkEnter();
+//                System.out.println(")" + trans2.getCurrentContext().getLocationWithinModule());
+            }
+            public void checkLeave() {
+//                super.checkLeave();
+//                System.out.println("(" + trans2.getCurrentContext().getLocationWithinModule());
+            }
+        };
+        trans2.setVisitor(testVisitor);
         final List list = new QedeqVoCreator().create();
         for (int i = 0; i < list.size(); i++) {
 //        System.out.print(qedeq);
 //        System.out.println();
 //            System.out.println(out.toString("UTF-8"));
             trans2.accept((Qedeq) list.get(i));
-            assertEquals(0, text.getLevel().length());
+            assertEquals(0, testVisitor.getLevel());
         }
     }
     
