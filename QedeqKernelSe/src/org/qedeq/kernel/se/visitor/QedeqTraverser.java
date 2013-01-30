@@ -69,7 +69,6 @@ import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Term;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
-import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.ModuleDataException;
 
 /**
@@ -312,14 +311,6 @@ public interface QedeqTraverser {
      * @throws  ModuleDataException     Severe error during occurred.
      */
     public void accept(final LinkList linkList) throws ModuleDataException;
-
-    /**
-     * Traverse variable list.
-     *
-     * @param   variableList    Traverse this element.
-     * @throws  ModuleDataException     Severe error during occurred.
-     */
-    public void accept(final VariableList variableList) throws ModuleDataException;
 
     /**
      * Traverse formal proof list.

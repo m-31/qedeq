@@ -73,7 +73,6 @@ import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Term;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
-import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
@@ -842,34 +841,6 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         visitor.visitEnter(linkList);
         setLocationWithinModule(context);
         visitor.visitLeave(linkList);
-        setLocationWithinModule(context);
-    }
-
-    public void accept(final VariableList variableList) throws ModuleDataException {
-        checkForInterrupt();
-        if (blocked || variableList == null) {
-            return;
-        }
-        final String context = getCurrentContext().getLocationWithinModule();
-        visitor.visitEnter(variableList);
-        for (int i = 0; i < variableList.size(); i++) {
-            final String piece = context + ".get(" + i + ")";
-            setLocationWithinModule(piece);
-            if (variableList.get(i) != null) {
-                if (variableList.get(i).isList()) {
-                    setLocationWithinModule(piece + ".getList()");
-                    accept(variableList.get(i).getList());
-                } else if (variableList.get(i).isAtom()) {
-                    setLocationWithinModule(piece + ".getAtom()");
-                    accept(variableList.get(i).getAtom());
-                } else {
-                    throw new IllegalArgumentException("unexpected element type: "
-                        + variableList.get(i).toString());
-                }
-            }
-        }
-        setLocationWithinModule(context);
-        visitor.visitLeave(variableList);
         setLocationWithinModule(context);
     }
 

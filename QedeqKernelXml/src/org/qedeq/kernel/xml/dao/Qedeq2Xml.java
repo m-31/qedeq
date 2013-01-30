@@ -68,7 +68,6 @@ import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Term;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
-import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
@@ -761,16 +760,6 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitLeave(final Term term) {
         printer.popLevel();
         printer.println("</TERM>");
-    }
-
-    public void visitEnter(final VariableList variableList) {
-        printer.println("<VARLIST>");
-        printer.pushLevel();
-    }
-
-    public void visitLeave(final VariableList variableList) {
-        printer.popLevel();
-        printer.println("</VARLIST>");
     }
 
     // TODO mime 20070217: what do we do if an atom is not first element of a list?

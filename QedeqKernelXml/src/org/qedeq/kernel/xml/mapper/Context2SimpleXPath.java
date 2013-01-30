@@ -73,7 +73,6 @@ import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Term;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
-import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.visitor.AbstractModuleVisitor;
@@ -995,17 +994,6 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     }
 
     public final void visitLeave(final Term term) {
-        leave();
-    }
-
-    public final void visitEnter(final VariableList variableList) throws ModuleDataException {
-        enter("VARLIST");
-        final String method = "visitEnter(VariableList)";
-        Trace.param(CLASS, this, method, "current", current);
-        checkMatching(method);
-    }
-
-    public final void visitLeave(final VariableList variableList) {
         leave();
     }
 

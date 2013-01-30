@@ -69,7 +69,6 @@ import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Term;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
-import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.ModuleDataException;
 
 /**
@@ -244,9 +243,6 @@ public abstract class AbstractModuleVisitor implements QedeqVisitor {
     public void visitEnter(final UsedByList usedByList) throws ModuleDataException {
     }
 
-    public void visitEnter(final VariableList variableList) throws ModuleDataException {
-    }
-
     public void visitLeave(final Author author) throws ModuleDataException {
     }
 
@@ -403,9 +399,6 @@ public abstract class AbstractModuleVisitor implements QedeqVisitor {
     }
 
     public void visitLeave(final UsedByList usedByList) throws ModuleDataException {
-    }
-
-    public void visitLeave(final VariableList variableList) throws ModuleDataException {
     }
 
     public void visitLeave(final Atom atom) throws ModuleDataException {

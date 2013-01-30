@@ -77,7 +77,6 @@ import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Term;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
-import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleDataException;
@@ -316,10 +315,6 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
         checkContext();
     }
 
-    public void visitEnter(final VariableList variableList) throws ModuleDataException {
-        checkContext();
-    }
-
     public void visitLeave(final Author author) throws ModuleDataException {
         checkContext();
     }
@@ -510,10 +505,6 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
     }
 
     public void visitLeave(final UsedByList usedByList) throws ModuleDataException {
-        checkContext();
-    }
-
-    public void visitLeave(final VariableList variableList) throws ModuleDataException {
         checkContext();
     }
 

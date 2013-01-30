@@ -31,7 +31,6 @@ import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
-import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
 
@@ -149,20 +148,19 @@ public class DynamicInterpreter {
     }
 
     /**
-     * Add new predicate constant to this model.
+     * Add new function constant to this model.
      *
      * @param   constant        This is the predicate constant.
-     * @param   variableList    Variables to use.
+     * @param   variables       Subject variables to use.
      * @param   term            Formula to evaluate for that predicate.
      */
     public void addFunctionConstant(final ModelFunctionConstant constant,
-            final VariableList variableList, final ElementList term) {
+            final List variables, final ElementList term) {
         model.addFunctionConstant(constant, new Function(constant.getArgumentNumber(),
             constant.getArgumentNumber(), "", "") {
                 public Entity map(final Entity[] entities) {
                     for (int i = 0; i < entities.length; i++) {
-                        final SubjectVariable var = new SubjectVariable(variableList.get(i).getList()
-                            .getElement(0).getAtom().getString());
+                        final SubjectVariable var = (SubjectVariable) variables.get(i);
                         subjectVariableInterpreter.forceAddSubjectVariable(var, entities[i].getValue());
                     }
                     Entity result;
@@ -172,8 +170,7 @@ public class DynamicInterpreter {
                         throw new RuntimeException(e);  // LATER 20101014 m31: improve error handling
                     }
                     for (int i = entities.length - 1; i >= 0; i--) {
-                        final SubjectVariable var = new SubjectVariable(variableList.get(i).getList()
-                            .getElement(0).getAtom().getString());
+                        final SubjectVariable var = (SubjectVariable) variables.get(i);
                         subjectVariableInterpreter.forceRemoveSubjectVariable(var);
                     }
                     return result;

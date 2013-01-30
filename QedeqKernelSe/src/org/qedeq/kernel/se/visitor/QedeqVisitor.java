@@ -67,7 +67,6 @@ import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Term;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
-import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.ModuleDataException;
 
 /**
@@ -494,14 +493,6 @@ public interface QedeqVisitor extends ListVisitor {
     public void visitEnter(UsedByList usedByList) throws ModuleDataException;
 
     /**
-     * Visit certain element. Begin of visit.
-     *
-     * @param   variableList        Begin visit of this element.
-     * @throws  ModuleDataException Major problem occurred.
-     */
-    public void visitEnter(VariableList variableList) throws ModuleDataException;
-
-    /**
      * Visit certain element. End of visit.
      *
      * @param   author              End visit of this element.
@@ -917,12 +908,5 @@ public interface QedeqVisitor extends ListVisitor {
      */
     public void visitLeave(UsedByList usedByList) throws ModuleDataException;
 
-    /**
-     * Visit certain element. End of visit.
-     *
-     * @param   variableList        End visit of this element.
-     * @throws  ModuleDataException Major problem occurred.
-     */
-    public void visitLeave(VariableList variableList) throws ModuleDataException;
 
 }

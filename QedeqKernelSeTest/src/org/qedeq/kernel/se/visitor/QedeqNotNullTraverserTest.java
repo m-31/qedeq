@@ -80,7 +80,6 @@ import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Term;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
-import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleDataException;
@@ -575,11 +574,6 @@ public class QedeqNotNullTraverserTest extends QedeqTestCase {
             text.pushLevel();
         }
 
-        public void visitEnter(VariableList variableList) {
-            text.println("<variablelist>");
-            text.pushLevel();
-        }
-
         public void visitLeave(Author author) throws ModuleDataException {
             text.popLevel();
             text.println("</author>");
@@ -838,11 +832,6 @@ public class QedeqNotNullTraverserTest extends QedeqTestCase {
         public void visitLeave(UsedByList usedByList) {
             text.popLevel();
             text.println("</usedbylist>");
-        }
-
-        public void visitLeave(VariableList variableList) {
-            text.popLevel();
-            text.println("</variablelist>");
         }
 
     };

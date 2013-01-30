@@ -69,7 +69,6 @@ import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Term;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
-import org.qedeq.kernel.se.base.module.VariableList;
 
 /**
  * Test class.
@@ -139,7 +138,6 @@ public class AbstractModuleVisitorTest extends QedeqTestCase {
         listener.visitEnter((Term) null);
         listener.visitEnter((Universal) null);
         listener.visitEnter((UsedByList) null);
-        listener.visitEnter((VariableList) null);
     }
 
 }
