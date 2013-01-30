@@ -127,6 +127,24 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         this.visitor = visitor;
     }
 
+    /**
+     * Constructor.
+     *
+     * @param   globalContext   Module location information.
+     */
+    public QedeqNotNullTraverser(final ModuleAddress globalContext) {
+        currentContext = globalContext.createModuleContext();
+    }
+
+    /**
+     * Set visitor.
+     *
+     * @param   visitor         These methods are called if a node is visited.
+     */
+    public void setVisitor(final QedeqVisitor visitor) {
+        this.visitor = visitor;
+    }
+
     public void accept(final Qedeq qedeq) throws ModuleDataException {
         ruleExistence = new HashMap();
         setLocation("started");
