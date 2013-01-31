@@ -330,13 +330,30 @@ public final class StringUtility {
     }
 
     /**
+     * Get last dot separated string part.
+     *
+     * @param   full    String with dots in it. Also <code>null</code> is accepted.
+     * @return  All after the last dot in <code>full</code>. Is never <code>null</code>.
+     */
+    public static String getLastDotString(final String full) {
+        if (full == null) {
+            return "";
+        }
+        final int p = full.lastIndexOf('.');
+        if (p < 0) {
+            return full;
+        }
+        return full.substring(p + 1);
+    }
+
+    /**
      * Get non qualified class name.
      *
      * @param   clazz   Class.
      * @return  Non qualified class name.
      */
     public static String getClassName(final Class clazz) {
-        return clazz.getName().substring(clazz.getName().lastIndexOf('.') + 1);
+        return getLastDotString(clazz.getName());
     }
 
     /**
