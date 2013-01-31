@@ -509,9 +509,12 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         for (int i = 0; i < subsectionList.size(); i++) {
             setLocationWithinModule(context + ".get(" + i + ")");
             // TODO mime 20050608: here the Subsection context is type dependently specified
+            // FIXME mime 20130131: variation here hard coded
             if (subsectionList.get(i) instanceof Subsection) {
+                setLocationWithinModule(context + ".get(" + i + ").getSubsection()");
                 accept((Subsection) subsectionList.get(i));
             } else if (subsectionList.get(i) instanceof Node) {
+                setLocationWithinModule(context + ".get(" + i + ").getNode()");
                 accept((Node) subsectionList.get(i));
             } else if (subsectionList.get(i) == null) {
                 // ignore
@@ -1335,12 +1338,6 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         getCurrentContext().setLocationWithinModule(locationWithinModule);
     }
 
-    /**
-     * Get current context within original. Remember to use the copy constructor
-     * when trying to remember this context!
-     *
-     * @return  Current context.
-     */
     public final ModuleContext getCurrentContext() {
         return currentContext;
     }

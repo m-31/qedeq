@@ -69,6 +69,7 @@ import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Term;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
+import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
 
 /**
@@ -79,6 +80,16 @@ import org.qedeq.kernel.se.common.ModuleDataException;
  * @author  Michael Meyling
  */
 public interface QedeqTraverser {
+
+
+    /**
+     * Get current context within original. Remember to use the copy constructor
+     * when trying to remember this context!
+     *
+     * @return  Current context.
+     */
+    public ModuleContext getCurrentContext();
+
 
     /**
      * Start with the top structure of a QEDEQ module.

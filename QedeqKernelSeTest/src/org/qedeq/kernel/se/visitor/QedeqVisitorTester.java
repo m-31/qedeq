@@ -105,7 +105,10 @@ public class QedeqVisitorTester implements QedeqVisitor {
 
     private final Stack objectStack = new Stack();
 
-    public QedeqVisitorTester() {
+    private QedeqTraverser traverser;
+
+    public QedeqVisitorTester(final QedeqTraverser traverser) {
+        this.traverser = traverser;
         init();
     }
 
@@ -594,7 +597,7 @@ public class QedeqVisitorTester implements QedeqVisitor {
     public String getContext() {
         String result = "";
         for (int i = 1; i < getterStack.size(); i++) {
-            if (i > 0) {
+            if (i > 1) {
                 result += ".";
             }
             result += getterStack.get(i);
@@ -609,25 +612,61 @@ public class QedeqVisitorTester implements QedeqVisitor {
         String name = StringUtility.getClassName(obj.getClass());
         if (name.endsWith("Vo")) {
             name = name.substring(0, name.length() - 2);
+        } else if (name.equals("DefaultAtom")) {
+            name = "Atom";
+        } else if (name.equals("DefaultElementList")) {
+            name = "ElementList";
         }
-        String lastClass = "";
+        String lastName = "";
         if (getLevel() > 0) {
-            lastClass = objectStack.lastElement().toString();
+            lastName = objectStack.lastElement().toString();
         }
         String getter = "get" + name + "()";
+        if (name.equals("Atom")) {
+            getter = "getElement().getAtom()";
+        } else if (name.equals("ElementList")) {
+            getter = "getElement().getList()";
+        }
         if (name.endsWith("List")) {
             setCounter(getLevel() + 1, 0);
             if ("LatexList".equals(name)) {
                 // we have to guess the correct context :-(
+                System.out.println("name=" + name);
+                getter = StringUtility.getLastDotString(traverser.getCurrentContext().getLocationWithinModule());
+                System.out.println("getter=" + getter);
             }
         
-        
-        } else {
-            if (getLevel() > 0 && objectStack.lastElement().toString().equals(name + "List")) {
-                getter = "get(" + getCounter(getLevel() + 1) + ")"; 
-                increaseCounter(getLevel() + 1);
+        } else if (lastName.endsWith("List")) {
+//          if (lastName.equals(name + "List")) {
+            if (!(name + "List").equals(objectStack.lastElement().toString())) {
+                System.out.println(">>>>>>>>>>>>>>>>>>>>>>> " + name + "  " + obj.getClass().getName());
             }
+            getter = "get(" + getCounter(getLevel() + 1) + ")";
+            if (name.equals("Subsection")) {
+                getter += ".getSubsection()";
+            } if (name.equals("Node")) {
+                getter += ".getNode()";
+            }
+            increaseCounter(getLevel() + 1);
+        } else if (lastName.equals("Author")) {
+            if (name.equals("Latex")) {
+                getter = "getName()";
+            }
+        } else if (name.equals("Element")) {
+            if (lastName.equals("InitialPredicateDefinition")) {
+                getter = "getPredCon()";
+            } else if (lastName.equals("")) {
+                
+            }
+// FIXME 20130131 m31: this shows a broken design!!!
+        } else if (name.equals("Proposition")) {
+            getter = "getNodeType()." + getter;
+        } else if (name.equals("Rule")) {
+            getter = "getNodeType()." + getter;
+        } else if (name.endsWith("Definition")) {
+            getter = "getNodeType()." + getter;
         }
+        System.out.println(name);
         objectStack.push(name);
         getterStack.push(getter);
         text.println("<" + name + ">");

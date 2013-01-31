@@ -29,4 +29,23 @@ public class SubsectionVoTest extends AbstractVoModuleTestCase {
     protected Class getTestedClass() {
         return clazz;
     }
+
+    private SubsectionVo subsection;
+    
+    public void setUp() throws Exception {
+        super.setUp();
+        removeMethodToCheck("getNode");
+        removeMethodToCheck("getSubsection");
+        this.subsection = new SubsectionVo();
+    }
+
+    public void testGetSubsection() {
+        assertEquals(subsection, subsection.getSubsection());
+    }
+
+    public void testGetNode() {
+        assertNull(subsection.getNode());
+    }
+
+
 }

@@ -19,6 +19,7 @@ import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.base.module.Node;
 import org.qedeq.kernel.se.base.module.NodeType;
+import org.qedeq.kernel.se.base.module.Subsection;
 
 
 /**
@@ -56,6 +57,14 @@ public class NodeVo implements Node {
      */
     public NodeVo() {
         // nothing to do
+    }
+
+    public Node getNode() {
+        return this;
+    }
+
+    public Subsection getSubsection() {
+        return null;
     }
 
     /**

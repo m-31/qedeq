@@ -17,10 +17,24 @@ package org.qedeq.kernel.se.base.module;
 
 
 /**
- * Marker interface for different subsection types.
+ * Encapsulate for different subsection types.
  *
  * @author  Michael Meyling
  */
 public interface SubsectionType {
-    // just a marker interface
+
+    /**
+     * Get Node, if this is an instance of {@link Node}.
+     *
+     * @return  Node, maybe <code>null</code>.
+     */
+    public Node getNode();
+
+    /**
+     * Get subsection, if this is an instance of {@link Subsection}.
+     *
+     * @return  Subsection, maybe <code>null</code>.
+     */
+    public Subsection getSubsection();
+
 }

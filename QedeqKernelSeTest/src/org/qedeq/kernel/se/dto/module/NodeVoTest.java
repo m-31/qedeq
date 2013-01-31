@@ -28,6 +28,8 @@ public class NodeVoTest extends AbstractVoModuleTestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
+        removeMethodToCheck("getNode");
+        removeMethodToCheck("getSubsection");
         node = new NodeVo();
     }
 
@@ -129,6 +131,14 @@ public class NodeVoTest extends AbstractVoModuleTestCase {
         final NodeVo node2 = new NodeVo();
         assertEquals(node.toString(), node2.toString());
         node.setId("Hei");
+    }
+
+    public void testGetNode() {
+        assertEquals(node, node.getNode());
+    }
+
+    public void testGetSubsection() {
+        assertNull(node.getSubsection());
     }
 
 }

@@ -17,6 +17,7 @@ package org.qedeq.kernel.se.dto.module;
 
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.base.module.LatexList;
+import org.qedeq.kernel.se.base.module.Node;
 import org.qedeq.kernel.se.base.module.Subsection;
 
 
@@ -44,6 +45,14 @@ public class SubsectionVo implements Subsection {
      */
     public SubsectionVo() {
         // nothing to do
+    }
+
+    public Node getNode() {
+        return null;
+    }
+
+    public Subsection getSubsection() {
+        return this;
     }
 
     /**
