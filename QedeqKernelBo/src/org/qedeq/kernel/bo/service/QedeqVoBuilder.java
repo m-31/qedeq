@@ -532,12 +532,16 @@ public class QedeqVoBuilder {
         final SubsectionListVo list = new SubsectionListVo();
         final String context = getCurrentContext().getLocationWithinModule();
         for (int i = 0; i < subsectionList.size(); i++) {
-            setLocationWithinModule(context + ".get(" + i + ")");
+// FIXME 20130201 m31: removed, because we can't find the location if we don't also specify the
+//            subsection type here, but is this handling ok?
+//            setLocationWithinModule(context + ".get(" + i + ")");
             // TODO mime 20050608: here the Subsection context is type dependently specified
-            if (subsectionList.get(i) instanceof Subsection) {
-                list.add(create((Subsection) subsectionList.get(i)));
-            } else if (subsectionList.get(i) instanceof Node) {
-                list.add(create((Node) subsectionList.get(i)));
+            if (subsectionList.get(i).getSubsection() != null) {
+                setLocationWithinModule(context + ".get(" + i + ").getSubsection()");
+                list.add(create(subsectionList.get(i).getSubsection()));
+            } else if (subsectionList.get(i).getNode() != null) {
+                setLocationWithinModule(context + ".get(" + i + ").getNode()");
+                list.add(create(subsectionList.get(i).getNode()));
             } else {
                 throw new IllegalArgumentException("unexpected subsection type: "
                     + subsectionList.get(i).getClass());
