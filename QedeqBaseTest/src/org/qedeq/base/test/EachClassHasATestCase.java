@@ -90,7 +90,8 @@ public abstract class EachClassHasATestCase extends TestCase {
         final Iterator j = classesToTest.iterator();
         while (j.hasNext()) {
             Class c = (Class) j.next();
-            if (!testClasses.contains(c.getName() + "Test") && !c.getName().endsWith("TestCase")) {
+            if (!testClasses.contains(c.getName() + "Test") && !c.getName().endsWith("TestCase")
+                    && !c.getName().endsWith("Tester")) {
 //                System.out.println("missing test for " + c.getName() + " mod: " +c.getModifiers());
                 result.add(c.getName());
             } else {
