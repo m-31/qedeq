@@ -63,6 +63,8 @@ class ClipboardListener extends MouseAdapter implements ActionListener {
         popEdit.add(copy1);
 
         final JMenuItem find1 = new JMenuItem("Find");
+// FIXME 20130201 m31: didn't work :-(
+//        find1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, Event.CTRL_MASK));
         find1.addActionListener(this);
         find1.setActionCommand("find");
         popEdit.add(find1);
@@ -79,11 +81,26 @@ class ClipboardListener extends MouseAdapter implements ActionListener {
 
         popNoEdit = new JPopupMenu();
 
-        popNoEdit.add(selectAll1);
+        final JMenuItem selectAll2 = new JMenuItem("Select All");
+        selectAll2.addActionListener(this);
+        selectAll2.setActionCommand("selectAll");
+        popEdit.add(selectAll2);
 
-        popNoEdit.add(copy1);
+        final JMenuItem copy2 = new JMenuItem("Copy");
+        copy2.addActionListener(this);
+        copy2.setActionCommand("copy");
+        popEdit.add(copy2);
 
-        popNoEdit.add(find1);
+        final JMenuItem find2 = new JMenuItem("Find");
+        find2.addActionListener(this);
+        find2.setActionCommand("find");
+        popEdit.add(find2);
+
+        popNoEdit.add(selectAll2);
+
+        popNoEdit.add(copy2);
+
+        popNoEdit.add(find2);
 
     }
 
