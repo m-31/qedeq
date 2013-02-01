@@ -113,7 +113,7 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
             assertTrue(e instanceof LogicalCheckException);
             final LogicalCheckException check = (LogicalCheckException) e;
             assertEquals(30550, check.getErrorCode());
-            assertEquals("getChapterList().get(0).getSectionList().get(0).getSubsectionList().get(0).getNodeType().getAxiom().getFormula().getElement().getList().getElement(1).getList()", check.getContext().getLocationWithinModule());
+            assertEquals("getChapterList().get(0).getSectionList().get(0).getSubsectionList().get(0).getNode().getNodeType().getAxiom().getFormula().getElement().getList().getElement(1).getList()", check.getContext().getLocationWithinModule());
             assertNull(check.getReferenceContext());
         }
     }
@@ -128,7 +128,7 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
             assertTrue(e instanceof LogicalCheckException);
             final LogicalCheckException check = (LogicalCheckException) e;
             assertEquals(30770, check.getErrorCode());
-            assertEquals("getChapterList().get(0).getSectionList().get(0).getSubsectionList().get(0).getNodeType().getAxiom().getFormula().getElement().getList().getElement(1)", check.getContext().getLocationWithinModule());
+            assertEquals("getChapterList().get(0).getSectionList().get(0).getSubsectionList().get(0).getNode().getNodeType().getAxiom().getFormula().getElement().getList().getElement(1)", check.getContext().getLocationWithinModule());
             assertNull(check.getReferenceContext());
         }
     }
@@ -143,7 +143,7 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
             assertTrue(e instanceof LogicalCheckException);
             final LogicalCheckException check = (LogicalCheckException) e;
             assertEquals(30780, check.getErrorCode());
-            assertEquals("getChapterList().get(0).getSectionList().get(0).getSubsectionList().get(0).getNodeType().getAxiom().getFormula().getElement().getList().getElement(1)", check.getContext().getLocationWithinModule());
+            assertEquals("getChapterList().get(0).getSectionList().get(0).getSubsectionList().get(0).getNode().getNodeType().getAxiom().getFormula().getElement().getList().getElement(1)", check.getContext().getLocationWithinModule());
             assertNull(check.getReferenceContext());
         }
     }
