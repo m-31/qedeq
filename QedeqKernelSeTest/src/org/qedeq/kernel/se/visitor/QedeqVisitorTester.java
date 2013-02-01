@@ -610,6 +610,7 @@ public class QedeqVisitorTester implements QedeqVisitor {
             return;
         }
         String name = StringUtility.getClassName(obj.getClass());
+//        System.out.println(name);
         if (name.endsWith("Vo")) {
             name = name.substring(0, name.length() - 2);
         } else if (name.equals("DefaultAtom")) {
@@ -627,20 +628,22 @@ public class QedeqVisitorTester implements QedeqVisitor {
         } else if (name.equals("ElementList")) {
             getter = "getElement().getList()";
         }
-        if (name.endsWith("List")) {
+//        System.out.println("lastName=" + lastName);
+//        System.out.println("getter=" + getter);
+        if (!getter.startsWith("getElement()") && name.endsWith("List")) {
             setCounter(getLevel() + 1, 0);
             if ("LatexList".equals(name)) {
                 // we have to guess the correct context :-(
-                System.out.println("name=" + name);
+//                System.out.println("name=" + name);
                 getter = StringUtility.getLastDotString(traverser.getCurrentContext().getLocationWithinModule());
-                System.out.println("getter=" + getter);
+//                System.out.println("getter=" + getter);
             }
         
         } else if (lastName.endsWith("List")) {
 //          if (lastName.equals(name + "List")) {
-            if (!(name + "List").equals(objectStack.lastElement().toString())) {
-                System.out.println(">>>>>>>>>>>>>>>>>>>>>>> " + name + "  " + obj.getClass().getName());
-            }
+//            if (!(name + "List").equals(lastName)) {
+//                System.out.println(">>>>>>>>>>>>>>>>>>>>>>> " + name + "  " + obj.getClass().getName());
+//            }
             getter = "get(" + getCounter(getLevel() + 1) + ")";
             if (name.equals("Subsection")) {
                 getter += ".getSubsection()";
@@ -652,12 +655,37 @@ public class QedeqVisitorTester implements QedeqVisitor {
             if (name.equals("Latex")) {
                 getter = "getName()";
             }
-        } else if (name.equals("Element")) {
+        } else if (lastName.equals("FormalProofLine") && obj instanceof Reason) {
+            getter = "getReason()";
+        } else if (getter.startsWith("getElement()")) {
+//            System.out.println("getElement() found");
             if (lastName.equals("InitialPredicateDefinition")) {
-                getter = "getPredCon()";
-            } else if (lastName.equals("")) {
-                
+//                System.out.println("getPredCon() found");
+                getter = "getPredCon()." + StringUtility.getLastDotString(getter);
+            } else if (lastName.equals("InitialFunctionDefinition")) {
+                getter = "getFunCon()." + StringUtility.getLastDotString(getter);
+            } else if (lastName.equals("SubstFree")) {
+                getter = "getSubjectVariable()." + StringUtility.getLastDotString(getter);
+            } else if (lastName.equals("SubstPred")) {
+                getter = "getPredicateVariable()." + StringUtility.getLastDotString(getter);
+            } else if (lastName.equals("Rename")) {
+                // we have a 50 to 50 chance so we get it from the correct(?) context
+//                getter = "getPredicateVariable()." + StringUtility.getLastDotString(getter);
+                getter = StringUtility.getLastTwoDotStrings(traverser.getCurrentContext()
+                    .getLocationWithinModule());
+            } else if (lastName.equals("Existential")) {
+                getter = "getSubjectVariable()." + StringUtility.getLastDotString(getter);
+            } else if (lastName.equals("Universal")) {
+                getter = "getSubjectVariable()." + StringUtility.getLastDotString(getter);
+            } else if (lastName.equals("SubstFunc")) {
+                getter = "getFunctionVariable()." + StringUtility.getLastDotString(getter);
             }
+        } else if (lastName.equals("SubstFree") && name.equals("Term")) {
+            getter = "getSubstituteTerm()";
+        } else if (lastName.equals("SubstFunc") && name.equals("Term")) {
+            getter = "getSubstituteTerm()";
+        } else if (lastName.equals("SubstPred") && name.equals("Formula")) {
+            getter = "getSubstituteFormula()";
 // FIXME 20130131 m31: this shows a broken design!!!
         } else if (name.equals("Proposition")) {
             getter = "getNodeType()." + getter;
@@ -665,8 +693,10 @@ public class QedeqVisitorTester implements QedeqVisitor {
             getter = "getNodeType()." + getter;
         } else if (name.endsWith("Definition")) {
             getter = "getNodeType()." + getter;
+        } else if (name.endsWith("Axiom")) {
+            getter = "getNodeType()." + getter;
         }
-        System.out.println(name);
+//        System.out.println(name);
         objectStack.push(name);
         getterStack.push(getter);
         text.println("<" + name + ">");

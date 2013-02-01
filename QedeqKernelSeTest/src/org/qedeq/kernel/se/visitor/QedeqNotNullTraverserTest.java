@@ -814,14 +814,15 @@ public class QedeqNotNullTraverserTest extends QedeqTestCase {
 ;
         final QedeqVisitorTester testVisitor = new QedeqVisitorTester(trans2) {
             public void checkEnter() {
-                super.checkEnter();
+//                super.checkEnter();
+//                System.out.println(">" + getContext());
 //                System.out.println(")" + trans2.getCurrentContext().getLocationWithinModule());
-//                assertEquals(trans2.getCurrentContext().getLocationWithinModule(), getContext());
+                assertEquals(trans2.getCurrentContext().getLocationWithinModule(), getContext());
             }
             public void checkLeave() {
-                super.checkLeave();
-//                System.out.println("(" + trans2.getCurrentContext().getLocationWithinModule());
-//                assertEquals(trans2.getCurrentContext().getLocationWithinModule(), getContext());
+//                super.checkLeave();
+//                System.out.println("(" + getContext());
+                assertEquals(trans2.getCurrentContext().getLocationWithinModule(), getContext());
             }
         };
         trans2.setVisitor(testVisitor);
@@ -831,7 +832,7 @@ public class QedeqNotNullTraverserTest extends QedeqTestCase {
 //        System.out.println();
 //            System.out.println(out.toString("UTF-8"));
             trans2.accept((Qedeq) list.get(i));
-// FIXME            assertEquals(0, testVisitor.getLevel());
+            assertEquals(0, testVisitor.getLevel());
         }
     }
     
