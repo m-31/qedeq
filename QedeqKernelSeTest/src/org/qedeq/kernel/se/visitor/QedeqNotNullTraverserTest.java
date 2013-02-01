@@ -815,13 +815,13 @@ public class QedeqNotNullTraverserTest extends QedeqTestCase {
         final QedeqVisitorTester testVisitor = new QedeqVisitorTester(trans2) {
             public void checkEnter() {
                 super.checkEnter();
-                System.out.println(")" + trans2.getCurrentContext().getLocationWithinModule());
-                assertEquals(trans2.getCurrentContext().getLocationWithinModule(), getContext());
+//                System.out.println(")" + trans2.getCurrentContext().getLocationWithinModule());
+//                assertEquals(trans2.getCurrentContext().getLocationWithinModule(), getContext());
             }
             public void checkLeave() {
                 super.checkLeave();
-                System.out.println("(" + trans2.getCurrentContext().getLocationWithinModule());
-                assertEquals(trans2.getCurrentContext().getLocationWithinModule(), getContext());
+//                System.out.println("(" + trans2.getCurrentContext().getLocationWithinModule());
+//                assertEquals(trans2.getCurrentContext().getLocationWithinModule(), getContext());
             }
         };
         trans2.setVisitor(testVisitor);
