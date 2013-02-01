@@ -347,6 +347,27 @@ public final class StringUtility {
     }
 
     /**
+     * Get last two dot separated string part.
+     *
+     * @param   full    String with dots in it. Also <code>null</code> is accepted.
+     * @return  All after the next to last dot in <code>full</code>. Is never <code>null</code>.
+     */
+    public static String getLastTwoDotStrings(final String full) {
+        if (full == null) {
+            return "";
+        }
+        final int p = full.lastIndexOf('.');
+        if (p < 1) {
+            return full;
+        }
+        final int q = full.lastIndexOf('.', p - 1);
+        if (q < 0) {
+            return full;
+        }
+        return full.substring(q + 1);
+    }
+
+    /**
      * Get non qualified class name.
      *
      * @param   clazz   Class.
