@@ -41,6 +41,6 @@ public class KernelBoLogTestSuite extends QedeqTestSuite {
      */
     public KernelBoLogTestSuite() {
         super();
-        addTestSuite(AsciiMathParserTest.class);
+        addTestSuite(DefaultModuleEventListener.class);
     }
 }
