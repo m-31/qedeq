@@ -56,7 +56,10 @@ Source Code
   - new class FindDialog to provide search capabilities
   - new class UnderlineDocumentMarkerPainter enables us to underline text
     (not used yet)
- 
+  - new methods getLastDotString(String), getLastTwoDotStrings(String)
+    for getting the last pieces in dot separated Strings (StringUtility)
+
+
   Fixed Bugs
   ----------
   - Splitter.iterate tests for whitespace now via Character.isWhitespace
@@ -104,7 +107,11 @@ Source Code
     the given path string into an absolute file path
   - LatexList2Text takes now "en" as default if language was not found and more
     latex constructs are stripped
-  
+  - VariableList and all its references removed (was not used)
+  - SubsectionType has now two methods: getNode() and getSubsection(), so one
+    can work with interfaces and get to the tree leaves without casting
+  - QedeqNotNullTraverser enables now to set the visitor later on
+
 
 XSD
 ---
