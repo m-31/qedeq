@@ -13,18 +13,19 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic.wf;
+package org.qedeq.kernel.bo.logic.proof.checker;
 
 import junit.framework.Test;
 
 import org.qedeq.base.test.QedeqTestSuite;
+import org.qedeq.kernel.bo.logic.wf.FormulaCheckerTest;
 
 /**
- * Run all junit tests for package org.qedeq.kernel.bo.logic.wf
+ * Run all junit tests for package org.qedeq.kernel.bo.logic.proof.checker
  *
  * @author    Michael Meyling
  */
-public class KernelBoLogicWfTestSuite extends QedeqTestSuite {
+public class KernelBoLogicProofCheckerTestSuite extends QedeqTestSuite {
 
     /**
      * Get a new <code>KernelVoModuleTestSuite</code>.
@@ -32,25 +33,14 @@ public class KernelBoLogicWfTestSuite extends QedeqTestSuite {
      * @return  Test.
      */
     public static Test suite() {
-        return new KernelBoLogicWfTestSuite();
+        return new KernelBoLogicProofCheckerTestSuite();
     }
 
     /**
      * Constructor.
      */
-    public KernelBoLogicWfTestSuite() {
+    public KernelBoLogicProofCheckerTestSuite() {
         super();
         addTestSuite(FormulaCheckerTest.class);
-        addTestSuite(FormulaCheckerContextTest.class);
-        addTestSuite(FormulaCheckerGlobalTest.class);
-        addTestSuite(FormulaCheckerSubjectVariableTest.class);
-        addTestSuite(FormulaCheckerFunctionTermTest.class);
-        addTestSuite(FormulaCheckerPredicateFormulaTest.class);
-        addTestSuite(FormulaCheckerLogicalConnectivesTest.class);
-        addTestSuite(FormulaCheckerNegationTest.class);
-        addTestSuite(FormulaCheckerQuantifiersTest.class);
-        addTestSuite(FormulaCheckerClassTermTest.class);
-        addTestSuite(FormulaCheckerTermTest.class);
-        addTestSuite(FormulaCheckerFormulaTest.class);
     }
 }
