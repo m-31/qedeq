@@ -26,7 +26,7 @@ import org.qedeq.kernel.se.common.RuleKey;
 public interface RuleChecker {
 
     /**
-     * Check if a rule is already defined.
+     * Get maximum defined rule version.
      *
      * @param   ruleName    Name of rule.
      * @return  Maximum rule version. Might be <code>null</code>.

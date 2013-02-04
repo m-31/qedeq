@@ -122,6 +122,7 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
             final ReferenceResolver resolver) {
         final DefaultElementList con = new DefaultElementList(
             Operators.CONJUNCTION_OPERATOR);
+        // we have no conditions, so we add an empty condition
         return checkProof(con, formula, proof, checker, moduleContext, resolver);
     }
 
@@ -193,7 +194,7 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
             }
 
             // check if only defined rules are used
-            // TODO 20110316 m31: this is a dirty trick to get the context of the reason
+            // FIXME 20110316 m31: this is a dirty trick to get the context of the reason
             //                    perhaps we can solve this more elegantly?
             String getReason = ".get" + StringUtility.getClassName(reason.getClass());
             if (getReason.endsWith("Vo")) {
