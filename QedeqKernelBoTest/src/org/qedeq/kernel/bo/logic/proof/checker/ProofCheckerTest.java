@@ -67,6 +67,51 @@ public class ProofCheckerTest extends QedeqBoTestCase {
             })
         });
 
+    private Element disjunction_weakening_axiom =
+        new DefaultElementList("IMPL", new Element[] {
+            new DefaultElementList("PREDVAR", new Element[] {
+                new DefaultAtom("A")
+            }),
+            new DefaultElementList("OR", new Element[] {
+                new DefaultElementList("PREDVAR", new Element[] {
+                    new DefaultAtom("A")
+                }),
+                new DefaultElementList("PREDVAR", new Element[] {
+                    new DefaultAtom("B")
+                })
+            })
+        });
+
+    private Element disjunction_addition_axiom =
+        new DefaultElementList("IMPL", new Element[] {
+            new DefaultElementList("IMPL", new Element[] {
+                new DefaultElementList("PREDVAR", new Element[] {
+                    new DefaultAtom("A")
+                }),
+                new DefaultElementList("PREDVAR", new Element[] {
+                    new DefaultAtom("B")
+                })
+            }),
+            new DefaultElementList("IMPL", new Element[] {
+                new DefaultElementList("OR", new Element[] {
+                    new DefaultElementList("PREDVAR", new Element[] {
+                        new DefaultAtom("C")
+                    }),
+                    new DefaultElementList("PREDVAR", new Element[] {
+                        new DefaultAtom("A")
+                    })
+                }),
+                new DefaultElementList("OR", new Element[] {
+                    new DefaultElementList("PREDVAR", new Element[] {
+                        new DefaultAtom("C")
+                    }),
+                    new DefaultElementList("PREDVAR", new Element[] {
+                        new DefaultAtom("B")
+                    })
+                })
+            })
+        });
+
     public void setUp() throws Exception {
         super.setUp();
         checker0 = new ProofChecker0Impl();
@@ -74,7 +119,7 @@ public class ProofCheckerTest extends QedeqBoTestCase {
         checker2 = new ProofChecker2Impl();
         ruleCheckerAll = new RuleChecker() {
             public RuleKey getRule(String ruleName) {
-                return new RuleKey(ruleName, "1.00.00");
+                return new RuleKey(ruleName, "0.01.00");
             }
         };
         resolverLocal = new ReferenceResolver() {
@@ -82,13 +127,18 @@ public class ProofCheckerTest extends QedeqBoTestCase {
                 return element;
             }
 
-            public Element getNormalizedLocalProofLineReference(
-                    String reference) {
+            public Element getNormalizedLocalProofLineReference(String reference) {
                 return null;
             }
 
-            public Element getNormalizedReferenceFormula(
-                    String reference) {
+            public Element getNormalizedReferenceFormula(String reference) {
+                if ("axiom:disjunction_idempotence".equals(reference)) {
+                    return disjunction_idempotence_axiom;
+                } else if ("axiom:disjunction_weakening".equals(reference)) {
+                    return disjunction_weakening_axiom;
+                } else if ("axiom:disjunction_addition".equals(reference)) {
+                    return disjunction_addition_axiom;
+                }
                 return null;
             }
 
