@@ -23,6 +23,8 @@ import org.qedeq.kernel.bo.logic.proof.common.ProofChecker;
 import org.qedeq.kernel.bo.logic.proof.common.RuleChecker;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.ModuleLabels;
+import org.qedeq.kernel.bo.service.Element2LatexImpl;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
@@ -93,7 +95,7 @@ public class ProofCheckerTest extends QedeqBoTestCase {
                 })
             }),
             new DefaultElementList("IMPL", new Element[] {
-                new DefaultElementList("OR", new Element[] {
+                new DefaultElementList("IMPL", new Element[] {
                     new DefaultElementList("PREDVAR", new Element[] {
                         new DefaultAtom("C")
                     }),
@@ -101,12 +103,54 @@ public class ProofCheckerTest extends QedeqBoTestCase {
                         new DefaultAtom("A")
                     })
                 }),
-                new DefaultElementList("OR", new Element[] {
+                new DefaultElementList("IMPL", new Element[] {
                     new DefaultElementList("PREDVAR", new Element[] {
                         new DefaultAtom("C")
                     }),
                     new DefaultElementList("PREDVAR", new Element[] {
                         new DefaultAtom("B")
+                    })
+                })
+            })
+        });
+
+    private Element universal_instantiation_axiom =
+        new DefaultElementList("IMPL", new Element[] {
+            new DefaultElementList("FORALL", new Element[] {
+                new DefaultElementList("VAR", new Element[] {
+                    new DefaultAtom("x")
+                }),
+                new DefaultElementList("PREDVAR", new Element[] {
+                    new DefaultAtom("\\phi"),
+                    new DefaultElementList("VAR", new Element[] {
+                        new DefaultAtom("x")
+                    })
+                })
+            }),
+            new DefaultElementList("PREDVAR", new Element[] {
+                new DefaultAtom("\\phi"),
+                new DefaultElementList("VAR", new Element[] {
+                    new DefaultAtom("y")
+                })
+            })
+        });
+
+    private Element existencial_generalization_axiom =
+        new DefaultElementList("IMPL", new Element[] {
+            new DefaultElementList("PREDVAR", new Element[] {
+                new DefaultAtom("\\phi"),
+                new DefaultElementList("VAR", new Element[] {
+                    new DefaultAtom("y")
+                })
+            }),
+            new DefaultElementList("EXISTS", new Element[] {
+                new DefaultElementList("VAR", new Element[] {
+                    new DefaultAtom("x")
+                }),
+                new DefaultElementList("PREDVAR", new Element[] {
+                    new DefaultAtom("\\phi"),
+                    new DefaultElementList("VAR", new Element[] {
+                        new DefaultAtom("x")
                     })
                 })
             })
@@ -138,6 +182,10 @@ public class ProofCheckerTest extends QedeqBoTestCase {
                     return disjunction_weakening_axiom;
                 } else if ("axiom:disjunction_addition".equals(reference)) {
                     return disjunction_addition_axiom;
+                } else if ("axiom:universalInstantiation".equals(reference)) {
+                    return universal_instantiation_axiom;
+                } else if ("axiom:existencialGeneralization".equals(reference)) {
+                    return existencial_generalization_axiom;
                 }
                 return null;
             }
@@ -157,12 +205,7 @@ public class ProofCheckerTest extends QedeqBoTestCase {
     }
 
 
-    /**
-     * Find a proof.
-     *
-     * @throws Exception
-     */
-    public void testFind() throws Exception {
+    public void testCheck1() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
             "sample/qedeq_sample3.xml"));
         KernelContext.getInstance().checkModule(address);
@@ -176,7 +219,7 @@ public class ProofCheckerTest extends QedeqBoTestCase {
         final FormalProofLineList original = prop.getFormalProofList().get(0)
             .getFormalProofLineList();
         final FormalProofLineListVo list = new FormalProofLineListVo();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 9; i++) {
             list.add(original.get(i));
         }
         LogicalCheckExceptionList e0 = 
@@ -189,7 +232,71 @@ public class ProofCheckerTest extends QedeqBoTestCase {
             checker2.checkProof(prop.getFormula().getElement(), list, ruleCheckerAll,
                 DefaultModuleAddress.MEMORY.createModuleContext(), resolverLocal);
         assertNotNull(e2);
-        System.out.println(e2);
+        assertEquals(0, e2.size());
+    }
+
+    public void testCheck4() throws Exception {
+        final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
+            "sample/qedeq_sample3.xml"));
+        KernelContext.getInstance().checkModule(address);
+        final KernelQedeqBo bo = (KernelQedeqBo) KernelContext.getInstance().getQedeqBo(address);
+        assertTrue(bo.isChecked());
+        assertNotNull(bo.getWarnings());
+        assertEquals(0, bo.getWarnings().size());
+        assertEquals(0, bo.getErrors().size());
+        final KernelNodeBo node = bo.getLabels().getNode("proposition:four");
+        final Proposition prop = node.getNodeVo().getNodeType().getProposition();
+        final FormalProofLineList original = prop.getFormalProofList().get(0)
+            .getFormalProofLineList();
+        final FormalProofLineListVo list = new FormalProofLineListVo();
+        for (int i = 0; i < 8; i++) {
+            list.add(original.get(i));
+        }
+        LogicalCheckExceptionList e0 = 
+            checker0.checkProof(prop.getFormula().getElement(), list, ruleCheckerAll,
+                DefaultModuleAddress.MEMORY.createModuleContext(), resolverLocal);
+        assertNotNull(e0);
+        assertEquals(1, e0.size());
+        assertEquals(37400, e0.get(0).getErrorCode());
+        LogicalCheckExceptionList e2 = 
+            checker2.checkProof(prop.getFormula().getElement(), list, ruleCheckerAll,
+                DefaultModuleAddress.MEMORY.createModuleContext(), resolverLocal);
+        assertNotNull(e2);
+        assertEquals(0, e2.size());
+    }
+
+    public void testCheck6() throws Exception {
+        final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
+            "sample/qedeq_sample3.xml"));
+        KernelContext.getInstance().checkModule(address);
+        final KernelQedeqBo bo = (KernelQedeqBo) KernelContext.getInstance().getQedeqBo(address);
+        assertTrue(bo.isChecked());
+        assertNotNull(bo.getWarnings());
+        assertEquals(0, bo.getWarnings().size());
+        assertEquals(0, bo.getErrors().size());
+        final KernelNodeBo node = bo.getLabels().getNode("proposition:six");
+        final Proposition prop = node.getNodeVo().getNodeType().getProposition();
+        final FormalProofLineList original = prop.getFormalProofList().get(0)
+            .getFormalProofLineList();
+        final FormalProofLineListVo list = new FormalProofLineListVo();
+        for (int i = 0; i < 16; i++) {
+            list.add(original.get(i));
+        }
+        LogicalCheckExceptionList e0 = 
+            checker0.checkProof(prop.getFormula().getElement(), list, ruleCheckerAll,
+                DefaultModuleAddress.MEMORY.createModuleContext(), resolverLocal);
+        assertNotNull(e0);
+        assertEquals(1, e0.size());
+        assertEquals(37400, e0.get(0).getErrorCode());
+        LogicalCheckExceptionList e2 = 
+            checker2.checkProof(prop.getFormula().getElement(), list, ruleCheckerAll,
+                DefaultModuleAddress.MEMORY.createModuleContext(), resolverLocal);
+        assertNotNull(e2);
+//        System.out.println(e2);
+//        Element2LatexImpl transform = new Element2LatexImpl(new ModuleLabels());
+//        System.out.println(transform.getLatex(universal_instantiation_axiom));
+        assertEquals(0, e2.size());
+//        System.out.println(e2);
     }
 
 }
