@@ -59,4 +59,8 @@ public abstract class QedeqException extends Exception {
         return errorCode;
     }
 
+    public String toString() {
+        return getErrorCode() + ": " + getMessage();
+    }
+
 }

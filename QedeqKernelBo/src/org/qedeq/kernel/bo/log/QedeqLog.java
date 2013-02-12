@@ -64,6 +64,9 @@ public final class QedeqLog implements LogListener {
      * @param   log Add this listener.
      */
     public synchronized void addLog(final LogListener log) {
+        if (log == null) {
+            return;
+        }
         loggers.add(log);
         Trace.paramInfo(CLASS, this, "addLog(LogListener)", "log", log.getClass());
     }
@@ -75,7 +78,9 @@ public final class QedeqLog implements LogListener {
      */
     public synchronized void removeLog(final LogListener log) {
         loggers.remove(log);
-        Trace.paramInfo(CLASS, this, "removeLog(LogListener)", "log", log.getClass());
+        if (log != null) {
+            Trace.paramInfo(CLASS, this, "removeLog(LogListener)", "log", log.getClass());
+        }
     }
 
     public synchronized void logMessageState(final String text, final String url) {
@@ -122,13 +127,13 @@ public final class QedeqLog implements LogListener {
     }
 
     public synchronized void logSuccessfulReply(final String text, final String url) {
-        try {   // we don't know if the LogListener is free of programming errors...
-            for (int i = 0; i < loggers.size(); i++) {
+        for (int i = 0; i < loggers.size(); i++) {
+            try {   // we don't know if the LogListener is free of programming errors...
                 ((LogListener) loggers.get(i)).logSuccessfulReply(text, url);
+            } catch (RuntimeException e) {
+                Trace.fatal(CLASS, this, "logSuccessfulReply", "LogListener throwed RuntimeException",
+                    e);
             }
-        } catch (RuntimeException e) {
-            Trace.fatal(CLASS, this, "logSuccessfulReply", "LogListener throwed RuntimeException",
-                e);
         }
     }
 

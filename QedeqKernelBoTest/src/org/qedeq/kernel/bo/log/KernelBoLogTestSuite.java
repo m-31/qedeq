@@ -18,7 +18,6 @@ package org.qedeq.kernel.bo.log;
 import junit.framework.Test;
 
 import org.qedeq.base.test.QedeqTestSuite;
-import org.qedeq.kernel.bo.parser.AsciiMathParserTest;
 
 /**
  * Run all JUnit tests for package org.qedeq.kernel.bo.log.
@@ -41,6 +40,8 @@ public class KernelBoLogTestSuite extends QedeqTestSuite {
      */
     public KernelBoLogTestSuite() {
         super();
-        addTestSuite(DefaultModuleEventListener.class);
+        addTestSuite(DefaultModuleEventListenerTest.class);
+        addTestSuite(LogListenerImplTest.class);
+        addTestSuite(QedeqLogTest.class);
     }
 }

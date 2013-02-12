@@ -279,7 +279,7 @@ public class ProofCheckerTest extends QedeqBoTestCase {
         final FormalProofLineList original = prop.getFormalProofList().get(0)
             .getFormalProofLineList();
         final FormalProofLineListVo list = new FormalProofLineListVo();
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < 15; i++) {
             list.add(original.get(i));
         }
         LogicalCheckExceptionList e0 = 
@@ -295,8 +295,20 @@ public class ProofCheckerTest extends QedeqBoTestCase {
 //        System.out.println(e2);
 //        Element2LatexImpl transform = new Element2LatexImpl(new ModuleLabels());
 //        System.out.println(transform.getLatex(universal_instantiation_axiom));
-        assertEquals(0, e2.size());
 //        System.out.println(e2);
+        assertEquals(1, e2.size());
+//        System.out.println(e2.get(0));
+        assertEquals(37200, e2.get(0).getErrorCode());
+        list.add(original.get(15));
+        LogicalCheckExceptionList e3 = 
+            checker2.checkProof(prop.getFormula().getElement(), list, ruleCheckerAll,
+                DefaultModuleAddress.MEMORY.createModuleContext(), resolverLocal);
+        assertNotNull(e3);
+//        System.out.println(e2);
+//        Element2LatexImpl transform = new Element2LatexImpl(new ModuleLabels());
+//        System.out.println(transform.getLatex(universal_instantiation_axiom));
+//        System.out.println(e3);
+        assertEquals(0, e3.size());
     }
 
 }

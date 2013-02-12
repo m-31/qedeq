@@ -42,24 +42,6 @@ public class DefaultModuleEventListenerTest extends QedeqBoTestCase {
     private ByteArrayOutputStream out;
     private QedeqBo qedeq;
 
-    /**
-     * Constructor.
-     *
-     */
-    public DefaultModuleEventListenerTest() {
-        super();
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param   name    Test case name.
-     *
-     */
-    public DefaultModuleEventListenerTest(final String name) {
-        super(name);
-    }
-
     protected void setUp() throws Exception {
         super.setUp();
         out = new ByteArrayOutputStream();
