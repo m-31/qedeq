@@ -36,16 +36,19 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
  *
  * @author  Michael Meyling
  */
-public class DefaultModuleEventListenerTest extends QedeqBoTestCase {
+public class ModuleEventListenerLogTest extends QedeqBoTestCase {
 
-    private DefaultModuleEventListener listener;
+    private ModuleEventListenerLog listener;
     private ByteArrayOutputStream out;
     private QedeqBo qedeq;
+    private LogListener listenerBasis;
 
     protected void setUp() throws Exception {
         super.setUp();
         out = new ByteArrayOutputStream();
-        listener = new DefaultModuleEventListener(new PrintStream(out));
+        listenerBasis = new LogListenerImpl(new PrintStream(out));
+        QedeqLog.getInstance().addLog(listenerBasis);
+        listener = new ModuleEventListenerLog();
         qedeq = new QedeqBo() {
             
             public boolean isSupportedLanguage(String language) {
@@ -138,35 +141,32 @@ public class DefaultModuleEventListenerTest extends QedeqBoTestCase {
         };
     }
 
+    protected void tearDown() throws Exception {
+        QedeqLog.getInstance().removeLog(listenerBasis);
+        super.tearDown();
+    }
+
     public void testAddModule() throws Exception {
         listener.addModule(qedeq);
-//        System.out.println(out.toString("UTF-8"));
-        assertTrue(out.toString("UTF-8").trim().endsWith("dummy"));
+        System.out.println(out.toString("UTF-8"));
+        assertTrue(out.toString("UTF-8").trim().startsWith("dummy"));
         assertTrue(0 <= out.toString("UTF-8").indexOf("Module added"));
     }
 
     public void testRemoveModule() throws Exception {
         listener.removeModule(qedeq);
 //        System.out.println(out.toString("UTF-8"));
-        assertTrue(out.toString("UTF-8").trim().endsWith("dummy"));
+        assertTrue(out.toString("UTF-8").trim().startsWith("dummy"));
         assertTrue(0 <= out.toString("UTF-8").indexOf("Module removed"));
     }
 
     public void testStateChanged() throws Exception {
         listener.stateChanged(qedeq);
 //        System.out.println(out.toString("UTF-8"));
-        assertTrue(out.toString("UTF-8").trim().endsWith("dummy"));
+        assertTrue(out.toString("UTF-8").trim().startsWith("dummy"));
         assertTrue(0 <= out.toString("UTF-8").indexOf("Module state changed"));
-    }
-
-    public void testSetPrintStream() throws Exception {
-        listener = new DefaultModuleEventListener();
-        ByteArrayOutputStream out2 = new ByteArrayOutputStream();
-        listener.setPrintStream(new PrintStream(out2));
-        listener.addModule(qedeq);
-//        System.out.println(out2.toString("UTF-8"));
-        assertTrue(out2.toString("UTF-8").trim().endsWith("dummy"));
-        assertTrue(0 <= out2.toString("UTF-8").indexOf("add"));
+        assertTrue(0 <= out.toString("UTF-8").indexOf(
+            LoadingState.STATE_LOADING_INTO_MEMORY.getText()));
     }
 
 }

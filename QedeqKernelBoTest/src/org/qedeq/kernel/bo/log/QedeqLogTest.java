@@ -18,18 +18,7 @@ package org.qedeq.kernel.bo.log;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.qedeq.kernel.bo.common.ModuleReferenceList;
-import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
-import org.qedeq.kernel.se.base.module.Qedeq;
-import org.qedeq.kernel.se.common.DefaultModuleAddress;
-import org.qedeq.kernel.se.common.DependencyState;
-import org.qedeq.kernel.se.common.LoadingState;
-import org.qedeq.kernel.se.common.LogicalModuleState;
-import org.qedeq.kernel.se.common.ModuleAddress;
-import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 /**
  * Test class.
@@ -51,41 +40,47 @@ public class QedeqLogTest extends QedeqBoTestCase {
         listener.addLog(listenerBasis);
         thrower = new LogListener() {
             public void logMessage(String text) {
-                throw new RuntimeException("boo!");
+                throw new RuntimeException("Boo! This test exception is ok!");
             }
 
             public void logRequest(String text, String url) {
-                throw new RuntimeException("boo!");
+                throw new RuntimeException("Boo! This test exception is ok!");
             }
 
             public void logSuccessfulReply(String text, String url) {
-                throw new RuntimeException("boo!");
+                throw new RuntimeException("Boo! This test exception is ok!");
             }
 
             public void logFailureReply(String text, String url,
                     String description) {
-                throw new RuntimeException("boo!");
+                throw new RuntimeException("Boo! This test exception is ok!");
             }
 
             public void logMessageState(String text, String url) {
-                throw new RuntimeException("boo!");
+                throw new RuntimeException("Boo! This test exception is ok!");
             }
 
             public void logFailureState(String text, String url,
                     String description) {
-                throw new RuntimeException("boo!");
+                throw new RuntimeException("Boo! This test exception is ok!");
             }
 
             public void logSuccessfulState(String text, String url) {
-                throw new RuntimeException("boo!");
+                throw new RuntimeException("Boo! This test exception is ok!");
             }
         };
         listener.addLog(thrower);
     }
 
+    public void tearDown() throws Exception {
+        listener.removeLog(thrower);
+        listener.removeLog(listenerBasis);
+        super.tearDown();
+    }
+
     public void testLogFailureReply() throws Exception{
         listener.logFailureReply("failure and error", "http://mysite.org/mymodule.xml", "was this logged?");
-//        System.out.println(out.toString("UTF-8"));
+        System.out.println(out.toString("UTF-8"));
         assertTrue(out.toString("UTF-8").trim().endsWith("was this logged?"));
         assertTrue(0 <= out.toString("UTF-8").indexOf("reply"));
         assertTrue(0 <= out.toString("UTF-8").indexOf("failure and error"));

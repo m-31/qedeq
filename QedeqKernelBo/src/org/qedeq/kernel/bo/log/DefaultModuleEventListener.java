@@ -56,8 +56,8 @@ public class DefaultModuleEventListener implements ModuleEventListener {
     }
 
     public void addModule(final QedeqBo prop) {
-        out.println(DateUtility.getTimestamp() + " Module added. "
-            + prop.getStateDescription() + "\n\t" + prop.getUrl());
+        out.println(DateUtility.getTimestamp() + " Module added."
+            + "\n\t" + prop.getUrl());
     }
 
     public void stateChanged(final QedeqBo prop) {
@@ -66,8 +66,8 @@ public class DefaultModuleEventListener implements ModuleEventListener {
     }
 
     public void removeModule(final QedeqBo prop) {
-        out.println(DateUtility.getTimestamp() + " Module removed. "
-            + prop.getStateDescription() + "\n\t" + prop.getUrl());
+        out.println(DateUtility.getTimestamp() + " Module removed."
+            + "\n\t" + prop.getUrl());
     }
 
 }

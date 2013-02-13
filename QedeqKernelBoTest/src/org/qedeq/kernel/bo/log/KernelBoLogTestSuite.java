@@ -42,6 +42,7 @@ public class KernelBoLogTestSuite extends QedeqTestSuite {
         super();
         addTestSuite(DefaultModuleEventListenerTest.class);
         addTestSuite(LogListenerImplTest.class);
+        addTestSuite(ModuleEventListenerLogTest.class);
         addTestSuite(QedeqLogTest.class);
     }
 }
