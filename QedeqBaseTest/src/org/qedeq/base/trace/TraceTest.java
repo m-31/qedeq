@@ -24,9 +24,8 @@ import org.apache.log4j.WriterAppender;
 import org.qedeq.base.test.QedeqTestCase;
 
 /**
- * Test {@link org.qedeq.kernel.utility.TextInput}.
+ * Test {@link Trace}.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class TraceTest extends QedeqTestCase {
