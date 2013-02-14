@@ -152,6 +152,7 @@ public class QedeqMainFrame extends JFrame {
                     }
                     final StringBuffer buffer = new StringBuffer();
                     IoUtility.loadFile(url, buffer, "ISO-8859-1");
+                    // FIXME 20130213 m31: why we don't use config.getLogFile() ?
                     File traceFile = config.createAbsolutePath("log/trace.txt");
                     StringUtility.replace(buffer, "@trace_file_path@", traceFile.toString()
                         .replace('\\', '/'));
