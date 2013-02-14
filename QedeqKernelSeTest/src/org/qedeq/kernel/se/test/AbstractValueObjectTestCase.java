@@ -111,6 +111,9 @@ public abstract class AbstractValueObjectTestCase extends QedeqTestCase {
             if (attrName.startsWith("__")) {    // because of clover, ignore those attributes
                 continue;
             }
+            if (attrName.startsWith("$VRc")) {    // because of emma, ignore those attributes
+                continue;
+            }
             boolean tested = false;
             tested = tested || testGetSetAdd(clazz, attrs[i]);
             tested = tested || testAddSizeGet(clazz, attrs[i]);
@@ -372,6 +375,9 @@ public abstract class AbstractValueObjectTestCase extends QedeqTestCase {
             Field[] attrs = getTestedClass().getDeclaredFields();
             for (int i = 0; i < attrs.length; i++) {
                 if (attrs[i].getName().startsWith("__")) {  // because of clover
+                    continue;
+                }
+                if (attrs[i].getName().startsWith("$VRc")) {  // because of emma
                     continue;
                 }
                 final Object vo1 = getFilledObject(attrs[i].getType(), getTestedClass(), "", 
