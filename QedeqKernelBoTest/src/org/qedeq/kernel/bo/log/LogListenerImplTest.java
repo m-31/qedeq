@@ -18,18 +18,7 @@ package org.qedeq.kernel.bo.log;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.qedeq.kernel.bo.common.ModuleReferenceList;
-import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
-import org.qedeq.kernel.se.base.module.Qedeq;
-import org.qedeq.kernel.se.common.DefaultModuleAddress;
-import org.qedeq.kernel.se.common.DependencyState;
-import org.qedeq.kernel.se.common.LoadingState;
-import org.qedeq.kernel.se.common.LogicalModuleState;
-import org.qedeq.kernel.se.common.ModuleAddress;
-import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 /**
  * Test class.
