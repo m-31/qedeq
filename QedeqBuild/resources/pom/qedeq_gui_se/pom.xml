@@ -19,6 +19,11 @@
   <name>qedeq_gui_se</name>
   <description>GUI for executing kernel functions</description>
 
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss z</maven.build.timestamp.format>
+  </properties>
+ 
   <build>
     <pluginManagement>
       <plugins>
