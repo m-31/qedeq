@@ -330,7 +330,7 @@ public abstract class AbstractValueObjectTestCase extends QedeqTestCase {
                         if (setClazz == Integer.TYPE) {
                             value1 = new Integer(17);
                         } else {
-                            throw new RuntimeException("not yet supported: " + setClazz);
+                            throw new RuntimeException(setter.getName() + " not yet supported: " + setClazz);
                         }
                     } else {
                         value1 = getFilledObject(setClazz, getTestedClass(),
@@ -420,7 +420,7 @@ public abstract class AbstractValueObjectTestCase extends QedeqTestCase {
                         if (setClazz == Integer.TYPE) {
                             setter.invoke(vo1, new Object[] {new Integer(0)});
                         } else {
-                            throw new RuntimeException("not yet supported: " + setClazz);
+                            throw new RuntimeException(setter.getName() + " not yet supported: " + setClazz);
                         }
                     } else {
                         setter.invoke(vo1, new Object[] {null});
@@ -568,7 +568,7 @@ public abstract class AbstractValueObjectTestCase extends QedeqTestCase {
             if (clazz == Integer.TYPE) {
                 vo = new Integer(17);
             } else {
-                throw new RuntimeException("not yet supported: " + clazz);
+                throw new RuntimeException(parent.getName() + "." + attribute + " not yet supported: " + clazz);
             }
         } else {
             vo = getObject(clazz, parent, attribute);
@@ -596,7 +596,7 @@ public abstract class AbstractValueObjectTestCase extends QedeqTestCase {
                     if (setClazz == Integer.TYPE) {
                         value = new Integer(13);
                     } else {
-                        throw new RuntimeException("not yet supported: " + setClazz);
+                        throw new RuntimeException(setter.getName() + " not yet supported: " + setClazz);
                     }
                 } else {
                     value = getFilledObject(setClazz, clazz, setter.getName());
