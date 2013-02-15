@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.se.common;
+package org.qedeq.kernel.se.state;
 
 /**
  * This interface provides constants of this package.
@@ -30,20 +30,20 @@ public interface DependencyStateDescriptions {
     public static final String STATE_STRING_UNDEFINED = "undefined";
 
     /** Loading required modules code. */
-    public static final int STATE_CODE_LOADING_REQUIRED_MODULES = 11;
+    public static final int STATE_CODE_LOADING_REQUIRED_MODULES = 12;
 
     /** Loading required modules description. */
     public static final String STATE_STRING_LOADING_REQUIRED_MODULES = "loading required modules";
 
     /** Loading required modules failed code. */
-    public static final int STATE_CODE_LOADING_REQUIRED_MODULES_FAILED = 12;
+    public static final int STATE_CODE_LOADING_REQUIRED_MODULES_FAILED = 13;
 
     /** Loading required modules failed description. */
     public static final String STATE_STRING_LOADING_REQUIRED_MODULES_FAILED
         = "loading required modules failed";
 
     /** Loading required modules of required modules code. */
-    public static final int STATE_CODE_LOADING_REQUIRED_REQUIREMENTS = 13;
+    public static final int STATE_CODE_LOADING_REQUIRED_REQUIREMENTS = 14;
 
     /** Loading required modules of required modules  failed description. */
     public static final String STATE_STRING_LOADING_REQUIRED_REQUIREMENTS_FAILED

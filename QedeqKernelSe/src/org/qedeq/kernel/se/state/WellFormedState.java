@@ -13,45 +13,47 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.se.common;
+package org.qedeq.kernel.se.state;
+
+import org.qedeq.kernel.se.common.State;
 
 /**
  * Represents a mathematical module state. Every instance of this class is unique.
  *
  * @author  Michael Meyling
  */
-public final class LogicalModuleState implements State {
+public final class WellFormedState implements State {
 
     /** Unchecked. */
-    public static final LogicalModuleState STATE_UNCHECKED
-        = new LogicalModuleState(LogicalModuleStateDescriptions.STATE_STRING_UNCHECKED,
-            false, LogicalModuleStateDescriptions.STATE_CODE_UNCHECKED);
+    public static final WellFormedState STATE_UNCHECKED
+        = new WellFormedState(WellFormedStateDescriptions.STATE_STRING_UNCHECKED,
+            false, WellFormedStateDescriptions.STATE_CODE_UNCHECKED);
 
     /** External checking. */
-    public static final LogicalModuleState STATE_EXTERNAL_CHECKING
-        = new LogicalModuleState(LogicalModuleStateDescriptions.STATE_STRING_EXTERNAL_CHECKING,
-            false, LogicalModuleStateDescriptions.STATE_CODE_EXTERNAL_CHECKING);
+    public static final WellFormedState STATE_EXTERNAL_CHECKING
+        = new WellFormedState(WellFormedStateDescriptions.STATE_STRING_EXTERNAL_CHECKING,
+            false, WellFormedStateDescriptions.STATE_CODE_EXTERNAL_CHECKING);
 
     /** External checking failed. */
-    public static final LogicalModuleState STATE_EXTERNAL_CHECKING_FAILED
-        =  new LogicalModuleState(LogicalModuleStateDescriptions.STATE_STRING_EXTERNAL_CHECKING_FAILED,
-            true, LogicalModuleStateDescriptions.STATE_CODE_EXTERNAL_CHECKING_FAILED);
+    public static final WellFormedState STATE_EXTERNAL_CHECKING_FAILED
+        =  new WellFormedState(WellFormedStateDescriptions.STATE_STRING_EXTERNAL_CHECKING_FAILED,
+            true, WellFormedStateDescriptions.STATE_CODE_EXTERNAL_CHECKING_FAILED);
 
     /** Internal checking phase. */
-    public static final LogicalModuleState STATE_INTERNAL_CHECKING
-        = new LogicalModuleState(LogicalModuleStateDescriptions.STATE_STRING_INTERNAL_CHECKING,
-            false, LogicalModuleStateDescriptions.STATE_CODE_INTERNAL_CHECKING);
+    public static final WellFormedState STATE_INTERNAL_CHECKING
+        = new WellFormedState(WellFormedStateDescriptions.STATE_STRING_INTERNAL_CHECKING,
+            false, WellFormedStateDescriptions.STATE_CODE_INTERNAL_CHECKING);
 
     /** Internal check failed. */
-    public static final LogicalModuleState STATE_INTERNAL_CHECKING_FAILED
-        =  new LogicalModuleState(LogicalModuleStateDescriptions.STATE_STRING_INTERNAL_CHECKING_FAILED,
-            true, LogicalModuleStateDescriptions.STATE_CODE_INTERNAL_CHECKING_FAILED);
+    public static final WellFormedState STATE_INTERNAL_CHECKING_FAILED
+        =  new WellFormedState(WellFormedStateDescriptions.STATE_STRING_INTERNAL_CHECKING_FAILED,
+            true, WellFormedStateDescriptions.STATE_CODE_INTERNAL_CHECKING_FAILED);
 
 
     /** Successfully completely checked. */
-    public static final LogicalModuleState STATE_CHECKED
-        = new LogicalModuleState(LogicalModuleStateDescriptions.STATE_STRING_COMPLETELY_CHECKED,
-            false, LogicalModuleStateDescriptions.STATE_CODE_COMPLETELY_CHECKED);
+    public static final WellFormedState STATE_CHECKED
+        = new WellFormedState(WellFormedStateDescriptions.STATE_STRING_COMPLETELY_CHECKED,
+            false, WellFormedStateDescriptions.STATE_CODE_COMPLETELY_CHECKED);
 
 
     /** meaning of this state. */
@@ -71,7 +73,7 @@ public final class LogicalModuleState implements State {
      * @param   code    code of this state.
      * @throws  IllegalArgumentException    text == <code>null</code>
      */
-    private LogicalModuleState(final String text, final boolean failure, final int code) {
+    private WellFormedState(final String text, final boolean failure, final int code) {
         this.text = text;
         if (this.text == null) {
             throw new IllegalArgumentException("text==null");

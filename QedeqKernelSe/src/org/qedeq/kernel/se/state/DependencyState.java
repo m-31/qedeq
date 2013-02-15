@@ -13,7 +13,9 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.se.common;
+package org.qedeq.kernel.se.state;
+
+import org.qedeq.kernel.se.common.State;
 
 
 /**
@@ -22,7 +24,7 @@ package org.qedeq.kernel.se.common;
  *
  * @author  Michael Meyling
  */
-public final class DependencyState implements State {
+public final class DependencyState extends AbstractState implements State {
 
     /** Undefined loading state. */
     public static final DependencyState STATE_UNDEFINED = new DependencyState(
@@ -45,15 +47,6 @@ public final class DependencyState implements State {
         DependencyStateDescriptions.STATE_CODE_LOADED_REQUIRED_MODULES);
 
 
-    /** meaning of this state. */
-    private final String text;
-
-    /** is this state a failure? */
-    private final boolean failure;
-
-    /** Code for state. */
-    private final int code;
-
     /**
      * Creates new module state.
      *
@@ -63,20 +56,7 @@ public final class DependencyState implements State {
      * @throws  IllegalArgumentException    text == <code>null</code>
      */
     private DependencyState(final String text, final boolean failure, final int code) {
-        this.text = text;
-        if (this.text == null) {
-            throw new IllegalArgumentException("text==null");
-        }
-        this.failure = failure;
-        this.code = code;
-    }
-
-    public String getText() {
-        return this.text;
-    }
-
-    public boolean isFailure() {
-        return this.failure;
+        super(text, failure, code);
     }
 
     /**
@@ -85,24 +65,8 @@ public final class DependencyState implements State {
      * @return  Are all required modules loaded?
      */
     public boolean areAllRequiredLoaded() {
-        return this.code == STATE_LOADED_REQUIRED_MODULES.getCode();
+        return getCode() == STATE_LOADED_REQUIRED_MODULES.getCode();
     }
 
-    public int getCode() {
-        return this.code;
-    }
-
-    public String toString() {
-        return this.text;
-    }
-
-    public int hashCode() {
-        return this.text.hashCode();
-    }
-
-    public final boolean equals(final Object obj) {
-        // every instance is unique
-        return (this == obj);
-    }
 
 }

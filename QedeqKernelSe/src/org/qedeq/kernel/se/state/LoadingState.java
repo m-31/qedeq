@@ -13,14 +13,16 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.se.common;
+package org.qedeq.kernel.se.state;
+
+import org.qedeq.kernel.se.common.State;
 
 /**
  * Represents a module state. Every instance of this class is unique.
  *
  * @author Michael Meyling
  */
-public final class LoadingState implements State {
+public final class LoadingState extends AbstractState implements State {
 
     /** Undefined loading state. */
     public static final LoadingState STATE_UNDEFINED = new LoadingState(
@@ -87,15 +89,6 @@ public final class LoadingState implements State {
         LoadingStateDescriptions.STATE_STRING_DELETED, false,
         LoadingStateDescriptions.STATE_CODE_DELETED);
 
-    /** meaning of this state. */
-    private final String text;
-
-    /** is this state a failure? */
-    private final boolean failure;
-
-    /** Code for state. */
-    private final int code;
-
     /**
      * Creates new module state.
      *
@@ -105,37 +98,7 @@ public final class LoadingState implements State {
      * @throws IllegalArgumentException text == <code>null</code>
      */
     private LoadingState(final String text, final boolean failure, final int code) {
-        this.text = text;
-        if (this.text == null) {
-            throw new IllegalArgumentException("text==null");
-        }
-        this.failure = failure;
-        this.code = code;
-    }
-
-    public String getText() {
-        return this.text;
-    }
-
-    public boolean isFailure() {
-        return this.failure;
-    }
-
-    public int getCode() {
-        return this.code;
-    }
-
-    public String toString() {
-        return this.text;
-    }
-
-    public int hashCode() {
-        return this.text.hashCode();
-    }
-
-    public final boolean equals(final Object obj) {
-        // every instance is unique
-        return (this == obj);
+        super(text, failure, code);
     }
 
 }

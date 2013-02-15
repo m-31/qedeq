@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.se.common;
+package org.qedeq.kernel.se.state;
 
 /**
  * This interface provides constants of this package.
