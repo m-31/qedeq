@@ -148,7 +148,7 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
-        getServices().checkModule(prop.getModuleAddress());
+        getServices().checkWellFormedness(prop.getModuleAddress());
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
@@ -162,7 +162,7 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
         getServices().getLocalFilePath(webAddress);
         IoUtility.copyFile(xmlFile, getServices().getLocalFilePath(webAddress));
 
-        getServices().checkModule(webAddress);
+        getServices().checkWellFormedness(webAddress);
         final QedeqBo webBo = getServices().getQedeqBo(webAddress);
         final File texFile = new File(destinationDirectory, xml.substring(0, xml.lastIndexOf('.'))
             + "_" + language + ".txt");

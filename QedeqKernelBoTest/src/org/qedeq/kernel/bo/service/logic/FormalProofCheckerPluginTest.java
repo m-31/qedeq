@@ -43,7 +43,7 @@ public class FormalProofCheckerPluginTest extends QedeqBoTestCase {
             "sample/qedeq_sample3.xml"));
         getServices().executePlugin(FormalProofCheckerPlugin.class.getName(), address);
         final QedeqBo bo = getServices().getQedeqBo(address);
-        assertTrue(bo.isChecked());
+        assertTrue(bo.wasCheckedForBeingWellFormed());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(0, bo.getErrors().size());
     }
@@ -51,13 +51,13 @@ public class FormalProofCheckerPluginTest extends QedeqBoTestCase {
     public void testPlugin2() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(new File(getIndir(),
             "proof/proof_001.xml"));
-        getServices().checkModule(address);
+        getServices().checkWellFormedness(address);
         final QedeqBo bo = getServices().getQedeqBo(address);
-        assertTrue(bo.isChecked());
+        assertTrue(bo.wasCheckedForBeingWellFormed());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(0, bo.getErrors().size());
         getServices().executePlugin(FormalProofCheckerPlugin.class.getName(), address);
-        assertTrue(bo.isChecked());
+        assertTrue(bo.wasCheckedForBeingWellFormed());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(16, bo.getErrors().size());
         System.out.println("testPlugin2");
@@ -83,13 +83,13 @@ public class FormalProofCheckerPluginTest extends QedeqBoTestCase {
     public void testPlugin3() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(new File(getIndir(),
             "proof/proof_002.xml"));
-        getServices().checkModule(address);
+        getServices().checkWellFormedness(address);
         final QedeqBo bo = getServices().getQedeqBo(address);
-        assertTrue(bo.isChecked());
+        assertTrue(bo.wasCheckedForBeingWellFormed());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(0, bo.getErrors().size());
         getServices().executePlugin(FormalProofCheckerPlugin.class.getName(), address);
-        assertTrue(bo.isChecked());
+        assertTrue(bo.wasCheckedForBeingWellFormed());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(60, bo.getErrors().size());
         System.out.println("testPlugin3");
@@ -161,7 +161,7 @@ public class FormalProofCheckerPluginTest extends QedeqBoTestCase {
             "math/qedeq_formal_logic_v1.xml"));
         getServices().executePlugin(FormalProofCheckerPlugin.class.getName(), address);
         final QedeqBo bo = getServices().getQedeqBo(address);
-        assertTrue(bo.isChecked());
+        assertTrue(bo.wasCheckedForBeingWellFormed());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(0, bo.getErrors().size());
     }

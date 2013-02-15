@@ -60,7 +60,7 @@ public class HeuristicCheckerPluginTest extends QedeqBoTestCase {
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
-        KernelFacade.getKernelContext().checkModule(prop.getModuleAddress());
+        KernelFacade.getKernelContext().checkWellFormedness(prop.getModuleAddress());
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }

@@ -25,11 +25,12 @@ import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
-import org.qedeq.kernel.se.common.DependencyState;
-import org.qedeq.kernel.se.common.LoadingState;
-import org.qedeq.kernel.se.common.LogicalModuleState;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.state.DependencyState;
+import org.qedeq.kernel.se.state.FormallyProvedState;
+import org.qedeq.kernel.se.state.LoadingState;
+import org.qedeq.kernel.se.state.WellFormedState;
 
 /**
  * Test class.
@@ -59,7 +60,11 @@ public class ModuleEventListenerLogTest extends QedeqBoTestCase {
                 return false;
             }
             
-            public boolean isChecked() {
+            public boolean wasCheckedForBeingWellFormed() {
+                return false;
+            }
+            
+            public boolean wasCheckedForBeingFormallyProved() {
                 return false;
             }
             
@@ -119,8 +124,8 @@ public class ModuleEventListenerLogTest extends QedeqBoTestCase {
                 return new DefaultModuleAddress();
             }
             
-            public LogicalModuleState getLogicalState() {
-                return LogicalModuleState.STATE_UNCHECKED;
+            public WellFormedState getWellFormedState() {
+                return WellFormedState.STATE_UNCHECKED;
             }
             
             public LoadingState getLoadingState() {
@@ -137,6 +142,10 @@ public class ModuleEventListenerLogTest extends QedeqBoTestCase {
             
             public DependencyState getDependencyState() {
                 return DependencyState.STATE_UNDEFINED;
+            }
+
+            public FormallyProvedState getFormallyProvedState() {
+                return FormallyProvedState.STATE_UNCHECKED;
             }
         };
     }

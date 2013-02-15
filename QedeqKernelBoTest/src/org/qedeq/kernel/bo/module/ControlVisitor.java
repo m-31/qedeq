@@ -36,12 +36,19 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.visitor.AbstractModuleVisitor;
 import org.qedeq.kernel.se.visitor.QedeqNotNullTraverser;
 import org.qedeq.kernel.se.visitor.QedeqNumbers;
+import org.qedeq.kernel.se.visitor.QedeqTraverser;
 
 
 /**
  * Basic visitor that gives some error collecting features. Also hides the
  * traverser that does the work.
- *
+ * <p>
+ * If you change the implementation of this class you also have to change the
+ * implementation of the same class in project QedeqKernelBo!!!
+ * <p>
+ * FIXME 20130215 m31: the same class two times in the class path: that is no good idea!
+ * Better solution would would be an exchangeable control visitor method setLocationWithinModule()
+ * 
  * @author  Michael Meyling
  */
 public abstract class ControlVisitor extends AbstractModuleVisitor {
@@ -104,7 +111,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      */
     public KernelNodeBo getNodeBo() {
         final Node node = traverser.getNode();
-        if (node == null) {
+        if (node == null || getQedeqBo() == null) {
             return null;
         }
         return getQedeqBo().getLabels().getNode(node.getId());
@@ -520,6 +527,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      */
     public void setLocationWithinModule(final String locationWithinModule) {
         getCurrentContext().setLocationWithinModule(locationWithinModule);
+        // here comes the test code
         try {
             DynamicGetter.get(getQedeqBo().getQedeq(), getCurrentContext().getLocationWithinModule());
         } catch (RuntimeException e) {
@@ -530,6 +538,15 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
         } catch (InvocationTargetException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Get traverser for QEDEQ module.
+     *
+     * @return  Traverser used.
+     */
+    public QedeqTraverser getTraverser() {
+        return traverser;
     }
 
 }

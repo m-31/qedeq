@@ -43,9 +43,9 @@ public class QedeqBoFormalLogicCheckerTest extends QedeqBoTestCase {
      */
     public void testCheckModule() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("qedeq_error_sample_05.xml"));
-        getServices().checkModule(address);
+        getServices().checkWellFormedness(address);
         final QedeqBo bo = getServices().getQedeqBo(address);
-        assertTrue(bo.getLogicalState().isFailure());
+        assertTrue(bo.getWellFormedState().isFailure());
         assertNotNull(bo.getWarnings());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(1, bo.getErrors().size());

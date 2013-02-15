@@ -53,7 +53,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
                 UrlUtility.toUrl(new File(getDocDir(), "math/qedeq_set_theory_v1.xml")));
         prop = (KernelQedeqBo) getServices().loadModule(
             address);
-        if (!getServices().checkModule(prop.getModuleAddress())) {
+        if (!getServices().checkWellFormedness(prop.getModuleAddress())) {
             throw prop.getErrors();
         }
     }

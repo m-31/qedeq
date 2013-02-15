@@ -55,9 +55,9 @@ public class ProofFinderTest extends QedeqBoTestCase {
     public void testFind() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
             "sample/qedeq_sample3.xml"));
-        KernelContext.getInstance().checkModule(address);
+        KernelContext.getInstance().checkWellFormedness(address);
         final KernelQedeqBo bo = (KernelQedeqBo) KernelContext.getInstance().getQedeqBo(address);
-        assertTrue(bo.isChecked());
+        assertTrue(bo.wasCheckedForBeingWellFormed());
         assertNotNull(bo.getWarnings());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(0, bo.getErrors().size());
@@ -100,9 +100,9 @@ public class ProofFinderTest extends QedeqBoTestCase {
     public void testFind2() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
             "sample/qedeq_sample3.xml"));
-        KernelContext.getInstance().checkModule(address);
+        KernelContext.getInstance().checkWellFormedness(address);
         final KernelQedeqBo bo = (KernelQedeqBo) KernelContext.getInstance().getQedeqBo(address);
-        assertTrue(bo.isChecked());
+        assertTrue(bo.wasCheckedForBeingWellFormed());
         assertNotNull(bo.getWarnings());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(0, bo.getErrors().size());

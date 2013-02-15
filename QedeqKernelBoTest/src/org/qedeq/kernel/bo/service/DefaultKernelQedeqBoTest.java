@@ -24,12 +24,12 @@ import org.qedeq.kernel.bo.service.logic.ModuleConstantsExistenceCheckerImpl;
 import org.qedeq.kernel.bo.test.DummyInternalKernalServices;
 import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
-import org.qedeq.kernel.se.common.DependencyState;
-import org.qedeq.kernel.se.common.LoadingState;
 import org.qedeq.kernel.se.common.QedeqException;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.dto.module.QedeqVo;
+import org.qedeq.kernel.se.state.DependencyState;
+import org.qedeq.kernel.se.state.LoadingState;
 
 /**
  * Test class {@link org.qedeq.kernel.bo.module.QedeqBo}.
@@ -71,7 +71,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         assertTrue(bo.hasErrors());
         bo.setLoadedRequiredModules(new KernelModuleReferenceList());
         assertFalse(bo.hasErrors());
-        bo.setChecked(new ModuleConstantsExistenceCheckerImpl(bo));
+        bo.setWellFormed(new ModuleConstantsExistenceCheckerImpl(bo));
         assertFalse(bo.hasErrors());
     }
 

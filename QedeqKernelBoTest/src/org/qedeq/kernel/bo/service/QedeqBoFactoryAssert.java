@@ -27,12 +27,12 @@ import org.qedeq.kernel.bo.service.latex.QedeqBoDuplicateLanguageChecker;
 import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.se.base.module.Qedeq;
-import org.qedeq.kernel.se.common.LoadingState;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.dto.module.QedeqVo;
+import org.qedeq.kernel.se.state.LoadingState;
 import org.qedeq.kernel.xml.dao.XmlQedeqFileDao;
 import org.qedeq.kernel.xml.mapper.Context2SimpleXPath;
 import org.qedeq.kernel.xml.tracker.SimpleXPath;
@@ -99,8 +99,8 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
         mc.createLabels();
         prop.setLoaded(vo, mc.getLabels(), mc.getConverter(), mc.getTextConverter());
         KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
-        KernelFacade.getKernelContext().checkModule(prop.getModuleAddress());
-        if (!prop.isChecked()) {
+        KernelFacade.getKernelContext().checkWellFormedness(prop.getModuleAddress());
+        if (!prop.wasCheckedForBeingWellFormed()) {
             throw prop.getErrors();
         }
         QedeqBoDuplicateLanguageChecker.check(new Plugin() {

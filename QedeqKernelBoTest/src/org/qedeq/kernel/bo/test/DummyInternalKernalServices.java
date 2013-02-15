@@ -77,9 +77,13 @@ public class DummyInternalKernalServices implements InternalKernelServices {
     public ModuleAddress getModuleAddress(File file) throws IOException {
         return null;
     }
-    public boolean checkModule(ModuleAddress address) {
+    public boolean checkWellFormedness(ModuleAddress address) {
         return false;
     }
+    public boolean checkFormallyProved(ModuleAddress address) {
+        return false;
+    }
+
     public Object executePlugin(String pluginName, ModuleAddress address) {
         return null;
     }
@@ -147,4 +151,5 @@ public class DummyInternalKernalServices implements InternalKernelServices {
     }
     public void stopAllPluginExecutions() {
     }
+
 }

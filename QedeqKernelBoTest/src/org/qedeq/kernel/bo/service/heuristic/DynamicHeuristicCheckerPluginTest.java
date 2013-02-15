@@ -58,7 +58,7 @@ public class DynamicHeuristicCheckerPluginTest extends QedeqBoTestCase {
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
-        getServices().checkModule(prop.getModuleAddress());
+        getServices().checkWellFormedness(prop.getModuleAddress());
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
