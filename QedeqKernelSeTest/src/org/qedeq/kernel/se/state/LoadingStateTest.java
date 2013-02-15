@@ -13,12 +13,13 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.se.common;
+package org.qedeq.kernel.se.state;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import org.qedeq.base.test.QedeqTestCase;
+import org.qedeq.kernel.se.state.LoadingState;
 
 
 /**

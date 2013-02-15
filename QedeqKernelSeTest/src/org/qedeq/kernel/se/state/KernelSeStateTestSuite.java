@@ -13,21 +13,18 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.se.common;
+package org.qedeq.kernel.se.state;
 
 import junit.framework.Test;
 
 import org.qedeq.base.test.QedeqTestSuite;
-import org.qedeq.kernel.se.state.DependencyStateTest;
-import org.qedeq.kernel.se.state.LoadingStateTest;
-import org.qedeq.kernel.se.state.WellFormedStateTest;
 
 /**
  * Run all JUnit tests for package org.qedeq.kernel.common.
  *
  * @author  Michael Meyling
  */
-public class KernelSeCommonTestSuite extends QedeqTestSuite {
+public class KernelSeStateTestSuite extends QedeqTestSuite {
 
     /**
      * Get a new <code>KernelVoModuleTestSuite</code>.
@@ -35,21 +32,18 @@ public class KernelSeCommonTestSuite extends QedeqTestSuite {
      * @return  Test.
      */
     public static Test suite() {
-        return new KernelSeCommonTestSuite();
+        return new KernelSeStateTestSuite();
     }
 
     /**
      * Constructor.
      */
-    public KernelSeCommonTestSuite() {
+    public KernelSeStateTestSuite() {
         super();
-        addTestSuite(DefaultModuleAddressTest.class);
-        addTestSuite(IllegalModuleDataExceptionTest.class);
-        addTestSuite(ModuleContextTest.class);
-        addTestSuite(ModuleDataExceptionTest.class);
-        addTestSuite(QedeqExceptionTest.class);
-        addTestSuite(RuleKeyTest.class);
-        addTestSuite(SourceFileExceptionTest.class);
-        addTestSuite(SourceFileExceptionListTest.class);
+        addTestSuite(AbstractStateTest.class);
+        addTestSuite(DependencyStateTest.class);
+        addTestSuite(FormallyProvedStateTest.class);
+        addTestSuite(LoadingStateTest.class);
+        addTestSuite(WellFormedStateTest.class);
     }
 }
