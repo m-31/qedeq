@@ -173,7 +173,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>        
         <configuration>
-          <argLine>-Xms256m -Xmx512m -XX:PermSize=512m -XX:MaxPermSize=512m</argLine>
+          <argLine>-Xms256m -Xmx512m -XX:PermSize=512m -XX:MaxPermSize=512m -Demma.coverage.out.file=target </argLine>
           <disableXmlReport>false</disableXmlReport> 
           <workingDirectory>src/test/resources</workingDirectory>
 <!--        
@@ -199,6 +199,15 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>emma-maven-plugin</artifactId>
         <version>1.0-alpha-3</version>
+<!--  ???        
+        <configuration>
+            <metadatas>${tested.project.dir}/target/emma/coverage.em,${tested.project.dir}/src/</metadatas>
+            <instrumentations>${tested.project.dir}/target/emma/coverage.ec</instrumentations>
+            <reportDirectory>${tested.project.dir}/target/site/emma/</reportDirectory>
+            <baseDirectory>${tested.project.dir}/target/</baseDirectory>
+            <formats>xml,html</formats>
+         </configuration>
+ -->         
       </plugin>
     </plugins>
   </reporting>
