@@ -207,7 +207,7 @@
         <configuration>
             <verbose>true</verbose>
             <metadataFile>target/coverage.em</metadataFile>
-            <dataFile>target/coverage.ec</dataFile>
+            <dataFiles>target/coverage.ec</dataFiles>
         	<sourcePaths>src</sourcePaths>
         </configuration>
 <!--  ???        
