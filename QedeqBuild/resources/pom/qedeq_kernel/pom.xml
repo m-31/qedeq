@@ -210,7 +210,9 @@
             <dataFiles>
             	<param>target/coverage.ec</param>
             </dataFiles>
-        	<sourcePaths>src</sourcePaths>
+        	<sourcePaths>
+        		<param>src</param>
+        	</sourcePaths>
         </configuration>
 <!--  ???        
         <configuration>
