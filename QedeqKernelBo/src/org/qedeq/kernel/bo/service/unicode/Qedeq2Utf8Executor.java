@@ -131,7 +131,7 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
         try {
             visitor.getQedeqBo().getKernelServices().loadRequiredModules(
                 visitor.getQedeqBo().getModuleAddress());
-            visitor.getQedeqBo().getKernelServices().checkModule(
+            visitor.getQedeqBo().getKernelServices().checkWellFormedness(
                 visitor.getQedeqBo().getModuleAddress());
         } catch (Exception e) {
             // we continue and ignore external predicates

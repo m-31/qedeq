@@ -108,7 +108,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
             QedeqLog.getInstance().logRequest("Dynamic heuristic test", getQedeqBo().getUrl());
             // first we try to get more information about required modules and their predicates..
             try {
-                getServices().checkModule(getQedeqBo().getModuleAddress());
+                getServices().checkWellFormedness(getQedeqBo().getModuleAddress());
             } catch (Exception e) {
                 // we continue and ignore external predicates
                 Trace.trace(CLASS, method, e);

@@ -157,7 +157,11 @@ public final class KernelContext implements KernelProperties, KernelServices {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
-        public boolean checkModule(final ModuleAddress address) {
+        public boolean checkWellFormedness(final ModuleAddress address) {
+            throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
+        }
+
+        public boolean checkFormallyProved(final ModuleAddress address) {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
@@ -256,8 +260,12 @@ public final class KernelContext implements KernelProperties, KernelServices {
             throw new IllegalStateException(KERNEL_NOT_STARTED);
         }
 
-        public boolean checkModule(final ModuleAddress address) {
+        public boolean checkWellFormedness(final ModuleAddress address) {
             throw new IllegalStateException(KERNEL_NOT_STARTED);
+        }
+
+        public boolean checkFormallyProved(final ModuleAddress address) {
+            throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
         public Plugin[] getPlugins() {
@@ -363,8 +371,12 @@ public final class KernelContext implements KernelProperties, KernelServices {
             return services.getSource(address);
         }
 
-        public boolean checkModule(final ModuleAddress address) {
-            return services.checkModule(address);
+        public boolean checkWellFormedness(final ModuleAddress address) {
+            return services.checkWellFormedness(address);
+        }
+
+        public boolean checkFormallyProved(final ModuleAddress address) {
+            return services.checkFormallyProved(address);
         }
 
         public Plugin[] getPlugins() {
@@ -538,8 +550,12 @@ public final class KernelContext implements KernelProperties, KernelServices {
         return currentState.getSource(address);
     }
 
-    public boolean checkModule(final ModuleAddress address) {
-        return currentState.checkModule(address);
+    public boolean checkWellFormedness(final ModuleAddress address) {
+        return currentState.checkWellFormedness(address);
+    }
+
+    public boolean checkFormallyProved(final ModuleAddress address) {
+        return currentState.checkFormallyProved(address);
     }
 
     public Plugin[] getPlugins() {

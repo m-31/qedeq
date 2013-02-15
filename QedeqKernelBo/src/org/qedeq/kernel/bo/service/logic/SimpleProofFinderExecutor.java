@@ -39,7 +39,6 @@ import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Rule;
-import org.qedeq.kernel.se.common.LogicalModuleState;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -49,6 +48,7 @@ import org.qedeq.kernel.se.dto.module.FormalProofLineVo;
 import org.qedeq.kernel.se.dto.module.FormalProofVo;
 import org.qedeq.kernel.se.dto.module.FormulaVo;
 import org.qedeq.kernel.se.dto.module.PropositionVo;
+import org.qedeq.kernel.se.state.WellFormedState;
 
 
 /**
@@ -116,7 +116,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
     }
 
     public Object executePlugin() {
-        getServices().checkModule(getQedeqBo().getModuleAddress());
+        getServices().checkWellFormedness(getQedeqBo().getModuleAddress());
         QedeqLog.getInstance().logRequest("Trying to create formal proofs", getQedeqBo().getUrl());
         try {
             validFormulas = new FormalProofLineListVo();
@@ -227,8 +227,8 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
                 try {
                     state = YodaUtility.getFieldValue(getQedeqBo(), "stateManager");
                     YodaUtility.executeMethod(state, "setLogicalState", new Class[] {
-                        LogicalModuleState.class},
-                        new Object[] {LogicalModuleState.STATE_UNCHECKED});
+                        WellFormedState.class},
+                        new Object[] {WellFormedState.STATE_UNCHECKED});
                     ((PropositionVo) proposition).addFormalProof(new FormalProofVo(proof));
                     YodaUtility.executeMethod(state, "setErrors", new Class[] {
                             SourceFileExceptionList.class},

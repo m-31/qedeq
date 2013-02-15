@@ -20,11 +20,11 @@ import java.util.Map;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
-import org.qedeq.kernel.se.common.DependencyState;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.state.DependencyState;
 
 
 /**

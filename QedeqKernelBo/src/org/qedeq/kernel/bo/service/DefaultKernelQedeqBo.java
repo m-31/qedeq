@@ -34,9 +34,6 @@ import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.base.module.Qedeq;
-import org.qedeq.kernel.se.common.DependencyState;
-import org.qedeq.kernel.se.common.LoadingState;
-import org.qedeq.kernel.se.common.LogicalModuleState;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
@@ -44,6 +41,10 @@ import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.dto.module.QedeqVo;
+import org.qedeq.kernel.se.state.DependencyState;
+import org.qedeq.kernel.se.state.FormallyProvedState;
+import org.qedeq.kernel.se.state.LoadingState;
+import org.qedeq.kernel.se.state.WellFormedState;
 
 
 /**
@@ -291,25 +292,33 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         return dependent;
     }
 
-    public void setChecked(final ModuleConstantsExistenceChecker checker) {
+    public void setWellFormed(final ModuleConstantsExistenceChecker checker) {
         stateManager.setChecked(checker);
     }
 
-    public boolean isChecked() {
-        return stateManager.isChecked();
+    public boolean wasCheckedForBeingWellFormed() {
+        return stateManager.wasCheckedForBeingWellFormed();
+    }
+    
+    public boolean wasCheckedForBeingFormallyProved() {
+        return stateManager.wasCheckedForBeingFormallyProved();
     }
 
-    public void setLogicalProgressState(final LogicalModuleState state) {
+    public void setLogicalProgressState(final WellFormedState state) {
         stateManager.setLogicalProgressState(state);
     }
 
-    public void setLogicalFailureState(final LogicalModuleState state,
+    public void setWellfFormedFailureState(final WellFormedState state,
             final SourceFileExceptionList e) {
         stateManager.setLogicalFailureState(state, e);
     }
 
-    public LogicalModuleState getLogicalState() {
-        return stateManager.getLogicalState();
+    public WellFormedState getWellFormedState() {
+        return stateManager.getWellFormedState();
+    }
+
+    public FormallyProvedState getFormallyProvedState() {
+        return stateManager.getFormallyProvedState();
     }
 
     public SourceFileExceptionList getErrors() {

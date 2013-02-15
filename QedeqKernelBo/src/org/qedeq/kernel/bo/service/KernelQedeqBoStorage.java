@@ -27,8 +27,8 @@ import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.se.common.LoadingState;
 import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.state.LoadingState;
 
 /**
  * Holds all known QEDEQ modules.

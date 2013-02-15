@@ -133,12 +133,20 @@ public interface KernelServices {
     public ModuleAddress getModuleAddress(File file) throws  IOException;
 
     /**
-     * Checks if all formulas of a QEDEQ module and its required modules are well formed.
+     * Check if all formulas of a QEDEQ module and its required modules are well formed.
      *
      * @param   address Module to check.
      * @return  Was check successful?
      */
-    public boolean checkModule(ModuleAddress address);
+    public boolean checkWellFormedness(ModuleAddress address);
+
+    /**
+     * Check if all propositions of this and all required modules have correct formal proofs.
+     *
+     * @param   address Module to check.
+     * @return  Was check successful?
+     */
+    public boolean checkFormallyProved(ModuleAddress address);
 
     /**
      * Get all installed plugins.

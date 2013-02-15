@@ -126,8 +126,8 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         ruleVersion = new Version("0.00.00");  // we set this as module rule version, and hope it will be changed
         QedeqLog.getInstance().logRequest(
                 "Check logical correctness", getQedeqBo().getUrl());
-        getServices().checkModule(getQedeqBo().getModuleAddress());
-        if (!getQedeqBo().isChecked()) {
+        getServices().checkWellFormedness(getQedeqBo().getModuleAddress());
+        if (!getQedeqBo().wasCheckedForBeingWellFormed()) {
             final String msg = "Check of logical correctness failed";
             QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
                 "Module is not even well formed.");

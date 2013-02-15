@@ -63,13 +63,13 @@ import org.qedeq.kernel.se.base.module.SubstFunc;
 import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.common.CheckLevel;
 import org.qedeq.kernel.se.common.IllegalModuleDataException;
-import org.qedeq.kernel.se.common.LogicalModuleState;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.RuleKey;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.dto.list.ElementSet;
+import org.qedeq.kernel.se.state.WellFormedState;
 
 
 /**
@@ -139,7 +139,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
     }
 
     public Object executePlugin() {
-        if (getQedeqBo().isChecked()) {
+        if (getQedeqBo().wasCheckedForBeingWellFormed()) {
             return Boolean.TRUE;
         }
         QedeqLog.getInstance().logRequest(
@@ -158,7 +158,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                 "Not all required modules could be loaded.");
             return Boolean.FALSE;
         }
-        getQedeqBo().setLogicalProgressState(LogicalModuleState.STATE_EXTERNAL_CHECKING);
+        getQedeqBo().setLogicalProgressState(WellFormedState.STATE_EXTERNAL_CHECKING);
         final SourceFileExceptionList sfl = new SourceFileExceptionList();
         final Map rules = new HashMap(); // map RuleKey to KernelQedeqBo
         KernelModuleReferenceList list = (KernelModuleReferenceList) getQedeqBo().getRequiredModules();
@@ -167,7 +167,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
             final WellFormedCheckerExecutor checker = new WellFormedCheckerExecutor(getPlugin(),
                     list.getKernelQedeqBo(i), getParameters());
             checker.executePlugin();
-            if (!list.getKernelQedeqBo(i).isChecked()) {
+            if (!list.getKernelQedeqBo(i).wasCheckedForBeingWellFormed()) {
                 ModuleDataException md = new CheckRequiredModuleException(
                     LogicErrors.MODULE_IMPORT_CHECK_FAILED_CODE,
                     LogicErrors.MODULE_IMPORT_CHECK_FAILED_TEXT
@@ -198,25 +198,25 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         }
         // has at least one import errors?
         if (sfl.size() > 0) {
-            getQedeqBo().setLogicalFailureState(LogicalModuleState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
+            getQedeqBo().setWellfFormedFailureState(WellFormedState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
             final String msg = "Check of logical well formedness failed";
             QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
                  StringUtility.replace(sfl.getMessage(), "\n", "\n\t"));
             return Boolean.FALSE;
         }
-        getQedeqBo().setLogicalProgressState(LogicalModuleState.STATE_INTERNAL_CHECKING);
+        getQedeqBo().setLogicalProgressState(WellFormedState.STATE_INTERNAL_CHECKING);
 
         try {
             traverse();
         } catch (SourceFileExceptionList e) {
-            getQedeqBo().setLogicalFailureState(LogicalModuleState.STATE_INTERNAL_CHECKING_FAILED, e);
+            getQedeqBo().setWellfFormedFailureState(WellFormedState.STATE_INTERNAL_CHECKING_FAILED, e);
             getQedeqBo().setExistenceChecker(existence);
             final String msg = "Check of logical well formedness failed";
             QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
                  StringUtility.replace(sfl.getMessage(), "\n", "\n\t"));
             return Boolean.FALSE;
         }
-        getQedeqBo().setChecked(existence);
+        getQedeqBo().setWellFormed(existence);
         QedeqLog.getInstance().logSuccessfulReply(
             "Check of logical well formedness successful", getQedeqBo().getUrl());
         return Boolean.TRUE;

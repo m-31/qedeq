@@ -3,11 +3,11 @@ package org.qedeq.kernel.bo.module;
 import org.qedeq.kernel.bo.common.Element2Latex;
 import org.qedeq.kernel.bo.common.Element2Utf8;
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.se.common.LogicalModuleState;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.state.WellFormedState;
 
 /**
  * Kernel internal QedeqBo with additional methods.
@@ -92,15 +92,15 @@ public interface KernelQedeqBo extends QedeqBo {
      * @param   sfl                           Exception that occurred during loading.
      * @throws  IllegalArgumentException    <code>state</code> is no failure state
      */
-    public void setLogicalFailureState(LogicalModuleState stateExternalCheckingFailed,
+    public void setWellfFormedFailureState(WellFormedState stateExternalCheckingFailed,
             final SourceFileExceptionList sfl);
 
     /**
-     * Set loading progress module state. Must not be <code>null</code>.
+     * Set logical well formed module state. Must not be <code>null</code>.
      *
      * @param   stateInternalChecking   module state
      */
-    public void setLogicalProgressState(LogicalModuleState stateInternalChecking);
+    public void setLogicalProgressState(WellFormedState stateInternalChecking);
 
     /**
      * Set {@link ModuleConstantsExistenceCheckerImpl}. Doesn't do any status handling.
@@ -110,11 +110,11 @@ public interface KernelQedeqBo extends QedeqBo {
     public void setExistenceChecker(ModuleConstantsExistenceChecker existence);
 
     /**
-     * Set logic checked state. Also set the predicate and function existence checker.
+     * Set logic well formed state. Also set the predicate and function existence checker.
      *
      * @param   checker Checks if a predicate or function constant is defined.
      */
-    public void setChecked(final ModuleConstantsExistenceChecker checker);
+    public void setWellFormed(final ModuleConstantsExistenceChecker checker);
 
 
 }

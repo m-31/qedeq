@@ -49,7 +49,6 @@ import org.qedeq.kernel.bo.service.logic.WellFormedCheckerPlugin;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
-import org.qedeq.kernel.se.common.LoadingState;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
@@ -57,6 +56,7 @@ import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.config.QedeqConfig;
 import org.qedeq.kernel.se.dto.module.QedeqVo;
+import org.qedeq.kernel.se.state.LoadingState;
 
 
 /**
@@ -64,7 +64,8 @@ import org.qedeq.kernel.se.dto.module.QedeqVo;
  *
  * @author  Michael Meyling
  */
-public class DefaultInternalKernelServices implements ServiceModule, InternalKernelServices, Plugin {
+public class DefaultInternalKernelServices implements ServiceModule, InternalKernelServices,
+        Plugin {
 
     /** This class. */
     private static final Class CLASS = DefaultInternalKernelServices.class;
@@ -776,11 +777,11 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         return buffer.toString();
     }
 
-    public boolean checkModule(final ModuleAddress address) {
-        final String method = "checkModule(ModuleAddress)";
+    public boolean checkWellFormedness(final ModuleAddress address) {
+        final String method = "checkWellFormedness(ModuleAddress)";
         final DefaultKernelQedeqBo prop = modules.getKernelQedeqBo(this, address);
         // did we check this already?
-        if (prop.isChecked()) {
+        if (prop.wasCheckedForBeingWellFormed()) {
             return true; // everything is OK
         }
         try {
@@ -793,7 +794,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             KernelContext.getInstance().getConfig().setPluginKeyValues(checker, parameters);
             checker.createExecutor(prop, parameters).executePlugin();
         } catch (final RuntimeException e) {
-            final String msg = "Check of logical correctness failed";
+            final String msg = "Check of being logical well formed failed";
             Trace.fatal(CLASS, this, method, msg, e);
             QedeqLog.getInstance().logFailureReply(msg, address.getUrl(), e.getMessage());
             throw e;
@@ -802,7 +803,36 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                 modules.validateDependencies();
             }
         }
-        return prop.isChecked();
+        return prop.wasCheckedForBeingWellFormed();
+    }
+
+    public boolean checkFormallyProved(final ModuleAddress address) {
+        final String method = "checkFormallyProved(ModuleAddress)";
+        final DefaultKernelQedeqBo prop = modules.getKernelQedeqBo(this, address);
+        // did we check this already?
+        if (prop.wasCheckedForBeingFormallyProved()) {
+            return true; // everything is OK
+        }
+        try {
+            // FIXME 20130215 m31: perhaps this should be a real plugin and is managed by the PluginManager?
+            // perhaps we have to make a difference between normal and hidden internal plugins?
+            final FormalProofCheckerPlugin checker = new FormalProofCheckerPlugin();
+            // set default plugin values for not yet set parameters
+            final Parameters parameters = KernelContext.getInstance().getConfig().getPluginEntries(checker);
+            checker.setDefaultValuesForEmptyPluginParameters(parameters);
+            KernelContext.getInstance().getConfig().setPluginKeyValues(checker, parameters);
+            checker.createExecutor(prop, parameters).executePlugin();
+        } catch (final RuntimeException e) {
+            final String msg = "Check of fully formal correct proved failed";
+            Trace.fatal(CLASS, this, method, msg, e);
+            QedeqLog.getInstance().logFailureReply(msg, address.getUrl(), e.getMessage());
+            throw e;
+        } finally {
+            if (validate) {
+                modules.validateDependencies();
+            }
+        }
+        return prop.wasCheckedForBeingWellFormed();
     }
 
     /**

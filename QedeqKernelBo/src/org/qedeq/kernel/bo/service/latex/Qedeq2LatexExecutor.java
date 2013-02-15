@@ -231,7 +231,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         // first we try to get more information about required modules and their predicates..
         try {
             getServices().loadRequiredModules(getQedeqBo().getModuleAddress());
-            getServices().checkModule(getQedeqBo().getModuleAddress());
+            getServices().checkWellFormedness(getQedeqBo().getModuleAddress());
         } catch (Exception e) {
             // we continue and ignore external predicates
             Trace.trace(CLASS, method, e);

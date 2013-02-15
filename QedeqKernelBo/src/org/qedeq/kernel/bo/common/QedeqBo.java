@@ -16,11 +16,12 @@
 package org.qedeq.kernel.bo.common;
 
 import org.qedeq.kernel.se.base.module.Qedeq;
-import org.qedeq.kernel.se.common.DependencyState;
-import org.qedeq.kernel.se.common.LoadingState;
-import org.qedeq.kernel.se.common.LogicalModuleState;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.state.DependencyState;
+import org.qedeq.kernel.se.state.FormallyProvedState;
+import org.qedeq.kernel.se.state.LoadingState;
+import org.qedeq.kernel.se.state.WellFormedState;
 
 
 /**
@@ -81,11 +82,18 @@ public interface QedeqBo {
    public DependencyState getDependencyState();
 
     /**
-     * Get module logical state.
+     * Get module logical well formed state.
      *
      * @return  module state.
      */
-    public LogicalModuleState getLogicalState();
+    public WellFormedState getWellFormedState();
+
+    /**
+     * Get module logical formally proved state.
+     *
+     * @return  module state.
+     */
+    public FormallyProvedState getFormallyProvedState();
 
     /**
      * Get error list.
@@ -160,14 +168,21 @@ public interface QedeqBo {
     public ModuleReferenceList getRequiredModules();
 
     /**
-     * Was the module checked?
+     * Was the module successfully checked for being well formed?
      *
-     * TODO 20110329 m31: this is currently only a check for "are all formulas well formed and dependencies ok"
      *
-     * @return  Module is checked?
+     * @return  Module was checked?
      */
-    public boolean isChecked();
+    public boolean wasCheckedForBeingWellFormed();
 
+    /**
+     * Was the module successfully checked for being fully formal correct proved?
+     *
+     *
+     * @return  Module was checked?
+     */
+    public boolean wasCheckedForBeingFormallyProved();
+    
     /**
      * Get all supported languages for this QEDEQ module.
      *
