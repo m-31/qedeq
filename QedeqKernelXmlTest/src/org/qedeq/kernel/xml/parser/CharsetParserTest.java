@@ -43,7 +43,7 @@ public class CharsetParserTest extends QedeqBoTestCase {
         final ModuleAddress address = getServices()
             .getModuleAddress(getFile("charset/qedeq_utf8_with_errors_01.xml"));
         getServices().loadModule(address);
-        assertFalse(getServices().checkModule(address));
+        assertFalse(getServices().checkWellFormedness(address));
         final String[] errors = getSourceFileExceptionList(address);
 //        for (int i = 0; i < errors.length; i++) {
 //            System.out.println(errors[i]);
@@ -64,7 +64,7 @@ public class CharsetParserTest extends QedeqBoTestCase {
         final ModuleAddress address = getServices()
             .getModuleAddress(getFile("charset/qedeq_utf16_with_errors_01.xml"));
         getServices().loadModule(address);
-        assertFalse(getServices().checkModule(address));
+        assertFalse(getServices().checkWellFormedness(address));
         final String[] errors = getSourceFileExceptionList(address);
         assertEquals(2, errors.length);
         String[] lines = errors[0].split("\n");
