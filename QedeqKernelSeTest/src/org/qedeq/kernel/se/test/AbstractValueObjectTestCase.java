@@ -114,6 +114,9 @@ public abstract class AbstractValueObjectTestCase extends QedeqTestCase {
             if (attrName.startsWith("$VRc")) {    // because of emma, ignore those attributes
                 continue;
             }
+            if (attrName.startsWith("serialVersionUID")) {    // because of emma, ignore those attributes
+                continue;
+            }
             boolean tested = false;
             tested = tested || testGetSetAdd(clazz, attrs[i]);
             tested = tested || testAddSizeGet(clazz, attrs[i]);
@@ -378,6 +381,9 @@ public abstract class AbstractValueObjectTestCase extends QedeqTestCase {
                     continue;
                 }
                 if (attrs[i].getName().startsWith("$VRc")) {  // because of emma
+                    continue;
+                }
+                if (attrs[i].getName().startsWith("serialVersionUID")) {    // because of emma, ignore those attributes
                     continue;
                 }
                 final Object vo1 = getFilledObject(attrs[i].getType(), getTestedClass(), "", 
