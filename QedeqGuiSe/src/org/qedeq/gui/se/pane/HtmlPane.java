@@ -33,8 +33,8 @@ import javax.swing.text.html.HTMLFrameHyperlinkEvent;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.se.common.LoadingState;
 import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.state.LoadingState;
 
 /**
  * HTML view for module.

@@ -26,9 +26,9 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.se.common.DependencyState;
-import org.qedeq.kernel.se.common.LoadingState;
-import org.qedeq.kernel.se.common.LogicalModuleState;
+import org.qedeq.kernel.se.state.DependencyState;
+import org.qedeq.kernel.se.state.LoadingState;
+import org.qedeq.kernel.se.state.WellFormedState;
 
 /**
  * Renderer for a JTree.
@@ -193,7 +193,7 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
                 setText(text);
                 final LoadingState loadingState = prop.getLoadingState();
                 final DependencyState dependencyState = prop.getDependencyState();
-                final LogicalModuleState logicalState = prop.getLogicalState();
+                final WellFormedState logicalState = prop.getWellFormedState();
 
                 if (loadingState == LoadingState.STATE_LOADED) {
                     setToolTipText(prop.getUrl().toString());
@@ -232,18 +232,18 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
                         } else if (dependencyState
                                 == DependencyState.STATE_LOADED_REQUIRED_MODULES) {
                             setPositiveIcon(prop, loadedRequiredIcon);
-                            if (logicalState != LogicalModuleState.STATE_UNCHECKED) {
-                                if (logicalState == LogicalModuleState.STATE_EXTERNAL_CHECKING) {
+                            if (logicalState != WellFormedState.STATE_UNCHECKED) {
+                                if (logicalState == WellFormedState.STATE_EXTERNAL_CHECKING) {
                                     setPositiveIcon(prop, checkingRequiredIcon);
                                 } else if (logicalState
-                                        == LogicalModuleState.STATE_EXTERNAL_CHECKING_FAILED) {
+                                        == WellFormedState.STATE_EXTERNAL_CHECKING_FAILED) {
                                     setIcon(checkingRequiredErrorIcon);
-                                } else if (logicalState == LogicalModuleState.STATE_INTERNAL_CHECKING) {
+                                } else if (logicalState == WellFormedState.STATE_INTERNAL_CHECKING) {
                                     setPositiveIcon(prop, checkingIcon);
                                 } else if (logicalState
-                                        == LogicalModuleState.STATE_INTERNAL_CHECKING_FAILED) {
+                                        == WellFormedState.STATE_INTERNAL_CHECKING_FAILED) {
                                     setIcon(checkingErrorIcon);
-                                } else if (logicalState == LogicalModuleState.STATE_CHECKED) {
+                                } else if (logicalState == WellFormedState.STATE_CHECKED) {
                                     setPositiveIcon(prop, checkedIcon);
                                 } else {    // unknown logical state
                                     throw new IllegalStateException("unknown module state: "

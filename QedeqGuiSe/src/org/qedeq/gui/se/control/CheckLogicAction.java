@@ -61,7 +61,7 @@ class CheckLogicAction extends AbstractAction {
             final Thread thread = new Thread() {
                 public void run() {
                     for (int i = 0; i < props.length; i++) {
-                        KernelContext.getInstance().checkModule(props[i].getModuleAddress());
+                        KernelContext.getInstance().checkWellFormedness(props[i].getModuleAddress());
                     }
                 }
             };
