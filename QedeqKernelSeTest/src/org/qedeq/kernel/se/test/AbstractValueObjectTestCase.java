@@ -51,6 +51,9 @@ public abstract class AbstractValueObjectTestCase extends QedeqTestCase {
 
         Method[] methods = clazz.getDeclaredMethods();
         for (int i = 0; i < methods.length; i++) {
+        	if (methods[i].getName().startsWith("$VRi")) {	// because of emma 
+        		continue;
+        	}
             getMethodsToCheck().add(methods[i].getName());
         }
     }
