@@ -84,9 +84,9 @@ public class AbstractStateTest extends QedeqTestCase {
 
     public void testHashCode() {
         final Set codes = new HashSet();
-        codes.add(instance1.hashCode());
-        codes.add(instance2.hashCode());
-        codes.add(instance3.hashCode());
+        codes.add(new Integer(instance1.hashCode()));
+        codes.add(new Integer(instance2.hashCode()));
+        codes.add(new Integer(instance3.hashCode()));
         assertEquals(2, codes.size());
     }
 
