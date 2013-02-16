@@ -57,7 +57,7 @@ public interface FormallyProvedStateDescriptions {
     public static final int STATE_CODE_COMPLETELY_CHECKED = 25;
 
     /** Description for successfully completely checked state. */
-    public static final String STATE_STRING_COMPLETELY_CHECKED 
+    public static final String STATE_STRING_COMPLETELY_CHECKED
         = "correct formal proofs for every proposition";
 
 }

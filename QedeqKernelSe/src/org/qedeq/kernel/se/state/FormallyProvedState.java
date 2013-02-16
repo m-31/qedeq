@@ -23,7 +23,7 @@ import org.qedeq.kernel.se.common.State;
  *
  * @author  Michael Meyling
  */
-public class FormallyProvedState extends AbstractState implements State {
+public final class FormallyProvedState extends AbstractState implements State {
 
     /** Unchecked. */
     public static final FormallyProvedState STATE_UNCHECKED
