@@ -22,7 +22,7 @@ import org.qedeq.kernel.se.common.State;
  *
  * @author  Michael Meyling
  */
-public final class WellFormedState implements State {
+public final class WellFormedState extends AbstractState implements State {
 
     /** Unchecked. */
     public static final WellFormedState STATE_UNCHECKED
@@ -56,15 +56,6 @@ public final class WellFormedState implements State {
             false, WellFormedStateDescriptions.STATE_CODE_COMPLETELY_CHECKED);
 
 
-    /** meaning of this state. */
-    private final String text;
-
-    /** is this state a failure? */
-    private final boolean failure;
-
-    /** Code for state. */
-    private final int code;
-
     /**
      * Creates new module state.
      *
@@ -74,37 +65,7 @@ public final class WellFormedState implements State {
      * @throws  IllegalArgumentException    text == <code>null</code>
      */
     private WellFormedState(final String text, final boolean failure, final int code) {
-        this.text = text;
-        if (this.text == null) {
-            throw new IllegalArgumentException("text==null");
-        }
-        this.failure = failure;
-        this.code = code;
-    }
-
-    public String getText() {
-        return this.text;
-    }
-
-    public boolean isFailure() {
-        return this.failure;
-    }
-
-    public int getCode() {
-        return this.code;
-    }
-
-    public String toString() {
-        return this.text;
-    }
-
-    public int hashCode() {
-        return this.text.hashCode();
-    }
-
-    public boolean equals(final Object obj) {
-        // every instance is unique
-        return (this == obj);
+        super(text, failure, code);
     }
 
 }
