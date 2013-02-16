@@ -315,8 +315,8 @@ public class QedeqConfigTest extends QedeqTestCase {
         con1.setAutoReloadLastSessionChecked(false);
         assertFalse(con1.isAutoReloadLastSessionChecked());
         assertTrue(con2.isAutoReloadLastSessionChecked());
-        con2.setAutoReloadLastSessionChecked(false);
-        assertFalse(con2.isAutoReloadLastSessionChecked());
+        con2.setAutoReloadLastSessionChecked(true);
+        assertTrue(con2.isAutoReloadLastSessionChecked());
     }
 
     public void testStore() throws Exception {
