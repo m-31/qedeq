@@ -182,7 +182,7 @@ public interface QedeqBo {
      * @return  Module was checked?
      */
     public boolean wasCheckedForBeingFormallyProved();
-    
+
     /**
      * Get all supported languages for this QEDEQ module.
      *
