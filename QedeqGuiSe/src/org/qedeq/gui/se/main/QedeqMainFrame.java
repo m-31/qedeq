@@ -136,11 +136,13 @@ public class QedeqMainFrame extends JFrame {
         // LATER mime 20070927: hard coded entry "config":
         String resourceDirectoryName = "config";
         final File resourceDir = new File(config.getBasisDirectory(), resourceDirectoryName);
-        final File resource = new File(resourceDir, resourceName);
+        final File log4jConfig = new File(resourceDir, resourceName);
         String res = "/" + resourceDirectoryName + "/" + resourceName;
-        if (!resource.exists()) {
-            final URL url = QedeqMainFrame.class.getResource(res);
-            if (url == null) {
+        // if the config file doesn't exist in the file system, we take it from the class path
+        // and save it in the file system!
+        if (!log4jConfig.exists()) {
+            final URL log4jConfigUrl = QedeqMainFrame.class.getResource(res);
+            if (log4jConfigUrl == null) {
                 errorPrintln("Resource not found: " + res);
             } else {
                 try {
@@ -151,22 +153,16 @@ public class QedeqMainFrame extends JFrame {
                         }
                     }
                     final StringBuffer buffer = new StringBuffer();
-                    IoUtility.loadFile(url, buffer, "ISO-8859-1");
-                    // FIXME 20130213 m31: why we don't use config.getLogFile() ?
-                    File traceFile = config.createAbsolutePath("log/trace.txt");
-                    StringUtility.replace(buffer, "@trace_file_path@", traceFile.toString()
-                        .replace('\\', '/'));
-// for a properties file:
-//                        IoUtility.escapeProperty(traceFile.toString().replace('\\', '/')));
-                    IoUtility.saveFile(resource, buffer, "ISO-8859-1");
-                    res = UrlUtility.toUrl(resource).toString();
+                    // if this would be a properties file would have to load it with ISO-8859-1
+                    IoUtility.loadFile(log4jConfigUrl, buffer, "UTF-8");
+                    IoUtility.saveFile(log4jConfig, buffer, "UTF-8");
                 } catch (IOException e1) {
-                    errorPrintln("Resource can not be saved: " + resource.getAbsolutePath());
+                    errorPrintln("Resource can not be saved: " + log4jConfig.getAbsolutePath());
                     e1.printStackTrace();
                 }
             }
         } else {
-            res = UrlUtility.toUrl(resource).toString();
+            res = UrlUtility.toUrl(log4jConfig).toString();
         }
         System.setProperty("log4j.configDebug", "true");
         System.setProperty("log4j.configuration", res);
@@ -175,9 +171,9 @@ public class QedeqMainFrame extends JFrame {
         try {
             // set properties and watch file every 5 seconds
             if (res.endsWith(".xml")) {
-                DOMConfigurator.configureAndWatch(resource.getCanonicalPath(), 5000);
+                DOMConfigurator.configureAndWatch(log4jConfig.getCanonicalPath(), 5000);
             } else {
-                PropertyConfigurator.configureAndWatch(resource.getCanonicalPath(), 5000);
+                PropertyConfigurator.configureAndWatch(log4jConfig.getCanonicalPath(), 5000);
             }
         } catch (Exception e) {
             e.printStackTrace();

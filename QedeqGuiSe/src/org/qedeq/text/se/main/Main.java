@@ -93,14 +93,9 @@ public final class Main {
                         }
                     }
                     final StringBuffer buffer = new StringBuffer();
-                    IoUtility.loadFile(url, buffer, "ISO-8859-1");
-                    File traceFile = config.createAbsolutePath("log/trace.txt");
-                    StringUtility.replace(buffer, "@trace_file_path@", traceFile.toString()
-                        .replace('\\', '/'));
-// for a properties file:
-//                        IoUtility.escapeProperty(traceFile.toString().replace('\\', '/')));
-                    IoUtility.saveFile(resource, buffer, "ISO-8859-1");
-                    res = UrlUtility.toUrl(resource).toString();
+                    // if this would be a properties file would have to load it with ISO-8859-1
+                    IoUtility.loadFile(url, buffer, "UTF-8");
+                    IoUtility.saveFile(resource, buffer, "UTF-8");
                 } catch (IOException e1) {
                     errorPrintln("Resource can not be saved: " + resource.getAbsolutePath());
                     e1.printStackTrace();
