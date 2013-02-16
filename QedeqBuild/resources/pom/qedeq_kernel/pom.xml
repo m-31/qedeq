@@ -208,11 +208,11 @@
             <verbose>true</verbose>
             <metadataFile>target/coverage.em</metadataFile>
             <dataFiles>
-            	<param>target/coverage.ec</param>
+                <param>target/coverage.ec</param>
             </dataFiles>
-        	<sourcePaths>
-        		<param>src</param>
-        	</sourcePaths>
+            <sourcePaths>
+                <param>src/main/java</param>
+            </sourcePaths>
         </configuration>
 <!--  ???        
         <configuration>
