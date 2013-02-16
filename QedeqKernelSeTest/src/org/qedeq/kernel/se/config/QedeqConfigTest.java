@@ -148,54 +148,83 @@ public class QedeqConfigTest extends QedeqTestCase {
     }
 
     public void testGetSetHttpProxyHost() throws Exception {
+        final String key = "http.proxyHost";
+        final String originalValue = System.getProperty(key);
+        if (originalValue != null) {
+            System.getProperties().remove(key);
+        }
+
         assertEquals("proxy", con1.getHttpProxyHost());
         con1.setHttpProxyHost("newProxy");
         assertEquals("newProxy", con1.getHttpProxyHost());
-        final String key = "http.proxyHost";
-        final String value = System.getProperty(key);
-        if (value != null) {
-            System.getProperties().remove(key);
-        }
         assertNull(con2.getHttpProxyHost());
-        if (value != null) {
-            System.setProperty(key, value);
-        }
-        assertNull(con2.getHttpProxyHost());
+
+        System.setProperty(key, "systemProxy");
+        assertEquals("systemProxy", con2.getHttpProxyHost());
         con2.setHttpProxyHost("newProxys");
         assertEquals("newProxys", con2.getHttpProxyHost());
+
+        assertEquals("newProxys", con2.getHttpProxyHost());
+        con2.setHttpProxyHost("newProxys2");
+        assertEquals("newProxys2", con2.getHttpProxyHost());
+
+        if (originalValue != null) {
+            System.setProperty(key, originalValue);
+        } else {
+            System.getProperties().remove(key);
+        }
     }
 
     public void testGetSetHttpProxyPort() throws Exception {
+        final String key = "http.proxyPort";
+        final String originalValue = System.getProperty(key);
+        if (originalValue != null) {
+            System.getProperties().remove(key);
+        }
+
         assertEquals("", con1.getHttpProxyPort());
         con1.setHttpProxyPort("888");
         assertEquals("888", con1.getHttpProxyPort());
-        final String key = "http.proxyPort";
-        final String value = System.getProperty(key);
-        if (value != null) {
-            System.getProperties().remove(key);
-        }
+
         assertNull(con2.getHttpProxyPort());
-        if (value != null) {
-            System.setProperty(key, value);
-        }
-        assertNull(con2.getHttpProxyPort());
+        System.setProperty(key, "systemPort");
+        assertEquals("systemPort", con2.getHttpProxyPort());
+
         con2.setHttpProxyPort("889");
         assertEquals("889", con2.getHttpProxyPort());
+
+        if (originalValue != null) {
+            System.setProperty(key, originalValue);
+        } else {
+            System.getProperties().remove(key);
+        }
+
     }
 
     public void testGetSetHttpNonProxyHosts() throws Exception {
+        final String key = "http.nonProxyHosts";
+        final String originalValue = System.getProperty(key);
+        if (originalValue != null) {
+            System.getProperties().remove(key);
+        }
+
         assertEquals("none", con1.getHttpNonProxyHosts());
         con1.setHttpNonProxyHosts("all");
         assertEquals("all", con1.getHttpNonProxyHosts());
-        final String key = "http.nonProxyHosts";
-        final String value = System.getProperty(key);
-        if (value != null) {
+
+        assertNull(con2.getHttpNonProxyHosts());
+        System.setProperty(key, "systemNon");
+        assertEquals("systemNon", con2.getHttpNonProxyHosts());
+
+        con2.setHttpNonProxyHosts("neverland");
+        assertEquals("neverland", con2.getHttpNonProxyHosts());
+
+        if (originalValue != null) {
+            System.setProperty(key, originalValue);
+        } else {
             System.getProperties().remove(key);
         }
-        assertNull(con2.getHttpNonProxyHosts());
-        if (value != null) {
-            System.setProperty(key, value);
-        }
+
     }
 
     public void testGetLogFile() throws Exception {
