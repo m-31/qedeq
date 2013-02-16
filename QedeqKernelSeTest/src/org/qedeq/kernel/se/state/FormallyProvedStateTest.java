@@ -46,18 +46,18 @@ public class FormallyProvedStateTest extends QedeqTestCase {
         assertEquals("unchecked", FormallyProvedState.STATE_UNCHECKED.getText());
         assertEquals("checking imports", FormallyProvedState.STATE_EXTERNAL_CHECKING.getText());
         assertEquals("checking imports failed", FormallyProvedState.STATE_EXTERNAL_CHECKING_FAILED.getText());
-        assertEquals("wf checking", FormallyProvedState.STATE_INTERNAL_CHECKING.getText());
-        assertEquals("wf checking failed", FormallyProvedState.STATE_INTERNAL_CHECKING_FAILED.getText());
-        assertEquals("well formed", FormallyProvedState.STATE_CHECKED.getText());
+        assertEquals("checking formal proofs", FormallyProvedState.STATE_INTERNAL_CHECKING.getText());
+        assertEquals("checking formal proofs failed", FormallyProvedState.STATE_INTERNAL_CHECKING_FAILED.getText());
+        assertEquals("correct formal proofs for every proposition", FormallyProvedState.STATE_CHECKED.getText());
     }
 
     public void testToString() {
-        assertEquals("unchecked", FormallyProvedState.STATE_UNCHECKED.toString());
-        assertEquals("checking imports", FormallyProvedState.STATE_EXTERNAL_CHECKING.toString());
-        assertEquals("checking imports failed", FormallyProvedState.STATE_EXTERNAL_CHECKING_FAILED.toString());
-        assertEquals("wf checking", FormallyProvedState.STATE_INTERNAL_CHECKING.toString());
-        assertEquals("wf checking failed", FormallyProvedState.STATE_INTERNAL_CHECKING_FAILED.toString());
-        assertEquals("well formed", FormallyProvedState.STATE_CHECKED.toString());
+        assertEquals("unchecked", FormallyProvedState.STATE_UNCHECKED.getText());
+        assertEquals("checking imports", FormallyProvedState.STATE_EXTERNAL_CHECKING.getText());
+        assertEquals("checking imports failed", FormallyProvedState.STATE_EXTERNAL_CHECKING_FAILED.getText());
+        assertEquals("checking formal proofs", FormallyProvedState.STATE_INTERNAL_CHECKING.getText());
+        assertEquals("checking formal proofs failed", FormallyProvedState.STATE_INTERNAL_CHECKING_FAILED.getText());
+        assertEquals("correct formal proofs for every proposition", FormallyProvedState.STATE_CHECKED.getText());
     }
 
     public void testIsFailure() {

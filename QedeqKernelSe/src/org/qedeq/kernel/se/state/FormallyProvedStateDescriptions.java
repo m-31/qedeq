@@ -44,7 +44,7 @@ public interface FormallyProvedStateDescriptions {
     public static final int STATE_CODE_INTERNAL_CHECKING = 23;
 
     /** Description for internal checking phase. */
-    public static final String STATE_STRING_INTERNAL_CHECKING = "cheking formal proofs";
+    public static final String STATE_STRING_INTERNAL_CHECKING = "checking formal proofs";
 
     /** Code for check failure. */
     public static final int STATE_CODE_INTERNAL_CHECKING_FAILED = 24;
