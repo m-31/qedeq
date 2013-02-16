@@ -186,8 +186,7 @@ public class TextPaneWindow extends JFrame {
      * @return  Created panel.
      */
     private final JPanel createTextPanel(final String text) {
-//        textPane = new CPTextPane(false) {    // FIXME
-        textPane = new CPTextPane(true) {
+        textPane = new CPTextPane(false) {
             public boolean getScrollableTracksViewportWidth() {
                 return TextPaneWindow.this.wordWrap;
             }
