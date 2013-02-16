@@ -93,7 +93,7 @@ public final class StringUtility {
 
     /**
      * Replaces all occurrences of <code>search</code> in <code>text</code>
-     * by <code>replace</code> and returns the result.
+     * by <code>replace</code>.
      *
      * @param   text    Text to work on. Must not be <code>null</code>.
      * @param   search  replace this text by <code>replace</code>. Can be <code>null</code>.
