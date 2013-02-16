@@ -299,7 +299,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     public boolean wasCheckedForBeingWellFormed() {
         return stateManager.wasCheckedForBeingWellFormed();
     }
-    
+
     public boolean wasCheckedForBeingFormallyProved() {
         return stateManager.wasCheckedForBeingFormallyProved();
     }
