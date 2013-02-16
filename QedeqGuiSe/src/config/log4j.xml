@@ -7,7 +7,7 @@
     
     <!-- file logging -->
     <appender name="FileAppender" class="org.apache.log4j.RollingFileAppender">
-        <param name="file" value="@trace_file_path@"/>
+        <param name="file" value="log/log.txt"/>
         <param name="Append" value="true"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d %c{2} %m%n"/>
