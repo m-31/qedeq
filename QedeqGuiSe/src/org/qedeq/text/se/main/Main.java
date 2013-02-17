@@ -23,7 +23,6 @@ import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.UrlUtility;
-import org.qedeq.base.utility.StringUtility;
 import org.qedeq.gui.se.pane.QedeqGuiConfig;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.log.LogListenerImpl;
