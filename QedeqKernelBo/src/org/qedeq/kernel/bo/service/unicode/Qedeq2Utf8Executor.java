@@ -97,6 +97,13 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
                         + "was generated into \"" + result + "\"", visitor.getQedeqBo().getUrl());
                 }
             }
+            if (languages.length == 0) {
+                QedeqLog.getInstance().logMessage("no supported language found, assuming 'en'");
+                final String result = generateUtf8("en", "1");
+                QedeqLog.getInstance().logSuccessfulReply(
+                    "UTF-8 for language \"en"
+                    + "\" was generated into \"" + result + "\"", visitor.getQedeqBo().getUrl());
+            }
         } catch (final SourceFileExceptionList e) {
             final String msg = "Generation failed";
             Trace.fatal(CLASS, this, method, msg, e);
@@ -117,7 +124,8 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
     /**
      * Gives a UTF-8 representation of given QEDEQ module as InputStream.
      *
-     * @param   language    Filter text to get and produce text in this language only.
+     * @param   language    Filter text to get and produce text in this language only. Might
+     *                      be <code>null</code>
      * @param   level       Filter for this detail level. LATER mime 20050205: not supported
      *                      yet.
      * @return  Name of generated file.

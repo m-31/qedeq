@@ -180,6 +180,13 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
                         + "was generated into \"" + result + "\"", getQedeqBo().getUrl());
                 }
             }
+            if (languages.length == 0) {
+                QedeqLog.getInstance().logMessage("no supported language found, assuming 'en'");
+                final String result = generateLatex("en", "1").toString();
+                QedeqLog.getInstance().logSuccessfulReply(
+                    "LaTeX for language \"en"
+                    + "\" was generated into \"" + result + "\"", getQedeqBo().getUrl());
+            }
         } catch (final SourceFileExceptionList e) {
             final String msg = "Generation failed";
             Trace.fatal(CLASS, this, method, msg, e);
