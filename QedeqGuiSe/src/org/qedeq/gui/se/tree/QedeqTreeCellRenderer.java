@@ -25,6 +25,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 import org.qedeq.base.trace.Trace;
+import org.qedeq.gui.se.util.DecoratedIcon;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.se.state.DependencyState;
 import org.qedeq.kernel.se.state.LoadingState;
@@ -126,6 +127,22 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
         QedeqTreeCellRenderer.class.getResource(
             "/images/qedeq/16x16/module_errors.gif"));
 
+    /** Status icon. */
+    private static ImageIcon basicErrorOverlayIcon = new ImageIcon(
+        QedeqTreeCellRenderer.class.getResource(
+            "/images/eclipse/error_co_dl.gif"));
+
+    /** Status icon. */
+    private static ImageIcon pluginErrorOverlayIcon = new ImageIcon(
+        QedeqTreeCellRenderer.class.getResource(
+            "/images/eclipse/error_co_ur.gif"));
+
+    /** Status icon. */
+    private static ImageIcon pluginWarningOverlayIcon = new ImageIcon(
+        QedeqTreeCellRenderer.class.getResource(
+            "/images/eclipse/warning_co_ur.gif"));
+
+
 
 // LATER mime 20080502: do we want to leave it for our alternative "paint" or do we delete it?
 //
@@ -221,7 +238,7 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
                 } else if (loadingState == LoadingState.STATE_LOADING_INTO_MEMORY_FAILED) {
                     setIcon(memoryLoadingErrorIcon);
                 } else if (loadingState == LoadingState.STATE_LOADED) {
-                    setPositiveIcon(prop, loadedIcon);
+                    setPositiveIconIfPossible(prop, loadedIcon);
                     if (dependencyState != DependencyState.STATE_UNDEFINED) {
                         if (dependencyState
                                 == DependencyState.STATE_LOADING_REQUIRED_MODULES) {
@@ -231,20 +248,20 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
                             setIcon(loadingRequiredErrorIcon);
                         } else if (dependencyState
                                 == DependencyState.STATE_LOADED_REQUIRED_MODULES) {
-                            setPositiveIcon(prop, loadedRequiredIcon);
+                            setPositiveIconIfPossible(prop, loadedRequiredIcon);
                             if (logicalState != WellFormedState.STATE_UNCHECKED) {
                                 if (logicalState == WellFormedState.STATE_EXTERNAL_CHECKING) {
-                                    setPositiveIcon(prop, checkingRequiredIcon);
+                                    setPositiveIconIfPossible(prop, checkingRequiredIcon);
                                 } else if (logicalState
                                         == WellFormedState.STATE_EXTERNAL_CHECKING_FAILED) {
                                     setIcon(checkingRequiredErrorIcon);
                                 } else if (logicalState == WellFormedState.STATE_INTERNAL_CHECKING) {
-                                    setPositiveIcon(prop, checkingIcon);
+                                    setPositiveIconIfPossible(prop, checkingIcon);
                                 } else if (logicalState
                                         == WellFormedState.STATE_INTERNAL_CHECKING_FAILED) {
                                     setIcon(checkingErrorIcon);
                                 } else if (logicalState == WellFormedState.STATE_CHECKED) {
-                                    setPositiveIcon(prop, checkedIcon);
+                                    setPositiveIconIfPossible(prop, checkedIcon);
                                 } else {    // unknown logical state
                                     throw new IllegalStateException("unknown module state: "
                                         + logicalState.getText());
@@ -308,11 +325,19 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
        super.paint(g);
     }
 
-    private void setPositiveIcon(final QedeqBo qedeq, final Icon icon) {
-        if (qedeq.hasErrors()) {
-            setIcon(errorsIcon);
+    private void setPositiveIconIfPossible(final QedeqBo qedeq, final ImageIcon icon) {
+        if (qedeq.hasBasicFailures()) {
+            final DecoratedIcon ic = new DecoratedIcon(icon);
+            ic.decorate(basicErrorOverlayIcon);
+            setIcon(ic);
+        } else if (qedeq.hasErrors()) {
+            final DecoratedIcon ic = new DecoratedIcon(icon);
+            ic.decorate(pluginErrorOverlayIcon);
+            setIcon(ic);
         } else if (qedeq.hasWarnings()) {
-            setIcon(warningsIcon);
+            final DecoratedIcon ic = new DecoratedIcon(icon);
+            ic.decorate(pluginWarningOverlayIcon);
+            setIcon(ic);
         } else {
             setIcon(icon);
         }
