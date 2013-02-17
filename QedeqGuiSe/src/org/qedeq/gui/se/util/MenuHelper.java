@@ -28,10 +28,9 @@ import javax.swing.event.ChangeListener;
 /**
  * Various menu utility methods.
  *
- * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
-public final class MenuHelper  {
+public final class MenuHelper {
 
     /**
      * Hidden constructor.
