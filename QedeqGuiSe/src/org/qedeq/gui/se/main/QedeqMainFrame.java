@@ -36,7 +36,6 @@ import org.apache.log4j.xml.DOMConfigurator;
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.base.utility.StringUtility;
 import org.qedeq.gui.se.control.QedeqController;
 import org.qedeq.gui.se.pane.QedeqGuiConfig;
 import org.qedeq.gui.se.util.GuiHelper;
