@@ -10,16 +10,16 @@ Functional Changes
 
   Extensions
   ----------
-  - context menu for text areas includes now "find": one can search for strings
+  none
 
   Fixed Bugs
   ----------
-  proofTextMathOperators.xml has now no double "C" functionOperator any longer
+  bug fix: for qedeq_error_sample04.xml we can now generate UTF-8 and LaTeX files
+
 
   Other Changes
   -------------
-  - initial window size for text viewing was optimized; now the window should
-    fit the screen more likely
+  none
 
 
 XML Files
@@ -27,14 +27,7 @@ XML Files
 
   Extensions
   ----------
-  - qedeq_formal_logic_v1.xml:
-      added proposition with proof for A -> (B -> (A & B))
-      added proposition with proof for ((A -> B) & (B -> C)) -> (A -> C)
-      added a section for mixing conjunction and disjunction
-      added proposition with proof for ((A -> C) & (B -> C)) -> ((A ∨ B) -> C)
-      added proposition with proof for ((A & B) v C) -> ((A v C) & (B v C))
-      added proposition with proof for ((A ∨ C) & (B ∨ C)) -> ((A & B) ∨ C)
-      
+  none
 
   Fixed Bugs
   ----------
@@ -50,67 +43,16 @@ Source Code
 
   Extensions
   ----------
-  - various test classes and tests were added
-  - new class LoadingListener for for loading completeness events
-  - new class Path as an abstraction for a file or directory path
-  - new class FindDialog to provide search capabilities
-  - new class UnderlineDocumentMarkerPainter enables us to underline text
-    (not used yet)
-  - new methods getLastDotString(String), getLastTwoDotStrings(String)
-    for getting the last pieces in dot separated Strings (StringUtility)
+  none
 
 
   Fixed Bugs
   ----------
-  - Splitter.iterate tests for whitespace now via Character.isWhitespace
-  - StringUtility: format and trim methods can handle extreme parameters
-  - ModulePropertiesPane: if no model is set we empty errors and warnings text
-  - Qedeq2UnicodeVisitor don't print q.e.d. if we are in brief mode
-  - model.Operator.hashCode takes now the current class into account
-  - DefaultElementList.replace(int, Element) should work correct now
+  none
 
   Other Changes
   -------------
-  - AbstractOutput uses now method appendFittingPart to append without
-    exceeding the maximum column
-  - IoUtility refactored directory and file copy methods
-    compareTextFiles is now more robust
-    refactored deleteDir method
-    URL methods now in new class UrlUtility
-    some Yoda methods removed, now usage of YodaUtility necessary
-  - TextInput.getSubstring accepts now negative lengths
-  - StringUtility.toString(Object[]), toString(Set) and toString(Map) quotes
-    now CharSequence objects
-  - new class WebServer added for testing purposes
-  - various unit tests added
-  - updated GUI help files
-  - refactored DefaultInternalKernelServices.saveQedeqFromWebToBuffer to use
-    UrlUtility.saveUrlToFile
-  - various classes: usage of
-    org.apache.commons.lang.ArrayUtils.EMPTY_STRING_ARRAY
-  - Qedeq2LatexExecutor umlaut handling changed
-  - Latex2UnicodeParser remembers now skipWhitespace status when entering new
-    level
-  - QedeqConfig.getLogFile gets the complete log file location
-  - DefaultSourceFileExceptionList and SourceFileExceptionList were joined into
-    a new SourceFileExceptionList
-  - implementations of Reason.getReferences return now only all not null
-    references; references that are empty strings are now included
-  - for memory modules DefaultModuleAddress.isRelativeAddress returns always
-    false
-  - the texts of LogicalModuleStateDescriptions were slightly changed
-  - an instance of ModuleDataException now uses only error code, message and
-    location for deciding if instances are equal
-  - ConfigAccess.store creates missing directories
-  - QedeqConfig uses basisDirectory.getCanonicalFile()
-  - QedeqConfig.createAbsolutePath now uses the new class Path to transform
-    the given path string into an absolute file path
-  - LatexList2Text takes now "en" as default if language was not found and more
-    latex constructs are stripped
-  - VariableList and all its references removed (was not used)
-  - SubsectionType has now two methods: getNode() and getSubsection(), so one
-    can work with interfaces and get to the tree leaves without casting
-  - QedeqNotNullTraverser enables now to set the visitor later on
+  none
 
 
 XSD
