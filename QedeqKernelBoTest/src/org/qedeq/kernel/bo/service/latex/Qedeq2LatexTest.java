@@ -45,10 +45,10 @@ public class Qedeq2LatexTest extends QedeqBoTestCase {
         final QedeqBo bo = getServices().getQedeqBo(address);
         getServices().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address);
         assertFalse(bo.getLoadingState().isFailure());
-        assertEquals(WellFormedState.STATE_UNCHECKED, bo.getWellFormedState());
-        assertFalse(bo.hasErrors());
+        assertFalse(WellFormedState.STATE_UNCHECKED.equals(bo.getWellFormedState()));
+        assertTrue(bo.hasErrors());
         assertNotNull(bo.getErrors());
-        assertEquals(0, bo.getErrors().size());
+        assertEquals(1, bo.getErrors().size());
         assertFalse(bo.hasWarnings());
         assertNotNull(bo.getWarnings());
         assertEquals(0, bo.getWarnings().size());
