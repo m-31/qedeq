@@ -19,6 +19,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -35,11 +36,14 @@ import javax.imageio.stream.ImageOutputStream;
 import javax.imageio.stream.MemoryCacheImageOutputStream;
 import javax.swing.ImageIcon;
 
+import org.qedeq.base.io.IoUtility;
+
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 
 import furbelow.AnimatedIcon;
 
 public class AnimatedGifCreator {
+
     private String firstIconName;
     private String secondIconName;
     private BufferedImage firstIcon;
@@ -49,15 +53,15 @@ public class AnimatedGifCreator {
     protected IIOMetadata imageMetaData;
 
     /**
-     * Creates a new AnimatedGifCreator
+     * Creates a new AnimatedGifCreator.
      *
      * @param   outputStream    Write resulting data herein.
      * @param   delay   Time between frames in milliseconds.
      * @param   repeat  Should the animation repeat from the beginning?
      */
-    public AnimatedGifCreator(ImageOutputStream outputStream, String firstIconName,
-                    String secondIconName,
-                    int delay, boolean repeat) throws IOException {
+    public AnimatedGifCreator(final ImageOutputStream outputStream, final String firstIconName,
+                    final String secondIconName,
+                    final int delay, final boolean repeat) throws IOException {
         writer = ImageIO.getImageWritersByFormatName("gif").next();
         writeParam = writer.getDefaultWriteParam();
         this.firstIconName = firstIconName;
@@ -88,9 +92,9 @@ public class AnimatedGifCreator {
         child.setAttribute("applicationID", "NETSCAPE");
         child.setAttribute("authenticationCode", "2.0");
 
-        int l = repeat ? 0 : 1;
+        int l = (repeat ? 0 : 1);
 
-        child.setUserObject(new byte[] { 0x1, (byte) (l & 0xFF), (byte) ((l >> 8) & 0xFF) });
+        child.setUserObject(new byte[] {0x1, (byte) (l & 0xFF), (byte) ((l >> 8) & 0xFF) });
         appEntensionsNode.appendChild(child);
 
         imageMetaData.setFromTree(metaFormatName, root);
@@ -98,7 +102,7 @@ public class AnimatedGifCreator {
         writer.prepareWriteSequence(null);
     }
 
-    private IIOMetadataNode getCreateNode(IIOMetadataNode rootNode, String name) {
+    private IIOMetadataNode getCreateNode(final IIOMetadataNode rootNode, final String name) {
         for (int i = 0; i < rootNode.getLength(); i++) {
             if (name.compareToIgnoreCase(rootNode.item(i).getNodeName()) == 0) {
                 return ((IIOMetadataNode) rootNode.item(i));
@@ -163,7 +167,7 @@ public class AnimatedGifCreator {
 
     }
 
-    private void writeFrame(float alpha) throws IOException {
+    private void writeFrame(final float alpha) throws IOException {
         BufferedImage nextImage = getEmptyImage();
 
         Graphics g = nextImage.getGraphics();
@@ -172,12 +176,12 @@ public class AnimatedGifCreator {
         gFade.setColor(Color.white);
         gFade.setComposite(AlphaComposite.Src);
         gFade.fillRect(0, 0, 16, 16);
-        
+
         AlphaComposite newComposite1 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f);
         gFade.setComposite(newComposite1);
         gFade.drawImage(getImage2(firstIconName), dx, dy, null);
         gFade.setComposite(AlphaComposite.Src);
-        AlphaComposite newComposite2= AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
+        AlphaComposite newComposite2 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
         gFade.setComposite(newComposite2);
 //        gFade.drawImage(secondIcon, 8, 8, null);
 //        gFade.drawImage(getImage2(secondIconName), 8, 8, null);
@@ -190,23 +194,23 @@ public class AnimatedGifCreator {
 
     public static AnimatedIcon createAnimatedIcon(final String firstIconName,
             final String secondIconName) {
-        final ByteOutputStream output = new ByteOutputStream();
-        ImageIcon icon = new ImageIcon(output.getBytes());
+        final ByteArrayOutputStream output = new ByteArrayOutputStream();
+        ImageIcon icon = new ImageIcon(output.toByteArray());
         try {
             AnimatedGifCreator writer = new AnimatedGifCreator(
-                            new MemoryCacheImageOutputStream(output), firstIconName, 
-                    secondIconName, 10, true);
+                new MemoryCacheImageOutputStream(output), firstIconName,
+                secondIconName, 10, true);
             writer.writeSequence();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-           output.close();
+        IoUtility.close(output);
         return new AnimatedIcon(icon);
     }
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
         // create a new BufferedOutputStream with the last argument
         ImageOutputStream output = new FileImageOutputStream(new File("output.gif"));
-        AnimatedGifCreator writer = new AnimatedGifCreator(output, "module_checked2.gif", 
+        AnimatedGifCreator writer = new AnimatedGifCreator(output, "module_checked2.gif",
              "module_checked.gif", 10, true);
         writer.writeSequence();
         output.close();
@@ -214,24 +218,24 @@ public class AnimatedGifCreator {
 
     /*
      * public byte[] createImage() throws Exception {
-     * 
+     *
      * ImageWriter iw = ImageIO.getImageWritersByFormatName("gif").next();
-     * 
+     *
      * ByteArrayOutputStream os = new ByteArrayOutputStream(); ImageOutputStream
      * ios = ImageIO.createImageOutputStream(os); iw.setOutput(ios);
      * iw.prepareWriteSequence(null); int i = 0;
-     * 
+     *
      * for (AnimationFrame animationFrame : frameCollection) {
-     * 
+     *
      * BufferedImage src = animationFrame.getImage(); ImageWriteParam iwp =
      * iw.getDefaultWriteParam(); IIOMetadata metadata =
      * iw.getDefaultImageMetadata( new ImageTypeSpecifier(src), iwp);
-     * 
+     *
      * configure(metadata, "" + animationFrame.getDelay(), i);
-     * 
+     *
      * IIOImage ii = new IIOImage(src, null, metadata); iw.writeToSequence(ii,
      * null); i++; }
-     * 
+     *
      * iw.endWriteSequence(); ios.close(); return os.toByteArray(); }
      */
 }

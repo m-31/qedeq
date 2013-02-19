@@ -91,9 +91,8 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
             "/images/qedeq/16x16/module_loaded.gif"));
 
     /** Status icon. */
-    private static ImageIcon loadingRequiredIcon = new ImageIcon(
-        QedeqTreeCellRenderer.class.getResource(
-            "/images/qedeq/16x16/module_loading_required.gif"));
+    private static AnimatedIcon loadingRequiredIcon = AnimatedGifCreator.createAnimatedIcon(
+        "module_loaded.gif", "module_loaded_required.gif");
 
     /** Status icon. */
     private static ImageIcon loadingRequiredErrorIcon = new ImageIcon(
