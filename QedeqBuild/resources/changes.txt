@@ -10,7 +10,7 @@ Functional Changes
 
   Extensions
   ----------
-  none
+  - animated icons from http://sourceforge.net/projects/furbelow/
 
   Fixed Bugs
   ----------
