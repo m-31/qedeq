@@ -25,16 +25,18 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 import org.qedeq.base.trace.Trace;
+import org.qedeq.gui.se.util.AnimatedGifCreator;
 import org.qedeq.gui.se.util.DecoratedIcon;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.se.state.DependencyState;
 import org.qedeq.kernel.se.state.LoadingState;
 import org.qedeq.kernel.se.state.WellFormedState;
 
+import furbelow.AnimatedIcon;
+
 /**
  * Renderer for a JTree.
  *
- * @version $Revision: 1.8 $
  * @author  Michael Meyling
  */
 public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
@@ -43,10 +45,13 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
     private static final Class CLASS = QedeqTreeCellRenderer.class;
 
     /** Status icon. */
-    private static ImageIcon webLoadingIcon = new ImageIcon(
-        QedeqTreeCellRenderer.class.getResource(
-            "/images/qedeq/16x16/module_web_loading.gif"));
+//    private static ImageIcon webLoadingIcon = new ImageIcon(
+//        QedeqTreeCellRenderer.class.getResource(
+//            "/images/qedeq/16x16/module_web_loading.gif"));
+    private static AnimatedIcon webLoadingIcon = AnimatedGifCreator.createAnimatedIcon(
+        "module_start.gif", "module_loaded.gif");
 
+    
     /** Status icon. */
     private static ImageIcon webLoadingErrorIcon = new ImageIcon(
         QedeqTreeCellRenderer.class.getResource(
@@ -58,14 +63,22 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
             "/images/qedeq/16x16/module_file_loading.gif"));
 
     /** Status icon. */
-    private static ImageIcon fileLoadingErrorIcon = new ImageIcon(
-        QedeqTreeCellRenderer.class.getResource(
-            "/images/qedeq/16x16/module_file_loading_error.gif"));
+//    private static ImageIcon fileLoadingErrorIcon = new ImageIcon(
+//        QedeqTreeCellRenderer.class.getResource(
+//            "/images/qedeq/16x16/module_file_loading_error.gif"));
+    private static AnimatedIcon fileLoadingErrorIcon = new AnimatedIcon(
+	    new ImageIcon(QedeqTreeCellRenderer.class.getResource(
+            "/images/qedeq/16x16/module_memory_loading.gif")));
 
     /** Status icon. */
-    private static ImageIcon memoryLoadingIcon = new ImageIcon(
-        QedeqTreeCellRenderer.class.getResource(
-            "/images/qedeq/16x16/module_memory_loading.gif"));
+    private static Icon memoryLoadingIcon = new AnimatedIcon(
+        new ImageIcon(QedeqTreeCellRenderer.class.getResource(
+            "/images/qedeq/16x16/module_memory_loading.gif")));
+
+    /** Status icon. */
+//    private static ImageIcon memoryLoadingIcon = new ImageIcon(
+//        QedeqTreeCellRenderer.class.getResource(
+//            "/images/qedeq/16x16/module_memory_loading.gif"));
 
     /** Status icon. */
     private static ImageIcon memoryLoadingErrorIcon = new ImageIcon(
@@ -93,9 +106,8 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
             "/images/qedeq/16x16/module_loaded_required.gif"));
 
     /** Status icon. */
-    private static ImageIcon checkingRequiredIcon = new ImageIcon(
-        QedeqTreeCellRenderer.class.getResource(
-            "/images/qedeq/16x16/module_checking_required.gif"));
+    private static AnimatedIcon checkingRequiredIcon = AnimatedGifCreator.createAnimatedIcon(
+        "module_loaded.gif", "module_checked.gif");
 
     /** Status icon. */
     private static ImageIcon checkingRequiredErrorIcon = new ImageIcon(
@@ -103,9 +115,7 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
             "/images/qedeq/16x16/module_checking_required_error.gif"));
 
     /** Status icon. */
-    private static ImageIcon checkingIcon = new ImageIcon(
-        QedeqTreeCellRenderer.class.getResource(
-            "/images/qedeq/16x16/module_checking.gif"));
+    private static AnimatedIcon checkingIcon = checkingRequiredIcon;
 
     /** Status icon. */
     private static ImageIcon checkingErrorIcon = new ImageIcon(
@@ -341,6 +351,25 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
         } else {
             setIcon(icon);
         }
+    }
+
+    private void setPositiveIconIfPossible(final QedeqBo qedeq, final AnimatedIcon icon) {
+        setIcon(icon);
+//        if (qedeq.hasBasicFailures()) {
+//            final DecoratedIcon ic = new DecoratedIcon(icon);
+//            ic.decorate(basicErrorOverlayIcon);
+//            setIcon(ic);
+//        } else if (qedeq.hasErrors()) {
+//            final DecoratedIcon ic = new DecoratedIcon(icon);
+//            ic.decorate(pluginErrorOverlayIcon);
+//            setIcon(ic);
+//        } else if (qedeq.hasWarnings()) {
+//            final DecoratedIcon ic = new DecoratedIcon(icon);
+//            ic.decorate(pluginWarningOverlayIcon);
+//            setIcon(ic);
+//        } else {
+//            setIcon(icon);
+//        }
     }
 
 }
