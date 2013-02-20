@@ -42,7 +42,6 @@ import org.qedeq.kernel.bo.common.QedeqBo;
  *
  * TODO mime 20080126: rather work with listeners than referencing other views
  *
- * @version $Revision: 1.8 $
  * @author  Michael Meyling
  */
 public final class QedeqTreeCtrl implements TreeModelListener {
