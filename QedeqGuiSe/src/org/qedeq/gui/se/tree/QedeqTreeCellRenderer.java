@@ -51,7 +51,6 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
     private static AnimatedIcon webLoadingIcon = AnimatedGifCreator.createAnimatedIcon(
         "module_start.gif", "module_loaded.gif");
 
-    
     /** Status icon. */
     private static ImageIcon webLoadingErrorIcon = new ImageIcon(
         QedeqTreeCellRenderer.class.getResource(
@@ -67,7 +66,7 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
 //        QedeqTreeCellRenderer.class.getResource(
 //            "/images/qedeq/16x16/module_file_loading_error.gif"));
     private static AnimatedIcon fileLoadingErrorIcon = new AnimatedIcon(
-	    new ImageIcon(QedeqTreeCellRenderer.class.getResource(
+        new ImageIcon(QedeqTreeCellRenderer.class.getResource(
             "/images/qedeq/16x16/module_memory_loading.gif")));
 
     /** Status icon. */
