@@ -35,7 +35,6 @@ import javax.swing.tree.TreeSelectionModel;
  * (all of the things the user can see and respond to on the screen, such as buttons, display
  * boxes, and so forth).
  *
- * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public final class QedeqTreeView extends JPanel {
