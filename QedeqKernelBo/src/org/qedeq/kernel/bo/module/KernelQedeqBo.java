@@ -7,6 +7,7 @@ import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.state.FormallyProvedState;
 import org.qedeq.kernel.se.state.WellFormedState;
 
 /**
@@ -100,7 +101,25 @@ public interface KernelQedeqBo extends QedeqBo {
      *
      * @param   stateInternalChecking   module state
      */
-    public void setLogicalProgressState(WellFormedState stateInternalChecking);
+    public void setWellFormedProgressState(WellFormedState stateInternalChecking);
+
+    /**
+     * Set logical formally proved module progress state. Must not be <code>null</code>.
+     *
+     * @param   state                       module state
+     * @throws  IllegalArgumentException    <code>state</code> is no failure state
+     */
+    public void setFormallyProvedProgressState(final FormallyProvedState state);
+
+    /**
+     * Set logical formally proved module failure state. Must not be <code>null</code>.
+     *
+     * @param   state                       module state
+     * @param   sfl                          Exception that occurred during loading.
+     * @throws  IllegalArgumentException    <code>state</code> is no failure state
+     */
+    public void setFormallyProvedFailureState(final FormallyProvedState state,
+            final SourceFileExceptionList sfl);
 
     /**
      * Set {@link ModuleConstantsExistenceCheckerImpl}. Doesn't do any status handling.

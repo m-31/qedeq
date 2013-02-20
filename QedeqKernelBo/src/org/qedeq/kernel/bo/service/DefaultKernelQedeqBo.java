@@ -41,6 +41,7 @@ import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.dto.module.QedeqVo;
+import org.qedeq.kernel.se.state.AbstractState;
 import org.qedeq.kernel.se.state.DependencyState;
 import org.qedeq.kernel.se.state.FormallyProvedState;
 import org.qedeq.kernel.se.state.LoadingState;
@@ -304,17 +305,26 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         return stateManager.wasCheckedForBeingFormallyProved();
     }
 
-    public void setLogicalProgressState(final WellFormedState state) {
-        stateManager.setLogicalProgressState(state);
+    public void setWellFormedProgressState(final WellFormedState state) {
+        stateManager.setWellFormedState(state);
     }
 
     public void setWellfFormedFailureState(final WellFormedState state,
             final SourceFileExceptionList e) {
-        stateManager.setLogicalFailureState(state, e);
+        stateManager.setWellFormedFailureState(state, e);
     }
 
     public WellFormedState getWellFormedState() {
         return stateManager.getWellFormedState();
+    }
+
+    public void setFormallyProvedProgressState(final FormallyProvedState state) {
+        stateManager.setFormallyProvedProgressState(state);
+    }
+
+    public void setFormallyProvedFailureState(final FormallyProvedState state,
+            final SourceFileExceptionList e) {
+        stateManager.setFormallyProvedFailureState(state, e);
     }
 
     public FormallyProvedState getFormallyProvedState() {
@@ -331,6 +341,14 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
 
     public String getStateDescription() {
         return stateManager.getStateDescription();
+    }
+
+    public AbstractState getCurrentState() {
+        return stateManager.getCurrentState();
+    }
+
+    public AbstractState getLastSuccessfulState() {
+        return stateManager.getLastSuccesfulState();
     }
 
     public String getName() {

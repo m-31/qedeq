@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.common;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.state.AbstractState;
 import org.qedeq.kernel.se.state.DependencyState;
 import org.qedeq.kernel.se.state.FormallyProvedState;
 import org.qedeq.kernel.se.state.LoadingState;
@@ -59,6 +60,20 @@ public interface QedeqBo {
      * @return  Address of module.
      */
     public ModuleAddress getModuleAddress();
+
+    /**
+     * Get the last successful state of the module.
+     *
+     * @return  Last successful module state.
+     */
+    public AbstractState getLastSuccessfulState();
+
+    /**
+     * Get the current state of the module.
+     *
+     * @return  Last successful module state.
+     */
+    public AbstractState getCurrentState();
 
     /**
      * Get module loading state.

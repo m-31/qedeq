@@ -28,6 +28,7 @@ import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.dto.module.QedeqVo;
+import org.qedeq.kernel.se.state.AbstractState;
 import org.qedeq.kernel.se.state.DependencyState;
 import org.qedeq.kernel.se.state.FormallyProvedState;
 import org.qedeq.kernel.se.state.LoadingState;
@@ -92,7 +93,7 @@ public class StateManager {
         bo.getDependentModules().clear();
         bo.setLabels(null);
         setDependencyState(DependencyState.STATE_UNDEFINED);
-        setLogicalState(WellFormedState.STATE_UNCHECKED);
+        setWellFormedState(WellFormedState.STATE_UNCHECKED);
         setErrors(null);
         ModuleEventLog.getInstance().removeModule(bo);
     }
@@ -196,7 +197,7 @@ public class StateManager {
         bo.getDependentModules().clear();
         bo.setLabels(null);
         setDependencyState(DependencyState.STATE_UNDEFINED);
-        setLogicalState(WellFormedState.STATE_UNCHECKED);
+        setWellFormedState(WellFormedState.STATE_UNCHECKED);
         setErrors(null);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
@@ -230,7 +231,7 @@ public class StateManager {
         bo.setLabels(null);
         setLoadingState(state);
         setDependencyState(DependencyState.STATE_UNDEFINED);
-        setLogicalState(WellFormedState.STATE_UNCHECKED);
+        setWellFormedState(WellFormedState.STATE_UNCHECKED);
         setErrors(e);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
@@ -255,7 +256,7 @@ public class StateManager {
         bo.getDependentModules().clear();
         bo.setLabels(labels);
         setDependencyState(DependencyState.STATE_UNDEFINED);
-        setLogicalState(WellFormedState.STATE_UNCHECKED);
+        setWellFormedState(WellFormedState.STATE_UNCHECKED);
         setErrors(null);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
@@ -285,7 +286,7 @@ public class StateManager {
         if (state == DependencyState.STATE_LOADING_REQUIRED_MODULES) {
             invalidateOtherDependentModulesToLoaded();
         }
-        setLogicalState(WellFormedState.STATE_UNCHECKED);
+        setWellFormedState(WellFormedState.STATE_UNCHECKED);
         setDependencyState(state);
         bo.getKernelRequiredModules().clear();
         setErrors(null);
@@ -438,10 +439,40 @@ public class StateManager {
         }
     }
 
+    /**
+     * Reset all (recursive) dependent modules (if any) to state well formed.
+     */
+    private void invalidateOtherDependentModulesToWellFormed() {
+        if (wasCheckedForBeingFormallyProved()) {
+            final KernelModuleReferenceList dependent = bo.getDependentModules();
+            for (int i = 0; i < dependent.size(); i++) {
+                DefaultKernelQedeqBo ref = (DefaultKernelQedeqBo) dependent.getKernelQedeqBo(i);
+                ref.getStateManager().invalidateDependentModulesToWellFormed();
+            }
+        }
+    }
+
+    /**
+     * Reset this and all (recursive) dependent modules (if any) to state well formed.
+     */
+    private void invalidateDependentModulesToWellFormed() {
+        if (wasCheckedForBeingFormallyProved()) {
+            final KernelModuleReferenceList dependent = bo.getDependentModules();
+            for (int i = 0; i < dependent.size(); i++) {
+                DefaultKernelQedeqBo ref = (DefaultKernelQedeqBo) dependent.getKernelQedeqBo(i);
+                ref.getStateManager().invalidateDependentModulesToWellFormed();
+            }
+            invalidateThisModule();
+            setWellFormedState(WellFormedState.STATE_CHECKED);
+            ModuleEventLog.getInstance().stateChanged(bo);
+        }
+    }
+
     private void invalidateThisModule() {
         setLoadingState(LoadingState.STATE_LOADED);
         setDependencyState(DependencyState.STATE_UNDEFINED);
-        setLogicalState(WellFormedState.STATE_UNCHECKED);
+        setWellFormedState(WellFormedState.STATE_UNCHECKED);
+        setFormallyProvedState(FormallyProvedState.STATE_UNCHECKED);
         setErrors(null);
     }
 
@@ -481,7 +512,7 @@ public class StateManager {
         }
 
         setDependencyState(DependencyState.STATE_LOADED_REQUIRED_MODULES);
-        setLogicalState(WellFormedState.STATE_UNCHECKED);
+        setWellFormedState(WellFormedState.STATE_UNCHECKED);
         setErrors(null);
         bo.getKernelRequiredModules().set(required);
         ModuleEventLog.getInstance().stateChanged(bo);
@@ -500,17 +531,17 @@ public class StateManager {
                 + "\"\nCurrently the status for the module"
                 + "\"" + bo.getName() + "\" is \"" + bo.getLoadingState() + "\"");
         }
-        setLogicalState(WellFormedState.STATE_CHECKED);
+        setWellFormedState(WellFormedState.STATE_CHECKED);
         bo.setExistenceChecker(checker);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
 
    /**
-    * Set loading progress module state. Must not be <code>null</code>.
+    * Set checking for well formed progress module state. Must not be <code>null</code>.
     *
     * @param   state   module state
     */
-    public void setLogicalProgressState(final WellFormedState state) {
+    public void setWellFormedProgress(final WellFormedState state) {
         if (getDependencyState().getCode()
                 < DependencyState.STATE_LOADED_REQUIRED_MODULES.getCode()
                 && state != WellFormedState.STATE_UNCHECKED) {
@@ -519,14 +550,14 @@ public class StateManager {
         }
         if (state.isFailure()) {
             throw new IllegalArgumentException(
-                "this is a failure state, call setLogicalFailureState");
+                "this is a failure state, call setWellFormedFailureState");
         }
         if (state == WellFormedState.STATE_CHECKED) {
             throw new IllegalArgumentException(
                 "set with setChecked(ExistenceChecker)");
         }
         invalidateOtherDependentModulesToLoadedRequired();
-        setLogicalState(state);
+        setWellFormedState(state);
         setErrors(null);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
@@ -538,7 +569,7 @@ public class StateManager {
      * @param   e       Exception that occurred during loading.
      * @throws  IllegalArgumentException    <code>state</code> is no failure state
      */
-    public void setLogicalFailureState(final WellFormedState state,
+    public void setWellFormedFailureState(final WellFormedState state,
             final SourceFileExceptionList e) {
         if ((!isLoaded() || !hasLoadedRequiredModules())
                 && state != WellFormedState.STATE_UNCHECKED) {
@@ -547,10 +578,61 @@ public class StateManager {
         }
         if (!state.isFailure()) {
             throw new IllegalArgumentException(
-                "this is no failure state, call setLogicalProgressState");
+                "this is no failure state, call setWellFormedProgressState");
         }
         invalidateDependentModulesToLoadedRequired();
-        setLogicalState(state);
+        setWellFormedState(state);
+        setErrors(e);
+        ModuleEventLog.getInstance().stateChanged(bo);
+    }
+
+   /**
+    * Set checking for formally proved progress module state. Must not be <code>null</code>.
+    *
+    * @param   state   module state
+    */
+    public void setFormallyProvedProgressState(final FormallyProvedState state) {
+        if (getDependencyState().getCode()
+                < DependencyState.STATE_LOADED_REQUIRED_MODULES.getCode()
+                && state != FormallyProvedState.STATE_UNCHECKED) {
+            throw new IllegalArgumentException(
+                "this state could only be set if all required modules are loaded ");
+        }
+        if (state.isFailure()) {
+            throw new IllegalArgumentException(
+                "this is a failure state, call setFormallyProvedFailureState");
+        }
+//        if (state == FormallyProvedState.STATE_CHECKED) {
+//            // FIXME 20130220 m31: do we need something simular?
+//            throw new IllegalArgumentException(
+//                "set with setChecked(ExistenceChecker)");
+//        }
+        invalidateOtherDependentModulesToLoadedRequired();
+        setFormallyProvedState(state);
+        setErrors(null);
+        ModuleEventLog.getInstance().stateChanged(bo);
+    }
+
+    /**
+     * Set failure module state.
+     *
+     * @param   state   module state
+     * @param   e       Exception that occurred during loading.
+     * @throws  IllegalArgumentException    <code>state</code> is no failure state
+     */
+    public void setFormallyProvedFailureState(final FormallyProvedState state,
+            final SourceFileExceptionList e) {
+        if ((!isLoaded() || !hasLoadedRequiredModules())
+                && state != FormallyProvedState.STATE_UNCHECKED) {
+            throw new IllegalArgumentException(
+                "this state could only be set if all required modules are well formed ");
+        }
+        if (!state.isFailure()) {
+            throw new IllegalArgumentException(
+                "this is no failure state, call setFormallyProvedProgressState");
+        }
+        invalidateDependentModulesToWellFormed();
+        setFormallyProvedState(state);
         setErrors(e);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
@@ -625,14 +707,47 @@ public class StateManager {
                 result = dependencyState.getText();
             }
             result = wellFormedState.getText();
+        } else if (!wasCheckedForBeingFormallyProved()) {
+            if (formallyProvedState == FormallyProvedState.STATE_UNCHECKED) {
+                result = wellFormedState.getText();
+            }
+            result = formallyProvedState.getText();
         } else {
-            result =  wellFormedState.getText();
+            result =  formallyProvedState.getText();
         }
         final String pluginState = pluginResults.getPluginStateDescription();
         if (pluginState.length() > 0) {
             result += "; " + pluginState;
         }
         return result;
+    }
+
+    public AbstractState getCurrentState() {
+        if (!isLoaded()) {
+            return loadingState;
+        } else if (!hasLoadedRequiredModules()) {
+            return dependencyState;
+        } else if (!wasCheckedForBeingWellFormed()) {
+            return wellFormedState;
+        } else if (!wasCheckedForBeingFormallyProved()) {
+            return formallyProvedState;
+        }
+        // programming error
+        throw new RuntimeException("unknown state!");
+    }
+
+    public AbstractState getLastSuccesfulState() {
+        if (!isLoaded()) {
+            return LoadingState.STATE_UNDEFINED;
+        } else if (!hasLoadedRequiredModules()) {
+            return LoadingState.STATE_LOADED;
+        } else if (!wasCheckedForBeingWellFormed()) {
+            return DependencyState.STATE_LOADED_REQUIRED_MODULES;
+        } else if (!wasCheckedForBeingFormallyProved()) {
+            return WellFormedState.STATE_CHECKED;
+        }
+        // programming error
+        throw new RuntimeException("unknown state!");
     }
 
     /**
@@ -658,8 +773,17 @@ public class StateManager {
      *
      * @param   state   Set this logical state.
      */
-    protected void setLogicalState(final WellFormedState state) {
+    protected void setWellFormedState(final WellFormedState state) {
         this.wellFormedState = state;
+    }
+
+    /**
+     * Set {@link FormallyProvedState}. Doesn't do any status handling. Only for internal use.
+     *
+     * @param   state   Set this logical state.
+     */
+    protected void setFormallyProvedState(final FormallyProvedState state) {
+        this.formallyProvedState = state;
     }
 
     /**
