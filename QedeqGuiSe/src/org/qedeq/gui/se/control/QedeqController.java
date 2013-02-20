@@ -81,8 +81,11 @@ public class QedeqController {
     /** Terminate all service processes. */
     private final Action terminateAllAction;
 
-    /** Check logical correctness of QEDEQ module. */
-    private final Action checkLogicAction;
+    /** Check if QEDEQ modules are well formed. */
+    private final Action checkWellFormedAction;
+
+    /** Check if QEDEQ modules are fully and correctly formally proved. */
+    private final Action checkFormallyProvedAction;
 
     /** Remove all plugin results for QEDEQ module. */
     private final Action removePluginResultsAction;
@@ -132,7 +135,8 @@ public class QedeqController {
         removeAllAction = new RemoveAllAction();
         removeModuleAction = new RemoveModuleAction(this);
         removeLocalBufferAction = new RemoveLocalBufferAction();
-        checkLogicAction = new CheckLogicAction(this);
+        checkWellFormedAction = new CheckWellFormedAction(this);
+        checkFormallyProvedAction = new CheckFormallyProvedAction(this);
         removePluginResultsAction = new RemovePluginResultsAction(this);
         processViewAction = new ProcessViewAction();
         terminateAllAction = new TerminateAllAction();
@@ -292,12 +296,21 @@ public class QedeqController {
     }
 
     /**
-     * Get action for checking the logical correctness of the selected QEDEQ modules.
+     * Get action for checking if the selected QEDEQ modules are well formed.
      *
      * @return  Action.
      */
-    public Action getCheckLogicAction() {
-        return checkLogicAction;
+    public Action getCheckWellFormedAction() {
+        return checkWellFormedAction;
+    }
+
+    /**
+     * Get action for checking if the selected QEDEQ modules are fully and formally correctly proved.
+     *
+     * @return  Action.
+     */
+    public Action getCheckFormallyProvedAction() {
+        return checkFormallyProvedAction;
     }
 
     /**

@@ -25,12 +25,12 @@ import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.QedeqBo;
 
 /**
- * Check logical correctness of modules.
+ * Check if modules are fully and correctly formally proved.
  */
-class CheckLogicAction extends AbstractAction {
+class CheckFormallyProvedAction extends AbstractAction {
 
     /** This class. */
-    private static final Class CLASS = CheckLogicAction.class;
+    private static final Class CLASS = CheckFormallyProvedAction.class;
 
     /** Controller reference. */
     private final QedeqController controller;
@@ -40,7 +40,7 @@ class CheckLogicAction extends AbstractAction {
      *
      * @param   controller  Reference to controller.
      */
-    CheckLogicAction(final QedeqController controller) {
+    CheckFormallyProvedAction(final QedeqController controller) {
         this.controller = controller;
     }
 
@@ -61,7 +61,7 @@ class CheckLogicAction extends AbstractAction {
             final Thread thread = new Thread() {
                 public void run() {
                     for (int i = 0; i < props.length; i++) {
-                        KernelContext.getInstance().checkWellFormedness(props[i].getModuleAddress());
+                        KernelContext.getInstance().checkFormallyProved(props[i].getModuleAddress());
                     }
                 }
             };

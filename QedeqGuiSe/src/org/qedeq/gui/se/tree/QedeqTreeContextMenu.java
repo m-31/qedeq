@@ -50,7 +50,7 @@ public final class QedeqTreeContextMenu extends JPopupMenu {
         item = MenuHelper.createMenuItem("Check Well-Formedness", 'W');
         item.setToolTipText(
             "Check if all formulas are well formed within selected QEDEQ modules. This includes dependency checking.");
-        item.addActionListener(controller.getCheckLogicAction());
+        item.addActionListener(controller.getCheckWellFormedAction());
         item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/run.png"));
         this.add(item);
 
