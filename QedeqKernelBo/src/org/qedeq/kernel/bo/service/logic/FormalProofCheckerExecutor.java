@@ -58,6 +58,8 @@ import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.dto.list.DefaultAtom;
 import org.qedeq.kernel.se.dto.list.DefaultElementList;
+import org.qedeq.kernel.se.state.FormallyProvedState;
+import org.qedeq.kernel.se.state.WellFormedState;
 
 
 /**
@@ -133,7 +135,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
                 "Module is not even well formed.");
             return Boolean.FALSE;
         }
-//        getQedeqBo().setLogicalProgressState(LogicalModuleState.STATE_EXTERNAL_CHECKING);
+        getQedeqBo().setFormallyProvedProgressState(FormallyProvedState.STATE_EXTERNAL_CHECKING);
         KernelModuleReferenceList list = (KernelModuleReferenceList) getQedeqBo().getRequiredModules();
         for (int i = 0; i < list.size(); i++) {
             Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label", list.getLabel(i));
@@ -150,14 +152,19 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         }
         // has at least one import errors?
         if (getQedeqBo().hasErrors()) {
+            getQedeqBo().setFormallyProvedFailureState(FormallyProvedState.STATE_EXTERNAL_CHECKING_FAILED,
+                getErrorList());
             final String msg = "Check of logical correctness failed";
             QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
                  StringUtility.replace(getQedeqBo().getErrors().getMessage(), "\n", "\n\t"));
             return Boolean.FALSE;
         }
+        getQedeqBo().setFormallyProvedProgressState(FormallyProvedState.STATE_INTERNAL_CHECKING);
         try {
             traverse();
         } catch (SourceFileExceptionList e) {
+            getQedeqBo().setFormallyProvedFailureState(FormallyProvedState.STATE_INTERNAL_CHECKING_FAILED,
+                getErrorList());
             final String msg = "Check of logical correctness failed";
             QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
                  StringUtility.replace(e.getMessage(), "\n", "\n\t"));
@@ -165,6 +172,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         } finally {
             getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
         }
+        getQedeqBo().setFormallyProvedProgressState(FormallyProvedState.STATE_CHECKED);
         QedeqLog.getInstance().logSuccessfulReply(
             "Check of logical correctness successful", getQedeqBo().getUrl());
         return Boolean.TRUE;

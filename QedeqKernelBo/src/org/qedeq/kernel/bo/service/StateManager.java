@@ -94,6 +94,7 @@ public class StateManager {
         bo.setLabels(null);
         setDependencyState(DependencyState.STATE_UNDEFINED);
         setWellFormedState(WellFormedState.STATE_UNCHECKED);
+        setFormallyProvedState(FormallyProvedState.STATE_UNCHECKED);
         setErrors(null);
         ModuleEventLog.getInstance().removeModule(bo);
     }
@@ -106,7 +107,7 @@ public class StateManager {
      */
     public boolean hasBasicFailures() {
         return loadingState.isFailure() || dependencyState.isFailure()
-            || wellFormedState.isFailure();
+            || wellFormedState.isFailure() || formallyProvedState.isFailure();
     }
 
     /**
@@ -232,6 +233,7 @@ public class StateManager {
         setLoadingState(state);
         setDependencyState(DependencyState.STATE_UNDEFINED);
         setWellFormedState(WellFormedState.STATE_UNCHECKED);
+        setFormallyProvedState(FormallyProvedState.STATE_UNCHECKED);
         setErrors(e);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
@@ -257,6 +259,7 @@ public class StateManager {
         bo.setLabels(labels);
         setDependencyState(DependencyState.STATE_UNDEFINED);
         setWellFormedState(WellFormedState.STATE_UNCHECKED);
+        setFormallyProvedState(FormallyProvedState.STATE_UNCHECKED);
         setErrors(null);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
@@ -287,6 +290,7 @@ public class StateManager {
             invalidateOtherDependentModulesToLoaded();
         }
         setWellFormedState(WellFormedState.STATE_UNCHECKED);
+        setFormallyProvedState(FormallyProvedState.STATE_UNCHECKED);
         setDependencyState(state);
         bo.getKernelRequiredModules().clear();
         setErrors(null);
@@ -556,7 +560,7 @@ public class StateManager {
             throw new IllegalArgumentException(
                 "set with setChecked(ExistenceChecker)");
         }
-        invalidateOtherDependentModulesToLoadedRequired();
+        invalidateOtherDependentModulesToWellFormed();
         setWellFormedState(state);
         setErrors(null);
         ModuleEventLog.getInstance().stateChanged(bo);
@@ -607,7 +611,7 @@ public class StateManager {
 //            throw new IllegalArgumentException(
 //                "set with setChecked(ExistenceChecker)");
 //        }
-        invalidateOtherDependentModulesToLoadedRequired();
+        invalidateOtherDependentModulesToWellFormed();
         setFormallyProvedState(state);
         setErrors(null);
         ModuleEventLog.getInstance().stateChanged(bo);
@@ -700,18 +704,21 @@ public class StateManager {
         } else if (!hasLoadedRequiredModules()) {
             if (dependencyState == DependencyState.STATE_UNDEFINED) {
                 result = loadingState.getText();
+            } else {
+                result = dependencyState.getText();
             }
-            result = dependencyState.getText();
         } else if (!wasCheckedForBeingWellFormed()) {
             if (wellFormedState == WellFormedState.STATE_UNCHECKED) {
                 result = dependencyState.getText();
+            } else {
+                result = wellFormedState.getText();
             }
-            result = wellFormedState.getText();
         } else if (!wasCheckedForBeingFormallyProved()) {
             if (formallyProvedState == FormallyProvedState.STATE_UNCHECKED) {
                 result = wellFormedState.getText();
+            } else {
+                result = formallyProvedState.getText();
             }
-            result = formallyProvedState.getText();
         } else {
             result =  formallyProvedState.getText();
         }
@@ -726,14 +733,26 @@ public class StateManager {
         if (!isLoaded()) {
             return loadingState;
         } else if (!hasLoadedRequiredModules()) {
-            return dependencyState;
+            if (dependencyState == DependencyState.STATE_UNDEFINED) {
+                return loadingState;
+            } else {
+                return dependencyState;
+            }
         } else if (!wasCheckedForBeingWellFormed()) {
-            return wellFormedState;
+            if (wellFormedState == WellFormedState.STATE_UNCHECKED) {
+                return dependencyState;
+            } else {
+                return wellFormedState;
+            }
         } else if (!wasCheckedForBeingFormallyProved()) {
+            if (formallyProvedState == FormallyProvedState.STATE_UNCHECKED) {
+                return wellFormedState;
+            } else {
+                return formallyProvedState;
+            }
+        } else {
             return formallyProvedState;
         }
-        // programming error
-        throw new RuntimeException("unknown state!");
     }
 
     public AbstractState getLastSuccesfulState() {
@@ -745,9 +764,9 @@ public class StateManager {
             return DependencyState.STATE_LOADED_REQUIRED_MODULES;
         } else if (!wasCheckedForBeingFormallyProved()) {
             return WellFormedState.STATE_CHECKED;
+        } else {
+            return FormallyProvedState.STATE_CHECKED;
         }
-        // programming error
-        throw new RuntimeException("unknown state!");
     }
 
     /**
