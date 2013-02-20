@@ -38,8 +38,6 @@ import javax.swing.ImageIcon;
 
 import org.qedeq.base.io.IoUtility;
 
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
-
 import furbelow.AnimatedIcon;
 
 public class AnimatedGifCreator {
@@ -62,7 +60,7 @@ public class AnimatedGifCreator {
     public AnimatedGifCreator(final ImageOutputStream outputStream, final String firstIconName,
                     final String secondIconName,
                     final int delay, final boolean repeat) throws IOException {
-        writer = ImageIO.getImageWritersByFormatName("gif").next();
+        writer = (ImageWriter) ImageIO.getImageWritersByFormatName("gif").next();
         writeParam = writer.getDefaultWriteParam();
         this.firstIconName = firstIconName;
         this.secondIconName = secondIconName;
