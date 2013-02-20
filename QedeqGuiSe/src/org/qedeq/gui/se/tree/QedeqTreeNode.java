@@ -20,12 +20,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.bo.common.QedeqBo;
 
-
-
 /**
  * Node for a JTreee.
  *
- * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 public final class QedeqTreeNode extends DefaultMutableTreeNode {
@@ -40,7 +37,6 @@ public final class QedeqTreeNode extends DefaultMutableTreeNode {
 
 
     public final void setUserObject(final Object userObject) {
-
         if (userObject instanceof QedeqBo) {
             this.userObject = userObject;
         } else {
