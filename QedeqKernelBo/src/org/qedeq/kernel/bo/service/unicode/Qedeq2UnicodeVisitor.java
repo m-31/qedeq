@@ -1013,7 +1013,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         }
         printer.println();
         if ("de".equals(language)) {
-            printer.println("Die folgenden Regeln müssen erweitert werden.");
+            printer.println("Die folgenden Regeln m\u00FCssen erweitert werden.");
         } else {
             if (!"en".equals(language)) {
                 printer.println("%%% TODO unknown language: " + language);
