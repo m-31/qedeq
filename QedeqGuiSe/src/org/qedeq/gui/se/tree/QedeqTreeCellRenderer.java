@@ -162,7 +162,7 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
             e.printStackTrace();
         }
 */
-        super.getTreeCellRendererComponent(tree, value, selected, expanded,
+        super.getTreeCellRendererComponent(tree, value, isSelected, expanded,
             leaf, row, hasFocus);
         if (value instanceof DefaultMutableTreeNode) {
             if (((DefaultMutableTreeNode) value).getUserObject()
