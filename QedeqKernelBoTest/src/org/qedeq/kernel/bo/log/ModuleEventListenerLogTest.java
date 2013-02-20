@@ -27,6 +27,7 @@ import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.state.AbstractState;
 import org.qedeq.kernel.se.state.DependencyState;
 import org.qedeq.kernel.se.state.FormallyProvedState;
 import org.qedeq.kernel.se.state.LoadingState;
@@ -51,101 +52,109 @@ public class ModuleEventListenerLogTest extends QedeqBoTestCase {
         QedeqLog.getInstance().addLog(listenerBasis);
         listener = new ModuleEventListenerLog();
         qedeq = new QedeqBo() {
-            
+
             public boolean isSupportedLanguage(String language) {
                 return false;
             }
-            
+
             public boolean isLoaded() {
                 return false;
             }
-            
+
             public boolean wasCheckedForBeingWellFormed() {
                 return false;
             }
-            
+
             public boolean wasCheckedForBeingFormallyProved() {
                 return false;
             }
-            
+
             public boolean hasWarnings() {
                 return false;
             }
-            
+
             public boolean hasLoadedRequiredModules() {
                 return false;
             }
-            
+
             public boolean hasErrors() {
                 return false;
             }
-            
+
             public boolean hasBasicFailures() {
                 return false;
             }
-            
+
             public SourceFileExceptionList getWarnings() {
                 return new SourceFileExceptionList();
             }
-            
+
             public String getUrl() {
                 return "dummy";
             }
-            
+
             public String[] getSupportedLanguages() {
                 return ArrayUtils.EMPTY_STRING_ARRAY;
             }
-            
+
             public String getStateDescription() {
                 return LoadingState.STATE_LOADING_INTO_MEMORY.getText();
             }
-            
+
             public String getRuleVersion() {
                 return "1.00.00";
             }
-            
+
             public ModuleReferenceList getRequiredModules() {
                 return new KernelModuleReferenceList();
             }
-            
+
             public Qedeq getQedeq() {
                 return null;
             }
-            
+
             public String getOriginalLanguage() {
                 return "en";
             }
-            
+
             public String getName() {
                 return "dummy";
             }
-            
+
             public ModuleAddress getModuleAddress() {
                 return new DefaultModuleAddress();
             }
-            
+
             public WellFormedState getWellFormedState() {
                 return WellFormedState.STATE_UNCHECKED;
             }
-            
+
             public LoadingState getLoadingState() {
                 return LoadingState.STATE_LOADING_INTO_MEMORY;
             }
-            
+
             public int getLoadingCompleteness() {
                 return 0;
             }
-            
+
             public SourceFileExceptionList getErrors() {
                 return new SourceFileExceptionList();
             }
-            
+
             public DependencyState getDependencyState() {
                 return DependencyState.STATE_UNDEFINED;
             }
 
             public FormallyProvedState getFormallyProvedState() {
                 return FormallyProvedState.STATE_UNCHECKED;
+            }
+
+            public AbstractState getCurrentState() {
+                return LoadingState.STATE_LOADING_INTO_MEMORY;
+            }
+
+            public AbstractState getLastSuccessfulState() {
+                return LoadingState.STATE_UNDEFINED;
             }
         };
     }

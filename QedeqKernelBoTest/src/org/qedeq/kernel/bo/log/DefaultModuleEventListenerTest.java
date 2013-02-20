@@ -27,6 +27,7 @@ import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.state.AbstractState;
 import org.qedeq.kernel.se.state.DependencyState;
 import org.qedeq.kernel.se.state.FormallyProvedState;
 import org.qedeq.kernel.se.state.LoadingState;
@@ -143,6 +144,14 @@ public class DefaultModuleEventListenerTest extends QedeqBoTestCase {
 
             public FormallyProvedState getFormallyProvedState() {
                 return FormallyProvedState.STATE_UNCHECKED;
+            }
+
+            public AbstractState getCurrentState() {
+                return LoadingState.STATE_LOADING_INTO_MEMORY;
+            }
+
+            public AbstractState getLastSuccessfulState() {
+                return LoadingState.STATE_UNDEFINED;
             }
         };
     }
