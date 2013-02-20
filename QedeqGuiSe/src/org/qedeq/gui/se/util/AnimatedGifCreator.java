@@ -1,14 +1,19 @@
-package org.qedeq.gui.se.util;
+/* This file is part of the project "Hilbert II" - http://www.qedeq.org
+ *
+ * Copyright 2000-2013,  Michael Meyling <mime@qedeq.org>.
+ *
+ * "Hilbert II" is free software; you can redistribute
+ * it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ */
 
-// 
-//  GifSequenceWriter.java
-//  
-//  Created by Elliot Kroo on 2009-04-25.
-//
-// This work is licensed under the Creative Commons Attribution 3.0 Unported
-// License. To view a copy of this license, visit
-// http://creativecommons.org/licenses/by/3.0/ or send a letter to Creative
-// Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+package org.qedeq.gui.se.util;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -40,22 +45,40 @@ import org.qedeq.base.io.IoUtility;
 
 import furbelow.AnimatedIcon;
 
+/**
+ * Create animated gif out of two gif files.
+ * @author  Michael Meyling
+ */
 public class AnimatedGifCreator {
 
+    /** Name of first icon (must be in qedeq 16x16 resources). */
     private String firstIconName;
+
+    /** Name of second icon (must be in qedeq 16x16 resources). */
     private String secondIconName;
+
     private BufferedImage firstIcon;
+
     private BufferedImage secondIcon;
-    protected ImageWriter writer;
-    protected ImageWriteParam writeParam;
-    protected IIOMetadata imageMetaData;
+
+    /** Our image writer. */
+    private ImageWriter writer;
+
+    /** Write data. */
+    private ImageWriteParam writeParam;
+
+    /** Write data. */
+    private IIOMetadata imageMetaData;
 
     /**
      * Creates a new AnimatedGifCreator.
      *
      * @param   outputStream    Write resulting data herein.
-     * @param   delay   Time between frames in milliseconds.
-     * @param   repeat  Should the animation repeat from the beginning?
+     * @param   firstIconName   Name of first icon (must be in qedeq 16x16 resources).
+     * @param   secondIconName  Name of first icon (must be in qedeq 16x16 resources).
+     * @param   delay           Time between frames in milliseconds.
+     * @param   repeat          Should the animation repeat from the beginning?
+     * @throws  IOException     Creation failed.
      */
     public AnimatedGifCreator(final ImageOutputStream outputStream, final String firstIconName,
                     final String secondIconName,
@@ -165,6 +188,12 @@ public class AnimatedGifCreator {
 
     }
 
+    /**
+     * Create another frame and write it to image stream.
+     *
+     * @param   alpha   Overlay second icon with this alpha.
+     * @throws  IOException Writing failed.
+     */
     private void writeFrame(final float alpha) throws IOException {
         BufferedImage nextImage = getEmptyImage();
 
@@ -205,11 +234,18 @@ public class AnimatedGifCreator {
         IoUtility.close(output);
         return new AnimatedIcon(icon);
     }
+
+    /**
+     * Test usage.
+     *
+     * @param   args    Must not be used.
+     * @throws  Exception   Something went wrong.
+     */
     public static void main(final String[] args) throws Exception {
         // create a new BufferedOutputStream with the last argument
         ImageOutputStream output = new FileImageOutputStream(new File("output.gif"));
-        AnimatedGifCreator writer = new AnimatedGifCreator(output, "module_checked2.gif",
-             "module_checked.gif", 10, true);
+        AnimatedGifCreator writer = new AnimatedGifCreator(output, "module_checked.gif",
+             "module_checked2.gif", 10, true);
         writer.writeSequence();
         output.close();
     }
