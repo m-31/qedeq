@@ -187,23 +187,39 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
                 if (currentState == LoadingState.STATE_DELETED) {
                     setIcon(null);
                 } else if (currentState == LoadingState.STATE_UNDEFINED) {
-                    setIcon(startIcon);
+                    setIcon(prop, startIcon);
                 } else if (currentState == LoadingState.STATE_LOADED) {
-                    setIcon(loadedIcon);
+                    setIcon(prop, loadedIcon);
                 } else if (currentState instanceof LoadingState) {
-                    setIcon(startNextIcon);
+                    if (currentState.isFailure()) {
+                        setIcon(prop, startIcon);
+                    } else {
+                        setIcon(startNextIcon);
+                    }
                 } else if (currentState == DependencyState.STATE_LOADED_REQUIRED_MODULES) {
-                    setIcon(loadedRequiredIcon);
+                    setIcon(prop, loadedRequiredIcon);
                 } else if (currentState instanceof DependencyState) {
-                    setIcon(loadedNextIcon);
+                    if (currentState.isFailure()) {
+                        setIcon(prop, loadedIcon);
+                    } else {
+                        setIcon(loadedNextIcon);
+                    }
                 } else if (currentState == WellFormedState.STATE_CHECKED) {
-                    setIcon(wellFormedIcon);
+                    setIcon(prop, wellFormedIcon);
                 } else if (currentState instanceof WellFormedState) {
-                    setIcon(loadedRequiredNextIcon);
+                    if (currentState.isFailure()) {
+                        setIcon(prop, loadedRequiredIcon);
+                    } else {
+                        setIcon(loadedRequiredNextIcon);
+                    }
                 } else if (currentState == FormallyProvedState.STATE_CHECKED) {
-                    setIcon(formallyProvedIcon);
+                    setIcon(prop, formallyProvedIcon);
                 } else if (currentState instanceof FormallyProvedState) {
-                    setIcon(wellFormedNextIcon);
+                    if (currentState.isFailure()) {
+                        setIcon(prop, wellFormedIcon);
+                    } else {
+                        setIcon(wellFormedNextIcon);
+                    }
                 } else {    // unknown loading state
                     throw new IllegalStateException("unknown module state: "
                         + currentState.getText());
@@ -258,41 +274,20 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
        super.paint(g);
     }
 
-    private void setPositiveIconIfPossible(final QedeqBo qedeq, final ImageIcon icon) {
+    private void setIcon(final QedeqBo qedeq, final ImageIcon icon) {
+        final DecoratedIcon ic = new DecoratedIcon(icon);
         if (qedeq.hasBasicFailures()) {
-            final DecoratedIcon ic = new DecoratedIcon(icon);
             ic.decorate(basicErrorOverlayIcon);
-            setIcon(ic);
-        } else if (qedeq.hasErrors()) {
-            final DecoratedIcon ic = new DecoratedIcon(icon);
-            ic.decorate(pluginErrorOverlayIcon);
-            setIcon(ic);
-        } else if (qedeq.hasWarnings()) {
-            final DecoratedIcon ic = new DecoratedIcon(icon);
-            ic.decorate(pluginWarningOverlayIcon);
-            setIcon(ic);
-        } else {
-            setIcon(icon);
         }
+// FIXME 20130220 m31: we have to separate basic failures from plugin errors, here a method is missing
+//        if (qedeq.hasErrors()) {
+//            ic.decorate(pluginErrorOverlayIcon);
+//        }
+        if (qedeq.hasWarnings()) {
+            ic.decorate(pluginWarningOverlayIcon);
+        }
+        setIcon(ic);
     }
 
-    private void setPositiveIconIfPossible(final QedeqBo qedeq, final AnimatedIcon icon) {
-        setIcon(icon);
-//        if (qedeq.hasBasicFailures()) {
-//            final DecoratedIcon ic = new DecoratedIcon(icon);
-//            ic.decorate(basicErrorOverlayIcon);
-//            setIcon(ic);
-//        } else if (qedeq.hasErrors()) {
-//            final DecoratedIcon ic = new DecoratedIcon(icon);
-//            ic.decorate(pluginErrorOverlayIcon);
-//            setIcon(ic);
-//        } else if (qedeq.hasWarnings()) {
-//            final DecoratedIcon ic = new DecoratedIcon(icon);
-//            ic.decorate(pluginWarningOverlayIcon);
-//            setIcon(ic);
-//        } else {
-//            setIcon(icon);
-//        }
-    }
 
 }
