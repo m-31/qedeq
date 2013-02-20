@@ -33,7 +33,7 @@
 <!--  PRODUCTIVE -->
 
     <Match>
-        <Class classregex="furbelow\..+ "/>
+        <Package name="furbelow" />
     </Match>
 
     <Match>
