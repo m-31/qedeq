@@ -33,6 +33,10 @@
 <!--  PRODUCTIVE -->
 
     <Match>
+        <Class classregex="furbelow\..+ "/>
+    </Match>
+
+    <Match>
       <Class name="org.qedeq.kernel.bo.service.unicode.ProofLineData"/>
       <Or> 
         <Bug pattern="EI_EXPOSE_REP" />
