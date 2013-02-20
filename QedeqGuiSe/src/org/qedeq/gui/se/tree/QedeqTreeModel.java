@@ -37,7 +37,6 @@ import org.qedeq.kernel.bo.log.ModuleEventListener;
  * software application and the high-level class associated with it. The
  * object model does not contain any information about the user interface.
  *
- * @version $Revision: 1.7 $
  * @author  Michael Meyling
  */
 public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEventListener {
