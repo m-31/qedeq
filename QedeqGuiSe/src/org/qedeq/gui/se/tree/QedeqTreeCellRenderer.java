@@ -28,6 +28,7 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.util.AnimatedGifCreator;
 import org.qedeq.gui.se.util.DecoratedIcon;
 import org.qedeq.kernel.bo.common.QedeqBo;
+import org.qedeq.kernel.se.state.AbstractState;
 import org.qedeq.kernel.se.state.DependencyState;
 import org.qedeq.kernel.se.state.LoadingState;
 import org.qedeq.kernel.se.state.WellFormedState;
@@ -216,18 +217,19 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
                     value).getUserObject();
                 String text = prop.getName();
                 setText(text);
+                final AbstractState currentState = prop.getCurrentState();
+                final AbstractState succesfullState = prop.getLastSuccessfulState();
                 final LoadingState loadingState = prop.getLoadingState();
                 final DependencyState dependencyState = prop.getDependencyState();
                 final WellFormedState logicalState = prop.getWellFormedState();
-
-                if (loadingState == LoadingState.STATE_LOADED) {
+                if (prop.isLoaded()) {
                     setToolTipText(prop.getUrl().toString());
                 } else {
                     setToolTipText(prop.getStateDescription());
                 }
 
                 setIcon(null);
-                if (loadingState == LoadingState.STATE_DELETED) {
+                if (currentState == LoadingState.STATE_DELETED) {
                     // do nothing;
                 } else if (loadingState == LoadingState.STATE_LOADING_FROM_WEB) {
                     setIcon(webLoadingIcon);
