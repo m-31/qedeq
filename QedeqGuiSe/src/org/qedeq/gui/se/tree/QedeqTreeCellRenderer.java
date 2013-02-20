@@ -30,6 +30,7 @@ import org.qedeq.gui.se.util.DecoratedIcon;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.se.state.AbstractState;
 import org.qedeq.kernel.se.state.DependencyState;
+import org.qedeq.kernel.se.state.FormallyProvedState;
 import org.qedeq.kernel.se.state.LoadingState;
 import org.qedeq.kernel.se.state.WellFormedState;
 
@@ -46,95 +47,43 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
     private static final Class CLASS = QedeqTreeCellRenderer.class;
 
     /** Status icon. */
-//    private static ImageIcon webLoadingIcon = new ImageIcon(
-//        QedeqTreeCellRenderer.class.getResource(
-//            "/images/qedeq/16x16/module_web_loading.gif"));
-    private static AnimatedIcon webLoadingIcon = AnimatedGifCreator.createAnimatedIcon(
-        "module_start.gif", "module_loaded.gif");
+    private static ImageIcon startIcon = createImageIcon("module_start.gif");
 
     /** Status icon. */
-    private static ImageIcon webLoadingErrorIcon = new ImageIcon(
-        QedeqTreeCellRenderer.class.getResource(
-            "/images/qedeq/16x16/module_web_loading_error.gif"));
+    private static ImageIcon loadedIcon = createImageIcon("module_loaded.gif");
 
     /** Status icon. */
-    private static ImageIcon fileLoadingIcon = new ImageIcon(
-        QedeqTreeCellRenderer.class.getResource(
-            "/images/qedeq/16x16/module_file_loading.gif"));
+    private static ImageIcon loadedRequiredIcon = createImageIcon("module_loaded_required.gif");
 
     /** Status icon. */
-//    private static ImageIcon fileLoadingErrorIcon = new ImageIcon(
-//        QedeqTreeCellRenderer.class.getResource(
-//            "/images/qedeq/16x16/module_file_loading_error.gif"));
-    private static AnimatedIcon fileLoadingErrorIcon = new AnimatedIcon(
-        new ImageIcon(QedeqTreeCellRenderer.class.getResource(
-            "/images/qedeq/16x16/module_memory_loading.gif")));
+    private static ImageIcon wellFormedIcon = createImageIcon("module_checked.gif");
 
     /** Status icon. */
-    private static Icon memoryLoadingIcon = new AnimatedIcon(
-        new ImageIcon(QedeqTreeCellRenderer.class.getResource(
-            "/images/qedeq/16x16/module_memory_loading.gif")));
+    private static ImageIcon formallyProvedIcon = createImageIcon("module_checked2.gif");
 
     /** Status icon. */
-//    private static ImageIcon memoryLoadingIcon = new ImageIcon(
-//        QedeqTreeCellRenderer.class.getResource(
-//            "/images/qedeq/16x16/module_memory_loading.gif"));
+//    private static AnimatedIcon startNextIcon
+//        = createAnimatedIcon("module_start.gif", "module_loaded.gif");
+    private static AnimatedIcon startNextIcon
+        = new AnimatedIcon(createImageIcon("next_module_start.gif"));
 
     /** Status icon. */
-    private static ImageIcon memoryLoadingErrorIcon = new ImageIcon(
-        QedeqTreeCellRenderer.class.getResource(
-            "/images/qedeq/16x16/module_memory_loading_error.gif"));
+//    private static AnimatedIcon loadedNextIcon
+//        = createAnimatedIcon("module_loaded.gif", "module_loaded_required.gif");
+    private static AnimatedIcon loadedNextIcon
+        = new AnimatedIcon(createImageIcon("next_module_loaded.gif"));
 
     /** Status icon. */
-    private static ImageIcon loadedIcon = new ImageIcon(
-        QedeqTreeCellRenderer.class.getResource(
-            "/images/qedeq/16x16/module_loaded.gif"));
+//    private static AnimatedIcon loadedRquiredNextIcon
+//        = createAnimatedIcon("module_loaded_required.gif", "module_checked.gif");
+    private static AnimatedIcon loadedRequiredNextIcon
+        = new AnimatedIcon(createImageIcon("next_module_loaded_required.gif"));
 
     /** Status icon. */
-    private static AnimatedIcon loadingRequiredIcon = AnimatedGifCreator.createAnimatedIcon(
-        "module_loaded.gif", "module_loaded_required.gif");
-
-    /** Status icon. */
-    private static ImageIcon loadingRequiredErrorIcon = new ImageIcon(
-        QedeqTreeCellRenderer.class.getResource(
-            "/images/qedeq/16x16/module_loading_required_error.gif"));
-
-    /** Status icon. */
-    private static ImageIcon loadedRequiredIcon = new ImageIcon(
-        QedeqTreeCellRenderer.class.getResource(
-            "/images/qedeq/16x16/module_loaded_required.gif"));
-
-    /** Status icon. */
-    private static AnimatedIcon checkingRequiredIcon = AnimatedGifCreator.createAnimatedIcon(
-        "module_loaded.gif", "module_checked.gif");
-
-    /** Status icon. */
-    private static ImageIcon checkingRequiredErrorIcon = new ImageIcon(
-        QedeqTreeCellRenderer.class.getResource(
-            "/images/qedeq/16x16/module_checking_required_error.gif"));
-
-    /** Status icon. */
-    private static AnimatedIcon checkingIcon = checkingRequiredIcon;
-
-    /** Status icon. */
-    private static ImageIcon checkingErrorIcon = new ImageIcon(
-        QedeqTreeCellRenderer.class.getResource(
-            "/images/qedeq/16x16/module_checking_error.gif"));
-
-    /** Status icon. */
-    private static ImageIcon checkedIcon = new ImageIcon(
-        QedeqTreeCellRenderer.class.getResource(
-            "/images/qedeq/16x16/module_checked.gif"));
-
-    /** Status icon. */
-    private static ImageIcon warningsIcon = new ImageIcon(
-        QedeqTreeCellRenderer.class.getResource(
-            "/images/qedeq/16x16/module_warnings.gif"));
-
-    /** Status icon. */
-    private static ImageIcon errorsIcon = new ImageIcon(
-        QedeqTreeCellRenderer.class.getResource(
-            "/images/qedeq/16x16/module_errors.gif"));
+//    private static AnimatedIcon wellFormedNextIcon
+//        = createAnimatedIcon("module_checked.gif", "module_checked2.gif");
+    private static AnimatedIcon wellFormedNextIcon
+        = new AnimatedIcon(createImageIcon("next_module_checked.gif"));
 
     /** Status icon. */
     private static ImageIcon basicErrorOverlayIcon = new ImageIcon(
@@ -151,6 +100,15 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
         QedeqTreeCellRenderer.class.getResource(
             "/images/eclipse/warning_co_ur.gif"));
 
+    static ImageIcon createImageIcon(final String name) {
+        return new ImageIcon(QedeqTreeCellRenderer.class.getResource("/images/qedeq/16x16/" + name));
+
+    }
+
+    static AnimatedIcon createAnimatedIcon(final String current, final String next) {
+        return AnimatedGifCreator.createAnimatedIcon(current, next);
+
+    }
 
 
 // LATER mime 20080502: do we want to leave it for our alternative "paint" or do we delete it?
@@ -204,88 +162,53 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
             e.printStackTrace();
         }
 */
-        super.getTreeCellRendererComponent(
-            tree, value, isSelected, expanded, leaf, row, hasFocus);
+        super.getTreeCellRendererComponent(tree, value, selected, expanded,
+            leaf, row, hasFocus);
         if (value instanceof DefaultMutableTreeNode) {
             if (((DefaultMutableTreeNode) value).getUserObject()
                     instanceof ModuleElement) {
-                unit = (ModuleElement) ((DefaultMutableTreeNode)
-                    value).getUserObject();
+                unit = (ModuleElement) ((DefaultMutableTreeNode) value).getUserObject();
                 setText(unit.getName());
             } else {
-                prop = (QedeqBo) ((DefaultMutableTreeNode)
-                    value).getUserObject();
-                String text = prop.getName();
+                prop = (QedeqBo) ((DefaultMutableTreeNode) value).getUserObject();
+                final String text = prop.getName();
                 setText(text);
                 final AbstractState currentState = prop.getCurrentState();
-                final AbstractState succesfullState = prop.getLastSuccessfulState();
-                final LoadingState loadingState = prop.getLoadingState();
-                final DependencyState dependencyState = prop.getDependencyState();
-                final WellFormedState logicalState = prop.getWellFormedState();
                 if (prop.isLoaded()) {
                     setToolTipText(prop.getUrl().toString());
                 } else {
                     setToolTipText(prop.getStateDescription());
                 }
-
-                setIcon(null);
+//                setIcon(null);
+//                System.out.println(prop.getStateDescription());
+//                System.out.println("current state=" + currentState + " " + currentState.getClass());
+//                System.out.println("lasz suc.stat=" + succesfullState + " " + succesfullState.getClass());
+//                System.out.println();
                 if (currentState == LoadingState.STATE_DELETED) {
-                    // do nothing;
-                } else if (loadingState == LoadingState.STATE_LOADING_FROM_WEB) {
-                    setIcon(webLoadingIcon);
-                } else if (loadingState == LoadingState.STATE_LOADING_FROM_WEB_FAILED) {
-                    setIcon(webLoadingErrorIcon);
-                } else if (loadingState == LoadingState.STATE_LOADING_FROM_LOCAL_FILE) {
-                    setIcon(fileLoadingIcon);
-                } else if (loadingState == LoadingState.STATE_LOADING_FROM_LOCAL_FILE_FAILED) {
-                    setIcon(fileLoadingErrorIcon);
-                } else if (loadingState == LoadingState.STATE_LOADING_FROM_BUFFER) {
-                    setIcon(fileLoadingIcon);
-                } else if (loadingState == LoadingState.STATE_LOADING_FROM_BUFFER_FAILED) {
-                    setIcon(fileLoadingErrorIcon);
-                } else if (loadingState == LoadingState.STATE_LOADING_INTO_MEMORY) {
-                    setIcon(memoryLoadingIcon);
-                } else if (loadingState == LoadingState.STATE_LOADING_INTO_MEMORY_FAILED) {
-                    setIcon(memoryLoadingErrorIcon);
-                } else if (loadingState == LoadingState.STATE_LOADED) {
-                    setPositiveIconIfPossible(prop, loadedIcon);
-                    if (dependencyState != DependencyState.STATE_UNDEFINED) {
-                        if (dependencyState
-                                == DependencyState.STATE_LOADING_REQUIRED_MODULES) {
-                            setIcon(loadingRequiredIcon);
-                        } else if (dependencyState
-                                == DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED) {
-                            setIcon(loadingRequiredErrorIcon);
-                        } else if (dependencyState
-                                == DependencyState.STATE_LOADED_REQUIRED_MODULES) {
-                            setPositiveIconIfPossible(prop, loadedRequiredIcon);
-                            if (logicalState != WellFormedState.STATE_UNCHECKED) {
-                                if (logicalState == WellFormedState.STATE_EXTERNAL_CHECKING) {
-                                    setPositiveIconIfPossible(prop, checkingRequiredIcon);
-                                } else if (logicalState
-                                        == WellFormedState.STATE_EXTERNAL_CHECKING_FAILED) {
-                                    setIcon(checkingRequiredErrorIcon);
-                                } else if (logicalState == WellFormedState.STATE_INTERNAL_CHECKING) {
-                                    setPositiveIconIfPossible(prop, checkingIcon);
-                                } else if (logicalState
-                                        == WellFormedState.STATE_INTERNAL_CHECKING_FAILED) {
-                                    setIcon(checkingErrorIcon);
-                                } else if (logicalState == WellFormedState.STATE_CHECKED) {
-                                    setPositiveIconIfPossible(prop, checkedIcon);
-                                } else {    // unknown logical state
-                                    throw new IllegalStateException("unknown module state: "
-                                        + logicalState.getText());
-                                }
-                            }
-                        } else {    // unknown dependency state
-                            throw new IllegalStateException("unknown module state: "
-                                + dependencyState.getText());
-                        }
-                    }
+                    setIcon(null);
+                } else if (currentState == LoadingState.STATE_UNDEFINED) {
+                    setIcon(startIcon);
+                } else if (currentState == LoadingState.STATE_LOADED) {
+                    setIcon(loadedIcon);
+                } else if (currentState instanceof LoadingState) {
+                    setIcon(startNextIcon);
+                } else if (currentState == DependencyState.STATE_LOADED_REQUIRED_MODULES) {
+                    setIcon(loadedRequiredIcon);
+                } else if (currentState instanceof DependencyState) {
+                    setIcon(loadedNextIcon);
+                } else if (currentState == WellFormedState.STATE_CHECKED) {
+                    setIcon(wellFormedIcon);
+                } else if (currentState instanceof WellFormedState) {
+                    setIcon(loadedRequiredNextIcon);
+                } else if (currentState == FormallyProvedState.STATE_CHECKED) {
+                    setIcon(formallyProvedIcon);
+                } else if (currentState instanceof FormallyProvedState) {
+                    setIcon(wellFormedNextIcon);
                 } else {    // unknown loading state
                     throw new IllegalStateException("unknown module state: "
-                        + loadingState.getText());
+                        + currentState.getText());
                 }
+
             }
         }
     // LATER m31 20080502: do we want to leave it for our alternative "paint" or do we delete it?
