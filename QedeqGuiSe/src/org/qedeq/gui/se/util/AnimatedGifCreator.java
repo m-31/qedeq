@@ -105,7 +105,8 @@ public class AnimatedGifCreator {
         gce.setAttribute("disposalMethod", "none");
         gce.setAttribute("userInputFlag", "FALSE");
         gce.setAttribute("transparentColorFlag", "FALSE");
-        gce.setAttribute("delayTime", Integer.toString(delay / 10));
+//        gce.setAttribute("delayTime", Integer.toString(delay / 10));
+        gce.setAttribute("delayTime", Integer.toString(delay));
         gce.setAttribute("transparentColorIndex", "0");
 
         IIOMetadataNode appEntensionsNode = getCreateNode(root, "ApplicationExtensions");
@@ -228,10 +229,16 @@ public class AnimatedGifCreator {
                 new MemoryCacheImageOutputStream(output), firstIconName,
                 secondIconName, 10, true);
             writer.writeSequence();
+            ImageOutputStream output2 = new FileImageOutputStream(new File("next_" + firstIconName));
+            AnimatedGifCreator writer2 = new AnimatedGifCreator(output2, firstIconName,
+                 secondIconName, 10, true);
+            writer2.writeSequence();
+            output2.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } finally {
+            IoUtility.close(output);
         }
-        IoUtility.close(output);
         return new AnimatedIcon(icon);
     }
 
