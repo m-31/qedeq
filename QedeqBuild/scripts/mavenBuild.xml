@@ -84,6 +84,10 @@
         </antcall>
         <antcall target="execMaven">
             <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_kernel"/>
+            <param name="MvnArguments" value="javadoc:jar"/>
+        </antcall>
+        <antcall target="execMaven">
+            <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_kernel"/>
             <param name="MvnArguments" value="install"/>
 <!--            
             <param name="MvnArguments" value="-Dmaven.test.skip=true site"/>
