@@ -60,8 +60,8 @@ public class FormalProofCheckerPluginTest extends QedeqBoTestCase {
         assertTrue(bo.wasCheckedForBeingWellFormed());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(16, bo.getErrors().size());
-        System.out.println("testPlugin2");
-        bo.getErrors().printStackTrace(System.out);
+//        System.out.println("testPlugin2");
+//        bo.getErrors().printStackTrace(System.out);
         assertEquals(37140, bo.getErrors().get(0).getErrorCode());
         assertEquals(37140, bo.getErrors().get(1).getErrorCode());
         assertEquals(37180, bo.getErrors().get(2).getErrorCode());
