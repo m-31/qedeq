@@ -80,6 +80,10 @@
     <target name="maven" description="start maven build" depends="assemble">
         <antcall target="execMaven">
             <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_kernel"/>
+            <param name="MvnArguments" value="source:jar"/>
+        </antcall>
+        <antcall target="execMaven">
+            <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_kernel"/>
             <param name="MvnArguments" value="install"/>
 <!--            
             <param name="MvnArguments" value="-Dmaven.test.skip=true site"/>
@@ -94,10 +98,6 @@
 <!--            
             <param name="MvnArguments" value="-Dmaven.test.skip=true site"/>
 -->            
-        </antcall>
-        <antcall target="execMaven">
-            <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_kernel"/>
-            <param name="MvnArguments" value="jar"/>
         </antcall>
         <antcall target="execMaven">
             <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_gui_se"/>
