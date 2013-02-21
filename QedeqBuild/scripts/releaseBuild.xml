@@ -45,7 +45,7 @@ currently in ants classpath
     <taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpath="${qedeq.lib}/findbugs-ant.jar" />
 
 <!--    <taskdef resource="cloverlib.xml" classpath="${qedeq.lib}/clover-2.3.1.jar" /> -->
-    <taskdef resource="cloverlib.xml" classpath="${qedeq.lib}/clover.jar" />
+    <taskdef resource="cloverlib.xml" classpath="${qedeq.lib}/clover-3.1.10.jar" />
 
 <!--
 currently in ants classpath
@@ -92,7 +92,8 @@ currently in ants classpath
         <pathelement location="${qedeq.lib}/log4j-1.2.14.jar" />
         <pathelement location="${qedeq.lib}/forms-1.1.0.jar" />
         <pathelement location="${qedeq.lib}/looks-2.1.4.jar" />
-        <pathelement location="${qedeq.lib}/clover-2.3.1.jar" />
+<!--        <pathelement location="${qedeq.lib}/clover-2.3.1.jar" /> -->
+        <pathelement location="${qedeq.lib}/clover-3.1.10.jar" />
         <pathelement location="${qedeq.lib}/jh-2.0.5.jar" />
         <pathelement location="${qedeq.lib}/jdepend-2.9.jar" />
     </path>
