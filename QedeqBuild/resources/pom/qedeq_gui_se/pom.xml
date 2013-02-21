@@ -41,8 +41,9 @@
           <executions>
             <execution>
               <id>attach-sources</id>
+              <phase>verify</phase>
               <goals>
-                <goal>jar</goal>
+                <goal>jar-no-fork</goal>
               </goals>
             </execution>
           </executions>
@@ -52,9 +53,10 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <executions>
             <execution>
-              <id>attach-javadocs</id>
+              <id>attach-sources</id>
+              <phase>verify</phase>
               <goals>
-                <goal>jar</goal>
+                <goal>jar-no-fork</goal>
               </goals>
             </execution>
           </executions>
