@@ -135,7 +135,7 @@ public class QedeqMenuBar extends JMenuBar {
         item.setToolTipText(
             "Check if all formulas are well formed within selected QEDEQ modules. This includes dependency checking.");
         item.addActionListener(controller.getCheckWellFormedAction());
-        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/run.png"));
+        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/status/software-update-available.png"));
         menu.add(item);
 
         item = MenuHelper.createMenuItem("Check Fully-Formally Proved", 'F');

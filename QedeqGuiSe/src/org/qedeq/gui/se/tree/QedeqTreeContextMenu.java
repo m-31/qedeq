@@ -51,6 +51,14 @@ public final class QedeqTreeContextMenu extends JPopupMenu {
         item.setToolTipText(
             "Check if all formulas are well formed within selected QEDEQ modules. This includes dependency checking.");
         item.addActionListener(controller.getCheckWellFormedAction());
+        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/status/software-update-available.png"));
+        this.add(item);
+
+        item = MenuHelper.createMenuItem("Check Fully-Formally Proved", 'F');
+        item.setToolTipText(
+            "Check if all propositions have formal correct proofss within selected QEDEQ modules. "
+            + "This includes dependency checking.");
+        item.addActionListener(controller.getCheckFormallyProvedAction());
         item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/run.png"));
         this.add(item);
 
