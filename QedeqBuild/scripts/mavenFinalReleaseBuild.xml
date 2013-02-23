@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- author: Michael Meyling -->
+<!-- project: Hilbert II -->
+
+<!-- This is the Ant build file for building the final maven repository release via maven -->
+<project name="mavenBuild" default="all" basedir="../..">
+
+    <description>
+        maven build for Hilbert II.   
+    </description>
+
+    <import file="baseMacros.xml" />
+    <import file="fastMacros.xml" />
+
+    <!-- set global properties for this build -->
+    <property file="${basedir}/QedeqBuild/scripts/build.properties" />
+    <property name="qedeq.dest"            value="${basedir}/../../maven/qedeq" />
+    <property name="qedeq.dest.module"     value="${basedir}/../../maven/modules" />
+    <property name="qedeq.resources"       value="${basedir}/QedeqBuild/resources" />
+
+    <filterset id="qedeq_filter" begintoken="@" endtoken="@">
+        <filter token="QEDEQ_VERSION"     value="${qedeq.release.version}" />
+        <filter token="QEDEQ_CODENAME"    value="${qedeq.release.codename}" />
+        <filter token="QEDEQ_DIRECTORY"   value="${qedeq.release.directory}" />
+        <filter token="QEDEQ_TIMESTAMP"   value="${qedeq.se.timestamp}" />
+        <filter token="QEDEQ_BUILD_ID"    value="${qedeq.se.buildId}" />
+        <filter token="trace_file_path"   value="./log/trace.txt" />
+    </filterset>
+
+    
+    <target name="clean">
+        <delete dir="${qedeq.dest}" failonerror="true" />
+        <delete dir="${qedeq.dest.module}" failonerror="true" />
+    </target>
+
+
+    <target name="source" depends="clean">
+        <copySource     name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase" />
+        <copyTestSource name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase"/>
+        <copySource     name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe" />
+        <copyTestSource name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe" />
+        <copySource     name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo" />
+        <copyTestSource name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo" />
+        <copySource     name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" />
+        <copyTestSource name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" />
+        <copySource     name="QedeqGuiSe"     dir="${qedeq.dest.module}/qedeq_gui_se" />
+
+        <moveSlowTestsAway/>
+        
+        <!-- generate complete kernel sources out of all sub modules -->   
+        <mkdir dir="${qedeq.dest.module}/qedeq_kernel/src" />
+        <copy todir="${qedeq.dest.module}/qedeq_kernel" >
+          <fileset dir="${qedeq.dest.module}/QedeqBase" />
+          <fileset dir="${qedeq.dest.module}/QedeqKernelSe" />
+          <fileset dir="${qedeq.dest.module}/QedeqKernelBo" />
+          <fileset dir="${qedeq.dest.module}/QedeqKernelXml" />
+        </copy>
+    </target>  
+
+    <target name="assemble" depends="source">
+        <!-- create also maven structure with POM s -->   
+        <delete dir="${qedeq.dest}/src/maven" failonerror="true" />
+        <mkdir dir="${qedeq.dest}/src/maven" />
+        <copy todir="${qedeq.dest}/src/maven">
+            <fileset dir="${qedeq.dest.module}">
+                <include name="qedeq_kernel/src/**/*" />
+                <include name="qedeq_gui_se/src/**/*" />
+            </fileset>
+        </copy>
+        <copy todir="${qedeq.dest}/src/maven/qedeq_kernel" file="${qedeq.resources}/pom/qedeq_kernel/pom.xml">
+            <filterset refid="qedeq_filter" />
+        </copy>
+        <copy todir="${qedeq.dest}/src/maven/qedeq_kernel/target" file="${qedeq.resources}/checkstyle/QedeqFormalChecks.xml" />
+        <copy todir="${qedeq.dest}/src/maven/qedeq_gui_se" file="${qedeq.resources}/pom/qedeq_gui_se/pom.xml">
+            <filterset refid="qedeq_filter" />
+        </copy>
+
+    </target>
+             
+    <target name="maven" description="start maven build" depends="assemble">
+
+        <!--  Kernel -->
+        <antcall target="execMaven">
+            <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_kernel"/>
+            <param name="MvnArguments" value="source:jar"/>
+        </antcall>
+        <antcall target="execMaven">
+            <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_kernel"/>
+            <param name="MvnArguments" value="javadoc:jar"/>
+        </antcall>
+        <antcall target="execMaven">
+            <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_kernel"/>
+            <param name="MvnArguments" value="-Dmaven.test.skip=true -Dskip.plugins=org.apache.maven.plugins:maven-surefire-plugin,org.apache.maven.plugins:maven-project-info-reports-plugin,org.apache.maven.plugins:maven-jxr-plugin,org.apache.maven.plugins:maven-jxr-plugin,org.apache.maven.plugins:maven-pmd-plugin,org.apache.maven.plugins:maven-javadoc-plugin,org.apache.maven.plugins:maven-checkstyle-plugin install" />
+        </antcall>
+        <antcall target="execSignJars">
+            <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_kernel"/>
+        </antcall>
+
+        <!--  GUI -->
+        <antcall target="execMaven">
+            <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_gui_se"/>
+            <param name="MvnArguments" value="source:jar"/>
+        </antcall>
+        <antcall target="execMaven">
+            <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_gui_se"/>
+            <param name="MvnArguments" value="javadoc:jar"/>
+        </antcall>
+        <antcall target="execMaven">
+            <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_gui_se"/>
+            <param name="MvnArguments" value="-Dmaven.test.skip=true -Dskip.plugins=org.apache.maven.plugins:maven-surefire-plugin,org.apache.maven.plugins:maven-project-info-reports-plugin,org.apache.maven.plugins:maven-jxr-plugin,org.apache.maven.plugins:maven-jxr-plugin,org.apache.maven.plugins:maven-pmd-plugin,org.apache.maven.plugins:maven-javadoc-plugin,org.apache.maven.plugins:maven-checkstyle-plugin install" />
+        </antcall>
+        <antcall target="execSignJars">
+            <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_gui_se"/>
+        </antcall>
+     </target>   
+
+    <!-- for antcalls with parameters ${PomDir} and ${MvnArguments}-->
+    <target name="execMaven">
+        <condition property="maven.executable" value="cmd" else="mvn" >
+            <contains string="${os.name}" substring="windows" casesensitive="false" />
+        </condition>
+        <condition property="maven.argLine" value="/c mvn " else="" >
+            <contains string="${os.name}" substring="windows" casesensitive="false" />
+        </condition>
+        <echo>++++++++++++++++++++++++++++++++++</echo>
+        <echo>${PomDir} mvn ${MvnArguments}</echo>
+        <!-- TODO only windows and unix are supported -->
+        <exec failonerror="true" dir="${PomDir}" executable="${maven.executable}">
+            <arg line="${maven.argLine}${MvnArguments}"/>
+        </exec> 
+        <echo>----------------------------------</echo>
+    </target>
+    
+    <!-- for antcalls with parameters ${PomDir} -->
+    <target name="execSignJars">
+        <echo>++++++++++++++++++++++++++++++++++</echo>
+        <echo>${PomDir}/target find . -name &quot;qedeq_*.jar&quot; -exec gpg -as '{}' \;</echo>
+        <!-- TODO only unix is supported -->
+        <exec failonerror="true" dir="${PomDir}/target" executable="sh">
+            <arg value="-c" />
+            <arg value="find . -name &quot;qedeq_*.jar&quot; -exec gpg -as '{}' \;" />
+        </exec> 
+        <echo>----------------------------------</echo>
+    </target>
+    
+    <target name="all"
+        depends="maven">
+    </target>
+
+</project>
+
+
