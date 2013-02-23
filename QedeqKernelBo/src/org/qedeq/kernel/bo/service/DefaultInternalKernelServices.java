@@ -113,12 +113,12 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         pluginManager = new PluginManager(this, processManager);
         loader.setServices(this);
 
-//      pluginManager.addPlugin(MultiProofFinderPlugin.class.getName());
+////      pluginManager.addPlugin(MultiProofFinderPlugin.class.getName());
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.unicode.Qedeq2UnicodeTextPlugin");
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin");
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.unicode.Qedeq2Utf8Plugin");
-//        pluginManager.addPlugin("org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin");
-        pluginManager.addPlugin(FormalProofCheckerPlugin.class.getName());
+////        pluginManager.addPlugin("org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin");
+//        pluginManager.addPlugin(FormalProofCheckerPlugin.class.getName());
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin");
         pluginManager.addPlugin(SimpleProofFinderPlugin.class.getName());
 
