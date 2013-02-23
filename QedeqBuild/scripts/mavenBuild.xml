@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- author: Michael Meyling -->
 <!-- project: Hilbert II -->
 
-<!-- This is the Ant build file for building the Se release of project Hilbert II via maven -->
+<!-- This is the Ant build file for building the release of project Hilbert II via maven -->
 <project name="mavenBuild" default="all" basedir="../..">
 
     <description>
