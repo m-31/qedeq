@@ -153,6 +153,9 @@ public final class ProofFinderUtility {
      */
     public static String getUtf8Line(final List lines, final List reasons, final int i,
             final Element2Utf8 trans) {
+        if (i < 0) {
+            return "beginning to prove";
+        }
         final StringBuffer result = new StringBuffer();
         result.append((i + 1) + ": ");
         Reason reason = (Reason) reasons.get(i);
