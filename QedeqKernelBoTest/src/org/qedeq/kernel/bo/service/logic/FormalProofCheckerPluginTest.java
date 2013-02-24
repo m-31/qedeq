@@ -41,7 +41,7 @@ public class FormalProofCheckerPluginTest extends QedeqBoTestCase {
     public void testPlugin() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
             "sample/qedeq_sample3.xml"));
-        getServices().executePlugin(FormalProofCheckerPlugin.class.getName(), address);
+        getServices().checkFormallyProved(address);
         final QedeqBo bo = getServices().getQedeqBo(address);
         assertTrue(bo.wasCheckedForBeingWellFormed());
         assertEquals(0, bo.getWarnings().size());
@@ -56,7 +56,7 @@ public class FormalProofCheckerPluginTest extends QedeqBoTestCase {
         assertTrue(bo.wasCheckedForBeingWellFormed());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(0, bo.getErrors().size());
-        getServices().executePlugin(FormalProofCheckerPlugin.class.getName(), address);
+        getServices().checkFormallyProved(address);
         assertTrue(bo.wasCheckedForBeingWellFormed());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(16, bo.getErrors().size());
@@ -88,7 +88,7 @@ public class FormalProofCheckerPluginTest extends QedeqBoTestCase {
         assertTrue(bo.wasCheckedForBeingWellFormed());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(0, bo.getErrors().size());
-        getServices().executePlugin(FormalProofCheckerPlugin.class.getName(), address);
+        getServices().checkFormallyProved(address);
         assertTrue(bo.wasCheckedForBeingWellFormed());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(60, bo.getErrors().size());
@@ -159,7 +159,7 @@ public class FormalProofCheckerPluginTest extends QedeqBoTestCase {
     public void testPlugin4() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
             "math/qedeq_formal_logic_v1.xml"));
-        getServices().executePlugin(FormalProofCheckerPlugin.class.getName(), address);
+        getServices().checkFormallyProved(address);
         final QedeqBo bo = getServices().getQedeqBo(address);
         assertTrue(bo.wasCheckedForBeingWellFormed());
         assertEquals(0, bo.getWarnings().size());
