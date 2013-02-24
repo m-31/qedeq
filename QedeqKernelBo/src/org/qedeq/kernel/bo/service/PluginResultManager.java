@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.qedeq.kernel.bo.module.PluginBo;
+import org.qedeq.kernel.bo.common.PluginBo;
 import org.qedeq.kernel.bo.module.PluginResults;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;

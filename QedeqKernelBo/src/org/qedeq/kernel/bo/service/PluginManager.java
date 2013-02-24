@@ -24,10 +24,12 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.KernelServices;
+import org.qedeq.kernel.bo.common.PluginBo;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.common.ServiceProcess;
+import org.qedeq.kernel.bo.log.QedeqLog;
+import org.qedeq.kernel.bo.module.InternalPluginBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginBo;
 
 /**
  * Manage all known plugins.
@@ -61,12 +63,18 @@ public class PluginManager {
     }
 
     /**
-     * Get all registered plugins.
+     * Get all registered (non internal) plugins.
      *
-     * @return  Registered plugins.
+     * @return  Registered plugins. Internal plugins are not included.
      */
     synchronized PluginBo[] getPlugins() {
-        return (PluginBo[]) plugins.toArray(new PluginBo[] {});
+        final List result = new ArrayList(plugins.size());
+        for (int i = 0; i < plugins.size(); i++) {
+            if (!(plugins.get(i) instanceof InternalPluginBo)) {
+                result.add(plugins.get(i));
+            }
+        }
+        return (PluginBo[]) result.toArray(new PluginBo[] {});
     }
 
     /**
@@ -132,14 +140,15 @@ public class PluginManager {
      * @param   id          Plugin to use.
      * @param   qedeq       QEDEQ module to work on.
      * @return  Plugin specific resulting object. Might be <code>null</code>.
-     * @throws  RuntimeException    Plugin unknown, or execution had a major problem.
+     * @throws  RuntimeException    Plugin unknown.
      */
     Object executePlugin(final String id, final KernelQedeqBo qedeq) {
+        final String method = "executePlugin(String, KernelQedeqBo)";
         final PluginBo plugin = (PluginBo) id2plugin.get(id);
         if (plugin == null) {
             final String message = "Kernel does not know about plugin: ";
             final RuntimeException e = new RuntimeException(message + id);
-            Trace.fatal(CLASS, this, "executePlugin", message + id,
+            Trace.fatal(CLASS, this, method, message + id,
                 e);
             throw e;
         }
@@ -155,6 +164,11 @@ public class PluginManager {
                 final Object result = exe.executePlugin();
                 process.setSuccessState();
                 return result;
+            } catch (final RuntimeException e) {
+                final String msg = "Execution of plugin failed with a runtime exception.";
+                Trace.fatal(CLASS, this, method, msg, e);
+                QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
+                return null;
             } finally {
                 if (process.isRunning()) {
                     process.setFailureState();

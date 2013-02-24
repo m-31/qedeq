@@ -18,8 +18,8 @@ package org.qedeq.kernel.bo.service.logic;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.logic.FormulaCheckerFactoryImpl;
+import org.qedeq.kernel.bo.module.InternalPluginBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginBo;
 
 
 /**
@@ -27,7 +27,7 @@ import org.qedeq.kernel.bo.module.PluginBo;
  *
  * @author  Michael Meyling
  */
-public final class WellFormedCheckerPlugin implements PluginBo {
+public final class WellFormedCheckerPlugin implements InternalPluginBo {
 
     /** This class. */
     private static final Class CLASS = WellFormedCheckerPlugin.class;

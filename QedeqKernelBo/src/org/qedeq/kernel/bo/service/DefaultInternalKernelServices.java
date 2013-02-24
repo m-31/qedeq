@@ -118,10 +118,12 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin");
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.unicode.Qedeq2Utf8Plugin");
 ////        pluginManager.addPlugin("org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin");
-//        pluginManager.addPlugin(FormalProofCheckerPlugin.class.getName());
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin");
         pluginManager.addPlugin(SimpleProofFinderPlugin.class.getName());
 
+        // add internal plugins
+        pluginManager.addPlugin(WellFormedCheckerPlugin.class.getName());
+        pluginManager.addPlugin(FormalProofCheckerPlugin.class.getName());
     }
 
     public void startupServices() {
@@ -778,6 +780,16 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     }
 
     public boolean checkWellFormedness(final ModuleAddress address) {
+        final DefaultKernelQedeqBo prop = modules.getKernelQedeqBo(this, address);
+        // did we check this already?
+        if (prop.wasCheckedForBeingWellFormed()) {
+            return true; // everything is OK
+        }
+        pluginManager.executePlugin(WellFormedCheckerPlugin.class.getName(), prop);
+        return prop.wasCheckedForBeingWellFormed();
+    }
+
+    public boolean checkWellFormednessOld(final ModuleAddress address) {
         final String method = "checkWellFormedness(ModuleAddress)";
         final DefaultKernelQedeqBo prop = modules.getKernelQedeqBo(this, address);
         // did we check this already?
@@ -807,6 +819,16 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     }
 
     public boolean checkFormallyProved(final ModuleAddress address) {
+        final DefaultKernelQedeqBo prop = modules.getKernelQedeqBo(this, address);
+        // did we check this already?
+        if (prop.wasCheckedForBeingFormallyProved()) {
+            return true; // everything is OK
+        }
+        pluginManager.executePlugin(FormalProofCheckerPlugin.class.getName(), prop);
+        return prop.wasCheckedForBeingFormallyProved();
+    }
+
+    public boolean checkFormallyProvedOld(final ModuleAddress address) {
         final String method = "checkFormallyProved(ModuleAddress)";
         final DefaultKernelQedeqBo prop = modules.getKernelQedeqBo(this, address);
         // did we check this already?
