@@ -1,0 +1,463 @@
+% -*- TeX:EN -*-
+%%% ====================================================================
+%%% @LaTeX-file    proof_002
+%%% Generated from http://www.qedeq.org/0_04_05/doc/proof/proof_002.xml
+%%% Generated at   2013-02-04 06:40:15.859
+%%% ====================================================================
+
+%%% Permission is granted to copy, distribute and/or modify this document
+%%% under the terms of the GNU Free Documentation License, Version 1.2
+%%% or any later version published by the Free Software Foundation;
+%%% with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+\documentclass[a4paper,german,10pt,twoside]{book}
+\usepackage[english]{babel}
+\usepackage{makeidx}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{color}
+\usepackage{xr}
+\usepackage{tabularx}
+\usepackage[bookmarks=true,bookmarksnumbered,bookmarksopen,
+   unicode=true,colorlinks=true,linkcolor=webgreen,
+   pagebackref=true,pdfnewwindow=true,pdfstartview=FitH]{hyperref}
+\definecolor{webgreen}{rgb}{0,.5,0}
+\usepackage{epsfig,longtable}
+\usepackage{graphicx}
+\usepackage[all]{hypcap}
+
+\newtheorem{thm}{Theorem}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{ax}{Axiom}
+\newtheorem{rul}{Rule}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{idefn}[defn]{Initial Definition}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem*{notation}{Notation}
+
+
+\addtolength{\textheight}{7\baselineskip}
+\addtolength{\topmargin}{-5\baselineskip}
+
+\setlength{\parindent}{0pt}
+
+\frenchspacing \sloppy
+
+\makeindex
+
+
+\title{First formal proofs.}
+\author{
+Michael Meyling
+}
+
+\begin{document}
+
+\maketitle
+
+\setlength{\parskip}{5pt plus 2pt minus 1pt}
+\mbox{}
+\vfill
+
+\par
+The source for this document can be found here:
+\par
+\url{http://www.qedeq.org/0_04_05/doc/proof/proof_002.xml}
+
+\par
+Copyright by the authors. All rights reserved.
+\par
+If you have any questions, suggestions or want to add something to the list of modules that use this one, please send an email to the address \href{mailto:mime@qedeq.org}{mime@qedeq.org}
+
+\par
+The authors of this document are:
+Michael Meyling \href{mailto:michael@meyling.com}{michael@meyling.com}
+
+\setlength{\parskip}{0pt}
+\tableofcontents
+
+\setlength{\parskip}{5pt plus 2pt minus 1pt}
+
+\chapter{First} \label{chapter1} \hypertarget{chapter1}{}
+
+After presenting some axioms we show some formal proofs.
+
+\section{Axioms} \label{chapter1_section1} \hypertarget{chapter1_section1}{}
+Here we state our axioms.
+
+\begin{ax}[Disjunction Idempotence]
+\label{axiom:disjunction_idempotence} \hypertarget{axiom:disjunction_idempotence}{}
+{\tt \tiny [\verb]axiom:disjunction_idempotence]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \lor\ A)\ \rightarrow\ A$
+\end{longtable}
+
+\end{ax}
+
+
+\begin{ax}[Axiom of Weakening]
+\label{axiom:disjunction_weakening} \hypertarget{axiom:disjunction_weakening}{}
+{\tt \tiny [\verb]axiom:disjunction_weakening]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $A\ \rightarrow\ (A\ \lor\ B)$
+\end{longtable}
+
+\end{ax}
+
+
+\begin{ax}[Commutativity of the Disjunction]
+\label{axiom:disjunction_commutative} \hypertarget{axiom:disjunction_commutative}{}
+{\tt \tiny [\verb]axiom:disjunction_commutative]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \lor\ B)\ \rightarrow\ (B\ \lor\ A)$
+\end{longtable}
+
+\end{ax}
+
+
+\begin{ax}[Disjunctive Addition]
+\label{axiom:disjunction_addition} \hypertarget{axiom:disjunction_addition}{}
+{\tt \tiny [\verb]axiom:disjunction_addition]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \rightarrow\ B)\ \rightarrow\ ((C\ \rightarrow\ A)\ \rightarrow\ (C\ \rightarrow\ B))$
+\end{longtable}
+
+\end{ax}
+
+
+\begin{ax}[Universal Instantiation]
+\label{axiom:universalInstantiation} \hypertarget{axiom:universalInstantiation}{}
+{\tt \tiny [\verb]axiom:universalInstantiation]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall x\ \phi(x)\ \rightarrow\ \phi(y)$
+\end{longtable}
+
+\end{ax}
+
+
+\begin{ax}[Existential Generalization]
+\label{axiom:existencialGeneralization} \hypertarget{axiom:existencialGeneralization}{}
+{\tt \tiny [\verb]axiom:existencialGeneralization]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\phi(y)\ \rightarrow\ \exists x\ \phi(x)$
+\end{longtable}
+
+\end{ax}
+
+
+\begin{rul}[Add true formula]
+\label{rule:addProvenFormula} \hypertarget{rule:addProvenFormula}{}
+{\tt \tiny [\verb]rule:addProvenFormula]]}
+
+\par
+{\em   Name: \verb]Add]  -  Version: \verb]0.01.00]}
+
+
+Addition of an axiom, definition or already proven formula. We have to reference to the location of a true formula.
+\end{rul}
+
+
+\begin{rul}[Modus Ponens\index{Modus Ponens}]
+\label{rule:modusPonens} \hypertarget{rule:modusPonens}{}
+{\tt \tiny [\verb]rule:modusPonens]]}
+
+\par
+{\em   Name: \verb]MP]  -  Version: \verb]0.01.00]}
+
+
+If both formulas $\alpha$ and $\alpha \rightarrow \beta$ are true, then we can conclude that $\beta$ is true as well.
+\end{rul}
+
+
+\begin{rul}[Replace Free Subject Variable]
+\label{rule:replaceFree} \hypertarget{rule:replaceFree}{}
+{\tt \tiny [\verb]rule:replaceFree]]}
+
+\par
+{\em   Name: \verb]SubstFree]  -  Version: \verb]0.01.00]}
+
+
+We start with a true formula.
+A free subject variable may be replaced by an arbitrary term, provided that the substituted term contains no subject variable that have a bound occurrence in the original formula. All occurrences of the free variable must be simultaneously replaced.
+\end{rul}
+
+
+\begin{rul}[Rename Bound Subject Variable]
+\label{rule:renameBound} \hypertarget{rule:renameBound}{}
+{\tt \tiny [\verb]rule:renameBound]]}
+
+\par
+{\em   Name: \verb]Rename]  -  Version: \verb]0.01.00]}
+
+
+We may replace a bound subject variable occurring in a formula by any other subject variable, provided that the new variable occurs not free in the original formula. If the variable to be replaced occurs in more than one scope, then the replacement needs to be made in one scope only.
+\end{rul}
+
+
+\begin{rul}[Replace Predicate Variable]
+\label{rule:replacePred} \hypertarget{rule:replacePred}{}
+{\tt \tiny [\verb]rule:replacePred]]}
+
+\par
+{\em   Name: \verb]SubstPred]  -  Version: \verb]0.01.00]}
+
+
+Let $\alpha$ be a true formula that contains a predicate variable $p$ of arity $n$, let $x_1$, \ldots, $x_n$ be pairwise different subject variables and let $\beta(x_1, \ldots, x_n)$ be a formula where $x_1$, \ldots, $x_n$ are not bound. The formula $\beta(x_1, \ldots, x_n)$ must not contain all $x_1$, \ldots, $x_n$ as free subject variables. Furthermore it can also have other subject variables either free or bound.
+
+If the following conditions are fulfilled, then a replacement of all occurrences of $p(t_1, \ldots, t_n)$ each with appropriate terms $t_1$, \ldots, $t_n$ in $\alpha$ by $\beta(t_1, \ldots, t_n)$ results in another true formula.
+
+\begin{itemize}
+
+\item
+the free variables of $\beta(x_1, \ldots, x_n)$ without $x_1$, \ldots, $x_n$ do not occur as bound variables in $\alpha$ 
+
+\item 
+each occurrence of $p(t_1, \ldots, t_n)$ in $\alpha$ contains no bound variable of $\beta(x_1, \ldots, x_n)$ 
+
+\item
+the result of the substitution is a well-formed formula
+
+\end{itemize}
+\end{rul}
+
+
+\begin{rul}[Replace Function Variable]
+\label{rule:replaceFunct} \hypertarget{rule:replaceFunct}{}
+{\tt \tiny [\verb]rule:replaceFunct]]}
+
+\par
+{\em   Name: \verb]SubstFun]  -  Version: \verb]0.01.00]}
+
+
+Let $\alpha$ be an already proved formula that contains a function variable $\sigma$ of arity $n$, let $x_1$, \ldots, $x_n$ be pairwise different subject variables and let $\tau(x_1, \ldots, x_n)$ be an arbitrary term where $x_1$, \ldots, $x_n$ are not bound. 
+The term $\tau(x_1, \ldots, x_n)$ must not contain all $x_1$, \ldots, $x_n$ as free subject variables. Furthermore it can also have other subject variables either free or bound. 
+
+If the following conditions are fulfilled we can obtain a new true formula by replacing each occurrence of $\sigma(t_1, \ldots, t_n)$ with appropriate terms $t_1$, \ldots, $t_n$ in $\alpha$ by $\tau(t_1, \ldots, t_n)$.
+
+\begin{itemize}
+
+\item 
+the free variables of $\tau(x_1, \ldots, x_n)$ without $x_1$, \ldots, $x_n$ do not occur as bound variables in $\alpha$
+
+\item
+each occurrence of $\sigma(t_1, \ldots, t_n)$ in $\alpha$ contains no bound variable of $\tau(x_1, \ldots, x_n)$
+
+\item
+the result of the substitution is a well-formed formula
+                  
+\end{itemize}
+\end{rul}
+
+
+\begin{rul}[Universal Generalization]
+\label{rule:universalGeneralization} \hypertarget{rule:universalGeneralization}{}
+{\tt \tiny [\verb]rule:universalGeneralization]]}
+
+\par
+{\em   Name: \verb]Universal]  -  Version: \verb]0.01.00]}
+
+
+If $\alpha \rightarrow \beta(x_1)$ is a true formula and $\alpha$ does not contain the subject variable $x_1$, then $\alpha \rightarrow (\forall x_1~(\beta(x_1)))$ is a true 
+formula too.
+\end{rul}
+
+
+\begin{rul}[Existential Generalization]
+\label{rule:existentialGeneralization} \hypertarget{rule:existentialGeneralization}{}
+{\tt \tiny [\verb]rule:existentialGeneralization]]}
+
+\par
+{\em   Name: \verb]Existential]  -  Version: \verb]0.01.00]}
+
+
+If $\alpha(x_1) \rightarrow \beta$ is already proved to be true and $\beta$ does not contain the subject variable $x_1$, then $(\exists x_1~\alpha(x_1)) \rightarrow \beta$ is also a true formula.
+\end{rul}
+
+
+\section{One} \label{chapter1_section2} \hypertarget{chapter1_section2}{}
+Here we start.
+
+\begin{prop}
+\label{proposition:one} \hypertarget{proposition:one}{}
+{\tt \tiny [\verb]proposition:one]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $A\ \rightarrow\ A$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:one!1} \hypertarget{proposition:one!1}{\mbox{(1)}}  \ &  \ $A\ \rightarrow\ (A\ \lor\ B)$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add}} \\ 
+\label{proposition:one!2} \hypertarget{proposition:one!2}{\mbox{(2)}}  \ &  \ $A\ \rightarrow\ (A\ \lor\ A)$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $B$ in \hyperlink{proposition:one!1}{(1)}} \\ 
+\label{proposition:one!3} \hypertarget{proposition:one!3}{\mbox{(3)}}  \ &  \ $(A\ \lor\ A)\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperref{}{}{axiom:disjunction_idempotence}{axiom:disjunction_idempotence}~\cite{dontExist?}} \\ 
+\label{proposition:one!4} \hypertarget{proposition:one!4}{\mbox{(4)}}  \ &  \ $(A\ \rightarrow\ B)\ \rightarrow\ ((C\ \rightarrow\ A)\ \rightarrow\ (C\ \rightarrow\ B))$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperlink{axion:disjunction_addition?}{axion:disjunction_addition?}} \\ 
+\label{proposition:one!5} \hypertarget{proposition:one!5}{\mbox{(5)}}  \ &  \ $(D\ \rightarrow\ B)\ \rightarrow\ ((C\ \rightarrow\ D)\ \rightarrow\ (C\ \rightarrow\ B))$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} by $D$ in \hyperlink{proposition:one!4}{(4)}} \\ 
+\label{proposition:one!6} \hypertarget{proposition:one!6}{\mbox{(6)}}  \ &  \ $(D\ \rightarrow\ A)\ \rightarrow\ ((C\ \rightarrow\ D)\ \rightarrow\ (C\ \rightarrow\ A))$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} in \hyperlink{proposition:one!5}{(5)}} \\ 
+\label{proposition:one!7} \hypertarget{proposition:one!7}{\mbox{(7)}}  \ &  \ $(D\ \rightarrow\ A)\ \rightarrow\ ((A\ \rightarrow\ D)\ \rightarrow\ (A\ \rightarrow\ A))$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $C$ by $A$} \\ 
+\label{proposition:one!8} \hypertarget{proposition:one!8}{\mbox{(8)}}  \ &  \ $((A\ \lor\ A)\ \rightarrow\ A)\ \rightarrow\ ((A\ \rightarrow\ (A\ \lor\ A))\ \rightarrow\ (A\ \rightarrow\ A))$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $D$ by $A\ \lor\ A$} \\ 
+ \ &  \ $(A\ \rightarrow\ (A\ \lor\ A))\ \rightarrow\ (A\ \rightarrow\ A)$ \ &  \ {\tiny \hyperlink{rule:modusPonens}{MP}} \\ 
+\label{proposition:one!10} \hypertarget{proposition:one!10}{\mbox{(10)}}  \ &  \ $A\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:modusPonens}{MP} \hyperlink{9?}{9?}, \hyperlink{?}{?}} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:two} \hypertarget{proposition:two}{}
+{\tt \tiny [\verb]proposition:two]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall x\ \phi(x)\ \rightarrow\ \exists x\ \phi(x)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:two!1} \hypertarget{proposition:two!1}{\mbox{(1)}}  \ &  \ $\forall x\ \phi(x)\ \rightarrow\ \phi(y)$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperlink{axiom:universalInstantiation}{axiom~5}} \\ 
+\label{proposition:two!2} \hypertarget{proposition:two!2}{\mbox{(2)}}  \ &  \ $\phi(y)\ \rightarrow\ \exists x\ \phi(x)$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperlink{axiom:existencialGeneralization}{axiom~6}} \\ 
+\label{proposition:two!3} \hypertarget{proposition:two!3}{\mbox{(3)}}  \ &  \ $(A\ \rightarrow\ B)\ \rightarrow\ ((C\ \rightarrow\ A)\ \rightarrow\ (C\ \rightarrow\ B))$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperlink{axiom:disjunction_addition}{axiom~4}} \\ 
+\label{proposition:two!4} \hypertarget{proposition:two!4}{\mbox{(4)}}  \ &  \ $(\phi(y)\ \rightarrow\ B)\ \rightarrow\ ((C\ \rightarrow\ \phi(y))\ \rightarrow\ (C\ \rightarrow\ B))$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred}} \\ 
+\label{proposition:two!5} \hypertarget{proposition:two!5}{\mbox{(5)}}  \ &  \ $(\phi(y)\ \rightarrow\ B)\ \rightarrow\ ((\forall x\ \phi(x)\ \rightarrow\ \phi(y))\ \rightarrow\ (\forall x\ \phi(x)\ \rightarrow\ B))$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $C$ by $\forall x\ \phi(x)$ in \hyperlink{proposition:two!4}{(4)}} \\ 
+\label{proposition:two!6} \hypertarget{proposition:two!6}{\mbox{(6)}}  \ &  \ $(\phi(y)\ \rightarrow\ \exists x\ \phi(x))\ \rightarrow\ ((\forall x\ \phi(x)\ \rightarrow\ \phi(y))\ \rightarrow\ (\forall x\ \phi(x)\ \rightarrow\ \exists x\ \phi(x)))$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $B$ by $\exists x\ \phi(x)$ in \hyperlink{proposition:two!5}{(5)}} \\ 
+\label{proposition:two!7} \hypertarget{proposition:two!7}{\mbox{(7)}}  \ &  \ $(\forall x\ \phi(x)\ \rightarrow\ \phi(y))\ \rightarrow\ (\forall x\ \phi(x)\ \rightarrow\ \exists x\ \phi(x))$ \ &  \ {\tiny \hyperlink{rule:modusPonens}{MP}} \\ 
+\label{proposition:two!8} \hypertarget{proposition:two!8}{\mbox{(8)}}  \ &  \ $\forall x\ \phi(x)\ \rightarrow\ \exists x\ \phi(x)$ \ &  \ {\tiny \hyperlink{rule:modusPonens}{MP} \hyperlink{proposition:two!7}{(7)}, \hyperlink{proposition:two!1}{(1)}} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:three} \hypertarget{proposition:three}{}
+{\tt \tiny [\verb]proposition:three]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\exists x\ \forall y\ \phi(x, y)\ \rightarrow\ \forall y\ \exists x\ \phi(x, y)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:three!1} \hypertarget{proposition:three!1}{\mbox{(1)}}  \ &  \ $\forall x\ \phi(x)\ \rightarrow\ \phi(y)$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperlink{axiom:universalInstantiationZ?}{axiom:universalInstantiationZ?}} \\ 
+\label{proposition:three!2} \hypertarget{proposition:three!2}{\mbox{(2)}}  \ &  \ $\forall x\ \phi(x)\ \rightarrow\ \phi(u)$ \ &  \ {\tiny \hyperlink{rule:replaceFree}{SubstFree} by $u$ in \hyperlink{proposition:three!1}{(1)}} \\ 
+\label{proposition:three!3} \hypertarget{proposition:three!3}{\mbox{(3)}}  \ &  \ $\forall y\ \phi(y)\ \rightarrow\ \phi(u)$ \ &  \ {\tiny \hyperlink{rule:renameBound}{Rename} $x$ by $y$} \\ 
+\label{proposition:three!4} \hypertarget{proposition:three!4}{\mbox{(4)}}  \ &  \ $\forall y\ \phi(x, y)\ \rightarrow\ \phi(x, u)$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $\phi(x)$ in \hyperlink{333?}{333?}} \\ 
+\label{proposition:three!5} \hypertarget{proposition:three!5}{\mbox{(5)}}  \ &  \ $\phi(y)\ \rightarrow\ \exists x\ \phi(x)$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperlink{axiom:existencialGeneralization}{axiom~6}} \\ 
+\label{proposition:three!6} \hypertarget{proposition:three!6}{\mbox{(6)}}  \ &  \ $\phi(y)\ \rightarrow\ \exists z\ \phi(z)$ \ &  \ {\tiny \hyperlink{rule:renameBound}{Rename} $x$ in \hyperlink{proposition:three!5}{(5)}} \\ 
+\label{proposition:three!7} \hypertarget{proposition:three!7}{\mbox{(7)}}  \ &  \ $\phi(x, u)\ \rightarrow\ \exists z\ \phi(z)$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} by $\phi(x, u)$ in \hyperlink{proposition:three!6}{(6)}} \\ 
+\label{proposition:three!8} \hypertarget{proposition:three!8}{\mbox{(8)}}  \ &  \ $(A\ \rightarrow\ B)\ \rightarrow\ ((C\ \rightarrow\ A)\ \rightarrow\ (C\ \rightarrow\ B))$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperlink{axiom:disjunction_addition}{axiom~4}} \\ 
+\label{proposition:three!9} \hypertarget{proposition:three!9}{\mbox{(9)}}  \ &  \ $(\phi(x, u)\ \rightarrow\ B)\ \rightarrow\ ((C\ \rightarrow\ \phi(x, u))\ \rightarrow\ (C\ \rightarrow\ B))$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred}} \\ 
+\label{proposition:three!10} \hypertarget{proposition:three!10}{\mbox{(10)}}  \ &  \ $(\phi(x, u)\ \rightarrow\ \exists z\ \phi(z, u))\ \rightarrow\ ((C\ \rightarrow\ \phi(x, u))\ \rightarrow\ (C\ \rightarrow\ \exists z\ \phi(z, u)))$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $B$ by $\exists z\ \phi(z, u)$} \\ 
+\label{proposition:three!11} \hypertarget{proposition:three!11}{\mbox{(11)}}  \ &  \ $(\phi(x, u)\ \rightarrow\ \exists z\ \phi(z, u))\ \rightarrow\ ((\forall y\ \phi(x, y)\ \rightarrow\ \phi(x, u))\ \rightarrow\ (\forall y\ \phi(x, y)\ \rightarrow\ \exists z\ \phi(z, u)))$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} in \hyperlink{proposition:three!10}{(10)}} \\ 
+\label{proposition:three!12} \hypertarget{proposition:three!12}{\mbox{(12)}}  \ &  \ $(\forall y\ \phi(x, y)\ \rightarrow\ \phi(x, u))\ \rightarrow\ (\forall y\ \phi(x, y)\ \rightarrow\ \exists z\ \phi(z, u))$ \ &  \ {\tiny \hyperlink{rule:modusPonens}{MP}} \\ 
+\label{proposition:three!13} \hypertarget{proposition:three!13}{\mbox{(13)}}  \ &  \ $\forall y\ \phi(x, y)\ \rightarrow\ \exists z\ \phi(z, u)$ \ &  \ {\tiny \hyperlink{rule:modusPonens}{MP}} \\ 
+\label{proposition:three!14} \hypertarget{proposition:three!14}{\mbox{(14)}}  \ &  \ $\exists x\ \forall y\ \phi(x, y)\ \rightarrow\ \exists z\ \phi(z, u)$ \ &  \ {\tiny \hyperlink{rule:existentialGeneralization}{Existential} in \hyperlink{proposition:three!13}{(13)}} \\ 
+\label{proposition:three!15} \hypertarget{proposition:three!15}{\mbox{(15)}}  \ &  \ $\exists x\ \forall y\ \phi(x, y)\ \rightarrow\ \forall u\ \exists z\ \phi(z, u)$ \ &  \ {\tiny \hyperlink{rule:universalGeneralization}{Universal} in \hyperlink{proposition:three!14}{(14)}} \\ 
+\label{proposition:three!16} \hypertarget{proposition:three!16}{\mbox{(16)}}  \ &  \ $\exists x\ \forall y\ \phi(x, y)\ \rightarrow\ \forall y\ \exists z\ \phi(z, y)$ \ &  \ {\tiny \hyperlink{rule:renameBound}{Rename} in \hyperlink{proposition:three!15}{(15)}} \\ 
+\label{proposition:three!16} \hypertarget{proposition:three!16}{\mbox{(16)}}  \ &  \ $\exists x\ \forall y\ \phi(x, y)\ \rightarrow\ \forall y\ \exists x\ \phi(x, y)$ \ &  \ {\tiny \hyperlink{rule:renameBound}{Rename}} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:four} \hypertarget{proposition:four}{}
+{\tt \tiny [\verb]proposition:four]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall x\ \forall y\ \phi(x, y)\ \rightarrow\ \forall y\ \forall x\ \phi(x, y)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:four!1} \hypertarget{proposition:four!1}{\mbox{(1)}}  \ &  \ $\forall x\ \phi(x)\ \rightarrow\ \phi(y)$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperlink{axiom:universalInstantiation}{axiom~5}} \\ 
+\label{proposition:four!2} \hypertarget{proposition:four!2}{\mbox{(2)}}  \ &  \ $\forall x\ \phi(x)\ \rightarrow\ \phi(u)$ \ &  \ {\tiny \hyperlink{rule:replaceFree}{SubstFree}} \\ 
+\label{proposition:four!3} \hypertarget{proposition:four!3}{\mbox{(3)}}  \ &  \ $\forall y\ \phi(y)\ \rightarrow\ \phi(u)$ \ &  \ {\tiny \hyperlink{rule:renameBound}{Rename} $x$ in \hyperlink{proposition:four!2}{(2)}} \\ 
+\label{proposition:four!4} \hypertarget{proposition:four!4}{\mbox{(4)}}  \ &  \ $\forall y\ \phi(z, y)\ \rightarrow\ \phi(z, u)$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} by $\phi(z, x)$} \\ 
+\label{proposition:four!5} \hypertarget{proposition:four!5}{\mbox{(5)}}  \ &  \ $\forall x\ \forall y\ \phi(x, y)\ \rightarrow\ \forall y\ \phi(u, y)$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $\phi(x)$} \\ 
+\label{proposition:four!6} \hypertarget{proposition:four!6}{\mbox{(6)}}  \ &  \ $\forall x\ \forall y\ \phi(x, y)\ \rightarrow\ \forall y\ \phi(z, y)$ \ &  \ {\tiny \hyperlink{rule:replaceFree}{SubstFree} by $z$ in \hyperlink{proposition:four!5}{(5)}} \\ 
+\label{proposition:four!7} \hypertarget{proposition:four!7}{\mbox{(7)}}  \ &  \ $(A\ \rightarrow\ B)\ \rightarrow\ ((C\ \rightarrow\ A)\ \rightarrow\ (C\ \rightarrow\ B))$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperlink{axiom:disjunction_addition}{axiom~4}} \\ 
+\label{proposition:four!8} \hypertarget{proposition:four!8}{\mbox{(8)}}  \ &  \ $(\forall y\ \phi(z, y)\ \rightarrow\ B)\ \rightarrow\ ((C\ \rightarrow\ \forall y\ \phi(z, y))\ \rightarrow\ (C\ \rightarrow\ B))$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} in \hyperlink{proposition:four!7}{(7)}} \\ 
+\label{proposition:four!9} \hypertarget{proposition:four!9}{\mbox{(9)}}  \ &  \ $(\forall y\ \phi(z, y)\ \rightarrow\ \phi(z, u))\ \rightarrow\ ((C\ \rightarrow\ \forall y\ \phi(z, y))\ \rightarrow\ (C\ \rightarrow\ \phi(z, u)))$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $B$ by $\phi(z, u)$ in \hyperlink{8.8.8?}{8.8.8?}} \\ 
+\label{proposition:four!10} \hypertarget{proposition:four!10}{\mbox{(10)}}  \ &  \ $(\forall y\ \phi(z, y)\ \rightarrow\ \phi(z, u))\ \rightarrow\ ((\forall x\ \forall y\ \phi(x, y)\ \rightarrow\ \forall y\ \phi(z, y))\ \rightarrow\ (\forall x\ \forall y\ \phi(x, y)\ \rightarrow\ \phi(z, u)))$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred}} \\ 
+\label{proposition:four!11} \hypertarget{proposition:four!11}{\mbox{(11)}}  \ &  \ $(\forall x\ \forall y\ \phi(x, y)\ \rightarrow\ \forall y\ \phi(z, y))\ \rightarrow\ (\forall x\ \forall y\ \phi(x, y)\ \rightarrow\ \phi(z, u))$ \ &  \ {\tiny \hyperlink{rule:modusPonens}{MP} \hyperlink{10.1.2?}{10.1.2?}, \hyperlink{4.4.1?}{4.4.1?}} \\ 
+\label{proposition:four!12} \hypertarget{proposition:four!12}{\mbox{(12)}}  \ &  \ $\forall x\ \forall y\ \phi(x, y)\ \rightarrow\ \phi(z, u)$ \ &  \ {\tiny \hyperlink{rule:modusPonens}{MP} \hyperlink{proposition:four!11}{(11)}, \hyperlink{proposition:four!6}{(6)}} \\ 
+\label{proposition:four!13} \hypertarget{proposition:four!13}{\mbox{(13)}}  \ &  \ $\forall x\ \forall y\ \phi(x, y)\ \rightarrow\ \forall z\ \phi(z, u)$ \ &  \ {\tiny \hyperlink{rule:universalGeneralization}{Universal} in \hyperlink{proposition:four!12}{(12)}} \\ 
+\label{proposition:four!13} \hypertarget{proposition:four!13}{\mbox{(13)}}  \ &  \ $\forall x\ \forall y\ \phi(x, y)\ \rightarrow\ \forall u\ \forall z\ \phi(z, u)$ \ &  \ {\tiny \hyperlink{rule:universalGeneralization}{Universal} in \hyperlink{proposition:four!12}{(12)}} \\ 
+\label{proposition:four!13} \hypertarget{proposition:four!13}{\mbox{(13)}}  \ &  \ $\forall x\ \forall y\ \phi(x, y)\ \rightarrow\ \forall y\ \forall z\ \phi(z, y)$ \ &  \ {\tiny \hyperlink{rule:renameBound}{Rename} in \hyperlink{proposition:four!12}{(12)}} \\ 
+\label{proposition:four!14} \hypertarget{proposition:four!14}{\mbox{(14)}}  \ &  \ $\forall x\ \forall y\ \phi(x, y)\ \rightarrow\ \forall y\ \forall x\ \phi(x, y)$ \ &  \ {\tiny \hyperlink{rule:renameBound}{Rename} $z$ by $x$} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:five} \hypertarget{proposition:five}{}
+{\tt \tiny [\verb]proposition:five]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall x\ \phi(x)\ \rightarrow\ \forall x\ \phi(f(x))$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:five!1} \hypertarget{proposition:five!1}{\mbox{(1)}}  \ &  \ $\forall x\ \phi(x)\ \rightarrow\ \phi(y)$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperlink{axiom:universalInstantiation}{axiom~5}} \\ 
+\label{proposition:five!2} \hypertarget{proposition:five!2}{\mbox{(2)}}  \ &  \ $\forall x\ \phi(x)\ \rightarrow\ \phi(g(y))$ \ &  \ {\tiny \hyperlink{rule:replaceFree}{SubstFree} by $g(y)$ in \hyperlink{proposition:five!1}{(1)}} \\ 
+\label{proposition:five!3} \hypertarget{proposition:five!3}{\mbox{(3)}}  \ &  \ $\forall x\ \phi(x)\ \rightarrow\ \phi(f(y))$ \ &  \ {\tiny \hyperlink{rule:replaceFunct}{SubstFun}} \\ 
+\label{proposition:five!4} \hypertarget{proposition:five!4}{\mbox{(4)}}  \ &  \ $\forall x\ \phi(x)\ \rightarrow\ \forall y\ \phi(f(y))$ \ &  \ {\tiny \hyperlink{rule:universalGeneralization}{Universal} with $y$} \\ 
+\label{proposition:five!4} \hypertarget{proposition:five!4}{\mbox{(4)}}  \ &  \ $\forall x\ \phi(x)\ \rightarrow\ \forall x\ \phi(f(x))$ \ &  \ {\tiny \hyperlink{rule:renameBound}{Rename} $y$ by $x$ in \hyperlink{proposition:five!4}{(4)}} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\par
+No useful proof, but uses missing rules.
+
+\begin{prop}
+\label{proposition:six} \hypertarget{proposition:six}{}
+{\tt \tiny [\verb]proposition:six]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall x\ \phi(x)\ \rightarrow\ \exists x\ \phi(x)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:six!1} \hypertarget{proposition:six!1}{\mbox{(1)}}  \ &  \ $\forall x\ \phi(x)\ \rightarrow\ \exists x\ \phi(x)$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperlink{proposition:two}{proposition~2}} \\ 
+\label{proposition:six!2} \hypertarget{proposition:six!2}{\mbox{(2)}}  \ &  \ $\forall x\ \phi(x)\ \rightarrow\ \exists y\ \phi(y)$ \ &  \ {\tiny \hyperlink{rule:renameBound}{Rename} $x$ by $y$ in \hyperlink{proposition:six!1}{(1)}} \\ 
+\label{proposition:six!3} \hypertarget{proposition:six!3}{\mbox{(3)}}  \ &  \ $\forall x\ \phi(z, x)\ \rightarrow\ \exists y\ \phi(z, y)$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $\phi(u)$ by $\phi(z, u)$ in \hyperlink{proposition:six!2}{(2)}} \\ 
+\label{proposition:six!4} \hypertarget{proposition:six!4}{\mbox{(4)}}  \ &  \ $\forall x\ \phi(f(z), x)\ \rightarrow\ \exists y\ \phi(f(z), y)$ \ &  \ {\tiny \hyperlink{rule:replaceFree}{SubstFree} $u$ by $f(u)$ in \hyperlink{proposition:six!3}{(3)}} \\ 
+\label{proposition:six!5} \hypertarget{proposition:six!5}{\mbox{(5)}}  \ &  \ $\forall x\ \phi(g(z), x)\ \rightarrow\ \exists y\ \phi(g(z), y)$ \ &  \ {\tiny \hyperlink{rule:replaceFunct}{SubstFun} by $g(u)$ in \hyperlink{proposition:six!4}{(4)}} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+
+%% end of chapter First
+
+\addcontentsline{toc}{chapter}{\indexname} \printindex
+
+\end{document}
+
