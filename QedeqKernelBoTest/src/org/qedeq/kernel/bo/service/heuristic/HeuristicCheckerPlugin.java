@@ -16,10 +16,10 @@
 package org.qedeq.kernel.bo.service.heuristic;
 
 import org.qedeq.base.io.Parameters;
+import org.qedeq.kernel.bo.common.PluginBo;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.logic.model.SixDynamicModel;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginBo;
 
 
 /**
