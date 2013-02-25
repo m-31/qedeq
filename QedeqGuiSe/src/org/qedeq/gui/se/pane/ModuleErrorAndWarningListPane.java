@@ -47,6 +47,7 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.gui.se.control.SelectionListenerList;
+import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.log.ModuleEventListener;
 import org.qedeq.kernel.se.common.SourceFileException;
@@ -109,8 +110,7 @@ public class ModuleErrorAndWarningListPane extends JPanel implements ModuleEvent
                         break;
                 default: tip = sfe.getMessage() + "\n";
                 }
-                tip = "<html>" + StringUtility.replace(StringUtility.escapeXml(tip), "\n", "<br>")
-                    + "</html>";
+                tip = GuiHelper.getToolTipText(tip);
                 return tip;
 
             }
