@@ -53,6 +53,7 @@ import javax.swing.text.JTextComponent;
 
 import org.qedeq.base.io.ResourceLoaderUtility;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.StringUtility;
 import org.qedeq.gui.se.main.GuiOptions;
 
 import com.jgoodies.looks.Options;
@@ -90,6 +91,46 @@ public final class GuiHelper {
 
     /** Width of text box for search text. */
     private static final int SEARCH_TEXT_BOX_WIDTH = 500;
+
+    private static final String unknownString =
+        "47 49 46 38 37 61 10 00 10 00 C6 43 00 00 00 00 "
+        + "07 02 02 0C 04 04 0E 04 04 10 05 05 14 06 06 15 "
+        + "06 06 18 07 07 1E 09 09 21 0A 0A 26 0B 0B 2D 0D "
+        + "0D 31 0E 0E 32 0F 0F 3D 12 12 3F 13 13 40 13 13 "
+        + "44 14 14 46 15 15 49 15 15 4A 16 16 50 18 18 51 "
+        + "18 18 52 18 18 68 1F 1F 6C 20 20 7A 24 24 7C 24 "
+        + "24 8C 29 29 96 2C 2C 99 2D 2D 9B 2E 2E 9D 2E 2E "
+        + "A0 2F 2F A3 30 30 A4 31 31 A7 31 31 B3 35 35 B6 "
+        + "36 36 B8 36 36 BC 38 38 C4 3A 3A C9 3B 3B CC 3C "
+        + "3C CD 3D 3D CE 3D 3D D0 3D 3D D1 3E 3E D5 3F 3F "
+        + "D9 40 40 DB 41 41 E0 42 42 E3 43 43 E4 43 43 E9 "
+        + "45 45 ED 46 46 EE 46 46 F1 47 47 F3 48 48 F4 48 "
+        + "48 F7 49 49 F8 49 49 FA 4A 4A FB 4A 4A FC 4A 4A "
+        + "FD 4B 4B FE 4B 4B FF FF FF FF FF FF FF FF FF FF "
+        + "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF "
+        + "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF "
+        + "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF "
+        + "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF "
+        + "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF "
+        + "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF "
+        + "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF "
+        + "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF "
+        + "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF "
+        + "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF "
+        + "FF FF FF FF FF FF FF FF FF FF FF FF FF 2C 00 00 "
+        + "00 00 10 00 10 00 00 07 87 80 42 82 83 84 85 86 "
+        + "87 88 89 85 3E 2E 23 22 30 83 36 26 1F 28 3A 83 "
+        + "1C 0C 0E 0B 05 20 42 33 0F 0D 10 07 11 83 27 2B "
+        + "82 15 06 3B 3B 24 38 42 29 01 87 17 09 37 84 2D "
+        + "03 86 19 04 26 84 2A 0A 14 85 1B 02 25 82 40 42 "
+        + "2F 08 16 85 33 03 18 83 3E 42 1A 00 32 85 35 12 "
+        + "1E 42 3F D9 42 1D 13 35 85 3C 2C 34 85 34 2D 3D "
+        + "85 31 00 19 42 D0 D0 19 00 31 85 39 21 2A 42 41 "
+        + "F6 42 2A 21 39 84 F7 C5 83 C6 04 F9 53 54 28 10 "
+        + "00 3B ";
+
+    /** Generic ImageIcon. */
+    public static final ImageIcon UNKNOWN = new ImageIcon(StringUtility.hex2byte(unknownString));
 
     /**
      * Hidden constructor.
@@ -207,7 +248,7 @@ public final class GuiHelper {
         if (url == null) {
             Trace.fatal(CLASS, "readImageIcon", "image icon not found: images/" + filename,
                 new RuntimeException());
-            return null;
+            return UNKNOWN;
         }
         return new ImageIcon(url);
     }
