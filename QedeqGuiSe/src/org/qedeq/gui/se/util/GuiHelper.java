@@ -52,6 +52,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 
 import org.qedeq.base.io.ResourceLoaderUtility;
+import org.qedeq.base.io.StringOutput;
+import org.qedeq.base.io.SubTextInput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.gui.se.main.GuiOptions;
@@ -452,4 +454,22 @@ public final class GuiHelper {
         return withTitle;
     }
 
+    public static String getToolTipText(final String text) {
+//        System.out.println("original:   " + text);
+        final StringOutput output = new StringOutput();
+        final SubTextInput input =  new SubTextInput(text);
+        output.setColumns(120); // TODO 20130225 m31: calculate size somehow
+        while (!input.isEmpty()) {
+            String token = input.readStringTilWhitespace();
+            output.addToken(token);
+            String ws = "";
+            while (Character.isWhitespace(input.getChar())) {
+                ws = ws + (char) input.read();
+            }
+            output.addWs(ws);
+        }
+//        System.out.println("transformed:" + output.toString());
+        return  "<html>" + StringUtility.replace(StringUtility.escapeXml(output.toString()),
+                "\n", "<br>") + "</html>";
+    }
 }
