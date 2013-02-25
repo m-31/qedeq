@@ -163,6 +163,7 @@ public class Parameters {
         final StringBuffer buffer = new StringBuffer(30);
         Iterator e = map.entrySet().iterator();
         boolean notFirst = false;
+        int len = 0;
         while (e.hasNext()) {
             final Map.Entry entry = (Map.Entry) e.next();
             String key = String.valueOf(entry.getKey());
@@ -170,6 +171,10 @@ public class Parameters {
                 buffer.append(", ");
             } else {
                 notFirst = true;
+            }
+            if (buffer.length() - len > 120) {
+                buffer.append("\n");
+                len = buffer.length();
             }
             buffer.append(key);
             buffer.append("=");
