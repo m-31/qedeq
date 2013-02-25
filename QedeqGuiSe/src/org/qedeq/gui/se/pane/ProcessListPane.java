@@ -112,7 +112,7 @@ public class ProcessListPane extends JPanel  {
                      "\n", "<br>") + "</html>";
                 break;
                 case 8: tip = "<html>" + StringUtility.replace(StringUtility.escapeXml(
-                    process.getParameterString()),"\n", "<br>") + "</html>";
+                    process.getParameterString()), "\n", "<br>") + "</html>";
                     break;
                 default: tip = "";
                 }
