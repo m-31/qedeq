@@ -27,6 +27,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.util.AnimatedGifCreator;
 import org.qedeq.gui.se.util.DecoratedIcon;
+import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.se.state.AbstractState;
 import org.qedeq.kernel.se.state.DependencyState;
@@ -47,19 +48,24 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
     private static final Class CLASS = QedeqTreeCellRenderer.class;
 
     /** Status icon. */
-    private static ImageIcon startIcon = createImageIcon("module_start.gif");
+    private static ImageIcon startIcon
+        = createImageIcon("module_start.gif");
 
     /** Status icon. */
-    private static ImageIcon loadedIcon = createImageIcon("module_loaded.gif");
+    private static ImageIcon loadedIcon
+        = createImageIcon("module_loaded.gif");
 
     /** Status icon. */
-    private static ImageIcon loadedRequiredIcon = createImageIcon("module_loaded_required.gif");
+    private static ImageIcon loadedRequiredIcon
+        = createImageIcon("module_loaded_required.gif");
 
     /** Status icon. */
-    private static ImageIcon wellFormedIcon = createImageIcon("module_checked.gif");
+    private static ImageIcon wellFormedIcon
+        = createImageIcon("module_checked.gif");
 
     /** Status icon. */
-    private static ImageIcon formallyProvedIcon = createImageIcon("module_checked2.gif");
+    private static ImageIcon formallyProvedIcon
+        = createImageIcon("module_checked2.gif");
 
     /** Status icon. */
 //    private static AnimatedIcon startNextIcon
@@ -86,22 +92,19 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
         = new AnimatedIcon(createImageIcon("next_module_checked.gif"));
 
     /** Status icon. */
-    private static ImageIcon basicErrorOverlayIcon = new ImageIcon(
-        QedeqTreeCellRenderer.class.getResource(
-            "/images/eclipse/error_co_dl.gif"));
+    private static ImageIcon basicErrorOverlayIcon
+        = GuiHelper.readImageIcon("eclipse/error_co_dl.gif");
 
     /** Status icon. */
-    private static ImageIcon pluginErrorOverlayIcon = new ImageIcon(
-        QedeqTreeCellRenderer.class.getResource(
-            "/images/eclipse/error_co_ur.gif"));
+    private static ImageIcon pluginErrorOverlayIcon
+        = GuiHelper.readImageIcon("eclipse/error_co_ur.gif");
 
     /** Status icon. */
-    private static ImageIcon pluginWarningOverlayIcon = new ImageIcon(
-        QedeqTreeCellRenderer.class.getResource(
-            "/images/eclipse/warning_co_ur.gif"));
+    private static ImageIcon pluginWarningOverlayIcon
+        = GuiHelper.readImageIcon("eclipse/warning_co_ur.gif");
 
     static ImageIcon createImageIcon(final String name) {
-        return new ImageIcon(QedeqTreeCellRenderer.class.getResource("/images/qedeq/16x16/" + name));
+        return GuiHelper.readImageIcon("qedeq/16x16/" + name);
 
     }
 
