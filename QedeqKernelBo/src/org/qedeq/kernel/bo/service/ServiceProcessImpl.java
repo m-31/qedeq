@@ -97,65 +97,38 @@ public class ServiceProcessImpl implements ServiceProcess {
         this(service, Thread.currentThread(), qedeq, parameters);
     }
 
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.ServiceProcess#getService()
-     */
     public synchronized Plugin getService() {
         return service;
     }
 
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.ServiceProcess#getThread()
-     */
     public synchronized Thread getThread() {
         return thread;
     }
 
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.ServiceProcess#getQedeq()
-     */
     public synchronized QedeqBo getQedeq() {
         return qedeq;
     }
 
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.ServiceProcess#getParameters()
-     */
     public synchronized Parameters getParameters() {
         return parameters;
     }
 
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.ServiceProcess#getExecutor()
-     */
     public synchronized PluginExecutor getExecutor() {
         return executor;
     }
 
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.ServiceProcess#setExecutor(org.qedeq.kernel.bo.module.PluginExecutor)
-     */
     public synchronized void setExecutor(final PluginExecutor executor) {
         this.executor = executor;
     }
 
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.ServiceProcess#getParameterString()
-     */
     public synchronized String getParameterString() {
         return parameters.getParameterString();
     }
 
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.ServiceProcess#getStart()
-     */
     public synchronized long getStart() {
         return start;
     }
 
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.ServiceProcess#getStop()
-     */
     public synchronized long getStop() {
         return stop;
     }
@@ -169,9 +142,6 @@ public class ServiceProcessImpl implements ServiceProcess {
         stop = System.currentTimeMillis();
     }
 
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.ServiceProcess#setSuccessState()
-     */
     public synchronized void setSuccessState() {
         if (isRunning()) {
             state = 1;
@@ -181,9 +151,6 @@ public class ServiceProcessImpl implements ServiceProcess {
         }
     }
 
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.ServiceProcess#setFailureState()
-     */
     public synchronized void setFailureState() {
         if (isRunning()) {
             state = -1;
@@ -191,9 +158,6 @@ public class ServiceProcessImpl implements ServiceProcess {
         }
     }
 
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.ServiceProcess#isRunning()
-     */
     public synchronized boolean isRunning() {
         if (state == 0) {
             if (!thread.isAlive()) {
@@ -207,9 +171,6 @@ public class ServiceProcessImpl implements ServiceProcess {
         return false;
     }
 
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.ServiceProcess#isBlocked()
-     */
     public synchronized boolean isBlocked() {
         if (isRunning()) {
             return blocked;
@@ -217,38 +178,22 @@ public class ServiceProcessImpl implements ServiceProcess {
         return false;
     }
 
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.ServiceProcess#setBlocked(boolean)
-     */
     public synchronized void setBlocked(final boolean blocked) {
         this.blocked = blocked;
     }
 
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.ServiceProcess#wasSuccess()
-     */
     public synchronized boolean wasSuccess() {
         return state == 1;
     }
 
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.ServiceProcess#wasFailure()
-     */
     public synchronized boolean wasFailure() {
         return state == -1;
     }
 
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.ServiceProcess#interrupt()
-     */
     public synchronized void interrupt() {
         thread.interrupt();
-        setFailureState();
     }
 
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.ServiceProcess#getExecutionPercentage()
-     */
     public synchronized double getExecutionPercentage() {
         if (isRunning() || isBlocked()) {
             if (executor != null) {
@@ -258,9 +203,6 @@ public class ServiceProcessImpl implements ServiceProcess {
         return executionPercentage;
     }
 
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.ServiceProcess#getExecutionActionDescription()
-     */
     public synchronized String getExecutionActionDescription() {
         if (isRunning() || isBlocked()) {
             if (executor != null) {
