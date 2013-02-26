@@ -45,7 +45,6 @@ import javax.swing.text.StyleConstants;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
-import org.qedeq.base.utility.StringUtility;
 import org.qedeq.gui.se.control.SelectionListenerList;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.common.QedeqBo;

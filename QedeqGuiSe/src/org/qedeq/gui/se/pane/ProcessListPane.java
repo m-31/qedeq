@@ -43,7 +43,6 @@ import javax.swing.text.StyleConstants;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.base.utility.StringUtility;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.common.ServiceProcess;

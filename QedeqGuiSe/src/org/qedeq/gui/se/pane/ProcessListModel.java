@@ -54,6 +54,7 @@ public class ProcessListModel extends AbstractTableModel {
     /** Last process info. */
     private ServiceProcess[] process = new ServiceProcess[] {};
 
+    /** Should only running tasks be chosen? */
     private boolean onlyRunning = true;
 
     public String getColumnName(final int column) {
