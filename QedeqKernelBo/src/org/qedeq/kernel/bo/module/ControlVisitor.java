@@ -113,12 +113,14 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
 
     /**
      * Start traverse of QedeqBo. If during the traverse a {@link ModuleDataException}
-     * occurs it is thrown till high level and transformed into a
-     * {@link SourceFileExceptionList}. Otherwise all collected exceptions
+     * occurs it is thrown till high level, transformed into a
+     * {@link SourceFileException} and added to the error list. All collected exceptions
      * (via {@link #addError(ModuleDataException)} and
-     * {@link #addError(SourceFileException)}) are thrown.
+     * {@link #addError(SourceFileException)}) are thrown (if there were any).
+     * <br/>
+     * If you are interested in warnings you have to call {@link #getWarningList()} afterwards.
      *
-     * @throws  SourceFileExceptionList  All collected exceptions.
+     * @throws  SourceFileExceptionList  All collected error exceptions.
      */
     public void traverse() throws SourceFileExceptionList {
         if (getQedeqBo().getQedeq() == null) {
