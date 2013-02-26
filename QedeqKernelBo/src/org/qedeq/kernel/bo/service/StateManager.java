@@ -21,6 +21,7 @@ import java.util.List;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.log.ModuleEventLog;
+import org.qedeq.kernel.bo.module.InternalPluginBo;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceChecker;
 import org.qedeq.kernel.bo.module.ModuleLabels;
@@ -830,7 +831,7 @@ public class StateManager {
     /**
      * Set {@link SourceFileExceptionList}. Doesn't do any status handling. Only for internal use.
      *
-     * @param   errors   Set this error list.
+     * @param   errors   Set this error list. If this is <code>null</code> the errors are cleared!
      */
     protected void setErrors(final SourceFileExceptionList errors) {
         this.errors = errors;
@@ -849,6 +850,11 @@ public class StateManager {
      */
     public void addPluginResults(final Plugin plugin, final SourceFileExceptionList errors,
             final SourceFileExceptionList warnings) {
+        if (plugin instanceof InternalPluginBo) {
+            throw new RuntimeException(
+                "Programming error: an internal plugin should not add exeptions here!\n"
+                + plugin.getClass().getName());
+        }
         pluginResults.addResult(plugin, errors, warnings);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
