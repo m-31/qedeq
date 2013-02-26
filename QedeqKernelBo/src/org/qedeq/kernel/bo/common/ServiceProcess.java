@@ -90,7 +90,7 @@ public interface ServiceProcess {
     public long getStop();
 
     /**
-     * Mark that thread execution was has normally ended.
+     * Mark that thread execution has normally ended.
      */
     public void setSuccessState();
 
@@ -135,7 +135,9 @@ public interface ServiceProcess {
     public boolean wasFailure();
 
     /**
-     * Interrupt running thread. Usually because of user canceling.
+     * Interrupt running thread. Usually because of user canceling. This should initiate a
+     * {@link org.qedeq.kernel.se.visitor.InterruptException} when {@link Thread.interrupted()}
+     * is <code>true</code>.
      */
     public void interrupt();
 
