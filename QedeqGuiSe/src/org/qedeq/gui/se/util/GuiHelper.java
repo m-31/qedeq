@@ -23,6 +23,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.net.URL;
 
@@ -51,6 +52,7 @@ import javax.swing.table.TableModel;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 
+import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.ResourceLoaderUtility;
 import org.qedeq.base.io.StringOutput;
 import org.qedeq.base.io.SubTextInput;
@@ -134,6 +136,10 @@ public final class GuiHelper {
     /** Generic ImageIcon. */
     public static final ImageIcon UNKNOWN = new ImageIcon(StringUtility.hex2byte(unknownString));
 
+    /** Do we have a low screen resolution? */
+    public static final boolean IS_LOW_RESOLUTION
+        = Toolkit.getDefaultToolkit().getScreenSize().width <= 1000;
+    
     /**
      * Hidden constructor.
      */
@@ -162,8 +168,8 @@ public final class GuiHelper {
             .get("TextArea.background"));
 
         UIManager.put("ToolTip.font",
-                new FontUIResource("Lucida Sans Unicode", Font.PLAIN,
-                UIManager.getFont("ToolTip.font").getSize()));
+            new FontUIResource("Lucida Sans Unicode", Font.PLAIN,
+            UIManager.getFont("ToolTip.font").getSize()));
 
            // Swing Settings
         LookAndFeel selectedLaf = options.getSelectedLookAndFeel();
@@ -458,7 +464,15 @@ public final class GuiHelper {
 //        System.out.println("original:   " + text);
         final StringOutput output = new StringOutput();
         final SubTextInput input =  new SubTextInput(text);
-        output.setColumns(120); // TODO 20130225 m31: calculate size somehow
+        int sw = Toolkit.getDefaultToolkit().getScreenSize().width;
+        if (sw >= 1200) {
+            output.setColumns(160);
+        } else if (sw >= 1000) {
+            output.setColumns(120);
+        } else {
+            output.setColumns(100);
+        }
+        
         while (!input.isEmpty()) {
             String token = input.readStringTilWhitespace();
             output.addToken(token);
@@ -469,7 +483,9 @@ public final class GuiHelper {
             output.addWs(ws);
         }
 //        System.out.println("transformed:" + output.toString());
-        return  "<html>" + StringUtility.replace(StringUtility.escapeXml(output.toString()),
-                "\n", "<br>") + "</html>";
+        IoUtility.close(input);
+        return  "<html>" + StringUtility.replace(
+            StringUtility.replace(StringUtility.escapeXml(output.toString()), "&apos;", "\'"),
+            "\n", "<br>") + "</html>";
     }
 }

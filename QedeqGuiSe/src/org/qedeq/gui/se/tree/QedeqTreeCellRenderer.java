@@ -180,7 +180,7 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
                 if (prop.isLoaded()) {
                     setToolTipText(prop.getUrl().toString());
                 } else {
-                    setToolTipText(prop.getStateDescription());
+                    setToolTipText(GuiHelper.getToolTipText(prop.getStateDescription()));
                 }
 //                setIcon(null);
 //                System.out.println(prop.getStateDescription());

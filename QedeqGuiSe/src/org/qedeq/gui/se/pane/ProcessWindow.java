@@ -24,6 +24,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
@@ -85,43 +86,53 @@ public class ProcessWindow extends JFrame {
 
         if (YodaUtility.existsMethod(Thread.class, "getStackTrace", new Class[] {})) {
             stackTrace = new JButton("Stacktrace");
-            stackTrace.addActionListener(new  ActionListener() {
+            stackTrace.addActionListener(new ActionListener() {
                 public void actionPerformed(final ActionEvent actionEvent) {
                     ProcessWindow.this.processList.stackTraceSelected();
                 }
             });
         }
 
-        JButton stop = new JButton("Stop");
-        stop.addActionListener(new  ActionListener() {
+        final JButton stop = new JButton("Stop");
+        stop.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
                 ProcessWindow.this.processList.stopSelected();
             }
         });
 
 
-        JButton refresh = new JButton("Refresh");
-        refresh.addActionListener(new  ActionListener() {
+        final JButton refresh = new JButton("Refresh");
+        refresh.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
                 ProcessWindow.this.processList.updateView();
             }
         });
 
 
-        JButton ok = new JButton("OK");
-        ok.addActionListener(new  ActionListener() {
+        final JButton ok = new JButton("OK");
+        ok.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
                 ProcessWindow.this.dispose();
             }
         });
 
-        JButton cancel = new JButton("Cancel");
-        cancel.addActionListener(new  ActionListener() {
+        final JButton cancel = new JButton("Cancel");
+        cancel.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
                 ProcessWindow.this.dispose();
             }
         });
 
+        final JToggleButton onlyRunning = new JToggleButton("Only Running", true);
+        onlyRunning.addActionListener(new ActionListener() {
+            public void actionPerformed(final ActionEvent actionEvent) {
+                ProcessWindow.this.processList.setRunningOnly(onlyRunning.isSelected());
+                ProcessWindow.this.processList.updateView();
+            }
+        });
+
+        bbuilder.addGridded(onlyRunning);
+        bbuilder.addRelatedGap();
         if (stackTrace != null) {
             bbuilder.addGriddedButtons(new JButton[]{stackTrace, stop, refresh, cancel, ok});
         } else {

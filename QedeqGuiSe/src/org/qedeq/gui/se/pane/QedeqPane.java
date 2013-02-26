@@ -75,23 +75,21 @@ public class QedeqPane extends JPanel implements SelectionListener {
                 return super.getToolTipText(e);
             }
             final StringBuffer buffer = new StringBuffer();
-            buffer.append("<html>");
             for (int j = 0; j < errNos.size(); j++) {
                 if (j > 0) {
-                    buffer.append("<br>");
+                    buffer.append("\n");
                 }
                 buffer.append((prop.getErrors().get(((Integer) errNos.get(j)).intValue())
-                    .getMessage()));    // TODO mime 20080417: escape for HTML presenatation
+                    .getMessage()));
             }
             for (int j = 0; j < warningNos.size(); j++) {
                 if (j > 0) {
-                    buffer.append("<br>");
+                    buffer.append("\n");
                 }
                 buffer.append((prop.getWarnings().get(((Integer) warningNos.get(j)).intValue())
-                    .getMessage()));    // TODO mime 20080417: escape for HTML presenatation
+                    .getMessage()));
             }
-            buffer.append("</html>");
-            setToolTipText(buffer.toString());
+            setToolTipText(GuiHelper.getToolTipText(buffer.toString()));
             return getToolTipText();
         }
     };

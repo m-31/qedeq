@@ -54,6 +54,8 @@ public class ProcessListModel extends AbstractTableModel {
     /** Last process info. */
     private ServiceProcess[] process = new ServiceProcess[] {};
 
+    private boolean onlyRunning = true;
+
     public String getColumnName(final int column) {
         if (column == 1) {
             return "Service";
@@ -131,7 +133,12 @@ public class ProcessListModel extends AbstractTableModel {
    }
 
     public void fireTableDataChanged() {
-        final ServiceProcess[] changed = KernelContext.getInstance().getServiceProcesses();
+        final ServiceProcess[] changed;
+        if (getOnlyRunning()) {
+            changed = KernelContext.getInstance().getRunningServiceProcesses();
+        } else {
+            changed = KernelContext.getInstance().getServiceProcesses();
+        }
         if (process.length > 0) {
             super.fireTableRowsUpdated(0, process.length - 1);
         }
@@ -139,6 +146,14 @@ public class ProcessListModel extends AbstractTableModel {
             super.fireTableRowsInserted(process.length, changed.length - 1);
         }
         process = changed;
+    }
+
+    public boolean getOnlyRunning() {
+        return onlyRunning;
+    }
+
+    public void setOnlyRunning(final boolean onlyRunning) {
+        this.onlyRunning = onlyRunning;
     }
 
     /**

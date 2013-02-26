@@ -217,7 +217,7 @@ public class ProcessListPane extends JPanel  {
             public void run() {
                 while (automaticRefresh) {
                     updateView();
-                    IoUtility.sleep(5000);
+                    IoUtility.sleep(5000);  // refresh every 5 seconds
                 }
             }
         };
@@ -288,6 +288,10 @@ public class ProcessListPane extends JPanel  {
             }
         }
 
+    }
+
+    public void setRunningOnly(final boolean runningOnly) {
+        model.setOnlyRunning(runningOnly);
     }
 
     public void stopSelected() {

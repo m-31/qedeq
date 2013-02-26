@@ -48,7 +48,6 @@ import org.qedeq.kernel.bo.log.TraceListener;
 import org.qedeq.kernel.bo.service.DefaultInternalKernelServices;
 import org.qedeq.kernel.xml.dao.XmlQedeqFileDao;
 
-import com.jgoodies.looks.LookUtils;
 import com.jgoodies.looks.Options;
 
 /**
@@ -60,8 +59,10 @@ import com.jgoodies.looks.Options;
 public class QedeqMainFrame extends JFrame {
 
     /** Initial frame resolution. */
-    protected static final Dimension PREFERRED_SIZE = (LookUtils.IS_LOW_RESOLUTION
-        ? new Dimension(650, 510) : new Dimension(740, 660));
+//    protected static final Dimension PREFERRED_SIZE = (LookUtils.IS_LOW_RESOLUTION
+//        ? new Dimension(650, 510) : new Dimension(740, 660));
+    protected static final Dimension PREFERRED_SIZE = (GuiHelper.IS_LOW_RESOLUTION
+        ? new Dimension(650, 510) : new Dimension(900, 660));
 
     /**
      * Constructor, configures the UI, and builds the content. Also some indirectly some GUI

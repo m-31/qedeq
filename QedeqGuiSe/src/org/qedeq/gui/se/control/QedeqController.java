@@ -25,6 +25,7 @@ import javax.swing.JOptionPane;
 import org.qedeq.gui.se.tree.NothingSelectedException;
 import org.qedeq.gui.se.tree.QedeqTreeCtrl;
 import org.qedeq.gui.se.util.DataDictionary;
+import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.gui.se.util.MenuHelper;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.QedeqBo;
@@ -289,7 +290,8 @@ public class QedeqController {
                 .getPluginActionName());
             item.addActionListener(pluginActions[i]);
             item.setIcon(pluginActions[i].getIcon());
-            item.setToolTipText(pluginActions[i].getPlugin().getPluginDescription());
+            item.setToolTipText(GuiHelper.getToolTipText(pluginActions[i].getPlugin()
+                .getPluginDescription()));
             result[i] = item;
         }
         return result;
