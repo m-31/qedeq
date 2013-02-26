@@ -181,6 +181,10 @@ public final class KernelContext implements KernelProperties, KernelServices {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
+        public ServiceProcess[] getRunningServiceProcesses() {
+            throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
+        }
+
         public void stopAllPluginExecutions() {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
@@ -281,6 +285,10 @@ public final class KernelContext implements KernelProperties, KernelServices {
         }
 
         public ServiceProcess[] getServiceProcesses() {
+            throw new IllegalStateException(KERNEL_NOT_STARTED);
+        }
+
+        public ServiceProcess[] getRunningServiceProcesses() {
             throw new IllegalStateException(KERNEL_NOT_STARTED);
         }
 
@@ -393,6 +401,10 @@ public final class KernelContext implements KernelProperties, KernelServices {
 
         public ServiceProcess[] getServiceProcesses() {
             return services.getServiceProcesses();
+        }
+
+        public ServiceProcess[] getRunningServiceProcesses() {
+            return services.getRunningServiceProcesses();
         }
 
         public void stopAllPluginExecutions() {
@@ -574,12 +586,16 @@ public final class KernelContext implements KernelProperties, KernelServices {
         return currentState.getServiceProcesses();
     }
 
+    public ServiceProcess[] getRunningServiceProcesses() {
+        return currentState.getRunningServiceProcesses();
+    }
+
     public void stopAllPluginExecutions() {
         currentState.stopAllPluginExecutions();
     }
 
     /**
-     * Check java version. We want to be shure that the kernel is run at least with java 1.4.2
+     * Check java version. We want to be sure that the kernel is run at least with java 1.4.2
      *
      * @throws  IOException     Application is running below java 1.4.2.
      */

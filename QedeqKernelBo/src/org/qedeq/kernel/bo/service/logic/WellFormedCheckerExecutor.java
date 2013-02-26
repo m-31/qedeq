@@ -235,15 +235,15 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         setLocationWithinModule("");
         if (getQedeqBo().getQedeq().getHeader() == null) {
             addError(new IllegalModuleDataException(
-                    LogicErrors.MODULE_HAS_NO_HEADER_CODE,
-                    LogicErrors.MODULE_HAS_NO_HEADER_TEXT,
-                    getCurrentContext()));
+                LogicErrors.MODULE_HAS_NO_HEADER_CODE,
+                LogicErrors.MODULE_HAS_NO_HEADER_TEXT,
+                getCurrentContext()));
         }
         if (getQedeqBo().getQedeq().getHeader().getSpecification() == null) {
             addError(new IllegalModuleDataException(
-                    LogicErrors.MODULE_HAS_NO_HEADER_SPECIFICATION_CODE,
-                    LogicErrors.MODULE_HAS_NO_HEADER_SPECIFICATION_TEXT,
-                    getCurrentContext()));
+                LogicErrors.MODULE_HAS_NO_HEADER_SPECIFICATION_CODE,
+                LogicErrors.MODULE_HAS_NO_HEADER_SPECIFICATION_TEXT,
+                getCurrentContext()));
         }
     }
 

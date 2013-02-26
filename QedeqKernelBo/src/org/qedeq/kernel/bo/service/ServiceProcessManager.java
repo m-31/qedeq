@@ -42,6 +42,24 @@ public class ServiceProcessManager {
     }
 
     /**
+     * Get all running service processes. But remember a running process might currently
+     * be blocked.
+     *
+     * @return  All service running processes.
+     */
+    public synchronized ServiceProcess[] getRunningServiceProcesses() {
+        final ArrayList result = new ArrayList(processes);
+        for (int i = 0; i < result.size(); ) {
+            if (!((ServiceProcess) result.get(i)).isRunning()) {
+                result.remove(i);
+            } else {
+                i++;
+            }
+        }
+        return (ServiceProcess[]) result.toArray(new ServiceProcess[] {});
+    }
+
+    /**
      * Create service process.
      *
      * @param   service     The service that runs in current thread.

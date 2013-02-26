@@ -179,6 +179,15 @@ public interface KernelServices {
     public ServiceProcess[] getServiceProcesses();
 
     /**
+     * Get all running service processes. But remember a running process might currently
+     * be blocked.
+     *
+     * @return  All service running processes.
+     */
+    public ServiceProcess[] getRunningServiceProcesses();
+
+    
+    /**
      * Stop all currently running plugin executions.
      */
     public void stopAllPluginExecutions();

@@ -165,7 +165,7 @@ public class PluginManager {
                 process.setSuccessState();
                 return result;
             } catch (final RuntimeException e) {
-                final String msg = "Execution of plugin failed with a runtime exception.";
+                final String msg = plugin.getPluginActionName() + " failed with a runtime exception.";
                 Trace.fatal(CLASS, this, method, msg, e);
                 QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
                 return null;
