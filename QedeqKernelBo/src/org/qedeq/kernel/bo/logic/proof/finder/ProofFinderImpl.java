@@ -181,10 +181,11 @@ public class ProofFinderImpl implements ProofFinder {
         partGoalFormulas = FormulaUtility.getPartFormulas(goalFormula);
         log.logMessageState("our goal: " + trans.getUtf8(formula));
         while (true) {
-            // check if the thread should be
+            // check if the thread should be interrupted
             if (Thread.interrupted()) {
                 throw new InterruptException(this.context);
             }
+            int oldSize = lines.size();
             tryModusPonensAll();
             final Iterator iter = substitutionMethods.iterator();
             while (iter.hasNext()) {
@@ -197,6 +198,12 @@ public class ProofFinderImpl implements ProofFinder {
                     method.substitute();
                     tryModusPonensAll();
                 }
+            }
+            if (oldSize == lines.size()) {
+                // we didn't generate new lines, so we just quit
+                log.logMessageState(FinderErrors.PROOF_NOT_FOUND_TEXT + oldSize);
+                throw new ProofNotFoundException(FinderErrors.PROOF_NOT_FOUND_CODE,
+                    FinderErrors.PROOF_NOT_FOUND_TEXT + oldSize, context);
             }
         }
     }
