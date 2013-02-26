@@ -180,12 +180,13 @@ public class ProofFinderImpl implements ProofFinder {
         setAllPredVars(proof);
         partGoalFormulas = FormulaUtility.getPartFormulas(goalFormula);
         log.logMessageState("our goal: " + trans.getUtf8(formula));
+        int size2 = 0;
         while (true) {
             // check if the thread should be interrupted
             if (Thread.interrupted()) {
                 throw new InterruptException(this.context);
             }
-            int oldSize = lines.size();
+            int size1 = lines.size();
             tryModusPonensAll();
             final Iterator iter = substitutionMethods.iterator();
             while (iter.hasNext()) {
@@ -199,12 +200,14 @@ public class ProofFinderImpl implements ProofFinder {
                     tryModusPonensAll();
                 }
             }
-            if (oldSize == lines.size()) {
+//            System.out.println(lines.size());
+            if (size2 == lines.size()) {
                 // we didn't generate new lines, so we just quit
-                log.logMessageState(FinderErrors.PROOF_NOT_FOUND_TEXT + oldSize);
+                log.logMessageState(FinderErrors.PROOF_NOT_FOUND_TEXT + size2);
                 throw new ProofNotFoundException(FinderErrors.PROOF_NOT_FOUND_CODE,
-                    FinderErrors.PROOF_NOT_FOUND_TEXT + oldSize, context);
+                    FinderErrors.PROOF_NOT_FOUND_TEXT + size2, context);
             }
+            size2 = size1;
         }
     }
 
@@ -246,6 +249,9 @@ public class ProofFinderImpl implements ProofFinder {
         }
     }
 
+    /**
+     * Try all Modus Ponens with all new lines. Remember tested maximum.
+     */
     private void tryModusPonensAll() throws ProofException {
         int until = lines.size();
         for (int i = 0; i < until; i++) {
@@ -256,7 +262,6 @@ public class ProofFinderImpl implements ProofFinder {
             for (int j = (i < mpLast ? mpLast : 0); j < until; j++) {
                 if (first.getList().getElement(0).equals(
                         (Element) lines.get(j))) {
-//                    System.out.println("MP found!");
                     final ModusPonens mp = new ModusPonensBo(i, j);
                     addFormula(first.getList().getElement(1), mp);
                 }
