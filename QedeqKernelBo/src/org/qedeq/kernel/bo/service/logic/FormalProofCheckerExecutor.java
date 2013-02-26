@@ -168,8 +168,6 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
             QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
                  StringUtility.replace(e.getMessage(), "\n", "\n\t"));
             return Boolean.FALSE;
-        } finally {
-            getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
         }
         getQedeqBo().setFormallyProvedProgressState(FormallyProvedState.STATE_CHECKED);
         QedeqLog.getInstance().logSuccessfulReply(
