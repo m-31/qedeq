@@ -59,7 +59,6 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.dto.list.DefaultAtom;
 import org.qedeq.kernel.se.dto.list.DefaultElementList;
 import org.qedeq.kernel.se.state.FormallyProvedState;
-import org.qedeq.kernel.se.state.WellFormedState;
 
 
 /**
