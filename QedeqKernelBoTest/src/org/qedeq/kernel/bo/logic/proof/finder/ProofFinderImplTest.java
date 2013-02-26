@@ -37,13 +37,13 @@ import org.qedeq.kernel.se.dto.module.FormalProofLineListVo;
  *
  * @author Michael Meyling
  */
-public class ProofFinderTest extends QedeqBoTestCase {
+public class ProofFinderImplTest extends QedeqBoTestCase {
 
-    public ProofFinderTest() {
+    public ProofFinderImplTest() {
         super();
     }
 
-    public ProofFinderTest(final String name) {
+    public ProofFinderImplTest(final String name) {
         super(name);
     }
 
