@@ -96,7 +96,8 @@ public final class GuiHelper {
     /** Width of text box for search text. */
     private static final int SEARCH_TEXT_BOX_WIDTH = 500;
 
-    private static final String unknownString =
+    /** Contains Hex code for generic fallback 16x16 icon. */
+    private static final String UNKNOWN_STRING =
         "47 49 46 38 37 61 10 00 10 00 C6 43 00 00 00 00 "
         + "07 02 02 0C 04 04 0E 04 04 10 05 05 14 06 06 15 "
         + "06 06 18 07 07 1E 09 09 21 0A 0A 26 0B 0B 2D 0D "
@@ -134,12 +135,12 @@ public final class GuiHelper {
         + "00 3B ";
 
     /** Generic ImageIcon. */
-    public static final ImageIcon UNKNOWN = new ImageIcon(StringUtility.hex2byte(unknownString));
+    public static final ImageIcon UNKNOWN = new ImageIcon(StringUtility.hex2byte(UNKNOWN_STRING));
 
     /** Do we have a low screen resolution? */
     public static final boolean IS_LOW_RESOLUTION
         = Toolkit.getDefaultToolkit().getScreenSize().width <= 1000;
-    
+
     /**
      * Hidden constructor.
      */
@@ -472,7 +473,7 @@ public final class GuiHelper {
         } else {
             output.setColumns(100);
         }
-        
+
         while (!input.isEmpty()) {
             String token = input.readStringTilWhitespace();
             output.addToken(token);

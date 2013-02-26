@@ -57,8 +57,10 @@ public class AnimatedGifCreator {
     /** Name of second icon (must be in qedeq 16x16 resources). */
     private String secondIconName;
 
+    /** First icon = basis. */
     private BufferedImage firstIcon;
 
+    /** Second icon = overlay. */
     private BufferedImage secondIcon;
 
     /** Our image writer. */
