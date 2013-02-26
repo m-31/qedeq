@@ -14,12 +14,13 @@ Functional Changes
 
   Fixed Bugs
   ----------
-  bug fix: for qedeq_error_sample04.xml we can now generate UTF-8 and LaTeX files
+  - bug fix: for qedeq_error_sample04.xml we can now generate UTF-8 and LaTeX files
+  - plugin view shows now correct termination status
 
 
   Other Changes
   -------------
-  none
+  - find proofs stops now if no new proof lines can be generated
 
 
 XML Files
