@@ -116,6 +116,9 @@ public class DummyInternalKernalServices implements InternalKernelServices {
     public ServiceProcess[] getServiceProcesses() {
         return null;
     }
+    public ServiceProcess[] getRunningServiceProcesses() {
+        return null;
+    }
     public String getBuildId() {
         return null;
     }
