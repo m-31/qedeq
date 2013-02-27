@@ -176,11 +176,12 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     /**
      * Set loading progress module state.
      *
+     * @param   plugin  Plugin that sets the state.
      * @param   state   Module loading state. Must not be <code>null</code>.
      * @throws  IllegalStateException   State is a failure state or module loaded state.
      */
-    public void setLoadingProgressState(final LoadingState state) {
-        stateManager.setLoadingProgressState(state);
+    public void setLoadingProgressState(final Plugin plugin, final LoadingState state) {
+        stateManager.setLoadingProgressState(plugin, state);
     }
 
     /**
@@ -234,14 +235,15 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     /**
      * Set dependency progress module state.
      *
+     * @param   plugin  Plugin that sets the state.
      * @param   state   Module state. Must not be <code>null</code>.
      * @throws  IllegalStateException       Module is not yet loaded.
      * @throws  IllegalArgumentException    <code>state</code> is failure state or loaded required
      *                                      state.
      * @throws  NullPointerException        <code>state</code> is <code>null</code>.
      */
-    public void setDependencyProgressState(final DependencyState state) {
-        stateManager.setDependencyProgressState(state);
+    public void setDependencyProgressState(final Plugin plugin, final DependencyState state) {
+        stateManager.setDependencyProgressState(plugin, state);
     }
 
    /**
@@ -294,7 +296,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     }
 
     public void setWellFormed(final ModuleConstantsExistenceChecker checker) {
-        stateManager.setChecked(checker);
+        stateManager.setWellFormed(checker);
     }
 
     public boolean wasCheckedForBeingWellFormed() {
@@ -305,8 +307,8 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         return stateManager.wasCheckedForBeingFormallyProved();
     }
 
-    public void setWellFormedProgressState(final WellFormedState state) {
-        stateManager.setWellFormedState(state);
+    public void setWellFormedProgressState(final Plugin plugin, final WellFormedState state) {
+        stateManager.setWellFormedProgressState(plugin, state);
     }
 
     public void setWellfFormedFailureState(final WellFormedState state,
@@ -318,8 +320,8 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         return stateManager.getWellFormedState();
     }
 
-    public void setFormallyProvedProgressState(final FormallyProvedState state) {
-        stateManager.setFormallyProvedProgressState(state);
+    public void setFormallyProvedProgressState(final Plugin plugin, final FormallyProvedState state) {
+        stateManager.setFormallyProvedProgressState(plugin, state);
     }
 
     public void setFormallyProvedFailureState(final FormallyProvedState state,
@@ -349,6 +351,14 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
 
     public AbstractState getLastSuccessfulState() {
         return stateManager.getLastSuccesfulState();
+    }
+
+    public Plugin getCurrentlyRunningPlugin() {
+        return stateManager.getCurrentlyRunningPlugin();
+    }
+
+    public void setCurrentlyRunningPlugin(final Plugin currentlyRunningPlugin) {
+        stateManager.setCurrentlyRunningPlugin(currentlyRunningPlugin);
     }
 
     public String getName() {

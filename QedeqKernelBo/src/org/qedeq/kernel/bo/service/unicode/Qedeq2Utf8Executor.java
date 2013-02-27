@@ -194,4 +194,8 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
         return visitor.getExecutionPercentage() / languages.length * (run + 1);
     }
 
+    public boolean getInterrupted() {
+        return visitor.getInterrupted();
+    }
+
 }

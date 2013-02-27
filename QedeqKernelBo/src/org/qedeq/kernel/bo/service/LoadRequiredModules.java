@@ -84,7 +84,7 @@ public final class LoadRequiredModules {
             if (loadingRequiredInProgress.containsKey(prop)) { // already checked?
                 throw new IllegalStateException("Programming error: must not be marked!");
             }
-            prop.setDependencyProgressState(DependencyState.STATE_LOADING_REQUIRED_MODULES);
+            prop.setDependencyProgressState(plugin, DependencyState.STATE_LOADING_REQUIRED_MODULES);
             loadingRequiredInProgress.put(prop, prop);
 
         }

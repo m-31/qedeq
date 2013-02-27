@@ -122,4 +122,8 @@ public final class Qedeq2UnicodeTextExecutor implements PluginExecutor {
         return visitor.getExecutionPercentage();
     }
 
+    public boolean getInterrupted() {
+        return visitor.getInterrupted();
+    }
+
 }

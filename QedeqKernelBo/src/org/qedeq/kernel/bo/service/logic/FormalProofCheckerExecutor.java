@@ -134,7 +134,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
                 "Module is not even well formed.");
             return Boolean.FALSE;
         }
-        getQedeqBo().setFormallyProvedProgressState(FormallyProvedState.STATE_EXTERNAL_CHECKING);
+        getQedeqBo().setFormallyProvedProgressState(getPlugin(), FormallyProvedState.STATE_EXTERNAL_CHECKING);
         KernelModuleReferenceList list = (KernelModuleReferenceList) getQedeqBo().getRequiredModules();
         for (int i = 0; i < list.size(); i++) {
             Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label", list.getLabel(i));
@@ -158,7 +158,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
                  StringUtility.replace(getQedeqBo().getErrors().getMessage(), "\n", "\n\t"));
             return Boolean.FALSE;
         }
-        getQedeqBo().setFormallyProvedProgressState(FormallyProvedState.STATE_INTERNAL_CHECKING);
+        getQedeqBo().setFormallyProvedProgressState(getPlugin(), FormallyProvedState.STATE_INTERNAL_CHECKING);
         try {
             traverse();
         } catch (SourceFileExceptionList e) {
@@ -169,7 +169,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
                  StringUtility.replace(e.getMessage(), "\n", "\n\t"));
             return Boolean.FALSE;
         }
-        getQedeqBo().setFormallyProvedProgressState(FormallyProvedState.STATE_CHECKED);
+        getQedeqBo().setFormallyProvedProgressState(getPlugin(), FormallyProvedState.STATE_CHECKED);
         QedeqLog.getInstance().logSuccessfulReply(
             "Check of logical correctness successful", getQedeqBo().getUrl());
         return Boolean.TRUE;

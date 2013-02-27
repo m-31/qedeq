@@ -161,8 +161,13 @@ public class PluginManager {
             try {
                 final PluginExecutor exe = plugin.createExecutor(qedeq, parameters);
                 process.setExecutor(exe);
+                qedeq.setCurrentlyRunningPlugin(plugin);
                 final Object result = exe.executePlugin();
-                process.setSuccessState();
+                if (exe.getInterrupted()) {
+                    process.setFailureState();
+                } else {
+                    process.setSuccessState();
+                }
                 return result;
             } catch (final RuntimeException e) {
                 final String msg = plugin.getPluginActionName() + " failed with a runtime exception.";
@@ -175,6 +180,7 @@ public class PluginManager {
                 }
                 // remove old executor
                 process.setExecutor(null);
+                qedeq.setCurrentlyRunningPlugin(null);
             }
         }
     }

@@ -44,4 +44,11 @@ public interface PluginExecutor {
      */
     public String getLocationDescription();
 
+    /**
+     * Was the execution interrupted?
+     *
+     * @return  The execution was interrupted.
+     */
+    public boolean getInterrupted();
+
 }

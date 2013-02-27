@@ -158,7 +158,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                 "Not all required modules could be loaded.");
             return Boolean.FALSE;
         }
-        getQedeqBo().setWellFormedProgressState(WellFormedState.STATE_EXTERNAL_CHECKING);
+        getQedeqBo().setWellFormedProgressState(getPlugin(), WellFormedState.STATE_EXTERNAL_CHECKING);
         final SourceFileExceptionList sfl = new SourceFileExceptionList();
         final Map rules = new HashMap(); // map RuleKey to KernelQedeqBo
         KernelModuleReferenceList list = (KernelModuleReferenceList) getQedeqBo().getRequiredModules();
@@ -204,7 +204,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                  StringUtility.replace(sfl.getMessage(), "\n", "\n\t"));
             return Boolean.FALSE;
         }
-        getQedeqBo().setWellFormedProgressState(WellFormedState.STATE_INTERNAL_CHECKING);
+        getQedeqBo().setWellFormedProgressState(getPlugin(), WellFormedState.STATE_INTERNAL_CHECKING);
 
         try {
             traverse();

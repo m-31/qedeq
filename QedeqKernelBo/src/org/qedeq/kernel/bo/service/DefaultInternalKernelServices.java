@@ -327,7 +327,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
      */
     private void loadBufferedModule(final DefaultKernelQedeqBo prop)
             throws SourceFileExceptionList {
-        prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_BUFFER);
+        prop.setLoadingProgressState(this, LoadingState.STATE_LOADING_FROM_BUFFER);
         final File localFile;
         try {
             localFile = getCanonicalReadableFile(prop);
@@ -358,7 +358,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
      * @throws SourceFileExceptionList Loading or copying QEDEQ module failed.
      */
     private void loadLocalModule(final DefaultKernelQedeqBo prop) throws SourceFileExceptionList {
-        prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_LOCAL_FILE);
+        prop.setLoadingProgressState(this, LoadingState.STATE_LOADING_FROM_LOCAL_FILE);
         final File localFile;
         try {
             localFile = getCanonicalReadableFile(prop);
@@ -385,7 +385,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     private void setCopiedQedeq(final DefaultKernelQedeqBo prop, final Qedeq qedeq)
             throws SourceFileExceptionList {
         final String method = "setCopiedQedeq(DefaultKernelQedeqBo, Qedeq)";
-        prop.setLoadingProgressState(LoadingState.STATE_LOADING_INTO_MEMORY);
+        prop.setLoadingProgressState(this, LoadingState.STATE_LOADING_INTO_MEMORY);
         QedeqVo vo = null;
         try {
             vo = QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq);
@@ -636,7 +636,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             Trace.end(CLASS, this, method);
             return;
         }
-        prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_WEB);
+        prop.setLoadingProgressState(this, LoadingState.STATE_LOADING_FROM_WEB);
 
         final File f = getLocalFilePath(prop.getModuleAddress());
         try {

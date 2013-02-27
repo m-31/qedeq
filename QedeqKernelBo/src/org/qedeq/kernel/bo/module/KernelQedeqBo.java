@@ -72,7 +72,6 @@ public interface KernelQedeqBo extends QedeqBo {
     public void addPluginErrorsAndWarnings(Plugin plugin, SourceFileExceptionList errors,
             SourceFileExceptionList warnings);
 
-
     /**
      * Remove all errors and warnings for all plugins.
      */
@@ -94,22 +93,24 @@ public interface KernelQedeqBo extends QedeqBo {
      * @throws  IllegalArgumentException    <code>state</code> is no failure state
      */
     public void setWellfFormedFailureState(WellFormedState stateExternalCheckingFailed,
-            final SourceFileExceptionList sfl);
+            SourceFileExceptionList sfl);
 
     /**
      * Set logical well formed module state. Must not be <code>null</code>.
      *
+     * @param   plugin      Plugin that was executed.
      * @param   stateInternalChecking   module state
      */
-    public void setWellFormedProgressState(WellFormedState stateInternalChecking);
+    public void setWellFormedProgressState(Plugin plugin, WellFormedState stateInternalChecking);
 
     /**
      * Set logical formally proved module progress state. Must not be <code>null</code>.
      *
+     * @param   plugin      Plugin that was executed.
      * @param   state                       module state
      * @throws  IllegalArgumentException    <code>state</code> is no failure state
      */
-    public void setFormallyProvedProgressState(final FormallyProvedState state);
+    public void setFormallyProvedProgressState(Plugin plugin, FormallyProvedState state);
 
     /**
      * Set logical formally proved module failure state. Must not be <code>null</code>.
@@ -118,8 +119,8 @@ public interface KernelQedeqBo extends QedeqBo {
      * @param   sfl                          Exception that occurred during loading.
      * @throws  IllegalArgumentException    <code>state</code> is no failure state
      */
-    public void setFormallyProvedFailureState(final FormallyProvedState state,
-            final SourceFileExceptionList sfl);
+    public void setFormallyProvedFailureState(FormallyProvedState state,
+            SourceFileExceptionList sfl);
 
     /**
      * Set {@link ModuleConstantsExistenceCheckerImpl}. Doesn't do any status handling.
@@ -133,7 +134,14 @@ public interface KernelQedeqBo extends QedeqBo {
      *
      * @param   checker Checks if a predicate or function constant is defined.
      */
-    public void setWellFormed(final ModuleConstantsExistenceChecker checker);
+    public void setWellFormed(ModuleConstantsExistenceChecker checker);
 
+
+    /**
+     * Set currently running plugin.
+     *
+     * @param   plugin  Set currently running plugin. Might be <code>null</code>.
+     */
+    public void setCurrentlyRunningPlugin(Plugin plugin);
 
 }
