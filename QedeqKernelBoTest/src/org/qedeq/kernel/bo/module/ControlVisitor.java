@@ -34,6 +34,7 @@ import org.qedeq.kernel.se.common.RuleKey;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.visitor.AbstractModuleVisitor;
+import org.qedeq.kernel.se.visitor.InterruptException;
 import org.qedeq.kernel.se.visitor.QedeqNotNullTraverser;
 import org.qedeq.kernel.se.visitor.QedeqNumbers;
 import org.qedeq.kernel.se.visitor.QedeqTraverser;
@@ -70,6 +71,9 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
 
     /** List of Exceptions of type warnings during Module visit. */
     private SourceFileExceptionList warningList;
+
+    /** Was traverse interrupted by user? */
+    private boolean interrupted;
 
 
     /**
@@ -138,6 +142,9 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
         }
         try {
             this.traverser.accept(getQedeqBo().getQedeq());
+        } catch (InterruptException ie) {
+            addError(ie);
+            interrupted = true;
         } catch (ModuleDataException me) {
             addError(me);
         } catch (RuntimeException e) {
@@ -297,6 +304,15 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      */
     public InternalKernelServices getServices() {
         return prop.getKernelServices();
+    }
+
+    /**
+     * Was traverse interrupted by user?
+     * 
+     * @return  Did we get an interrupt?
+     */
+    public boolean getInterrupted() {
+        return interrupted;
     }
 
     /**
