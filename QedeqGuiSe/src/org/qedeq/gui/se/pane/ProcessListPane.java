@@ -154,8 +154,8 @@ public class ProcessListPane extends JPanel  {
                 list.scrollRectToVisible(list.getCellRect(list.getRowCount() - 1, 0, true));
             }
         });
-        
-        FormLayout layout = new FormLayout(
+
+        final FormLayout layout = new FormLayout(
             "min:grow",
             "0:grow");
         final DefaultFormBuilder builder = new DefaultFormBuilder(layout, this);
