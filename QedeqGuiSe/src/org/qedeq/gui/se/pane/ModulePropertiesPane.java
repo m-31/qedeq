@@ -27,7 +27,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
+import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.common.QedeqBo;
+import org.qedeq.kernel.se.common.Plugin;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
@@ -35,7 +37,6 @@ import com.jgoodies.forms.layout.FormLayout;
 /**
  * View for {@link QedeqBo}s.
  *
- * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 
@@ -46,6 +47,9 @@ public class ModulePropertiesPane extends JPanel {
 
     /** State of module. */
     private JTextField state;
+
+    /** Currently running plugin. */
+    private JTextField plugin;
 
     /** Module name. */
     private JTextField name;
@@ -98,6 +102,10 @@ public class ModulePropertiesPane extends JPanel {
         url.setLineWrap(false);
         builder.append(wrapWithScrollPane(url));
 
+        builder.append("Running");
+        plugin = createTextField("", false);
+        builder.append(plugin);
+
         builder.append("Problems");
         errorsAndWarnings = createTextField("", false);
         builder.append(errorsAndWarnings);
@@ -106,7 +114,7 @@ public class ModulePropertiesPane extends JPanel {
     }
 
    /**
-     * Assembles the gui components of the panel.
+     * Assembles the GUI components of the panel.
      */
     public final void setupView() {
         this.setLayout(new GridLayout(1, 1));
@@ -135,12 +143,21 @@ public class ModulePropertiesPane extends JPanel {
             name.setText(prop.getName());
             ruleVersion.setText(prop.getRuleVersion());
             url.setText(prop.getUrl().toString());
+            final Plugin p = prop.getCurrentlyRunningPlugin();
+            if (p != null) {
+                plugin.setText(p.getPluginActionName());
+                plugin.setToolTipText(GuiHelper.getToolTipText(p.getPluginDescription()));
+            } else {
+                plugin.setText("");
+                plugin.setToolTipText("");
+            }
             errorsAndWarnings.setText(prop.getErrors().size() + " errors, " + prop.getWarnings().size() + " warnings");
         } else {
             state.setText("");
             name.setText("");
             ruleVersion.setText("");
             url.setText("");
+            plugin.setText("");
             errorsAndWarnings.setText("");
         }
         invalidate();

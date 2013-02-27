@@ -19,6 +19,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.InvocationTargetException;
@@ -73,7 +75,7 @@ public class ProcessListPane extends JPanel  {
     private ProcessListModel model = new ProcessListModel();
 
     /** This table holds the error descriptions. */
-    private JTable list = new JTable(model) {
+    private final JTable list = new JTable(model) {
 
         /**
          * Just return the service process of the row.
@@ -147,7 +149,12 @@ public class ProcessListPane extends JPanel  {
      */
     private final void setupView() {
         list.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, list.getFont().getSize()));
-
+        list.addComponentListener(new ComponentAdapter() {
+            public void componentResized(final ComponentEvent e) {
+                list.scrollRectToVisible(list.getCellRect(list.getRowCount() - 1, 0, true));
+            }
+        });
+        
         FormLayout layout = new FormLayout(
             "min:grow",
             "0:grow");
@@ -257,8 +264,10 @@ public class ProcessListPane extends JPanel  {
         Trace.begin(CLASS, this, method);
         ((AbstractTableModel) list.getModel()).fireTableDataChanged();
         list.invalidate();
-        list.repaint();
-        this.repaint();
+        this.revalidate();
+// FIXME remove me if refresh works
+//        list.repaint();
+//        this.repaint();
     }
 
     public void refreshStates() {

@@ -127,7 +127,7 @@ public class ProcessWindow extends JFrame {
         onlyRunning.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
                 ProcessWindow.this.processList.setRunningOnly(onlyRunning.isSelected());
-                ProcessWindow.this.processList.updateView();
+                ProcessWindow.this.processList.refreshStates();
             }
         });
 
