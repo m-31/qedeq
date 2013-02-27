@@ -71,7 +71,7 @@ public class StateManager {
     /** Failure exceptions for basic operations. */
     private SourceFileExceptionList errors;
 
-    /** Currently running plugin. Might be <code>null</code>. */ 
+    /** Currently running plugin. Might be <code>null</code>. */
     private Plugin currentlyRunningPlugin;
 
 
