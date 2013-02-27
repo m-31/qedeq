@@ -304,7 +304,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
 
     /**
      * Was traverse interrupted by user?
-     * 
+     *
      * @return  Did we get an interrupt?
      */
     public boolean getInterrupted() {
