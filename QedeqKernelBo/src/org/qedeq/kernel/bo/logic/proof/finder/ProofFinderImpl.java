@@ -251,6 +251,8 @@ public class ProofFinderImpl implements ProofFinder {
 
     /**
      * Try all Modus Ponens with all new lines. Remember tested maximum.
+     *
+     * @throws  ProofException  Proof found, or limits exceeded.
      */
     private void tryModusPonensAll() throws ProofException {
         int until = lines.size();
