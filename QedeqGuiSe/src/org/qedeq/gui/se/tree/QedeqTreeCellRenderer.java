@@ -29,6 +29,7 @@ import org.qedeq.gui.se.util.AnimatedGifCreator;
 import org.qedeq.gui.se.util.DecoratedIcon;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.common.QedeqBo;
+import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.state.AbstractState;
 import org.qedeq.kernel.se.state.DependencyState;
 import org.qedeq.kernel.se.state.FormallyProvedState;
@@ -68,28 +69,39 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
         = createImageIcon("module_checked2.gif");
 
     /** Status icon. */
-//    private static AnimatedIcon startNextIcon
-//        = createAnimatedIcon("module_start.gif", "module_loaded.gif");
     private static AnimatedIcon startNextIcon
         = new AnimatedIcon(createImageIcon("next_module_start.gif"));
 
+    private static AnimatedIcon startFlashIcon
+        = new AnimatedIcon(createImageIcon("flash_module_start.gif"));
+
     /** Status icon. */
-//    private static AnimatedIcon loadedNextIcon
-//        = createAnimatedIcon("module_loaded.gif", "module_loaded_required.gif");
     private static AnimatedIcon loadedNextIcon
         = new AnimatedIcon(createImageIcon("next_module_loaded.gif"));
 
     /** Status icon. */
-//    private static AnimatedIcon loadedRquiredNextIcon
-//        = createAnimatedIcon("module_loaded_required.gif", "module_checked.gif");
+    private static AnimatedIcon loadedFlashIcon
+        = new AnimatedIcon(createImageIcon("flash_module_loaded.gif"));
+
+    /** Status icon. */
     private static AnimatedIcon loadedRequiredNextIcon
         = new AnimatedIcon(createImageIcon("next_module_loaded_required.gif"));
 
     /** Status icon. */
-//    private static AnimatedIcon wellFormedNextIcon
-//        = createAnimatedIcon("module_checked.gif", "module_checked2.gif");
+    private static AnimatedIcon loadedRequiredFlashIcon
+        = new AnimatedIcon(createImageIcon("flash_module_loaded_required.gif"));
+
+    /** Status icon. */
     private static AnimatedIcon wellFormedNextIcon
         = new AnimatedIcon(createImageIcon("next_module_checked.gif"));
+
+    /** Status icon. */
+    private static AnimatedIcon wellFormedFlashIcon
+        = new AnimatedIcon(createImageIcon("flash_module_checked.gif"));
+
+    /** Status icon. */
+    private static AnimatedIcon formallyProvedFlashIcon
+        = new AnimatedIcon(createImageIcon("flash_module_checked2.gif"));
 
     /** Status icon. */
     private static ImageIcon basicErrorOverlayIcon
@@ -177,6 +189,7 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
                 final String text = prop.getName();
                 setText(text);
                 final AbstractState currentState = prop.getCurrentState();
+                final Plugin plugin = prop.getCurrentlyRunningPlugin();
                 if (prop.isLoaded()) {
                     setToolTipText(prop.getUrl().toString());
                 } else {
@@ -190,36 +203,72 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
                 if (currentState == LoadingState.STATE_DELETED) {
                     setIcon(null);
                 } else if (currentState == LoadingState.STATE_UNDEFINED) {
-                    setIcon(prop, startIcon);
+                    if (plugin == null) {
+                        setIcon(prop, startIcon);
+                    } else {
+                        setIcon(startFlashIcon);
+                    }
                 } else if (currentState == LoadingState.STATE_LOADED) {
-                    setIcon(prop, loadedIcon);
+                    if (plugin == null) {
+                        setIcon(prop, loadedIcon);
+                    } else {
+                        setIcon(loadedFlashIcon);
+                    }
                 } else if (currentState instanceof LoadingState) {
                     if (currentState.isFailure()) {
-                        setIcon(prop, startIcon);
+                        if (plugin == null) {
+                            setIcon(prop, startIcon);
+                        } else {
+                            setIcon(startFlashIcon);
+                        }
                     } else {
                         setIcon(startNextIcon);
                     }
                 } else if (currentState == DependencyState.STATE_LOADED_REQUIRED_MODULES) {
-                    setIcon(prop, loadedRequiredIcon);
+                    if (plugin == null) {
+                        setIcon(prop, loadedRequiredIcon);
+                    } else {
+                        setIcon(loadedRequiredFlashIcon);
+                    }
                 } else if (currentState instanceof DependencyState) {
                     if (currentState.isFailure()) {
-                        setIcon(prop, loadedIcon);
+                        if (plugin == null) {
+                            setIcon(prop, loadedIcon);
+                        } else {
+                            setIcon(loadedFlashIcon);
+                        }
                     } else {
                         setIcon(loadedNextIcon);
                     }
                 } else if (currentState == WellFormedState.STATE_CHECKED) {
-                    setIcon(prop, wellFormedIcon);
+                    if (plugin == null) {
+                        setIcon(prop, wellFormedIcon);
+                    } else {
+                        setIcon(wellFormedFlashIcon);
+                    }
                 } else if (currentState instanceof WellFormedState) {
                     if (currentState.isFailure()) {
-                        setIcon(prop, loadedRequiredIcon);
+                        if (plugin == null) {
+                            setIcon(prop, loadedRequiredIcon);
+                        } else {
+                            setIcon(loadedRequiredFlashIcon);
+                        }
                     } else {
                         setIcon(loadedRequiredNextIcon);
                     }
                 } else if (currentState == FormallyProvedState.STATE_CHECKED) {
-                    setIcon(prop, formallyProvedIcon);
+                    if (plugin == null) {
+                        setIcon(prop, formallyProvedIcon);
+                    } else {
+                        setIcon(formallyProvedFlashIcon);
+                    }
                 } else if (currentState instanceof FormallyProvedState) {
                     if (currentState.isFailure()) {
-                        setIcon(prop, wellFormedIcon);
+                        if (plugin == null) {
+                            setIcon(prop, wellFormedIcon);
+                        } else {
+                            setIcon(wellFormedFlashIcon);
+                        }
                     } else {
                         setIcon(wellFormedNextIcon);
                     }

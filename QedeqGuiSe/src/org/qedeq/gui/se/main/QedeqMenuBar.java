@@ -156,7 +156,7 @@ public class QedeqMenuBar extends JMenuBar {
      * @return  Menu.
      */
     private JMenu createTransformMenu() {
-        final JMenu menu = MenuHelper.createMenu("Plugins", 'P');
+        final JMenu menu = MenuHelper.createMenu("Process", 'P');
         JMenuItem item;
         item = MenuHelper.createMenuItem("Plugin Preferences", 'S');
         item.addActionListener(controller.getPluginPreferencesAction());
@@ -164,13 +164,14 @@ public class QedeqMenuBar extends JMenuBar {
         item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/categories/preferences-desktop.png"));
         menu.add(item);
 
-        item = MenuHelper.createMenuItem("Threads", 'T');
+        item = MenuHelper.createMenuItem("View Processes", 'V');
         item.addActionListener(controller.getProcessViewAction());
-        item.setToolTipText("Show all plugin exections. Can stop running plugin threads.");
+        item.setToolTipText("Show all processes and their stage.");
         item.setIcon(GuiHelper.readImageIcon("oil/" + resolution + "/apps/utilities-system-monitor.png"));
         menu.add(item);
 
         menu.addSeparator();
+
         final JMenuItem[] pluginMenu = controller.getPluginMenuEntries();
         for (int i = 0; i < pluginMenu.length; i++) {
             menu.add(pluginMenu[i]);
@@ -187,10 +188,10 @@ public class QedeqMenuBar extends JMenuBar {
 
         menu.addSeparator();
 
-        item = MenuHelper.createMenuItem("Terminate Threads", 'T');
+        item = MenuHelper.createMenuItem("Terminate All Processes", 'T');
         item.addActionListener(controller.getTerminateAllAction());
         item.setToolTipText(
-            "Terminate all currently running plugin processes.");
+            "Terminate all currently running processes.");
         item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/process-stop.png"));
         menu.add(item);
 
