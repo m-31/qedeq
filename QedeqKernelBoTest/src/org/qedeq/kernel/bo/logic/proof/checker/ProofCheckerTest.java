@@ -23,8 +23,6 @@ import org.qedeq.kernel.bo.logic.proof.common.ProofChecker;
 import org.qedeq.kernel.bo.logic.proof.common.RuleChecker;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.ModuleLabels;
-import org.qedeq.kernel.bo.service.Element2LatexImpl;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;

@@ -16,19 +16,13 @@
 package org.qedeq.kernel.bo.log;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 
 /**
