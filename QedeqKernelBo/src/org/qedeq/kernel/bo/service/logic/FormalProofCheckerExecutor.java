@@ -431,10 +431,9 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
                 return false;
             }
             return ref.getNode().isProved();
-        } else {
-            Trace.info(CLASS, method, "proof line references are not ok!");
-            return false;
         }
+        Trace.info(CLASS, method, "proof line references are not ok!");
+        return false;
     }
 
     public Element getNormalizedReferenceFormula(final String reference) {
