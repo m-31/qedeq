@@ -157,9 +157,8 @@ final class ConfigAccess {
         if (value == null) {
             setString(name, defaultValue);
             return defaultValue;
-        } else {
-            return value;
         }
+        return value;
     }
 
     /**
@@ -248,15 +247,14 @@ final class ConfigAccess {
      */
     public final int getInteger(final String name) {
         final String intPropAsString = getProperties().getProperty(name);
-        if (intPropAsString != null) {
-            try {
-                return Integer.parseInt(intPropAsString);
-            } catch (NumberFormatException ex) {
-                throw new IllegalArgumentException(
-                    "int property " + intPropAsString + " has invalid format");
-            }
-        } else {
+        if (intPropAsString == null) {
             throw new NullPointerException("property \"" + name + "\" not found");
+        }
+        try {
+            return Integer.parseInt(intPropAsString);
+        } catch (NumberFormatException ex) {
+            throw new IllegalArgumentException(
+                "int property " + intPropAsString + " has invalid format");
         }
     }
 
@@ -270,16 +268,15 @@ final class ConfigAccess {
      */
     public final int getInteger(final String name, final int defaultValue) {
         final String intPropAsString = getProperties().getProperty(name);
-        if (intPropAsString != null && intPropAsString.length() > 0) {
-            try {
-                return Integer.parseInt(intPropAsString);
-            } catch (NumberFormatException ex) {
-                throw new IllegalArgumentException(
-                    "Integer-Property " + intPropAsString + " has invalid format");
-            }
-        } else {
+        if (intPropAsString == null || intPropAsString.length() == 0) {
             setInteger(name, defaultValue);
             return defaultValue;
+        }
+        try {
+            return Integer.parseInt(intPropAsString);
+        } catch (NumberFormatException ex) {
+            throw new IllegalArgumentException(
+                "Integer-Property " + intPropAsString + " has invalid format");
         }
     }
 

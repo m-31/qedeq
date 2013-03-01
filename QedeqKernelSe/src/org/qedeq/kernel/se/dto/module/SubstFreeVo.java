@@ -79,9 +79,8 @@ public class SubstFreeVo implements SubstFree {
     public String[] getReferences() {
         if (reference == null) {
             return ArrayUtils.EMPTY_STRING_ARRAY;
-        } else {
-            return new String[] {reference };
         }
+        return new String[] {reference };
     }
 
     public Element getSubjectVariable() {

@@ -85,16 +85,13 @@ public class ModusPonensVo implements ModusPonens {
         if (reference1 == null) {
             if (reference2 == null) {
                 return ArrayUtils.EMPTY_STRING_ARRAY;
-            } else {
-                return new String[] {reference2 };
             }
-        } else {
-            if (reference2 == null) {
-                return new String[] {reference1 };
-            } else {
-                return new String[] {reference1, reference2 };
-            }
+            return new String[] {reference2 };
         }
+        if (reference2 == null) {
+            return new String[] {reference1 };
+        }
+        return new String[] {reference1, reference2 };
     }
 
     public boolean equals(final Object obj) {

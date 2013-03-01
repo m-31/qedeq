@@ -66,9 +66,8 @@ public class AddVo implements Add {
     public String[] getReferences() {
         if (reference == null) {
             return ArrayUtils.EMPTY_STRING_ARRAY;
-        } else {
-            return new String[] {reference };
         }
+        return new String[] {reference };
     }
 
     public boolean equals(final Object obj) {
