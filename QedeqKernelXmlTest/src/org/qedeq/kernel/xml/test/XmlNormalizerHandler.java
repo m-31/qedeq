@@ -49,6 +49,7 @@ public class XmlNormalizerHandler extends DefaultHandler {
     }
 
     public void endDocument() throws SAXException {
+        // nothing to do
     }
 
     /**
