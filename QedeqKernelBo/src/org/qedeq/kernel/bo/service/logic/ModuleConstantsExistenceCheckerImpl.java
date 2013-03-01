@@ -237,9 +237,8 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
         if (external < 0) {
             if (functionExists(function)) {
                 return prop;
-            } else {
-                return null;
             }
+            return null;
         }
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
@@ -264,9 +263,8 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
         if (external < 0) {
             if (predicateExists(predicate)) {
                 return prop;
-            } else {
-                return null;
             }
+            return null;
         }
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
