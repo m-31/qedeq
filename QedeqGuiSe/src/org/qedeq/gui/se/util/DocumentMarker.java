@@ -130,8 +130,7 @@ public class DocumentMarker {
         textComp.getHighlighter().addHighlight(fromOffset + 1, toOffset - 1, highlightPainter);
     }
 
-    private void addMarkedBlock(final Position start, final Position end, final Position pos)
-            throws BadLocationException {
+    private void addMarkedBlock(final Position start, final Position end, final Position pos) {
         this.pos.add(new Position[] {start, end, pos});
     }
 

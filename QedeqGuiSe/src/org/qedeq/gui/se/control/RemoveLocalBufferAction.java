@@ -34,6 +34,7 @@ class RemoveLocalBufferAction extends AbstractAction {
      * Constructor.
      */
     RemoveLocalBufferAction() {
+        // nothing to do
     }
 
     public void actionPerformed(final ActionEvent e) {

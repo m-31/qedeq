@@ -33,6 +33,7 @@ class ProcessViewAction extends AbstractAction {
      * Constructor.
      */
     ProcessViewAction() {
+        // nothing to do
     }
 
     public void actionPerformed(final ActionEvent e) {
