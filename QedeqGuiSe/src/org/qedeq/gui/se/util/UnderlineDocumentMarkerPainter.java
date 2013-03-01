@@ -51,7 +51,7 @@ public class UnderlineDocumentMarkerPainter implements Highlighter.HighlightPain
 
     private void specialPaint(final Graphics g, final int offs0, final int offs1,
             final Shape bounds, final JTextComponent c) {
-        final Rectangle alloc = bounds.getBounds();
+//        final Rectangle alloc = bounds.getBounds();
         try {
             // --- determine locations ---
             TextUI mapper = c.getUI();
