@@ -68,7 +68,9 @@ public class LatexList2Text {
         }
         // fallback: now we take the first entry
         for (int i = 0; i < list.size(); i++) {
-            return getLatex(list.get(i));
+            if (list.get(i) != null) {
+                return getLatex(list.get(i));
+            }
         }
         // nothing found, so we return just an empty string
         return "";
