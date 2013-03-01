@@ -410,10 +410,9 @@ public class GenerateLatexTest extends QedeqBoTestCase {
                 IoUtility.createNecessaryDirectories(to);
                 IoUtility.saveFile(latex, to);
                 return to.getCanonicalPath();
-            } else {
-                latex.close();
-                return prop.getName();
             }
+            latex.close();
+            return prop.getName();
         } catch (IOException e) {
             Trace.trace(CLASS, method, e);
             throw new RuntimeException(e);
