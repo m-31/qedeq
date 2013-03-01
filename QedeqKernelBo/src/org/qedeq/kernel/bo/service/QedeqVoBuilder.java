@@ -447,8 +447,7 @@ public class QedeqVoBuilder {
         return c;
     }
 
-    private LiteratureItemListVo create(final LiteratureItemList literatureItemList)
-            throws IllegalModuleDataException {
+    private LiteratureItemListVo create(final LiteratureItemList literatureItemList) {
         if (literatureItemList == null) {
             return null;
         }
@@ -462,8 +461,7 @@ public class QedeqVoBuilder {
         return list;
     }
 
-    private LiteratureItemVo create(final LiteratureItem item)
-            throws IllegalModuleDataException {
+    private LiteratureItemVo create(final LiteratureItem item) {
         if (item == null) {
             return null;
         }
