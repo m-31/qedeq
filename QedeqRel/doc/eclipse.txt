@@ -1,8 +1,0 @@
-Eclipse 3.1
-
-General/Editor/Text Editor line width 100
-General/Editor/Text Editor/Spelling enable spell checking
-  user defined dictionary: QedeqRel\doc\english.0 
-  x make dictionary available to content assist
-  
-import QedeqRel\doc\source_code_formatter.xml as CodeFormatter
