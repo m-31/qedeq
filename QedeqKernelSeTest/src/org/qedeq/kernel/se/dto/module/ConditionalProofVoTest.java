@@ -15,7 +15,6 @@
 
 package org.qedeq.kernel.se.dto.module;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.dto.list.DefaultAtom;
 

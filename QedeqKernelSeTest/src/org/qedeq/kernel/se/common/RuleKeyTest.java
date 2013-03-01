@@ -15,7 +15,6 @@
 
 package org.qedeq.kernel.se.common;
 
-import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.test.QedeqTestCase;
 
 /**

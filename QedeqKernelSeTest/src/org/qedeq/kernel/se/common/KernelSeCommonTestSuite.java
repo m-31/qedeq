@@ -18,9 +18,6 @@ package org.qedeq.kernel.se.common;
 import junit.framework.Test;
 
 import org.qedeq.base.test.QedeqTestSuite;
-import org.qedeq.kernel.se.state.DependencyStateTest;
-import org.qedeq.kernel.se.state.LoadingStateTest;
-import org.qedeq.kernel.se.state.WellFormedStateTest;
 
 /**
  * Run all JUnit tests for package org.qedeq.kernel.common.

@@ -15,8 +15,6 @@
 
 package org.qedeq.kernel.se.dto.module;
 
-import org.qedeq.kernel.se.base.module.FormalProofLineList;
-
 
 /**
  * Test class {@link org.qedeq.kernel.se.dto.module.FormalProofVo}.

@@ -66,7 +66,7 @@ public class QedeqNumbersTest extends QedeqTestCase {
         assertEquals(0, numbers.getPredicateDefinitionNumber());
         assertEquals(0, numbers.getFunctionDefinitionNumber());
         assertEquals(0, numbers.getRuleNumber());
-        assertEquals((double) 0, numbers.getVisitPercentage(), 1e-10);
+        assertEquals(0, numbers.getVisitPercentage(), 1e-10);
     }
 
     /**
