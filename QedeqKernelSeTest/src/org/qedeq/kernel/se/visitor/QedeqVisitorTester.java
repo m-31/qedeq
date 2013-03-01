@@ -88,9 +88,6 @@ import org.qedeq.kernel.se.common.ModuleDataException;
  */
 public class QedeqVisitorTester implements QedeqVisitor {
 
-    /** This class. */
-    private static final Class CLASS = QedeqVisitorTester.class;
-
     private ByteArrayOutputStream out = new ByteArrayOutputStream();
 
     private Vector counter = new Vector();
