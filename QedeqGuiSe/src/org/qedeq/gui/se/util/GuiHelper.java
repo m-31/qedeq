@@ -477,11 +477,11 @@ public final class GuiHelper {
         while (!input.isEmpty()) {
             String token = input.readStringTilWhitespace();
             output.addToken(token);
-            String ws = "";
+            StringBuffer ws = new StringBuffer();
             while (Character.isWhitespace(input.getChar())) {
-                ws = ws + (char) input.read();
+                ws = ws.append((char) input.read());
             }
-            output.addWs(ws);
+            output.addWs(ws.toString());
         }
 //        System.out.println("transformed:" + output.toString());
         IoUtility.close(input);
