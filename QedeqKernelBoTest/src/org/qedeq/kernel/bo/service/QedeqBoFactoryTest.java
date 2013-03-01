@@ -96,8 +96,7 @@ public class QedeqBoFactoryTest extends QedeqBoTestCase {
      * @throws SAXException Module parsing failed.
      * @throws ParserConfigurationException Parser configuration problem.
      */
-    public void testCreateStringQedeq1() throws IOException, ParserConfigurationException,
-            SAXException, ModuleDataException, SourceFileExceptionList {
+    public void testCreateStringQedeq1() throws IOException {
         final String method = "testCreateStringQedeq()";
         final ModuleAddress address = getServices().getModuleAddress(
             UrlUtility.toUrl(errorFile.getCanonicalFile()));
@@ -170,13 +169,13 @@ public class QedeqBoFactoryTest extends QedeqBoTestCase {
     }
 
     public void loadQedeqAndAssertContext(final String name) throws IOException,
-            ModuleDataException, ParserConfigurationException, SAXException,
+            ParserConfigurationException, SAXException,
             SourceFileExceptionList {
         loadQedeqAndAssertContext(getQedeqFile(name));
     }
 
     public static final void loadQedeqAndAssertContext(final File file) throws IOException,
-            ModuleDataException, ParserConfigurationException, SAXException,
+            ParserConfigurationException, SAXException,
             SourceFileExceptionList {
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             UrlUtility.toUrl(file.getCanonicalFile()));
@@ -186,20 +185,18 @@ public class QedeqBoFactoryTest extends QedeqBoTestCase {
     }
 
     public static Qedeq loadQedeq(final String name) throws IOException,
-            IllegalModuleDataException, ParserConfigurationException, SAXException,
+            ParserConfigurationException, SAXException,
             SourceFileExceptionList {
         return loadQedeq(getQedeqFile(name));
     }
 
-    public static Qedeq loadQedeq(final File file) throws IOException,
-            ParserConfigurationException, SAXException,
+    public static Qedeq loadQedeq(final File file) throws ParserConfigurationException, SAXException,
             SourceFileExceptionList {
         return createQedeqFromFile(file);
     }
 
     public static final Qedeq createQedeqFromFile(final File file)
-            throws ParserConfigurationException, SAXException, IOException,
-            SourceFileExceptionList {
+            throws ParserConfigurationException, SAXException, SourceFileExceptionList {
         SaxDefaultHandler handler = new SaxDefaultHandler(new DummyPlugin());
         QedeqHandler simple = new QedeqHandler(handler);
         handler.setBasisDocumentHandler(simple);

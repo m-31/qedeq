@@ -220,7 +220,7 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
      *
      * @param   xmlFile Module file to check.
      */
-    public void checkViaKernel(final File xmlFile) throws NoSuchFieldException, SourceFileExceptionList, IOException {
+    public void checkViaKernel(final File xmlFile) throws SourceFileExceptionList, IOException {
         final ModuleAddress address = getServices().getModuleAddress(
             UrlUtility.toUrl(xmlFile.getAbsoluteFile()));
         KernelQedeqBo qedeqBo= (KernelQedeqBo) getServices().loadModule(address);
