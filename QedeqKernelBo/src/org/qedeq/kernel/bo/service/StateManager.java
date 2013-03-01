@@ -749,32 +749,40 @@ public class StateManager {
         return result;
     }
 
+    /**
+     * Get the current state of associate module.
+     *
+     * @return  Current module state.
+     */
     public AbstractState getCurrentState() {
         if (!isLoaded()) {
             return loadingState;
         } else if (!hasLoadedRequiredModules()) {
             if (dependencyState == DependencyState.STATE_UNDEFINED) {
                 return loadingState;
-            } else {
-                return dependencyState;
             }
+            return dependencyState;
         } else if (!wasCheckedForBeingWellFormed()) {
             if (wellFormedState == WellFormedState.STATE_UNCHECKED) {
                 return dependencyState;
-            } else {
-                return wellFormedState;
             }
+            return wellFormedState;
         } else if (!wasCheckedForBeingFormallyProved()) {
             if (formallyProvedState == FormallyProvedState.STATE_UNCHECKED) {
                 return wellFormedState;
-            } else {
-                return formallyProvedState;
             }
+            return formallyProvedState;
         } else {
             return formallyProvedState;
         }
     }
 
+    /**
+     * Get the last successful state we were in.
+     * As there are: undefined, loaded, loaded required, fully formally proved.
+     *
+     * @return  Previous major error free state.
+     */
     public AbstractState getLastSuccesfulState() {
         if (!isLoaded()) {
             return LoadingState.STATE_UNDEFINED;
@@ -847,10 +855,20 @@ public class StateManager {
         return result;
     }
 
+    /**
+     * Get the currently running plugin (if any).
+     *
+     * @return  Currently running plugin. Might be <code>null</code>.
+     */
     public Plugin getCurrentlyRunningPlugin() {
         return currentlyRunningPlugin;
     }
 
+    /**
+     * Set the currently running plugin (if any).
+     *
+     * @param   currentlyRunningPlugin  Currently running plugin. Might be <code>null</code>.
+     */
     public void setCurrentlyRunningPlugin(final Plugin currentlyRunningPlugin) {
         this.currentlyRunningPlugin = currentlyRunningPlugin;
     }

@@ -1068,6 +1068,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitLeave(final FunctionDefinition definition) {
+        // nothing to do
     }
 
     public void visitEnter(final Rule rule) {
