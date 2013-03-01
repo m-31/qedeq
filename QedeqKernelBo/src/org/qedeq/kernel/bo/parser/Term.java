@@ -136,22 +136,21 @@ public class Term {
     public final String getQedeq() {
         if (isAtom()) {
             return atom.getValue();
-        } else {
-            final StringBuffer buffer = new StringBuffer();
-            buffer.append(operator.getQedeq()).append('(');
-            if (operator.getQedeqArgument() != null) {
-                buffer.append(StringUtility.quote(operator.getQedeqArgument()));
-            }
-            for (int i = 0; i < arguments.size(); i++) {
-                if (i > 0 || operator.getQedeqArgument() != null) {
-                    buffer.append(", ");
-                }
-                buffer.append(((Term)
-                    arguments.get(i)).getQedeq());
-            }
-            buffer.append(')');
-            return buffer.toString();
         }
+        final StringBuffer buffer = new StringBuffer();
+        buffer.append(operator.getQedeq()).append('(');
+        if (operator.getQedeqArgument() != null) {
+            buffer.append(StringUtility.quote(operator.getQedeqArgument()));
+        }
+        for (int i = 0; i < arguments.size(); i++) {
+            if (i > 0 || operator.getQedeqArgument() != null) {
+                buffer.append(", ");
+            }
+            buffer.append(((Term)
+                arguments.get(i)).getQedeq());
+        }
+        buffer.append(')');
+        return buffer.toString();
     }
 
     /**
@@ -172,39 +171,38 @@ public class Term {
     private final String getQedeqXml(final int level) {
         if (isAtom()) {
             return StringUtility.getSpaces(level * 2) + atom.getValue() + "\n";
-        } else {
-            final StringBuffer buffer = new StringBuffer();
-            buffer.append(StringUtility.getSpaces(level * 2));
-            buffer.append("<").append(operator.getQedeq());
-            if (operator.getQedeq().endsWith("VAR")) {  // TODO mime 20060612: ok for all QEDEQ?
-                buffer.append(" id=" + quote(operator.getQedeqArgument()));
-                if (arguments == null || arguments.size() == 0) {
-                    buffer.append(" />" + "\n");
-                    return buffer.toString();
-                }
-            } else if (operator.getQedeq().endsWith("CON")) {
-                buffer.append(" ref=" + quote(operator.getQedeqArgument()));
-                if (arguments == null || arguments.size() == 0) {
-                    buffer.append(" />" + "\n");
-                    return buffer.toString();
-                }
-            }
-
-            buffer.append(">\n");
-            if (operator.getQedeqArgument() != null && !operator.getQedeq().endsWith("VAR")
-                    && !operator.getQedeq().endsWith("CON")) {
-                // no arguments expected!
-                Trace.fatal(CLASS, this, "getQedeqXml(int)", "operator argument is not null but: "
-                    + operator.getQedeqArgument(), new IllegalArgumentException());
-            }
-            for (int i = 0; i < arguments.size(); i++) {
-                buffer.append(((Term)
-                    arguments.get(i)).getQedeqXml(level + 1));
-            }
-            buffer.append(StringUtility.getSpaces(level * 2));
-            buffer.append("</").append(operator.getQedeq()).append(">\n");
-            return buffer.toString();
         }
+        final StringBuffer buffer = new StringBuffer();
+        buffer.append(StringUtility.getSpaces(level * 2));
+        buffer.append("<").append(operator.getQedeq());
+        if (operator.getQedeq().endsWith("VAR")) {  // TODO mime 20060612: ok for all QEDEQ?
+            buffer.append(" id=" + quote(operator.getQedeqArgument()));
+            if (arguments == null || arguments.size() == 0) {
+                buffer.append(" />" + "\n");
+                return buffer.toString();
+            }
+        } else if (operator.getQedeq().endsWith("CON")) {
+            buffer.append(" ref=" + quote(operator.getQedeqArgument()));
+            if (arguments == null || arguments.size() == 0) {
+                buffer.append(" />" + "\n");
+                return buffer.toString();
+            }
+        }
+
+        buffer.append(">\n");
+        if (operator.getQedeqArgument() != null && !operator.getQedeq().endsWith("VAR")
+                && !operator.getQedeq().endsWith("CON")) {
+            // no arguments expected!
+            Trace.fatal(CLASS, this, "getQedeqXml(int)", "operator argument is not null but: "
+                + operator.getQedeqArgument(), new IllegalArgumentException());
+        }
+        for (int i = 0; i < arguments.size(); i++) {
+            buffer.append(((Term)
+                arguments.get(i)).getQedeqXml(level + 1));
+        }
+        buffer.append(StringUtility.getSpaces(level * 2));
+        buffer.append("</").append(operator.getQedeq()).append(">\n");
+        return buffer.toString();
     }
 
     /**
