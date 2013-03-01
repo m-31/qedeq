@@ -25,7 +25,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 import org.qedeq.base.trace.Trace;
-import org.qedeq.gui.se.util.AnimatedGifCreator;
 import org.qedeq.gui.se.util.DecoratedIcon;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.common.QedeqBo;
@@ -72,6 +71,7 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
     private static AnimatedIcon startNextIcon
         = new AnimatedIcon(createImageIcon("next_module_start.gif"));
 
+    /** Status icon. */
     private static AnimatedIcon startFlashIcon
         = new AnimatedIcon(createImageIcon("flash_module_start.gif"));
 
@@ -119,12 +119,6 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
         return GuiHelper.readImageIcon("qedeq/16x16/" + name);
 
     }
-
-    static AnimatedIcon createAnimatedIcon(final String current, final String next) {
-        return AnimatedGifCreator.createAnimatedIcon(current, next);
-
-    }
-
 
 // LATER mime 20080502: do we want to leave it for our alternative "paint" or do we delete it?
 //
