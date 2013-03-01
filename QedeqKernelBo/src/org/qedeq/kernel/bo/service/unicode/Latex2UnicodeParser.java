@@ -481,9 +481,8 @@ public final class Latex2UnicodeParser {
             }
             if (token.equals(item)) {
                 break;
-            } else {
-                buffer.append(item);
             }
+            buffer.append(item);
         } while (true);
         return input.getSubTextInput(localStart, current);
     }
@@ -566,7 +565,7 @@ public final class Latex2UnicodeParser {
                     }
                     break;
                 }
-                token.append((char) read());
+                token.append(read());
                 if ('_' == getChar() || '^' == getChar()) {
                     token.append((char) read());
                     continue;

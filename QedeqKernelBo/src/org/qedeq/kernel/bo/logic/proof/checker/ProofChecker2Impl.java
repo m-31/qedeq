@@ -250,8 +250,8 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
             if (n != null) {
                 final ModuleContext lc = new ModuleContext(moduleContext.getModuleLocation(),
                     moduleContext.getLocationWithinModule() + ".get("
-                    + (label2line.get(label)
-                    + ").getLabel()"));
+                    + label2line.get(label)
+                    + ").getLabel()");
                 handleProofCheckException(
                     BasicProofErrors.LOCAL_LABEL_ALREADY_EXISTS_CODE,
                     BasicProofErrors.LOCAL_LABEL_ALREADY_EXISTS_TEXT
@@ -1286,8 +1286,8 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
         if (label2line.containsKey(reference)) {
             final ModuleContext lc = new ModuleContext(moduleContext.getModuleLocation(),
                 moduleContext.getLocationWithinModule() + ".get("
-                + (label2line.get(reference)
-                + ").getLabel()"));
+                + label2line.get(reference)
+                + ").getLabel()");
             return lc;
         }
         return resolver.getReferenceContext(reference);
