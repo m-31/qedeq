@@ -28,13 +28,11 @@ import java.util.List;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.LoadingListener;
-import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.io.TextInput;
 import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.KernelProperties;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.ServiceModule;
