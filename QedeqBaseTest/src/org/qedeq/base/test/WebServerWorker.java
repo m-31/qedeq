@@ -312,7 +312,7 @@ outerloop:
         setSuffix(".java", "text/plain");
     }
 
-    void listDirectory(File dir, PrintStream ps) throws IOException {
+    void listDirectory(File dir, PrintStream ps) {
         ps.println("<TITLE>Directory listing</TITLE><P>\n");
         ps.println("<A HREF=\"..\">Parent Directory</A><BR>\n");
         String[] list = dir.list();
