@@ -973,6 +973,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     }
 
     public final void visitLeave(final LinkList linkList) {
+        // nothing to do
     }
 
     public final void visitEnter(final Formula formula) throws ModuleDataException {

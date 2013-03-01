@@ -64,6 +64,7 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
      * Constructor.
      */
     public XmlQedeqFileDao() {
+        // nothing to do
     }
 
     public void setServices(final InternalKernelServices services) {
