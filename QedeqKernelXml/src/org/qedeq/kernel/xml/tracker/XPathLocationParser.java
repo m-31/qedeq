@@ -285,6 +285,7 @@ public final class XPathLocationParser extends SimpleHandler {
      * @see org.xml.sax.ContentHandler#characters(char[], int, int)
      */
     public void characters(final char[] ch, final int start, final int length) throws SAXException {
+        // nothing to do
     }
 
     /*
