@@ -63,7 +63,7 @@ class ClipboardListener extends MouseAdapter implements ActionListener {
         popEdit.add(copy1);
 
         final JMenuItem find1 = new JMenuItem("Find");
-// FIXME 20130201 m31: didn't work :-(
+// LATER 20130201 m31: didn't work :-(
 //        find1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, Event.CTRL_MASK));
         find1.addActionListener(this);
         find1.setActionCommand("find");

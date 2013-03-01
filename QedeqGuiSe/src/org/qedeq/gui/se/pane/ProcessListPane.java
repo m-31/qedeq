@@ -265,7 +265,7 @@ public class ProcessListPane extends JPanel  {
         ((AbstractTableModel) list.getModel()).fireTableDataChanged();
         list.invalidate();
         this.revalidate();
-// FIXME remove me if refresh works
+// TODO 20130228 remove me if refresh works
 //        list.repaint();
 //        this.repaint();
     }
