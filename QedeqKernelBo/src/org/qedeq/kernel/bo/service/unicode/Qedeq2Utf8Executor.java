@@ -158,7 +158,7 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
         if (txt.toLowerCase(Locale.US).endsWith(".xml")) {
             txt = txt.substring(0, txt.length() - 4);
         }
-        if (lan != null && lan.length() > 0) {
+        if (lan.length() > 0) {
             txt = txt + "_" + lan;
         }
         destination = new File(KernelContext.getInstance().getConfig()
