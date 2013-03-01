@@ -565,7 +565,7 @@ public final class Latex2UnicodeParser {
                     }
                     break;
                 }
-                token.append(read());
+                token.append((char) read());
                 if ('_' == getChar() || '^' == getChar()) {
                     token.append((char) read());
                     continue;
