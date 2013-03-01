@@ -278,9 +278,8 @@ public final class Interpreter {
                 if (result) {
                     result = false;
                     break;
-                } else {
-                    result = true;
                 }
+                result = true;
             }
             subjectVariableInterpreter.increaseSubjectVariableSelection(var);
         }

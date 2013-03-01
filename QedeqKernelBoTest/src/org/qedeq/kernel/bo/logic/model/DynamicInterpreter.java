@@ -446,9 +446,8 @@ public class DynamicInterpreter {
                 if (result) {
                     result = false;
                     break;
-                } else {
-                    result = true;
                 }
+                result = true;
             }
             subjectVariableInterpreter.increaseSubjectVariableSelection(var);
         }
