@@ -19,6 +19,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.qedeq.base.io.Path;
 import org.qedeq.base.io.UrlUtility;
@@ -303,9 +305,11 @@ public class DefaultModuleAddress implements ModuleAddress {
 
         final String fileNameEnd = getModuleFileName(spec);
         final LocationList locations = spec.getLocationList();
-        final ModuleAddress[] result
-            = new ModuleAddress[(locations != null ? locations.size() : 0)];
-        for (int i = 0; i < result.length; i++) {
+        final List result = new ArrayList();
+        for (int i = 0; locations != null && i < locations.size(); i++) {
+            if (locations.get(i) == null) {
+                continue;
+            }
             String file = locations.get(i).getLocation();
             if (file.equals(".")) {
                 file = "";
@@ -313,9 +317,9 @@ public class DefaultModuleAddress implements ModuleAddress {
                 file += "/";
             }
             file += fileNameEnd;
-            result[i] = new DefaultModuleAddress(file, this);
+            result.add(new DefaultModuleAddress(file, this));
         }
-        return result;
+        return (ModuleAddress[]) result.toArray(new ModuleAddress[] {});
     }
 
     /**
@@ -345,9 +349,9 @@ public class DefaultModuleAddress implements ModuleAddress {
                 final String org = urlOrgin.getFile();
                 final String nex = urlNext.getFile();
                 return createRelative(org, nex);
-            } else {    // no relative address possible
-                return urlNext.toString();
             }
+            // no relative address possible
+            return urlNext.toString();
         } catch (MalformedURLException e) {
             return next;
         }
