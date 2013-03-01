@@ -104,7 +104,7 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
                         LogicErrors.RULE_DEFINITIONS_DONT_MIX_TEXT + key + " in "
                         + ((KernelQedeqBo) rules.get(key)).getLabels().getRuleContext(key),
                         list.getModuleContext(i),
-                        ((KernelQedeqBo) getQedeq(key)).getLabels().getRuleContext(key));
+                        getQedeq(key).getLabels().getRuleContext(key));
                 }
             }
             rules.putAll(bo.getExistenceChecker().getRules());

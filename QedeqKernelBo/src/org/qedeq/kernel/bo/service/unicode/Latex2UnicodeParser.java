@@ -514,7 +514,7 @@ public final class Latex2UnicodeParser {
                     }
                     break;
                 }
-                if (Character.isLetter((char) c)) {
+                if (Character.isLetter(c)) {
                     token.append((char) read());
                     if (Character.isLetter((char) getChar())) {
                         continue;
@@ -562,7 +562,7 @@ public final class Latex2UnicodeParser {
                         break;
                     default:
                         read();
-                        token.append((char) c);
+                        token.append(c);
                     }
                     break;
                 }

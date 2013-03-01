@@ -149,7 +149,7 @@ public class ProofChecker1Impl implements ProofChecker {
                 if (n != null) {
                     final ModuleContext lc = new ModuleContext(moduleContext.getModuleLocation(),
                         moduleContext.getLocationWithinModule() + ".get("
-                        + ((Integer) label2line.get(line.getLabel()))
+                        + label2line.get(line.getLabel())
                         + ").getLabel()");
                     setLocationWithinModule(context + ".get("  + i + ").getLabel()");
                     handleProofCheckException(

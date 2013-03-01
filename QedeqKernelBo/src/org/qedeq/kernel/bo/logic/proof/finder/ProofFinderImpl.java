@@ -263,7 +263,7 @@ public class ProofFinderImpl implements ProofFinder {
             }
             for (int j = (i < mpLast ? mpLast : 0); j < until; j++) {
                 if (first.getList().getElement(0).equals(
-                        (Element) lines.get(j))) {
+                        lines.get(j))) {
                     final ModusPonens mp = new ModusPonensBo(i, j);
                     addFormula(first.getList().getElement(1), mp);
                 }

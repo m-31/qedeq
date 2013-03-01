@@ -442,7 +442,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         if ("2".equals(predicateKey.getArguments())
                 && ExistenceChecker.NAME_EQUAL.equals(predicateKey.getName())) {
             existence.setIdentityOperatorDefined(predicateKey.getName(),
-                (KernelQedeqBo) getQedeqBo(), getCurrentContext());
+                getQedeqBo(), getCurrentContext());
         }
         // if we found no errors this node is ok
         if (!getNodeBo().isNotWellFormed()) {
@@ -477,7 +477,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         if ("2".equals(predicateKey.getArguments())
                 && ExistenceChecker.NAME_EQUAL.equals(predicateKey.getName())) {
             existence.setIdentityOperatorDefined(predicateKey.getName(),
-                    (KernelQedeqBo) getQedeqBo(), getCurrentContext());
+                    getQedeqBo(), getCurrentContext());
         }
         // if we found no errors this node is ok
         if (!getNodeBo().isNotWellFormed()) {
