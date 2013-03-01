@@ -789,35 +789,6 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         return prop.wasCheckedForBeingWellFormed();
     }
 
-    public boolean checkWellFormednessOld(final ModuleAddress address) {
-        final String method = "checkWellFormedness(ModuleAddress)";
-        final DefaultKernelQedeqBo prop = modules.getKernelQedeqBo(this, address);
-        // did we check this already?
-        if (prop.wasCheckedForBeingWellFormed()) {
-            return true; // everything is OK
-        }
-        try {
-            // TODO 20110606 m31: perhaps this should be a real plugin and is managed by the PluginManager?
-            // perhaps we have to make a difference between normal and hidden internal plugins?
-            final WellFormedCheckerPlugin checker = new WellFormedCheckerPlugin();
-            // set default plugin values for not yet set parameters
-            final Parameters parameters = KernelContext.getInstance().getConfig().getPluginEntries(checker);
-            checker.setDefaultValuesForEmptyPluginParameters(parameters);
-            KernelContext.getInstance().getConfig().setPluginKeyValues(checker, parameters);
-            checker.createExecutor(prop, parameters).executePlugin();
-        } catch (final RuntimeException e) {
-            final String msg = "Check of being logical well formed failed";
-            Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, address.getUrl(), e.getMessage());
-            throw e;
-        } finally {
-            if (validate) {
-                modules.validateDependencies();
-            }
-        }
-        return prop.wasCheckedForBeingWellFormed();
-    }
-
     public boolean checkFormallyProved(final ModuleAddress address) {
         final DefaultKernelQedeqBo prop = modules.getKernelQedeqBo(this, address);
         // did we check this already?
@@ -826,35 +797,6 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         }
         pluginManager.executePlugin(FormalProofCheckerPlugin.class.getName(), prop);
         return prop.wasCheckedForBeingFormallyProved();
-    }
-
-    public boolean checkFormallyProvedOld(final ModuleAddress address) {
-        final String method = "checkFormallyProved(ModuleAddress)";
-        final DefaultKernelQedeqBo prop = modules.getKernelQedeqBo(this, address);
-        // did we check this already?
-        if (prop.wasCheckedForBeingFormallyProved()) {
-            return true; // everything is OK
-        }
-        try {
-            // FIXME 20130215 m31: perhaps this should be a real plugin and is managed by the PluginManager?
-            // perhaps we have to make a difference between normal and hidden internal plugins?
-            final FormalProofCheckerPlugin checker = new FormalProofCheckerPlugin();
-            // set default plugin values for not yet set parameters
-            final Parameters parameters = KernelContext.getInstance().getConfig().getPluginEntries(checker);
-            checker.setDefaultValuesForEmptyPluginParameters(parameters);
-            KernelContext.getInstance().getConfig().setPluginKeyValues(checker, parameters);
-            checker.createExecutor(prop, parameters).executePlugin();
-        } catch (final RuntimeException e) {
-            final String msg = "Check of fully formal correct proved failed";
-            Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, address.getUrl(), e.getMessage());
-            throw e;
-        } finally {
-            if (validate) {
-                modules.validateDependencies();
-            }
-        }
-        return prop.wasCheckedForBeingWellFormed();
     }
 
     /**

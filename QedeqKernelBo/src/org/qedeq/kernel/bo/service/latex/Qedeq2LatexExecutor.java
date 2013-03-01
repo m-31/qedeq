@@ -1177,10 +1177,10 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
                 if (spec.getLocationList() != null && spec.getLocationList().size() > 0
                         && spec.getLocationList().get(0).getLocation().length() > 0) {
                     printer.print(" ");
-                    // TODO mime 20070205: later on here must stand the location that was used
-                    //   to verify the document contents
-                    // TODO m31 20100727: get other informations like authors, title, etc
-                    // TODO m31 20100727: link to pdf?
+                    // TODO m31 20070205, 2010727: later on here must stand the location that was used
+                    //   to verify the document contents.
+                    //   Also get other informations like authors, title, etc.
+                    //   It might also be better to link to URL?
 //                    printer.print("\\url{" + getUrl(getQedeqBo().getModuleAddress(), spec) + "}");
                     printer.print("\\url{" + getPdfLink((KernelQedeqBo) getQedeqBo()
                         .getLabels().getReferences().getQedeqBo(imp.getLabel())) + "}");

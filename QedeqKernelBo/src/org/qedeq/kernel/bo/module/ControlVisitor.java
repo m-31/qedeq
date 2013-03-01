@@ -199,7 +199,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      * @param   me  Exception to be added.
      */
     protected void addWarning(final ModuleDataException me) {
-        // FIXME 20101026 m31: here no SourcefileException should be added!
+        // TODO 20101026 m31: here no SourcefileException should be added!
         // there might exist different representations (e.g. XML, utf8 text, html)
         // and we might want to resolve the location for them also.
         // And perhaps resolving all error locations at the same time is
