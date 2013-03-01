@@ -295,6 +295,7 @@ public final class XPathLocationParser extends SimpleHandler {
      */
     public void ignorableWhitespace(final char[] ch, final int start, final int length)
             throws SAXException {
+        // nothing to do
     }
 
     /*
@@ -303,6 +304,7 @@ public final class XPathLocationParser extends SimpleHandler {
      * @see org.xml.sax.ContentHandler#endPrefixMapping(java.lang.String)
      */
     public void endPrefixMapping(final String prefix) throws SAXException {
+        // nothing to do
     }
 
     /*
@@ -311,6 +313,7 @@ public final class XPathLocationParser extends SimpleHandler {
      * @see org.xml.sax.ContentHandler#skippedEntity(java.lang.String)
      */
     public void skippedEntity(final String name) throws SAXException {
+        // nothing to do
     }
 
     /*
@@ -319,6 +322,7 @@ public final class XPathLocationParser extends SimpleHandler {
      * @see org.xml.sax.ContentHandler#processingInstruction(java.lang.String, java.lang.String)
      */
     public void processingInstruction(final String target, final String data) throws SAXException {
+        // nothing to do
     }
 
     /*
@@ -327,6 +331,7 @@ public final class XPathLocationParser extends SimpleHandler {
      * @see org.xml.sax.ContentHandler#startPrefixMapping(java.lang.String, java.lang.String)
      */
     public void startPrefixMapping(final String prefix, final String uri) throws SAXException {
+        // nothing to do
     }
 
     /*

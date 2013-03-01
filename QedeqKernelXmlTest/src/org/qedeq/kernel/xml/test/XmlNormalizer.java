@@ -42,7 +42,7 @@ public class XmlNormalizer {
         normalize(new File(args[0]), new File(args[1]));
     }
 
-    public XmlNormalizer () throws IOException, SAXException {
+    public XmlNormalizer () throws SAXException {
         ExceptionList parseErrorCollector = new ExceptionList();
         ErrorHandler errorHandler = new SaxErrorHandler(parseErrorCollector);
         SAXParserFactory factory = SAXParserFactory.newInstance();
