@@ -25,5 +25,6 @@ import org.qedeq.kernel.se.common.ErrorCodes;
  */
 public interface UnicodeErrorCodes extends ErrorCodes {
 
+    // add error codes here
 
 }

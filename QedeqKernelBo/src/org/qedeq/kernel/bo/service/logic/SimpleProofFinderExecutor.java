@@ -214,7 +214,6 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
             } catch (ProofFoundException e) {
                 proof = e.getProofLines();
             } catch (ProofNotFoundException e) {
-                proof = null;
                 addWarning(e);
             } finally {
                 finder = null;  // so we always new if we are currently searching

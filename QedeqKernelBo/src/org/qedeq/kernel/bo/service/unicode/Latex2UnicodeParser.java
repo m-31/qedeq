@@ -126,6 +126,7 @@ public final class Latex2UnicodeParser {
 
                 public void addWarning(final int code, final String msg,
                         final SourcePosition startDelta, final SourcePosition endDelta) {
+                    // nothing to do
                 }
             };
         } else {

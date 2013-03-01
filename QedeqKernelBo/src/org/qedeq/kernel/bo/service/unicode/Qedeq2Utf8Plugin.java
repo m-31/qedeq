@@ -35,6 +35,7 @@ public final class Qedeq2Utf8Plugin implements PluginBo {
      * Constructor.
      */
     public Qedeq2Utf8Plugin() {
+        // nothing to do
     }
 
     public String getPluginId() {

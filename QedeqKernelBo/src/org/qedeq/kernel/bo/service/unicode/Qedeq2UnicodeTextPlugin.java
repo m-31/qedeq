@@ -35,6 +35,7 @@ public final class Qedeq2UnicodeTextPlugin implements PluginBo {
      * Constructor.
      */
     public Qedeq2UnicodeTextPlugin() {
+        // nothing to do
     }
 
     public String getPluginId() {
