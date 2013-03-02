@@ -388,6 +388,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
     }
 
     public void visitLeave(final Proposition definition) {
+        // nothing to do
     }
 
     public void visitEnter(final FormalProofLine line)

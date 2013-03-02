@@ -35,6 +35,7 @@ public final class Qedeq2LatexPlugin implements PluginBo {
      * Constructor.
      */
     public Qedeq2LatexPlugin() {
+        // nothing to do
     }
 
     public String getPluginId() {

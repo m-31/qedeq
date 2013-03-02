@@ -7,6 +7,7 @@ import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.state.DependencyState;
 import org.qedeq.kernel.se.state.FormallyProvedState;
 import org.qedeq.kernel.se.state.WellFormedState;
 
@@ -84,6 +85,32 @@ public interface KernelQedeqBo extends QedeqBo {
      * @return  Checker. Checks if a predicate or function constant is defined.
      */
     public ModuleConstantsExistenceChecker getExistenceChecker();
+
+    /**
+     * Set failure module state.
+     *
+     * @param   loadRequiredFailed        Module state.
+     * @param   sfl                       Exception that occurred during loading required modules.
+     * @throws  IllegalArgumentException  <code>state</code> is no failure state
+     */
+    public void setDependencyFailureState(DependencyState loadRequiredFailed,
+            SourceFileExceptionList sfl);
+
+    /**
+     * Set logical well formed module state. Must not be <code>null</code>.
+     *
+     * @param   plugin              Plugin that was executed.
+     * @param   stateLoadRequired   module state
+     */
+    public void setDependencyProgressState(Plugin plugin, DependencyState stateLoadRequired);
+
+    /**
+     * Set loaded required requirements state.
+     *
+     * @param   list        URLs of all referenced modules. Must not be <code>null</code>.
+     * @throws  IllegalStateException   Module is not yet loaded.
+     */
+    public void setLoadedRequiredModules(final KernelModuleReferenceList list);
 
     /**
      * Set failure module state.

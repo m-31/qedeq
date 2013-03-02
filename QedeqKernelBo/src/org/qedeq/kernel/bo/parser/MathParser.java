@@ -41,6 +41,7 @@ public abstract class MathParser {
      * Constructor.
      */
     public MathParser() {
+        // nothing to do
     }
 
     /**

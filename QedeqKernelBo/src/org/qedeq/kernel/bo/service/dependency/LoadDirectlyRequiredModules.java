@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service;
+package org.qedeq.kernel.bo.service.dependency;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.module.ControlVisitor;

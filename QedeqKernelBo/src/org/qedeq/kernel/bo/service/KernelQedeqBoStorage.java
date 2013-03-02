@@ -52,11 +52,10 @@ class KernelQedeqBoStorage {
             final ModuleAddress address) {
         if (bos.containsKey(address)) {
             return (DefaultKernelQedeqBo) bos.get(address);
-        } else {
-            final DefaultKernelQedeqBo prop = new DefaultKernelQedeqBo(services, address);
-            bos.put(address, prop);
-            return prop;
         }
+        final DefaultKernelQedeqBo prop = new DefaultKernelQedeqBo(services, address);
+        bos.put(address, prop);
+        return prop;
     }
 
     /**

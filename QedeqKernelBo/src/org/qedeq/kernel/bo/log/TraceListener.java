@@ -31,6 +31,7 @@ public final class TraceListener implements LogListener {
      * Constructor.
      */
     public TraceListener() {
+        // nothing to do
     }
 
     public final void logMessageState(final String text, final String url) {

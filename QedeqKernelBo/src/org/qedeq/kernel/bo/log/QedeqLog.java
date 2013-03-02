@@ -56,6 +56,7 @@ public final class QedeqLog implements LogListener {
      * Don't use me outside of this class.
      */
     private QedeqLog() {
+        // nothing to do
     }
 
     /**

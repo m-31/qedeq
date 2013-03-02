@@ -656,6 +656,10 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
             if (functionConstant.getElement(0).isList()
                     || !EqualsUtility.equals(function.getName(),
                     functionConstant.getElement(0).getAtom().getString())) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.FUNCTION_NAME_IN_FORMULA_MUST_SAME_CODE,
+                    LogicErrors.FUNCTION_NAME_IN_FORMULA_MUST_SAME_TEXT
+                        + function.getName(), getCurrentContext()));
             }
             for (int i = 1; i < size; i++) {
                 setLocationWithinModule(context + ".getFormula().getElement().getList().getElement(1)"

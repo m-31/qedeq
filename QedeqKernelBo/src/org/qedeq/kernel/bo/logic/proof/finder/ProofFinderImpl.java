@@ -96,6 +96,7 @@ public class ProofFinderImpl implements ProofFinder {
      * Constructor.
      */
     public ProofFinderImpl() {
+        // nothing to do
     }
 
     public void findProof(final Element formula,

@@ -54,6 +54,7 @@ public final class BasicKernel implements KernelProperties {
      * Constructor.
      */
     public BasicKernel() {
+        // nothing to do
     }
 
     /**

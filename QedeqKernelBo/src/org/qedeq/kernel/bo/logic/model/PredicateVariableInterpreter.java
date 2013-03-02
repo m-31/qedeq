@@ -95,10 +95,8 @@ public final class PredicateVariableInterpreter {
             if (number.getNumber() + 1 < model.getPredicateSize(var.getArgumentNumber())) {
                 number.increaseNumber();
                 break;
-            } else {
-                number.reset();
             }
-
+            number.reset();
         }
         return next;
     }

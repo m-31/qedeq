@@ -440,9 +440,8 @@ public class DynamicDirectInterpreter {
                 if (result) {
                     result = false;
                     break;
-                } else {
-                    result = true;
                 }
+                result = true;
             }
             subjectVariableInterpreter.increaseSubjectVariableSelection(var);
         }

@@ -72,12 +72,4 @@ public interface ServiceErrors extends ErrorCodes {
         = "Recursive import of modules is forbidden, label: ";
 
 
-    /** Error code. */
-    public static final int IMPORT_OF_MODULE_FAILED_CODE = 90723;
-
-    /** Error message. */
-    public static final String IMPORT_OF_MODULE_FAILED_TEXT
-        = "Import of module failed, label: ";
-
-
 }

@@ -41,6 +41,7 @@ import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
+import org.qedeq.kernel.bo.service.dependency.LoadRequiredModules;
 import org.qedeq.kernel.bo.service.logic.FormalProofCheckerPlugin;
 import org.qedeq.kernel.bo.service.logic.SimpleProofFinderPlugin;
 import org.qedeq.kernel.bo.service.logic.WellFormedCheckerPlugin;

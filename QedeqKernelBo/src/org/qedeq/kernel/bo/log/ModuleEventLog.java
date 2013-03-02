@@ -55,6 +55,7 @@ public final class ModuleEventLog implements ModuleEventListener {
      * Don't use me outside of this class.
      */
     private ModuleEventLog() {
+        // nothing to do
     }
 
     /**

@@ -73,6 +73,7 @@ public final class ModuleLabels {
      * Constructs a new empty module label list.
      */
     public ModuleLabels() {
+        // nothing to do
     }
 
     /**

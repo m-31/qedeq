@@ -60,9 +60,8 @@ public final class SubjectVariableInterpreter {
             if (allocation.getValue() + 1 < model.getEntitiesSize()) {
                 allocation.increaseNumber();
                 break;
-            } else {
-                allocation.resetNumber();
             }
+            allocation.resetNumber();
         }
         return next;
     }

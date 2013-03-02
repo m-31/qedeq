@@ -101,10 +101,8 @@ public final class FunctionVariableInterpreter {
             if (number.getNumber() + 1 < model.getFunctionSize(var.getArgumentNumber())) {
                 number.increaseNumber();
                 break;
-            } else {
-                number.reset();
             }
-
+            number.reset();
         }
         return next;
     }

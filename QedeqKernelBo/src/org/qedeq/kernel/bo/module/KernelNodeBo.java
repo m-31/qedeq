@@ -221,27 +221,23 @@ public class KernelNodeBo implements NodeBo, CheckLevel {
         if (nodeType.getProposition() != null) {
             if (nodeType.getProposition().getFormula() != null) {
                 return nodeType.getProposition().getFormula().getElement();
-            } else {
-                return null;
             }
+            return null;
         } else if (nodeType.getPredicateDefinition() != null) {
             if (nodeType.getPredicateDefinition().getFormula() != null) {
                 return nodeType.getPredicateDefinition().getFormula().getElement();
-            } else {
-                return null;
             }
+            return null;
         } else if (nodeType.getFunctionDefinition() != null) {
             if (nodeType.getFunctionDefinition().getFormula() != null) {
                 return nodeType.getFunctionDefinition().getFormula().getElement();
-            } else {
-                return null;
             }
+            return null;
         } else if (nodeType.getAxiom() != null) {
             if (nodeType.getAxiom().getFormula() != null) {
                 return nodeType.getAxiom().getFormula().getElement();
-            } else {
-                return null;
             }
+            return null;
         }
         return null;
     }

@@ -58,6 +58,7 @@ public class FormulaCheckerImpl implements Operators, FormulaBasicErrors, Formul
      *
      */
     public FormulaCheckerImpl() {
+        // nothing to do
     }
 
     public final LogicalCheckExceptionList checkFormula(final Element element,

@@ -292,4 +292,12 @@ public interface LogicErrors extends ErrorCodes {
         = "this rule is defined in two different modules: ";
 
 
+    /** Error code. */
+    public static final int FUNCTION_NAME_IN_FORMULA_MUST_SAME_CODE = 37395;
+
+    /** Error message. */
+    public static final String FUNCTION_NAME_IN_FORMULA_MUST_SAME_TEXT
+        = "function name in formula must be same as in definition, expected: ";
+
+
 }

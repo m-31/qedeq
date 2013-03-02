@@ -28,6 +28,7 @@ public final class ModuleEventListenerLog implements ModuleEventListener {
      * Constructor.
      */
     public ModuleEventListenerLog() {
+        // nothing to do
     }
 
     public void addModule(final QedeqBo prop) {

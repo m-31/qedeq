@@ -48,6 +48,7 @@ public final class ProofFinderUtility {
      *
      */
     private ProofFinderUtility() {
+        // nothing to do
     }
 
     /**

@@ -32,6 +32,7 @@ public class LogicalCheckExceptionList {
      * Constructor.
      */
     public LogicalCheckExceptionList() {
+        // nothing to do
     }
 
     /**

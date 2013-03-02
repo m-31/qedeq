@@ -13,13 +13,14 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service;
+package org.qedeq.kernel.bo.service.dependency;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
+import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
@@ -55,7 +56,7 @@ public final class LoadRequiredModules {
      * @return  Loading successful.
      * @throws  IllegalArgumentException    BO is not loaded
      */
-    public static boolean loadRequired(final Plugin plugin, final DefaultKernelQedeqBo prop) {
+    public static boolean loadRequired(final Plugin plugin, final KernelQedeqBo prop) {
         // did we check this already?
         if (prop.getDependencyState().areAllRequiredLoaded()) {
             return true; // everything is OK
@@ -71,7 +72,7 @@ public final class LoadRequiredModules {
      * @return  Loading successful.
      * @throws  IllegalArgumentException    BO is not loaded
      */
-    private boolean loadAllRequired(final Plugin plugin, final DefaultKernelQedeqBo prop) {
+    private boolean loadAllRequired(final Plugin plugin, final KernelQedeqBo prop) {
         final String method = "loadRequired(DefaultQedeqBo)";
         Trace.param(CLASS, this, method, "prop.getModuleAddress", prop.getModuleAddress());
         synchronized (prop) {
@@ -100,12 +101,11 @@ public final class LoadRequiredModules {
         if (sfl == null || sfl.size() == 0) {
             for (int i = 0; i < required.size(); i++) {
                 Trace.trace(CLASS, this, method, "loading required modules of " + prop.getUrl());
-                DefaultKernelQedeqBo current = null;
-                current = (DefaultKernelQedeqBo) required.getKernelQedeqBo(i);
+                final KernelQedeqBo current = required.getKernelQedeqBo(i);
                 if (loadingRequiredInProgress.containsKey(current)) {
                     ModuleDataException me = new LoadRequiredModuleException(
-                        ServiceErrors.RECURSIVE_IMPORT_OF_MODULES_IS_FORBIDDEN_CODE,
-                        ServiceErrors.RECURSIVE_IMPORT_OF_MODULES_IS_FORBIDDEN_TEXT + "\""
+                        DependencyErrors.RECURSIVE_IMPORT_OF_MODULES_IS_FORBIDDEN_CODE,
+                        DependencyErrors.RECURSIVE_IMPORT_OF_MODULES_IS_FORBIDDEN_TEXT + "\""
                         + required.getLabel(i) + "\"",
                         required.getModuleContext(i));
                     final SourceFileException sf = prop.createSourceFileException(plugin, me);
@@ -119,8 +119,8 @@ public final class LoadRequiredModules {
                 if (!loadAllRequired(plugin, current)) {
                     // LATER 20110119 m31: we take only the first error, is that ok?
                     ModuleDataException me = new LoadRequiredModuleException(
-                        ServiceErrors.IMPORT_OF_MODULE_FAILED_CODE,
-                        ServiceErrors.IMPORT_OF_MODULE_FAILED_TEXT + "\"" + required.getLabel(i)
+                        DependencyErrors.IMPORT_OF_MODULE_FAILED_CODE,
+                        DependencyErrors.IMPORT_OF_MODULE_FAILED_TEXT + "\"" + required.getLabel(i)
                             + "\", " + current.getErrors().get(0).getMessage(),
                     required.getModuleContext(i));
                     final SourceFileException sf = prop.createSourceFileException(plugin, me);
@@ -143,11 +143,10 @@ public final class LoadRequiredModules {
             if (sfl == null || sfl.size() == 0) {
                 prop.setLoadedRequiredModules(required);
                 return true;
-            } else {
-                prop.setDependencyFailureState(
-                    DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, sfl);
-                return false;
             }
+            prop.setDependencyFailureState(
+                DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, sfl);
+            return false;
         }
     }
 

@@ -264,12 +264,6 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         return stateManager.getDependencyState();
     }
 
-    /**
-     * Set loaded required requirements state.
-     *
-     * @param   list        URLs of all referenced modules. Must not be <code>null</code>.
-     * @throws  IllegalStateException   Module is not yet loaded.
-     */
     public void setLoadedRequiredModules(final KernelModuleReferenceList list) {
         stateManager.setLoadedRequiredModules(list);
     }
