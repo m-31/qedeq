@@ -19,7 +19,6 @@ package org.qedeq.kernel.se.base.module;
 /**
  * List of nodes. In LaTeX terms a node is something like an "subsection".
  *
- * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public interface SubsectionList {

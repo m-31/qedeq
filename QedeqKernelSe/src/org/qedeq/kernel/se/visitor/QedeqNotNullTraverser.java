@@ -508,8 +508,8 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         visitor.visitEnter(subsectionList);
         for (int i = 0; i < subsectionList.size(); i++) {
             setLocationWithinModule(context + ".get(" + i + ")");
-            // TODO mime 20050608: here the Subsection context is type dependently specified
-            // FIXME mime 20130131: variation here hard coded
+            // TODO 20130131 m31: variation here hard coded
+            // 20050608: here the Subsection context is type dependently specified
             if (subsectionList.get(i) instanceof Subsection) {
                 setLocationWithinModule(context + ".get(" + i + ").getSubsection()");
                 accept((Subsection) subsectionList.get(i));
