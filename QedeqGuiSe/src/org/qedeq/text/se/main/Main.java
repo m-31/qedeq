@@ -47,7 +47,7 @@ public final class Main {
      *
      */
     private Main()  {
-
+        // nothing to do
     }
 
     private static void checkDirectoryExistenceAndOptionallyCreate(final QedeqGuiConfig config)

@@ -60,6 +60,7 @@ public final class CurrentLineHighlighterUtility {
             c.addMouseListener(mouseListener);
             c.addMouseMotionListener(mouseListener);
         } catch (BadLocationException ignore) {
+            // ignore
         }
     }
 

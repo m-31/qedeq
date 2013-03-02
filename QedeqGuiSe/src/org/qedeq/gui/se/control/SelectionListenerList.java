@@ -39,6 +39,7 @@ public final class SelectionListenerList implements SelectionListener {
      * Constructor.
      */
     public SelectionListenerList() {
+        // nothing to do
     }
 
     /**

@@ -200,6 +200,7 @@ public final class QedeqTreeCtrl implements TreeModelListener {
     private class SelectionChangedCommand implements TreeSelectionListener {
 
         public SelectionChangedCommand()  {
+            // nothing to do
         }
 
         public void valueChanged(final TreeSelectionEvent event) {
