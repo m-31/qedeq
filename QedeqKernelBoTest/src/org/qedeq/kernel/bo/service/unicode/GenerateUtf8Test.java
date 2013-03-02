@@ -210,9 +210,8 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
                 IoUtility.createNecessaryDirectories(to);
                 IoUtility.copyFile(new File(source), to);
                 return to.getCanonicalPath();
-            } else {
-                return prop.getName();
             }
+            return prop.getName();
         } catch (IOException e) {
             Trace.trace(CLASS, method, e);
             throw new RuntimeException(e);
