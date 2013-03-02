@@ -126,7 +126,7 @@ import org.qedeq.kernel.se.dto.module.UsedByListVo;
 
 
 /**
- * FIXME 20110125 m31: why do we need this builder? To make copies. Why don't we take the original?
+ * TODO 20110125 m31: why do we need this builder? To make copies. Why don't we take the original?
  * At least use director pattern or transfer creation methods into BOs or use visitor pattern!
  * We have lots of duplicate code here!
  * <p>

@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.qedeq.base.trace.Trace;
-import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
@@ -100,16 +99,9 @@ class KernelQedeqBoStorage {
             // prop must be in dependent list for all required modules
             final KernelModuleReferenceList refs = prop.getKernelRequiredModules();
             for (int i = 0; i < refs.size(); i++) {
-                final KernelQedeqBo ref = refs.getKernelQedeqBo(i);
-                KernelModuleReferenceList dependents;
-                // FIXME 20110811 m31: this is too dirty!
-                try {
-                    dependents
-                    = (KernelModuleReferenceList) YodaUtility.getFieldValue(ref, "dependent");
-                } catch (NoSuchFieldException e) {
-                    throw new RuntimeException(e);
-                }
-                if (!dependents.contains(prop)) {           // TODO mime 20080325: Q & D
+                final DefaultKernelQedeqBo ref = (DefaultKernelQedeqBo) refs.getKernelQedeqBo(i);
+                final KernelModuleReferenceList dependents = ref.getDependentModules();
+                if (!dependents.contains(prop)) {
                     Trace.fatal(CLASS, this, method, ref.getUrl() + " missing dependent module: "
                         + prop.getUrl(), null);
                     error = true;
@@ -119,16 +111,10 @@ class KernelQedeqBoStorage {
             // for all dependent modules, prop must be in required list
             final KernelModuleReferenceList dependents = prop.getDependentModules();
             for (int i = 0; i < dependents.size(); i++) {
-                final KernelQedeqBo dependent = dependents.getKernelQedeqBo(i);
-                KernelModuleReferenceList refs2;
-                try {
-                    // FIXME 20110811 m31: this is too dirty!
-                    refs2 = (KernelModuleReferenceList) YodaUtility.getFieldValue(
-                        dependent, "required");
-                } catch (NoSuchFieldException e) {
-                    throw new RuntimeException(e);
-                }
-                if (!refs2.contains(prop)) {                // TODO mime 20080325: Q & D
+                final DefaultKernelQedeqBo dependent
+                    = (DefaultKernelQedeqBo) dependents.getKernelQedeqBo(i);
+                final KernelModuleReferenceList refs2 = dependent.getDependentModules();
+                if (!refs2.contains(prop)) {
                     Trace.fatal(CLASS, this, method, dependent.getUrl()
                         + " missing required module: " + prop.getUrl(), null);
                     error = true;

@@ -498,7 +498,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     }
 
     public String getOriginalLanguage() {
-        // FIXME 20110316 m31: rework qedeq.xsd to have a default language
+        // TODO 20110316 m31: rework qedeq.xsd to have a default language
         final String[] supported = getSupportedLanguages();
         if (StringUtility.isNotIn("de", supported)) {
             if (supported.length == 0) {
