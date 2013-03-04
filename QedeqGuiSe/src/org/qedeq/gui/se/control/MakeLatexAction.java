@@ -63,7 +63,7 @@ class MakeLatexAction extends AbstractAction {
                 public void run() {
                     for (int i = 0; i < props.length; i++) {
                         KernelContext.getInstance().executePlugin(Qedeq2LatexPlugin.CLASS.getName(),
-                            props[i].getModuleAddress());
+                            props[i].getModuleAddress(), null);
                     }
                 }
             };
