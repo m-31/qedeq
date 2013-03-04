@@ -41,7 +41,8 @@ import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
-import org.qedeq.kernel.bo.service.dependency.LoadRequiredModules;
+import org.qedeq.kernel.bo.service.dependency.LoadDirectlyRequiredModulesPlugin;
+import org.qedeq.kernel.bo.service.dependency.LoadRequiredModulesPlugin;
 import org.qedeq.kernel.bo.service.logic.FormalProofCheckerPlugin;
 import org.qedeq.kernel.bo.service.logic.SimpleProofFinderPlugin;
 import org.qedeq.kernel.bo.service.logic.WellFormedCheckerPlugin;
@@ -56,6 +57,8 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.config.QedeqConfig;
 import org.qedeq.kernel.se.dto.module.QedeqVo;
 import org.qedeq.kernel.se.state.LoadingState;
+import org.qedeq.kernel.se.visitor.ContextChecker;
+import org.qedeq.kernel.se.visitor.DefaultContextChecker;
 
 
 /**
@@ -96,6 +99,9 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     /** Validate module dependencies and status. */
     private boolean validate = true;
 
+    /** We check the context with this checker. */
+    private ContextChecker contextChecker;
+
     /**
      * Constructor.
      *
@@ -110,6 +116,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         this.qedeqFileDao = loader;
         processManager = new ServiceProcessManager();
         pluginManager = new PluginManager(this, processManager);
+        contextChecker = new DefaultContextChecker();
         loader.setServices(this);
 
 ////      pluginManager.addPlugin(MultiProofFinderPlugin.class.getName());
@@ -121,6 +128,8 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         pluginManager.addPlugin(SimpleProofFinderPlugin.class.getName());
 
         // add internal plugins
+        pluginManager.addPlugin(LoadDirectlyRequiredModulesPlugin.class.getName());
+        pluginManager.addPlugin(LoadRequiredModulesPlugin.class.getName());
         pluginManager.addPlugin(WellFormedCheckerPlugin.class.getName());
         pluginManager.addPlugin(FormalProofCheckerPlugin.class.getName());
     }
@@ -534,14 +543,6 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         return getModules().getAllLoadedModules();
     }
 
-    public boolean loadRequiredModules(final ModuleAddress address) {
-        final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) loadModule(address);
-        if (prop.hasBasicFailures()) {
-            return false;
-        }
-        return LoadRequiredModules.loadRequired(this, prop);
-    }
-
     /**
      * Load all previously checked QEDEQ modules.
      *
@@ -778,13 +779,23 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         return buffer.toString();
     }
 
+    public boolean loadRequiredModules(final ModuleAddress address) {
+        final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) loadModule(address);
+        // did we check this already?
+        if (prop.hasLoadedRequiredModules()) {
+            return true; // everything is OK
+        }
+        executePlugin(LoadRequiredModulesPlugin.class.getName(), address, null);
+        return prop.hasLoadedRequiredModules();
+    }
+
     public boolean checkWellFormedness(final ModuleAddress address) {
         final DefaultKernelQedeqBo prop = modules.getKernelQedeqBo(this, address);
         // did we check this already?
         if (prop.wasCheckedForBeingWellFormed()) {
             return true; // everything is OK
         }
-        pluginManager.executePlugin(WellFormedCheckerPlugin.class.getName(), prop);
+        executePlugin(WellFormedCheckerPlugin.class.getName(), address, null);
         return prop.wasCheckedForBeingWellFormed();
     }
 
@@ -794,7 +805,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         if (prop.wasCheckedForBeingFormallyProved()) {
             return true; // everything is OK
         }
-        pluginManager.executePlugin(FormalProofCheckerPlugin.class.getName(), prop);
+        executePlugin(FormalProofCheckerPlugin.class.getName(), address, null);
         return prop.wasCheckedForBeingFormallyProved();
     }
 
@@ -812,8 +823,8 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         return pluginManager.getPlugins();
     }
 
-    public Object executePlugin(final String id, final ModuleAddress address) {
-        return pluginManager.executePlugin(id, getKernelQedeqBo(address));
+    public Object executePlugin(final String id, final ModuleAddress address, final Object data) {
+        return pluginManager.executePlugin(id, getKernelQedeqBo(address), data);
     }
 
     public void clearAllPluginResults(final ModuleAddress address) {
@@ -975,6 +986,19 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
 
     public boolean isSetReadTimeoutSupported() {
         return kernel.isSetReadTimeoutSupported();
+    }
+
+    public ContextChecker getContextChecker() {
+        return contextChecker;
+    }
+
+    /**
+     * Set the context checker. This is useful especially for test classes.
+     *
+     * @param   contextChecker  We check the context with this checker now.
+     */
+    public void setContextChecker(final ContextChecker contextChecker) {
+        this.contextChecker = contextChecker;
     }
 
 }

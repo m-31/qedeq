@@ -18,9 +18,6 @@ package org.qedeq.kernel.bo.module;
 import org.qedeq.base.utility.EqualsUtility;
 
 
-
-
-
 /**
  * A reference to a QEDEQ module or one of its parts.
  *

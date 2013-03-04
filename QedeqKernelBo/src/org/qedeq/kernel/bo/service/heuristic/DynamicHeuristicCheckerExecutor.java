@@ -102,7 +102,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         this.interpreter = new DynamicDirectInterpreter(qedeq, model);
     }
 
-    public Object executePlugin() {
+    public Object executePlugin(final Object data) {
         final String method = "executePlugin()";
         try {
             QedeqLog.getInstance().logRequest("Dynamic heuristic test", getQedeqBo().getUrl());

@@ -23,6 +23,7 @@ import org.qedeq.kernel.bo.common.KernelServices;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.visitor.ContextChecker;
 
 /**
  * The kernel internal service methods are assembled here. Needed by the kernel and its helpers.
@@ -119,5 +120,12 @@ public interface InternalKernelServices extends KernelServices, KernelProperties
      */
     public SourceFileExceptionList createSourceFileExceptionList(int code, String message,
         String address, Exception e);
+
+    /**
+     * Get context checker.
+     *
+     * @return  Checker for testing if context is valid.
+     */
+    public ContextChecker getContextChecker();
 
 }

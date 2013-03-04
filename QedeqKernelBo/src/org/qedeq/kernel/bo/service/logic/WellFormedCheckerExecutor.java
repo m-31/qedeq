@@ -138,7 +138,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         return parameters;
     }
 
-    public Object executePlugin() {
+    public Object executePlugin(final Object data) {
         if (getQedeqBo().wasCheckedForBeingWellFormed()) {
             return Boolean.TRUE;
         }
@@ -161,12 +161,10 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         getQedeqBo().setWellFormedProgressState(getPlugin(), WellFormedState.STATE_EXTERNAL_CHECKING);
         final SourceFileExceptionList sfl = new SourceFileExceptionList();
         final Map rules = new HashMap(); // map RuleKey to KernelQedeqBo
-        KernelModuleReferenceList list = (KernelModuleReferenceList) getQedeqBo().getRequiredModules();
+        final KernelModuleReferenceList list = getQedeqBo().getKernelRequiredModules();
         for (int i = 0; i < list.size(); i++) {
             Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label", list.getLabel(i));
-            final WellFormedCheckerExecutor checker = new WellFormedCheckerExecutor(getPlugin(),
-                    list.getKernelQedeqBo(i), getParameters());
-            checker.executePlugin();
+            getServices().checkWellFormedness(list.getKernelQedeqBo(i).getModuleAddress());
             if (!list.getKernelQedeqBo(i).wasCheckedForBeingWellFormed()) {
                 ModuleDataException md = new CheckRequiredModuleException(
                     LogicErrors.MODULE_IMPORT_CHECK_FAILED_CODE,

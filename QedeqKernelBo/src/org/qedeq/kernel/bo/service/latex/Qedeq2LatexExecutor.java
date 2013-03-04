@@ -161,7 +161,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         brief = parameters.getBoolean("brief");
     }
 
-    public Object executePlugin() {
+    public Object executePlugin(final Object data) {
         final String method = "executePlugin(QedeqBo, Map)";
         try {
             QedeqLog.getInstance().logRequest("Generate LaTeX", getQedeqBo().getUrl());

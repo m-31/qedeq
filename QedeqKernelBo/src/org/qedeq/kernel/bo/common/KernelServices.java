@@ -160,9 +160,10 @@ public interface KernelServices {
      *
      * @param   id          Plugin id.
      * @param   address     QEDEQ module address.
+     * @param   data        Process data. Additional data beside module.
      * @return  Plugin specific resulting object. Might be <code>null</code>.
      */
-    public Object executePlugin(final String id, final ModuleAddress address);
+    public Object executePlugin(final String id, final ModuleAddress address, final Object data);
 
     /**
      * Clear all plugin warnings and errors for given module.

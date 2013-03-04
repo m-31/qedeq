@@ -139,10 +139,11 @@ public class PluginManager {
      *
      * @param   id          Plugin to use.
      * @param   qedeq       QEDEQ module to work on.
+     * @param   data        Process parameters.
      * @return  Plugin specific resulting object. Might be <code>null</code>.
      * @throws  RuntimeException    Plugin unknown.
      */
-    Object executePlugin(final String id, final KernelQedeqBo qedeq) {
+    Object executePlugin(final String id, final KernelQedeqBo qedeq, final Object data) {
         final String method = "executePlugin(String, KernelQedeqBo)";
         final PluginBo plugin = (PluginBo) id2plugin.get(id);
         if (plugin == null) {
@@ -162,7 +163,7 @@ public class PluginManager {
                 final PluginExecutor exe = plugin.createExecutor(qedeq, parameters);
                 process.setExecutor(exe);
                 qedeq.setCurrentlyRunningPlugin(plugin);
-                final Object result = exe.executePlugin();
+                final Object result = exe.executePlugin(data);
                 if (exe.getInterrupted()) {
                     process.setFailureState();
                 } else {

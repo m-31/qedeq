@@ -40,9 +40,6 @@ import org.qedeq.kernel.se.visitor.QedeqTraverser;
 /**
  * Basic visitor that gives some error collecting features. Also hides the
  * traverser that does the work.
- * <p>
- * If you change the implementation of this class you also have to change the
- * implementation of the same class in project QedeqKernelBoTest!!!
  *
  * @author  Michael Meyling
  */
@@ -78,6 +75,8 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
         this.prop = prop;
         this.plugin = (Plugin) this;
         this.traverser = new QedeqNotNullTraverser(prop.getModuleAddress(), this);
+        this.errorList = new SourceFileExceptionList();
+        this.warningList = new SourceFileExceptionList();
     }
 
     /**
@@ -90,6 +89,8 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
         this.plugin = plugin;
         this.prop = prop;
         this.traverser = new QedeqNotNullTraverser(prop.getModuleAddress(), this);
+        this.errorList = new SourceFileExceptionList();
+        this.warningList = new SourceFileExceptionList();
     }
 
     /**
@@ -147,7 +148,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
             Trace.fatal(CLASS, this, "traverse", "looks like a programming error", e);
             addError(new RuntimeVisitorException(getCurrentContext(), e));
         }
-        if (errorList != null && errorList.size() > 0) {
+        if (errorList.size() > 0) {
             throw errorList;
         }
     }
@@ -177,11 +178,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      * @param   sf  Exception to be added.
      */
     protected void addError(final SourceFileException sf) {
-        if (errorList == null) {
-            errorList = new SourceFileExceptionList(sf);
-        } else {
-            errorList.add(sf);
-        }
+        errorList.add(sf);
     }
 
     /**
@@ -191,6 +188,24 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      */
     public SourceFileExceptionList getErrorList() {
         return errorList;
+    }
+
+    /**
+     * Did any errors occur yet?
+     *
+     * @return  Non error free visits?
+     */
+    public boolean hasErrors() {
+        return errorList.size() > 0;
+    }
+
+    /**
+     * Did no errors occur yet?
+     *
+     * @return  Error free visits?
+     */
+    public boolean hasNoErrors() {
+        return !hasErrors();
     }
 
     /**
@@ -213,11 +228,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      * @param   sf  Exception to be added.
      */
     private void addWarning(final SourceFileException sf) {
-        if (warningList == null) {
-            warningList = new SourceFileExceptionList(sf);
-        } else {
-            warningList.add(sf);
-        }
+        warningList.add(sf);
     }
 
     /**
@@ -539,17 +550,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      */
     public void setLocationWithinModule(final String locationWithinModule) {
         getCurrentContext().setLocationWithinModule(locationWithinModule);
-// m31: for testing [code is integrated in JUnit test, this class is doubled in QedeqKernelBoTest
-//        try {
-//            DynamicGetter.get(getQedeqBo().getQedeq(), getCurrentContext().getLocationWithinModule());
-//        } catch (RuntimeException e) {
-//            System.err.println(getCurrentContext().getLocationWithinModule());
-//            throw e;
-//        } catch (IllegalAccessException e) {
-//            throw new RuntimeException(e);
-//        } catch (InvocationTargetException e) {
-//            throw new RuntimeException(e);
-//        }
+        getServices().getContextChecker().checkContext(getQedeqBo().getQedeq(), getCurrentContext());
     }
 
     /**

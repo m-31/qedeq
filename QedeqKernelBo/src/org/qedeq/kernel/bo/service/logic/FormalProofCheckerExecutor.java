@@ -123,8 +123,9 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         return parameters;
     }
 
-    public Object executePlugin() {
-        ruleVersion = new Version("0.00.00");  // we set this as module rule version, and hope it will be changed
+    public Object executePlugin(final Object data) {
+        // we set this as module rule version, and hope it will be changed
+        ruleVersion = new Version("0.00.00");
         QedeqLog.getInstance().logRequest(
                 "Check logical correctness", getQedeqBo().getUrl());
         getServices().checkWellFormedness(getQedeqBo().getModuleAddress());
@@ -135,12 +136,10 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
             return Boolean.FALSE;
         }
         getQedeqBo().setFormallyProvedProgressState(getPlugin(), FormallyProvedState.STATE_EXTERNAL_CHECKING);
-        KernelModuleReferenceList list = (KernelModuleReferenceList) getQedeqBo().getRequiredModules();
+        final KernelModuleReferenceList list = getQedeqBo().getKernelRequiredModules();
         for (int i = 0; i < list.size(); i++) {
             Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label", list.getLabel(i));
-            final FormalProofCheckerExecutor checker = new FormalProofCheckerExecutor(getPlugin(),
-                    list.getKernelQedeqBo(i), getParameters());
-            checker.executePlugin();
+            getServices().checkFormallyProved(list.getKernelQedeqBo(i).getModuleAddress());
             if (list.getKernelQedeqBo(i).hasErrors()) {
                 addError(new CheckRequiredModuleException(
                     LogicErrors.MODULE_IMPORT_CHECK_FAILED_CODE,

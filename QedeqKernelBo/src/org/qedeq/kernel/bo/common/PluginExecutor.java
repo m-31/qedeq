@@ -26,9 +26,10 @@ public interface PluginExecutor {
     /**
      * Execute plugin.
      *
+     * @param   data        Process execution data.
      * @return  Plugin specific resulting object. Might be <code>null</code>.
      */
-    public Object executePlugin();
+    public Object executePlugin(final Object data);
 
     /**
      * Get percentage of currently running plugin execution.

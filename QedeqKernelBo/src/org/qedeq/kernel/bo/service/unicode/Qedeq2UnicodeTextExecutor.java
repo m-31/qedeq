@@ -57,7 +57,8 @@ public final class Qedeq2UnicodeTextExecutor implements PluginExecutor {
      * @param   prop        QEDEQ BO object.
      * @param   parameters  Plugin parameter.
      */
-    Qedeq2UnicodeTextExecutor(final Plugin plugin, final KernelQedeqBo prop, final Parameters parameters) {
+    Qedeq2UnicodeTextExecutor(final Plugin plugin, final KernelQedeqBo prop,
+            final Parameters parameters) {
         language = parameters.getString("language");
         final boolean info = parameters.getBoolean("info");
         // automatically line break after this column. 0 means no automatic line breaking
@@ -66,7 +67,7 @@ public final class Qedeq2UnicodeTextExecutor implements PluginExecutor {
         visitor = new Qedeq2UnicodeVisitor(plugin, prop, info , maxColumns, false, false);
     }
 
-    public Object executePlugin() {
+    public Object executePlugin(final Object data) {
         final String method = "executePlugin()";
         String result = "";
         try {
