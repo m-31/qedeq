@@ -36,13 +36,15 @@ public class DependencyStateTest extends QedeqTestCase {
     public void testGetCode() {
         assertEquals(0, DependencyState.STATE_UNDEFINED.getCode());
         assertEquals(12, DependencyState.STATE_LOADING_REQUIRED_MODULES.getCode());
-        assertEquals(13, DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED.getCode());
+        assertEquals(13, DependencyState.STATE_LOADED_DIRECTLY_REQUIRED_MODULES.getCode());
+        assertEquals(14, DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED.getCode());
         assertEquals(15, DependencyState.STATE_LOADED_REQUIRED_MODULES.getCode());
     }
 
     public void testGetText() {
         assertEquals("undefined", DependencyState.STATE_UNDEFINED.getText());
         assertEquals("loading required modules", DependencyState.STATE_LOADING_REQUIRED_MODULES.getText());
+        assertEquals("loaded directly required modules", DependencyState.STATE_LOADED_DIRECTLY_REQUIRED_MODULES.getText());
         assertEquals("loading required modules failed", DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED.getText());
         assertEquals("loaded required modules", DependencyState.STATE_LOADED_REQUIRED_MODULES.getText());
     }
@@ -64,6 +66,7 @@ public class DependencyStateTest extends QedeqTestCase {
     public void testAreAllRequiredLoaded() {
         assertFalse(DependencyState.STATE_UNDEFINED.areAllRequiredLoaded());
         assertFalse(DependencyState.STATE_LOADING_REQUIRED_MODULES.areAllRequiredLoaded());
+        assertFalse(DependencyState.STATE_LOADED_DIRECTLY_REQUIRED_MODULES.areAllRequiredLoaded());
         assertFalse(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED.areAllRequiredLoaded());
         assertTrue(DependencyState.STATE_LOADED_REQUIRED_MODULES.areAllRequiredLoaded());
     }
@@ -72,12 +75,15 @@ public class DependencyStateTest extends QedeqTestCase {
         assertEquals(DependencyState.STATE_UNDEFINED, DependencyState.STATE_UNDEFINED);
         assertEquals(DependencyState.STATE_LOADING_REQUIRED_MODULES,
             DependencyState.STATE_LOADING_REQUIRED_MODULES);
+        assertEquals(DependencyState.STATE_LOADED_DIRECTLY_REQUIRED_MODULES,
+            DependencyState.STATE_LOADED_DIRECTLY_REQUIRED_MODULES);
         assertEquals(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
             DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED);
         assertEquals(DependencyState.STATE_LOADED_REQUIRED_MODULES,
             DependencyState.STATE_LOADED_REQUIRED_MODULES);
         assertFalse(DependencyState.STATE_UNDEFINED.equals(null));
         assertFalse(DependencyState.STATE_LOADING_REQUIRED_MODULES.equals(null));
+        assertFalse(DependencyState.STATE_LOADED_DIRECTLY_REQUIRED_MODULES.equals(null));
         assertFalse(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED.equals(null));
         assertFalse(DependencyState.STATE_LOADED_REQUIRED_MODULES.equals(null));
         assertFalse(DependencyState.STATE_UNDEFINED.equals(
@@ -87,6 +93,8 @@ public class DependencyStateTest extends QedeqTestCase {
         assertFalse(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED.equals(
             DependencyState.STATE_LOADED_REQUIRED_MODULES));
         assertFalse(DependencyState.STATE_LOADED_REQUIRED_MODULES.equals(
+            DependencyState.STATE_LOADING_REQUIRED_MODULES));
+        assertFalse(DependencyState.STATE_LOADED_DIRECTLY_REQUIRED_MODULES.equals(
             DependencyState.STATE_LOADING_REQUIRED_MODULES));
         assertFalse(DependencyState.STATE_LOADED_REQUIRED_MODULES.equals(
             DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED));
