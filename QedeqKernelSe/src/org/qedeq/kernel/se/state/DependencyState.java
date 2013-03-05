@@ -36,6 +36,11 @@ public final class DependencyState extends AbstractState implements State {
         DependencyStateDescriptions.STATE_STRING_LOADING_REQUIRED_MODULES, false,
         DependencyStateDescriptions.STATE_CODE_LOADING_REQUIRED_MODULES);
 
+    /** Loading required modules. */
+    public static final DependencyState STATE_LOADED_DIRECTLY_REQUIRED_MODULES = new DependencyState(
+        DependencyStateDescriptions.STATE_STRING_LOADED_DIRECTLY_REQUIRED_MODULES, false,
+        DependencyStateDescriptions.STATE_CODE_LOADED_DIRECTLY_REQUIRED_MODULES);
+
     /** Loading required modules failed. */
     public static final DependencyState STATE_LOADING_REQUIRED_MODULES_FAILED = new DependencyState(
         DependencyStateDescriptions.STATE_STRING_LOADING_REQUIRED_MODULES_FAILED, true,

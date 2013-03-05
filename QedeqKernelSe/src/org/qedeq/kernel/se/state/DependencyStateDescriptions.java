@@ -35,8 +35,15 @@ public interface DependencyStateDescriptions {
     /** Loading required modules description. */
     public static final String STATE_STRING_LOADING_REQUIRED_MODULES = "loading required modules";
 
+    /** Loading required modules code. */
+    public static final int STATE_CODE_LOADED_DIRECTLY_REQUIRED_MODULES = 13;
+
+    /** Loading required modules description. */
+    public static final String STATE_STRING_LOADED_DIRECTLY_REQUIRED_MODULES
+        = "loaded directly required modules";
+
     /** Loading required modules failed code. */
-    public static final int STATE_CODE_LOADING_REQUIRED_MODULES_FAILED = 13;
+    public static final int STATE_CODE_LOADING_REQUIRED_MODULES_FAILED = 14;
 
     /** Loading required modules failed description. */
     public static final String STATE_STRING_LOADING_REQUIRED_MODULES_FAILED
