@@ -497,6 +497,9 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             for (int i = 0; i < modulePaths.length; i++) {
                 prop = getModules().getKernelQedeqBo(this, modulePaths[i]);
                 Trace.trace(CLASS, this, method, "synchronizing at prop=" + prop);
+                if (prop.isLoaded()) {
+                    return (prop);
+                }
                 synchronized (prop) {
                     if (prop.isLoaded()) {
                         return (prop);
