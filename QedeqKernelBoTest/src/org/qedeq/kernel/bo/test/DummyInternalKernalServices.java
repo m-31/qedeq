@@ -29,6 +29,7 @@ import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.config.QedeqConfig;
+import org.qedeq.kernel.se.visitor.ContextChecker;
 
 public class DummyInternalKernalServices implements InternalKernelServices {
 
@@ -84,7 +85,7 @@ public class DummyInternalKernalServices implements InternalKernelServices {
         return false;
     }
 
-    public Object executePlugin(String pluginName, ModuleAddress address) {
+    public Object executePlugin(String pluginName, ModuleAddress address, Object data) {
         return null;
     }
     public QedeqFileDao getQedeqFileDao() {
@@ -153,6 +154,9 @@ public class DummyInternalKernalServices implements InternalKernelServices {
         return false;
     }
     public void stopAllPluginExecutions() {
+    }
+    public ContextChecker getContextChecker() {
+        return null;
     }
 
 }

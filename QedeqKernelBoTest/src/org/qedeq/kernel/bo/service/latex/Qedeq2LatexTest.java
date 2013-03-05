@@ -43,7 +43,8 @@ public class Qedeq2LatexTest extends QedeqBoTestCase {
     public void testQ2L001_v1() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("latex/Q2L001.xml"));
         final QedeqBo bo = getServices().getQedeqBo(address);
-        getServices().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address);
+        getServices().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address,
+            null);
         assertFalse(bo.getLoadingState().isFailure());
         assertFalse(WellFormedState.STATE_UNCHECKED.equals(bo.getWellFormedState()));
         assertTrue(bo.hasErrors());
@@ -70,7 +71,8 @@ public class Qedeq2LatexTest extends QedeqBoTestCase {
         assertEquals(0, bo.getWarnings().size());
         assertEquals(1, bo.getErrors().size());
         assertEquals(11231, bo.getErrors().get(0).getErrorCode());
-        getServices().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address);
+        getServices().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address,
+            null);
         assertTrue(bo.getWellFormedState().isFailure());
         assertFalse(bo.hasWarnings());
         assertNotNull(bo.getWarnings());
@@ -96,7 +98,8 @@ public class Qedeq2LatexTest extends QedeqBoTestCase {
         assertFalse(bo.hasErrors());
         assertNotNull(bo.getErrors());
         assertEquals(0, bo.getErrors().size());
-        getServices().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address);
+        getServices().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address,
+            null);
         assertFalse(bo.getWellFormedState().isFailure());
         assertFalse(bo.hasErrors());
         assertNotNull(bo.getErrors());
@@ -123,7 +126,8 @@ public class Qedeq2LatexTest extends QedeqBoTestCase {
         assertFalse(bo.hasErrors());
         assertNotNull(bo.getErrors());
         assertEquals(0, bo.getErrors().size());
-        getServices().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address);
+        getServices().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address,
+            null);
         assertFalse(bo.getWellFormedState().isFailure());
         assertFalse(bo.hasErrors());
         assertNotNull(bo.getErrors());

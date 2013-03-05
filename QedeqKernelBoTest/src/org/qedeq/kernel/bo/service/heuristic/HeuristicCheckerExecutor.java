@@ -61,7 +61,8 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
      * @param   qedeq       QEDEQ module object.
      * @param   parameters  Execution parameters.
      */
-    HeuristicCheckerExecutor(final PluginBo plugin, final KernelQedeqBo qedeq, final Parameters parameters) {
+    HeuristicCheckerExecutor(final PluginBo plugin, final KernelQedeqBo qedeq,
+            final Parameters parameters) {
         super(plugin, qedeq);
         final String method = "HeuristicChecker(PluginBo, KernelQedeqBo, Map)";
         final String modelClass = parameters.getString("model");
@@ -94,7 +95,7 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
         }
     }
 
-    public Object executePlugin() {
+    public Object executePlugin(final Object data) {
         final String method = "executePlugin)";
         try {
             QedeqLog.getInstance().logRequest("Heuristic test", getQedeqBo().getUrl());

@@ -13,5 +13,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/QedeqBaseTest"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/QedeqKernelXml"/>
 	<classpathentry kind="lib" path="/QedeqLib/commons-logging-1.1.1.jar" sourcepath="/QedeqLib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="src" path="/QedeqKernelSeTest"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

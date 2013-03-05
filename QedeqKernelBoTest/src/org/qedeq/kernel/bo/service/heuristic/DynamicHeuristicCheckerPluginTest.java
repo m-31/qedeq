@@ -65,7 +65,8 @@ public class DynamicHeuristicCheckerPluginTest extends QedeqBoTestCase {
         getServices().getConfig().setPluginKeyValue(new HeuristicCheckerPlugin(), "model",
                 model.getClass().getName());
         getServices().executePlugin(
-            "org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin", prop.getModuleAddress());
+            "org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin",
+            prop.getModuleAddress(), null);
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }

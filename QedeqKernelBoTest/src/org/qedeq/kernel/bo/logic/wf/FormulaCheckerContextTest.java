@@ -209,7 +209,7 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
         parameters.put("checkerFactory", TestFormulaCheckerFactoryImpl.class.getName());
         final WellFormedCheckerExecutor checker = (WellFormedCheckerExecutor) plugin.createExecutor(
             prop, new Parameters(parameters));
-        checker.executePlugin();
+        checker.executePlugin(null);
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
@@ -229,7 +229,7 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
         parameters.put("checkerFactory", TestFormulaCheckerFactoryImpl.class.getName());
         final WellFormedCheckerExecutor checker = (WellFormedCheckerExecutor) plugin.createExecutor(
             qedeqBo, new Parameters(parameters));
-        checker.executePlugin();
+        checker.executePlugin(null);
         if (qedeqBo.hasErrors()) {
 //            qedeqBo.getErrors().get(0).printStackTrace(System.out);
             throw qedeqBo.getErrors();

@@ -23,6 +23,7 @@ import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.DefaultInternalKernelServices;
 import org.qedeq.kernel.se.config.QedeqConfig;
+import org.qedeq.kernel.se.test.RigidContextChecker;
 import org.qedeq.kernel.xml.dao.XmlQedeqFileDao;
 
 
@@ -58,6 +59,7 @@ public final class KernelFacade {
 //          ModuleEventLog.getInstance().addLog(mod);
             KernelContext.getInstance().startup();
             services.addPlugin("org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin");
+            services.setContextChecker(new RigidContextChecker());
             context = KernelContext.getInstance();
         } catch (IOException e) {
             e.printStackTrace();
