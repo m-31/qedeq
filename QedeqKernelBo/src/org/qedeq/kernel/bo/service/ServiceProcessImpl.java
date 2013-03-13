@@ -19,8 +19,10 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.common.QedeqBo;
+import org.qedeq.kernel.bo.common.QedeqBoSet;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.KernelQedeqBoSet;
 import org.qedeq.kernel.se.common.Plugin;
 
 /**
@@ -66,24 +68,47 @@ public class ServiceProcessImpl implements ServiceProcess {
     /** Created execution object. Might be <code>null</code>. */
     private PluginExecutor executor;
 
+    /** Parent process. Might be <code>null</code>. */
+    private final ServiceProcess parent;
+
+    /** We block these QEDEQ modules for other processes. */
+    private final KernelQedeqBoSet blockedModules;
+
     /**
-     * A new service process.
+     * A new service process within the current thread.
      *
      * @param   service     This service is executed.
-     * @param   qedeq       This QEDEQ module we work on.
      * @param   thread      The process the service is executed within.
+     * @param   qedeq       Module we work on.
      * @param   parameters  Interesting process parameters (e.g. QEDEQ module).
+     * @param   parent      Parent service process.
      */
-    public ServiceProcessImpl(final Plugin service, final Thread thread, final KernelQedeqBo qedeq,
-            final Parameters parameters) {
+    public ServiceProcessImpl(final Plugin service, final Thread thread,
+            final KernelQedeqBo qedeq, final Parameters parameters, final ServiceProcess parent) {
         this.service = service;
         this.thread = thread;
         this.qedeq = qedeq;
         this.parameters = parameters;
+        this.parent = parent;
         if (!thread.isAlive()) {
             throw new RuntimeException("thread is already dead");
         }
+        this.blockedModules = (KernelQedeqBoSet) (parent != null ? parent.getBlockedModules()
+             : new KernelQedeqBoSet(qedeq));
         start();
+    }
+
+    /**
+     * A new service process.
+     *
+     * @param   service     This service is executed.
+     * @param   thread      The process the service is executed within.
+     * @param   qedeq       This QEDEQ module we work on.
+     * @param   parameters  Interesting process parameters (e.g. QEDEQ module).
+     */
+    public ServiceProcessImpl(final Plugin service, final Thread thread, final KernelQedeqBo qedeq,
+            final Parameters parameters) {
+        this(service, thread, qedeq, parameters, null);
     }
 
     /**
@@ -93,8 +118,21 @@ public class ServiceProcessImpl implements ServiceProcess {
      * @param   qedeq       Module we work on.
      * @param   parameters  Interesting process parameters (e.g. QEDEQ module).
      */
-    public ServiceProcessImpl(final Plugin service, final KernelQedeqBo qedeq, final Parameters parameters) {
-        this(service, Thread.currentThread(), qedeq, parameters);
+    public ServiceProcessImpl(final Plugin service, final KernelQedeqBo qedeq,
+            final Parameters parameters) {
+        this(service, Thread.currentThread(), qedeq, parameters, null);
+    }
+
+    /**
+     * A new service process within the current thread.
+     *
+     * @param   service     This service is executed.
+     * @param   qedeq       Module we work on.
+     * @param   parameters  Interesting process parameters (e.g. QEDEQ module).
+     */
+    public ServiceProcessImpl(final Plugin service, final KernelQedeqBo qedeq,
+            final Parameters parameters, final ServiceProcess parent) {
+        this(service, Thread.currentThread(), qedeq, parameters, parent);
     }
 
     public synchronized Plugin getService() {
@@ -190,6 +228,10 @@ public class ServiceProcessImpl implements ServiceProcess {
         return state == -1;
     }
 
+    public synchronized ServiceProcess getParentServiceProcess() {
+        return parent;
+    }
+
     public synchronized void interrupt() {
         thread.interrupt();
     }
@@ -210,6 +252,26 @@ public class ServiceProcessImpl implements ServiceProcess {
             }
         }
         return executionActionDescription;
+    }
+
+    public synchronized QedeqBoSet getBlockedModules() {
+        return new KernelQedeqBoSet(blockedModules);
+    }
+
+    public synchronized void addBlockedModules(final KernelQedeqBoSet set) {
+        blockedModules.add(set);
+    }
+
+    public synchronized void addBlockedModule(final KernelQedeqBo element) {
+        blockedModules.add(element);
+    }
+
+    public synchronized void removeBlockedModules(final KernelQedeqBoSet set) {
+        blockedModules.remove(set);
+    }
+
+    public synchronized void removeBlockedModule(final KernelQedeqBo element) {
+        blockedModules.remove(element);
     }
 
 }

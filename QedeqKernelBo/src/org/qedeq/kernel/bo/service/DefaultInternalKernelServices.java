@@ -76,6 +76,9 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     private static final Object MONITOR = new Object();
 
     /** Number of method calls. */
+    private final String processCounterSync = new String();
+
+    /** Number of method calls. */
     private volatile int processCounter = 0;
 
     /** Collection of already known QEDEQ modules. */
@@ -114,8 +117,8 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         this.config = config;
         this.kernel = kernel;
         this.qedeqFileDao = loader;
-        processManager = new ServiceProcessManager();
-        pluginManager = new PluginManager(this, processManager);
+        pluginManager = new PluginManager(this);
+        processManager = new ServiceProcessManager(pluginManager);
         contextChecker = new DefaultContextChecker();
         loader.setServices(this);
 
@@ -726,15 +729,19 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     /**
      * Increment intern process counter.
      */
-    private synchronized void processInc() {
-        this.processCounter++;
+    private void processInc() {
+        synchronized (processCounterSync) {
+            this.processCounter++;
+        }
     }
 
     /**
      * Decrement intern process counter.
      */
-    private synchronized void processDec() {
-        this.processCounter--;
+    private void processDec() {
+        synchronized (processCounterSync) {
+            this.processCounter--;
+        }
     }
 
     public File getBufferDirectory() {
@@ -782,13 +789,14 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         return buffer.toString();
     }
 
-    public boolean loadRequiredModules(final ModuleAddress address) {
+    public synchronized boolean loadRequiredModules(final ModuleAddress address) {
+        // this method is synchronized because circular dependent modules cause dead locks
         final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) loadModule(address);
         // did we check this already?
         if (prop.hasLoadedRequiredModules()) {
             return true; // everything is OK
         }
-        executePlugin(LoadRequiredModulesPlugin.class.getName(), address, null);
+        executePlugin(LoadRequiredModulesPlugin.class.getName(), address, null, null);
         return prop.hasLoadedRequiredModules();
     }
 
@@ -798,7 +806,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         if (prop.wasCheckedForBeingWellFormed()) {
             return true; // everything is OK
         }
-        executePlugin(WellFormedCheckerPlugin.class.getName(), address, null);
+        executePlugin(WellFormedCheckerPlugin.class.getName(), address, null, null);
         return prop.wasCheckedForBeingWellFormed();
     }
 
@@ -808,7 +816,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         if (prop.wasCheckedForBeingFormallyProved()) {
             return true; // everything is OK
         }
-        executePlugin(FormalProofCheckerPlugin.class.getName(), address, null);
+        executePlugin(FormalProofCheckerPlugin.class.getName(), address, null, null);
         return prop.wasCheckedForBeingFormallyProved();
     }
 
@@ -823,11 +831,12 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     }
 
     public Plugin[] getPlugins() {
-        return pluginManager.getPlugins();
+        return pluginManager.getNonInternalPlugins();
     }
 
-    public Object executePlugin(final String id, final ModuleAddress address, final Object data) {
-        return pluginManager.executePlugin(id, getKernelQedeqBo(address), data);
+    public Object executePlugin(final String id, final ModuleAddress address, final Object data,
+            final ServiceProcess process) {
+        return processManager.executePlugin(id, getKernelQedeqBo(address), data, process);
     }
 
     public void clearAllPluginResults(final ModuleAddress address) {

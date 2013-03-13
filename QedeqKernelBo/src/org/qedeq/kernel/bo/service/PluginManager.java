@@ -22,12 +22,8 @@ import java.util.Map;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.KernelServices;
 import org.qedeq.kernel.bo.common.PluginBo;
-import org.qedeq.kernel.bo.common.PluginExecutor;
-import org.qedeq.kernel.bo.common.ServiceProcess;
-import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalPluginBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 
@@ -45,9 +41,6 @@ public class PluginManager {
     /** Stores all plugins. */
     private final List plugins = new ArrayList();
 
-    /** Collects process infos. */
-    private final ServiceProcessManager processManager;
-
     /** Basic kernel properties.  */
     private final KernelServices kernel;
 
@@ -55,11 +48,19 @@ public class PluginManager {
      * Constructor.
      *
      * @param   kernel          Kernel access.
-     * @param   processManager  Collects process information.
      */
-    public PluginManager(final KernelServices kernel, final ServiceProcessManager processManager) {
+    public PluginManager(final KernelServices kernel) {
         this.kernel = kernel;
-        this.processManager = processManager;
+    }
+
+    /**
+     * Get plugin with given id.
+     *
+     * @param   id  Plugin id.
+     * @return  Registered plugin. Might be <code>null</code>..
+     */
+    public synchronized PluginBo getPlugin(final String id) {
+        return (PluginBo) id2plugin.get(id);
     }
 
     /**
@@ -67,7 +68,7 @@ public class PluginManager {
      *
      * @return  Registered plugins. Internal plugins are not included.
      */
-    synchronized PluginBo[] getPlugins() {
+    synchronized PluginBo[] getNonInternalPlugins() {
         final List result = new ArrayList(plugins.size());
         for (int i = 0; i < plugins.size(); i++) {
             if (!(plugins.get(i) instanceof InternalPluginBo)) {
@@ -132,58 +133,6 @@ public class PluginManager {
         }
         id2plugin.put(plugin.getPluginId(), plugin);
         plugins.add(plugin);
-    }
-
-    /**
-     * Execute a plugin on an QEDEQ module.
-     *
-     * @param   id          Plugin to use.
-     * @param   qedeq       QEDEQ module to work on.
-     * @param   data        Process parameters.
-     * @return  Plugin specific resulting object. Might be <code>null</code>.
-     * @throws  RuntimeException    Plugin unknown.
-     */
-    Object executePlugin(final String id, final KernelQedeqBo qedeq, final Object data) {
-        final String method = "executePlugin(String, KernelQedeqBo)";
-        final PluginBo plugin = (PluginBo) id2plugin.get(id);
-        if (plugin == null) {
-            final String message = "Kernel does not know about plugin: ";
-            final RuntimeException e = new RuntimeException(message + id);
-            Trace.fatal(CLASS, this, method, message + id,
-                e);
-            throw e;
-        }
-        final Parameters parameters = KernelContext.getInstance().getConfig().getPluginEntries(plugin);
-        final ServiceProcess process = processManager.createProcess(plugin,
-            qedeq, parameters);
-        process.setBlocked(true);
-        synchronized (qedeq) {
-            process.setBlocked(false);
-            try {
-                final PluginExecutor exe = plugin.createExecutor(qedeq, parameters);
-                process.setExecutor(exe);
-                qedeq.setCurrentlyRunningPlugin(plugin);
-                final Object result = exe.executePlugin(data);
-                if (exe.getInterrupted()) {
-                    process.setFailureState();
-                } else {
-                    process.setSuccessState();
-                }
-                return result;
-            } catch (final RuntimeException e) {
-                final String msg = plugin.getPluginActionName() + " failed with a runtime exception.";
-                Trace.fatal(CLASS, this, method, msg, e);
-                QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
-                return null;
-            } finally {
-                if (process.isRunning()) {
-                    process.setFailureState();
-                }
-                // remove old executor
-                process.setExecutor(null);
-                qedeq.setCurrentlyRunningPlugin(null);
-            }
-        }
     }
 
     /**

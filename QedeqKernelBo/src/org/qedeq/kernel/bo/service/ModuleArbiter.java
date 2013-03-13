@@ -25,11 +25,13 @@ import org.qedeq.kernel.bo.module.KernelQedeqBo;
  */
 public class ModuleArbiter {
 
-    public void aquireLockForRequiredModules(final ServiceProcess process, final KernelQedeqBo qedeq) {
+    
+    
+    public void lockRequiredModules(final ServiceProcess process, final KernelQedeqBo qedeq) {
         
     }
 
-    public void unlockRequired(final ServiceProcess process, final KernelQedeqBo qedeq) {
+    public void unlockRequiredMOdules(final ServiceProcess process, final KernelQedeqBo qedeq) {
         
     }
 
