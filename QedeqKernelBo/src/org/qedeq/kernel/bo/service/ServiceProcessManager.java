@@ -88,8 +88,8 @@ public class ServiceProcessManager {
      * @return  Created process.
      */
     public synchronized ServiceProcessImpl createProcess(final Plugin service,
-            final KernelQedeqBo qedeq, final Parameters parameters) {
-        final ServiceProcessImpl process = new ServiceProcessImpl(service, qedeq, parameters);
+            final KernelQedeqBo qedeq, final Parameters parameters, final ServiceProcess parent) {
+        final ServiceProcessImpl process = new ServiceProcessImpl(service, qedeq, parameters, parent);
         processes.add(process);
         return process;
     }
@@ -136,12 +136,12 @@ public class ServiceProcessManager {
         }
         final Parameters parameters = KernelContext.getInstance().getConfig().getPluginEntries(plugin);
         final ServiceProcessImpl process = createProcess(plugin,
-            qedeq, parameters);
+            qedeq, parameters, parent);
         process.setBlocked(true);
         synchronized (qedeq) {
-            process.addBlockedModule(qedeq);
             process.setBlocked(false);
             try {
+                process.addBlockedModule(qedeq);
                 final PluginExecutor exe = plugin.createExecutor(qedeq, parameters);
                 process.setExecutor(exe);
                 qedeq.setCurrentlyRunningPlugin(plugin);
@@ -158,6 +158,7 @@ public class ServiceProcessManager {
                 QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
                 return null;
             } finally {
+                process.removeBlockedModule(qedeq);
                 if (process.isRunning()) {
                     process.setFailureState();
                 }

@@ -24,7 +24,7 @@ import org.qedeq.kernel.se.common.Plugin;
  *
  * @author  Michael Meyling
  */
-public interface ServiceProcess {
+public interface ServiceProcess extends Comparable {
 
     /**
      * Get service.
@@ -168,5 +168,12 @@ public interface ServiceProcess {
      * @return  Blocked QEDEQ modules.
      */
     public QedeqBoSet getBlockedModules();
+
+    /**
+     * Get process id.
+     *
+     * @return  Process identifying number.
+     */
+    public long getId();
 
 }

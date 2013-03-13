@@ -24,6 +24,9 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -45,8 +48,12 @@ import javax.swing.text.StyleConstants;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.DateUtility;
+import org.qedeq.base.utility.StringUtility;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.gui.se.util.GuiHelper;
+import org.qedeq.kernel.bo.common.QedeqBo;
+import org.qedeq.kernel.bo.common.QedeqBoSet;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -65,8 +72,8 @@ public class ProcessListPane extends JPanel  {
     /** This class. */
     private static final Class CLASS = ProcessListPane.class;
 
-    /** Currently selected error. */
-    private int selectedLine = -1;
+    /** Currently selected process. */
+    private final Set selectedProcesses;
 
     /** Start automatic refresh thread? */
     private boolean automaticRefresh = true;
@@ -134,15 +141,16 @@ public class ProcessListPane extends JPanel  {
      */
     public ProcessListPane() {
         super(false);
+        selectedProcesses = new TreeSet();
         setupView();
     }
 
     /**
      * Send selection events.
      */
-    private void selectLine() {
-        Trace.param(CLASS, this, "selectLine", "selectedLine", selectedLine);
-    }
+//    private void selectLine() {
+//        Trace.param(CLASS, this, "selectLine", "selectedLine", selectedLine);
+//    }
 
     /**
      * Assembles the GUI components of the panel.
@@ -168,19 +176,30 @@ public class ProcessListPane extends JPanel  {
         list.setDefaultRenderer(Icon.class, new IconCellRenderer());
 
         final ListSelectionModel rowSM = list.getSelectionModel();
-        rowSM.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        rowSM.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-        // if selection changes remember the error number (= selected row (starting with 0))
+        // if selection changes remember the process number (= selected row (starting with 0))
         rowSM.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(final ListSelectionEvent e) {
                 if (e.getValueIsAdjusting()) {
                     return;
                 }
-                selectedLine = list.getSelectionModel().getLeadSelectionIndex();
-                Trace.param(CLASS, this, "setupView$valueChanged", "selectedLine" , selectedLine);
+                selectedProcesses.clear();
+                if (!rowSM.isSelectionEmpty()) {
+                    int firstIndex = e.getFirstIndex();
+                    int lastIndex = e.getLastIndex();
+                    int minIndex = rowSM.getMinSelectionIndex();
+                    int maxIndex = rowSM.getMaxSelectionIndex();
+                    for (int i = minIndex; i <= maxIndex; i++) {
+                        if (rowSM.isSelectedIndex(i)) {
+                            final ServiceProcess process = model.getServiceProcess(i);
+                            selectedProcesses.add(process);
+                        }
+                    }
+                }
             }
         });
-
+/*
         // doing a click shall open the edit window
         list.addMouseListener(new MouseAdapter()  {
             public void mouseClicked(final MouseEvent e) {
@@ -198,7 +217,7 @@ public class ProcessListPane extends JPanel  {
                 selectLine();
             }
         });
-
+*/
         scrollPane = new JScrollPane(list);
         builder.add(scrollPane,
             cc.xywh(builder.getColumn(), builder.getRow(), 1, 2, "fill, fill"));
@@ -303,8 +322,9 @@ public class ProcessListPane extends JPanel  {
     }
 
     public void stopSelected() {
-        if (selectedLine >= 0) {
-            final ServiceProcess process = model.getServiceProcess(selectedLine);
+        Iterator iterator = selectedProcesses.iterator();
+        while (iterator.hasNext()) {
+            final ServiceProcess process = (ServiceProcess) iterator.next();
             if (process != null && process.isRunning()) {
                 process.interrupt();
             }
@@ -317,12 +337,15 @@ public class ProcessListPane extends JPanel  {
      * version.
      */
     public void stackTraceSelected() {
-        if (selectedLine >= 0) {
+        if (!selectedProcesses.isEmpty()) {
             StringBuffer result = new StringBuffer();
-            final ServiceProcess process = model.getServiceProcess(selectedLine);
-            if (process != null && process.isRunning()) {
-                if (YodaUtility.existsMethod(Thread.class, "getStackTrace", new Class[] {})) {
+            Iterator iterator = selectedProcesses.iterator();
+            while (iterator.hasNext()) {
+                final ServiceProcess process = (ServiceProcess) iterator.next();
+                if (process != null && process.isRunning()
+                            && YodaUtility.existsMethod(Thread.class, "getStackTrace", new Class[] {})) {
                     StackTraceElement[] trace = new StackTraceElement[] {};
+                    result.append("id ").append(process.getId());
                     try {
                         trace = (StackTraceElement[]) YodaUtility.executeMethod(
                             process.getThread(), "getStackTrace", new Class[] {}, new Object[] {});
@@ -332,16 +355,76 @@ public class ProcessListPane extends JPanel  {
                         // ignore
                     }
                     for (int i = 0; i < trace.length; i++)  {
-                        System.out.println(trace[i]);
                         result.append(trace[i]);
                         result.append("\n");
                     }
-                    (new TextPaneWindow("Stacktrace",
-                            GuiHelper.readImageIcon("tango/16x16/devices/video-display.png"),
-                            result.toString())).setVisible(true);
+                    result.append("\n\n");
                 }
             }
+            (new TextPaneWindow("Stacktrace",
+                GuiHelper.readImageIcon("tango/16x16/devices/video-display.png"),
+                result.toString())).setVisible(true);
         }
     }
+
+
+    /**
+     * Print stack trace of selected service process thread to <code>System.out</code> if the
+     * method <code>Thread.getStackTrace()</code> is supported form the currently running java
+     * version.
+     */
+    public void detailsSelected() {
+        if (!selectedProcesses.isEmpty()) {
+            StringBuffer result = new StringBuffer();
+            Iterator iterator = selectedProcesses.iterator();
+            while (iterator.hasNext()) {
+                final ServiceProcess process = (ServiceProcess) iterator.next();
+                if (process != null) {
+                    result.append("id ").append(process.getId());
+                    String tip = "";
+                    if (process.isBlocked()) {
+                        tip = "Process is waiting";
+                    } else if (process.isRunning()) {
+                        tip = "Process is running";
+                    } else if (process.wasFailure()) {
+                        tip = "Process was stopped.";
+                    } else if (process.wasSuccess()) {
+                        tip = "Process has finished";
+                    }
+                    result.append("\n\tStatus:     ").append(tip);
+                    result.append("\n\tService:    ").append(process.getService()
+                        .getPluginActionName());
+                    result.append("\n\tModule:     ").append(process.getQedeq().getName());
+                    result.append("\n\tURL:        ").append(process.getQedeq().getModuleAddress());
+                    result.append("\n\tStart:      ").append(DateUtility.getIsoTime(process.getStart()));
+                    result.append("\n\tStop:       ").append((process.getStop() != 0
+                        ? DateUtility.getIsoTime(process.getStop()) : ""));
+                    result.append("\n\tPercentage: ").append(process.getExecutionPercentage());
+                    result.append("\n\tAction:     ").append(process.getExecutionActionDescription());
+                    result.append("\n\tParameter:  ").append(process.getParameterString());
+                    result.append("\n\tBlocked:   ");
+                    final QedeqBoSet blocked = process.getBlockedModules();
+                    Iterator bIterator = blocked.iterator();
+                    while (bIterator.hasNext()) {
+                        final QedeqBo qedeq = (QedeqBo) bIterator.next();
+                        result.append(" ").append(qedeq.getName());
+                    }
+                    result.append("\n\tParent:   ");
+                    ServiceProcess parent = process;
+                    while (parent != null) {
+                        parent = parent.getParentServiceProcess();
+                        if (parent != null) {
+                            result.append(" ").append(parent.getId());
+                        }
+                    }
+                    result.append("\n");
+                }
+            }
+            (new TextPaneWindow("Service Process Details",
+                GuiHelper.readImageIcon("tango/16x16/devices/video-display.png"),
+                result.toString())).setVisible(true);
+        }
+    }
+
 
 }

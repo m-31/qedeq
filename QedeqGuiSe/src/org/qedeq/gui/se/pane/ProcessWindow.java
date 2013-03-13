@@ -93,13 +93,19 @@ public class ProcessWindow extends JFrame {
             });
         }
 
+        final JButton details = new JButton("Details");
+        details.addActionListener(new ActionListener() {
+            public void actionPerformed(final ActionEvent actionEvent) {
+                ProcessWindow.this.processList.detailsSelected();
+            }
+        });
+
         final JButton stop = new JButton("Stop");
         stop.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
                 ProcessWindow.this.processList.stopSelected();
             }
         });
-
 
         final JButton refresh = new JButton("Refresh");
         refresh.addActionListener(new ActionListener() {
@@ -134,9 +140,9 @@ public class ProcessWindow extends JFrame {
         bbuilder.addGridded(onlyRunning);
         bbuilder.addRelatedGap();
         if (stackTrace != null) {
-            bbuilder.addGriddedButtons(new JButton[]{stackTrace, stop, refresh, cancel, ok});
+            bbuilder.addGriddedButtons(new JButton[]{stackTrace, details, stop, refresh, cancel, ok});
         } else {
-            bbuilder.addGriddedButtons(new JButton[]{stop, refresh, cancel, ok});
+            bbuilder.addGriddedButtons(new JButton[]{details, stop, refresh, cancel, ok});
         }
 
         final JPanel buttons = bbuilder.getPanel();

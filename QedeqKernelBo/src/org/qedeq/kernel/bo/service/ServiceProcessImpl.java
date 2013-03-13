@@ -35,6 +35,9 @@ public class ServiceProcessImpl implements ServiceProcess {
     /** This class. */
     private static final Class CLASS = ServiceProcessImpl.class;
 
+    /** Counter for each service process. */
+    private static long globalCounter;
+    
     /** The service the thread works for. */
     private final Plugin service;
 
@@ -74,6 +77,9 @@ public class ServiceProcessImpl implements ServiceProcess {
     /** We block these QEDEQ modules for other processes. */
     private final KernelQedeqBoSet blockedModules;
 
+    /** Process id. */
+    private final long id;
+
     /**
      * A new service process within the current thread.
      *
@@ -85,6 +91,7 @@ public class ServiceProcessImpl implements ServiceProcess {
      */
     public ServiceProcessImpl(final Plugin service, final Thread thread,
             final KernelQedeqBo qedeq, final Parameters parameters, final ServiceProcess parent) {
+        this.id = globalCounter++;
         this.service = service;
         this.thread = thread;
         this.qedeq = qedeq;
@@ -273,5 +280,18 @@ public class ServiceProcessImpl implements ServiceProcess {
     public synchronized void removeBlockedModule(final KernelQedeqBo element) {
         blockedModules.remove(element);
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public int compareTo(final Object o) {
+        if (!(o instanceof ServiceProcess)) {
+            return -1;
+        }
+        final ServiceProcess s = (ServiceProcess) o;
+        return (getId() < s.getId() ? -1 : (getId() == s.getId() ? 0 : 1));
+    }
+
 
 }
