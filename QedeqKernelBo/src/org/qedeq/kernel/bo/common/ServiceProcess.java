@@ -135,6 +135,13 @@ public interface ServiceProcess {
     public boolean wasFailure();
 
     /**
+     *  Return parent service process if any.
+     *
+     * @return  Parent service process. Might be <code>null</code>.
+     */
+    public ServiceProcess getParentServiceProcess();
+
+    /**
      * Interrupt running thread. Usually because of user canceling. This should initiate a
      * {@link org.qedeq.kernel.se.visitor.InterruptException} when {@link Thread.interrupted()}
      * is <code>true</code>.
@@ -154,5 +161,12 @@ public interface ServiceProcess {
      * @return  We are doing this currently.
      */
     public String getExecutionActionDescription();
+
+    /**
+     * Get {@link QedeqModule}s blocked by this process.
+     *
+     * @return  Blocked QEDEQ modules.
+     */
+    public QedeqBoSet getBlockedModules();
 
 }

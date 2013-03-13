@@ -26,10 +26,11 @@ public interface PluginExecutor {
     /**
      * Execute plugin.
      *
+     * @param   process     This process executes.
      * @param   data        Process execution data.
      * @return  Plugin specific resulting object. Might be <code>null</code>.
      */
-    public Object executePlugin(final Object data);
+    public Object executePlugin(final ServiceProcess process, final Object data);
 
     /**
      * Get percentage of currently running plugin execution.
