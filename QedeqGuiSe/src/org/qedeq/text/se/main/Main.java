@@ -257,7 +257,7 @@ public final class Main {
                 final ModuleAddress address = KernelContext.getInstance().getModuleAddress(qedeq);
                 KernelContext.getInstance().loadModule(address);
                 KernelContext.getInstance().executePlugin(SimpleProofFinderPlugin.class.getName(),
-                    address, null);
+                    address, null, null);
                 KernelContext.getInstance().shutdown();
             } catch (IOException e) {
                 System.err.println("Application start failed!");
