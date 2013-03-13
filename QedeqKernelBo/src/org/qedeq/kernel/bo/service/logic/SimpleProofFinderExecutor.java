@@ -21,6 +21,7 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.common.PluginExecutor;
+import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.log.ModuleLogListener;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.ProofFinderFactoryImpl;
@@ -115,7 +116,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
         this.parameters = parameters;
     }
 
-    public Object executePlugin(final Object data) {
+    public Object executePlugin(final ServiceProcess process, final Object data) {
         getServices().checkWellFormedness(getQedeqBo().getModuleAddress());
         QedeqLog.getInstance().logRequest("Trying to create formal proofs", getQedeqBo().getUrl());
         try {

@@ -21,6 +21,7 @@ import org.qedeq.base.io.Version;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.common.PluginExecutor;
+import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.ProofCheckerFactoryImpl;
 import org.qedeq.kernel.bo.logic.common.FormulaUtility;
@@ -123,7 +124,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         return parameters;
     }
 
-    public Object executePlugin(final Object data) {
+    public Object executePlugin(final ServiceProcess process, final Object data) {
         // we set this as module rule version, and hope it will be changed
         ruleVersion = new Version("0.00.00");
         QedeqLog.getInstance().logRequest(

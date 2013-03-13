@@ -25,6 +25,7 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.common.PluginExecutor;
+import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.FormulaCheckerFactoryImpl;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
@@ -138,7 +139,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         return parameters;
     }
 
-    public Object executePlugin(final Object data) {
+    public Object executePlugin(final ServiceProcess process, final Object data) {
         if (getQedeqBo().wasCheckedForBeingWellFormed()) {
             return Boolean.TRUE;
         }
