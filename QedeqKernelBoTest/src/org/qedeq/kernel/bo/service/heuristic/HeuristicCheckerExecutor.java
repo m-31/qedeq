@@ -19,6 +19,7 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.PluginBo;
 import org.qedeq.kernel.bo.common.PluginExecutor;
+import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.model.CalculateTruth;
 import org.qedeq.kernel.bo.logic.model.HeuristicErrorCodes;
@@ -95,7 +96,7 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
         }
     }
 
-    public Object executePlugin(final Object data) {
+    public Object executePlugin(final ServiceProcess process, final Object data) {
         final String method = "executePlugin)";
         try {
             QedeqLog.getInstance().logRequest("Heuristic test", getQedeqBo().getUrl());

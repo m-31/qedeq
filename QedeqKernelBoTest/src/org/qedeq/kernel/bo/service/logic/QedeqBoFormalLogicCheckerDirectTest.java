@@ -175,7 +175,7 @@ public final class QedeqBoFormalLogicCheckerDirectTest extends QedeqBoTestCase {
         prop.setLoadedRequiredModules(new KernelModuleReferenceList());
         final WellFormedCheckerPlugin plugin = new WellFormedCheckerPlugin();
         final Parameters parameters = getServices().getConfig().getPluginEntries(plugin);
-        plugin.createExecutor(prop, parameters).executePlugin(null);
+        plugin.createExecutor(prop, parameters).executePlugin(null, null);
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }

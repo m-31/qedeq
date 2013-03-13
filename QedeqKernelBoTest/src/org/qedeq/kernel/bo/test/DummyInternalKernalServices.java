@@ -85,7 +85,8 @@ public class DummyInternalKernalServices implements InternalKernelServices {
         return false;
     }
 
-    public Object executePlugin(String pluginName, ModuleAddress address, Object data) {
+    public Object executePlugin(String pluginName, ModuleAddress address, Object data,
+            ServiceProcess process) {
         return null;
     }
     public QedeqFileDao getQedeqFileDao() {
