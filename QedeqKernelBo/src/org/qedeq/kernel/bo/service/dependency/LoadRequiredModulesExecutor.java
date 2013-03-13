@@ -22,6 +22,7 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.common.PluginExecutor;
+import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -59,7 +60,7 @@ public final class LoadRequiredModulesExecutor implements PluginExecutor {
         this.prop = prop;
     }
 
-    public Object executePlugin(final Object data) {
+    public Object executePlugin(final ServiceProcess process, final Object data) {
         final String method = "executePlugin";
         if (prop.getDependencyState().areAllRequiredLoaded()) {
             return Boolean.TRUE; // everything is OK
@@ -87,7 +88,7 @@ public final class LoadRequiredModulesExecutor implements PluginExecutor {
 
         final KernelModuleReferenceList required = (KernelModuleReferenceList) prop
             .getKernelServices().executePlugin(LoadDirectlyRequiredModulesPlugin.class.getName(),
-            prop.getModuleAddress(), null);
+            prop.getModuleAddress(), null, process);
 
         final SourceFileExceptionList sfl = new SourceFileExceptionList();
         if (!prop.hasBasicFailures()) {
@@ -104,7 +105,7 @@ public final class LoadRequiredModulesExecutor implements PluginExecutor {
                     continue;
                 }
                 prop.getKernelServices().executePlugin(LoadRequiredModulesPlugin.class.getName(),
-                    current.getModuleAddress(), loadingRequiredInProgress);
+                    current.getModuleAddress(), loadingRequiredInProgress, process);
                 if (!current.hasLoadedRequiredModules()) {
                     // LATER 20110119 m31: we take only the first error, is that ok?
                     ModuleDataException me = new LoadRequiredModuleException(
