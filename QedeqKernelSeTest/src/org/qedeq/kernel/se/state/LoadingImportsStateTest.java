@@ -27,9 +27,9 @@ import org.qedeq.kernel.se.state.DependencyState;
  *
  * @author Michael Meyling
  */
-public class DependencyStateTest extends QedeqTestCase {
+public class LoadingImportsStateTest extends QedeqTestCase {
 
-    public DependencyStateTest(){
+    public LoadingImportsStateTest(){
         super();
     }
 

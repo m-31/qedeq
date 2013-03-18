@@ -21,7 +21,7 @@ package org.qedeq.kernel.se.state;
  * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
-public interface DependencyStateDescriptions {
+public interface LoadingImportsStateDescriptions {
 
     /** Undefined state code. */
     public static final int STATE_CODE_UNDEFINED = 0;
@@ -30,22 +30,23 @@ public interface DependencyStateDescriptions {
     public static final String STATE_STRING_UNDEFINED = "undefined";
 
     /** Loading required modules code. */
-    public static final int STATE_CODE_LOADING_REQUIRED_MODULES = 15;
+    public static final int STATE_CODE_LOADING_IMPORTS = 12;
 
     /** Loading required modules description. */
-    public static final String STATE_STRING_LOADING_REQUIRED_MODULES = "loading required modules";
+    public static final String STATE_STRING_LOADING_IMPORTS = "loading imported modules";
+
+    /** Loading required modules code. */
+    public static final int STATE_CODE_LOADING_IMPORTS_FAILED = 13;
+
+    /** Loading required modules description. */
+    public static final String STATE_STRING_LOADING_IMPORTS_FAILED
+        = "loading imported modules failed";
 
     /** Loading required modules failed code. */
-    public static final int STATE_CODE_LOADING_REQUIRED_MODULES_FAILED = 16;
+    public static final int STATE_CODE_LOADED_IMPORTED_MODULES = 14;
 
     /** Loading required modules failed description. */
-    public static final String STATE_STRING_LOADING_REQUIRED_MODULES_FAILED
-        = "loading required modules failed";
-
-    /** Loaded required modules code. */
-    public static final int STATE_CODE_LOADED_REQUIRED_MODULES = 17;
-
-    /** Loaded required modules description. */
-    public static final String STATE_STRING_LOADED_REQUIRED_MODULES = "loaded required modules";
+    public static final String STATE_STRING_LOADED_IMPORTED_MODULES
+        = "loaded imported modules";
 
 }
