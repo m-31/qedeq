@@ -31,6 +31,7 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.state.AbstractState;
 import org.qedeq.kernel.se.state.DependencyState;
 import org.qedeq.kernel.se.state.FormallyProvedState;
+import org.qedeq.kernel.se.state.LoadingImportsState;
 import org.qedeq.kernel.se.state.LoadingState;
 import org.qedeq.kernel.se.state.WellFormedState;
 
@@ -59,11 +60,11 @@ public class DefaultModuleEventListenerTest extends QedeqBoTestCase {
                 return false;
             }
             
-            public boolean wasCheckedForBeingWellFormed() {
+            public boolean isWellFormed() {
                 return false;
             }
             
-            public boolean wasCheckedForBeingFormallyProved() {
+            public boolean isFullyFormallyProved() {
                 return false;
             }
             
@@ -158,7 +159,16 @@ public class DefaultModuleEventListenerTest extends QedeqBoTestCase {
             public Plugin getCurrentlyRunningPlugin() {
                 return null;
             }
+
+            public LoadingImportsState getLoadingImportsState() {
+                return null;
+            }
+
+            public boolean hasLoadedImports() {
+                return false;
+            }
         };
+
     }
 
     public void testAddModule() throws Exception {

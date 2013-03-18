@@ -100,7 +100,7 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
         prop.setLoaded(vo, mc.getLabels(), mc.getConverter(), mc.getTextConverter());
         KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
         KernelFacade.getKernelContext().checkWellFormedness(prop.getModuleAddress());
-        if (!prop.wasCheckedForBeingWellFormed()) {
+        if (!prop.isWellFormed()) {
             throw prop.getErrors();
         }
         QedeqBoDuplicateLanguageChecker.check(new Plugin() {

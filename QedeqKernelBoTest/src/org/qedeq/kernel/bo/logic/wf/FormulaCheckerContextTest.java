@@ -203,7 +203,8 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
         creator.createLabels();
         prop.setLoaded(QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq),
             creator.getLabels(), creator.getConverter(), creator.getTextConverter());
-        prop.setLoadedRequiredModules(new KernelModuleReferenceList());
+        prop.setLoadedImports(new KernelModuleReferenceList());
+        prop.setLoadedRequiredModules();
         final WellFormedCheckerPlugin plugin = new WellFormedCheckerPlugin();
         final Map parameters = new HashMap();
         parameters.put("checkerFactory", TestFormulaCheckerFactoryImpl.class.getName());

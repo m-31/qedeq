@@ -84,7 +84,9 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
             new SourceFileExceptionList(new SourceFileException(DummyPlugin.getInstance(),
                     new QedeqException(1, "myError") {}, null, null)));
         assertTrue(bo.hasErrors());
-        bo.setLoadedRequiredModules(new KernelModuleReferenceList());
+        bo.setLoadedImports(new KernelModuleReferenceList());
+        assertFalse(bo.hasErrors());
+        bo.setLoadedRequiredModules();
         assertFalse(bo.hasErrors());
         bo.setWellFormed(new ModuleConstantsExistenceCheckerImpl(bo));
         assertFalse(bo.hasErrors());

@@ -58,7 +58,7 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
             "sample/qedeq_sample3.xml"));
         getServices().checkWellFormedness(address);
         final QedeqBo bo = getServices().getQedeqBo(address);
-        assertTrue(bo.wasCheckedForBeingWellFormed());
+        assertTrue(bo.isWellFormed());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(0, bo.getErrors().size());
         KernelQedeqBo qedeq = (KernelQedeqBo) bo;
@@ -91,7 +91,7 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
             "sample/qedeq_sample3.xml"));
         getServices().checkWellFormedness(address);
         final QedeqBo bo = getServices().getQedeqBo(address);
-        assertTrue(bo.wasCheckedForBeingWellFormed());
+        assertTrue(bo.isWellFormed());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(0, bo.getErrors().size());
         KernelQedeqBo qedeq = (KernelQedeqBo) bo;
@@ -126,7 +126,7 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
             "sample/qedeq_sample3.xml"));
         getServices().checkWellFormedness(address);
         final QedeqBo bo = getServices().getQedeqBo(address);
-        assertTrue(bo.wasCheckedForBeingWellFormed());
+        assertTrue(bo.isWellFormed());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(0, bo.getErrors().size());
         KernelQedeqBo qedeq = (KernelQedeqBo) bo;

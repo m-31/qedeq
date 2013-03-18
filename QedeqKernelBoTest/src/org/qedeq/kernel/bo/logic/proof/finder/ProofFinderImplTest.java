@@ -57,7 +57,7 @@ public class ProofFinderImplTest extends QedeqBoTestCase {
             "sample/qedeq_sample3.xml"));
         KernelContext.getInstance().checkWellFormedness(address);
         final KernelQedeqBo bo = (KernelQedeqBo) KernelContext.getInstance().getQedeqBo(address);
-        assertTrue(bo.wasCheckedForBeingWellFormed());
+        assertTrue(bo.isWellFormed());
         assertNotNull(bo.getWarnings());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(0, bo.getErrors().size());
@@ -102,7 +102,7 @@ public class ProofFinderImplTest extends QedeqBoTestCase {
             "sample/qedeq_sample3.xml"));
         KernelContext.getInstance().checkWellFormedness(address);
         final KernelQedeqBo bo = (KernelQedeqBo) KernelContext.getInstance().getQedeqBo(address);
-        assertTrue(bo.wasCheckedForBeingWellFormed());
+        assertTrue(bo.isWellFormed());
         assertNotNull(bo.getWarnings());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(0, bo.getErrors().size());
