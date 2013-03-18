@@ -32,6 +32,7 @@ import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.state.AbstractState;
 import org.qedeq.kernel.se.state.DependencyState;
 import org.qedeq.kernel.se.state.FormallyProvedState;
+import org.qedeq.kernel.se.state.LoadingImportsState;
 import org.qedeq.kernel.se.state.LoadingState;
 import org.qedeq.kernel.se.state.WellFormedState;
 
@@ -54,6 +55,10 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
     /** Status icon. */
     private static ImageIcon loadedIcon
         = createImageIcon("module_loaded.gif");
+
+    /** Status icon. */
+    private static ImageIcon loadedImportsIcon
+        = createImageIcon("module_loaded_required.gif");    // LATER 20130318 m31: other icon?
 
     /** Status icon. */
     private static ImageIcon loadedRequiredIcon
@@ -82,6 +87,14 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
     /** Status icon. */
     private static AnimatedIcon loadedFlashIcon
         = new AnimatedIcon(createImageIcon("flash_module_loaded.gif"));
+
+    /** Status icon. */
+    private static AnimatedIcon loadedImportsNextIcon       // LATER 20130318 m31: other icon?
+        = new AnimatedIcon(createImageIcon("next_module_loaded_required.gif"));
+
+    /** Status icon. */
+    private static AnimatedIcon loadedImportsFlashIcon     // LATER 20130318 m31: other icon?
+        = new AnimatedIcon(createImageIcon("flash_module_loaded_required.gif"));
 
     /** Status icon. */
     private static AnimatedIcon loadedRequiredNextIcon
@@ -217,6 +230,22 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
                         }
                     } else {
                         setIcon(startNextIcon);
+                    }
+                } else if (currentState == LoadingImportsState.STATE_LOADED_IMPORTED_MODULES) {
+                    if (plugin == null) {
+                        setIcon(prop, loadedImportsIcon);
+                    } else {
+                        setIcon(loadedImportsFlashIcon);
+                    }
+                } else if (currentState instanceof LoadingImportsState) {
+                    if (currentState.isFailure()) {
+                        if (plugin == null) {
+                            setIcon(prop, loadedImportsIcon);
+                        } else {
+                            setIcon(loadedImportsFlashIcon);
+                        }
+                    } else {
+                        setIcon(loadedImportsNextIcon);
                     }
                 } else if (currentState == DependencyState.STATE_LOADED_REQUIRED_MODULES) {
                     if (plugin == null) {
