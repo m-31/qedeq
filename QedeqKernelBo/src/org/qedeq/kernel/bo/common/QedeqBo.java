@@ -22,6 +22,7 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.state.AbstractState;
 import org.qedeq.kernel.se.state.DependencyState;
 import org.qedeq.kernel.se.state.FormallyProvedState;
+import org.qedeq.kernel.se.state.LoadingImportsState;
 import org.qedeq.kernel.se.state.LoadingState;
 import org.qedeq.kernel.se.state.WellFormedState;
 
@@ -96,6 +97,13 @@ public interface QedeqBo {
      * @return  completeness    Completeness of loading into memory in percent.
      */
     public int getLoadingCompleteness();
+
+    /**
+     * Get module loading imports state.
+     *
+     * @return  module state.
+     */
+    public LoadingImportsState getLoadingImportsState();
 
    /**
     * Get module dependency state.
@@ -175,6 +183,13 @@ public interface QedeqBo {
     public Qedeq getQedeq();
 
     /**
+     * Are all directly imported modules loaded?
+     *
+     * @return  Are all directly imported modules loaded?
+     */
+    public boolean hasLoadedImports();
+
+    /**
      * Are all required modules loaded?
      *
      * @return  Are all required modules loaded?
@@ -196,7 +211,7 @@ public interface QedeqBo {
      *
      * @return  Module was checked?
      */
-    public boolean wasCheckedForBeingWellFormed();
+    public boolean isWellFormed();
 
     /**
      * Was the module successfully checked for being fully formal correct proved?
@@ -204,7 +219,7 @@ public interface QedeqBo {
      *
      * @return  Module was checked?
      */
-    public boolean wasCheckedForBeingFormallyProved();
+    public boolean isFullyFormallyProved();
 
     /**
      * Get all supported languages for this QEDEQ module.

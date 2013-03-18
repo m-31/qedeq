@@ -140,7 +140,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
     }
 
     public Object executePlugin(final ServiceProcess process, final Object data) {
-        if (getQedeqBo().wasCheckedForBeingWellFormed()) {
+        if (getQedeqBo().isWellFormed()) {
             return Boolean.TRUE;
         }
         QedeqLog.getInstance().logRequest(
@@ -166,7 +166,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         for (int i = 0; i < list.size(); i++) {
             Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label", list.getLabel(i));
             getServices().checkWellFormedness(list.getKernelQedeqBo(i).getModuleAddress());
-            if (!list.getKernelQedeqBo(i).wasCheckedForBeingWellFormed()) {
+            if (!list.getKernelQedeqBo(i).isWellFormed()) {
                 ModuleDataException md = new CheckRequiredModuleException(
                     LogicErrors.MODULE_IMPORT_CHECK_FAILED_CODE,
                     LogicErrors.MODULE_IMPORT_CHECK_FAILED_TEXT

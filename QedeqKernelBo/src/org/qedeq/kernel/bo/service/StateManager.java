@@ -32,6 +32,7 @@ import org.qedeq.kernel.se.dto.module.QedeqVo;
 import org.qedeq.kernel.se.state.AbstractState;
 import org.qedeq.kernel.se.state.DependencyState;
 import org.qedeq.kernel.se.state.FormallyProvedState;
+import org.qedeq.kernel.se.state.LoadingImportsState;
 import org.qedeq.kernel.se.state.LoadingState;
 import org.qedeq.kernel.se.state.WellFormedState;
 
@@ -56,6 +57,9 @@ public class StateManager {
     /** Describes QEDEQ module loading state. */
     private LoadingState loadingState;
 
+    /** Describes QEDEQ module loading imports state. */
+    private LoadingImportsState loadingImportsState;
+
     /** Describes QEDEQ module dependency state. */
     private DependencyState dependencyState;
 
@@ -79,6 +83,7 @@ public class StateManager {
         this.bo = bo;
         loadingState = LoadingState.STATE_UNDEFINED;
         loadingCompleteness = 0;
+        loadingImportsState = LoadingImportsState.STATE_UNDEFINED;
         dependencyState = DependencyState.STATE_UNDEFINED;
         wellFormedState = WellFormedState.STATE_UNCHECKED;
         formallyProvedState = FormallyProvedState.STATE_UNCHECKED;
@@ -190,9 +195,6 @@ public class StateManager {
             setLoadingState(state);
             ModuleEventLog.getInstance().addModule(bo);
         }
-        if (state == LoadingState.STATE_LOADING_FROM_BUFFER) {
-            invalidateOtherDependentModulesToLoaded();
-        }
         if (state == LoadingState.STATE_DELETED) {
             throw new IllegalArgumentException(
                 "call delete for " + state);
@@ -203,6 +205,7 @@ public class StateManager {
         bo.getKernelRequiredModules().clear();
         bo.getDependentModules().clear();
         bo.setLabels(null);
+        setLoadingImportsState(LoadingImportsState.STATE_UNDEFINED);
         setDependencyState(DependencyState.STATE_UNDEFINED);
         setWellFormedState(WellFormedState.STATE_UNCHECKED);
         setErrors(null);
@@ -231,13 +234,13 @@ public class StateManager {
             setLoadingState(state);
             ModuleEventLog.getInstance().addModule(bo);
         }
-        invalidateOtherDependentModulesToLoaded();
         bo.setQedeqVo(null);
         bo.getKernelRequiredModules().clear();
         bo.getDependentModules().clear();
         bo.setLabels(null);
         setLoadingState(state);
         setCurrentlyRunningPlugin(null);
+        setLoadingImportsState(LoadingImportsState.STATE_UNDEFINED);
         setDependencyState(DependencyState.STATE_UNDEFINED);
         setWellFormedState(WellFormedState.STATE_UNCHECKED);
         setFormallyProvedState(FormallyProvedState.STATE_UNCHECKED);
@@ -258,18 +261,90 @@ public class StateManager {
         if (qedeq == null) {
             throw new NullPointerException("Qedeq is null");
         }
-        invalidateOtherDependentModulesToLoaded();
-        setLoadingState(LoadingState.STATE_LOADED);
         setCurrentlyRunningPlugin(null);
-        bo.setQedeqVo(qedeq);
-        bo.getKernelRequiredModules().clear();
-        bo.getDependentModules().clear();
-        bo.setLabels(labels);
+        setLoadingState(LoadingState.STATE_LOADED);
+        setLoadingImportsState(LoadingImportsState.STATE_UNDEFINED);
         setDependencyState(DependencyState.STATE_UNDEFINED);
         setWellFormedState(WellFormedState.STATE_UNCHECKED);
         setFormallyProvedState(FormallyProvedState.STATE_UNCHECKED);
         setErrors(null);
+        bo.setQedeqVo(qedeq);
+        bo.getKernelRequiredModules().clear();
+        bo.getDependentModules().clear();
+        bo.setLabels(labels);
         ModuleEventLog.getInstance().stateChanged(bo);
+    }
+
+    /**
+     * Set loading imports progress module state.
+     *
+     * @param   plugin  Plugin that sets the state.
+     * @param   state   Module state. Must not be <code>null</code>.
+     * @throws  IllegalStateException       Module is not yet loaded.
+     * @throws  IllegalArgumentException    <code>state</code> is failure state or loaded required
+     *                                      state.
+     * @throws  NullPointerException        <code>state</code> is <code>null</code>.
+     */
+    public void setLoadingImportsProgressState(final Plugin plugin, final LoadingImportsState state) {
+        checkIfDeleted();
+        if (!isLoaded() && state != LoadingImportsState.STATE_UNDEFINED) {
+            throw new IllegalStateException("module is not yet loaded");
+        }
+        if (state.isFailure()) {
+            throw new IllegalArgumentException(
+                "this is a failure state, call setLoadingImportsFailureState");
+        }
+        if (state == LoadingImportsState.STATE_LOADED_IMPORTED_MODULES) {
+            throw new IllegalArgumentException(
+                "this state could only be set by calling method setLoadedImports");
+        }
+        ModuleEventLog.getInstance().stateChanged(bo);
+    }
+
+   /**
+    * Set failure module state.
+    *
+    * @param   state   Module loading imports state. Must not be <code>null</code>.
+    * @param   e       Exception that occurred during loading. Must not be <code>null</code>.
+    * @throws  IllegalStateException       Module is not yet loaded.
+    * @throws  IllegalArgumentException    <code>state</code> is no failure state.
+    * @throws  NullPointerException        <code>state</code> is <code>null</code>.
+    */
+    public void setLoadingImportsFailureState(final LoadingImportsState state,
+            final SourceFileExceptionList e) {
+        if (e == null) {
+            throw new NullPointerException("Exception must not be null");
+        }
+        checkIfDeleted();
+        if (!isLoaded()) {
+            throw new IllegalStateException("module is not yet loaded");
+        }
+        if (!state.isFailure()) {
+            throw new IllegalArgumentException(
+                "this is no failure state, call setLoadingProgressState");
+        }
+        setLoadingImportsState(state);
+        setCurrentlyRunningPlugin(null);
+        setErrors(e);
+        ModuleEventLog.getInstance().stateChanged(bo);
+    }
+
+    /**
+     * Get loading imports state.
+     *
+     * @return  Dependency state.
+     */
+    public LoadingImportsState getLoadingImportsState() {
+        return this.loadingImportsState;
+    }
+
+    /**
+     * Is the module loaded?
+     *
+     * @return  Is the module loaded?
+     */
+    public boolean hasLoadedImports() {
+        return loadingImportsState == LoadingImportsState.STATE_LOADED_IMPORTED_MODULES;
     }
 
     /**
@@ -295,14 +370,10 @@ public class StateManager {
             throw new IllegalArgumentException(
                 "this state could only be set by calling method setLoadedRequiredModules");
         }
-        if (state == DependencyState.STATE_LOADING_REQUIRED_MODULES) {
-            invalidateOtherDependentModulesToLoaded();
-        }
         setWellFormedState(WellFormedState.STATE_UNCHECKED);
         setFormallyProvedState(FormallyProvedState.STATE_UNCHECKED);
         setDependencyState(state);
         setCurrentlyRunningPlugin(null);
-        bo.getKernelRequiredModules().clear();
         setErrors(null);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
@@ -329,7 +400,6 @@ public class StateManager {
             throw new IllegalArgumentException(
                 "this is no failure state, call setLoadingProgressState");
         }
-        invalidateOtherDependentModulesToLoadedRequired();
         setDependencyState(state);
         setCurrentlyRunningPlugin(null);
         setErrors(e);
@@ -418,8 +488,40 @@ public class StateManager {
             }
             required.clear();
 
-            invalidateThisModule();
+            invalidateThisModuleToLoaded();
             setLoadingState(LoadingState.STATE_LOADED);
+            ModuleEventLog.getInstance().stateChanged(bo);
+        }
+        Trace.end(CLASS, this, method);
+    }
+
+    /**
+     * Reset this and all (recursive) dependent modules (if any) to state loaded.
+     */
+    private void invalidateDependentModulesToLoadedImports() {
+        final String method = "invalidateDependentModulesToLoadedImports";
+        Trace.begin(CLASS, this, method);
+        Trace.param(CLASS, this, method, "bo", bo);
+        if (hasLoadedImports()) {
+            final KernelModuleReferenceList dependent = bo.getDependentModules();
+            Trace.trace(CLASS, this, method, "begin list of dependent modules");
+            // remember dependent modules
+            final List list = new ArrayList();
+            for (int i = 0; i < dependent.size(); i++) {
+                Trace.param(CLASS, this, method, "" + i, dependent.getKernelQedeqBo(i));
+                list.add(dependent.getKernelQedeqBo(i));
+            }
+            Trace.trace(CLASS, this, method, "end list of dependent modules");
+            for (int i = 0; i < list.size(); i++) {
+                DefaultKernelQedeqBo ref = (DefaultKernelQedeqBo) list.get(i);
+                // work on it, if still in list of dependent modules
+                if (dependent.contains(ref)) {
+                    ref.getStateManager().invalidateDependentModulesToLoadedImports();
+                }
+            }
+            list.clear();
+
+            invalidateThisModuleToLoadedImports();
             ModuleEventLog.getInstance().stateChanged(bo);
         }
         Trace.end(CLASS, this, method);
@@ -429,7 +531,7 @@ public class StateManager {
      * Reset all (recursive) dependent modules (if any) to state loaded required.
      */
     private void invalidateOtherDependentModulesToLoadedRequired() {
-        if (wasCheckedForBeingWellFormed()) {
+        if (isWellFormed()) {
             final KernelModuleReferenceList dependent = bo.getDependentModules();
             for (int i = 0; i < dependent.size(); i++) {
                 DefaultKernelQedeqBo ref = (DefaultKernelQedeqBo) dependent.getKernelQedeqBo(i);
@@ -442,14 +544,13 @@ public class StateManager {
      * Reset this and all (recursive) dependent modules (if any) to state loaded required.
      */
     private void invalidateDependentModulesToLoadedRequired() {
-        if (wasCheckedForBeingWellFormed()) {
+        if (isWellFormed()) {
             final KernelModuleReferenceList dependent = bo.getDependentModules();
             for (int i = 0; i < dependent.size(); i++) {
                 DefaultKernelQedeqBo ref = (DefaultKernelQedeqBo) dependent.getKernelQedeqBo(i);
                 ref.getStateManager().invalidateDependentModulesToLoadedRequired();
             }
-            invalidateThisModule();
-            setDependencyState(DependencyState.STATE_LOADED_REQUIRED_MODULES);
+            invalidateThisModuleToLoadedReqired();
             ModuleEventLog.getInstance().stateChanged(bo);
         }
     }
@@ -458,7 +559,7 @@ public class StateManager {
      * Reset all (recursive) dependent modules (if any) to state well formed.
      */
     private void invalidateOtherDependentModulesToWellFormed() {
-        if (wasCheckedForBeingFormallyProved()) {
+        if (isFullyFormallyProved()) {
             final KernelModuleReferenceList dependent = bo.getDependentModules();
             for (int i = 0; i < dependent.size(); i++) {
                 DefaultKernelQedeqBo ref = (DefaultKernelQedeqBo) dependent.getKernelQedeqBo(i);
@@ -471,25 +572,61 @@ public class StateManager {
      * Reset this and all (recursive) dependent modules (if any) to state well formed.
      */
     private void invalidateDependentModulesToWellFormed() {
-        if (wasCheckedForBeingFormallyProved()) {
+        if (isFullyFormallyProved()) {
             final KernelModuleReferenceList dependent = bo.getDependentModules();
             for (int i = 0; i < dependent.size(); i++) {
                 DefaultKernelQedeqBo ref = (DefaultKernelQedeqBo) dependent.getKernelQedeqBo(i);
                 ref.getStateManager().invalidateDependentModulesToWellFormed();
             }
-            invalidateThisModule();
-            setWellFormedState(WellFormedState.STATE_CHECKED);
+            invalidateThisModuleToWellFormed();
             ModuleEventLog.getInstance().stateChanged(bo);
         }
     }
 
-    private void invalidateThisModule() {
-        setLoadingState(LoadingState.STATE_LOADED);
-        setDependencyState(DependencyState.STATE_UNDEFINED);
-        setWellFormedState(WellFormedState.STATE_UNCHECKED);
-        setFormallyProvedState(FormallyProvedState.STATE_UNCHECKED);
-        setErrors(null);
-        setCurrentlyRunningPlugin(null);
+    private void invalidateThisModuleToLoaded() {
+        if (isLoaded()) {
+            setLoadingState(LoadingState.STATE_LOADED);
+            setLoadingImportsState(LoadingImportsState.STATE_UNDEFINED);
+            setDependencyState(DependencyState.STATE_UNDEFINED);
+            setWellFormedState(WellFormedState.STATE_UNCHECKED);
+            setFormallyProvedState(FormallyProvedState.STATE_UNCHECKED);
+            bo.getKernelRequiredModules().clear();
+            setErrors(null);
+        }
+    }
+
+    private void invalidateThisModuleToLoadedImports() {
+        if (hasLoadedImports()) {
+            setLoadingImportsState(LoadingImportsState.STATE_LOADED_IMPORTED_MODULES);
+            setDependencyState(DependencyState.STATE_UNDEFINED);
+            setWellFormedState(WellFormedState.STATE_UNCHECKED);
+            setFormallyProvedState(FormallyProvedState.STATE_UNCHECKED);
+            setErrors(null);
+        }
+    }
+
+    private void invalidateThisModuleToLoadedReqired() {
+        if (hasLoadedRequiredModules()) {
+            setDependencyState(DependencyState.STATE_LOADED_REQUIRED_MODULES);
+            setWellFormedState(WellFormedState.STATE_UNCHECKED);
+            setFormallyProvedState(FormallyProvedState.STATE_UNCHECKED);
+            setErrors(null);
+        }
+    }
+
+    private void invalidateThisModuleToWellFormed() {
+        if (isWellFormed()) {
+            setWellFormedState(WellFormedState.STATE_CHECKED);
+            setFormallyProvedState(FormallyProvedState.STATE_UNCHECKED);
+            setErrors(null);
+        }
+    }
+
+    private void invalidateThisModuleToFormallyProved() {
+        if (isFullyFormallyProved()) {
+            setFormallyProvedState(FormallyProvedState.STATE_CHECKED);
+            setErrors(null);
+        }
     }
 
     /**
@@ -502,12 +639,34 @@ public class StateManager {
     }
 
     /**
-     * Set loaded required requirements state.
+     * Set loaded imports state.
      *
      * @param   required  URLs of all referenced modules. Must not be <code>null</code>.
      * @throws  IllegalStateException   Module is not yet loaded.
      */
-    public void setLoadedRequiredModules(final KernelModuleReferenceList required) {
+    public void setLoadedImports(final KernelModuleReferenceList required) {
+        checkIfDeleted();
+        if (!isLoaded()) {
+            throw new IllegalStateException(
+                "Loaded imported modules can only be set if module is loaded."
+                + "\"\nCurrently the status for the module"
+                + "\"" + bo.getName() + "\" is \"" + bo.getLoadingState() + "\"");
+        }
+        setLoadingImportsState(LoadingImportsState.STATE_LOADED_IMPORTED_MODULES);
+        setDependencyState(DependencyState.STATE_UNDEFINED);
+        setWellFormedState(WellFormedState.STATE_UNCHECKED);
+        setCurrentlyRunningPlugin(null);
+        setErrors(null);
+        bo.getKernelRequiredModules().set(required);
+        ModuleEventLog.getInstance().stateChanged(bo);
+    }
+
+    /**
+     * Set loaded required requirements state.
+     *
+     * @throws  IllegalStateException   Module is not yet loaded.
+     */
+    public void setLoadedRequiredModules() {
         checkIfDeleted();
         if (!isLoaded()) {
             throw new IllegalStateException(
@@ -515,8 +674,7 @@ public class StateManager {
                 + "\"\nCurrently the status for the module"
                 + "\"" + bo.getName() + "\" is \"" + bo.getLoadingState() + "\"");
         }
-        invalidateDependentModulesToLoadedRequired();
-
+        KernelModuleReferenceList required = bo.getKernelRequiredModules();
         for (int i = 0; i < required.size(); i++) {
             DefaultKernelQedeqBo current = (DefaultKernelQedeqBo) required.getKernelQedeqBo(i);
             try {
@@ -526,12 +684,10 @@ public class StateManager {
                 throw new RuntimeException(me);
             }
         }
-
         setDependencyState(DependencyState.STATE_LOADED_REQUIRED_MODULES);
         setWellFormedState(WellFormedState.STATE_UNCHECKED);
         setCurrentlyRunningPlugin(null);
         setErrors(null);
-        bo.getKernelRequiredModules().set(required);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
 
@@ -575,7 +731,6 @@ public class StateManager {
             throw new IllegalArgumentException(
                 "set with setChecked(ExistenceChecker)");
         }
-        invalidateOtherDependentModulesToWellFormed();
         setWellFormedState(state);
         setCurrentlyRunningPlugin(plugin);
         setErrors(null);
@@ -600,7 +755,6 @@ public class StateManager {
             throw new IllegalArgumentException(
                 "this is no failure state, call setWellFormedProgressState");
         }
-        invalidateDependentModulesToLoadedRequired();
         setWellFormedState(state);
         setCurrentlyRunningPlugin(null);
         setErrors(e);
@@ -629,7 +783,6 @@ public class StateManager {
 //            throw new IllegalArgumentException(
 //                "set with setChecked(ExistenceChecker)");
 //        }
-        invalidateOtherDependentModulesToWellFormed();
         setFormallyProvedState(state);
         setCurrentlyRunningPlugin(plugin);
         setErrors(null);
@@ -654,7 +807,6 @@ public class StateManager {
             throw new IllegalArgumentException(
                 "this is no failure state, call setFormallyProvedProgressState");
         }
-        invalidateDependentModulesToWellFormed();
         setFormallyProvedState(state);
         setCurrentlyRunningPlugin(null);
         setErrors(e);
@@ -677,9 +829,8 @@ public class StateManager {
      *
      * @return  Successfully checked for being well formed?
      */
-    public boolean wasCheckedForBeingWellFormed() {
-        return isLoaded() && hasLoadedRequiredModules()
-            && wellFormedState == WellFormedState.STATE_CHECKED;
+    public boolean isWellFormed() {
+        return hasLoadedRequiredModules() && wellFormedState == WellFormedState.STATE_CHECKED;
     }
 
     /**
@@ -696,9 +847,8 @@ public class StateManager {
      *
      * @return  Successfully checked for having formally correct proofs?
      */
-    public boolean wasCheckedForBeingFormallyProved() {
-        return wasCheckedForBeingWellFormed()
-            && formallyProvedState == FormallyProvedState.STATE_CHECKED;
+    public boolean isFullyFormallyProved() {
+        return isWellFormed() && formallyProvedState == FormallyProvedState.STATE_CHECKED;
     }
 
     /**
@@ -721,19 +871,25 @@ public class StateManager {
             result = loadingState.getText() + " (" + loadingCompleteness + "%)";
         } else if (!isLoaded()) {
             result = loadingState.getText();
+        } else if (!hasLoadedImports()) {
+            if (loadingImportsState == LoadingImportsState.STATE_UNDEFINED) {
+                result = loadingState.getText();
+            } else {
+                result = loadingImportsState.getText();
+            }
         } else if (!hasLoadedRequiredModules()) {
             if (dependencyState == DependencyState.STATE_UNDEFINED) {
-                result = loadingState.getText();
+                result = loadingImportsState.getText();
             } else {
                 result = dependencyState.getText();
             }
-        } else if (!wasCheckedForBeingWellFormed()) {
+        } else if (!isWellFormed()) {
             if (wellFormedState == WellFormedState.STATE_UNCHECKED) {
                 result = dependencyState.getText();
             } else {
                 result = wellFormedState.getText();
             }
-        } else if (!wasCheckedForBeingFormallyProved()) {
+        } else if (!isFullyFormallyProved()) {
             if (formallyProvedState == FormallyProvedState.STATE_UNCHECKED) {
                 result = wellFormedState.getText();
             } else {
@@ -757,17 +913,22 @@ public class StateManager {
     public AbstractState getCurrentState() {
         if (!isLoaded()) {
             return loadingState;
-        } else if (!hasLoadedRequiredModules()) {
-            if (dependencyState == DependencyState.STATE_UNDEFINED) {
+        } else if (!hasLoadedImports()) {
+            if (loadingImportsState == LoadingImportsState.STATE_UNDEFINED) {
                 return loadingState;
             }
+            return loadingImportsState;
+        } else if (!hasLoadedRequiredModules()) {
+            if (dependencyState == DependencyState.STATE_UNDEFINED) {
+                return loadingImportsState;
+            }
             return dependencyState;
-        } else if (!wasCheckedForBeingWellFormed()) {
+        } else if (!isWellFormed()) {
             if (wellFormedState == WellFormedState.STATE_UNCHECKED) {
                 return dependencyState;
             }
             return wellFormedState;
-        } else if (!wasCheckedForBeingFormallyProved()) {
+        } else if (!isFullyFormallyProved()) {
             if (formallyProvedState == FormallyProvedState.STATE_UNCHECKED) {
                 return wellFormedState;
             }
@@ -786,11 +947,13 @@ public class StateManager {
     public AbstractState getLastSuccesfulState() {
         if (!isLoaded()) {
             return LoadingState.STATE_UNDEFINED;
-        } else if (!hasLoadedRequiredModules()) {
+        } else if (!hasLoadedImports()) {
             return LoadingState.STATE_LOADED;
-        } else if (!wasCheckedForBeingWellFormed()) {
+        } else if (!hasLoadedRequiredModules()) {
+            return LoadingImportsState.STATE_LOADED_IMPORTED_MODULES;
+        } else if (!isWellFormed()) {
             return DependencyState.STATE_LOADED_REQUIRED_MODULES;
-        } else if (!wasCheckedForBeingFormallyProved()) {
+        } else if (!isFullyFormallyProved()) {
             return WellFormedState.STATE_CHECKED;
         } else {
             return FormallyProvedState.STATE_CHECKED;
@@ -804,6 +967,15 @@ public class StateManager {
      */
     protected void setLoadingState(final LoadingState state) {
         this.loadingState = state;
+    }
+
+    /**
+     * Set {@link LoadingImportsState}. Doesn't do any status handling. Only for internal use.
+     *
+     * @param   state   Set this loading state.
+     */
+    protected void setLoadingImportsState(final LoadingImportsState state) {
+        this.loadingImportsState = state;
     }
 
     /**

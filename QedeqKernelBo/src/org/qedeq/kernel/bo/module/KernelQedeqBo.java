@@ -3,12 +3,14 @@ package org.qedeq.kernel.bo.module;
 import org.qedeq.kernel.bo.common.Element2Latex;
 import org.qedeq.kernel.bo.common.Element2Utf8;
 import org.qedeq.kernel.bo.common.QedeqBo;
+import org.qedeq.kernel.bo.service.logic.ModuleConstantsExistenceCheckerImpl;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.state.DependencyState;
 import org.qedeq.kernel.se.state.FormallyProvedState;
+import org.qedeq.kernel.se.state.LoadingImportsState;
 import org.qedeq.kernel.se.state.WellFormedState;
 
 /**
@@ -89,28 +91,59 @@ public interface KernelQedeqBo extends QedeqBo {
     /**
      * Set failure module state.
      *
-     * @param   loadRequiredFailed        Module state.
-     * @param   sfl                       Exception that occurred during loading required modules.
+     * @param   loadImportsFailed       Module state.
+     * @param   sfl                     Exception that occurred during loading required modules.
      * @throws  IllegalArgumentException  <code>state</code> is no failure state
      */
-    public void setDependencyFailureState(DependencyState loadRequiredFailed,
+    public void setLoadingImportsFailureState(LoadingImportsState loadImportsFailed,
             SourceFileExceptionList sfl);
 
     /**
      * Set logical well formed module state. Must not be <code>null</code>.
      *
-     * @param   plugin              Plugin that was executed.
-     * @param   stateLoadRequired   module state
+     * @param   plugin                  Plugin that was executed.
+     * @param   stateLoadImports        module state
      */
-    public void setDependencyProgressState(Plugin plugin, DependencyState stateLoadRequired);
+    public void setLoadingImportsProgressState(Plugin plugin, LoadingImportsState stateLoadImports);
+
+    /**
+     * Set loaded imports state.
+     *
+     * @param   imports                 These imports were loaded.
+     * @throws  IllegalStateException   Module is not yet loaded.
+     */
+    public void setLoadedImports(final KernelModuleReferenceList imports);
+
+    /**
+     * Set dependency failure module state.
+     *
+     * @param   loadRequiredFailed      Module state.
+     * @param   sfl                     Exception that occurred during loading required modules.
+     * @throws  IllegalArgumentException  <code>loadRequiredFailed</code> is no failure state
+     * @throws  IllegalStateException   Module is not yet loaded.
+     * @throws  NullPointerException    <code>loadRequiredFailed</code> is <code>null</code>.
+     */
+    public void setDependencyFailureState(DependencyState loadRequiredFailed,
+            SourceFileExceptionList sfl);
+
+    /**
+     * Set dependency module state. Must not be <code>null</code>.
+     *
+     * @param   plugin                      Plugin that was executed.
+     * @param   state                       Module state
+     * @throws  IllegalStateException       Module is not yet loaded.
+     * @throws  IllegalArgumentException    <code>state</code> is failure state or loaded required
+     *                                      state.
+     * @throws  NullPointerException        <code>state</code> is <code>null</code>.
+     */
+    public void setDependencyProgressState(Plugin plugin, DependencyState state);
 
     /**
      * Set loaded required requirements state.
      *
-     * @param   list        URLs of all referenced modules. Must not be <code>null</code>.
      * @throws  IllegalStateException   Module is not yet loaded.
      */
-    public void setLoadedRequiredModules(final KernelModuleReferenceList list);
+    public void setLoadedRequiredModules();
 
     /**
      * Set failure module state.

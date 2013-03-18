@@ -28,11 +28,11 @@ import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
-import org.qedeq.kernel.se.state.DependencyState;
+import org.qedeq.kernel.se.state.LoadingImportsState;
 
 
 /**
- * Load all required QEDEQ modules.
+ * Load all directly imported QEDEQ modules.
  *
  * @author  Michael Meyling
  */
@@ -58,14 +58,16 @@ public final class LoadDirectlyRequiredModulesExecutor extends ControlVisitor
     }
 
     public Object executePlugin(final ServiceProcess process, final Object data) {
+        if (getQedeqBo().hasLoadedImports()) {
+            return getQedeqBo().getRequiredModules();
+        }
         this.required = new KernelModuleReferenceList();
         try {
             super.traverse();
-            getQedeqBo().setDependencyProgressState(getPlugin(),
-                DependencyState.STATE_LOADED_DIRECTLY_REQUIRED_MODULES);
+            getQedeqBo().setLoadedImports(required);
         } catch (final SourceFileExceptionList sfl) {
-            getQedeqBo().setDependencyFailureState(
-                DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, sfl);
+            getQedeqBo().setLoadingImportsFailureState(
+                LoadingImportsState.STATE_LOADING_IMPORTS_FAILED, sfl);
         }
         return required;
     }

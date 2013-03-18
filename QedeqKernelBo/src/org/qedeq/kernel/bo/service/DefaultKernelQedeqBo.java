@@ -44,6 +44,7 @@ import org.qedeq.kernel.se.dto.module.QedeqVo;
 import org.qedeq.kernel.se.state.AbstractState;
 import org.qedeq.kernel.se.state.DependencyState;
 import org.qedeq.kernel.se.state.FormallyProvedState;
+import org.qedeq.kernel.se.state.LoadingImportsState;
 import org.qedeq.kernel.se.state.LoadingState;
 import org.qedeq.kernel.se.state.WellFormedState;
 
@@ -232,29 +233,32 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         return this.textConverter;
     }
 
-    /**
-     * Set dependency progress module state.
-     *
-     * @param   plugin  Plugin that sets the state.
-     * @param   state   Module state. Must not be <code>null</code>.
-     * @throws  IllegalStateException       Module is not yet loaded.
-     * @throws  IllegalArgumentException    <code>state</code> is failure state or loaded required
-     *                                      state.
-     * @throws  NullPointerException        <code>state</code> is <code>null</code>.
-     */
+    public void setLoadingImportsProgressState(final Plugin plugin, final LoadingImportsState state) {
+        stateManager.setLoadingImportsProgressState(plugin, state);
+    }
+
+    public void setLoadingImportsFailureState(final LoadingImportsState state,
+            final SourceFileExceptionList e) {
+        stateManager.setLoadingImportsFailureState(state, e);
+    }
+
+    public LoadingImportsState getLoadingImportsState() {
+        return stateManager.getLoadingImportsState();
+    }
+
+    public void setLoadedImports(final KernelModuleReferenceList list) {
+        stateManager.setLoadedImports(list);
+    }
+
+    public boolean hasLoadedImports() {
+        return stateManager.hasLoadedImports();
+    }
+
+
     public void setDependencyProgressState(final Plugin plugin, final DependencyState state) {
         stateManager.setDependencyProgressState(plugin, state);
     }
 
-   /**
-    * Set failure module state.
-    *
-    * @param   state   Module dependency state. Must not be <code>null</code>.
-    * @param   e       Exception that occurred during loading. Must not be <code>null</code>.
-    * @throws  IllegalStateException       Module is not yet loaded.
-    * @throws  IllegalArgumentException    <code>state</code> is no failure state.
-    * @throws  NullPointerException        <code>state</code> is <code>null</code>.
-    */
     public void setDependencyFailureState(final DependencyState state,
             final SourceFileExceptionList e) {
         stateManager.setDependencyFailureState(state, e);
@@ -264,8 +268,8 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         return stateManager.getDependencyState();
     }
 
-    public void setLoadedRequiredModules(final KernelModuleReferenceList list) {
-        stateManager.setLoadedRequiredModules(list);
+    public void setLoadedRequiredModules() {
+        stateManager.setLoadedRequiredModules();
     }
 
     public ModuleReferenceList getRequiredModules() {
@@ -293,12 +297,12 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         stateManager.setWellFormed(checker);
     }
 
-    public boolean wasCheckedForBeingWellFormed() {
-        return stateManager.wasCheckedForBeingWellFormed();
+    public boolean isWellFormed() {
+        return stateManager.isWellFormed();
     }
 
-    public boolean wasCheckedForBeingFormallyProved() {
-        return stateManager.wasCheckedForBeingFormallyProved();
+    public boolean isFullyFormallyProved() {
+        return stateManager.isFullyFormallyProved();
     }
 
     public void setWellFormedProgressState(final Plugin plugin, final WellFormedState state) {

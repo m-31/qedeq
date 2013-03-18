@@ -41,6 +41,7 @@ import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
+import org.qedeq.kernel.bo.service.dependency.LoadAllRequiredModulesPlugin;
 import org.qedeq.kernel.bo.service.dependency.LoadDirectlyRequiredModulesPlugin;
 import org.qedeq.kernel.bo.service.dependency.LoadRequiredModulesPlugin;
 import org.qedeq.kernel.bo.service.logic.FormalProofCheckerPlugin;
@@ -132,6 +133,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
 
         // add internal plugins
         pluginManager.addPlugin(LoadDirectlyRequiredModulesPlugin.class.getName());
+        pluginManager.addPlugin(LoadAllRequiredModulesPlugin.class.getName());
         pluginManager.addPlugin(LoadRequiredModulesPlugin.class.getName());
         pluginManager.addPlugin(WellFormedCheckerPlugin.class.getName());
         pluginManager.addPlugin(FormalProofCheckerPlugin.class.getName());
@@ -803,21 +805,21 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     public boolean checkWellFormedness(final ModuleAddress address) {
         final DefaultKernelQedeqBo prop = modules.getKernelQedeqBo(this, address);
         // did we check this already?
-        if (prop.wasCheckedForBeingWellFormed()) {
+        if (prop.isWellFormed()) {
             return true; // everything is OK
         }
         executePlugin(WellFormedCheckerPlugin.class.getName(), address, null, null);
-        return prop.wasCheckedForBeingWellFormed();
+        return prop.isWellFormed();
     }
 
     public boolean checkFormallyProved(final ModuleAddress address) {
         final DefaultKernelQedeqBo prop = modules.getKernelQedeqBo(this, address);
         // did we check this already?
-        if (prop.wasCheckedForBeingFormallyProved()) {
+        if (prop.isFullyFormallyProved()) {
             return true; // everything is OK
         }
         executePlugin(FormalProofCheckerPlugin.class.getName(), address, null, null);
-        return prop.wasCheckedForBeingFormallyProved();
+        return prop.isFullyFormallyProved();
     }
 
     /**

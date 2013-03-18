@@ -130,7 +130,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         QedeqLog.getInstance().logRequest(
                 "Check logical correctness", getQedeqBo().getUrl());
         getServices().checkWellFormedness(getQedeqBo().getModuleAddress());
-        if (!getQedeqBo().wasCheckedForBeingWellFormed()) {
+        if (!getQedeqBo().isWellFormed()) {
             final String msg = "Check of logical correctness failed";
             QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
                 "Module is not even well formed.");
