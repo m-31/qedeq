@@ -37,7 +37,7 @@ public class ServiceProcessImpl implements ServiceProcess {
 
     /** Counter for each service process. */
     private static long globalCounter;
-    
+
     /** The service the thread works for. */
     private final Plugin service;
 
