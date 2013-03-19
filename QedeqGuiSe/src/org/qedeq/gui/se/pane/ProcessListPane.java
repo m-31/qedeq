@@ -186,8 +186,6 @@ public class ProcessListPane extends JPanel  {
                 }
                 selectedProcesses.clear();
                 if (!rowSM.isSelectionEmpty()) {
-                    int firstIndex = e.getFirstIndex();
-                    int lastIndex = e.getLastIndex();
                     int minIndex = rowSM.getMinSelectionIndex();
                     int maxIndex = rowSM.getMaxSelectionIndex();
                     for (int i = minIndex; i <= maxIndex; i++) {
