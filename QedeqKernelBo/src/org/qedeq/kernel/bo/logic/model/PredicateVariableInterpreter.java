@@ -37,9 +37,6 @@ public final class PredicateVariableInterpreter {
     /** Model contains entities. */
     private Model model;
 
-    /** Counter for next calls for one cycle. */
-    private double counter;
-
     /**
      * Constructor.
      *
@@ -82,12 +79,10 @@ public final class PredicateVariableInterpreter {
      * @return  Is there a next new valuation?
      */
     public boolean next() {
-        counter++;
         boolean next = true;
         for (int i = predicateVariables.size() - 1; i >= -1; i--) {
             if (i < 0) {
                 next = false;
-                counter = 0;
                 break;
             }
             final PredicateVariable var = (PredicateVariable) predicateVariables.get(i);
