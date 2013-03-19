@@ -3,7 +3,6 @@ package org.qedeq.kernel.bo.module;
 import org.qedeq.kernel.bo.common.Element2Latex;
 import org.qedeq.kernel.bo.common.Element2Utf8;
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.bo.service.logic.ModuleConstantsExistenceCheckerImpl;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
@@ -183,7 +182,7 @@ public interface KernelQedeqBo extends QedeqBo {
             SourceFileExceptionList sfl);
 
     /**
-     * Set {@link ModuleConstantsExistenceCheckerImpl}. Doesn't do any status handling.
+     * Set {@link ModuleConstantsExistenceChecker}. Doesn't do any status handling.
      *
      * @param   existence   Set this checker.
      */
