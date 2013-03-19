@@ -285,6 +285,10 @@ public class ServiceProcessImpl implements ServiceProcess {
         return id;
     }
 
+    public boolean equals(final Object obj) {
+        return 0 == compareTo(obj);
+    }
+
     public int compareTo(final Object o) {
         if (!(o instanceof ServiceProcess)) {
             return -1;
