@@ -136,6 +136,7 @@ public class ServiceProcessImpl implements ServiceProcess {
      * @param   service     This service is executed.
      * @param   qedeq       Module we work on.
      * @param   parameters  Interesting process parameters (e.g. QEDEQ module).
+     * @param   parent      Parent service process.
      */
     public ServiceProcessImpl(final Plugin service, final KernelQedeqBo qedeq,
             final Parameters parameters, final ServiceProcess parent) {
