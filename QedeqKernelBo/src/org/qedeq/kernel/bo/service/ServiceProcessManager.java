@@ -85,6 +85,7 @@ public class ServiceProcessManager {
      * @param   service     The service that runs in current thread.
      * @param   qedeq       QEDEQ module for service.
      * @param   parameters  Parameter for the service.
+     * @param   parent      Parent process that creates a new one.
      * @return  Created process.
      */
     public synchronized ServiceProcessImpl createProcess(final Plugin service,
