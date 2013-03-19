@@ -285,6 +285,10 @@ public class ServiceProcessImpl implements ServiceProcess {
         return id;
     }
 
+    public int hashCode() {
+        return (int) id;
+    }
+
     public boolean equals(final Object obj) {
         return 0 == compareTo(obj);
     }
