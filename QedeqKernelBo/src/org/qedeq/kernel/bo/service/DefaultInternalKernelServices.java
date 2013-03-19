@@ -77,7 +77,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     private static final Object MONITOR = new Object();
 
     /** Number of method calls. */
-    private final String processCounterSync = new String();
+    private final String processCounterSync = CLASS.toString();
 
     /** Number of method calls. */
     private volatile int processCounter = 0;
