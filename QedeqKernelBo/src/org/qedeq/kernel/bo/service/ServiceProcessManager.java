@@ -22,6 +22,7 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.PluginBo;
+import org.qedeq.kernel.bo.common.PluginCall;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.log.QedeqLog;
@@ -39,16 +40,24 @@ public class ServiceProcessManager {
     /** Stores all processes. */
     private final List processes = new ArrayList();
 
+    /** Stores all calls. */
+    private final List calls = new ArrayList();
+
     /** Manage all known plugins. */
     private final PluginManager pluginManager;
+
+    /** Manage synchronized module access. */
+    private final ModuleArbiter arbiter;
 
     /**
      * Constructor.
      *
      * @param   pluginManager   Collects process information.
+     * @param   arbiter         For module access synchronization.
      */
-    public ServiceProcessManager(final PluginManager pluginManager) {
+    public ServiceProcessManager(final PluginManager pluginManager, ModuleArbiter arbiter) {
         this.pluginManager = pluginManager;
+        this.arbiter = arbiter;
     }
 
 
@@ -85,14 +94,16 @@ public class ServiceProcessManager {
      * @param   service     The service that runs in current thread.
      * @param   qedeq       QEDEQ module for service.
      * @param   parameters  Parameter for the service.
+     * @param   process     We run in this process.
      * @param   parent      Parent process that creates a new one.
      * @return  Created process.
      */
-    public synchronized ServiceProcessImpl createProcess(final Plugin service,
-            final KernelQedeqBo qedeq, final Parameters parameters, final ServiceProcess parent) {
-        final ServiceProcessImpl process = new ServiceProcessImpl(service, qedeq, parameters, parent);
-        processes.add(process);
-        return process;
+    public synchronized PluginCallImpl createPluginCall(final Plugin service,
+            final KernelQedeqBo qedeq, final Parameters parameters, final ServiceProcess process,
+            final PluginCall parent) {
+        final PluginCallImpl call = new PluginCallImpl(service, qedeq, parameters, process, parent);
+        calls.add(call);
+        return call;
     }
 
     /**
@@ -120,12 +131,12 @@ public class ServiceProcessManager {
      * @param   id          Plugin to use.
      * @param   qedeq       QEDEQ module to work on.
      * @param   data        Process parameters.
-     * @param   parent      Parent service process. Might be <code>null</code>.
-     * @return  Plugin specific resulting object. Might be <code>null</code>.
+     * @param   proc        Process. Might be <code>null</code>.
+     * @return  Plugin specific result object. Might be <code>null</code>.
      * @throws  RuntimeException    Plugin unknown.
      */
     Object executePlugin(final String id, final KernelQedeqBo qedeq, final Object data,
-            final ServiceProcess parent) {
+            final ServiceProcess proc) {
         final String method = "executePlugin(String, KernelQedeqBo, Object, ServiceProcess)";
         final PluginBo plugin = pluginManager.getPlugin(id);
         if (plugin == null) {
@@ -136,15 +147,24 @@ public class ServiceProcessManager {
             throw e;
         }
         final Parameters parameters = KernelContext.getInstance().getConfig().getPluginEntries(plugin);
-        final ServiceProcessImpl process = createProcess(plugin,
-            qedeq, parameters, parent);
+        ServiceProcess process = null;
+        if (proc != null) {
+            process = proc;
+        }
+        if (process == null) {
+            process = new ServiceProcessImpl();
+        }
         process.setBlocked(true);
-        synchronized (qedeq) {
+        final PluginCall call = new PluginCallImpl(plugin, qedeq, parameters, process,
+            process.getPluginCall());
+        process.setPluginCall(call);
+        arbiter.lockRequiredModules(process, qedeq);
+//        synchronized (qedeq) {
             process.setBlocked(false);
+            final boolean newBlockedModule = !process.getBlockedModules().contains(qedeq);
             try {
                 process.addBlockedModule(qedeq);
                 final PluginExecutor exe = plugin.createExecutor(qedeq, parameters);
-                process.setExecutor(exe);
                 qedeq.setCurrentlyRunningPlugin(plugin);
                 final Object result = exe.executePlugin(process, data);
                 if (exe.getInterrupted()) {
@@ -159,15 +179,18 @@ public class ServiceProcessManager {
                 QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
                 return null;
             } finally {
-                process.removeBlockedModule(qedeq);
+                if (newBlockedModule) {
+                    process.removeBlockedModule(qedeq);
+                }
                 if (process.isRunning()) {
                     process.setFailureState();
                 }
                 // remove old executor
-                process.setExecutor(null);
+                process.setPluginCall(null);
                 qedeq.setCurrentlyRunningPlugin(null);
+                arbiter.unlockRequiredModules(process, qedeq);
             }
-        }
+//        }
     }
 
 

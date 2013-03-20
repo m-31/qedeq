@@ -94,6 +94,9 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     /** This instance nows how to load a module from the file system. */
     private final QedeqFileDao qedeqFileDao;
 
+    /** Synchronize module access. */
+    private final ModuleArbiter arbiter;
+
     /** This instance manages plugins. */
     private final PluginManager pluginManager;
 
@@ -118,8 +121,9 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         this.config = config;
         this.kernel = kernel;
         this.qedeqFileDao = loader;
+        arbiter = new ModuleArbiter();
         pluginManager = new PluginManager(this);
-        processManager = new ServiceProcessManager(pluginManager);
+        processManager = new ServiceProcessManager(pluginManager, arbiter);
         contextChecker = new DefaultContextChecker();
         loader.setServices(this);
 
@@ -759,7 +763,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     }
 
     public QedeqBo getQedeqBo(final ModuleAddress address) {
-        return getModules().getKernelQedeqBo(this, address);
+        return getKernelQedeqBo(address);
     }
 
     public ModuleAddress getModuleAddress(final URL url) throws IOException {
@@ -791,8 +795,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         return buffer.toString();
     }
 
-    public synchronized boolean loadRequiredModules(final ModuleAddress address) {
-        // this method is synchronized because circular dependent modules cause dead locks
+    public boolean loadRequiredModules(final ModuleAddress address) {
         final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) loadModule(address);
         // did we check this already?
         if (prop.hasLoadedRequiredModules()) {

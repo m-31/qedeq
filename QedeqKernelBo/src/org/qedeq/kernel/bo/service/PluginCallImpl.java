@@ -15,32 +15,38 @@
 
 package org.qedeq.kernel.bo.service;
 
+import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.common.PluginCall;
+import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.QedeqBoSet;
+import org.qedeq.kernel.bo.common.PluginCall;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBoSet;
+import org.qedeq.kernel.se.common.Plugin;
 
 /**
- * Process info for a kernel service.
+ * Single call for a service.
  *
  * @author  Michael Meyling
  */
-public class ServiceProcessImpl implements ServiceProcess {
+public class PluginCallImpl implements PluginCall {
 
     /** This class. */
-    private static final Class CLASS = ServiceProcessImpl.class;
+    private static final Class CLASS = PluginCallImpl.class;
 
-    /** Counter for each service process. */
+    /** Counter for each service call. */
     private static long globalCounter;
 
-    /** The plugin call the process currently works for. */
-    private PluginCall call;
+    /** The service the thread works for. */
+    private final Plugin plugin;
 
-    /** The thread the service is done within. */
-    private final Thread thread;
+    /** QEDEQ module the process is working on. */
+    private KernelQedeqBo qedeq;
+
+    /** Some important parameters for the service. For example QEDEQ module address. */
+    private final Parameters parameters;
 
     /** Start time for process. */
     private long start;
@@ -48,11 +54,8 @@ public class ServiceProcessImpl implements ServiceProcess {
     /** End time for process. */
     private long stop;
 
-    /** State for process. 0 = running, 1 = success, -1 failure. */
+    /** State for process. 0 = running, 1 = success, -1 finished by interrupt. */
     private int state;
-
-    /** Action name. */
-    private String actionName = "unknown service";
 
     /** Percentage of currently running plugin execution. */
     private double executionPercentage = 0;
@@ -60,55 +63,73 @@ public class ServiceProcessImpl implements ServiceProcess {
     /** Percentage of currently running plugin execution. */
     private String executionActionDescription = "not yet started";
 
-    /** Is this process blocked? */
-    private boolean blocked;
+    /** Created execution object. Might be <code>null</code>. */
+    private PluginExecutor executor;
 
-    /** We block these QEDEQ modules for other processes. */
-    private final KernelQedeqBoSet blockedModules;
+    /** Service process. */
+    private final ServiceProcess process;
 
-    /** Process id. */
+    /** Parent plugin call. Might be <code>null</code>. */
+    private final PluginCall parent;
+
+    /** Call id. */
     private final long id;
+
+    /** Return code. */
+    private int ret;
+
+    /** Resulting object. */
+    private Object result;
 
     /**
      * A new service process within the current thread.
      *
      * @param   service     This service is executed.
-     * @param   thread      The process the service is executed within.
      * @param   qedeq       Module we work on.
      * @param   parameters  Interesting process parameters (e.g. QEDEQ module).
-     * @param   parent      Parent service process.
+     * @param   process     Service process we run within.
+     * @param   parent      Parent plugin call if any. 
      */
-    public ServiceProcessImpl() {
+    public PluginCallImpl(final Plugin service,
+            final KernelQedeqBo qedeq, final Parameters parameters, final ServiceProcess process,
+            final PluginCall parent) {
         this.id = globalCounter++;
-        this.thread = Thread.currentThread();
-        this.call = null;
-        this.blockedModules = new KernelQedeqBoSet();
+        this.qedeq = qedeq;
+        this.plugin = service;
+        this.parameters = parameters;
+        this.process = process;
+        if (!process.getThread().isAlive()) {
+            throw new RuntimeException("thread is already dead");
+        }
+        this.parent = parent;
         start();
     }
 
-    public synchronized void setPluginCall(final PluginCall call) {
-        if (this.call == null && call != null && call.getPlugin() != null) {
-            this.actionName = call.getPlugin().getPluginActionName();
-        }
-        this.call = call;
+    public Plugin getPlugin() {
+        return plugin;
     }
 
-    public synchronized PluginCall getPluginCall() {
-        return call;
+    public QedeqBo getQedeq() {
+        return qedeq;
     }
 
-    public synchronized Thread getThread() {
-        return thread;
+    public synchronized Parameters getParameters() {
+        return parameters;
     }
 
-    public synchronized QedeqBo getQedeq() {
-        if (call != null) {
-            return call.getQedeq();
-        }
-        return null;
+    public synchronized PluginExecutor getExecutor() {
+        return executor;
     }
 
-    public synchronized long getStart() {
+    public synchronized void setExecutor(final PluginExecutor executor) {
+        this.executor = executor;
+    }
+
+    public String getParameterString() {
+        return parameters.getParameterString();
+    }
+
+    public long getStart() {
         return start;
     }
 
@@ -142,27 +163,15 @@ public class ServiceProcessImpl implements ServiceProcess {
     }
 
     public synchronized boolean isRunning() {
-        if (state == 0) {
-            if (!thread.isAlive()) {
-                Trace.fatal(CLASS, this, "isRunning()", "Thread has unexpectly died",
-                    new RuntimeException());
-                setFailureState();
-                return false;
-            }
-            return true;
-        }
-        return false;
+        return state == 0;
     }
 
-    public synchronized boolean isBlocked() {
-        if (isRunning()) {
-            return blocked;
-        }
-        return false;
+    public synchronized boolean isFinished() {
+        return state != 0;
     }
 
-    public synchronized void setBlocked(final boolean blocked) {
-        this.blocked = blocked;
+    public synchronized boolean wasInterrupted() {
+        return state == -1;
     }
 
     public synchronized boolean wasSuccess() {
@@ -173,51 +182,26 @@ public class ServiceProcessImpl implements ServiceProcess {
         return state == -1;
     }
 
-
-    public synchronized void interrupt() {
-        thread.interrupt();
+    public synchronized ServiceProcess getServiceProcess() {
+        return process;
     }
 
     public synchronized double getExecutionPercentage() {
-        if (isRunning() || isBlocked()) {
-            if (call != null) {
-                executionPercentage = call.getExecutionPercentage();
+        if (isRunning()) {
+            if (executor != null) {
+                executionPercentage = executor.getExecutionPercentage();
             }
         }
         return executionPercentage;
     }
 
-    public synchronized String getActionName() {
-        return actionName;
-    }
-
     public synchronized String getExecutionActionDescription() {
-        if (isRunning() || isBlocked()) {
-            if (call != null) {
-                executionActionDescription = call.getExecutionActionDescription();
+        if (isRunning()) {
+            if (executor != null) {
+                executionActionDescription = executor.getLocationDescription();
             }
         }
         return executionActionDescription;
-    }
-
-    public synchronized QedeqBoSet getBlockedModules() {
-        return new KernelQedeqBoSet(blockedModules);
-    }
-
-    public synchronized void addBlockedModules(final KernelQedeqBoSet set) {
-        blockedModules.add(set);
-    }
-
-    public synchronized void addBlockedModule(final KernelQedeqBo element) {
-        blockedModules.add(element);
-    }
-
-    public synchronized void removeBlockedModules(final KernelQedeqBoSet set) {
-        blockedModules.remove(set);
-    }
-
-    public synchronized void removeBlockedModule(final KernelQedeqBo element) {
-        blockedModules.remove(element);
     }
 
     public long getId() {
@@ -233,12 +217,23 @@ public class ServiceProcessImpl implements ServiceProcess {
     }
 
     public int compareTo(final Object o) {
-        if (!(o instanceof ServiceProcess)) {
+        if (!(o instanceof PluginCall)) {
             return -1;
         }
-        final ServiceProcess s = (ServiceProcess) o;
+        final PluginCall s = (PluginCall) o;
         return (getId() < s.getId() ? -1 : (getId() == s.getId() ? 0 : 1));
     }
 
+    public synchronized PluginCall getParentPluginCall() {
+        return parent;
+    }
+
+    public synchronized Object getExecutionResult() {
+        return result;
+    }
+
+    public synchronized int getReturnCode() {
+        return ret;
+    }
 
 }

@@ -15,23 +15,30 @@
 
 package org.qedeq.kernel.bo.common;
 
-import org.qedeq.base.io.Parameters;
-import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.KernelQedeqBoSet;
 
 
 /**
- * Process info for a service.
+ * Process info for a kernel service.
  *
  * @author  Michael Meyling
  */
 public interface ServiceProcess extends Comparable {
 
     /**
-     * Get service.
+     * Get currently running plugin call.
      *
-     * @return  service
+     * @return  Plugin call.
      */
-    public Plugin getService();
+    public PluginCall getPluginCall();
+
+    /**
+     * Plugin execution.
+     *
+     * @param   call    Execute this plugin call.
+     */
+    public void setPluginCall(final PluginCall call);
 
     /**
      * Get thread the service runs within.
@@ -39,41 +46,6 @@ public interface ServiceProcess extends Comparable {
      * @return  Service thread.
      */
     public Thread getThread();
-
-    /**
-     * Get service.
-     *
-     * @return  service
-     */
-    public QedeqBo getQedeq();
-
-    /**
-     * Get service parameter.
-     *
-     * @return  Service parameter.
-     */
-    public Parameters getParameters();
-
-    /**
-     * Get associated executor.
-     *
-     * @return  Associated executor. Might be <code>null</code>.
-     */
-    public PluginExecutor getExecutor();
-
-    /**
-     * Set associated executor.
-     *
-     * @param   executor    Associated executor.
-     */
-    public void setExecutor(final PluginExecutor executor);
-
-    /**
-     * Get service parameter. Filters only for parameters that are explicitly for this plugin.
-     *
-     * @return  Service parameter.
-     */
-    public String getParameterString();
 
     /**
      * Get timestamp for service start.
@@ -135,13 +107,6 @@ public interface ServiceProcess extends Comparable {
     public boolean wasFailure();
 
     /**
-     *  Return parent service process if any.
-     *
-     * @return  Parent service process. Might be <code>null</code>.
-     */
-    public ServiceProcess getParentServiceProcess();
-
-    /**
      * Interrupt running thread. Usually because of user canceling. This should initiate a
      * {@link org.qedeq.kernel.se.visitor.InterruptException} when {@link Thread.interrupted()}
      * is <code>true</code>.
@@ -149,7 +114,14 @@ public interface ServiceProcess extends Comparable {
     public void interrupt();
 
     /**
-     * Get percentage of currently running plugin execution.
+     * Get action name. This is what the process mainly does.
+     *
+     * @return  Action name.
+     */
+    public String getActionName();
+
+    /**
+     * Get percentage of currently running execution.
      *
      * @return  Number between 0 and 100.
      */
@@ -168,6 +140,14 @@ public interface ServiceProcess extends Comparable {
      * @return  Blocked QEDEQ modules.
      */
     public QedeqBoSet getBlockedModules();
+
+    public void addBlockedModules(KernelQedeqBoSet set);
+
+    public void addBlockedModule(KernelQedeqBo element);
+
+    public void removeBlockedModules(KernelQedeqBoSet set);
+
+    public void removeBlockedModule(KernelQedeqBo element);
 
     /**
      * Get process id.

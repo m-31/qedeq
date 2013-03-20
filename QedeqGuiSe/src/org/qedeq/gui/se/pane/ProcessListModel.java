@@ -108,14 +108,14 @@ public class ProcessListModel extends AbstractTableModel {
                     return runningIcon;
                 }
                 break;
-        case 1: return sp.getService().getPluginActionName();
-        case 2: return sp.getQedeq().getName();
+        case 1: return sp.getActionName();
+        case 2: return (sp.getPluginCall() != null ? sp.getPluginCall().getQedeq().getName() : "");
         case 3: return DateUtility.getIsoTime(sp.getStart());
         case 4: return sp.getStop() != 0 ? DateUtility.getIsoTime(sp.getStop()) : "";
         case 5: return DateUtility.getDuration(current - sp.getStart());
         case 6: return "" + sp.getExecutionPercentage();
         case 7: return sp.getExecutionActionDescription().replace('\n', ' ');
-        case 8: return sp.getParameterString();
+        case 8: return (sp.getPluginCall() != null ? sp.getPluginCall().getParameterString() : "");
         default:
                 return "";
         }

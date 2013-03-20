@@ -48,6 +48,7 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.DateUtility;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.gui.se.util.GuiHelper;
+import org.qedeq.kernel.bo.common.PluginCall;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.QedeqBoSet;
 import org.qedeq.kernel.bo.common.ServiceProcess;
@@ -105,17 +106,21 @@ public class ProcessListPane extends JPanel  {
                          tip = "Process has finished";
                      }
                      break;
-                case 1: tip = process.getService().getPluginDescription();
+                case 1: tip = (process.getPluginCall() != null
+                     ? process.getPluginCall().getPlugin().getPluginDescription()
+                     : process.getExecutionActionDescription());
                      break;
                 case 2:
                 case 3:
                 case 4:
-                case 5: tip = process.getQedeq().getUrl();
+                case 5: tip = (process.getPluginCall() != null
+                     ? process.getPluginCall().getQedeq().getUrl() : "");
                      break;
                 case 7: tip = GuiHelper.getToolTipText(process.getExecutionActionDescription());
-                    break;
-                case 8: tip = GuiHelper.getToolTipText(process.getParameterString());;
-                    break;
+                     break;
+                case 8: tip = GuiHelper.getToolTipText(process.getPluginCall() != null
+                     ? process.getPluginCall().getParameterString() : "");
+                     break;
                 default: tip = "";
                 }
             } catch (RuntimeException ex) {
@@ -386,16 +391,18 @@ public class ProcessListPane extends JPanel  {
                         tip = "Process has finished";
                     }
                     result.append("\n\tStatus:     ").append(tip);
-                    result.append("\n\tService:    ").append(process.getService()
-                        .getPluginActionName());
-                    result.append("\n\tModule:     ").append(process.getQedeq().getName());
-                    result.append("\n\tURL:        ").append(process.getQedeq().getModuleAddress());
+                    result.append("\n\tAction:     ").append(process.getActionName());
+                    result.append("\n\tModule:     ").append((process.getPluginCall()!= null
+                        ? process.getPluginCall().getQedeq().getName() : ""));
+                    result.append("\n\tURL:        ").append((process.getPluginCall()!= null
+                        ? process.getPluginCall().getQedeq().getModuleAddress().getUrl() : ""));
                     result.append("\n\tStart:      ").append(DateUtility.getIsoTime(process.getStart()));
                     result.append("\n\tStop:       ").append((process.getStop() != 0
                         ? DateUtility.getIsoTime(process.getStop()) : ""));
                     result.append("\n\tPercentage: ").append(process.getExecutionPercentage());
-                    result.append("\n\tAction:     ").append(process.getExecutionActionDescription());
-                    result.append("\n\tParameter:  ").append(process.getParameterString());
+                    result.append("\n\tDescription:").append(process.getExecutionActionDescription());
+                    result.append("\n\tParameter:  ").append((process.getPluginCall() != null
+                        ? process.getPluginCall().getParameterString() : ""));
                     result.append("\n\tBlocked:   ");
                     final QedeqBoSet blocked = process.getBlockedModules();
                     Iterator bIterator = blocked.iterator();
@@ -404,9 +411,9 @@ public class ProcessListPane extends JPanel  {
                         result.append(" ").append(qedeq.getName());
                     }
                     result.append("\n\tParent:   ");
-                    ServiceProcess parent = process;
+                    PluginCall parent = process.getPluginCall();
                     while (parent != null) {
-                        parent = parent.getParentServiceProcess();
+                        parent = parent.getParentPluginCall();
                         if (parent != null) {
                             result.append(" ").append(parent.getId());
                         }
