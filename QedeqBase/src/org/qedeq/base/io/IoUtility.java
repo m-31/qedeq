@@ -1157,7 +1157,7 @@ public final class IoUtility {
         final List numbers = new ArrayList();
         final StringTokenizer tokenizer = new StringTokenizer(version, ".");
         while (tokenizer.hasMoreElements()) {
-            String sub = (String) tokenizer.nextToken();
+            String sub = tokenizer.nextToken();
             for (int i = 0; i < sub.length(); i++) {
                 if (!Character.isDigit(sub.charAt(i))) {
                     sub = sub.substring(0, i);
