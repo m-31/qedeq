@@ -113,8 +113,7 @@ public class ProcessListPane extends JPanel  {
                 case 2:
                 case 3:
                 case 4:
-                case 5: tip = (process.getPluginCall() != null
-                     ? process.getPluginCall().getQedeq().getUrl() : "");
+                case 5: tip = process.getQedeq().getUrl();
                      break;
                 case 7: tip = GuiHelper.getToolTipText(process.getExecutionActionDescription());
                      break;
@@ -392,10 +391,10 @@ public class ProcessListPane extends JPanel  {
                     }
                     result.append("\n\tStatus:     ").append(tip);
                     result.append("\n\tAction:     ").append(process.getActionName());
-                    result.append("\n\tModule:     ").append((process.getPluginCall()!= null
-                        ? process.getPluginCall().getQedeq().getName() : ""));
-                    result.append("\n\tURL:        ").append((process.getPluginCall()!= null
-                        ? process.getPluginCall().getQedeq().getModuleAddress().getUrl() : ""));
+                    result.append("\n\tModule:     ").append((process.getPluginCall() != null
+                        ? process.getQedeq().getName() : ""));
+                    result.append("\n\tURL:        ").append((process.getPluginCall() != null
+                        ? process.getQedeq().getModuleAddress().getUrl() : ""));
                     result.append("\n\tStart:      ").append(DateUtility.getIsoTime(process.getStart()));
                     result.append("\n\tStop:       ").append((process.getStop() != 0
                         ? DateUtility.getIsoTime(process.getStop()) : ""));
