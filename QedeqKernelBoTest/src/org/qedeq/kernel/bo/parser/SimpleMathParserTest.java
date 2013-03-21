@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import org.qedeq.base.io.TextInput;
-import org.qedeq.kernel.bo.test.DummyInternalKernalServices;
+import org.qedeq.kernel.bo.test.DummyInternalKernelServices;
 import org.qedeq.kernel.xml.handler.parser.LoadXmlOperatorListUtility;
 
 public class SimpleMathParserTest extends AbstractParserTestCase {
@@ -122,7 +122,7 @@ public class SimpleMathParserTest extends AbstractParserTestCase {
 
     protected MathParser createParser(final TextInput input) throws Exception {
         final List operators = LoadXmlOperatorListUtility.getOperatorList(
-            new DummyInternalKernalServices(),
+            new DummyInternalKernelServices(),
             new File(getIndir(),
             "parser/simpleMathOperators.xml"));
         final MathParser parser = new SimpleMathParser();

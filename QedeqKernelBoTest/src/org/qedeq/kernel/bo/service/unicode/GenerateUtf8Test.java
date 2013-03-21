@@ -26,6 +26,7 @@ import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.service.ServiceProcessImpl;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
@@ -157,10 +158,10 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
         }
 
         final String web = "http://www.qedeq.org/"
-            + getServices().getKernelVersionDirectory() + (!xml.startsWith("sample") ? "/doc/" : "/") + xml;
+            + getInternalServices().getKernelVersionDirectory() + (!xml.startsWith("sample") ? "/doc/" : "/") + xml;
         final ModuleAddress webAddress = new DefaultModuleAddress(web);
-        getServices().getLocalFilePath(webAddress);
-        IoUtility.copyFile(xmlFile, getServices().getLocalFilePath(webAddress));
+        getInternalServices().getLocalFilePath(webAddress);
+        IoUtility.copyFile(xmlFile, getInternalServices().getLocalFilePath(webAddress));
 
         getServices().checkWellFormedness(webAddress);
         final QedeqBo webBo = getServices().getQedeqBo(webAddress);
@@ -205,7 +206,7 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
             parameters.put("brief", "false");
             parameters.put("maximumColumn", "80");
             final String source =(new Qedeq2Utf8Executor(new Qedeq2Utf8Plugin(), prop, new Parameters(parameters)))
-                .generateUtf8(language, "1");
+                .generateUtf8(new ServiceProcessImpl("generate latex"), language, "1");
             if (to != null) {
                 IoUtility.createNecessaryDirectories(to);
                 IoUtility.copyFile(new File(source), to);

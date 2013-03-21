@@ -17,21 +17,18 @@ package org.qedeq.kernel.bo.test;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
-import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.common.ModuleAddress;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.config.QedeqConfig;
 import org.qedeq.kernel.se.visitor.ContextChecker;
 
-public class DummyInternalKernalServices implements InternalKernelServices {
+public class DummyInternalKernelServices implements InternalKernelServices {
 
     public File getBufferDirectory() {
         return null;
@@ -40,53 +37,6 @@ public class DummyInternalKernalServices implements InternalKernelServices {
         return null;
     }
     public File getLocalFilePath(ModuleAddress address) {
-        return null;
-    }
-    public void startupServices() {
-    }
-    public void removeAllModules() {
-    }
-    public boolean clearLocalBuffer() {
-        return true;
-    }
-    public QedeqBo loadModule(ModuleAddress address) {
-        return null;
-    }
-    public boolean loadRequiredModules(ModuleAddress address) {
-        return false;
-    }
-    public boolean loadAllModulesFromQedeq() {
-        return false;
-    }
-    public void removeModule(ModuleAddress address) {
-    }
-    public ModuleAddress[] getAllLoadedModules() {
-        return null;
-    }
-    public QedeqBo getQedeqBo(ModuleAddress address) {
-        return null;
-    }
-    public String getSource(ModuleAddress address) throws IOException {
-        return null;
-    }
-    public ModuleAddress getModuleAddress(URL url) throws IOException {
-        return null;
-    }
-    public ModuleAddress getModuleAddress(String url) throws IOException {
-        return null;
-    }
-    public ModuleAddress getModuleAddress(File file) throws IOException {
-        return null;
-    }
-    public boolean checkWellFormedness(ModuleAddress address) {
-        return false;
-    }
-    public boolean checkFormallyProved(ModuleAddress address) {
-        return false;
-    }
-
-    public Object executePlugin(String pluginName, ModuleAddress address, Object data,
-            ServiceProcess process) {
         return null;
     }
     public QedeqFileDao getQedeqFileDao() {
@@ -108,17 +58,6 @@ public class DummyInternalKernalServices implements InternalKernelServices {
     }
     public SourceFileExceptionList createSourceFileExceptionList(int code, String message, String address,
             RuntimeException e) {
-        return null;
-    }
-    public Plugin[] getPlugins() {
-        return null;
-    }
-    public void clearAllPluginResults(ModuleAddress address) {
-    }
-    public ServiceProcess[] getServiceProcesses() {
-        return null;
-    }
-    public ServiceProcess[] getRunningServiceProcesses() {
         return null;
     }
     public String getBuildId() {
@@ -157,6 +96,18 @@ public class DummyInternalKernalServices implements InternalKernelServices {
     public void stopAllPluginExecutions() {
     }
     public ContextChecker getContextChecker() {
+        return null;
+    }
+    public boolean loadRequiredModules(KernelQedeqBo qedeq, ServiceProcess process) {
+        return false;
+    }
+    public boolean checkWellFormedness(KernelQedeqBo qedeq, ServiceProcess process) {
+        return false;
+    }
+    public boolean checkFormallyProved(KernelQedeqBo qedeq, ServiceProcess process) {
+        return false;
+    }
+    public Object executePlugin(String id, KernelQedeqBo qedeq, Object data, ServiceProcess parent) {
         return null;
     }
 

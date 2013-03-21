@@ -21,7 +21,7 @@ import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.service.logic.ModuleConstantsExistenceCheckerImpl;
-import org.qedeq.kernel.bo.test.DummyInternalKernalServices;
+import org.qedeq.kernel.bo.test.DummyInternalKernelServices;
 import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.Plugin;
@@ -39,7 +39,7 @@ import org.qedeq.kernel.se.state.LoadingState;
  */
 public class DefaultKernelQedeqBoTest extends QedeqTestCase {
 
-    final InternalKernelServices services = new DummyInternalKernalServices();
+    final InternalKernelServices services = new DummyInternalKernelServices();
     
     final Plugin plugin = new Plugin() {
 

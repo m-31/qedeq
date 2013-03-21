@@ -100,7 +100,7 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
         final String method = "executePlugin)";
         try {
             QedeqLog.getInstance().logRequest("Heuristic test", getQedeqBo().getUrl());
-            traverse();
+            traverse(process);
             QedeqLog.getInstance().logSuccessfulReply(
                 "Heuristic test succesfull", getQedeqBo().getUrl());
         } catch (final SourceFileExceptionList e) {

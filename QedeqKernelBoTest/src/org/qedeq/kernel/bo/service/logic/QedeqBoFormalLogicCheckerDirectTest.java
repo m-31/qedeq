@@ -26,12 +26,12 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.logic.common.FormulaChecker;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckException;
-import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
 import org.qedeq.kernel.bo.service.ModuleLabelsCreator;
 import org.qedeq.kernel.bo.service.QedeqVoBuilder;
+import org.qedeq.kernel.bo.service.ServiceProcessImpl;
 import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
@@ -160,22 +160,21 @@ public final class QedeqBoFormalLogicCheckerDirectTest extends QedeqBoTestCase {
         SaxParser parser = new SaxParser(DummyPlugin.getInstance(), handler);
         parser.parse(xmlFile, xmlFile.getPath());
         final QedeqVo qedeq = (QedeqVo) simple.getQedeq();
-        final InternalKernelServices services = getServices();
         final QedeqFileDao loader = new XmlQedeqFileDao();
-        loader.setServices(services);
+        loader.setServices(getInternalServices());
         final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) KernelFacade
             .getKernelContext().getQedeqBo(context);
         prop.setQedeqFileDao(loader);
         YodaUtility.setFieldContent(prop, "qedeq", qedeq);
         final ModuleLabelsCreator creator = new ModuleLabelsCreator(DummyPlugin.getInstance(),
             prop);
-        creator.createLabels();
+        creator.createLabels(new ServiceProcessImpl("check"));
         prop.setLoaded(QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq),
             creator.getLabels(), creator.getConverter(), creator.getTextConverter());
         prop.setLoadedImports(new KernelModuleReferenceList());
         prop.setLoadedRequiredModules();
         final WellFormedCheckerPlugin plugin = new WellFormedCheckerPlugin();
-        final Parameters parameters = getServices().getConfig().getPluginEntries(plugin);
+        final Parameters parameters = getInternalServices().getConfig().getPluginEntries(plugin);
         plugin.createExecutor(prop, parameters).executePlugin(null, null);
         if (prop.hasErrors()) {
             throw prop.getErrors();

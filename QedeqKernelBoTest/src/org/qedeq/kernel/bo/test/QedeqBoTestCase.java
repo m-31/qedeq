@@ -21,6 +21,7 @@ import java.io.IOException;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.KernelContext;
+import org.qedeq.kernel.bo.common.KernelServices;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 
 /**
@@ -85,7 +86,7 @@ public abstract class QedeqBoTestCase extends QedeqTestCase {
         return new File(getDocDir(), fileName);
     }
 
-    public InternalKernelServices getServices() {
+    public InternalKernelServices getInternalServices() {
         final KernelContext c = KernelFacade.getKernelContext();
         try {
             return (InternalKernelServices) YodaUtility.getFieldValue(c, "services");
@@ -95,4 +96,13 @@ public abstract class QedeqBoTestCase extends QedeqTestCase {
         }
     }
 
+    public KernelServices getServices() {
+        final KernelContext c = KernelFacade.getKernelContext();
+        try {
+            return (KernelServices) YodaUtility.getFieldValue(c, "services");
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 }

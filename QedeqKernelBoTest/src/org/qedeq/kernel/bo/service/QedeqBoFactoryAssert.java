@@ -96,14 +96,14 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
         prop.setQedeqVo(vo);
         final ModuleLabelsCreator mc = new ModuleLabelsCreator(DummyPlugin.getInstance(),
             prop);
-        mc.createLabels();
+        mc.createLabels(new ServiceProcessImpl("createQedeq"));
         prop.setLoaded(vo, mc.getLabels(), mc.getConverter(), mc.getTextConverter());
         KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
         KernelFacade.getKernelContext().checkWellFormedness(prop.getModuleAddress());
         if (!prop.isWellFormed()) {
             throw prop.getErrors();
         }
-        QedeqBoDuplicateLanguageChecker.check(new Plugin() {
+        QedeqBoDuplicateLanguageChecker.check(new ServiceProcessImpl("createQedeq2"), new Plugin() {
                 public String getPluginId() {
                     return QedeqBoDuplicateLanguageChecker.class.getName();
                 }

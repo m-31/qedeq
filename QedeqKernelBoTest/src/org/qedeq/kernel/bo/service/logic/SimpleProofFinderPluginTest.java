@@ -77,8 +77,8 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         parameters.put("negationWeight", "0");
         parameters.put("conjunctionWeight", "0");
         parameters.put("equivalenceWeight", "0");
-        getServices().getConfig().setPluginKeyValues(new SimpleProofFinderPlugin(), new Parameters(parameters));
-        getServices().executePlugin(SimpleProofFinderPlugin.class.getName(), address, null, null);
+        getInternalServices().getConfig().setPluginKeyValues(new SimpleProofFinderPlugin(), new Parameters(parameters));
+        getServices().executePlugin(SimpleProofFinderPlugin.class.getName(), address, null);
     }
 
     /**
@@ -112,8 +112,8 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         parameters.put("negationWeight", "0");
         parameters.put("conjunctionWeight", "0");
         parameters.put("equivalenceWeight", "0");
-        getServices().getConfig().setPluginKeyValues(new SimpleProofFinderPlugin(), new Parameters(parameters));
-        getServices().executePlugin(SimpleProofFinderPlugin.class.getName(), address, null, null);
+        getInternalServices().getConfig().setPluginKeyValues(new SimpleProofFinderPlugin(), new Parameters(parameters));
+        getServices().executePlugin(SimpleProofFinderPlugin.class.getName(), address, null);
     }
 
     /**
@@ -148,8 +148,8 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         parameters.put("negationWeight", "0");
         parameters.put("conjunctionWeight", "0");
         parameters.put("equivalenceWeight", "0");
-        getServices().getConfig().setPluginKeyValues(new SimpleProofFinderPlugin(), new Parameters(parameters));
-        getServices().executePlugin(SimpleProofFinderPlugin.class.getName(), address, null, null);
+        getInternalServices().getConfig().setPluginKeyValues(new SimpleProofFinderPlugin(), new Parameters(parameters));
+        getServices().executePlugin(SimpleProofFinderPlugin.class.getName(), address, null);
     }
 
     /**

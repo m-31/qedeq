@@ -34,6 +34,7 @@ import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
 import org.qedeq.kernel.bo.service.ModuleLabelsCreator;
 import org.qedeq.kernel.bo.service.QedeqVoBuilder;
+import org.qedeq.kernel.bo.service.ServiceProcessImpl;
 import org.qedeq.kernel.bo.service.logic.WellFormedCheckerExecutor;
 import org.qedeq.kernel.bo.service.logic.WellFormedCheckerPlugin;
 import org.qedeq.kernel.bo.test.DummyPlugin;
@@ -193,14 +194,14 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
         parser.parse(xmlFile, xmlFile.getPath());
         final QedeqVo qedeq = (QedeqVo) simple.getQedeq();
         final QedeqFileDao loader = new XmlQedeqFileDao();
-        loader.setServices(getServices());
+        loader.setServices(getInternalServices());
         final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) KernelFacade
             .getKernelContext().getQedeqBo(context);
         prop.setQedeqFileDao(loader);
         YodaUtility.setFieldContent(prop, "qedeq", qedeq);
         final ModuleLabelsCreator creator = new ModuleLabelsCreator(DummyPlugin.getInstance(),
             prop);
-        creator.createLabels();
+        creator.createLabels(new ServiceProcessImpl("check"));
         prop.setLoaded(QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq),
             creator.getLabels(), creator.getConverter(), creator.getTextConverter());
         prop.setLoadedImports(new KernelModuleReferenceList());
