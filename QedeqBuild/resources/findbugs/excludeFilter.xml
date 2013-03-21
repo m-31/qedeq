@@ -33,6 +33,11 @@
 <!--  PRODUCTIVE -->
 
     <Match>
+      <Class name="org.qedeq.base.io.IoUtility"/>
+        <Bug pattern="DM_DEFAULT_ENCODING" /> 
+    </Match>
+
+    <Match>
         <Package name="furbelow" />
     </Match>
 
