@@ -172,12 +172,10 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
         try {
             visitor.generateUtf8(process, printer, lan, level);
         } finally {
-            if (printer != null) {
-                printer.flush();
-                printer.close();
-            }
+            printer.flush();
+            printer.close();
         }
-        if (printer != null && printer.checkError()) {
+        if (printer.checkError()) {
             throw printer.getError();
         }
         return destination.toString();
