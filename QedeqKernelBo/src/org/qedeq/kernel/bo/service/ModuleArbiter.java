@@ -31,7 +31,7 @@ import org.qedeq.kernel.bo.module.KernelQedeqBo;
 public class ModuleArbiter {
 
     final Map blocked;
-    
+
     public ModuleArbiter() {
         blocked = new HashMap();
     }
@@ -47,15 +47,21 @@ public class ModuleArbiter {
     }
 
     private synchronized boolean lock(final ServiceProcess process, final KernelQedeqBo qedeq) {
-        System.out.println(StringUtility.format(process.getId(), 3) + " is trying to lock   " + qedeq.getName());
+        System.out.println(getName(process) + " is trying to lock   " + qedeq.getName());
         final ServiceProcess origin = (ServiceProcess) blocked.get(qedeq);
         if (origin != null) {
-            System.out.println(StringUtility.format(process.getId(), 3) + " failed to lock      " + qedeq.getName());
+            System.out.println(getName(process) + " failed to lock      " + qedeq.getName());
             return false;
         }
-        System.out.println(StringUtility.format(process.getId(), 3) + " locked successfuly  " + qedeq.getName());
+        System.out.println(getName(process) + " locked successfuly  " + qedeq.getName());
         blocked.put(qedeq, process);
         return true;
+    }
+
+    private String getName(final ServiceProcess process) {
+        return StringUtility.format(process.getId(), 3)
+            + (process.getPluginCall() != null ? StringUtility.getLastDotString(
+            process.getPluginCall().getPlugin().getPluginId()) : "");
     }
 
     public void unlockRequiredModules(final ServiceProcess process, final KernelQedeqBo qedeq) {
@@ -63,18 +69,18 @@ public class ModuleArbiter {
     }
 
     private synchronized void unlock(final ServiceProcess process, final KernelQedeqBo qedeq) {
-        System.out.println(StringUtility.format(process.getId(), 3) + " is trying to unlock " + qedeq.getName());
+        System.out.println(getName(process) + " is trying to unlock " + qedeq.getName());
         final ServiceProcess origin = (ServiceProcess) blocked.get(qedeq);
         if (origin != null) {
             if (origin.equals(process)) {
-                System.out.println(StringUtility.format(process.getId(), 3) + " unlocked            " + qedeq.getName());
+                System.out.println(getName(process) + " unlocked            " + qedeq.getName());
                 blocked.remove(qedeq);
             } else {
-                System.out.println(StringUtility.format(process.getId(), 3) + " illegal unlock try  " + qedeq.getName());
+                System.out.println(getName(process) + " illegal unlock try  " + qedeq.getName());
                 throw new IllegalArgumentException("locked by service process " + origin.getId());
             }
         } else {
-            System.out.println(StringUtility.format(process.getId(), 3) + " unlock unneccassary " + qedeq.getName());
+            System.out.println(getName(process) + " unlock unneccassary " + qedeq.getName());
         }
     }
 
