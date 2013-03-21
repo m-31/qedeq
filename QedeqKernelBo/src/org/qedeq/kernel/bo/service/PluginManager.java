@@ -22,8 +22,8 @@ import java.util.Map;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.common.KernelServices;
 import org.qedeq.kernel.bo.common.PluginBo;
+import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.InternalPluginBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 
@@ -42,14 +42,14 @@ public class PluginManager {
     private final List plugins = new ArrayList();
 
     /** Basic kernel properties.  */
-    private final KernelServices kernel;
+    private final InternalKernelServices kernel;
 
     /**
      * Constructor.
      *
      * @param   kernel          Kernel access.
      */
-    public PluginManager(final KernelServices kernel) {
+    public PluginManager(final InternalKernelServices kernel) {
         this.kernel = kernel;
     }
 

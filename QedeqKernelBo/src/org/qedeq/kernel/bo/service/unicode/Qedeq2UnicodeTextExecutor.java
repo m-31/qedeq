@@ -73,7 +73,7 @@ public final class Qedeq2UnicodeTextExecutor implements PluginExecutor {
         String result = "";
         try {
             QedeqLog.getInstance().logRequest("Show UTF-8 text", visitor.getQedeqBo().getUrl());
-            result = generateUtf8(language, "1");
+            result = generateUtf8(process, language, "1");
             QedeqLog.getInstance().logSuccessfulReply(
                 "UTF-8 text was shown", visitor.getQedeqBo().getUrl());
         } catch (final SourceFileExceptionList e) {
@@ -96,6 +96,7 @@ public final class Qedeq2UnicodeTextExecutor implements PluginExecutor {
     /**
      * Gives a UTF-8 representation of given QEDEQ module as InputStream.
      *
+     * @param   process     This process executes us.
      * @param   language    Filter text to get and produce text in this language only.
      * @param   level       Filter for this detail level. LATER mime 20050205: not supported
      *                      yet.
@@ -103,7 +104,7 @@ public final class Qedeq2UnicodeTextExecutor implements PluginExecutor {
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException     File IO failed.
      */
-    public String generateUtf8(final String language, final String level)
+    public String generateUtf8(final ServiceProcess process, final String language, final String level)
             throws SourceFileExceptionList, IOException {
 
         String lan = "en";
@@ -112,7 +113,7 @@ public final class Qedeq2UnicodeTextExecutor implements PluginExecutor {
         }
         printer = new StringOutput();
 
-        visitor.generateUtf8(printer, lan, level);
+        visitor.generateUtf8(process, printer, lan, level);
         return printer.toString();
     }
 

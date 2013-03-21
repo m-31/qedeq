@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.service;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.Element2Latex;
 import org.qedeq.kernel.bo.common.Element2Utf8;
+import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleLabels;
@@ -140,14 +141,15 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     /**
      * Create QEDEQ module labels and Element2Latex converter.
      *
+     * @param   process We work for this process.
      * @throws  SourceFileExceptionList Traverse lead to errors.
      */
-    public void createLabels() throws SourceFileExceptionList {
+    public void createLabels(final ServiceProcess process) throws SourceFileExceptionList {
         if (this.labels == null) {
             this.labels = new ModuleLabels();
             this.converter = new Element2LatexImpl(this.labels);
             this.textConverter = new Element2Utf8Impl(this.converter);
-            traverse();
+            traverse(process);
         }
     }
 

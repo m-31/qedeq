@@ -170,7 +170,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
             for (int j = 0; j < languages.length; j++) {
                 language = languages[j];
 //                level = "1";
-                final String result = generateLatex(languages[j], "1").toString();
+                final String result = generateLatex(process, languages[j], "1").toString();
                 if (languages[j] != null) {
                     QedeqLog.getInstance().logSuccessfulReply(
                         "LaTeX for language \"" + languages[j]
@@ -183,7 +183,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
             }
             if (languages.length == 0) {
                 QedeqLog.getInstance().logMessage("no supported language found, assuming 'en'");
-                final String result = generateLatex("en", "1").toString();
+                final String result = generateLatex(process, "en", "1").toString();
                 QedeqLog.getInstance().logSuccessfulReply(
                     "LaTeX for language \"en"
                     + "\" was generated into \"" + result + "\"", getQedeqBo().getUrl());
@@ -208,6 +208,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     /**
      * Get an input stream for the LaTeX creation.
      *
+     * @param   process     This process executes us.
      * @param   language    Filter text to get and produce text in this language only.
      * @param   level       Filter for this detail level. LATER mime 20050205: not supported
      *                      yet.
@@ -215,14 +216,15 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException File IO failed.
      */
-    public InputStream createLatex(final String language, final String level)
+    public InputStream createLatex(final ServiceProcess process, final String language, final String level)
             throws SourceFileExceptionList, IOException {
-        return new FileInputStream(generateLatex(language, level));
+        return new FileInputStream(generateLatex(process, language, level));
     }
 
     /**
      * Gives a LaTeX representation of given QEDEQ module as InputStream.
      *
+     * @param   process     This process executes us.
      * @param   language    Filter text to get and produce text in this language only.
      *                      <code>null</code> is ok.
      * @param   level       Filter for this detail level. LATER mime 20050205: not supported
@@ -231,15 +233,15 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException     File IO failed.
      */
-    public File generateLatex(final String language, final String level)
+    public File generateLatex(final ServiceProcess process, final String language, final String level)
             throws SourceFileExceptionList, IOException {
         final String method = "generateLatex(String, String)";
         this.language = language;
 //        this.level = level;
         // first we try to get more information about required modules and their predicates..
         try {
-            getServices().loadRequiredModules(getQedeqBo().getModuleAddress());
-            getServices().checkWellFormedness(getQedeqBo().getModuleAddress());
+            getServices().loadRequiredModules(getQedeqBo(), process);
+            getServices().checkWellFormedness(getQedeqBo(), process);
         } catch (Exception e) {
             // we continue and ignore external predicates
             Trace.trace(CLASS, method, e);
@@ -275,7 +277,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
                     }
                 };
             }
-            traverse();
+            traverse(process);
         } finally {
             getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
             if (printer != null) {
@@ -287,7 +289,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
             throw printer.getError();
         }
         try {
-            QedeqBoDuplicateLanguageChecker.check(getPlugin(), getQedeqBo());
+            QedeqBoDuplicateLanguageChecker.check(process, getPlugin(), getQedeqBo());
         } catch (SourceFileExceptionList warnings) {
             getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), null, warnings);
         }

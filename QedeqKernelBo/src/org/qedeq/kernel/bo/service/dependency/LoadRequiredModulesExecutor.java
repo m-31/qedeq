@@ -69,7 +69,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
             loadingRequiredInProgress = new HashMap();
         }
         Boolean all = (Boolean) getServices().executePlugin(LoadAllRequiredModulesPlugin.class.getName(),
-               getQedeqBo().getModuleAddress(), null, process);
+               getQedeqBo(), null, process);
         if (!all.booleanValue()) {
             final String msg = "Loading required modules failed";
             QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
@@ -99,7 +99,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
                 continue;
             }
             getQedeqBo().getKernelServices().executePlugin(LoadRequiredModulesPlugin.class.getName(),
-                current.getModuleAddress(), loadingRequiredInProgress, process);
+                current, loadingRequiredInProgress, process);
             if (!current.hasLoadedRequiredModules()) {
                 // LATER 20110119 m31: we take only the first error, is that ok?
                 ModuleDataException me = new LoadRequiredModuleException(

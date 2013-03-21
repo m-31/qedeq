@@ -170,7 +170,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
         }
 
         public Object executePlugin(final String pluginName, final ModuleAddress address,
-                final Object data, final ServiceProcess process) {
+                final Object data) {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
@@ -188,10 +188,6 @@ public final class KernelContext implements KernelProperties, KernelServices {
 
         public void stopAllPluginExecutions() {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
-        }
-
-        public QedeqConfig getConfig() {
-            return config;
         }
 
     };
@@ -278,7 +274,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
         }
 
         public Object executePlugin(final String pluginName, final ModuleAddress address,
-                final Object data, final ServiceProcess process) {
+                final Object data) {
             throw new IllegalStateException(KERNEL_NOT_STARTED);
         }
 
@@ -296,10 +292,6 @@ public final class KernelContext implements KernelProperties, KernelServices {
 
         public void stopAllPluginExecutions() {
             throw new IllegalStateException(KERNEL_NOT_STARTED);
-        }
-
-        public QedeqConfig getConfig() {
-            return config;
         }
 
     };
@@ -394,8 +386,8 @@ public final class KernelContext implements KernelProperties, KernelServices {
         }
 
         public Object executePlugin(final String pluginName, final ModuleAddress address,
-                final Object data, final ServiceProcess process) {
-            return services.executePlugin(pluginName, address, data, process);
+                final Object data) {
+            return services.executePlugin(pluginName, address, data);
         }
 
         public void clearAllPluginResults(final ModuleAddress address) {
@@ -412,10 +404,6 @@ public final class KernelContext implements KernelProperties, KernelServices {
 
         public void stopAllPluginExecutions() {
             services.stopAllPluginExecutions();
-        }
-
-        public QedeqConfig getConfig() {
-            return config;
         }
 
     };
@@ -578,8 +566,8 @@ public final class KernelContext implements KernelProperties, KernelServices {
     }
 
     public Object executePlugin(final String pluginName, final ModuleAddress address,
-                final Object data, final ServiceProcess process) {
-        return currentState.executePlugin(pluginName, address, data, process);
+            final Object data) {
+        return currentState.executePlugin(pluginName, address, data);
     }
 
     public void clearAllPluginResults(final ModuleAddress address) {

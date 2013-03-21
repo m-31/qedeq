@@ -16,7 +16,9 @@
 package org.qedeq.kernel.bo.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
@@ -37,8 +39,14 @@ public class ServiceProcessManager {
     /** This class. */
     private static final Class CLASS = ServiceProcessManager.class;
 
-    /** Stores all processes. */
+    /** Stores all running processes. */
     private final List processes = new ArrayList();
+
+    /** Stores some finished processes. */
+    private final Map threads = new HashMap();
+
+    /** Stores some finished processes. */
+    private final List finished = new ArrayList();
 
     /** Stores all calls. */
     private final List calls = new ArrayList();
@@ -137,7 +145,7 @@ public class ServiceProcessManager {
      */
     Object executePlugin(final String id, final KernelQedeqBo qedeq, final Object data,
             final ServiceProcess proc) {
-        final String method = "executePlugin(String, KernelQedeqBo, Object, ServiceProcess)";
+        final String method = "executePlugin(String, KernelQedeqBo, Object)";
         final PluginBo plugin = pluginManager.getPlugin(id);
         if (plugin == null) {
             final String message = "Kernel does not know about plugin: ";
@@ -149,19 +157,24 @@ public class ServiceProcessManager {
         final Parameters parameters = KernelContext.getInstance().getConfig().getPluginEntries(plugin);
         ServiceProcess process = null;
         if (proc != null) {
+            if (!proc.isRunning()) {
+                return null;
+            }
             process = proc;
-        }
-        if (process == null) {
-            process = new ServiceProcessImpl();
+        } else {
+            process = new ServiceProcessImpl(plugin.getPluginActionName());
+            synchronized(this) {
+                processes.add(process);
+            }
         }
         process.setBlocked(true);
         final PluginCall call = new PluginCallImpl(plugin, qedeq, parameters, process,
             process.getPluginCall());
         process.setPluginCall(call);
-        arbiter.lockRequiredModules(process, qedeq);
+        final boolean newBlockedModule = arbiter.lockRequiredModule(process, qedeq);
 //        synchronized (qedeq) {
             process.setBlocked(false);
-            final boolean newBlockedModule = !process.getBlockedModules().contains(qedeq);
+// FIXME            final boolean newBlockedModule = !process.getBlockedModules().contains(qedeq);
             try {
                 process.addBlockedModule(qedeq);
                 final PluginExecutor exe = plugin.createExecutor(qedeq, parameters);
@@ -169,26 +182,27 @@ public class ServiceProcessManager {
                 final Object result = exe.executePlugin(process, data);
                 if (exe.getInterrupted()) {
                     process.setFailureState();
-                } else {
-                    process.setSuccessState();
                 }
                 return result;
             } catch (final RuntimeException e) {
                 final String msg = plugin.getPluginActionName() + " failed with a runtime exception.";
                 Trace.fatal(CLASS, this, method, msg, e);
                 QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
+                process.setFailureState();
                 return null;
             } finally {
                 if (newBlockedModule) {
+                    arbiter.unlockRequiredModule(process, qedeq);
                     process.removeBlockedModule(qedeq);
-                }
-                if (process.isRunning()) {
-                    process.setFailureState();
                 }
                 // remove old executor
                 process.setPluginCall(null);
                 qedeq.setCurrentlyRunningPlugin(null);
-                arbiter.unlockRequiredModules(process, qedeq);
+                if (proc == null) {
+                    if (process.isRunning()) {
+                        process.setSuccessState();
+                    }
+                }
             }
 //        }
     }

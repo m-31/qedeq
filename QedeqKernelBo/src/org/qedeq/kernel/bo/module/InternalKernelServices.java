@@ -20,9 +20,11 @@ import java.io.IOException;
 
 import org.qedeq.kernel.bo.common.KernelProperties;
 import org.qedeq.kernel.bo.common.KernelServices;
+import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.config.QedeqConfig;
 import org.qedeq.kernel.se.visitor.ContextChecker;
 
 /**
@@ -30,7 +32,14 @@ import org.qedeq.kernel.se.visitor.ContextChecker;
  *
  * @author  Michael Meyling
  */
-public interface InternalKernelServices extends KernelServices, KernelProperties {
+public interface InternalKernelServices extends KernelProperties {
+
+    /**
+     * Get access to configuration parameters.
+     *
+     * @return  Configuration access.
+     */
+    public QedeqConfig getConfig();
 
     /**
      * Get buffer directory for QEDEQ module files.
@@ -74,6 +83,46 @@ public interface InternalKernelServices extends KernelServices, KernelProperties
      */
     public KernelQedeqBo loadModule(ModuleAddress parent, Specification spec)
             throws SourceFileExceptionList;
+
+    /**
+     * Get required modules of given module. You can check the status to know if the loading was
+     * successful.
+     *
+     * @param   qedeq   Module to check.
+     * @param   process Working process.
+     * @return  Successful loading.
+     */
+    public boolean loadRequiredModules(KernelQedeqBo qedeq, ServiceProcess process);
+
+    /**
+     * Check if all formulas of a QEDEQ module and its required modules are well formed.
+     *
+     * @param   qedeq   Module to check.
+     * @param   process Working process.
+     * @return  Was check successful?
+     */
+    public boolean checkWellFormedness(KernelQedeqBo qedeq, ServiceProcess process);
+
+    /**
+     * Check if all propositions of this and all required modules have correct formal proofs.
+     *
+     * @param   qedeq   Module to check.
+     * @param   process Working process.
+     * @return  Was check successful?
+     */
+    public boolean checkFormallyProved(KernelQedeqBo qedeq, ServiceProcess process);
+
+    /**
+     * Execute plugin on given QEDEQ module.
+     *
+     * @param   id          Plugin id.
+     * @param   qedeq       QEDEQ module.
+     * @param   data        Process data. Additional data beside module.
+     * @param   parent      Parent service process. Might be <code>null</code>
+     * @return  Plugin specific resulting object. Might be <code>null</code>.
+     */
+    public Object executePlugin(final String id, final KernelQedeqBo qedeq, final Object data,
+        final ServiceProcess parent);
 
     /**
      * Get DAO for reading and writing QEDEQ modules from or to a file.

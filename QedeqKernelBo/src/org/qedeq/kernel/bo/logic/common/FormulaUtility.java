@@ -502,7 +502,7 @@ public final class FormulaUtility implements Operators {
             return formula.copy();
         }
         ElementList result;
-        if (f.getOperator() == ov.getOperator() && f.size() == ov.size()
+        if (EqualsUtility.equals(f.getOperator(), ov.getOperator()) && f.size() == ov.size()
                 && f.getElement(0).equals(ov.getElement(0))) {
             // replace meta variables by matching entries
             result = r;
@@ -540,7 +540,7 @@ public final class FormulaUtility implements Operators {
         if (f.size() < 1 || ov.size() < 1) {
             return f.equals(ov);
         }
-        if (f.getOperator() == ov.getOperator() && f.size() == ov.size()
+        if (EqualsUtility.equals(f.getOperator(), ov.getOperator()) && f.size() == ov.size()
                 && f.getElement(0).equals(ov.getElement(0))) {
             return true;
         }
@@ -573,7 +573,7 @@ public final class FormulaUtility implements Operators {
             return true;
         }
         boolean ok = true;
-        if (f.getOperator() == ov.getOperator() && f.size() == ov.size()
+        if (EqualsUtility.equals(f.getOperator(), ov.getOperator()) && f.size() == ov.size()
                 && f.getElement(0).equals(ov.getElement(0))) {
             if (!getSubjectVariables(f).intersection(bound).isEmpty()) {
                 return false;

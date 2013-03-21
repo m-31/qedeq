@@ -117,11 +117,11 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
     }
 
     public Object executePlugin(final ServiceProcess process, final Object data) {
-        getServices().checkWellFormedness(getQedeqBo().getModuleAddress());
+        getServices().checkWellFormedness(getQedeqBo(), process);
         QedeqLog.getInstance().logRequest("Trying to create formal proofs", getQedeqBo().getUrl());
         try {
             validFormulas = new FormalProofLineListVo();
-            traverse();
+            traverse(process);
             QedeqLog.getInstance().logSuccessfulReply(
                 "Proof creation finished for", getQedeqBo().getUrl());
         } catch (SourceFileExceptionList e) {
@@ -249,7 +249,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
                     QedeqLog.getInstance().logMessage(
                         "Saving file \"" + file + "\"");
                     QedeqFileDao dao = getServices().getQedeqFileDao();
-                    dao.saveQedeq(getQedeqBo(), file);
+                    dao.saveQedeq(getServiceProcess(), getQedeqBo(), file);
                     if (!getQedeqBo().getModuleAddress().isFileAddress()) {
                         QedeqLog.getInstance().logMessage("Only the the buffered file changed!");
                     }

@@ -244,7 +244,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         do {
             synchronized (this) {
                 if (processCounter == 0) { // no other method is allowed to run
-                    // TODO mime 20080319: one could call prop.setLoadingProgressState(
+                    // FIXME mime 20080319: one could call prop.setLoadingProgressState(
                     // LoadingState.STATE_DELETED) alone but that would
                     // miss to inform the KernelQedeqBoPool. How do we inform the pool?
                     // must the StateManager have a reference to it?
@@ -360,7 +360,8 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         prop.setQedeqFileDao(getQedeqFileDao()); // remember loader for this module
         final Qedeq qedeq;
         try {
-            qedeq = getQedeqFileDao().loadQedeq(prop, localFile);
+            qedeq = getQedeqFileDao().loadQedeq(new ServiceProcessImpl("loadBufferedModule"),  // FIXME 20130321 m31: use another service process!
+                prop, localFile);
         } catch (SourceFileExceptionList sfl) {
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, sfl);
             throw sfl;
@@ -391,7 +392,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
 
         final Qedeq qedeq;
         try {
-            qedeq = getQedeqFileDao().loadQedeq(prop, localFile);
+            qedeq = getQedeqFileDao().loadQedeq(new ServiceProcessImpl("loadLocalModule"), prop, localFile);    // FIXME 20130321 m31: use another service process!
         } catch (SourceFileExceptionList sfl) {
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_LOCAL_FILE_FAILED, sfl);
             throw sfl;
@@ -440,7 +441,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         // This should be the extended load status.
         final ModuleLabelsCreator moduleNodesCreator = new ModuleLabelsCreator(this, prop);
         try {
-            moduleNodesCreator.createLabels();
+            moduleNodesCreator.createLabels(new ServiceProcessImpl("copyQedeq"));   // FIXME 20130321 m31: don't create a new process here!
             prop.setLoaded(vo, moduleNodesCreator.getLabels(), moduleNodesCreator.getConverter(),
                 moduleNodesCreator.getTextConverter());
         } catch (SourceFileExceptionList sfl) {
@@ -796,13 +797,22 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     }
 
     public boolean loadRequiredModules(final ModuleAddress address) {
-        final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) loadModule(address);
+        final KernelQedeqBo prop = (KernelQedeqBo) loadModule(address);
         // did we check this already?
         if (prop.hasLoadedRequiredModules()) {
             return true; // everything is OK
         }
-        executePlugin(LoadRequiredModulesPlugin.class.getName(), address, null, null);
+        executePlugin(LoadRequiredModulesPlugin.class.getName(), prop, null, null);
         return prop.hasLoadedRequiredModules();
+    }
+
+    public boolean loadRequiredModules(final KernelQedeqBo qedeq, final ServiceProcess process) {
+        // did we check this already?
+        if (qedeq.hasLoadedRequiredModules()) {
+            return true; // everything is OK
+        }
+        executePlugin(LoadRequiredModulesPlugin.class.getName(), qedeq, null, process);
+        return qedeq.hasLoadedRequiredModules();
     }
 
     public boolean checkWellFormedness(final ModuleAddress address) {
@@ -811,8 +821,18 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         if (prop.isWellFormed()) {
             return true; // everything is OK
         }
-        executePlugin(WellFormedCheckerPlugin.class.getName(), address, null, null);
+        executePlugin(WellFormedCheckerPlugin.class.getName(), prop, null, null);
         return prop.isWellFormed();
+    }
+
+    public boolean checkWellFormedness(final KernelQedeqBo qedeq, final ServiceProcess process) {
+        // did we check this already?
+        if (qedeq.isWellFormed()) {
+            return true; // everything is OK
+        }
+        executePlugin(WellFormedCheckerPlugin.class.getName(), qedeq, null,
+            process);
+        return qedeq.isWellFormed();
     }
 
     public boolean checkFormallyProved(final ModuleAddress address) {
@@ -821,8 +841,17 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         if (prop.isFullyFormallyProved()) {
             return true; // everything is OK
         }
-        executePlugin(FormalProofCheckerPlugin.class.getName(), address, null, null);
+        executePlugin(FormalProofCheckerPlugin.class.getName(), prop, null, null);
         return prop.isFullyFormallyProved();
+    }
+
+    public boolean checkFormallyProved(final KernelQedeqBo qedeq, final ServiceProcess process) {
+        // did we check this already?
+        if (qedeq.isFullyFormallyProved()) {
+            return true; // everything is OK
+        }
+        executePlugin(FormalProofCheckerPlugin.class.getName(), qedeq, null, process);
+        return qedeq.isFullyFormallyProved();
     }
 
     /**
@@ -839,9 +868,13 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         return pluginManager.getNonInternalPlugins();
     }
 
-    public Object executePlugin(final String id, final ModuleAddress address, final Object data,
+    public Object executePlugin(final String id, final ModuleAddress address, final Object data) {
+        return processManager.executePlugin(id, getKernelQedeqBo(address), data, null);
+    }
+
+    public Object executePlugin(final String id, final KernelQedeqBo qedeq, final Object data,
             final ServiceProcess process) {
-        return processManager.executePlugin(id, getKernelQedeqBo(address), data, process);
+        return processManager.executePlugin(id, qedeq, data, process);
     }
 
     public void clearAllPluginResults(final ModuleAddress address) {

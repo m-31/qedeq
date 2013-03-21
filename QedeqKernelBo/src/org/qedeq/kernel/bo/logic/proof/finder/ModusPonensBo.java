@@ -114,26 +114,23 @@ public class ModusPonensBo implements ModusPonens {
     }
 
     public int hashCode() {
-        return (getReference1() != null ? getReference1().hashCode() : 0)
-           + (getReference2() != null ?  1 ^ getReference2().hashCode() : 0);
+        return getReference1().hashCode() ^ getReference2().hashCode();
     }
 
     public String toString() {
         StringBuffer result = new StringBuffer();
         result.append("MP");
-        if (getReference1() != null || getReference2() != null) {
-            result.append(" (");
-            if (getReference1() != null) {
-                result.append(getReference1());
-            }
-            if (getReference2() != null) {
-                if (getReference1() != null) {
-                    result.append(", ");
-                }
-                result.append(getReference2());
-            }
-            result.append(")");
+        result.append(" (");
+        if (getReference1() != null) {
+            result.append(getReference1());
         }
+        if (getReference2() != null) {
+            if (getReference1() != null) {
+                result.append(", ");
+            }
+            result.append(getReference2());
+        }
+        result.append(")");
         return result.toString();
     }
 

@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.service.latex;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.base.module.Latex;
@@ -38,14 +39,16 @@ public final class QedeqBoDuplicateLanguageChecker extends ControlVisitor {
     /**
      * Checks if all formulas of a QEDEQ module are well formed.
      *
+     * @param   process Service process we work in.
      * @param   plugin  Plugin we work for.
      * @param   prop              QEDEQ BO.
      * @throws  SourceFileExceptionList An error occurred.
      */
-    public static void check(final Plugin plugin, final KernelQedeqBo prop) throws SourceFileExceptionList {
+    public static void check(final ServiceProcess process,
+            final Plugin plugin, final KernelQedeqBo prop) throws SourceFileExceptionList {
         final QedeqBoDuplicateLanguageChecker checker
             = new QedeqBoDuplicateLanguageChecker(plugin, prop);
-        checker.traverse();
+        checker.traverse(process);
     }
 
     /**

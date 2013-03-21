@@ -88,7 +88,7 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
             QedeqLog.getInstance().logRequest("Generate UTF-8", visitor.getQedeqBo().getUrl());
             languages = visitor.getQedeqBo().getSupportedLanguages();
             for (run = 0; run < languages.length; run++) {
-                final String result = generateUtf8(languages[run], "1");
+                final String result = generateUtf8(process, languages[run], "1");
                 if (languages[run] != null) {
                     QedeqLog.getInstance().logSuccessfulReply(
                         "UTF-8 for language \"" + languages[run]
@@ -101,7 +101,7 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
             }
             if (languages.length == 0) {
                 QedeqLog.getInstance().logMessage("no supported language found, assuming 'en'");
-                final String result = generateUtf8("en", "1");
+                final String result = generateUtf8(process, "en", "1");
                 QedeqLog.getInstance().logSuccessfulReply(
                     "UTF-8 for language \"en"
                     + "\" was generated into \"" + result + "\"", visitor.getQedeqBo().getUrl());
@@ -126,6 +126,7 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
     /**
      * Gives a UTF-8 representation of given QEDEQ module as InputStream.
      *
+     * @param   process     This process executes us.
      * @param   language    Filter text to get and produce text in this language only. Might
      *                      be <code>null</code>
      * @param   level       Filter for this detail level. LATER mime 20050205: not supported
@@ -134,15 +135,15 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException     File IO failed.
      */
-    public String generateUtf8(final String language, final String level)
+    public String generateUtf8(final ServiceProcess process, final String language, final String level)
             throws SourceFileExceptionList, IOException {
 
         // first we try to get more information about required modules and their predicates..
         try {
             visitor.getQedeqBo().getKernelServices().loadRequiredModules(
-                visitor.getQedeqBo().getModuleAddress());
+                visitor.getQedeqBo(), process);
             visitor.getQedeqBo().getKernelServices().checkWellFormedness(
-                visitor.getQedeqBo().getModuleAddress());
+                visitor.getQedeqBo(), process);
         } catch (Exception e) {
             // we continue and ignore external predicates
             Trace.trace(CLASS, "generateUtf8(KernelQedeqBo, String, String)", e);
@@ -169,7 +170,7 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
             "UTF-8");
 
         try {
-            visitor.generateUtf8(printer, lan, level);
+            visitor.generateUtf8(process, printer, lan, level);
         } finally {
             if (printer != null) {
                 printer.flush();

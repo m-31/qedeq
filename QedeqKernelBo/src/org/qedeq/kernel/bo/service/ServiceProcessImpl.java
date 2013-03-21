@@ -52,7 +52,7 @@ public class ServiceProcessImpl implements ServiceProcess {
     private int state;
 
     /** Action name. */
-    private String actionName = "unknown service";
+    private final String actionName;
 
     /** Percentage of currently running plugin execution. */
     private double executionPercentage = 0;
@@ -78,18 +78,16 @@ public class ServiceProcessImpl implements ServiceProcess {
      * @param   parameters  Interesting process parameters (e.g. QEDEQ module).
      * @param   parent      Parent service process.
      */
-    public ServiceProcessImpl() {
+    public ServiceProcessImpl(final String actionName) {
         this.id = globalCounter++;
         this.thread = Thread.currentThread();
         this.call = null;
         this.blockedModules = new KernelQedeqBoSet();
+        this.actionName = actionName;
         start();
     }
 
     public synchronized void setPluginCall(final PluginCall call) {
-        if (this.call == null && call != null && call.getPlugin() != null) {
-            this.actionName = call.getPlugin().getPluginActionName();
-        }
         this.call = call;
     }
 

@@ -36,7 +36,17 @@ public class ModuleArbiter {
         blocked = new HashMap();
     }
 
-    public void lockRequiredModules(final ServiceProcess process, final KernelQedeqBo qedeq) {
+    /**
+     * Lock QEDEQ module.
+     * 
+     * @param   process This process aquires the lock.
+     * @param   qedeq   Lock this module.
+     * @return  The process locked this module already, we didn't do anything.
+     */
+    public boolean lockRequiredModule(final ServiceProcess process, final KernelQedeqBo qedeq) {
+        if (isAlreadyLocked(process, qedeq)) {
+            return false;
+        }
         while (!lock(process, qedeq)) {
             IoUtility.sleep(10000);
             if (Thread.interrupted()) {
@@ -44,6 +54,7 @@ public class ModuleArbiter {
                 break;
             }
         }
+        return true;
     }
 
     private synchronized boolean lock(final ServiceProcess process, final KernelQedeqBo qedeq) {
@@ -64,7 +75,7 @@ public class ModuleArbiter {
             process.getPluginCall().getPlugin().getPluginId()) : "");
     }
 
-    public void unlockRequiredModules(final ServiceProcess process, final KernelQedeqBo qedeq) {
+    public void unlockRequiredModule(final ServiceProcess process, final KernelQedeqBo qedeq) {
         unlock(process, qedeq);
     }
 
@@ -88,15 +99,20 @@ public class ModuleArbiter {
         return (ServiceProcess) blocked.get(qedeq);
     }
     
-    private synchronized boolean isBlocked(final KernelQedeqBo qedeq) {
+    private synchronized boolean isLocked(final KernelQedeqBo qedeq) {
         return blocked.containsKey(qedeq);
     }
 
-    private synchronized void addBlocked(final KernelQedeqBo qedeq, final ServiceProcess process) {
+    private synchronized boolean isAlreadyLocked(final ServiceProcess process,
+            final KernelQedeqBo qedeq) {
+        return process.equals(blocked.get(qedeq));
+    }
+
+    private synchronized void addLock(final ServiceProcess process, final KernelQedeqBo qedeq) {
         blocked.put(qedeq, process);
     }
 
-    private synchronized void removeBlocked(final KernelQedeqBo qedeq) {
+    private synchronized void removeLock(final KernelQedeqBo qedeq) {
         blocked.remove(qedeq);
     }
 

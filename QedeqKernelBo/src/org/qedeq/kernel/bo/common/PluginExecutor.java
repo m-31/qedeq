@@ -26,7 +26,7 @@ public interface PluginExecutor {
     /**
      * Execute plugin.
      *
-     * @param   process     This process executes.
+     * @param   process     This process executes us.
      * @param   data        Process execution data.
      * @return  Plugin specific resulting object. Might be <code>null</code>.
      */

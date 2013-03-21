@@ -41,6 +41,7 @@ import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceChecker;
+import org.qedeq.kernel.bo.service.dependency.LoadRequiredModulesPlugin;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Axiom;
@@ -145,14 +146,10 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         }
         QedeqLog.getInstance().logRequest(
             "Check logical well formedness", getQedeqBo().getUrl());
-        getServices().loadModule(getQedeqBo().getModuleAddress());
-        if (!getQedeqBo().isLoaded()) {
-            final String msg = "Check of logical correctness failed";
-            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
-                "Module could not even be loaded.");
-            return Boolean.FALSE;
+        if (!getQedeqBo().hasLoadedRequiredModules()) {
+            getServices().executePlugin(LoadRequiredModulesPlugin.class.getName(),
+                getQedeqBo(), null, process);
         }
-        getServices().loadRequiredModules(getQedeqBo().getModuleAddress());
         if (!getQedeqBo().hasLoadedRequiredModules()) {
             final String msg = "Check of logical well formedness failed";
             QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
@@ -165,7 +162,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         final KernelModuleReferenceList list = getQedeqBo().getKernelRequiredModules();
         for (int i = 0; i < list.size(); i++) {
             Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label", list.getLabel(i));
-            getServices().checkWellFormedness(list.getKernelQedeqBo(i).getModuleAddress());
+            getServices().checkWellFormedness(list.getKernelQedeqBo(i), process);
             if (!list.getKernelQedeqBo(i).isWellFormed()) {
                 ModuleDataException md = new CheckRequiredModuleException(
                     LogicErrors.MODULE_IMPORT_CHECK_FAILED_CODE,
@@ -206,7 +203,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         getQedeqBo().setWellFormedProgressState(getPlugin(), WellFormedState.STATE_INTERNAL_CHECKING);
 
         try {
-            traverse();
+            traverse(process);
         } catch (SourceFileExceptionList e) {
             getQedeqBo().setWellfFormedFailureState(WellFormedState.STATE_INTERNAL_CHECKING_FAILED, e);
             getQedeqBo().setExistenceChecker(existence);
@@ -221,14 +218,14 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         return Boolean.TRUE;
     }
 
-    public void traverse() throws SourceFileExceptionList {
+    public void traverse(final ServiceProcess process) throws SourceFileExceptionList {
         try {
             this.existence = new ModuleConstantsExistenceCheckerImpl(getQedeqBo());
         } catch (ModuleDataException me) {
             addError(me);
             throw getErrorList();
         }
-        super.traverse();
+        super.traverse(process);
 
         // check if we have the important module parts
         setLocationWithinModule("");

@@ -31,13 +31,6 @@ import org.qedeq.kernel.se.config.QedeqConfig;
 public interface KernelServices {
 
     /**
-     * Get access to configuration parameters.
-     *
-     * @return  Configuration access.
-     */
-    public QedeqConfig getConfig();
-
-    /**
      * Remove all modules from memory.
      */
     public void removeAllModules();
@@ -161,11 +154,9 @@ public interface KernelServices {
      * @param   id          Plugin id.
      * @param   address     QEDEQ module address.
      * @param   data        Process data. Additional data beside module.
-     * @param   parent      Parent service process. Might be <code>null</code>
      * @return  Plugin specific resulting object. Might be <code>null</code>.
      */
-    public Object executePlugin(final String id, final ModuleAddress address, final Object data,
-        final ServiceProcess parent);
+    public Object executePlugin(final String id, final ModuleAddress address, final Object data);
 
     /**
      * Clear all plugin warnings and errors for given module.

@@ -52,7 +52,7 @@ public final class LoadAllRequiredModulesExecutor extends ControlVisitor
             return Boolean.TRUE;
         }
         getServices().executePlugin(LoadDirectlyRequiredModulesPlugin.class.getName(),
-            getQedeqBo().getModuleAddress(), data, process);
+            getQedeqBo(), data, process);
         if (!getQedeqBo().hasLoadedImports()) {
             return Boolean.FALSE;
         }
@@ -61,7 +61,7 @@ public final class LoadAllRequiredModulesExecutor extends ControlVisitor
         for (int i = 0; i < imports.size(); i++) {
             if (!imports.getQedeqBo(i).hasLoadedImports()) {
                 getServices().executePlugin(LoadAllRequiredModulesPlugin.class.getName(),
-                    imports.getQedeqBo(i).getModuleAddress(), data, process);
+                    (KernelQedeqBo) imports.getQedeqBo(i), data, process);
             }
             if (!imports.getQedeqBo(i).hasLoadedImports()) {
                 result = false;
