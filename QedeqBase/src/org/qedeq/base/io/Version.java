@@ -145,7 +145,7 @@ public final class Version implements Comparable {
      * @return  Less?
      */
     public boolean isLess(final Version other) {
-        return -1 == compareTo(other);
+        return 0 > compareTo(other);
     }
 
     /**
@@ -155,7 +155,7 @@ public final class Version implements Comparable {
      * @return  Bigger?
      */
     public boolean isBigger(final Version other) {
-        return 1 == compareTo(other);
+        return 0 < compareTo(other);
     }
 
     /**

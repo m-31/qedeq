@@ -55,9 +55,6 @@ public abstract class YodaUtility {
         } catch (ClassNotFoundException e) {
             return false;
         }
-        if (c == null) {
-            return false;
-        }
         return existsMethod(c, name, parameterTypes);
     }
 
