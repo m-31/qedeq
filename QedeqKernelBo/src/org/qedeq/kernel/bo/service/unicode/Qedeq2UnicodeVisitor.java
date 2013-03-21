@@ -170,6 +170,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     /**
      * Gives a UTF-8 representation of given QEDEQ module as InputStream.
      *
+     * @param   process     We run in this process.
      * @param   printer     Print herein.
      * @param   language    Filter text to get and produce text in this language only.
      * @param   level       Filter for this detail level. LATER 20100205 m31: not yet supported
