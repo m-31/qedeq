@@ -104,9 +104,9 @@ public class SubstPredBo implements SubstPred {
     }
 
     public int hashCode() {
-        return (getReference() != null ? getReference().hashCode() : 0)
-            ^ (getPredicateVariable() != null ? 2 ^ getPredicateVariable().hashCode() : 0)
-            ^ (getSubstituteFormula() != null ? 3 ^ getSubstituteFormula().hashCode() : 0);
+        return getReference().hashCode()
+            ^ (2 ^ getPredicateVariable().hashCode())
+            ^ (3 ^ getSubstituteFormula().hashCode());
     }
 
     public String toString() {
@@ -115,25 +115,14 @@ public class SubstPredBo implements SubstPred {
         if (getReference() != null || getPredicateVariable() != null
                 || getSubstituteFormula() != null) {
             result.append(" (");
-            boolean w = false;
-            if (getReference() != null) {
-                result.append(getReference());
-                w = true;
-            }
+            result.append(getReference());
             if (getPredicateVariable() != null) {
-                if (w) {
-                    result.append(", ");
-                }
+                result.append(", ");
                 result.append(getPredicateVariable());
-                w = true;
             }
             if (getSubstituteFormula() != null) {
-                if (w) {
-                    result.append(", ");
-                }
                 result.append("by ");
                 result.append(getSubstituteFormula());
-                w = true;
             }
             result.append(")");
         }
