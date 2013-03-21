@@ -72,11 +72,7 @@ public class ServiceProcessImpl implements ServiceProcess {
     /**
      * A new service process within the current thread.
      *
-     * @param   service     This service is executed.
-     * @param   thread      The process the service is executed within.
-     * @param   qedeq       Module we work on.
-     * @param   parameters  Interesting process parameters (e.g. QEDEQ module).
-     * @param   parent      Parent service process.
+     * @param   actionName  Main process purpose.
      */
     public ServiceProcessImpl(final String actionName) {
         this.id = globalCounter++;
