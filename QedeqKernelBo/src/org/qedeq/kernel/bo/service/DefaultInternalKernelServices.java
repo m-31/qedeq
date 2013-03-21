@@ -869,6 +869,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     }
 
     public Object executePlugin(final String id, final ModuleAddress address, final Object data) {
+        loadModule(address);
         return processManager.executePlugin(id, getKernelQedeqBo(address), data, null);
     }
 
