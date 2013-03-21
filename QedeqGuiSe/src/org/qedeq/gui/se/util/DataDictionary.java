@@ -37,7 +37,7 @@ public final class DataDictionary {
     private final ResourceBundle bundle;
 
     /** The one and only instance. */
-    private static DataDictionary instance = null;
+    private static volatile DataDictionary instance = null;
 
     /**
      * Get instance of config access. Method {@link #setup} must have been called before.
