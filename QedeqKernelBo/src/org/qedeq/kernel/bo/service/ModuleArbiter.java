@@ -18,7 +18,6 @@ package org.qedeq.kernel.bo.service;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -30,15 +29,19 @@ import org.qedeq.kernel.bo.module.KernelQedeqBo;
  */
 public class ModuleArbiter {
 
-    final Map blocked;
+    /** Map blocked QEDEQ modules to service processes. */
+    private final Map blocked;
 
+    /**
+     * Constructor.
+     */
     public ModuleArbiter() {
         blocked = new HashMap();
     }
 
     /**
      * Lock QEDEQ module.
-     * 
+     *
      * @param   process This process aquires the lock.
      * @param   qedeq   Lock this module.
      * @return  The process locked this module already, we didn't do anything.
@@ -48,7 +51,15 @@ public class ModuleArbiter {
             return false;
         }
         while (!lock(process, qedeq)) {
-            IoUtility.sleep(10000);
+            final Object monitor = new Object();
+            synchronized (monitor) {
+                try {
+                    monitor.wait(10000);
+                } catch (InterruptedException e) {
+                    process.setFailureState();
+                    break;
+                }
+            }
             if (Thread.interrupted()) {
                 process.setFailureState();
                 break;
@@ -98,7 +109,7 @@ public class ModuleArbiter {
     private synchronized ServiceProcess getProcess(final KernelQedeqBo qedeq) {
         return (ServiceProcess) blocked.get(qedeq);
     }
-    
+
     private synchronized boolean isLocked(final KernelQedeqBo qedeq) {
         return blocked.containsKey(qedeq);
     }
