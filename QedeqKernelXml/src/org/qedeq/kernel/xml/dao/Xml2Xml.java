@@ -27,6 +27,7 @@ import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.KernelServices;
+import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.common.ModuleAddress;
@@ -54,14 +55,16 @@ public final class Xml2Xml implements Plugin {
     /**
      * Generate XML file out of XML file.
      *
+     * @param   process         Process we run within.
      * @param   services        Use this kernel services.
+     * @param   internal        Use this internal kernel services.
      * @param   from            Read this XML file.
      * @param   to              Write to this file. Could be <code>null</code>.
      * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      * @return  File name of generated LaTeX file.
      */
-    public static String generate(final InternalKernelServices services,
-            final File from, final File to)
+    public static String generate(final ServiceProcess process, final KernelServices services,
+            final InternalKernelServices internal, final File from, final File to)
             throws SourceFileExceptionList {
         final String method = "generate(File, File)";
         File destination = null;
@@ -75,10 +78,10 @@ public final class Xml2Xml implements Plugin {
                 }
                 destination = new File(from.getParentFile(), xml + "_.xml").getCanonicalFile();
             }
-            return generate(services, UrlUtility.toUrl(from), destination);
+            return generate(process, services, UrlUtility.toUrl(from), destination);
         } catch (IOException e) {
             Trace.fatal(CLASS, "Writing failed destionation", method, e);
-            throw services.createSourceFileExceptionList(
+            throw internal.createSourceFileExceptionList(
                 DaoErrors.WRITING_MODULE_FILE_FAILED_CODE,
                 DaoErrors.WRITING_MODULE_FILE_FAILED_TEXT + destination,
                 to + "", e);
@@ -88,6 +91,7 @@ public final class Xml2Xml implements Plugin {
     /**
      * Generate XML file out of XML file.
      *
+     * @param   process         We work for this process.
      * @param   services        Here we get our kernel services.
      * @param   from            Read this XML file.
      * @param   to              Write to this file. Could not be <code>null</code>.
@@ -95,8 +99,8 @@ public final class Xml2Xml implements Plugin {
      * @throws  IOException                 Writing (or reading) failed.
      * @return  File name of generated LaTeX file.
      */
-    private static String generate(final KernelServices services, final URL from, final File to)
-            throws SourceFileExceptionList, IOException {
+    private static String generate(final ServiceProcess process, final KernelServices services,
+            final URL from, final File to) throws SourceFileExceptionList, IOException {
         final String method = "generate(URL, File)";
         Trace.begin(CLASS, method);
         Trace.param(CLASS, method, "from", from);
@@ -112,7 +116,7 @@ public final class Xml2Xml implements Plugin {
             IoUtility.createNecessaryDirectories(to);
             final OutputStream outputStream = new FileOutputStream(to);
             printer = new TextOutput(to.getName(), outputStream, "UTF-8");
-            Qedeq2Xml.print(new Xml2Xml(), prop, printer);
+            Qedeq2Xml.print(process, new Xml2Xml(), prop, printer);
             return to.getCanonicalPath();
         } finally {
             if (printer != null) {

@@ -20,6 +20,7 @@ import java.io.IOException;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.KernelContext;
+import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.base.list.ElementList;
@@ -97,17 +98,19 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     /**
      * Prints a XML representation of given QEDEQ module into a given output stream.
      *
+     * @param   process             Service process we work for.
      * @param   plugin              Plugin we work for.
      * @param   bo                  BO QEDEQ module object.
      * @param   printer             Print herein.
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException         Writing failed.
      */
-    public static void print(final Plugin plugin, final KernelQedeqBo bo, final TextOutput printer) throws
+    public static void print(final ServiceProcess process, 
+            final Plugin plugin, final KernelQedeqBo bo, final TextOutput printer) throws
             SourceFileExceptionList, IOException {
         final Qedeq2Xml converter = new Qedeq2Xml(plugin, bo, printer);
         try {
-            converter.traverse();
+            converter.traverse(process);
         } finally {
             printer.flush();
         }
