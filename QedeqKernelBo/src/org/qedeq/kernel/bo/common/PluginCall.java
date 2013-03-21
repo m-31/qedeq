@@ -111,6 +111,13 @@ public interface PluginCall extends Comparable {
     public boolean isFinished();
 
     /**
+     * Was the call normally finished?
+     *
+     * @return  Was the call normally finished?
+     */
+    public boolean hasNormallyFinished();
+
+    /**
      * Was the call interrupted?
      *
      * @return  Call finished?
