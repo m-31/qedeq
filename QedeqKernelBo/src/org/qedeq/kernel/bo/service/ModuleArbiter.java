@@ -81,7 +81,7 @@ public class ModuleArbiter {
     }
 
     private String getName(final ServiceProcess process) {
-        return StringUtility.format(process.getId(), 3)
+        return StringUtility.format(process.getId(), 3) + " "
             + (process.getPluginCall() != null ? StringUtility.getLastDotString(
             process.getPluginCall().getPlugin().getPluginId()) : "");
     }

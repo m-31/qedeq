@@ -802,6 +802,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         if (prop.hasLoadedRequiredModules()) {
             return true; // everything is OK
         }
+        loadModule(address);
         executePlugin(LoadRequiredModulesPlugin.class.getName(), prop, null, null);
         return prop.hasLoadedRequiredModules();
     }
@@ -821,6 +822,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         if (prop.isWellFormed()) {
             return true; // everything is OK
         }
+        loadModule(address);
         executePlugin(WellFormedCheckerPlugin.class.getName(), prop, null, null);
         return prop.isWellFormed();
     }
@@ -841,6 +843,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         if (prop.isFullyFormallyProved()) {
             return true; // everything is OK
         }
+        loadModule(address);
         executePlugin(FormalProofCheckerPlugin.class.getName(), prop, null, null);
         return prop.isFullyFormallyProved();
     }
