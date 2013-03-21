@@ -85,7 +85,7 @@ public class PluginCallImpl implements PluginCall {
      * @param   qedeq       Module we work on.
      * @param   parameters  Interesting process parameters (e.g. QEDEQ module).
      * @param   process     Service process we run within.
-     * @param   parent      Parent plugin call if any. 
+     * @param   parent      Parent plugin call if any.
      */
     public PluginCallImpl(final Plugin service,
             final KernelQedeqBo qedeq, final Parameters parameters, final ServiceProcess process,
@@ -143,6 +143,9 @@ public class PluginCallImpl implements PluginCall {
         stop = System.currentTimeMillis();
     }
 
+    /**
+     * Set success state for call and stop.
+     */
     public synchronized void setSuccessState() {
         if (isRunning()) {
             state = 1;
@@ -152,6 +155,9 @@ public class PluginCallImpl implements PluginCall {
         }
     }
 
+    /**
+     * Set failure state for call and stop.
+     */
     public synchronized void setFailureState() {
         if (isRunning()) {
             state = -1;
@@ -171,12 +177,8 @@ public class PluginCallImpl implements PluginCall {
         return state == -1;
     }
 
-    public synchronized boolean wasSuccess() {
+    public synchronized boolean hasNormallyFinished() {
         return state == 1;
-    }
-
-    public synchronized boolean wasFailure() {
-        return state == -1;
     }
 
     public synchronized ServiceProcess getServiceProcess() {

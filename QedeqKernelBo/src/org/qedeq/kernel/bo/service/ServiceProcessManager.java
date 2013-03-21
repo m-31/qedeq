@@ -63,7 +63,7 @@ public class ServiceProcessManager {
      * @param   pluginManager   Collects process information.
      * @param   arbiter         For module access synchronization.
      */
-    public ServiceProcessManager(final PluginManager pluginManager, ModuleArbiter arbiter) {
+    public ServiceProcessManager(final PluginManager pluginManager, final ModuleArbiter arbiter) {
         this.pluginManager = pluginManager;
         this.arbiter = arbiter;
     }
@@ -163,7 +163,7 @@ public class ServiceProcessManager {
             process = proc;
         } else {
             process = new ServiceProcessImpl(plugin.getPluginActionName());
-            synchronized(this) {
+            synchronized (this) {
                 processes.add(process);
             }
         }
