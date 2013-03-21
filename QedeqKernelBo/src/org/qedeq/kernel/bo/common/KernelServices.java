@@ -21,7 +21,6 @@ import java.net.URL;
 
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.Plugin;
-import org.qedeq.kernel.se.config.QedeqConfig;
 
 /**
  * The main QEDEQ kernel methods are assembled here.
