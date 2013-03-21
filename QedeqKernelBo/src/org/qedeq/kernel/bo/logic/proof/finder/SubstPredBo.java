@@ -112,20 +112,17 @@ public class SubstPredBo implements SubstPred {
     public String toString() {
         StringBuffer result = new StringBuffer();
         result.append("SubstPred");
-        if (getReference() != null || getPredicateVariable() != null
-                || getSubstituteFormula() != null) {
-            result.append(" (");
-            result.append(getReference());
-            if (getPredicateVariable() != null) {
-                result.append(", ");
-                result.append(getPredicateVariable());
-            }
-            if (getSubstituteFormula() != null) {
-                result.append("by ");
-                result.append(getSubstituteFormula());
-            }
-            result.append(")");
+        result.append(" (");
+        result.append(getReference());
+        if (getPredicateVariable() != null) {
+            result.append(", ");
+            result.append(getPredicateVariable());
         }
+        if (getSubstituteFormula() != null) {
+            result.append("by ");
+            result.append(getSubstituteFormula());
+        }
+        result.append(")");
         return result.toString();
     }
 
