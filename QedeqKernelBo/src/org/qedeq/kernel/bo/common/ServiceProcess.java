@@ -48,6 +48,13 @@ public interface ServiceProcess extends Comparable {
     public Thread getThread();
 
     /**
+     * Get currently processed QedeqBo.
+     *
+     * @return  QEDEQ module. Might be <code>null</code>.
+     */
+    public QedeqBo getQedeq();
+
+    /**
      * Get timestamp for service start.
      *
      * @return  Service start timestamp.
