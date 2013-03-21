@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.IOException;
 
 import org.qedeq.kernel.bo.common.KernelProperties;
-import org.qedeq.kernel.bo.common.KernelServices;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.common.ModuleAddress;
