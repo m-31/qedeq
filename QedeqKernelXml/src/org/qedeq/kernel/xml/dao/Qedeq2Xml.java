@@ -105,7 +105,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException         Writing failed.
      */
-    public static void print(final ServiceProcess process, 
+    public static void print(final ServiceProcess process,
             final Plugin plugin, final KernelQedeqBo bo, final TextOutput printer) throws
             SourceFileExceptionList, IOException {
         final Qedeq2Xml converter = new Qedeq2Xml(plugin, bo, printer);
