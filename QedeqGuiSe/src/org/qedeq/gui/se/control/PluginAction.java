@@ -76,7 +76,7 @@ public class PluginAction extends AbstractAction {
                     public void run() {
                         final Object result = KernelContext.getInstance().executePlugin(
                             plugin.getPluginId(),
-                            prop.getModuleAddress(), null, null);
+                            prop.getModuleAddress(), null);
                         if (result instanceof String) {
                             final Runnable showTextResult = new Runnable() {
                                 public void run() {
