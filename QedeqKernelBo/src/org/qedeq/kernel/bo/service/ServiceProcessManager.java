@@ -196,7 +196,6 @@ public class ServiceProcessManager {
                     process.removeBlockedModule(qedeq);
                 }
                 // remove old executor
-                process.setPluginCall(null);
                 qedeq.setCurrentlyRunningPlugin(null);
                 if (proc == null) {
                     if (process.isRunning()) {

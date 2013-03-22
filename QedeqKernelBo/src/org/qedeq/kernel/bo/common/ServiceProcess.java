@@ -55,6 +55,20 @@ public interface ServiceProcess extends Comparable {
     public QedeqBo getQedeq();
 
     /**
+     * Get name of currently processed QedeqBo.
+     *
+     * @return  Name of QEDEQ module. Might be empty string.
+     */
+    public String getQedeqName();
+
+    /**
+     * Get URL of currently processed QedeqBo.
+     *
+     * @return  URL of QEDEQ module. Might be empty string.
+     */
+    public String getQedeqUrl();
+
+    /**
      * Get timestamp for service start.
      *
      * @return  Service start timestamp.

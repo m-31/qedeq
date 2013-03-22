@@ -102,6 +102,20 @@ public class ServiceProcessImpl implements ServiceProcess {
         return null;
     }
 
+    public synchronized String getQedeqName() {
+        if (call != null) {
+            return call.getQedeq().getName();
+        }
+        return "";
+    }
+
+    public synchronized String getQedeqUrl() {
+        if (call != null) {
+            return call.getQedeq().getUrl();
+        }
+        return "";
+    }
+
     public synchronized long getStart() {
         return start;
     }

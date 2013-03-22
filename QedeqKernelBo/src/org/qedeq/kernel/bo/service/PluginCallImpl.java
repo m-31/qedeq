@@ -40,7 +40,7 @@ public class PluginCallImpl implements PluginCall {
     private final Plugin plugin;
 
     /** QEDEQ module the process is working on. */
-    private KernelQedeqBo qedeq;
+    private final KernelQedeqBo qedeq;
 
     /** Some important parameters for the service. For example QEDEQ module address. */
     private final Parameters parameters;
