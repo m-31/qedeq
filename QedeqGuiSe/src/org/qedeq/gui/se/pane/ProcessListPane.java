@@ -113,7 +113,7 @@ public class ProcessListPane extends JPanel  {
                 case 2:
                 case 3:
                 case 4:
-                case 5: tip = process.getQedeq().getUrl();
+                case 5: tip = process.getQedeqUrl();
                      break;
                 case 7: tip = GuiHelper.getToolTipText(process.getExecutionActionDescription());
                      break;
@@ -191,7 +191,9 @@ public class ProcessListPane extends JPanel  {
                     for (int i = minIndex; i <= maxIndex; i++) {
                         if (rowSM.isSelectedIndex(i)) {
                             final ServiceProcess process = model.getServiceProcess(i);
-                            selectedProcesses.add(process);
+                            if (process != null) {
+                                selectedProcesses.add(process);
+                            }
                         }
                     }
                 }
@@ -317,6 +319,7 @@ public class ProcessListPane extends JPanel  {
 
     public void setRunningOnly(final boolean runningOnly) {
         model.setOnlyRunning(runningOnly);
+        refreshStates();
     }
 
     public void stopSelected() {
@@ -330,7 +333,7 @@ public class ProcessListPane extends JPanel  {
     }
 
     /**
-     * Print stack trace of selected service process thread to <code>System.out</code> if the
+     * Print stack trace of selected service processes to new window if the
      * method <code>Thread.getStackTrace()</code> is supported form the currently running java
      * version.
      */
@@ -367,9 +370,7 @@ public class ProcessListPane extends JPanel  {
 
 
     /**
-     * Print stack trace of selected service process thread to <code>System.out</code> if the
-     * method <code>Thread.getStackTrace()</code> is supported form the currently running java
-     * version.
+     * Print details of selected service processes new window.
      */
     public void detailsSelected() {
         if (!selectedProcesses.isEmpty()) {
@@ -391,17 +392,13 @@ public class ProcessListPane extends JPanel  {
                     }
                     result.append("\n\tStatus:     ").append(tip);
                     result.append("\n\tAction:     ").append(process.getActionName());
-                    result.append("\n\tModule:     ").append((process.getPluginCall() != null
-                        ? process.getQedeq().getName() : ""));
-                    result.append("\n\tURL:        ").append((process.getPluginCall() != null
-                        ? process.getQedeq().getModuleAddress().getUrl() : ""));
+                    result.append("\n\tModule:     ").append(process.getQedeqName());
+                    result.append("\n\tURL:        ").append(process.getQedeqUrl());
                     result.append("\n\tStart:      ").append(DateUtility.getIsoTime(process.getStart()));
                     result.append("\n\tStop:       ").append((process.getStop() != 0
                         ? DateUtility.getIsoTime(process.getStop()) : ""));
                     result.append("\n\tPercentage: ").append(process.getExecutionPercentage());
                     result.append("\n\tDescription:").append(process.getExecutionActionDescription());
-                    result.append("\n\tParameter:  ").append((process.getPluginCall() != null
-                        ? process.getPluginCall().getParameterString() : ""));
                     result.append("\n\tBlocked:   ");
                     final QedeqBoSet blocked = process.getBlockedModules();
                     Iterator bIterator = blocked.iterator();
@@ -414,7 +411,22 @@ public class ProcessListPane extends JPanel  {
                     while (parent != null) {
                         parent = parent.getParentPluginCall();
                         if (parent != null) {
-                            result.append(" ").append(parent.getId());
+                            result.append("\n\t\t ").append(parent.getId());
+                            tip = "";
+                            if (parent.isFinished()) {
+                                tip = "Call is finished";
+                            } else {
+                                tip = "Call is running";
+                            }
+                            result.append("\n\t\t Status:     ").append(tip);
+                            result.append("\n\t\t Module:     ").append(parent.getQedeq().getName());
+                            result.append("\n\t\t Plugin:     ").append(parent.getPlugin().getPluginActionName());
+                            result.append("\n\t\t Start:      ").append(DateUtility.getIsoTime(parent.getStart()));
+                            result.append("\n\t\t Stop:       ").append((parent.getStop() != 0
+                                ? DateUtility.getIsoTime(parent.getStop()) : ""));
+                            result.append("\n\t\t Percentage: ").append(parent.getExecutionPercentage());
+                            result.append("\n\t\t Description:").append(parent.getExecutionActionDescription());
+                            result.append("\n\t\t Parameter:  ").append(parent.getParameterString());
                         }
                     }
                     result.append("\n");
