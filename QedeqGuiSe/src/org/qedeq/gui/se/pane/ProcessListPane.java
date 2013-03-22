@@ -319,6 +319,8 @@ public class ProcessListPane extends JPanel  {
 
     public void setRunningOnly(final boolean runningOnly) {
         model.setOnlyRunning(runningOnly);
+        selectedProcesses.clear();
+        list.getSelectionModel().clearSelection();
         refreshStates();
     }
 
