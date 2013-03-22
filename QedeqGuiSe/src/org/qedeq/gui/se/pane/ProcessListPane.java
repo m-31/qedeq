@@ -408,7 +408,7 @@ public class ProcessListPane extends JPanel  {
                         final QedeqBo qedeq = (QedeqBo) bIterator.next();
                         result.append(" ").append(qedeq.getName());
                     }
-                    result.append("\n\tParent:   ");
+                    result.append("\n\tCalls:   ");
                     PluginCall parent = process.getPluginCall();
                     while (parent != null) {
                         parent = parent.getParentPluginCall();
