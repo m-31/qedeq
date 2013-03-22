@@ -19,7 +19,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.qedeq.base.test.QedeqTestCase;
-import org.qedeq.kernel.se.state.DependencyState;
+import org.qedeq.kernel.se.state.LoadingImportsState;
 
 
 /**
@@ -34,72 +34,72 @@ public class LoadingImportsStateTest extends QedeqTestCase {
     }
 
     public void testGetCode() {
-        assertEquals(0, DependencyState.STATE_UNDEFINED.getCode());
-        assertEquals(15, DependencyState.STATE_LOADING_REQUIRED_MODULES.getCode());
-        assertEquals(16, DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED.getCode());
-        assertEquals(17, DependencyState.STATE_LOADED_REQUIRED_MODULES.getCode());
+        assertEquals(0, LoadingImportsState.STATE_UNDEFINED.getCode());
+        assertEquals(12, LoadingImportsState.STATE_LOADING_IMPORTS.getCode());
+        assertEquals(13, LoadingImportsState.STATE_LOADING_IMPORTS_FAILED.getCode());
+        assertEquals(14, LoadingImportsState.STATE_LOADED_IMPORTED_MODULES.getCode());
     }
 
     public void testGetText() {
-        assertEquals("undefined", DependencyState.STATE_UNDEFINED.getText());
-        assertEquals("loading required modules", DependencyState.STATE_LOADING_REQUIRED_MODULES.getText());
-        assertEquals("loading required modules failed", DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED.getText());
-        assertEquals("loaded required modules", DependencyState.STATE_LOADED_REQUIRED_MODULES.getText());
+        assertEquals("undefined", LoadingImportsState.STATE_UNDEFINED.getText());
+        assertEquals("loading imported modules", LoadingImportsState.STATE_LOADING_IMPORTS.getText());
+        assertEquals("loading imported modules failed", LoadingImportsState.STATE_LOADING_IMPORTS_FAILED.getText());
+        assertEquals("loaded imported modules", LoadingImportsState.STATE_LOADED_IMPORTED_MODULES.getText());
     }
 
     public void testToString() {
-        assertEquals("undefined", DependencyState.STATE_UNDEFINED.toString());
-        assertEquals("loading required modules", DependencyState.STATE_LOADING_REQUIRED_MODULES.toString());
-        assertEquals("loading required modules failed", DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED.toString());
-        assertEquals("loaded required modules", DependencyState.STATE_LOADED_REQUIRED_MODULES.toString());
+        assertEquals("undefined", LoadingImportsState.STATE_UNDEFINED.toString());
+        assertEquals("loading imported modules", LoadingImportsState.STATE_LOADING_IMPORTS.toString());
+        assertEquals("loading imported modules failed", LoadingImportsState.STATE_LOADING_IMPORTS_FAILED.toString());
+        assertEquals("loaded imported modules", LoadingImportsState.STATE_LOADED_IMPORTED_MODULES.toString());
     }
 
     public void testIsFailure() {
-        assertFalse(DependencyState.STATE_UNDEFINED.isFailure());
-        assertFalse(DependencyState.STATE_LOADING_REQUIRED_MODULES.isFailure());
-        assertTrue(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED.isFailure());
-        assertFalse(DependencyState.STATE_LOADED_REQUIRED_MODULES.isFailure());
+        assertFalse(LoadingImportsState.STATE_UNDEFINED.isFailure());
+        assertFalse(LoadingImportsState.STATE_LOADING_IMPORTS.isFailure());
+        assertTrue(LoadingImportsState.STATE_LOADING_IMPORTS_FAILED.isFailure());
+        assertFalse(LoadingImportsState.STATE_LOADED_IMPORTED_MODULES.isFailure());
     }
 
-    public void testAreAllRequiredLoaded() {
-        assertFalse(DependencyState.STATE_UNDEFINED.areAllRequiredLoaded());
-        assertFalse(DependencyState.STATE_LOADING_REQUIRED_MODULES.areAllRequiredLoaded());
-        assertFalse(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED.areAllRequiredLoaded());
-        assertTrue(DependencyState.STATE_LOADED_REQUIRED_MODULES.areAllRequiredLoaded());
+    public void testAreAllDirectlyRequiredLoaded() {
+        assertFalse(LoadingImportsState.STATE_UNDEFINED.areAllDirectlyRequiredLoaded());
+        assertFalse(LoadingImportsState.STATE_LOADING_IMPORTS.areAllDirectlyRequiredLoaded());
+        assertFalse(LoadingImportsState.STATE_LOADING_IMPORTS_FAILED.areAllDirectlyRequiredLoaded());
+        assertTrue(LoadingImportsState.STATE_LOADED_IMPORTED_MODULES.areAllDirectlyRequiredLoaded());
     }
 
     public void testEquals() {
-        assertEquals(DependencyState.STATE_UNDEFINED, DependencyState.STATE_UNDEFINED);
-        assertEquals(DependencyState.STATE_LOADING_REQUIRED_MODULES,
-            DependencyState.STATE_LOADING_REQUIRED_MODULES);
-        assertEquals(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
-            DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED);
-        assertEquals(DependencyState.STATE_LOADED_REQUIRED_MODULES,
-            DependencyState.STATE_LOADED_REQUIRED_MODULES);
-        assertFalse(DependencyState.STATE_UNDEFINED.equals(null));
-        assertFalse(DependencyState.STATE_LOADING_REQUIRED_MODULES.equals(null));
-        assertFalse(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED.equals(null));
-        assertFalse(DependencyState.STATE_LOADED_REQUIRED_MODULES.equals(null));
-        assertFalse(DependencyState.STATE_UNDEFINED.equals(
-            DependencyState.STATE_LOADED_REQUIRED_MODULES));
-        assertFalse(DependencyState.STATE_LOADING_REQUIRED_MODULES.equals(
-            DependencyState.STATE_LOADED_REQUIRED_MODULES));
-        assertFalse(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED.equals(
-            DependencyState.STATE_LOADED_REQUIRED_MODULES));
-        assertFalse(DependencyState.STATE_LOADED_REQUIRED_MODULES.equals(
-            DependencyState.STATE_LOADING_REQUIRED_MODULES));
-        assertFalse(DependencyState.STATE_LOADED_REQUIRED_MODULES.equals(
-            DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED));
-        assertFalse(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED.equals(
-            DependencyState.STATE_LOADING_REQUIRED_MODULES));
+        assertEquals(LoadingImportsState.STATE_UNDEFINED, LoadingImportsState.STATE_UNDEFINED);
+        assertEquals(LoadingImportsState.STATE_LOADING_IMPORTS,
+            LoadingImportsState.STATE_LOADING_IMPORTS);
+        assertEquals(LoadingImportsState.STATE_LOADING_IMPORTS_FAILED,
+            LoadingImportsState.STATE_LOADING_IMPORTS_FAILED);
+        assertEquals(LoadingImportsState.STATE_LOADED_IMPORTED_MODULES,
+            LoadingImportsState.STATE_LOADED_IMPORTED_MODULES);
+        assertFalse(LoadingImportsState.STATE_UNDEFINED.equals(null));
+        assertFalse(LoadingImportsState.STATE_LOADING_IMPORTS.equals(null));
+        assertFalse(LoadingImportsState.STATE_LOADING_IMPORTS_FAILED.equals(null));
+        assertFalse(LoadingImportsState.STATE_LOADED_IMPORTED_MODULES.equals(null));
+        assertFalse(LoadingImportsState.STATE_UNDEFINED.equals(
+            LoadingImportsState.STATE_LOADED_IMPORTED_MODULES));
+        assertFalse(LoadingImportsState.STATE_LOADING_IMPORTS.equals(
+            LoadingImportsState.STATE_LOADED_IMPORTED_MODULES));
+        assertFalse(LoadingImportsState.STATE_LOADING_IMPORTS_FAILED.equals(
+            LoadingImportsState.STATE_LOADED_IMPORTED_MODULES));
+        assertFalse(LoadingImportsState.STATE_LOADED_IMPORTED_MODULES.equals(
+            LoadingImportsState.STATE_LOADING_IMPORTS));
+        assertFalse(LoadingImportsState.STATE_LOADED_IMPORTED_MODULES.equals(
+            LoadingImportsState.STATE_LOADING_IMPORTS_FAILED));
+        assertFalse(LoadingImportsState.STATE_LOADING_IMPORTS_FAILED.equals(
+            LoadingImportsState.STATE_LOADING_IMPORTS));
     }
 
     public void testHashCode() {
         final Set codes = new HashSet();
-        codes.add(new Integer(DependencyState.STATE_UNDEFINED.hashCode()));
-        codes.add(new Integer(DependencyState.STATE_LOADING_REQUIRED_MODULES.hashCode()));
-        codes.add(new Integer(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED.hashCode()));
-        codes.add(new Integer(DependencyState.STATE_LOADED_REQUIRED_MODULES.hashCode()));
+        codes.add(new Integer(LoadingImportsState.STATE_UNDEFINED.hashCode()));
+        codes.add(new Integer(LoadingImportsState.STATE_LOADING_IMPORTS.hashCode()));
+        codes.add(new Integer(LoadingImportsState.STATE_LOADING_IMPORTS_FAILED.hashCode()));
+        codes.add(new Integer(LoadingImportsState.STATE_LOADED_IMPORTED_MODULES.hashCode()));
         assertEquals(4, codes.size());
     }
 
