@@ -43,6 +43,7 @@ import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
 import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.Latex;
 import org.qedeq.kernel.se.base.module.LatexList;
+import org.qedeq.kernel.se.base.module.LinkList;
 import org.qedeq.kernel.se.base.module.LiteratureItem;
 import org.qedeq.kernel.se.base.module.LiteratureItemList;
 import org.qedeq.kernel.se.base.module.Location;
@@ -84,7 +85,7 @@ public class AbstractModuleVisitorTest extends QedeqTestCase {
         listener = new AbstractModuleVisitor() {};
     }
 
-    public void testConstructor() throws Exception  {
+    public void testEnter() throws Exception {
         listener.visitEnter((Add) null);
         listener.visitEnter((Atom) null);
         listener.visitEnter((Author) null);
@@ -112,6 +113,7 @@ public class AbstractModuleVisitorTest extends QedeqTestCase {
         listener.visitEnter((InitialPredicateDefinition) null);
         listener.visitEnter((Latex) null);
         listener.visitEnter((LatexList) null);
+        listener.visitEnter((LinkList) null);
         listener.visitEnter((LiteratureItem) null);
         listener.visitEnter((LiteratureItemList) null);
         listener.visitEnter((Location) null);
@@ -138,6 +140,63 @@ public class AbstractModuleVisitorTest extends QedeqTestCase {
         listener.visitEnter((Term) null);
         listener.visitEnter((Universal) null);
         listener.visitEnter((UsedByList) null);
+    }
+
+    public void testLeave() throws Exception {
+        listener.visitLeave((Add) null);
+        listener.visitLeave((Atom) null);
+        listener.visitLeave((Author) null);
+        listener.visitLeave((AuthorList) null);
+        listener.visitLeave((Axiom) null);
+        listener.visitLeave((ChangedRule) null);
+        listener.visitLeave((ChangedRuleList) null);
+        listener.visitLeave((Chapter) null);
+        listener.visitLeave((ChapterList) null);
+        listener.visitLeave((Conclusion) null);
+        listener.visitLeave((ConditionalProof) null);
+        listener.visitLeave((ElementList) null);
+        listener.visitLeave((Existential) null);
+        listener.visitLeave((FormalProof) null);
+        listener.visitLeave((FormalProofLine) null);
+        listener.visitLeave((FormalProofLineList) null);
+        listener.visitLeave((FormalProofList) null);
+        listener.visitLeave((Formula) null);
+        listener.visitLeave((FunctionDefinition) null);
+        listener.visitLeave((Header) null);
+        listener.visitLeave((Hypothesis) null);
+        listener.visitLeave((Import) null);
+        listener.visitLeave((ImportList) null);
+        listener.visitLeave((InitialFunctionDefinition) null);
+        listener.visitLeave((InitialPredicateDefinition) null);
+        listener.visitLeave((Latex) null);
+        listener.visitLeave((LatexList) null);
+        listener.visitLeave((LinkList) null);
+        listener.visitLeave((LiteratureItem) null);
+        listener.visitLeave((LiteratureItemList) null);
+        listener.visitLeave((Location) null);
+        listener.visitLeave((LocationList) null);
+        listener.visitLeave((ModusPonens) null);
+        listener.visitLeave((Node) null);
+        listener.visitLeave((PredicateDefinition) null);
+        listener.visitLeave((Proof) null);
+        listener.visitLeave((ProofList) null);
+        listener.visitLeave((Proposition) null);
+        listener.visitLeave((Qedeq) null);
+        listener.visitLeave((Reason) null);
+        listener.visitLeave((Rename) null);
+        listener.visitLeave((Rule) null);
+        listener.visitLeave((Section) null);
+        listener.visitLeave((SectionList) null);
+        listener.visitLeave((Specification) null);
+        listener.visitLeave((Subsection) null);
+        listener.visitLeave((SubsectionList) null);
+        listener.visitLeave((SubsectionType) null);
+        listener.visitLeave((SubstFree) null);
+        listener.visitLeave((SubstFunc) null);
+        listener.visitLeave((SubstPred) null);
+        listener.visitLeave((Term) null);
+        listener.visitLeave((Universal) null);
+        listener.visitLeave((UsedByList) null);
     }
 
 }
