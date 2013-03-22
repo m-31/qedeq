@@ -168,7 +168,7 @@ public class ServiceProcessManager {
             }
         }
         process.setBlocked(true);
-        final PluginCall call = new PluginCallImpl(plugin, qedeq, parameters, process,
+        final PluginCallImpl call = new PluginCallImpl(plugin, qedeq, parameters, process,
             process.getPluginCall());
         process.setPluginCall(call);
         final boolean newBlockedModule = arbiter.lockRequiredModule(process, qedeq);
@@ -181,13 +181,17 @@ public class ServiceProcessManager {
                 qedeq.setCurrentlyRunningPlugin(plugin);
                 final Object result = exe.executePlugin(process, data);
                 if (exe.getInterrupted()) {
+                    call.setFailureState();
                     process.setFailureState();
+                } else {
+                    call.setSuccessState();
                 }
                 return result;
             } catch (final RuntimeException e) {
                 final String msg = plugin.getPluginActionName() + " failed with a runtime exception.";
                 Trace.fatal(CLASS, this, method, msg, e);
                 QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
+                call.setFailureState();
                 process.setFailureState();
                 return null;
             } finally {
@@ -196,6 +200,7 @@ public class ServiceProcessManager {
                     process.removeBlockedModule(qedeq);
                 }
                 // remove old executor
+                call.setExecutor(null);
                 qedeq.setCurrentlyRunningPlugin(null);
                 if (proc == null) {
                     if (process.isRunning()) {
