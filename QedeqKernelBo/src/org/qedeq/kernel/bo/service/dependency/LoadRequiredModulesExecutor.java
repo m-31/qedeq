@@ -73,7 +73,9 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         if (!all.booleanValue()) {
             final String msg = "Loading required modules failed";
             QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
-                "Module could not even be loaded.");
+                "Not all required modules could not even be loaded.");
+            getQedeqBo().setDependencyFailureState(
+                DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, getQedeqBo().getErrors());
             return Boolean.FALSE;
         }
         if (loadingRequiredInProgress.containsKey(getQedeqBo())) { // already checked?
@@ -102,11 +104,14 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
                 current, loadingRequiredInProgress, process);
             if (!current.hasLoadedRequiredModules()) {
                 // LATER 20110119 m31: we take only the first error, is that ok?
+                String text = DependencyErrors.IMPORT_OF_MODULE_FAILED_TEXT + "\""
+                    + required.getLabel(i) + "\"";
+                if (current.getErrors().size() > 0) {
+                    text += current.getErrors().get(0); // FIXME 20130324 m31: what if this changed directly after .size() call?
+                }
                 ModuleDataException me = new LoadRequiredModuleException(
                     DependencyErrors.IMPORT_OF_MODULE_FAILED_CODE,
-                    DependencyErrors.IMPORT_OF_MODULE_FAILED_TEXT + "\"" + required.getLabel(i)
-                        + "\", " + current.getErrors().get(0).getMessage(),
-                        required.getModuleContext(i));
+                    text, required.getModuleContext(i));
                 sfl.add(createError(me));
                 continue;
             }
@@ -118,15 +123,18 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
             return Boolean.TRUE; // everything is OK, someone elses thread might have corrected errors!
         }
         getQedeqBo().getLabels().setModuleReferences(required); // FIXME why here?
-        if (!getQedeqBo().hasBasicFailures()) {
-            if (sfl.size() == 0) {
-                getQedeqBo().setLoadedRequiredModules();
-                QedeqLog.getInstance().logSuccessfulReply(
-                    "Loading required modules successful", getQedeqBo().getUrl());
-                return Boolean.TRUE;
-            }
+        if (!getQedeqBo().hasBasicFailures() && sfl.size() == 0) {
+            getQedeqBo().setLoadedRequiredModules();
+            QedeqLog.getInstance().logSuccessfulReply(
+                "Loading required modules successful", getQedeqBo().getUrl());
+            return Boolean.TRUE;
+        }
+        if (sfl.size() != 0) {
             getQedeqBo().setDependencyFailureState(
                 DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, sfl);
+        } else {
+            getQedeqBo().setDependencyFailureState(
+                DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, getQedeqBo().getErrors());
         }
         final String msg = "Loading required modules failed";
         QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
