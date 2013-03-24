@@ -360,7 +360,8 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         prop.setQedeqFileDao(getQedeqFileDao()); // remember loader for this module
         final Qedeq qedeq;
         try {
-            qedeq = getQedeqFileDao().loadQedeq(new ServiceProcessImpl("loadBufferedModule"),  // FIXME 20130321 m31: use another service process!
+            // FIXME 20130321 m31: use another service process and don't create a new one here!
+            qedeq = getQedeqFileDao().loadQedeq(new ServiceProcessImpl("loadBufferedModule"),
                 prop, localFile);
         } catch (SourceFileExceptionList sfl) {
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, sfl);
@@ -392,7 +393,9 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
 
         final Qedeq qedeq;
         try {
-            qedeq = getQedeqFileDao().loadQedeq(new ServiceProcessImpl("loadLocalModule"), prop, localFile);    // FIXME 20130321 m31: use another service process!
+            // FIXME 20130321 m31: use another service process and don't create a new one here!
+            qedeq = getQedeqFileDao().loadQedeq(new ServiceProcessImpl("loadLocalModule"), prop,
+                localFile);
         } catch (SourceFileExceptionList sfl) {
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_LOCAL_FILE_FAILED, sfl);
             throw sfl;
@@ -441,7 +444,8 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         // This should be the extended load status.
         final ModuleLabelsCreator moduleNodesCreator = new ModuleLabelsCreator(this, prop);
         try {
-            moduleNodesCreator.createLabels(new ServiceProcessImpl("copyQedeq"));   // FIXME 20130321 m31: don't create a new process here!
+            // FIXME 20130321 m31: use another service process and don't create a new one here!
+            moduleNodesCreator.createLabels(new ServiceProcessImpl("copyQedeq"));
             prop.setLoaded(vo, moduleNodesCreator.getLabels(), moduleNodesCreator.getConverter(),
                 moduleNodesCreator.getTextConverter());
         } catch (SourceFileExceptionList sfl) {
@@ -544,7 +548,8 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             return prop; // never called, only here to soothe the compiler
         } catch (final RuntimeException e) {
             Trace.fatal(CLASS, this, method, "unexpected problem", e);
-            QedeqLog.getInstance().logFailureReply("Loading failed", prop.getUrl(), e.getMessage());
+            QedeqLog.getInstance().logFailureReply("Loading failed",
+                (prop != null ? prop.getUrl() : "unknownURL"), e.getMessage());
             throw e;
         } finally {
             processDec();

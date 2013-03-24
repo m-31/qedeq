@@ -91,6 +91,12 @@ public class ModuleArbiter {
             process.getPluginCall().getPlugin().getPluginId()) : "");
     }
 
+    /**
+     * Unlock module again.
+     *
+     * @param   process     This process must have acquired the lock.
+     * @param   qedeq       This module was locked before.
+     */
     public void unlockRequiredModule(final ServiceProcess process, final KernelQedeqBo qedeq) {
         unlock(process, qedeq);
     }
@@ -104,6 +110,7 @@ public class ModuleArbiter {
                 blocked.remove(qedeq);
             } else {
                 System.out.println(getName(process) + " illegal unlock try  " + qedeq.getName());
+                // FIXME 20130324 m31: later on we might handle this differently but for now:
                 throw new IllegalArgumentException("locked by service process " + origin.getId());
             }
         } else {
