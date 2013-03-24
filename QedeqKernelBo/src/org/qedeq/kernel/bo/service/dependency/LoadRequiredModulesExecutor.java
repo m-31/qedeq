@@ -107,7 +107,8 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
                 String text = DependencyErrors.IMPORT_OF_MODULE_FAILED_TEXT + "\""
                     + required.getLabel(i) + "\"";
                 if (current.getErrors().size() > 0) {
-                    text += current.getErrors().get(0); // FIXME 20130324 m31: what if this changed directly after .size() call?
+                    // FIXME 20130324 m31: what if this changed directly after .size() call?
+                    text += ", " + current.getErrors().get(0).getMessage();
                 }
                 ModuleDataException me = new LoadRequiredModuleException(
                     DependencyErrors.IMPORT_OF_MODULE_FAILED_CODE,
