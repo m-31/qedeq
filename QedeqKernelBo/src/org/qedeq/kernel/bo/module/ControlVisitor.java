@@ -344,7 +344,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      * @param   context     Here the link is in the source text.
      * @param   addWarning  Should we add a warning if an error occurs?
      * @param   addError    Should we add an error if an error occurs?
-     * @return  Generated link.
+     * @return  Generated link. Never <code>null</code>.
      */
     public Reference getReference(final String reference, final ModuleContext context,
             final boolean addWarning, final boolean addError) {
