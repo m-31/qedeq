@@ -30,6 +30,7 @@ import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
  * Manage all known processes.
@@ -171,7 +172,17 @@ public class ServiceProcessManager {
         final PluginCallImpl call = new PluginCallImpl(plugin, qedeq, parameters, process,
             process.getPluginCall());
         process.setPluginCall(call);
-        final boolean newBlockedModule = arbiter.lockRequiredModule(process, qedeq);
+        boolean newBlockedModule = false;
+        try {
+            newBlockedModule = arbiter.lockRequiredModule(process, qedeq);
+        } catch (InterruptException e) {
+            final String msg = plugin.getPluginActionName() + " was interrupted.";
+            Trace.fatal(CLASS, this, method, msg, e);
+            QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
+            call.setFailureState();
+            process.setFailureState();
+            return null;
+        }
 //        synchronized (qedeq) {
             process.setBlocked(false);
 // FIXME            final boolean newBlockedModule = !process.getBlockedModules().contains(qedeq);
@@ -202,6 +213,7 @@ public class ServiceProcessManager {
                 // remove old executor
                 call.setExecutor(null);
                 qedeq.setCurrentlyRunningPlugin(null);
+                // if we created the process we also close it
                 if (proc == null) {
                     if (process.isRunning()) {
                         process.setSuccessState();
