@@ -75,12 +75,16 @@ public class ServiceProcessImpl implements ServiceProcess {
      * @param   actionName  Main process purpose.
      */
     public ServiceProcessImpl(final String actionName) {
-        this.id = globalCounter++;
+        this.id = inc();
         this.thread = Thread.currentThread();
         this.call = null;
         this.blockedModules = new KernelQedeqBoSet();
         this.actionName = actionName;
         start();
+    }
+
+    private synchronized long inc() {
+        return globalCounter++;
     }
 
     public synchronized void setPluginCall(final PluginCall call) {

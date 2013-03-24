@@ -34,7 +34,7 @@ public class PluginCallImpl implements PluginCall {
     private static final Class CLASS = PluginCallImpl.class;
 
     /** Counter for each service call. */
-    private static long globalCounter;
+    private static volatile long globalCounter;
 
     /** The service the thread works for. */
     private final Plugin plugin;
@@ -90,7 +90,7 @@ public class PluginCallImpl implements PluginCall {
     public PluginCallImpl(final Plugin service,
             final KernelQedeqBo qedeq, final Parameters parameters, final ServiceProcess process,
             final PluginCall parent) {
-        this.id = globalCounter++;
+        this.id = inc();
         this.qedeq = qedeq;
         this.plugin = service;
         this.parameters = parameters;
@@ -100,6 +100,10 @@ public class PluginCallImpl implements PluginCall {
         }
         this.parent = parent;
         start();
+    }
+
+    private synchronized long inc() {
+        return globalCounter++;
     }
 
     public Plugin getPlugin() {
