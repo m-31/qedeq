@@ -21,6 +21,8 @@ import java.util.Map;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
  * Get locks for modules.
@@ -42,11 +44,13 @@ public class ModuleArbiter {
     /**
      * Lock QEDEQ module.
      *
-     * @param   process This process aquires the lock.
+     * @param   process This process acquires the lock.
      * @param   qedeq   Lock this module.
      * @return  The process locked this module already, we didn't do anything.
+     * @throws  InterruptException  Lock acquirement interrupted.
      */
-    public boolean lockRequiredModule(final ServiceProcess process, final KernelQedeqBo qedeq) {
+    public boolean lockRequiredModule(final ServiceProcess process, final KernelQedeqBo qedeq)
+            throws  InterruptException {
         if (isAlreadyLocked(process, qedeq)) {
             return false;
         }
@@ -57,12 +61,12 @@ public class ModuleArbiter {
                     monitor.wait(10000);
                 } catch (InterruptedException e) {
                     process.setFailureState();
-                    break;
+                    throw new InterruptException(new ModuleContext(qedeq.getModuleAddress()));
                 }
             }
             if (Thread.interrupted()) {
                 process.setFailureState();
-                break;
+                    throw new InterruptException(new ModuleContext(qedeq.getModuleAddress()));
             }
         }
         return true;
@@ -73,6 +77,7 @@ public class ModuleArbiter {
         final ServiceProcess origin = (ServiceProcess) blocked.get(qedeq);
         if (origin != null) {
             System.out.println(getName(process) + " failed to lock      " + qedeq.getName());
+            System.out.println("\tbecause it is locked by " + getName(origin));
             return false;
         }
         System.out.println(getName(process) + " locked successfuly  " + qedeq.getName());
