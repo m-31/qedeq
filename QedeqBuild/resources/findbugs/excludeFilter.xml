@@ -32,11 +32,13 @@
 
 <!--  PRODUCTIVE -->
 
+    <!-- these methods are all depricated -->
     <Match>
       <Class name="org.qedeq.base.io.IoUtility"/>
         <Bug pattern="DM_DEFAULT_ENCODING" /> 
     </Match>
 
+    <!-- we don't want to correct this code -->
     <Match>
         <Package name="furbelow" />
     </Match>
@@ -70,19 +72,25 @@
       <Bug pattern="DM_EXIT" />
     </Match>
 
+    <!--  If the key dosn't exist we want to return null -->
     <Match>
       <Class name="org.qedeq.kernel.xml.handler.common.SimpleAttributes" />
       <Bug pattern="NP_BOOLEAN_RETURN_NULL" />
     </Match>
 
+    <!--  we think the equals methods are ok for these classes -->
     <Match>
-      <Class name="org.qedeq.kernel.bo.service.logic.ModuleConstantsExistenceCheckerImpl" />
-      <Bug pattern="WMI_WRONG_MAP_ITERATOR" />
+      <OR>
+        <Class name="org.qedeq.base.io.Version" />
+        <Class name="org.qedeq.kernel.bo.service.PluginCallImpl"/>
+      </OR>
+      <Bug pattern="EQ_UNUSUAL" />
     </Match>
 
+    <!-- even if it is a redundant null check we want to be extra save especially here -->
     <Match>
-      <Class name="org.qedeq.base.io.Version" />
-      <Bug pattern="EQ_UNUSUAL" />
+      <Class name="org.qedeq.kernel.bo.service.logic.FormalProofCheckerExecutor" />
+      <Bug pattern="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" />
     </Match>
 
 </FindBugsFilter>
