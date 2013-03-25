@@ -163,7 +163,7 @@
             <testCompile name="@{name}"      dir="@{dir}"      classpath="@{classpath}" />
             <utest       name="@{name}"      dir="@{dir}"      classpath="@{classpath}" fast="@{fast}" />
             <!-- html report -->
-            <clover-report>
+            <clover-report numThreads="0">
                 <current outfile="@{dir}/target/reports/clover/report">
                     <format type="html" />
                     <testsources dir="@{dir}/src/test/java">
