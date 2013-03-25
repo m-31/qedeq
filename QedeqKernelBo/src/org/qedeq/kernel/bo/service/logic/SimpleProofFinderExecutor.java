@@ -226,7 +226,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
                 Object state;
                 try {
                     state = YodaUtility.getFieldValue(getQedeqBo(), "stateManager");
-                    YodaUtility.executeMethod(state, "setLogicalState", new Class[] {
+                    YodaUtility.executeMethod(state, "setWellFormedState", new Class[] {
                         WellFormedState.class},
                         new Object[] {WellFormedState.STATE_UNCHECKED});
                     ((PropositionVo) proposition).addFormalProof(new FormalProofVo(proof));
