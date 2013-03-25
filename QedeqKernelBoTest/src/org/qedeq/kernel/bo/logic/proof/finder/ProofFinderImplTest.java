@@ -15,6 +15,9 @@
 package org.qedeq.kernel.bo.logic.proof.finder;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -85,7 +88,9 @@ public class ProofFinderImplTest extends QedeqBoTestCase {
         try {
             finder.findProof(prop.getFormula().getElement(), list,
                 DefaultModuleAddress.MEMORY.createModuleContext(), new Parameters(parameters),
-                new ModuleLogListenerImpl("memory"), bo.getElement2Utf8());
+                new ModuleLogListenerImpl("memory", new PrintStream(new OutputStream() {
+                    public void write(int b) throws IOException {
+                    }})), bo.getElement2Utf8());
             fail("no proof found");
         } catch (ProofFoundException e) {
             assertNotNull(e.getProofLines());
@@ -130,7 +135,9 @@ public class ProofFinderImplTest extends QedeqBoTestCase {
         try {
             finder.findProof(prop.getFormula().getElement(), list, 
                 DefaultModuleAddress.MEMORY.createModuleContext(), new Parameters(parameters),
-                new ModuleLogListenerImpl("memory"), bo.getElement2Utf8());
+                new ModuleLogListenerImpl("memory", new PrintStream(new OutputStream() {
+                    public void write(int b) throws IOException {
+                    }})), bo.getElement2Utf8());
             fail("no proof found");
         } catch (ProofFoundException e) {
             assertNotNull(e.getProofLines());
