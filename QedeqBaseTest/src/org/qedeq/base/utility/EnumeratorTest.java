@@ -40,10 +40,8 @@ public class EnumeratorTest extends QedeqTestCase {
 
     /**
      * Test constructors.
-     *
-     * @throws  Exception   Test failure.
      */
-    public void testConstructors() throws Exception {
+    public void testConstructors() {
         Enumerator e1 = new Enumerator();
         assertEquals(0, e1.getNumber());
         Enumerator e2 = new Enumerator(0);
@@ -54,10 +52,8 @@ public class EnumeratorTest extends QedeqTestCase {
 
     /**
      * Test {@link Enumerator#increaseNumber()}.
-     *
-     * @throws  Exception   Test failure.
      */
-    public void testIncrease() throws Exception {
+    public void testIncrease() {
         Enumerator e1 = new Enumerator();
         e1.increaseNumber();
         assertEquals(1, e1.getNumber());
@@ -81,10 +77,8 @@ public class EnumeratorTest extends QedeqTestCase {
 
     /**
      * Test {@link Enumerator#increaseNumber()}.
-     *
-     * @throws  Exception   Test failure.
      */
-    public void testToString() throws Exception {
+    public void testToString() {
         Enumerator e1 = new Enumerator();
         assertEquals("0", e1.toString());
         Enumerator e2 = new Enumerator(1234);
@@ -93,10 +87,8 @@ public class EnumeratorTest extends QedeqTestCase {
 
     /**
      * Test {@link Enumerator#equals(Object)}.
-     *
-     * @throws  Exception   Test failure.
      */
-    public void testEquals() throws Exception {
+    public void testEquals() {
         Enumerator e1 = new Enumerator();
         assertEquals(0, e1.getNumber());
         Enumerator e2 = new Enumerator(0);
@@ -115,10 +107,8 @@ public class EnumeratorTest extends QedeqTestCase {
 
     /**
      * Test {@link Enumerator#hashCode()}.
-     *
-     * @throws  Exception   Test failure.
      */
-    public void testHashcode() throws Exception {
+    public void testHashcode() {
         for (int i = -10; i < 100; i++) {
             // we assume a default implementation ...
             Enumerator e = new Enumerator(i);
@@ -126,4 +116,11 @@ public class EnumeratorTest extends QedeqTestCase {
         }
     }
 
+    public void testReset() {
+        Enumerator e1 = new Enumerator();
+        e1.increaseNumber();
+        assertEquals(1, e1.getNumber());
+        e1.reset();
+        assertEquals(0, e1.getNumber());
+    }
 }
