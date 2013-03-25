@@ -20,6 +20,10 @@ import java.util.Map;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.common.QedeqBo;
+import org.qedeq.kernel.bo.log.LogListenerImpl;
+import org.qedeq.kernel.bo.log.ModuleEventListenerLog;
+import org.qedeq.kernel.bo.log.ModuleEventLog;
+import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
@@ -48,6 +52,12 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         super(name);
     }
 
+    public void setUp() throws Exception {
+        super.setUp();
+        QedeqLog.getInstance().addLog(new LogListenerImpl());
+        ModuleEventLog.getInstance().addLog(new ModuleEventListenerLog());
+    }
+
     /**
      * Try proof finder.
      *
@@ -64,7 +74,10 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         KernelQedeqBo qedeq = (KernelQedeqBo) bo;
         removeFormalProof(qedeq, "proposition:one");
         removeFormalProof(qedeq, "proposition:two");
-        addDummyFormalProof(qedeq, "proposition:three");
+        // addDummyFormalProof(qedeq, "proposition:three"); TODO 20130325 m31: if proof extension
+                                                                   // works, this might be useful
+        getServices().checkFormallyProved(address);
+        assertFalse(getServices().getQedeqBo(address).isFullyFormallyProved());
         final Map parameters = new HashMap();
         parameters.put("noSave", "true");
         parameters.put("extraVars", "0");
@@ -77,8 +90,11 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         parameters.put("negationWeight", "0");
         parameters.put("conjunctionWeight", "0");
         parameters.put("equivalenceWeight", "0");
-        getInternalServices().getConfig().setPluginKeyValues(new SimpleProofFinderPlugin(), new Parameters(parameters));
+        getInternalServices().getConfig().setPluginKeyValues(new SimpleProofFinderPlugin(),
+            new Parameters(parameters));
         getServices().executePlugin(SimpleProofFinderPlugin.class.getName(), address, null);
+        getServices().checkFormallyProved(address);
+        assertTrue(getServices().getQedeqBo(address).isFullyFormallyProved());
     }
 
     /**
@@ -99,7 +115,14 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         removeNodeType(qedeq, "axiom:existencialGeneralization");
         removeFormalProof(qedeq, "proposition:one");
         removeFormalProof(qedeq, "proposition:two");
-        addDummyFormalProof(qedeq, "proposition:three");
+        // addDummyFormalProof(qedeq, "proposition:three"); TODO 20130325 m31: if proof extension
+                                                                   // works, this might be useful
+        removeNodeType(qedeq, "proposition:four");
+        removeNodeType(qedeq, "proposition:five");
+        removeNodeType(qedeq, "proposition:six");
+        removeNodeType(qedeq, "proposition:seven");
+        getServices().checkFormallyProved(address);
+        assertFalse(getServices().getQedeqBo(address).isFullyFormallyProved());
         final Map parameters = new HashMap();
         parameters.put("noSave", "true");
         parameters.put("extraVars", "0");
@@ -114,6 +137,8 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         parameters.put("equivalenceWeight", "0");
         getInternalServices().getConfig().setPluginKeyValues(new SimpleProofFinderPlugin(), new Parameters(parameters));
         getServices().executePlugin(SimpleProofFinderPlugin.class.getName(), address, null);
+        getServices().checkFormallyProved(address);
+        assertTrue(getServices().getQedeqBo(address).isFullyFormallyProved());
     }
 
     /**
@@ -132,9 +157,16 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         KernelQedeqBo qedeq = (KernelQedeqBo) bo;
         removeNodeType(qedeq, "axiom:universalInstantiation");
         removeNodeType(qedeq, "axiom:existencialGeneralization");
-        addDummyFormalProof(qedeq, "proposition:one");
-        addDummyFormalProof(qedeq, "proposition:two");
-        removeFormalProof(qedeq, "proposition:three");
+        removeFormalProof(qedeq, "proposition:one");
+        removeFormalProof(qedeq, "proposition:two");
+        // addDummyFormalProof(qedeq, "proposition:three"); TODO 20130325 m31: if proof extension
+                                                                   // works, this might be useful
+        removeNodeType(qedeq, "proposition:four");
+        removeNodeType(qedeq, "proposition:five");
+        removeNodeType(qedeq, "proposition:six");
+        removeNodeType(qedeq, "proposition:seven");
+        getServices().checkFormallyProved(address);
+        assertFalse(getServices().getQedeqBo(address).isFullyFormallyProved());
         final Map parameters = new HashMap();
         parameters.put("noSave", "true");
         parameters.put("extraVars", "0");
@@ -148,8 +180,11 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         parameters.put("negationWeight", "0");
         parameters.put("conjunctionWeight", "0");
         parameters.put("equivalenceWeight", "0");
-        getInternalServices().getConfig().setPluginKeyValues(new SimpleProofFinderPlugin(), new Parameters(parameters));
+        getInternalServices().getConfig().setPluginKeyValues(new SimpleProofFinderPlugin(),
+            new Parameters(parameters));
         getServices().executePlugin(SimpleProofFinderPlugin.class.getName(), address, null);
+        getServices().checkFormallyProved(address);
+        assertTrue(getServices().getQedeqBo(address).isFullyFormallyProved());
     }
 
     /**
@@ -165,10 +200,10 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
     }
 
     /**
-     * Remove axiom node.
+     * Remove node.
      *
      * @param   qedeq   Module.
-     * @param   id      Id of proposition where we remove all formal proofs.
+     * @param   id      Id of node we want to "delete".
      */
     private void removeNodeType(KernelQedeqBo qedeq, final String id) {
         KernelNodeBo node = qedeq.getLabels().getNode(id);
@@ -177,7 +212,7 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
     }
 
     /**
-     * Remove formal proof from proposition.
+     * Add empty formal proof list to proposition.
      *
      * @param   qedeq   Module.
      * @param   id      Id of proposition where we remove all formal proofs.
