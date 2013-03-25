@@ -30,9 +30,12 @@
 
     <H3>Check Menu</H3>
 
-    <H4>Check Mathematical Logic</H4>
+    <H4>Check Well-Formedness</H4>
     Checks if all formulas are well formed in all selected QEDEQ modules. Necessary modules are checked recursively. So firstly all imported modules are checked. Furthermore the correct sequence of definitions is checked: an operator must be defined before it can be used. 
 
+    <H4>Check Fully-Formally Proved</H4>
+    Checks recursivly if every used proposition has a formal correct proof.
+    </H4>
 
     <H3>Plugins Menu</H3>
     Plugins do various things with the selected QEDEQ modules. Programming a plugin is largely independent from the development of the main program suite.
@@ -65,8 +68,8 @@ this plugin already found some typos in our set theory script. Long running mode
     <H4>Preferences</H4>
     Here the non plugin preferences can be configured. 
 
-    <H4>Threads</H4>
-    Opens an overview window that shows all plugin threads. You can see the the location the plugin is working on. Running threads can be stopped. If the application runs under Java 1.5 (or higher) you can ask for a stack trace. Already finished threads are also shown.
+    <H4>View Processes</H4>
+    Opens an overview window that shows all service processes. You can also see the the module the plugin is working on. Running processes can be stopped. If the application runs under Java 1.5 (or higher) you can ask for a stack trace. Already finished processes can also shown if the data is still available. A service process can involve several plugin calls. These calls are listed if you press "Details".
 
     <H3>Help</H3>
 
