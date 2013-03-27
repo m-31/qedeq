@@ -226,6 +226,11 @@ public class ProofCheckerTest extends QedeqBoTestCase {
         assertNotNull(e0);
         assertEquals(1, e0.size());
         assertEquals(37400, e0.get(0).getErrorCode());
+        LogicalCheckExceptionList e1 = 
+            checker1.checkProof(prop.getFormula().getElement(), list, ruleCheckerAll,
+                DefaultModuleAddress.MEMORY.createModuleContext(), resolverLocal);
+        assertNotNull(e1);
+        assertEquals(0, e1.size());
         LogicalCheckExceptionList e2 = 
             checker2.checkProof(prop.getFormula().getElement(), list, ruleCheckerAll,
                 DefaultModuleAddress.MEMORY.createModuleContext(), resolverLocal);
@@ -256,6 +261,11 @@ public class ProofCheckerTest extends QedeqBoTestCase {
         assertNotNull(e0);
         assertEquals(1, e0.size());
         assertEquals(37400, e0.get(0).getErrorCode());
+        LogicalCheckExceptionList e1 = 
+            checker1.checkProof(prop.getFormula().getElement(), list, ruleCheckerAll,
+                DefaultModuleAddress.MEMORY.createModuleContext(), resolverLocal);
+        assertNotNull(e1);
+        assertEquals(0, e1.size());
         LogicalCheckExceptionList e2 = 
             checker2.checkProof(prop.getFormula().getElement(), list, ruleCheckerAll,
                 DefaultModuleAddress.MEMORY.createModuleContext(), resolverLocal);
@@ -276,7 +286,7 @@ public class ProofCheckerTest extends QedeqBoTestCase {
         final Proposition prop = node.getNodeVo().getNodeType().getProposition();
         final FormalProofLineList original = prop.getFormalProofList().get(0)
             .getFormalProofLineList();
-        final FormalProofLineListVo list = new FormalProofLineListVo();
+        FormalProofLineListVo list = new FormalProofLineListVo();
         for (int i = 0; i < 15; i++) {
             list.add(original.get(i));
         }
@@ -287,26 +297,43 @@ public class ProofCheckerTest extends QedeqBoTestCase {
         assertEquals(1, e0.size());
         assertEquals(37400, e0.get(0).getErrorCode());
         LogicalCheckExceptionList e2 = 
-            checker2.checkProof(prop.getFormula().getElement(), list, ruleCheckerAll,
+            checker1.checkProof(prop.getFormula().getElement(), list, ruleCheckerAll,
                 DefaultModuleAddress.MEMORY.createModuleContext(), resolverLocal);
         assertNotNull(e2);
+        assertEquals(1, e2.size());
+        assertEquals(37200, e2.get(0).getErrorCode());
+        list.add(original.get(15));
+        LogicalCheckExceptionList e3 = 
+            checker1.checkProof(prop.getFormula().getElement(), list, ruleCheckerAll,
+                DefaultModuleAddress.MEMORY.createModuleContext(), resolverLocal);
+        assertNotNull(e3);
+        assertEquals(0, e3.size());
+
+        list = new FormalProofLineListVo();
+        for (int i = 0; i < 15; i++) {
+            list.add(original.get(i));
+        }
+        LogicalCheckExceptionList e4 = 
+            checker2.checkProof(prop.getFormula().getElement(), list, ruleCheckerAll,
+                DefaultModuleAddress.MEMORY.createModuleContext(), resolverLocal);
+        assertNotNull(e4);
 //        System.out.println(e2);
 //        Element2LatexImpl transform = new Element2LatexImpl(new ModuleLabels());
 //        System.out.println(transform.getLatex(universal_instantiation_axiom));
 //        System.out.println(e2);
-        assertEquals(1, e2.size());
+        assertEquals(1, e4.size());
 //        System.out.println(e2.get(0));
-        assertEquals(37200, e2.get(0).getErrorCode());
+        assertEquals(37200, e4.get(0).getErrorCode());
         list.add(original.get(15));
-        LogicalCheckExceptionList e3 = 
+        LogicalCheckExceptionList e5 = 
             checker2.checkProof(prop.getFormula().getElement(), list, ruleCheckerAll,
                 DefaultModuleAddress.MEMORY.createModuleContext(), resolverLocal);
-        assertNotNull(e3);
+        assertNotNull(e5);
 //        System.out.println(e2);
 //        Element2LatexImpl transform = new Element2LatexImpl(new ModuleLabels());
 //        System.out.println(transform.getLatex(universal_instantiation_axiom));
 //        System.out.println(e3);
-        assertEquals(0, e3.size());
+        assertEquals(0, e5.size());
     }
 
 }
