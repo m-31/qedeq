@@ -265,6 +265,9 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     }
 
     public final void visitLeave(final Qedeq qedeq) {
+        if (qedeq.getLiteratureItemList() == null) {
+            printImports();
+        }
         printer.println();
     }
 
@@ -1045,8 +1048,13 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         } else {
             underlineBig("Bibliography");
         }
-        printer.println();
-        printer.println();
+        printImports();
+    }
+
+    /**
+     * Print all imports if any.
+     */
+    private void printImports() {
         final ImportList imports = getQedeqBo().getQedeq().getHeader().getImportList();
         if (imports != null && imports.size() > 0) {
             printer.println();
@@ -1070,12 +1078,6 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
                 printer.println();
             }
             printer.println();
-            printer.println();
-            if ("de".equals(language)) {
-                printer.println("Andere Referenzen:");
-            } else {
-                printer.println("Other references:");
-            }
             printer.println();
         }
     }
