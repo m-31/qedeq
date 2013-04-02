@@ -265,9 +265,6 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     }
 
     public final void visitLeave(final Qedeq qedeq) {
-        if (qedeq.getLiteratureItemList() == null) {
-            printImports();
-        }
         printer.println();
     }
 
@@ -348,6 +345,12 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         }
         printer.println();
         printer.println();
+    }
+
+    public void visitEnter(final ImportList imports) throws ModuleDataException {
+        // this method call is a little bit odd but we have to print the imports
+        // also in the literature list and we don't want to have doubled code
+        printImports();
     }
 
     /**

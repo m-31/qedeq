@@ -496,6 +496,38 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         printer.println();
     }
 
+    public void visitEnter(final ImportList imports) throws ModuleDataException {
+        printer.println();
+        printer.println();
+        printer.println("\\par");
+        if ("de".equals(language)) {
+            printer.println("Benutzte QEDEQ module:");
+        } else {
+            if (!"en".equals(language)) {
+                printer.println("%%% TODO unknown language: " + language);
+            }
+            printer.println("Used other QEDEQ modules:");
+        }
+        printer.println();
+        printer.println("\\par");
+        printer.println();
+    }
+
+    public void visitEnter(final Import imp) throws ModuleDataException {
+        printer.println();
+        printer.println("\\par");
+        printer.print("\\tty{" + imp.getLabel() + "} ");
+        final Specification spec = imp.getSpecification();
+        printer.print(getLatex(spec.getName()));
+        if (spec.getLocationList() != null && spec.getLocationList().size() > 0
+                && spec.getLocationList().get(0).getLocation().length() > 0) {
+            printer.print(" ");
+            printer.print("\\url{" + getPdfLink((KernelQedeqBo) getQedeqBo()
+                .getLabels().getReferences().getQedeqBo(imp.getLabel())) + "}");
+        }
+        printer.println();
+    }
+
     /**
      * Get URL for QEDEQ XML module.
      *
