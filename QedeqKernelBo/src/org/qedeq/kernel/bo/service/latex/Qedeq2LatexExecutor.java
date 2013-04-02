@@ -516,7 +516,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     public void visitEnter(final Import imp) throws ModuleDataException {
         printer.println();
         printer.println("\\par");
-        printer.print("\\tty{" + imp.getLabel() + "} ");
+        printer.print("\\textbf{" + imp.getLabel() + "} ");
         final Specification spec = imp.getSpecification();
         printer.print(getLatex(spec.getName()));
         if (spec.getLocationList() != null && spec.getLocationList().size() > 0
