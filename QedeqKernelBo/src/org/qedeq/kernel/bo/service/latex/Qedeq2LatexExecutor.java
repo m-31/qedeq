@@ -489,6 +489,11 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
             }
             printer.println();
         }
+    }
+
+    public void visitLeave(final Header header) {
+        printer.println();
+        printer.println();
         printer.println("\\setlength{\\parskip}{0pt}");
         printer.println("\\tableofcontents");
         printer.println();
