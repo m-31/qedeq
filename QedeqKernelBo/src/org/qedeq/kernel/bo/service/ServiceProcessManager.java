@@ -23,12 +23,12 @@ import java.util.Map;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.KernelContext;
-import org.qedeq.kernel.bo.common.PluginBo;
 import org.qedeq.kernel.bo.common.PluginCall;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.PluginBo;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.visitor.InterruptException;
 

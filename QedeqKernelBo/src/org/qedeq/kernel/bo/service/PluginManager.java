@@ -22,10 +22,10 @@ import java.util.Map;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.common.PluginBo;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.InternalPluginBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.PluginBo;
 
 /**
  * Manage all known plugins.

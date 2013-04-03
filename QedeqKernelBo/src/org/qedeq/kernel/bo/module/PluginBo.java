@@ -13,10 +13,10 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.common;
+package org.qedeq.kernel.bo.module;
 
 import org.qedeq.base.io.Parameters;
-import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.se.common.Plugin;
 
 

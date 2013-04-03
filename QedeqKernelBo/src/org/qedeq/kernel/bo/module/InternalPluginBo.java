@@ -15,8 +15,6 @@
 
 package org.qedeq.kernel.bo.module;
 
-import org.qedeq.kernel.bo.common.PluginBo;
-
 
 /**
  * Just a marker interface for an internal plugin.
