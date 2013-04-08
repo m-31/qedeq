@@ -16,7 +16,6 @@
 package org.qedeq.kernel.bo.common;
 
 import org.qedeq.base.io.Parameters;
-import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.se.common.Plugin;
 
 
@@ -40,20 +39,6 @@ public interface PluginCall extends Comparable {
      * @return  service
      */
     public Plugin getPlugin();
-
-    /**
-     * Get associated executor.
-     *
-     * @return  Associated executor. Might be <code>null</code>.
-     */
-    public PluginExecutor getExecutor();
-
-    /**
-     * Set associated executor.
-     *
-     * @param   executor    Associated executor.
-     */
-    public void setExecutor(final PluginExecutor executor);
 
     /**
      * Get service parameter for plugin.
