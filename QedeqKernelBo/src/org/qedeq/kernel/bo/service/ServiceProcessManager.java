@@ -16,9 +16,7 @@
 package org.qedeq.kernel.bo.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
@@ -44,10 +42,7 @@ public class ServiceProcessManager {
     /** Stores all running processes. */
     private final List processes = new ArrayList();
 
-    /** Stores some finished processes. */
-    private final Map threads = new HashMap();
-
-    /** Stores some finished processes. */
+    /** Stores some finished processes. FIXME 20130408 m31: use! */
     private final List finished = new ArrayList();
 
     /** Stores all calls. */
