@@ -17,10 +17,10 @@ package org.qedeq.kernel.bo.service;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.common.PluginCall;
-import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.se.common.Plugin;
 
 /**

@@ -17,10 +17,10 @@ package org.qedeq.kernel.bo.service.dependency;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.common.ModuleReferenceList;
-import org.qedeq.kernel.bo.common.PluginExecutor;
-import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.ControlVisitor;
+import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.se.common.Plugin;
 
 
@@ -47,7 +47,7 @@ public final class LoadAllRequiredModulesExecutor extends ControlVisitor
         super(plugin, prop);
     }
 
-    public Object executePlugin(final ServiceProcess process, final Object data) {
+    public Object executePlugin(final InternalServiceProcess process, final Object data) {
         if (getQedeqBo().hasLoadedRequiredModules()) {
             return Boolean.TRUE;
         }

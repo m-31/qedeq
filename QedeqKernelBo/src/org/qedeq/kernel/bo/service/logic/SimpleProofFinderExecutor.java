@@ -20,8 +20,6 @@ import java.io.File;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
-import org.qedeq.kernel.bo.common.PluginExecutor;
-import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.log.ModuleLogListener;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.ProofFinderFactoryImpl;
@@ -30,7 +28,9 @@ import org.qedeq.kernel.bo.logic.proof.common.ProofFinderFactory;
 import org.qedeq.kernel.bo.logic.proof.common.ProofFoundException;
 import org.qedeq.kernel.bo.logic.proof.common.ProofNotFoundException;
 import org.qedeq.kernel.bo.module.ControlVisitor;
+import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
@@ -116,7 +116,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
         this.parameters = parameters;
     }
 
-    public Object executePlugin(final ServiceProcess process, final Object data) {
+    public Object executePlugin(final InternalServiceProcess process, final Object data) {
         getServices().checkWellFormedness(getQedeqBo(), process);
         QedeqLog.getInstance().logRequest("Trying to create formal proofs", getQedeqBo().getUrl());
         try {

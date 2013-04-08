@@ -16,10 +16,10 @@
 package org.qedeq.kernel.bo.service.logic;
 
 import org.qedeq.base.io.Parameters;
-import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.logic.ProofCheckerFactoryImpl;
 import org.qedeq.kernel.bo.module.InternalPluginBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.PluginExecutor;
 
 
 /**

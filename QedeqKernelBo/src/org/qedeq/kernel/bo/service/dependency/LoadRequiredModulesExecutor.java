@@ -21,12 +21,12 @@ import java.util.Map;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.kernel.bo.common.PluginExecutor;
-import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.ControlVisitor;
+import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
@@ -56,7 +56,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         super(plugin, prop);
     }
 
-    public Object executePlugin(final ServiceProcess process, final Object data) {
+    public Object executePlugin(final InternalServiceProcess process, final Object data) {
         final String method = "executePlugin";
         if (getQedeqBo().hasLoadedRequiredModules()) {
             return Boolean.TRUE; // everything is OK

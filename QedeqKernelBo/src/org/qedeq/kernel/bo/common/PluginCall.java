@@ -16,6 +16,7 @@
 package org.qedeq.kernel.bo.common;
 
 import org.qedeq.base.io.Parameters;
+import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.se.common.Plugin;
 
 

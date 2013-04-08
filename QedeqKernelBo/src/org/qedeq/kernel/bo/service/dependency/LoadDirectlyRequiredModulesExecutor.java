@@ -17,11 +17,11 @@ package org.qedeq.kernel.bo.service.dependency;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.common.PluginExecutor;
-import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.ControlVisitor;
+import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
 import org.qedeq.kernel.se.common.ModuleContext;
@@ -57,7 +57,7 @@ public final class LoadDirectlyRequiredModulesExecutor extends ControlVisitor
         super(plugin, prop);
     }
 
-    public Object executePlugin(final ServiceProcess process, final Object data) {
+    public Object executePlugin(final InternalServiceProcess process, final Object data) {
         if (getQedeqBo().hasLoadedImports()) {
             return getQedeqBo().getRequiredModules();
         }

@@ -13,7 +13,8 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.common;
+package org.qedeq.kernel.bo.module;
+
 
 
 /**
@@ -30,7 +31,7 @@ public interface PluginExecutor {
      * @param   data        Process execution data.
      * @return  Plugin specific resulting object. Might be <code>null</code>.
      */
-    public Object executePlugin(final ServiceProcess process, final Object data);
+    public Object executePlugin(final InternalServiceProcess process, final Object data);
 
     /**
      * Get percentage of currently running plugin execution.

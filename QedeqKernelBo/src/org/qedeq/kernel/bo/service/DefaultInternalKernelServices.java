@@ -39,6 +39,7 @@ import org.qedeq.kernel.bo.common.ServiceModule;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
+import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.dependency.LoadAllRequiredModulesPlugin;
@@ -812,7 +813,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         return prop.hasLoadedRequiredModules();
     }
 
-    public boolean loadRequiredModules(final KernelQedeqBo qedeq, final ServiceProcess process) {
+    public boolean loadRequiredModules(final KernelQedeqBo qedeq, final InternalServiceProcess process) {
         // did we check this already?
         if (qedeq.hasLoadedRequiredModules()) {
             return true; // everything is OK
@@ -832,7 +833,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         return prop.isWellFormed();
     }
 
-    public boolean checkWellFormedness(final KernelQedeqBo qedeq, final ServiceProcess process) {
+    public boolean checkWellFormedness(final KernelQedeqBo qedeq, final InternalServiceProcess process) {
         // did we check this already?
         if (qedeq.isWellFormed()) {
             return true; // everything is OK
@@ -853,7 +854,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         return prop.isFullyFormallyProved();
     }
 
-    public boolean checkFormallyProved(final KernelQedeqBo qedeq, final ServiceProcess process) {
+    public boolean checkFormallyProved(final KernelQedeqBo qedeq, final InternalServiceProcess process) {
         // did we check this already?
         if (qedeq.isFullyFormallyProved()) {
             return true; // everything is OK
@@ -882,7 +883,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     }
 
     public Object executePlugin(final String id, final KernelQedeqBo qedeq, final Object data,
-            final ServiceProcess process) {
+            final InternalServiceProcess process) {
         return processManager.executePlugin(id, qedeq, data, process);
     }
 

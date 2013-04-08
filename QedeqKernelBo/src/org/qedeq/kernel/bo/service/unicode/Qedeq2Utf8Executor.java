@@ -24,10 +24,10 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.KernelContext;
-import org.qedeq.kernel.bo.common.PluginExecutor;
-import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.log.QedeqLog;
+import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
@@ -82,7 +82,7 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
         visitor = new Qedeq2UnicodeVisitor(plugin, prop, info , maxColumns, true, brief);
     }
 
-    public Object executePlugin(final ServiceProcess process, final Object data) {
+    public Object executePlugin(final InternalServiceProcess process, final Object data) {
         final String method = "executePlugin()";
         try {
             QedeqLog.getInstance().logRequest("Generate UTF-8", visitor.getQedeqBo().getUrl());
@@ -135,7 +135,7 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException     File IO failed.
      */
-    public String generateUtf8(final ServiceProcess process, final String language, final String level)
+    public String generateUtf8(final InternalServiceProcess process, final String language, final String level)
             throws SourceFileExceptionList, IOException {
 
         // first we try to get more information about required modules and their predicates..

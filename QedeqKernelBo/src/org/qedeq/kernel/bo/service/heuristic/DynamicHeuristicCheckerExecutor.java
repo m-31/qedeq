@@ -17,8 +17,6 @@ package org.qedeq.kernel.bo.service.heuristic;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.common.PluginExecutor;
-import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.bo.logic.model.DynamicDirectInterpreter;
@@ -29,8 +27,10 @@ import org.qedeq.kernel.bo.logic.model.HeuristicException;
 import org.qedeq.kernel.bo.logic.model.ModelFunctionConstant;
 import org.qedeq.kernel.bo.logic.model.ModelPredicateConstant;
 import org.qedeq.kernel.bo.module.ControlVisitor;
+import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
+import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.ConditionalProof;
@@ -103,7 +103,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         this.interpreter = new DynamicDirectInterpreter(qedeq, model);
     }
 
-    public Object executePlugin(final ServiceProcess process, final Object data) {
+    public Object executePlugin(final InternalServiceProcess process, final Object data) {
         final String method = "executePlugin()";
         try {
             QedeqLog.getInstance().logRequest("Dynamic heuristic test", getQedeqBo().getUrl());

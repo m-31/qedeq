@@ -15,9 +15,6 @@
 
 package org.qedeq.kernel.bo.common;
 
-import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.KernelQedeqBoSet;
-
 
 /**
  * Process info for a kernel service.
@@ -83,16 +80,6 @@ public interface ServiceProcess extends Comparable {
     public long getStop();
 
     /**
-     * Mark that thread execution has normally ended.
-     */
-    public void setSuccessState();
-
-    /**
-     * Mark that thread execution was canceled.
-     */
-    public void setFailureState();
-
-    /**
      * Is the process still running?
      *
      * @return  The process is still running. (But it might be blocked.)
@@ -105,13 +92,6 @@ public interface ServiceProcess extends Comparable {
      * @return  Process is running and blocked.
      */
     public boolean isBlocked();
-
-    /**
-     * Set blocked state.
-     *
-     * @param   blocked Blocked state.
-     */
-    public void setBlocked(final boolean blocked);
 
     /**
      * Has the process normally ended?
@@ -161,14 +141,6 @@ public interface ServiceProcess extends Comparable {
      * @return  Blocked QEDEQ modules.
      */
     public QedeqBoSet getBlockedModules();
-
-    public void addBlockedModules(KernelQedeqBoSet set);
-
-    public void addBlockedModule(KernelQedeqBo element);
-
-    public void removeBlockedModules(KernelQedeqBoSet set);
-
-    public void removeBlockedModule(KernelQedeqBo element);
 
     /**
      * Get process id.

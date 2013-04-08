@@ -31,12 +31,12 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.DateUtility;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.kernel.bo.common.PluginExecutor;
-import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.ControlVisitor;
+import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.bo.module.Reference;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
@@ -162,7 +162,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         brief = parameters.getBoolean("brief");
     }
 
-    public Object executePlugin(final ServiceProcess process, final Object data) {
+    public Object executePlugin(final InternalServiceProcess process, final Object data) {
         final String method = "executePlugin(QedeqBo, Map)";
         try {
             QedeqLog.getInstance().logRequest("Generate LaTeX", getQedeqBo().getUrl());
@@ -216,7 +216,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException File IO failed.
      */
-    public InputStream createLatex(final ServiceProcess process, final String language, final String level)
+    public InputStream createLatex(final InternalServiceProcess process, final String language, final String level)
             throws SourceFileExceptionList, IOException {
         return new FileInputStream(generateLatex(process, language, level));
     }
@@ -233,7 +233,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException     File IO failed.
      */
-    public File generateLatex(final ServiceProcess process, final String language, final String level)
+    public File generateLatex(final InternalServiceProcess process, final String language, final String level)
             throws SourceFileExceptionList, IOException {
         final String method = "generateLatex(String, String)";
         this.language = language;

@@ -24,7 +24,6 @@ import org.qedeq.base.io.Version;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.FormulaCheckerFactoryImpl;
@@ -38,9 +37,11 @@ import org.qedeq.kernel.bo.logic.common.PredicateConstant;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
 import org.qedeq.kernel.bo.logic.wf.FormulaCheckerImpl;
 import org.qedeq.kernel.bo.module.ControlVisitor;
+import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceChecker;
+import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.bo.service.dependency.LoadRequiredModulesPlugin;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
@@ -140,7 +141,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         return parameters;
     }
 
-    public Object executePlugin(final ServiceProcess process, final Object data) {
+    public Object executePlugin(final InternalServiceProcess process, final Object data) {
         if (getQedeqBo().isWellFormed()) {
             return Boolean.TRUE;
         }

@@ -24,11 +24,12 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.PluginCall;
-import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.log.QedeqLog;
+import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
+import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.visitor.InterruptException;
 
@@ -108,8 +109,8 @@ public class ServiceProcessManager {
      * @return  Created process.
      */
     public synchronized PluginCallImpl createPluginCall(final Plugin service,
-            final KernelQedeqBo qedeq, final Parameters parameters, final ServiceProcess process,
-            final PluginCall parent) {
+            final KernelQedeqBo qedeq, final Parameters parameters,
+            final InternalServiceProcess process, final PluginCall parent) {
         final PluginCallImpl call = new PluginCallImpl(service, qedeq, parameters, process, parent);
         calls.add(call);
         return call;
@@ -145,7 +146,7 @@ public class ServiceProcessManager {
      * @throws  RuntimeException    Plugin unknown.
      */
     Object executePlugin(final String id, final KernelQedeqBo qedeq, final Object data,
-            final ServiceProcess proc) {
+            final InternalServiceProcess proc) {
         final String method = "executePlugin(String, KernelQedeqBo, Object)";
         final PluginBo plugin = pluginManager.getPlugin(id);
         if (plugin == null) {
@@ -156,7 +157,7 @@ public class ServiceProcessManager {
             throw e;
         }
         final Parameters parameters = KernelContext.getInstance().getConfig().getPluginEntries(plugin);
-        ServiceProcess process = null;
+        InternalServiceProcess process = null;
         if (proc != null) {
             if (!proc.isRunning()) {
                 return null;

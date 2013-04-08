@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.IOException;
 
 import org.qedeq.kernel.bo.common.KernelProperties;
-import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -91,7 +90,7 @@ public interface InternalKernelServices extends KernelProperties {
      * @param   process Working process.
      * @return  Successful loading.
      */
-    public boolean loadRequiredModules(KernelQedeqBo qedeq, ServiceProcess process);
+    public boolean loadRequiredModules(KernelQedeqBo qedeq, InternalServiceProcess process);
 
     /**
      * Check if all formulas of a QEDEQ module and its required modules are well formed.
@@ -100,7 +99,7 @@ public interface InternalKernelServices extends KernelProperties {
      * @param   process Working process.
      * @return  Was check successful?
      */
-    public boolean checkWellFormedness(KernelQedeqBo qedeq, ServiceProcess process);
+    public boolean checkWellFormedness(KernelQedeqBo qedeq, InternalServiceProcess process);
 
     /**
      * Check if all propositions of this and all required modules have correct formal proofs.
@@ -109,7 +108,7 @@ public interface InternalKernelServices extends KernelProperties {
      * @param   process Working process.
      * @return  Was check successful?
      */
-    public boolean checkFormallyProved(KernelQedeqBo qedeq, ServiceProcess process);
+    public boolean checkFormallyProved(KernelQedeqBo qedeq, InternalServiceProcess process);
 
     /**
      * Execute plugin on given QEDEQ module.
@@ -121,7 +120,7 @@ public interface InternalKernelServices extends KernelProperties {
      * @return  Plugin specific resulting object. Might be <code>null</code>.
      */
     public Object executePlugin(final String id, final KernelQedeqBo qedeq, final Object data,
-        final ServiceProcess parent);
+        final InternalServiceProcess parent);
 
     /**
      * Get DAO for reading and writing QEDEQ modules from or to a file.

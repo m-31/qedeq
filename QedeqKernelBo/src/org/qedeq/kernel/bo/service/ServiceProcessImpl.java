@@ -20,6 +20,7 @@ import org.qedeq.kernel.bo.common.PluginCall;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.QedeqBoSet;
 import org.qedeq.kernel.bo.common.ServiceProcess;
+import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBoSet;
 
@@ -28,7 +29,7 @@ import org.qedeq.kernel.bo.module.KernelQedeqBoSet;
  *
  * @author  Michael Meyling
  */
-public class ServiceProcessImpl implements ServiceProcess {
+public class ServiceProcessImpl implements InternalServiceProcess {
 
     /** This class. */
     private static final Class CLASS = ServiceProcessImpl.class;
