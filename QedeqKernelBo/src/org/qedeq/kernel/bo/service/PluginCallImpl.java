@@ -30,9 +30,6 @@ import org.qedeq.kernel.se.common.Plugin;
  */
 public class PluginCallImpl implements PluginCall {
 
-    /** This class. */
-    private static final Class CLASS = PluginCallImpl.class;
-
     /** Counter for each service call. */
     private static volatile long globalCounter;
 
@@ -118,10 +115,20 @@ public class PluginCallImpl implements PluginCall {
         return parameters;
     }
 
+    /**
+     * Get current executor for this call.
+     *
+     * @return  Current executor, might be <code>null</code>.
+     */
     public synchronized PluginExecutor getExecutor() {
         return executor;
     }
 
+    /**
+     * Set current executor for this call.
+     *
+     * @param   executor    Executor, might be <code>null</code>.
+     */
     public synchronized void setExecutor(final PluginExecutor executor) {
         this.executor = executor;
     }
