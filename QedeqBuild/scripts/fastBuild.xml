@@ -14,11 +14,13 @@
 	<import file="releaseBuild.xml" />
 
     <target name="clean">
-        <delete dir="${qedeq.dest.module}" failonerror="false" />
+        <delete dir="${qedeq.dest}" failonerror="true" />
+        <mkdir dir="${qedeq.dest}" />
+        <delete dir="${qedeq.dest.module}" failonerror="true" />
         <mkdir dir="${qedeq.dest.module}" />
-        <delete dir="${qedeq.dist}" failonerror="false"/>
+        <delete dir="${qedeq.dist}" failonerror="true"/>
         <mkdir dir="${qedeq.dist}" />
-        <delete dir="${qedeq.temp}" failonerror="false" />
+        <delete dir="${qedeq.temp}" failonerror="true" />
         <mkdir dir="${qedeq.temp}"/>
         <clean name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase" />
         <clean name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe" />
