@@ -33,6 +33,7 @@ class TerminateAllAction extends AbstractAction {
      * Constructor.
      */
     TerminateAllAction() {
+        // nothing to do here
     }
 
     public void actionPerformed(final ActionEvent e) {
