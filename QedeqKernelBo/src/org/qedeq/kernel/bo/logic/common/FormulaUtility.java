@@ -37,6 +37,7 @@ public final class FormulaUtility implements Operators {
      *
      */
     private FormulaUtility() {
+        // nothing to do here
     }
 
     /**
@@ -318,8 +319,11 @@ public final class FormulaUtility implements Operators {
                 all.union(getPartFormulas(list.getElement(i)));
             }
         } else if (isSubjectVariable(list)) {
+            // this is no formula
         } else if (isFunctionVariable(list)) {
+            // this is no formula
         } else if (isFunctionConstant(list)) {
+            // this is no formula
         } else {
             for (int i = 0; i < list.size(); i++) {
                 all.union(getPartFormulas(list.getElement(i)));
