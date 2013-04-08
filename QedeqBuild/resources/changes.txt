@@ -6,7 +6,7 @@ Version History
 =======
 
 Functional Changes
-------------------  
+------------------
 
   Extensions
   ----------
