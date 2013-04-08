@@ -1,7 +1,7 @@
 Code Name:   gaffsie
-Version:     0.04.05
-Timestamp:   2013-02-04 22:36:16
-Subversion:  qedeq_unstable_0_04_05_20130204223616
+Version:     0.04.06
+Timestamp:   2013-04-08 18:50:00
+Subversion:  qedeq_unstable_0_04_06_20130408185000
 
 This is an unstable development release of *Hilbert II*. Once again 
 this release is not completely tested, not all FIXMEs were solved, 
@@ -12,7 +12,7 @@ This release contains a program suite that can produce LaTeX files
 and UTF-8 text files out of QEDEQ XML files. The QEDEQ files can be
 checked for syntactic correctness. Part of this suite is also a
 semantical checker for some finite models of set theory. So you
-can check which formula is valid in which model. Integrated is
+can check which formula is valid in which model. Also integrated is
 a proof checker that can verify the integrity of very simple formal
 proofs.
 
@@ -25,8 +25,8 @@ propositions are written in a formal language. A fully formal
 mathematical development can be found in 
 "doc/math/qedeq_formal_logic_v1_en.pdf". It contains all necessary
 axioms and inference rules for predicate calculus. Here you find
-logical propositions and their formal proofs. A first meta rule
-- conditional proof - is also introduced and can also be checked
+several logical propositions and their formal proofs. A first meta 
+rule - conditional proof - is also introduced and can also be checked
 with the proof checker. This document will be constantly updated.
 
 See "sample/qedeq_sample3.xml" for some other
@@ -40,9 +40,9 @@ So one question remains: why is this a "gaffsie" release and not a
 "misabel"? We can write down formal proofs and check them!
 Yes that is true, but we still can only write very simple formal
 proofs; and although the proof checkers were tested there are still
-some JUnit tests to write and the documentation of the formal
+some more JUnit tests to write and the documentation of the formal
 language should contain the possible error codes.
-So you see there is some work left before calling it a "misabel"
+So you see there is still some work left before calling it a "misabel"
 release...
 
 Precondition to start the program is a Java Runtime Environment, at
