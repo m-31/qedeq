@@ -87,10 +87,10 @@ Final Release
   + browse
   + create new entry in tags: right mouse click and new tag directory
   + choose destination folder
-    https://pmii.svn.sourceforge.net/svnroot/pmii/tags/qedeq_unstable_0_04_05_20130204223616
+    https://pmii.svn.sourceforge.net/svnroot/pmii/tags/qedeq_unstable_0_04_06_20130224225801
     and check "create intermediate folders" 
     for QedeqKernelSe for example:
-    https://pmii.svn.sourceforge.net/svnroot/pmii/tags/qedeq_unstable_0_04_05_20130204223616/QedeqKernelSe
+    https://pmii.svn.sourceforge.net/svnroot/pmii/tags/qedeq_unstable_0_04_06_20130224225801/QedeqKernelSe
     with version as comment
 
 
