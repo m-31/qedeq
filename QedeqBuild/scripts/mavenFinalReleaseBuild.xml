@@ -140,7 +140,7 @@
         <!-- TODO only unix is supported -->
         <exec failonerror="true" dir="${PomDir}/target" executable="sh">
             <arg value="-c" />
-            <arg value="find . -name &quot;qedeq_*.jar&quot; -exec gpg -as '{}' \;" />
+            <arg value="find . -name &quot;qedeq_*.jar&quot; -exec gpg --detach-sign -as '{}' \;" />
         </exec> 
         <echo>----------------------------------</echo>
     </target>
