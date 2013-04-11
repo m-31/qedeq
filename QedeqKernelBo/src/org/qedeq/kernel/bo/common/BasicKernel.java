@@ -29,7 +29,7 @@ public final class BasicKernel implements KernelProperties {
 
 
     /** Version of this kernel. */
-    private static final String KERNEL_VERSION = "0.04.06";
+    private static final String KERNEL_VERSION = "0.04.07";
 
     /** Version dependent directory of this kernel. */
     private static final String KERNEL_VERSION_DIRECTORY = KERNEL_VERSION.replace('.', '_');
@@ -39,8 +39,7 @@ public final class BasicKernel implements KernelProperties {
 
     /** Kernel version dedication. */
     private static final String KERNEL_DEDICATED
-        = "dedicated to the the blade runner Rick Deckard and the glittering c-beams in the dark "
-            + "near the Tannh\u00e4user Gate";
+        = "dedicated to Aang, who had been encased within a sphere of ice for one hundred years.";
 
     /** Descriptive version information of this kernel. */
     private static final String DESCRIPTIVE_KERNEL_VERSION
