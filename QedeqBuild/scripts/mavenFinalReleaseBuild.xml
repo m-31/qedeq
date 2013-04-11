@@ -97,6 +97,7 @@
         </antcall>
 
         <!--  GUI -->
+<!--         
         <antcall target="execMaven">
             <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_gui_se"/>
             <param name="MvnArguments" value="source:jar"/>
@@ -112,6 +113,7 @@
         <antcall target="execSignJars">
             <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_gui_se"/>
         </antcall>
+-->
      </target>   
 
     <!-- for antcalls with parameters ${PomDir} and ${MvnArguments}-->
