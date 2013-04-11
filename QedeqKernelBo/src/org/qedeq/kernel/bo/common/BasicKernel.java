@@ -39,7 +39,7 @@ public final class BasicKernel implements KernelProperties {
 
     /** Kernel version dedication. */
     private static final String KERNEL_DEDICATED
-        = "dedicated to Aang, who had been encased within a sphere of ice for one hundred years.";
+        = "dedicated to Aang, who had been encased within a sphere of ice for one hundred years";
 
     /** Descriptive version information of this kernel. */
     private static final String DESCRIPTIVE_KERNEL_VERSION
