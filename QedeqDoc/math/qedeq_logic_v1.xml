@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QEDEQ
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_06/xml/qedeq.xsd">
+    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_07/xml/qedeq.xsd">
   <HEADER email="mime@qedeq.org">
     <SPECIFICATION name="qedeq_logic_v1" ruleVersion="1.00.00">
       <LOCATIONS>
-        <LOCATION value="http://wwww.qedeq.org/0_04_06/doc/math"/>
+        <LOCATION value="http://wwww.qedeq.org/0_04_07/doc/math"/>
       </LOCATIONS>
     </SPECIFICATION>
     <TITLE>
@@ -252,7 +252,7 @@
           %%% TODO explain XSD, XML etc.
 
           \par          
-          Even this document is (or was generated) from an XML file that can be found here: \url{http://wwww.qedeq.org/0_04_06/doc/math/qedeq_logic_v1.xml}.
+          Even this document is (or was generated) from an XML file that can be found here: \url{http://wwww.qedeq.org/0_04_07/doc/math/qedeq_logic_v1.xml}.
           But now we just follow the traditional mathematical way to present the elements of mathematical logic.
         ]]>
       </LATEX>
@@ -264,7 +264,7 @@
           Weitere Syntaxbeschränkungen und einige Erklärungen werden beschrieben in \url{http://www.qedeq.org/current/doc/project/qedeq_logic_language_en.pdf}.
 
           \par
-          Auch dieses Dokument ist eine (oder wurde erzeugt aus einer) XML-Datei, die hier zu finden ist \url{http://wwww.qedeq.org/0_04_06/doc/math/qedeq_logic_v1.xml}.
+          Auch dieses Dokument ist eine (oder wurde erzeugt aus einer) XML-Datei, die hier zu finden ist \url{http://wwww.qedeq.org/0_04_07/doc/math/qedeq_logic_v1.xml}.
           Aber nun folgen wir einfach dem traditionellen mathematischen Weg, die Anfangsgünde der mathematischen Logik vorzustellen.
         ]]>
       </LATEX>
