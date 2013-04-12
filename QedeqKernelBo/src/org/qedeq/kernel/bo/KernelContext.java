@@ -67,6 +67,15 @@ public final class KernelContext implements KernelProperties, KernelServices {
 
         public void init(final QedeqConfig config, final ServiceModule moduleServices, final KernelProperties basic)
                 throws IOException {
+            if (config == null) {
+                throw new NullPointerException("QedeqConfig is null");
+            }
+            if (moduleServices == null) {
+                throw new NullPointerException("ServiceModule is null");
+            }
+            if (basic == null) {
+                throw new NullPointerException("KernelProperties is null");
+            }
             KernelContext.this.config = config;
             KernelContext.this.basic = basic;
             Trace.setTraceOn(config.isTraceOn());
@@ -107,6 +116,8 @@ public final class KernelContext implements KernelProperties, KernelServices {
             // close stream and associated channel
             IoUtility.close(lockStream);
             lockStream = null;
+            config = null;
+            services = null;
         }
 
         public void removeAllModules() {
@@ -311,13 +322,15 @@ public final class KernelContext implements KernelProperties, KernelServices {
         public void shutdown() {
             try {
                 final ModuleAddress[] addresses = services.getAllLoadedModules();
-                final String[] buffer = new String[addresses.length];
-                for (int i = 0; i < addresses.length; i++) {
-                    buffer[i] = addresses[i].toString();
+                if (addresses != null) {
+                    final String[] buffer = new String[addresses.length];
+                    for (int i = 0; i < addresses.length; i++) {
+                        buffer[i] = addresses[i].toString();
+                    }
+                    getConfig().setPreviouslyLoadedModules(buffer);
+                    getConfig().store();
+                    QedeqLog.getInstance().logMessage("Current config file successfully saved.");
                 }
-                getConfig().setPreviouslyLoadedModules(buffer);
-                getConfig().store();
-                QedeqLog.getInstance().logMessage("Current config file successfully saved.");
             } catch (IOException e) {
                 Trace.trace(CLASS, this, "shutdown()", e);
                 QedeqLog.getInstance().logMessage("Saving current config file failed.");
@@ -483,9 +496,10 @@ public final class KernelContext implements KernelProperties, KernelServices {
     /**
      * Init the kernel.
      *
-     * @param   config          Configuration access.
-     * @param   moduleServices  Services for the kernel.
-     * @throws  IOException     Initialization failure.
+     * @param   config                  Configuration access. Must not be <code>null</code>.
+     * @param   moduleServices          Services for the kernel. Must not be <code>null</code>.
+     * @throws  IllegalStateException   Kernel is already initialized.
+     * @throws  IOException             Initialization failure.
      */
     public void init(final QedeqConfig config, final ServiceModule moduleServices) throws IOException {
         currentState.init(config, moduleServices, basic);
