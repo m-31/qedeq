@@ -13,18 +13,18 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.common;
+package org.qedeq.kernel.bo;
 
 import junit.framework.Test;
 
 import org.qedeq.base.test.QedeqTestSuite;
 
 /**
- * Run all JUnit tests for package org.qedeq.kernel.bo.common.
+ * Run all JUnit tests for package org.qedeq.kernel.bo.
  *
  * @author    Michael Meyling
  */
-public class KernelBoCommonTestSuite extends QedeqTestSuite {
+public class KernelBoTestSuite extends QedeqTestSuite {
 
     /**
      * Get a new test suite.
@@ -32,15 +32,15 @@ public class KernelBoCommonTestSuite extends QedeqTestSuite {
      * @return  Test.
      */
     public static Test suite() {
-        return new KernelBoCommonTestSuite();
+        return new KernelBoTestSuite();
     }
 
     /**
      * Constructor.
      */
-    public KernelBoCommonTestSuite() {
+    public KernelBoTestSuite() {
         super();
-        addTestSuite(BasicKernelTest.class);
+        addTestSuite(KernelContextTest.class);
     }
 
 }
