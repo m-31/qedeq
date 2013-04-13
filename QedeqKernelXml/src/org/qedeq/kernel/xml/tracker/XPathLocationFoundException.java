@@ -23,12 +23,12 @@ import org.xml.sax.SAXException;
  *
  * @author    Michael Meyling
  */
-public class LocationFoundException extends SAXException {
+public class XPathLocationFoundException extends SAXException {
 
     /**
      * Constructor.
      */
-    public LocationFoundException() {
+    public XPathLocationFoundException() {
         super("Location found!");
     }
 

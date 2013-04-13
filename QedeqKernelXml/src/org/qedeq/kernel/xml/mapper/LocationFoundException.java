@@ -21,7 +21,6 @@ import org.qedeq.kernel.se.common.ModuleDataException;
 /**
  * Thrown if the location was found.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class LocationFoundException extends ModuleDataException {

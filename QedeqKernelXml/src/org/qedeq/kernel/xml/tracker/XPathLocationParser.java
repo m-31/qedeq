@@ -249,7 +249,7 @@ public final class XPathLocationParser extends SimpleHandler {
 //                }});
             stream = new FileInputStream(file);
             reader.parse(new InputSource(stream));
-        } catch (LocationFoundException e) {
+        } catch (XPathLocationFoundException e) {
             // this is what we want!!!
         } catch (SAXException e) {
             Trace.trace(CLASS, this, "parse", e);
@@ -420,7 +420,7 @@ public final class XPathLocationParser extends SimpleHandler {
                             start = new SourcePosition(row, col);
                             xml.readNextAttributeValue();
                             end = new SourcePosition(xml.getRow(), xml.getColumn());
-                            throw new LocationFoundException();
+                            throw new XPathLocationFoundException();
                         }
                         try {
                             xml.readNextAttributeValue();
@@ -431,7 +431,7 @@ public final class XPathLocationParser extends SimpleHandler {
                     // did we found the attribute? if not we point to the complete xml tag
                     if (end == null) {
                         end = new SourcePosition(xml.getRow(), xml.getColumn());
-                        throw new LocationFoundException();
+                        throw new XPathLocationFoundException();
                     }
                 }
             } finally {
@@ -526,7 +526,7 @@ public final class XPathLocationParser extends SimpleHandler {
                 xml.setColumn(getLocator().getColumnNumber());
                 // xml.skipForwardToEndOfXmlTag(); // LATER mime 20050810: remove? comment in?
                 end = new SourcePosition(xml.getRow(), xml.getColumn());
-                throw new LocationFoundException();
+                throw new XPathLocationFoundException();
             } finally {
                 IoUtility.close(xml);   // findbugs
             }
