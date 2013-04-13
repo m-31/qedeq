@@ -91,13 +91,18 @@ public final class XPathLocationFinder {
         }
         if (xpath == null) {
             printProgramInformation();
-            System.err.println("XPath file must be specified.");
+            System.err.println("XPath must be specified.");
             return;
         }
         System.out.println(StringUtility.getClassName(XPathLocationFinder.class) + ", running on: "
             + KernelContext.getInstance().getDescriptiveKernelVersion());
-        SourceArea result = XPathLocationParser.findSourceArea(new File(from), new SimpleXPath(xpath));
-        System.out.println(result);
+        try {
+            final SimpleXPath sXPath = new SimpleXPath(xpath);
+            SourceArea result = XPathLocationParser.findSourceArea(new File(from), new SimpleXPath(xpath));
+            System.out.println(result);
+        } catch (RuntimeException e) {
+            System.err.println(e);
+        }
     }
 
     /**
@@ -118,7 +123,7 @@ public final class XPathLocationFinder {
         System.err.println(
             "This program finds the location of a given simple XPath in an XML file.");
         System.err.println();
-        System.err.println("Options and Parameter");
+        System.err.println("Options and Parameters");
         System.err.println("---------------------");
         System.err.println("-h             writes this text and returns");
         System.err.println("-xpath         set the language filter (default: \"en\")");

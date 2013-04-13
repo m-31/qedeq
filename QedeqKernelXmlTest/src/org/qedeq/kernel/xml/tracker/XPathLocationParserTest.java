@@ -22,9 +22,8 @@ import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.trace.Trace;
 
 /**
- * Test {@link org.qedeq.kernel.xml.tracker.XPathLocationFinder}.
+ * Test {@link org.qedeq.kernel.xml.tracker.XPathLocationParser}.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class XPathLocationParserTest extends QedeqTestCase {
@@ -41,7 +40,7 @@ public class XPathLocationParserTest extends QedeqTestCase {
     }
 
     /**
-     * Test {@link XPathLocationFinder}.
+     * Test {@link XPathLocationParser}.
      *
      * @throws Exception Test failed.
      */
