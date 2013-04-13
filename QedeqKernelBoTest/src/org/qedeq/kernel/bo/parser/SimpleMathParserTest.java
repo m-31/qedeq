@@ -246,4 +246,9 @@ public class SimpleMathParserTest extends AbstractParserTestCase {
         internalTest(28);
     }
 
+    protected String[][] getExceptionTest() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

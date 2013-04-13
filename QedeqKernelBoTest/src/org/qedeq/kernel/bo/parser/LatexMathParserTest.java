@@ -109,4 +109,9 @@ public class LatexMathParserTest extends AbstractParserTestCase {
         internalTest(9);
     }
 
+    protected String[][] getExceptionTest() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

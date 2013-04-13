@@ -17,9 +17,8 @@ package org.qedeq.kernel.bo.parser;
 
 
 /**
- * There are too much arguments. A less number was expected.
+ * There are too much arguments. A lesser number was expected.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class TooMuchArgumentsException extends ParserException {

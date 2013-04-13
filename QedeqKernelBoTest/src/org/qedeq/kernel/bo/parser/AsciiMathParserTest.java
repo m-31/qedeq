@@ -176,6 +176,22 @@ public class AsciiMathParserTest extends AbstractParserTestCase {
         }
     };
 
+    private static String[][] exceptionTest = new String[][] {
+        {    // 00
+            "x <-> (y -> z",
+            "1:14:Closing bracket for \"(\" expected. Found: \"null\""
+        }, { // 01
+            "set(x, y)",
+            "1:7:Closing bracket for \"(\" expected. Found: \",\""
+        }, { // 02
+            "{x | y",
+            "1:7:End symbol not found: }"
+        }, { // 03
+            "{x | y | z}",
+            "1:7:End symbol not found: }"
+        }
+    };
+
     public AsciiMathParserTest(String arg0) {
         super(arg0);
     }
@@ -190,6 +206,10 @@ public class AsciiMathParserTest extends AbstractParserTestCase {
 
     protected String[][] getTest() {
         return test;
+    }
+
+    protected String[][] getExceptionTest() {
+        return exceptionTest;
     }
 
     protected MathParser createParser(final TextInput input) throws Exception {
@@ -401,4 +421,21 @@ public class AsciiMathParserTest extends AbstractParserTestCase {
     public void testReadMaximalTerm50() throws Exception {
         internalTest(50);
     }
+
+    public void testException00() throws Exception {
+        internalExceptionTest(00);
+    }
+
+    public void testException01() throws Exception {
+        internalExceptionTest(01);
+    }
+
+    public void testException02() throws Exception {
+        internalExceptionTest(02);
+    }
+
+    public void testException03() throws Exception {
+        internalExceptionTest(03);
+    }
+
 }
