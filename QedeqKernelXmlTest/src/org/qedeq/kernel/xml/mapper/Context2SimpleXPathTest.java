@@ -64,14 +64,11 @@ public class Context2SimpleXPathTest extends QedeqBoTestCase {
         assertEquals("/QEDEQ/CHAPTER/SECTION/SUBSECTIONS/NODE[3]", Context2SimpleXPath.getXPath(find, qedeq.getQedeq()).toString());
     }
 
-/** TODO 20130413 m31: why doesn't this work?
-    public void testGetXPath05() throws ModuleDataException {
+    public void pestGetXPath05() throws ModuleDataException {
         assertNotNull(qedeq.getQedeq().getChapterList().get(0).getSectionList().get(0).getSubsectionList().get(2));
         final ModuleContext find = new ModuleContext(qedeq.getModuleAddress(), "getChapterList().get(0).getSectionList().get(0).getSubsectionList().get(2)");
         assertEquals("/QEDEQ/CHAPTER/SECTION/SUBSECTIONS/NODE[3]", Context2SimpleXPath.getXPath(find, qedeq.getQedeq()).toString());
     }
-
-**/
 
     public void testGetXPath06() throws ModuleDataException {
         assertNotNull(qedeq.getQedeq().getChapterList().get(0).getSectionList().get(0).getSubsectionList().get(2).getNode().getNodeType().getPredicateDefinition().getFormula().getElement().getList());
