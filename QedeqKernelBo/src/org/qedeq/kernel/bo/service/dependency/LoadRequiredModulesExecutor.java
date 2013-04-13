@@ -94,7 +94,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         final SourceFileExceptionList sfl = new SourceFileExceptionList();
         Trace.trace(CLASS, this, method, "loading required modules of " + getQedeqBo().getUrl());
         for (int i = 0; i < required.size(); i++) {
-            percentage = 100 * (double)i / required.size();
+            percentage = 100 * (double) i / required.size();
             final KernelQedeqBo current = required.getKernelQedeqBo(i);
             if (loadingRequiredInProgress.containsKey(current)) {
                 ModuleDataException me = new LoadRequiredModuleException(
