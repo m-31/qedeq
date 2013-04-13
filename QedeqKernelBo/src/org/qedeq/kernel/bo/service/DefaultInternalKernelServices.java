@@ -810,6 +810,9 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         }
         loadModule(address);
         executePlugin(LoadRequiredModulesPlugin.class.getName(), prop, null, null);
+        if (validate) {
+            modules.validateDependencies();
+        }
         return prop.hasLoadedRequiredModules();
     }
 
@@ -830,6 +833,9 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         }
         loadModule(address);
         executePlugin(WellFormedCheckerPlugin.class.getName(), prop, null, null);
+        if (validate) {
+            modules.validateDependencies();
+        }
         return prop.isWellFormed();
     }
 
@@ -851,6 +857,9 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         }
         loadModule(address);
         executePlugin(FormalProofCheckerPlugin.class.getName(), prop, null, null);
+        if (validate) {
+            modules.validateDependencies();
+        }
         return prop.isFullyFormallyProved();
     }
 
