@@ -18,7 +18,6 @@ package org.qedeq.kernel.bo.parser;
 /**
  * Base for parser exceptions.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public abstract class ParserException extends Exception {
