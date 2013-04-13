@@ -195,6 +195,9 @@ public class AsciiMathParserTest extends AbstractParserTestCase {
         }, { // 05
             "function(x)",
             "1:12:To few arguments. Expected: 2"
+        }, { // 06
+            "= x",
+            "1:2:No operator expected, but found: =[2, ..], is infix"
         }
     };
 
@@ -450,6 +453,10 @@ public class AsciiMathParserTest extends AbstractParserTestCase {
 
     public void testException05() throws Exception {
         internalExceptionTest(05);
+    }
+
+    public void testException06() throws Exception {
+        internalExceptionTest(06);
     }
 
 }

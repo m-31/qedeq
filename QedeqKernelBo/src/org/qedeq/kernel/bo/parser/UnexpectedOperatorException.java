@@ -18,7 +18,6 @@ package org.qedeq.kernel.bo.parser;
 /**
  * Operator occurred unexpected.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class UnexpectedOperatorException extends ParserException {
