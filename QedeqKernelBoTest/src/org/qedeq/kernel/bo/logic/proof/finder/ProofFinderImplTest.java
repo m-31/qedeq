@@ -26,6 +26,7 @@ import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.log.ModuleLogListenerImpl;
 import org.qedeq.kernel.bo.logic.proof.common.ProofFinder;
 import org.qedeq.kernel.bo.logic.proof.common.ProofFoundException;
+import org.qedeq.kernel.bo.logic.proof.common.ProofNotFoundException;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
@@ -141,6 +142,55 @@ public class ProofFinderImplTest extends QedeqBoTestCase {
             fail("no proof found");
         } catch (ProofFoundException e) {
             assertNotNull(e.getProofLines());
+        }
+    }
+
+    /**
+     * Find a proof.
+     *
+     * @throws Exception
+     */
+    public void testFind3() throws Exception {
+        final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
+            "sample/qedeq_sample3.xml"));
+        KernelContext.getInstance().checkWellFormedness(address);
+        final KernelQedeqBo bo = (KernelQedeqBo) KernelContext.getInstance().getQedeqBo(address);
+        assertTrue(bo.isWellFormed());
+        assertNotNull(bo.getWarnings());
+        assertEquals(0, bo.getWarnings().size());
+        assertEquals(0, bo.getErrors().size());
+        final KernelNodeBo node = bo.getLabels().getNode("proposition:one");
+        final Proposition prop = node.getNodeVo().getNodeType().getProposition();
+        final ProofFinder finder = new ProofFinderImpl();
+        final FormalProofLineList original = prop.getFormalProofList().get(0)
+            .getFormalProofLineList();
+        final FormalProofLineListVo list = new FormalProofLineListVo();
+        for (int i = 0; i < 4; i++) {
+            list.add(original.get(i));
+        }
+        final Map parameters = new HashMap();
+        parameters.put("extraVars", "0");
+        parameters.put("maximumProofLines", "10");
+        parameters.put("propositionVariableOrder", "2");
+        parameters.put("propositionVariableWeight", "3");
+        parameters.put("partFormulaWeight", "0");
+        parameters.put("disjunctionOrder", "1");
+        parameters.put("disjunctionWeight", "3");
+        parameters.put("implicationWeight", "0");
+        parameters.put("negationWeight", "0");
+        parameters.put("conjunctionWeight", "0");
+        parameters.put("equivalenceWeight", "0");
+        try {
+            finder.findProof(prop.getFormula().getElement(), list,
+                DefaultModuleAddress.MEMORY.createModuleContext(), new Parameters(parameters),
+                new ModuleLogListenerImpl("memory", new PrintStream(new OutputStream() {
+                    public void write(int b) throws IOException {
+                    }})), bo.getElement2Utf8());
+            fail("no proof found");
+        } catch (ProofFoundException e) {
+            fail("should not find a proof");
+        } catch (ProofNotFoundException e) {
+            // expected
         }
     }
 
