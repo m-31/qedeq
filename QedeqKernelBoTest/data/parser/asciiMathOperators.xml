@@ -105,12 +105,20 @@
  		priority	="30"
  		min		="2"
  	/>
- 	<infixOperator 
- 		startSymbol	="inter"
- 		qedeq		="INTER"
- 		priority	="40"
- 		min		="2"
+    <infixOperator 
+        startSymbol ="inter"
+        qedeq       ="INTER"
+        priority    ="40"
+        min         ="2"
  	/>
+    <functionOperator 
+        startSymbol ="function"
+        qedeq       ="FUNC"
+        priority    ="40"
+        min         ="2"
+        max         ="3"
+    />
+
 </parser>
 <!--
         operators.add(new Operator("~",      "NOT",   110, 1, 1, 1));

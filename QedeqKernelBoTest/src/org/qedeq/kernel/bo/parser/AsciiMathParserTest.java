@@ -189,6 +189,12 @@ public class AsciiMathParserTest extends AbstractParserTestCase {
         }, { // 03
             "{x | y | z}",
             "1:7:End symbol not found: }"
+        }, { // 04
+            "function(x, y, z, u)",
+            "1:21:To much arguments for operator \"function[2, 3], is function, is prefix\". Maximum: 3"
+        }, { // 05
+            "function(x)",
+            "1:12:To few arguments. Expected: 2"
         }
     };
 
@@ -436,6 +442,14 @@ public class AsciiMathParserTest extends AbstractParserTestCase {
 
     public void testException03() throws Exception {
         internalExceptionTest(03);
+    }
+
+    public void testException04() throws Exception {
+        internalExceptionTest(04);
+    }
+
+    public void testException05() throws Exception {
+        internalExceptionTest(05);
     }
 
 }
