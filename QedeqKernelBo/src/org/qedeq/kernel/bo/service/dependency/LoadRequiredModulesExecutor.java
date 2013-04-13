@@ -44,6 +44,9 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
     /** This class. */
     private static final Class CLASS = LoadRequiredModulesExecutor.class;
 
+    /** Percentage between 0 and 100. */
+    private double percentage;
+
     /**
      * Constructor.
      *
@@ -57,6 +60,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
     }
 
     public Object executePlugin(final InternalServiceProcess process, final Object data) {
+        percentage = 0;
         final String method = "executePlugin";
         if (getQedeqBo().hasLoadedRequiredModules()) {
             return Boolean.TRUE; // everything is OK
@@ -90,6 +94,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         final SourceFileExceptionList sfl = new SourceFileExceptionList();
         Trace.trace(CLASS, this, method, "loading required modules of " + getQedeqBo().getUrl());
         for (int i = 0; i < required.size(); i++) {
+            percentage = 100 * (double)i / required.size();
             final KernelQedeqBo current = required.getKernelQedeqBo(i);
             if (loadingRequiredInProgress.containsKey(current)) {
                 ModuleDataException me = new LoadRequiredModuleException(
@@ -117,6 +122,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
                 continue;
             }
         }
+        percentage = 100;
 
         loadingRequiredInProgress.remove(getQedeqBo());
 
@@ -143,9 +149,8 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         return  Boolean.FALSE;
     }
 
-    // FIXME
     public double getExecutionPercentage() {
-        return 1;
+        return percentage;
     }
 
     public boolean getInterrupted() {
@@ -153,7 +158,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
     }
 
     public String getLocationDescription() {
-        return "running";
+        return super.getLocationDescription();
     }
 
 
