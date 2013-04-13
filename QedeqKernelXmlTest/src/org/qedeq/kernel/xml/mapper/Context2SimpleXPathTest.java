@@ -91,16 +91,11 @@ public class Context2SimpleXPathTest extends QedeqBoTestCase {
         }
     }
 
-    public void testGetXPath09() {
-        final ModuleContext find = new ModuleContext(qedeq.getModuleAddress(), "getChapterList().get(0).getSectionList().get(0).getSubsectionList().get(0).getUnknown()");
-        try {
-            Context2SimpleXPath.getXPath(find, qedeq.getQedeq());
-            fail("ModuleDataException expected");
-        } catch (ModuleDataException e) {
-            // expected
-        }
+    public void testGetXPath09() throws ModuleDataException {
+        final ModuleContext find = new ModuleContext(qedeq.getModuleAddress(), "getChapterList().get(0).getSectionList().get(0).getSubsectionList().get(2).getNode().getNodeType().getUnknown()");
+        assertEquals("/QEDEQ/CHAPTER/SECTION/SUBSECTIONS/NODE[3]",
+            Context2SimpleXPath.getXPath(find, qedeq.getQedeq()).toString());
     }
-
 
 
 }
