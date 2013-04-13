@@ -1099,9 +1099,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     private final void checkMatching(final String method)
             throws LocationNotFoundException, LocationFoundException {
         final String context = traverser.getCurrentContext().getLocationWithinModule();
-        System.out.println(context);
         if (find.getLocationWithinModule().startsWith(context)) {
-            System.out.println("matching");
             Trace.info(CLASS, this, method, "beginning matches");
             Trace.paramInfo(CLASS, this, method, "context", context);
             matching = true;
