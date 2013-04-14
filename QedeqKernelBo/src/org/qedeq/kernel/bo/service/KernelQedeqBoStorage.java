@@ -21,8 +21,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.QedeqBo;
+import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -85,8 +88,15 @@ class KernelQedeqBoStorage {
      */
     synchronized void validateDependencies() {
         final String method = "validateDependencies";
+        String url = StringUtils.EMPTY;
+        String text = StringUtils.EMPTY;
         boolean error = false;
         Trace.begin(CLASS, this, method);
+        for (final Iterator iterator = bos.entrySet().iterator(); iterator.hasNext(); ) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) entry.getValue();
+            prop.getStateManager().printDependencyTree();
+        }
         for (final Iterator iterator = bos.entrySet().iterator(); iterator.hasNext(); ) {
             Map.Entry entry = (Map.Entry) iterator.next();
             final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) entry.getValue();
@@ -103,6 +113,10 @@ class KernelQedeqBoStorage {
                 if (!dependents.contains(prop)) {
                     Trace.fatal(CLASS, this, method, ref.getUrl() + " missing dependent module: "
                         + prop.getUrl(), null);
+                    if (!error) {
+                        url = ref.getUrl();
+                        text = "missing dependent module " + prop.getUrl();
+                    }
                     error = true;
                 }
             }
@@ -112,10 +126,14 @@ class KernelQedeqBoStorage {
             for (int i = 0; i < dependents.size(); i++) {
                 final DefaultKernelQedeqBo dependent
                     = (DefaultKernelQedeqBo) dependents.getKernelQedeqBo(i);
-                final KernelModuleReferenceList refs2 = dependent.getDependentModules();
+                final KernelModuleReferenceList refs2 = dependent.getKernelRequiredModules();
                 if (!refs2.contains(prop)) {
                     Trace.fatal(CLASS, this, method, dependent.getUrl()
                         + " missing required module: " + prop.getUrl(), null);
+                    if (!error) {
+                        url = prop.getUrl();
+                        text = "missing required module " + prop.getUrl();
+                    }
                     error = true;
                 }
             }
@@ -124,8 +142,11 @@ class KernelQedeqBoStorage {
 
         // if the dependencies are not ok we throw an error!
         if (error) {
-            Error e = new Error("QEDEQ dependencies and status are flawed! This is a major error!");
+            Error e = new Error("QEDEQ dependencies and status are flawed! "
+                + "This is a major error! We do a kernel shutdown!");
             Trace.fatal(CLASS, this, method, "Shutdown because of major validation error", e);
+            QedeqLog.getInstance().logFailureReply(e.getMessage(), url, text);
+            KernelContext.getInstance().shutdown();
             throw e;
         }
     }
