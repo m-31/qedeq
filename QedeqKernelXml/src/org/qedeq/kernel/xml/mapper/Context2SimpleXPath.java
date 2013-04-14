@@ -1106,6 +1106,11 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
             matchingBegin = context;                    // remember matching context
             matchingPath = new SimpleXPath(current);    // remember last matching XPath
         } else {
+            if (context.startsWith(find.getLocationWithinModule())) {
+                // our current location is more specific than our search location
+                // so the current location is the best match for our search
+                throw new LocationFoundException(traverser.getCurrentContext());
+            }
             if (matching) {
                 // for example we are looking for "getHeader().getImportList().getImport(2)"
                 // getHeader()                    matches, we remember "getHeader()"

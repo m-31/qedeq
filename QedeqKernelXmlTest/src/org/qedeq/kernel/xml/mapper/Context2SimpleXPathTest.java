@@ -64,7 +64,7 @@ public class Context2SimpleXPathTest extends QedeqBoTestCase {
         assertEquals("/QEDEQ/CHAPTER/SECTION/SUBSECTIONS/NODE[3]", Context2SimpleXPath.getXPath(find, qedeq.getQedeq()).toString());
     }
 
-    public void pestGetXPath05() throws ModuleDataException {
+    public void testGetXPath05() throws ModuleDataException {
         assertNotNull(qedeq.getQedeq().getChapterList().get(0).getSectionList().get(0).getSubsectionList().get(2));
         final ModuleContext find = new ModuleContext(qedeq.getModuleAddress(), "getChapterList().get(0).getSectionList().get(0).getSubsectionList().get(2)");
         assertEquals("/QEDEQ/CHAPTER/SECTION/SUBSECTIONS/NODE[3]", Context2SimpleXPath.getXPath(find, qedeq.getQedeq()).toString());
