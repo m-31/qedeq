@@ -347,13 +347,6 @@ public final class UrlUtility {
                 URLConnection.class, "setReadTimeout",
                 new Class[] {Integer.TYPE});
 
-        /**
-         * Hidden constructor.
-         */
-        private LazyHolderTimeoutMethods() {
-            // nothing to do
-        }
-
     }
 
     /**
