@@ -285,7 +285,8 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     }
 
     /**
-     * Get labels and URLs of all directly dependent modules.
+     * Get labels and URLs of all directly dependent modules. These are all modules that are
+     * currently known to import this module.
      *
      * @return  URLs of all referenced modules.
      */
