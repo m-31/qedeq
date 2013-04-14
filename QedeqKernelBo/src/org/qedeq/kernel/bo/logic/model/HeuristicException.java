@@ -19,7 +19,7 @@ import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
 
 /**
- * Exception for LaTeX content problems.
+ * Something went wrong during formula testing within model.
  *
  * @author  Michael Meyling
  */
