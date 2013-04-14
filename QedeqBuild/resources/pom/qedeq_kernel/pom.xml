@@ -72,6 +72,21 @@
         </plugin> 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <configuration>
+            <archive>
+              <manifestFile>src/main/resources/manifest.txt</manifestFile>
+              <manifest>
+                  <addClasspath>true</addClasspath>
+              </manifest>
+              <manifestEntries>
+                  <Built-By>Michael Meyling</Built-By>
+              </manifestEntries>
+            </archive>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
           <configuration>
             <outputEncoding>UTF-8</outputEncoding>
