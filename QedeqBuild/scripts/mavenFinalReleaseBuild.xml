@@ -70,7 +70,7 @@
         <copy todir="${qedeq.dest}/src/maven/qedeq_kernel" file="${qedeq.resources}/pom/qedeq_kernel/pom.xml">
             <filterset refid="qedeq_filter" />
         </copy>
-        <copy todir="${qedeq.dest}/src/maven/qedeq_kernel/src/main/resources" file="${qedeq.resources}/../readme.txt">
+        <copy todir="${qedeq.dest}/src/maven/qedeq_kernel/src/main/resources" file="${qedeq.resources}/jar/readme.txt">
             <filterset refid="qedeq_filter" />
         </copy>
         <copy todir="${qedeq.dest}/src/maven/qedeq_kernel/src/main/resources" file="${qedeq.resources}/licenses/gpl.txt">
