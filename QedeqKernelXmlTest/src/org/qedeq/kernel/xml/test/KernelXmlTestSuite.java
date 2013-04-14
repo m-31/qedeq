@@ -20,6 +20,7 @@ import junit.framework.Test;
 import org.qedeq.base.test.QedeqTestSuite;
 import org.qedeq.kernel.xml.common.XmlSyntaxExceptionTest;
 import org.qedeq.kernel.xml.dao.GenerateXmlTest;
+import org.qedeq.kernel.xml.mapper.Context2SimpleXPathTest;
 import org.qedeq.kernel.xml.parser.CharsetParserTest;
 import org.qedeq.kernel.xml.parser.QedeqParserTest;
 import org.qedeq.kernel.xml.schema.SchemaTest;
@@ -59,6 +60,7 @@ public class KernelXmlTestSuite extends QedeqTestSuite {
      */
     public KernelXmlTestSuite(final boolean withTest, final boolean withPest) {
         super(withTest, withPest);
+        addTestSuite(Context2SimpleXPathTest.class);
         addTestSuite(GenerateXmlTest.class);
         addTestSuite(QedeqParserTest.class);
         addTestSuite(SchemaTest.class);
