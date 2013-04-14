@@ -1088,6 +1088,7 @@ public class StateManager {
      * Print the dependence tree to <code>System.out</code>.
      */
     public void printDependencyTree() {
+        System.out.println("DependencyTree");
         printDependencyTree(0);
         System.out.println();
     }
