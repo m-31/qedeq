@@ -75,7 +75,7 @@
           <artifactId>maven-jar-plugin</artifactId>
           <configuration>
             <archive>
-              <manifestFile>src/main/resources/manifest.txt</manifestFile>
+              <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
               <manifest>
                   <addClasspath>true</addClasspath>
               </manifest>

@@ -76,7 +76,7 @@
         <copy todir="${qedeq.dest}/src/maven/qedeq_kernel/src/main/resources" file="${qedeq.resources}/licenses/gpl.txt">
             <filterset refid="qedeq_filter" />
         </copy>
-        <copy todir="${qedeq.dest}/src/maven/qedeq_kernel/src/main/resources" file="${qedeq.resources}/jar/manifest.txt">
+        <copy tofile="${qedeq.dest}/src/maven/qedeq_kernel/src/main/resources/META-INF/MANIFEST.MF" file="${qedeq.resources}/jar/manifest.txt">
             <filterset refid="qedeq_filter" />
         </copy>
         <copy todir="${qedeq.dest}/src/maven/qedeq_kernel/target" file="${qedeq.resources}/checkstyle/QedeqFormalChecks.xml" />
