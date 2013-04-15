@@ -88,6 +88,7 @@
              
     <target name="maven" description="start maven build" depends="assemble">
 
+        <!--  Kernel -->
         <antcall target="execMaven">
             <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_kernel"/>
             <param name="MvnArguments" value="source:jar"/>
@@ -153,6 +154,18 @@
         <!-- TODO only windows and unix are supported -->
         <exec failonerror="true" dir="${PomDir}" executable="${maven.executable}">
             <arg line="${maven.argLine}${MvnArguments}"/>
+        </exec> 
+        <echo>----------------------------------</echo>
+    </target>
+    
+    <!-- for antcalls with parameters ${PomDir} -->
+    <target name="execSignJars">
+        <echo>++++++++++++++++++++++++++++++++++</echo>
+        <echo>${PomDir}/target find . -name &quot;qedeq_*.jar&quot; -exec gpg -as '{}' \;</echo>
+        <!-- TODO only unix is supported -->
+        <exec failonerror="true" dir="${PomDir}/target" executable="sh">
+            <arg value="-c" />
+            <arg value="find . -name &quot;qedeq_*.jar&quot; -exec gpg --detach-sign -as '{}' \;" />
         </exec> 
         <echo>----------------------------------</echo>
     </target>

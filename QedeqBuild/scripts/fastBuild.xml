@@ -11,7 +11,7 @@
     <!-- test no slow methods -->
     <property name="qedeq.test.fast"       value="true" />
 
-	<import file="releaseBuild.xml" />
+    <import file="releaseBuild.xml" />
 
     <target name="clean">
         <delete dir="${qedeq.dest}" failonerror="true" />
