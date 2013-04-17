@@ -92,11 +92,12 @@ class KernelQedeqBoStorage {
         String text = StringUtils.EMPTY;
         boolean error = false;
         Trace.begin(CLASS, this, method);
-        for (final Iterator iterator = bos.entrySet().iterator(); iterator.hasNext(); ) {
-            Map.Entry entry = (Map.Entry) iterator.next();
-            final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) entry.getValue();
-            prop.getStateManager().printDependencyTree();
-        }
+// for debugging: print dependency tree:
+//        for (final Iterator iterator = bos.entrySet().iterator(); iterator.hasNext(); ) {
+//            Map.Entry entry = (Map.Entry) iterator.next();
+//            final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) entry.getValue();
+//            prop.getStateManager().printDependencyTree();
+//        }
         for (final Iterator iterator = bos.entrySet().iterator(); iterator.hasNext(); ) {
             Map.Entry entry = (Map.Entry) iterator.next();
             final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) entry.getValue();

@@ -181,7 +181,7 @@ public class ServiceProcessManager {
         }
 //        synchronized (qedeq) {
             process.setBlocked(false);
-// FIXME            final boolean newBlockedModule = !process.getBlockedModules().contains(qedeq);
+            newBlockedModule = !process.getBlockedModules().contains(qedeq);
             try {
                 process.addBlockedModule(qedeq);
                 final PluginExecutor exe = plugin.createExecutor(qedeq, parameters);

@@ -134,7 +134,7 @@ public class ProofChecker1Impl implements ProofChecker {
                     getCurrentContext());
                 continue;
             }
-            setLocationWithinModule(context + ".get("  + i + ").getReason()");
+            setLocationWithinModule(context + ".get(" + i + ").getReason()");
             final Reason reason = line.getReason();
             if (reason == null) {
                 ok = false;

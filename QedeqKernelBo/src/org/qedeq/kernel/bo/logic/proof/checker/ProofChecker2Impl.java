@@ -1207,35 +1207,21 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
     }
 
     /**
-     * Set location information where are we within the original module.
-     *
-     * @param   locationWithinModule    Location within module.
-     */
-    protected void setLocationWithinModule(final String locationWithinModule) {
-        getCurrentContext().setLocationWithinModule(locationWithinModule);
-        // FIXME 20110616 m31: use within JUnit test
-//        try {
-//            System.out.println("testing context " + locationWithinModule);
-//            QedeqBo qedeq = KernelContext.getInstance().getQedeqBo(getCurrentContext().getModuleLocation());
-//            DynamicGetter.get(qedeq.getQedeq(), getCurrentContext().getLocationWithinModule());
-//        } catch (RuntimeException e) {
-//            System.err.println(getCurrentContext().getLocationWithinModule());
-//            throw e;
-//        } catch (IllegalAccessException e) {
-//            throw new RuntimeException(e);
-//        } catch (InvocationTargetException e) {
-//            throw new RuntimeException(e);
-//        }
-
-    }
-
-    /**
      * Get current context within original.
      *
      * @return  Current context.
      */
     protected final ModuleContext getCurrentContext() {
         return currentContext;
+    }
+
+    /**
+     * Set location information where are we within the original module.
+     *
+     * @param   locationWithinModule    Location within module.
+     */
+    protected void setLocationWithinModule(final String locationWithinModule) {
+        getCurrentContext().setLocationWithinModule(locationWithinModule);
     }
 
     public boolean isProvedFormula(final String reference) {

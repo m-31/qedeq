@@ -22,6 +22,8 @@ import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.DefaultInternalKernelServices;
+import org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin;
+import org.qedeq.kernel.bo.service.logic.FormalProofCheckerPlugin;
 import org.qedeq.kernel.se.config.QedeqConfig;
 import org.qedeq.kernel.se.test.RigidContextChecker;
 import org.qedeq.kernel.xml.dao.XmlQedeqFileDao;
@@ -51,6 +53,8 @@ public final class KernelFacade {
                 "This file is part of the project *Hilbert II* - http://www.qedeq.org",
                 dir);
             config.setAutoReloadLastSessionChecked(false);
+            config.setPluginKeyValue(new FormalProofCheckerPlugin(), "checkerFactory",
+                TestingProofCheckerFactoryImpl.class.getName());
             final QedeqFileDao loader = new XmlQedeqFileDao();
             final DefaultInternalKernelServices services = new DefaultInternalKernelServices(
                 config, KernelContext.getInstance(), loader);
@@ -58,7 +62,7 @@ public final class KernelFacade {
 //          mod = new ModuleEventListenerLog();
 //          ModuleEventLog.getInstance().addLog(mod);
             KernelContext.getInstance().startup();
-            services.addPlugin("org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin");
+            services.addPlugin(HeuristicCheckerPlugin.class.getName());
             services.setContextChecker(new RigidContextChecker());
             context = KernelContext.getInstance();
         } catch (IOException e) {
