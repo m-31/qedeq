@@ -18,7 +18,6 @@ package org.qedeq.kernel.bo.module;
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Node;
@@ -56,7 +55,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
     private final KernelQedeqBo prop;
 
     /** We work in this service. */
-    private ServiceProcess process;
+    private InternalServiceProcess process;
 
     /** Traverse QEDEQ module with this traverser. */
     private final QedeqNotNullTraverser traverser;
@@ -131,7 +130,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      * @param   process     We work for this process.
      * @throws  SourceFileExceptionList  All collected error exceptions.
      */
-    public void traverse(final ServiceProcess process) throws SourceFileExceptionList {
+    public void traverse(final InternalServiceProcess process) throws SourceFileExceptionList {
         this.process = process;
         interrupted = false;
         if (getQedeqBo().getQedeq() == null) {
@@ -269,7 +268,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      *
      * @return  Service process we work for.
      */
-    public ServiceProcess getServiceProcess() {
+    public InternalServiceProcess getServiceProcess() {
         return process;
     }
 

@@ -27,8 +27,8 @@ import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.KernelServices;
-import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
+import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.Plugin;
@@ -63,9 +63,9 @@ public final class Xml2Xml implements Plugin {
      * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      * @return  File name of generated LaTeX file.
      */
-    public static String generate(final ServiceProcess process, final KernelServices services,
-            final InternalKernelServices internal, final File from, final File to)
-            throws SourceFileExceptionList {
+    public static String generate(final InternalServiceProcess process,
+            final KernelServices services, final InternalKernelServices internal, final File from,
+            final File to) throws SourceFileExceptionList {
         final String method = "generate(File, File)";
         File destination = null;
         try {
@@ -99,8 +99,9 @@ public final class Xml2Xml implements Plugin {
      * @throws  IOException                 Writing (or reading) failed.
      * @return  File name of generated LaTeX file.
      */
-    private static String generate(final ServiceProcess process, final KernelServices services,
-            final URL from, final File to) throws SourceFileExceptionList, IOException {
+    private static String generate(final InternalServiceProcess process,
+            final KernelServices services, final URL from, final File to)
+            throws SourceFileExceptionList, IOException {
         final String method = "generate(URL, File)";
         Trace.begin(CLASS, method);
         Trace.param(CLASS, method, "from", from);

@@ -129,7 +129,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         ruleVersion = new Version("0.00.00");
         QedeqLog.getInstance().logRequest(
                 "Check logical correctness", getQedeqBo().getUrl());
-        getServices().checkWellFormedness(getQedeqBo(), process);
+        getServices().checkWellFormedness(process, getQedeqBo());
         if (!getQedeqBo().isWellFormed()) {
             final String msg = "Check of logical correctness failed";
             QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
@@ -140,7 +140,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         final KernelModuleReferenceList list = getQedeqBo().getKernelRequiredModules();
         for (int i = 0; i < list.size(); i++) {
             Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label", list.getLabel(i));
-            getServices().checkFormallyProved(list.getKernelQedeqBo(i), process);
+            getServices().checkFormallyProved(process, list.getKernelQedeqBo(i));
             if (list.getKernelQedeqBo(i).hasErrors()) {
                 addError(new CheckRequiredModuleException(
                     LogicErrors.MODULE_IMPORT_CHECK_FAILED_CODE,

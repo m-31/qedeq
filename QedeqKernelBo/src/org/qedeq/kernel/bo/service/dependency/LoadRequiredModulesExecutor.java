@@ -72,8 +72,8 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         if (loadingRequiredInProgress == null) {
             loadingRequiredInProgress = new HashMap();
         }
-        Boolean all = (Boolean) getServices().executePlugin(LoadAllRequiredModulesPlugin.class.getName(),
-               getQedeqBo(), null, process);
+        Boolean all = (Boolean) getServices().executePlugin(process,
+               LoadAllRequiredModulesPlugin.class.getName(), getQedeqBo(), null);
         if (!all.booleanValue()) {
             final String msg = "Loading required modules failed";
             QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
@@ -105,8 +105,8 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
                 sfl.add(createError(me));
                 continue;
             }
-            getQedeqBo().getKernelServices().executePlugin(LoadRequiredModulesPlugin.class.getName(),
-                current, loadingRequiredInProgress, process);
+            getQedeqBo().getKernelServices().executePlugin(process,
+                LoadRequiredModulesPlugin.class.getName(), current, loadingRequiredInProgress);
             if (!current.hasLoadedRequiredModules()) {
                 // LATER 20110119 m31: we take only the first error, is that ok?
                 String text = DependencyErrors.IMPORT_OF_MODULE_FAILED_TEXT + "\""

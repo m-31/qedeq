@@ -45,7 +45,8 @@ public class DummyInternalKernelServices implements InternalKernelServices {
     public KernelQedeqBo getKernelQedeqBo(ModuleAddress address) {
         return null;
     }
-    public KernelQedeqBo loadModule(ModuleAddress parent, Specification spec) throws SourceFileExceptionList {
+    public KernelQedeqBo loadModule(InternalServiceProcess proc, ModuleAddress parent,
+            Specification spec) throws SourceFileExceptionList {
         return null;
     }
     public SourceFileExceptionList createSourceFileExceptionList(int code, String message, String address,
@@ -98,16 +99,16 @@ public class DummyInternalKernelServices implements InternalKernelServices {
     public ContextChecker getContextChecker() {
         return null;
     }
-    public boolean loadRequiredModules(KernelQedeqBo qedeq, InternalServiceProcess process) {
+    public boolean loadRequiredModules(InternalServiceProcess process, KernelQedeqBo qedeq) {
         return false;
     }
-    public boolean checkWellFormedness(KernelQedeqBo qedeq, InternalServiceProcess process) {
+    public boolean checkWellFormedness(InternalServiceProcess process, KernelQedeqBo qedeq) {
         return false;
     }
-    public boolean checkFormallyProved(KernelQedeqBo qedeq, InternalServiceProcess process) {
+    public boolean checkFormallyProved(InternalServiceProcess process, KernelQedeqBo qedeq) {
         return false;
     }
-    public Object executePlugin(String id, KernelQedeqBo qedeq, Object data, InternalServiceProcess parent) {
+    public Object executePlugin(InternalServiceProcess parent, String id, KernelQedeqBo qedeq, Object data) {
         return null;
     }
 

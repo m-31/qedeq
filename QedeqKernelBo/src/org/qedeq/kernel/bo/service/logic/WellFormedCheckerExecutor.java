@@ -24,7 +24,6 @@ import org.qedeq.base.io.Version;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.FormulaCheckerFactoryImpl;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
@@ -148,8 +147,8 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         QedeqLog.getInstance().logRequest(
             "Check logical well formedness", getQedeqBo().getUrl());
         if (!getQedeqBo().hasLoadedRequiredModules()) {
-            getServices().executePlugin(LoadRequiredModulesPlugin.class.getName(),
-                getQedeqBo(), null, process);
+            getServices().executePlugin(process,
+                LoadRequiredModulesPlugin.class.getName(), getQedeqBo(), null);
         }
         if (!getQedeqBo().hasLoadedRequiredModules()) {
             final String msg = "Check of logical well formedness failed";
@@ -163,7 +162,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         final KernelModuleReferenceList list = getQedeqBo().getKernelRequiredModules();
         for (int i = 0; i < list.size(); i++) {
             Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label", list.getLabel(i));
-            getServices().checkWellFormedness(list.getKernelQedeqBo(i), process);
+            getServices().checkWellFormedness(process, list.getKernelQedeqBo(i));
             if (!list.getKernelQedeqBo(i).isWellFormed()) {
                 ModuleDataException md = new CheckRequiredModuleException(
                     LogicErrors.MODULE_IMPORT_CHECK_FAILED_CODE,
@@ -219,7 +218,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         return Boolean.TRUE;
     }
 
-    public void traverse(final ServiceProcess process) throws SourceFileExceptionList {
+    public void traverse(final InternalServiceProcess process) throws SourceFileExceptionList {
         try {
             this.existence = new ModuleConstantsExistenceCheckerImpl(getQedeqBo());
         } catch (ModuleDataException me) {

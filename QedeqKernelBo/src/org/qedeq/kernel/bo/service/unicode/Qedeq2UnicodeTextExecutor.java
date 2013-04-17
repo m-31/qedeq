@@ -20,7 +20,6 @@ import java.io.IOException;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.StringOutput;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -105,8 +104,8 @@ public final class Qedeq2UnicodeTextExecutor implements PluginExecutor {
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException     File IO failed.
      */
-    public String generateUtf8(final ServiceProcess process, final String language, final String level)
-            throws SourceFileExceptionList, IOException {
+    public String generateUtf8(final InternalServiceProcess process, final String language,
+            final String level) throws SourceFileExceptionList, IOException {
 
         String lan = "en";
         if (language != null) {

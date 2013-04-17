@@ -21,7 +21,6 @@ import java.io.Reader;
 
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -57,7 +56,7 @@ public interface QedeqFileDao {
      * @return  Loaded QEDEQ.
      * @throws  SourceFileExceptionList     Module could not be successfully loaded.
      */
-    public Qedeq loadQedeq(ServiceProcess process, QedeqBo prop, File localFile)
+    public Qedeq loadQedeq(InternalServiceProcess process, QedeqBo prop, File localFile)
             throws SourceFileExceptionList;
 
     /**
@@ -69,7 +68,7 @@ public interface QedeqFileDao {
      * @throws  SourceFileExceptionList     Module could not be successfully saved.
      * @throws  IOException                 File saving failed.
      */
-    public void saveQedeq(ServiceProcess process, KernelQedeqBo prop, File localFile)
+    public void saveQedeq(InternalServiceProcess process, KernelQedeqBo prop, File localFile)
             throws SourceFileExceptionList, IOException;
 
     /**

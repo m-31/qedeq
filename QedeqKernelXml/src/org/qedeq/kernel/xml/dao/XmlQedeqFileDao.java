@@ -28,8 +28,8 @@ import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
+import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.se.base.module.Qedeq;
@@ -76,8 +76,8 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
         return this.services;
     }
 
-    public Qedeq loadQedeq(final ServiceProcess process, final QedeqBo prop, final File file)
-            throws SourceFileExceptionList {
+    public Qedeq loadQedeq(final InternalServiceProcess process, final QedeqBo prop,
+            final File file) throws SourceFileExceptionList {
         final String method = "loadModule";
         // FIXME 20130321 m31: use process parameter!
         SaxDefaultHandler handler = new SaxDefaultHandler(this);
@@ -159,8 +159,8 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
         return simple.getQedeq();
     }
 
-    public void saveQedeq(final ServiceProcess process, final KernelQedeqBo prop, final File localFile)
-            throws SourceFileExceptionList, IOException {
+    public void saveQedeq(final InternalServiceProcess process, final KernelQedeqBo prop,
+            final File localFile) throws SourceFileExceptionList, IOException {
         final OutputStream outputStream = new FileOutputStream(localFile);
         final TextOutput printer = new TextOutput(localFile.getName(), outputStream, "UTF-8");
         Qedeq2Xml.print(process, this, prop, printer);

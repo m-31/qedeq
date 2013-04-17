@@ -74,53 +74,54 @@ public interface InternalKernelServices extends KernelProperties {
     /**
      * Load specified QEDEQ module from QEDEQ parent module.
      *
+     * @param   process Working process.
      * @param   parent  Parent module address.
      * @param   spec    Specification for another QEDEQ module.
      * @return  Loaded module.
      * @throws  SourceFileExceptionList     Loading failed.
      */
-    public KernelQedeqBo loadModule(ModuleAddress parent, Specification spec)
-            throws SourceFileExceptionList;
+    public KernelQedeqBo loadModule(InternalServiceProcess process, ModuleAddress parent,
+        Specification spec) throws SourceFileExceptionList;
 
     /**
      * Get required modules of given module. You can check the status to know if the loading was
      * successful.
      *
-     * @param   qedeq   Module to check.
      * @param   process Working process.
+     * @param   qedeq   Module to check.
      * @return  Successful loading.
      */
-    public boolean loadRequiredModules(KernelQedeqBo qedeq, InternalServiceProcess process);
+    public boolean loadRequiredModules(InternalServiceProcess process, KernelQedeqBo qedeq);
 
     /**
      * Check if all formulas of a QEDEQ module and its required modules are well formed.
      *
-     * @param   qedeq   Module to check.
      * @param   process Working process.
+     * @param   qedeq   Module to check.
      * @return  Was check successful?
      */
-    public boolean checkWellFormedness(KernelQedeqBo qedeq, InternalServiceProcess process);
+    public boolean checkWellFormedness(InternalServiceProcess process, KernelQedeqBo qedeq);
 
     /**
      * Check if all propositions of this and all required modules have correct formal proofs.
      *
-     * @param   qedeq   Module to check.
      * @param   process Working process.
+     * @param   qedeq   Module to check.
      * @return  Was check successful?
      */
-    public boolean checkFormallyProved(KernelQedeqBo qedeq, InternalServiceProcess process);
+    public boolean checkFormallyProved(InternalServiceProcess process, KernelQedeqBo qedeq);
 
     /**
      * Execute plugin on given QEDEQ module.
      *
+     * @param   parent      Parent service process. Might be <code>null</code>
      * @param   id          Plugin id.
      * @param   qedeq       QEDEQ module.
      * @param   data        Process data. Additional data beside module.
-     * @param   parent      Parent service process. Might be <code>null</code>
      * @return  Plugin specific resulting object. Might be <code>null</code>.
      */
-    public Object executePlugin(final String id, final KernelQedeqBo qedeq, final Object data,
-        final InternalServiceProcess parent);
+    public Object executePlugin(final InternalServiceProcess parent, final String id, final KernelQedeqBo qedeq,
+        final Object data);
 
     /**
      * Get DAO for reading and writing QEDEQ modules from or to a file.

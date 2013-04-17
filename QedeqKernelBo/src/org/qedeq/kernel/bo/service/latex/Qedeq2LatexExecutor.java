@@ -240,8 +240,8 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
 //        this.level = level;
         // first we try to get more information about required modules and their predicates..
         try {
-            getServices().loadRequiredModules(getQedeqBo(), process);
-            getServices().checkWellFormedness(getQedeqBo(), process);
+            getServices().loadRequiredModules(process, getQedeqBo());
+            getServices().checkWellFormedness(process, getQedeqBo());
         } catch (Exception e) {
             // we continue and ignore external predicates
             Trace.trace(CLASS, method, e);
