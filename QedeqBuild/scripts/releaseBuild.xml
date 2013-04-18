@@ -9,6 +9,9 @@
         Release Build for Hilbert II.   
     </description>
     
+    <!-- test if location resolving is fully working -->
+    <sysproperty key="qedeq.test.xmlLocationFailures"   value="true"/>
+
     <!-- get content of findbugs environment variable -->
     <property environment="env" />
     <property name="findbugs.home" value="${env.FINDBUGS_HOME}" />
