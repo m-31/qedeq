@@ -57,8 +57,8 @@ public class GenerateLatexTest extends QedeqBoTestCase {
      * @throws Exception
      */
     public void testGeneration() throws Exception {
-        System.setProperty("qedeq.test.xmlLocationFailures", Boolean.TRUE.toString());
-        try {
+//        System.setProperty("qedeq.test.xmlLocationFailures", Boolean.TRUE.toString());
+//        try {
             generate(getDocDir(), "math/qedeq_logic_v1.xml", getGenDir(), false, false);
             generate(getDocDir(), "math/qedeq_set_theory_v1.xml", getGenDir(), false, false);
             generate(getDocDir(), "math/qedeq_formal_logic_v1.xml", getGenDir(), false, false);
@@ -67,9 +67,9 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             generate(getDocDir(), "sample/qedeq_sample3.xml", getGenDir(), false, false);
             generate(getDocDir(), "project/qedeq_basic_concept.xml", getGenDir(), false, false);
             generate(getDocDir(), "project/qedeq_logic_language.xml", getGenDir(), true, false);
-        } finally {
-            System.setProperty("qedeq.test.xmlLocationFailures", Boolean.FALSE.toString());
-        }
+//        } finally {
+//            System.setProperty("qedeq.test.xmlLocationFailures", Boolean.FALSE.toString());
+//        }
     }
 
     /**
@@ -78,10 +78,10 @@ public class GenerateLatexTest extends QedeqBoTestCase {
      * @throws Exception
      */
     public void testGeneration2() throws Exception {
-        System.setProperty("qedeq.test.xmlLocationFailures", Boolean.TRUE.toString());
+//        System.setProperty("qedeq.test.xmlLocationFailures", Boolean.TRUE.toString());
         generate(getIndir(), "proof/proof_001.xml", getGenDir(), true, false);
         generate(getIndir(), "proof/proof_002.xml", getGenDir(), true, true);
-        System.setProperty("qedeq.test.xmlLocationFailures", Boolean.FALSE.toString());
+//        System.setProperty("qedeq.test.xmlLocationFailures", Boolean.FALSE.toString());
     }
 
     /**
@@ -90,7 +90,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
      * @throws Exception
      */
     public void testNegativeGeneration2() throws Exception {
-        System.setProperty("qedeq.test.xmlLocationFailures", Boolean.TRUE.toString());
+//        System.setProperty("qedeq.test.xmlLocationFailures", Boolean.TRUE.toString());
         try {
             generate(getIndir(), "proof/proof_002.xml", getGenDir(), true, false);
         } catch (SourceFileExceptionList list) {
@@ -136,8 +136,8 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             assertEquals(610011, e7.getErrorCode());
             assertEquals(1843, e7.getSourceArea().getStartPosition().getRow());
             assertEquals(37, e7.getSourceArea().getStartPosition().getColumn());
-        } finally {
-            System.setProperty("qedeq.test.xmlLocationFailures", Boolean.FALSE.toString());
+//        } finally {
+//            System.setProperty("qedeq.test.xmlLocationFailures", Boolean.FALSE.toString());
         }
     }
 
