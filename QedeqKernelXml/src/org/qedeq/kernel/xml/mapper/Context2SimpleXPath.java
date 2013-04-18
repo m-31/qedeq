@@ -189,8 +189,14 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         }
         Trace.param(CLASS, this, method, "level", level);  // level should be equal to zero now
         Trace.info(CLASS, this, method, "location was not found");
-        throw new LocationNotFoundException(new ModuleContext(find.getModuleLocation()),
-            matchingBegin, find.getLocationWithinModule());
+        // do we really want to fail?
+        if (Boolean.TRUE.toString().equalsIgnoreCase(
+                System.getProperty("qedeq.test.xmlLocationFailures"))) {
+            throw new LocationNotFoundException(traverser.getCurrentContext(),
+                matchingBegin, find.getLocationWithinModule());
+        }
+        throw new LocationFoundException(new ModuleContext(find.getModuleLocation(),
+            matchingBegin));
     }
 
     public final void visitEnter(final Qedeq qedeq) throws ModuleDataException {
@@ -1123,10 +1129,13 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
                     // so what can we do? We just return the last matching location and hope
                     // it is close enough to the searched one. But at least we do some
                     // logging here:
-                    Trace.info(CLASS, this, method, "matching lost");
+                    Trace.info(CLASS, this, method, "matching lost, when finding error location");
                     Trace.paramInfo(CLASS, this, method, "last match     ", matchingBegin);
                     Trace.paramInfo(CLASS, this, method, "current context", context);
                     Trace.paramInfo(CLASS, this, method, "find context   ", find.getLocationWithinModule());
+
+                    Trace.traceStack(CLASS, this, method);
+                    Trace.info(CLASS, this, method, "changing XPath to last matching one");
 
                     // do we really want to fail?
                     if (Boolean.TRUE.toString().equalsIgnoreCase(
@@ -1135,8 +1144,6 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
                             matchingBegin, find.getLocationWithinModule());
                     }
 
-                    Trace.traceStack(CLASS, this, method);
-                    Trace.info(CLASS, this, method, "changing XPath to last matching one");
                     // now we change the current XPath to the last matching one because the
                     // contents of "current" is used as the resulting XPath later on when
                     // catching the exception in {@link #find()}
