@@ -58,7 +58,7 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
 
     /** Status icon. */
     private static ImageIcon loadedImportsIcon
-        = createImageIcon("module_loaded_required.gif");    // LATER 20130318 m31: other icon?
+        = createImageIcon("module_loaded_required.gif");    // LATER 20130318 m31: use other icon?
 
     /** Status icon. */
     private static ImageIcon loadedRequiredIcon
