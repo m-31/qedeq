@@ -127,13 +127,13 @@ public class SourceFileExceptionTest extends QedeqTestCase {
 
     public void testToString() {
         assertEquals("\t4711: no big problem; something bad", one.toString());
-        assertEquals("test:1:2\n\t17234: no big problem; something other", three.toString());
+        assertEquals("test:1:2:3:17\n\t17234: no big problem; something other", three.toString());
     }
 
     public void testGetDescription() {
         assertEquals("\t4711: no big problem; something bad", one.getDescription());
-        assertEquals("test:1:2\n\t17234: no big problem; something other", three.getDescription());
-        assertEquals("test:1:2\n\t17234: no big problem", four.getDescription());
+        assertEquals("test:1:2:3:17\n\t17234: no big problem; something other", three.getDescription());
+        assertEquals("test:1:2:3:17\n\t17234: no big problem", four.getDescription());
     }
 
     public void testGetPlugin() {
