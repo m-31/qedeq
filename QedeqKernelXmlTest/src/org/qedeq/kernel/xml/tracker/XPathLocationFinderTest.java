@@ -28,9 +28,6 @@ import org.qedeq.base.test.QedeqTestCase;
  */
 public class XPathLocationFinderTest extends QedeqTestCase {
 
-    /** This class. */
-    private static final Class CLASS = XPathLocationFinderTest.class;
-
     protected void setUp() throws Exception {
         super.setUp();
     }

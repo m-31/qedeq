@@ -32,9 +32,6 @@ import org.qedeq.kernel.se.common.Plugin;
 public final class LoadAllRequiredModulesExecutor extends ControlVisitor
         implements PluginExecutor {
 
-    /** This class. */
-    private static final Class CLASS = LoadAllRequiredModulesExecutor.class;
-
     /**
      * Constructor.
      *

@@ -20,6 +20,7 @@ import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.common.SourceFileException;
 
 /**
  * Test the formal proof checker plugin.
@@ -36,6 +37,25 @@ public class FormalProofCheckerPluginTest extends QedeqBoTestCase {
 
     public FormalProofCheckerPluginTest(final String name) {
         super(name);
+    }
+
+    private String getArea(final String text) {
+        if (text == null) {
+            return "";
+        }
+        final int p = text.indexOf(".xml:");
+        if (p < 0) {
+            return text;
+        }
+        int n = text.indexOf("\n");
+        if (n < 0) {
+            n = text.length();
+        }
+        return text.substring(p + ".xml:".length(), n);
+
+    }
+    private String getArea(final SourceFileException e) {
+        return getArea(e.toString());
     }
 
     public void testPlugin() throws Exception {
@@ -63,21 +83,37 @@ public class FormalProofCheckerPluginTest extends QedeqBoTestCase {
 //        System.out.println("testPlugin2");
 //        bo.getErrors().printStackTrace(System.out);
         assertEquals(37140, bo.getErrors().get(0).getErrorCode());
+        assertEquals("1067:32:1067:38", getArea(bo.getErrors().get(0)));
         assertEquals(37140, bo.getErrors().get(1).getErrorCode());
+        assertEquals("1133:25:1135:35", getArea(bo.getErrors().get(1)));
         assertEquals(37180, bo.getErrors().get(2).getErrorCode());
+        assertEquals("1353:33:1353:41", getArea(bo.getErrors().get(2)));
         assertEquals(37150, bo.getErrors().get(3).getErrorCode());
+        assertEquals("1461:20:1461:30", getArea(bo.getErrors().get(3)));
         assertEquals(37240, bo.getErrors().get(4).getErrorCode());
+        assertEquals("979:13:1002:23", getArea(bo.getErrors().get(4)));
         assertEquals(37150, bo.getErrors().get(5).getErrorCode());
+        assertEquals("1945:20:1945:30", getArea(bo.getErrors().get(5)));
         assertEquals(37140, bo.getErrors().get(6).getErrorCode());
+        assertEquals("1960:25:1966:34", getArea(bo.getErrors().get(6)));
         assertEquals(37150, bo.getErrors().get(7).getErrorCode());
+        assertEquals("1974:20:1974:30", getArea(bo.getErrors().get(7)));
         assertEquals(37140, bo.getErrors().get(8).getErrorCode());
+        assertEquals("1987:23:1996:32", getArea(bo.getErrors().get(8)));
         assertEquals(37240, bo.getErrors().get(9).getErrorCode());
+        assertEquals("1497:13:1520:23", getArea(bo.getErrors().get(9)));
         assertEquals(37150, bo.getErrors().get(10).getErrorCode());
+        assertEquals("2151:20:2151:29", getArea(bo.getErrors().get(10)));
         assertEquals(37240, bo.getErrors().get(11).getErrorCode());
+        assertEquals("2040:13:2057:23", getArea(bo.getErrors().get(11)));
         assertEquals(37140, bo.getErrors().get(12).getErrorCode());
+        assertEquals("2233:30:2233:36", getArea(bo.getErrors().get(12)));
         assertEquals(37140, bo.getErrors().get(13).getErrorCode());
+        assertEquals("2282:27:2284:36", getArea(bo.getErrors().get(13)));
         assertEquals(37200, bo.getErrors().get(14).getErrorCode());
+        assertEquals("2310:21:2329:28", getArea(bo.getErrors().get(14)));
         assertEquals(37240, bo.getErrors().get(15).getErrorCode());
+        assertEquals("2186:13:2201:23", getArea(bo.getErrors().get(15)));
     }
 
     public void testPlugin3() throws Exception {
