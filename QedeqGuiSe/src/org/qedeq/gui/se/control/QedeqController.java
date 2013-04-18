@@ -40,7 +40,8 @@ import org.qedeq.kernel.se.common.Plugin;
  * Connects the models and the views. Handles program flow.
  *
  * LATER mime 20070605: encapsulate actions that need another thread
- *                     for later java versions: use Executor framework
+ *                      for later java versions: use Executor framework
+ *       mime 20130417: perhaps the kernel should use a thread pooling framework
  *
  * @author  Michael Meyling
  */
