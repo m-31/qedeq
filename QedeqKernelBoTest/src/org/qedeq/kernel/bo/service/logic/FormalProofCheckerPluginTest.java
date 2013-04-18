@@ -25,8 +25,6 @@ import org.qedeq.kernel.se.common.SourceFileException;
 /**
  * Test the formal proof checker plugin.
  *
- * FIXME 20110428 m31: test also error positions
- *
  * @author Michael Meyling
  */
 public class FormalProofCheckerPluginTest extends QedeqBoTestCase {
