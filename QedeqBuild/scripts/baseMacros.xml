@@ -222,6 +222,7 @@
                 <sysproperty key="qedeq.test.indir" value="@{dir}/src/test/resources/data"/>
                 <sysproperty key="qedeq.test.outdir" value="@{dir}/target/test-outdir"/>
                 <sysproperty key="qedeq.test.fast" value="@{fast}"/>
+                <sysproperty key="qedeq.test.xmlLocationFailures" value="${qedeq.test.xmlLocationFailures}"/>
                 <batchtest fork="true"
                         todir="@{dir}/target/reports/junit/data"
                         haltonerror="false"

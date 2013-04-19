@@ -10,7 +10,7 @@
     </description>
     
     <!-- test if location resolving is fully working -->
-    <sysproperty key="qedeq.test.xmlLocationFailures"   value="true"/>
+    <property name="qedeq.test.xmlLocationFailures"   value="true"/>
 
     <!-- get content of findbugs environment variable -->
     <property environment="env" />
