@@ -116,9 +116,17 @@ public class XPathLocationFinderTest extends QedeqTestCase {
     }
 
     public void testTagNotFound() throws Exception {
+        final boolean locationFailures = "true".equalsIgnoreCase(
+            System.getProperty("qedeq.test.xmlLocationFailures", "false"));
+        System.setProperty("qedeq.test.xmlLocationFailures", "false");
         String result = execute(new String[] {"-xp", "/none",
             getFile("xpathLocationFinder.xml").toString()});
-        assertTrue(result.endsWith(":1:1:1:1"));
+        try {
+            assertTrue(result.endsWith(":1:1:1:1"));
+        } finally {
+            System.setProperty("qedeq.test.xmlLocationFailures",
+                Boolean.toString(locationFailures));
+        }
     }
 
     public void testFileNotOk() throws Exception {

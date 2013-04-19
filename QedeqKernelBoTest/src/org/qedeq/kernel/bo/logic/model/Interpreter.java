@@ -99,21 +99,24 @@ public final class Interpreter {
             throw new HeuristicException(HeuristicErrorCodes.WRONG_CALLING_CONVENTION_CODE,
                 HeuristicErrorCodes.WRONG_CALLING_CONVENTION_TEXT, moduleContext);
         }
-        final String context = getLocationWithinModule();
-        setLocationWithinModule(context + ".getList()");
+        String context = getLocationWithinModule();
+        if (!context.endsWith(".getList()")) {
+            context += ".getList()";
+            setLocationWithinModule(context);
+        }
         final ElementList list = formula.getList();
         final String op = list.getOperator();
         boolean result;
         if (Operators.CONJUNCTION_OPERATOR.equals(op)) {
             result = true;
             for (int i = 0; i < list.size(); i++) {
-                setLocationWithinModule(context + ".getList().getElement(" + i + ")");
+                setLocationWithinModule(context + ".getElement(" + i + ")");
                 result &= calculateValue(list.getElement(i));
             }
         } else if (Operators.DISJUNCTION_OPERATOR.equals(op)) {
             result = false;
             for (int i = 0; i < list.size(); i++) {
-                setLocationWithinModule(context + ".getList().getElement(" + i + ")");
+                setLocationWithinModule(context + ".getElement(" + i + ")");
                 result |= calculateValue(list.getElement(i));
             }
         } else if (Operators.EQUIVALENCE_OPERATOR.equals(op)) {
@@ -121,19 +124,19 @@ public final class Interpreter {
             boolean value = false;
             for (int i = 0; i < list.size(); i++) {
                 if (i > 0) {
-                    setLocationWithinModule(context + ".getList().getElement(" + i + ")");
+                    setLocationWithinModule(context + ".getElement(" + i + ")");
                     if (value != calculateValue(list.getElement(i))) {
                         result = false;
                     }
                 } else {
-                    setLocationWithinModule(context + ".getList().getElement(" + i + ")");
+                    setLocationWithinModule(context + ".getElement(" + i + ")");
                     value = calculateValue(list.getElement(i));
                 }
             }
         } else if (Operators.IMPLICATION_OPERATOR.equals(op)) {
             result = false;
             for (int i = 0; i < list.size(); i++) {
-                setLocationWithinModule(context + ".getList().getElement(" + i + ")");
+                setLocationWithinModule(context + ".getElement(" + i + ")");
                 if (i < list.size() - 1) {
                     result |= !calculateValue(list.getElement(i));
                 } else {
@@ -143,13 +146,13 @@ public final class Interpreter {
         } else if (Operators.NEGATION_OPERATOR.equals(op)) {
             result = true;
             for (int i = 0; i < list.size(); i++) {
-                setLocationWithinModule(context + ".getList().getElement(" + i + ")");
+                setLocationWithinModule(context + ".getElement(" + i + ")");
                 result &= !calculateValue(list.getElement(i));
             }
         } else if (Operators.PREDICATE_VARIABLE.equals(op)) {
             final PredicateVariable var = new PredicateVariable(list.getElement(0).getAtom().getString(),
                     list.size() - 1);
-            setLocationWithinModule(context + ".getList()");
+            setLocationWithinModule(context);
             result = predicateVariableInterpreter.getPredicate(var)
                 .calculate(getEntities(list));
         } else if (Operators.UNIVERSAL_QUANTIFIER_OPERATOR.equals(op)) {
@@ -164,14 +167,14 @@ public final class Interpreter {
                 list.size() - 1);
             Predicate predicate = model.getPredicateConstant(var);
             if (predicate == null) {
-                setLocationWithinModule(context + ".getList().getOperator()");
+                setLocationWithinModule(context + ".getOperator()");
                 throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_CODE,
                     HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_TEXT + var, moduleContext);
             }
-            setLocationWithinModule(context + ".getList()");
+            setLocationWithinModule(context);
             result = predicate.calculate(getEntities(list));
         } else {
-            setLocationWithinModule(context + ".getList().getOperator()");
+            setLocationWithinModule(context + ".getOperator()");
             throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_OPERATOR_CODE,
                 HeuristicErrorCodes.UNKNOWN_OPERATOR_TEXT + op, moduleContext);
         }
@@ -198,12 +201,12 @@ public final class Interpreter {
         subjectVariableInterpreter.addSubjectVariable(var);
         for (int i = 0; i < model.getEntitiesSize(); i++) {
             if (list.size() == 2) {
-                setLocationWithinModule(context + ".getList().getElement(1)");
+                setLocationWithinModule(context + ".getElement(1)");
                 result &= calculateValue(list.getElement(1));
             } else {  // must be 3
-                setLocationWithinModule(context + ".getList().getElement(1)");
+                setLocationWithinModule(context + ".getElement(1)");
                 final boolean result1 = calculateValue(list.getElement(1));
-                setLocationWithinModule(context + ".getList().getElement(2)");
+                setLocationWithinModule(context + ".getElement(2)");
                 final boolean result2 = calculateValue(list.getElement(2));
                 result &= !result1 || result2;
             }
@@ -231,12 +234,12 @@ public final class Interpreter {
         subjectVariableInterpreter.addSubjectVariable(var);
         for (int i = 0; i < model.getEntitiesSize(); i++) {
             if (list.size() == 2) {
-                setLocationWithinModule(context + ".getList().getElement(1)");
+                setLocationWithinModule(context + ".getElement(1)");
                 result |= calculateValue(list.getElement(1));
             } else {  // must be 3
-                setLocationWithinModule(context + ".getList().getElement(1)");
+                setLocationWithinModule(context + ".getElement(1)");
                 final boolean result1 = calculateValue(list.getElement(1));
-                setLocationWithinModule(context + ".getList().getElement(2)");
+                setLocationWithinModule(context + ".getElement(2)");
                 final boolean result2 = calculateValue(list.getElement(2));
                 result |= result1 && result2;
             }
@@ -265,12 +268,12 @@ public final class Interpreter {
         for (int i = 0; i < model.getEntitiesSize(); i++) {
             boolean val;
             if (list.size() == 2) {
-                setLocationWithinModule(context + ".getList().getElement(1)");
+                setLocationWithinModule(context + ".getElement(1)");
                 val = calculateValue(list.getElement(1));
             } else {  // must be 3
-                setLocationWithinModule(context + ".getList().getElement(1)");
+                setLocationWithinModule(context + ".getElement(1)");
                 final boolean result1 = calculateValue(list.getElement(1));
-                setLocationWithinModule(context + ".getList().getElement(2)");
+                setLocationWithinModule(context + ".getElement(2)");
                 final boolean result2 = calculateValue(list.getElement(2));
                 val = result1 && result2;
             }

@@ -35,14 +35,6 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
  */
 public class HeuristicCheckerPluginTest extends QedeqBoTestCase {
 
-    public HeuristicCheckerPluginTest() {
-        super();
-    }
-
-    public HeuristicCheckerPluginTest(final String name) {
-        super(name);
-    }
-
     /**
      * Test with model.
      */

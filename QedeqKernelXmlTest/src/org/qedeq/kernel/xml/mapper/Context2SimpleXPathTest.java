@@ -77,8 +77,8 @@ public class Context2SimpleXPathTest extends QedeqBoTestCase {
     }
 
     public void testGetXPath07() throws ModuleDataException {
-        final ModuleContext find = new ModuleContext(qedeq.getModuleAddress(), "getChapterList().get(0).getSectionList().get(0).getSubsectionList().get(2).getNode().getNodeType().getPredicateDefinition().getFormula().getElement().getAtom()");
-        assertEquals("/QEDEQ/CHAPTER/SECTION/SUBSECTIONS/NODE[3]/DEFINITION_PREDICATE/FORMULA", Context2SimpleXPath.getXPath(find, qedeq.getQedeq()).toString());
+        final ModuleContext find = new ModuleContext(qedeq.getModuleAddress(), "getChapterList().get(0).getSectionList().get(0).getSubsectionList().get(2).getNode().getNodeType().getPredicateDefinition().getFormula().getElement().getList().getElement(0).getList()");
+        assertEquals("/QEDEQ/CHAPTER/SECTION/SUBSECTIONS/NODE[3]/DEFINITION_PREDICATE/FORMULA/EQUI/PREDCON", Context2SimpleXPath.getXPath(find, qedeq.getQedeq()).toString());
     }
 
     public void testGetXPath08() {
@@ -93,8 +93,15 @@ public class Context2SimpleXPathTest extends QedeqBoTestCase {
 
     public void testGetXPath09() throws ModuleDataException {
         final ModuleContext find = new ModuleContext(qedeq.getModuleAddress(), "getChapterList().get(0).getSectionList().get(0).getSubsectionList().get(2).getNode().getNodeType().getUnknown()");
-        assertEquals("/QEDEQ/CHAPTER/SECTION/SUBSECTIONS/NODE[3]",
-            Context2SimpleXPath.getXPath(find, qedeq.getQedeq()).toString());
+        final boolean locationFailures = "true".equalsIgnoreCase(
+            System.getProperty("qedeq.test.xmlLocationFailures", "false"));
+        System.setProperty("qedeq.test.xmlLocationFailures", "false");
+        try {
+            assertEquals("/QEDEQ/CHAPTER/SECTION/SUBSECTIONS/NODE[3]",
+                Context2SimpleXPath.getXPath(find, qedeq.getQedeq()).toString());
+        } finally {
+            System.setProperty("qedeq.test.xmlLocationFailures", Boolean.toString(locationFailures));
+        }
     }
 
 
