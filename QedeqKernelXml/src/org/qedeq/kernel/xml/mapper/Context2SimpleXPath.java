@@ -1023,7 +1023,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         traverser.setLocationWithinModule(context);
         final boolean firstIsAtom = list.size() > 0 && list.getElement(0).isAtom();
         if (firstIsAtom) {
-            traverser.setLocationWithinModule(context + ".getElement(0)");
+            traverser.setLocationWithinModule(context + ".getElement(0).getAtom()");
             if ("VAR".equals(operator) || "PREDVAR".equals(operator)
                     || "FUNVAR".equals(operator)) {
                 current.setAttribute("id");
