@@ -321,7 +321,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqBoTestCase {
      * 071 -> 072
      * 071 -> 073
      * </pre>
-     * In <code>072</code> and <code>074</code> the identity operator and the class operator is defined.
+     * In <code>072</code> and <code>073</code> the identity operator and the class operator is defined.
      *
      * @throws Exception
      */
@@ -448,16 +448,43 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqBoTestCase {
     /**
      * Load following dependencies:
      * <pre>
-     * 121
+     * 121 -> 122
+     * 121 -> 123
      * </pre>
-     * In <code>121</code> the class operator is defined twice.
+     * In <code>122</code> and in <code>123> the class operator is defined.
      *
      * @throws Exception
      */
-    public void testModuleConstantsExistenceChecker_11b() throws Exception {
+    public void testModuleConstantsExistenceChecker_12() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC121.xml"));
         if (!getServices().checkWellFormedness(address)) {
+            SourceFileExceptionList errors = getServices().getQedeqBo(address).getErrors();
+            SourceFileExceptionList warnings = getServices().getQedeqBo(address).getWarnings();
+            assertNotNull(warnings);
+            assertEquals(0, warnings.size());
+//            System.out.println(errors);
+            assertEquals(1, errors.size());
+            assertEquals(37390, errors.get(0).getErrorCode());
+            assertEquals(38, errors.get(0).getSourceArea().getStartPosition().getRow());
+            assertEquals(15, errors.get(0).getSourceArea().getStartPosition().getColumn());
+        } else {
             fail("failure for double definition of class operator expected");
+        }
+    }
+
+    /**
+     * Load following dependencies:
+     * <pre>
+     * 123
+     * </pre>
+     * In <code>123</code> is ok but has a class definition. Now we add an additional one.
+     *
+     * @throws Exception
+     */
+    public void testModuleConstantsExistenceChecker_13() throws Exception {
+        final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC131.xml"));
+        if (!getServices().checkWellFormedness(address)) {
+            fail("no failure expected");
         }
         final KernelQedeqBo qedeq = (KernelQedeqBo) getServices().getQedeqBo(address);
         final ModuleConstantsExistenceCheckerImpl checker = (ModuleConstantsExistenceCheckerImpl) qedeq.getExistenceChecker();

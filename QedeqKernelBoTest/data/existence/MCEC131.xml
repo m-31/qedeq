@@ -3,14 +3,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_07/xml/qedeq.xsd">
   <HEADER email="mime@qedeq.org">
-    <SPECIFICATION name="MCEC121" ruleVersion="1.00.00">
+    <SPECIFICATION name="MCEC122" ruleVersion="1.00.00">
       <LOCATIONS>
         <LOCATION value="file:///."/>
       </LOCATIONS>
     </SPECIFICATION>
     <TITLE>
       <LATEX language="en">
-         Class Operator Definition Test
+         Class Operator Definition
       </LATEX>
     </TITLE>
     <ABSTRACT>
@@ -27,22 +27,6 @@
         </NAME>
       </AUTHOR>
     </AUTHORS>
-    <IMPORTS>
-      <IMPORT label="MCEC122">
-        <SPECIFICATION name="MCEC122" ruleVersion="1.00.00">
-          <LOCATIONS>
-            <LOCATION value="."/>
-          </LOCATIONS>
-        </SPECIFICATION>
-      </IMPORT>
-      <IMPORT label="MCEC123">
-        <SPECIFICATION name="MCEC123" ruleVersion="1.00.00">
-          <LOCATIONS>
-            <LOCATION value="."/>
-          </LOCATIONS>
-        </SPECIFICATION>
-      </IMPORT>
-    </IMPORTS>
   </HEADER>
   <CHAPTER>
     <TITLE>
