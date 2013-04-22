@@ -683,7 +683,7 @@ public class QedeqVisitorTester implements QedeqVisitor {
             getter = "getSubstituteTerm()";
         } else if (lastName.equals("SubstPred") && name.equals("Formula")) {
             getter = "getSubstituteFormula()";
-// FIXME 20130131 m31: this shows a broken design!!!
+// TODO 20130131 m31: this shows a broken design!!!
         } else if (name.equals("Proposition")) {
             getter = "getNodeType()." + getter;
         } else if (name.equals("Rule")) {
