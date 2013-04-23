@@ -17,12 +17,12 @@
   </issueManagement>
   <scm>
     <connection>
-      scm:svn:https://pmii.svn.sourceforge.net/svnroot/pmii/trunk
+      scm:svn:https://svn.code.sf.net/p/pmii/code/trunk/
     </connection>
     <developerConnection>
-      scm:svn:https://pmii.svn.sourceforge.net/svnroot/pmii/trunk
+      scm:svn:https://svn.code.sf.net/p/pmii/code/trunk/
     </developerConnection>
-    <url>http://pmii.svn.sourceforge.net/viewvc/pmii/trunk/</url>
+    <url>https://svn.code.sf.net/p/pmii/code/trunk/</url>
   </scm>
   <ciManagement>
   	<system>hudson</system>
