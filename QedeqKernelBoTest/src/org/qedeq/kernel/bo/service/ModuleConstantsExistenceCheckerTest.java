@@ -23,9 +23,23 @@ import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceChecker;
 import org.qedeq.kernel.bo.service.logic.ModuleConstantsExistenceCheckerImpl;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
+import org.qedeq.kernel.se.base.module.Axiom;
+import org.qedeq.kernel.se.base.module.ChangedRuleList;
+import org.qedeq.kernel.se.base.module.FunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
+import org.qedeq.kernel.se.base.module.LatexList;
+import org.qedeq.kernel.se.base.module.LinkList;
+import org.qedeq.kernel.se.base.module.PredicateDefinition;
+import org.qedeq.kernel.se.base.module.ProofList;
+import org.qedeq.kernel.se.base.module.Proposition;
+import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.common.RuleKey;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.dto.module.LatexListVo;
+
 
 /**
  * For testing of checking existence of module constants.
@@ -34,13 +48,52 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
  */
 public class ModuleConstantsExistenceCheckerTest extends QedeqBoTestCase {
 
-    public ModuleConstantsExistenceCheckerTest() {
-        super();
-    }
+    final Rule classDefinitionRule = new Rule() {
+        public Axiom getAxiom() {
+            return null;
+        }
+        public PredicateDefinition getPredicateDefinition() {
+            return null;
+        }
+        public InitialPredicateDefinition getInitialPredicateDefinition() {
+            return null;
+        }
+        public InitialFunctionDefinition getInitialFunctionDefinition() {
+            return null;
+        }
+        public FunctionDefinition getFunctionDefinition() {
+            return null;
+        }
+        public Proposition getProposition() {
+            return null;
+        }
+        public Rule getRule() {
+            return this;
+        }
+        public String getName() {
+            return "CLASS_DEFINITION_BY_FORMULA";
+        }
 
-    public ModuleConstantsExistenceCheckerTest(final String name) {
-        super(name);
-    }
+        public String getVersion() {
+            return "1.00.00";
+        }
+
+        public LatexList getDescription() {
+            return new LatexListVo();
+        }
+
+        public ChangedRuleList getChangedRuleList() {
+            return null;
+        }
+
+        public LinkList getLinkList() {
+            return null;
+        }
+
+        public ProofList getProofList() {
+            return null;
+        }
+    };
 
     /**
      * Load following dependencies:
@@ -475,9 +528,9 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqBoTestCase {
     /**
      * Load following dependencies:
      * <pre>
-     * 123
+     * 131
      * </pre>
-     * In <code>123</code> is ok but has a class definition. Now we add an additional one.
+     * In <code>131</code> is ok but has a class definition. Now we add an additional one.
      *
      * @throws Exception
      */
@@ -487,8 +540,15 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqBoTestCase {
             fail("no failure expected");
         }
         final KernelQedeqBo qedeq = (KernelQedeqBo) getServices().getQedeqBo(address);
-        final ModuleConstantsExistenceCheckerImpl checker = (ModuleConstantsExistenceCheckerImpl) qedeq.getExistenceChecker();
-        // FIXME 20130109 m31: add again a class operator definition
+        final ModuleConstantsExistenceCheckerImpl checker = (ModuleConstantsExistenceCheckerImpl)
+            qedeq.getExistenceChecker();
+        try {
+            checker.add(new RuleKey("CLASS_DEFINITION_BY_FORMULA", "1.00.00"), classDefinitionRule);
+            fail("exception expected");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+        checker.add(new RuleKey("CLASS_DEFINITION_BY_FORMULA", "0.00.00"), classDefinitionRule);
     }
 
 }

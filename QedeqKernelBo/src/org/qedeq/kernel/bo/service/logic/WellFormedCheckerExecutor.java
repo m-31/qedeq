@@ -898,7 +898,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                             getCurrentContext()));
             } else {
                 if (CLASS_DEFINITION_VIA_FORMULA_RULE.equals(ruleKey)) {
-                    // TODO 20080114 m31: check if this rule can be proposed
+                    // FIXME 20080114 m31: check if this rule can be proposed
                     // are the preconditions for using this rule fulfilled?
                     existence.setClassOperatorModule(getQedeqBo(),
                         getCurrentContext());
