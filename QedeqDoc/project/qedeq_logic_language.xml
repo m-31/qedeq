@@ -469,7 +469,7 @@
       <INTRODUCTION>
         <LATEX language="en">
           <![CDATA[
-            In list notation (see \ref{chapter1_section1}) the above formula looks like the following.
+            In list notation the above formula looks like the following.
             
             \begin{verbatim}
             EQUI(
