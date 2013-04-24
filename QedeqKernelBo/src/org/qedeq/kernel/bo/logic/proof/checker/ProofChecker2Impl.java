@@ -194,7 +194,7 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
             }
 
             // check if only defined rules are used
-            // FIXME 20110316 m31: this is a dirty trick to get the context of the reason
+            // TODO 20110316 m31: this is a dirty trick to get the context of the reason
             //                    perhaps we can solve this more elegantly?
             String getReason = ".get" + StringUtility.getClassName(reason.getClass());
             if (getReason.endsWith("Vo")) {
