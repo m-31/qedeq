@@ -136,6 +136,68 @@ QedeqBaseTest, QedeqBuild, QedeqDoc, QedeqGuiSe, QedeqKernelBo, QedeqKernelBoTes
         </SUBSECTION>
       </SUBSECTIONS>
     </SECTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">Architecture</LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            We have four tiers that are encapsulated in different eclipse projects.
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+      <SUBSECTIONS>
+        <SUBSECTION>
+          <TITLE>
+            <LATEX language="en">QedeqBase</LATEX>
+          </TITLE>
+          <TEXT>
+            <LATEX language="en">
+              <![CDATA[
+                Project independent basis classes.
+              ]]>
+            </LATEX>
+          </TEXT>
+        </SUBSECTION>
+        <SUBSECTION>
+          <TITLE>
+            <LATEX language="en">QedeqKernelSe</LATEX>
+          </TITLE>
+          <TEXT>
+            <LATEX language="en">
+              <![CDATA[
+                Project dependent basis classes. Contains value objects.
+              ]]>
+            </LATEX>
+          </TEXT>
+        </SUBSECTION>
+        <SUBSECTION>
+          <TITLE>
+            <LATEX language="en">QedeqKernelBo</LATEX>
+          </TITLE>
+          <TEXT>
+            <LATEX language="en">
+              <![CDATA[
+                Here the kernel services can be called.
+              ]]>
+            </LATEX>
+          </TEXT>
+        </SUBSECTION>
+        <SUBSECTION>
+          <TITLE>
+            <LATEX language="en">QedeqKernelXml</LATEX>
+          </TITLE>
+          <TEXT>
+            <LATEX language="en">
+              <![CDATA[
+                We speak XML here. Parsing of XML files and BO serialization is the domain of this package.
+              ]]>
+            </LATEX>
+          </TEXT>
+        </SUBSECTION>
+      </SUBSECTIONS>
+    </SECTION>
   </CHAPTER>
   <BIBLIOGRAPHY>
   </BIBLIOGRAPHY>
