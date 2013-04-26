@@ -67,6 +67,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             generate(getDocDir(), "sample/qedeq_sample3.xml", getGenDir(), false, false);
             generate(getDocDir(), "project/qedeq_basic_concept.xml", getGenDir(), false, false);
             generate(getDocDir(), "project/qedeq_logic_language.xml", getGenDir(), true, false);
+            generate(getDocDir(), "project/qedeq_development_concept.xml", getGenDir(), true, false);
 //        } finally {
 //            System.setProperty("qedeq.test.xmlLocationFailures", Boolean.FALSE.toString());
 //        }
