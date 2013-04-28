@@ -284,6 +284,7 @@ currently in ants classpath
         <makePdf dir="${qedeq.texdir}/project" file="qedeq_basic_concept_en" />
         <makePdf dir="${qedeq.texdir}/project" file="qedeq_basic_concept_de" />
         <makePdf dir="${qedeq.texdir}/project" file="qedeq_logic_language_en" />
+        <makePdf dir="${qedeq.texdir}/project" file="qedeq_development_concept_en" />
     </target>
                             
     <target name="doc" description="generate project documentation" depends="source,test,makePdfs">
