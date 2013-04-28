@@ -125,10 +125,10 @@
                 Under 'Window/Preferences/General/Editors/Text Editors' mark box 'Insert spaces for tabs'. Also activate 'Show print margin' and set 'Print margin column' to 120.
 
                 \par
-                'Help/Install new Software' Add 'http://subclipse.tigris.org/update_1.6.x' as 'svn'. 'Help/Install New Software...' Add 'svn' 'http://subclipse.tigris.org/update_1.6.x' install svn.
+                'Help/Install New Software...' Add 'svn' '\url{http://subclipse.tigris.org/update_1.6.x}' install svn.
                
                 \par
-                'Window/Open Perspective/Other/SVN Repository Exploring' 'Add SVN Repository' with URL 'https://svn.code.sf.net/p/pmii/code/trunk'. Browse the new repository and check out all direct subnodes as projects.\footnote{This should be: QedeqBase
+                'Window/Open Perspective/Other/SVN Repository Exploring' 'Add SVN Repository' with URL '\url{https://svn.code.sf.net/p/pmii/code/trunk}'. Browse the new repository and check out all direct subnodes as projects.\footnote{This should be: QedeqBase
 QedeqBaseTest, QedeqBuild, QedeqDoc, QedeqGuiSe, QedeqKernelBo, QedeqKernelBoTest, QedeqKernelSe, QedeqKernelSeTest, QedeqKernelXml, QedeqKernelXmlTest, QedeqLib}
               ]]>
             </LATEX>
