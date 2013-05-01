@@ -69,7 +69,7 @@
         <![CDATA[
           In this text we present the development of predicate calculus in axiomatic form.
           The language of our calculus bases on the formalizations of \emph{D.~Hilbert}, \emph{W.~Ackermann}\cite{hilback}, \emph{P.~S.~Novikov}\cite{novikov}, \emph{V.~Detlovs} and \emph{K.~Podnieks}\cite{detnieks}. New rules can be derived from the herein presented logical axioms and basic inference rules. Only these meta rules lead to a smooth flowing logical argumentation.
-          For background informations see under \url{http://www.ltn.lv/~podnieks/mlog/ml.htm}
+          For background informations see under \url{https://dspace.lu.lv/dspace/handle/7/1308}~\cite{detnieks}
           and \url{http://en.wikipedia.org/wiki/Propositional_calculus}.
         ]]>
       </LATEX>
@@ -77,7 +77,7 @@
         <![CDATA[
           In diesem Text wird die Prädikatenlogik in axiomatischer Weise entwickelt.
           Die folgende Kalkülsprache und ihre Axiome basieren auf den Formulierungen von \emph{D.~Hilbert}, \emph{W.~Ackermann}\cite{hilback}, \emph{P.~S.~Novikov}\cite{novikov}, \emph{V.~Detlovs} und \emph{K.~Podnieks}\cite{detnieks}. Aus den hier angegebenen logischen Axiomen und den elementaren Schlussregeln können weitere Gesetzmäßigkeiten abgeleitet werden. Erst diese neuen Metaregeln führen zu einer komfortablen logischen Argumentation.
-          Hintergrundinformationen stehen unter \url{http://www.ltn.lv/~podnieks/mlog/ml.htm}
+          Hintergrundinformationen stehen unter \url{ https://dspace.lu.lv/dspace/handle/7/1308}~\cite{detnieks}
           und \url{http://en.wikipedia.org/wiki/Propositional_calculus}.
         ]]>
       </LATEX>
@@ -99,7 +99,7 @@
     <INTRODUCTION>
       <LATEX language="en">
         <![CDATA[
-          In this chapter we define a formal language to express mathematical propositions in a very precise way. Although this document describes a very formal approach to express mathematical content it is not sufficent to serve as a definition for an computer readable document format. Therefore such an extensive specification has to be done elsewhere. The choosen format is the \emph{Extensible Markup Language} abbreviated \emph{XML}. XML is a set of rules for encoding documents electronically.\footnote{See \url{http://www.w3.org/XML/} for more information.}
+          In this chapter we define a formal language to express mathematical propositions in a very precise way. Although this document describes a very formal approach to express mathematical content it is not sufficent to serve as a definition for an computer readable document format. Therefore such an extensive specification has to be done elsewhere. Here our choosen format is the \emph{Extensible Markup Language} abbreviated \emph{XML}. XML is a set of rules for encoding documents electronically.\footnote{See \url{http://www.w3.org/XML/} for more information.}
           The according formal syntax specification can be found at \url{http://www.qedeq.org/current/xml/qedeq.xsd}.
           It specifies a complete mathematical document format that enables the generation of \LaTeX books and makes automatic proof checking possible. 
           Further syntax restrictions and some explanations can be found at \url{http://www.qedeq.org/current/doc/project/qedeq_logic_language_en.pdf}.
@@ -113,7 +113,7 @@
       <LATEX language="de">
         <![CDATA[
           Um mathematische Aussagen präzise formulieren zu können, wird in diesem Kapitel eine formale Sprache definiert. Obgleich dieses Dokument mathematischen Inhalt sehr formal beschreibt, reicht es nicht aus um als Definition für ein computerlesbares Dokumentformat zu dienen. Daher muss eine solch extensive Spezifikation an anderer Stelle erfolgen.
-          Das dafür ausgewählte Format ist die \emph{Extensible Markup Language} abgekürzt \emph{XML}. XML beschreibt eine Menge von Regeln für den Aufbau elektronischer Dokumente.\footnote{Siehe \url{http://www.w3.org/XML/} für weitere Informationen.} Die daran ausgerichtete formale Syntaxspezifikation kann hier gelesen werden: \url{http://www.qedeq.org/current/xml/qedeq.xsd}.
+          Das hier dafür ausgewählte Format ist die \emph{Extensible Markup Language} abgekürzt \emph{XML}. XML beschreibt eine Menge von Regeln für den Aufbau elektronischer Dokumente.\footnote{Siehe \url{http://www.w3.org/XML/} für weitere Informationen.} Die daran ausgerichtete formale Syntaxspezifikation kann hier gelesen werden: \url{http://www.qedeq.org/current/xml/qedeq.xsd}.
           Damit wird ein mathematisches Dokumentenformat festgelegt, das die Erzeugung von \LaTeX Büchern und eine automatische Beweisüberprüfung ermöglicht. 
           Weitere Syntaxbeschränkungen und einige Erklärungen werden beschrieben in \url{http://www.qedeq.org/current/doc/project/qedeq_logic_language_en.pdf}.
 
@@ -317,12 +317,12 @@
       <INTRODUCTION>
         <LATEX language="en">
           <![CDATA[
-            Here we just list the axioms without further explanations.
+            We just list the axioms without further explanations.
           ]]>
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            Nun listen wir einfach alle Axiome ohne weitere Erläuterungen auf.
+            Wir listen einfach alle Axiome ohne weitere Erläuterungen auf.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -1163,8 +1163,8 @@
                     & with \qref{axiom:universalInstantiation} \\
                   $\forall x \ \exists y \ \phi(x, y)$ & $\rightarrow$ & $\exists y \ \phi(y,y)$ 
                     & forbidden replacement: $z$ in $y$, despite $y$ is already bound \\
-                  $\forall x \ \exists y \ x \neq y$ & $\rightarrow$ & $\exists y \ \neq y$ 
-                    & replace $\neq$ for $\phi$
+                  $\forall x \ \exists y \ x \neq y$ & $\rightarrow$ & $\exists y \ y \neq y$ 
+                    & replace $\phi$ by $\neq$
                 \end{tabularx}
                 
                 \par
@@ -1181,7 +1181,7 @@
                     & mit \qref{axiom:universalInstantiation} \\
                   $\forall x \ \exists y \ \phi(x, y)$ & $\rightarrow$ & $\exists y \ \phi(y,y)$ 
                     & verbotene Ersetzung: $z$ durch $y$, obwohl $y$ bereits gebunden \\
-                  $\forall x \ \exists y \ x \neq y$ & $\rightarrow$ & $\exists y \ \neq y$ 
+                  $\forall x \ \exists y \ x \neq y$ & $\rightarrow$ & $\exists y \ y \neq y$ 
                     &  Einsetzung von $\neq$ für $\phi$
                 \end{tabularx}
                 
@@ -1307,6 +1307,7 @@
                 See III \S 5 in \cite{hilback}.
                 
                 \par
+                We can think in the same lines as by \qref{rule:replaceFree}.
                 The prohibition to use additional subject variables within the replacement formula that occur bound in the original formula assurs that the resulting formula is well-formed. Furthermore it preserves the validity of the formla. Take a look at the following derivation.
                 
                 \par
@@ -1332,6 +1333,7 @@
                 Siehe III \S 5 in \cite{hilback}.
                 
                 \par
+                Es läßt sich ähnlich wie bei \qref{rule:replaceFree} argumentieren.
                 Das Verbot in der Ersetzungsformel keine zusätzliche Subjektvariable zu verwenden, welche in der Originalformel gebunden vorkommt, hat nicht nur die Absicherung der Wohlgeformtheit zum Zweck. Es bewahrt auch die inhaltliche Gültigkeit. Dazu betrachten wir die folgende Ableitung.
                 
                 \par
@@ -5909,7 +5911,7 @@
         </LATEX>
       </INTRODUCTION>
       <SUBSECTIONS>
-        <NODE id="proposition:40">
+        <NODE id="proposition:implication40">
           <THEOREM>
             <FORMULA>
               <IMPL>
@@ -10610,12 +10612,12 @@
         <LATEX language="en">
           <![CDATA[
             \emph{V.~Detlovs, K.~Podnieks}, Introduction to Mathematical Logic, 
-           \url{http://www.ltn.lv/~podnieks/mlog/ml.htm}.
+            \url{ https://dspace.lu.lv/dspace/handle/7/1308}.
           ]]>
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            \emph{V.~Detlovs, K.~Podnieks}, Introduction to Mathematical Logic, \url{http://www.ltn.lv/~podnieks/mlog/ml.htm}
+            \emph{V.~Detlovs, K.~Podnieks}, Introduction to Mathematical Logic, \url{ https://dspace.lu.lv/dspace/handle/7/1308}
           ]]>
         </LATEX>
     </ITEM>

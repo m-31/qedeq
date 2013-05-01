@@ -347,7 +347,9 @@
             
             \par
             All formulas that are used to build up a formula by 1. to 4. are called \emph{part formulas}\index{part formula}\index{formula!part}. 
-
+            
+            \par
+            Despite the fact we have predicate and function variables we still have a first order language. If predicates could have other predicates or functions as arguments or if we permited predicate or function quantifiers we would have left the area of first order theories. See \cite{mendelson}, p. 55.
           ]]>
         </LATEX>
         <LATEX language="de">
@@ -416,7 +418,9 @@
             
             \par
             Alle Formeln, die beim Aufbau einer Formel mittels 1. bis 4. benötigt werden, heißen \emph{Teilformeln}.
-
+            
+            \par
+            Obgleich wir Predikaten- und Funktionsvariablen haben, handelt es sich immer noch um einen Kalkül erster Stufe. Wenn die Prädikate andere Prädikate oder Funktionen als Argumente haben könnten oder wenn wir über Predikate oder Funktionen quantifizieren könnten, dann würden wir den Bereich der ersten Stufe verlassen haben. Siehe auch \cite{mendelson}, S. 55.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -3026,14 +3030,14 @@
             <LATEX language="en">
               <![CDATA[
                 \begin{rul}[Term Definition by Formula]\hypertarget{rule:termdef}{}
-                If the formula $\exists! x \ \alpha(x)$ holds, we can expand the term syntax by $D(x, \alpha(x))$. May the formula $alpha(x)$ doesn't contain the variable $y$ and let $\beta(y)$ be a formula that doesn't contain the variable $x$. Then we define a new formula $\beta(D(x, \alpha(x)))$ by $\beta(y) \land \exists! x \ (\alpha(x) \land x = y)$. Also in this abbreviate notation the subject variable $x$ counts as bound, the subject variable $y$ is arbitrary (if it fulfills the given conditions) and will be ignored in the abbreviation. Changes in $\alpha$ that lead to another formula $\alpha'$ because of variable collision with $\beta$ must also be done in the abbreviation. All term building rules are extended accordingly. The expression is also replaceble by $\exists! y \ (\beta(y) \land \alpha(y)$ or by $\beta(y) \land \alpha(y)$.
+                If the formula $\exists! x \ \alpha(x)$ holds, we can expand the term syntax by $D(x, \alpha(x))$. May the formula $\alpha(x)$ not contain the variable $y$ and let $\beta(y)$ be a formula that doesn't contain the variable $x$. Then we define a new formula $\beta(D(x, \alpha(x)))$ by $\beta(y) \land \exists! x \ (\alpha(x) \land x = y)$. Also in this abbreviate notation the subject variable $x$ counts as bound, the subject variable $y$ is arbitrary (if it fulfills the given conditions) and will be ignored in the abbreviation. Changes in $\alpha$ that lead to another formula $\alpha'$ because of variable collision with $\beta$ must also be done in the abbreviation. All term building rules are extended accordingly. The expression is also replaceble by $\exists! y \ (\beta(y) \land \alpha(y)$ or by $\beta(y) \land \alpha(y)$.
                 \end{rul}
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
                 \begin{rul}[Termdefinition durch Formel]\hypertarget{rule:termdef}{}
-                Falls die Formel $\exists! x \ \alpha(x)$ gilt, dann kann die Termsyntax durch $D(x, \alpha(x))$ erweitert werden. Die Formel $alpha(x)$ möge die Variable $y$ nicht enthalten und $\beta(y)$ sei eine Formel, welche die Variable $x$ nicht enthält. Dann wird durch $\beta(D(x, \alpha(x)))$ eine
+                Falls die Formel $\exists! x \ \alpha(x)$ gilt, dann kann die Termsyntax durch $D(x, \alpha(x))$ erweitert werden. Die Formel $\alpha(x)$ möge die Variable $y$ nicht enthalten und $\beta(y)$ sei eine Formel, welche die Variable $x$ nicht enthält. Dann wird durch $\beta(D(x, \alpha(x)))$ eine
                 Formel definiert durch $\beta(y) \land \exists! x \ (\alpha(x) \land x = y)$. Auch in der abkürzenden Schreibweise gilt die Subjektvariable $x$ als gebunden, die Subjektvariable $y$ ist mit den obigen Einschränkungen frei wählbar und wird in der Abkürzung nicht weiter beachtet. Veränderungen von $\alpha$ in eine andere Formel $\alpha'$, die eventuell erforderlich sind, damit keine Variablenkollisionen mit Variablen aus $\beta$ entstehen, müssen jedoch auch in der Abkürzung durchgeführt werden. Alle Termbildungsregeln werden entsprechend erweitert. Der Ausdruck ist auch ersetzbar durch $\exists! y \ (\beta(y) \land \alpha(y)$ oder durch $\beta(y) \land \alpha(y)$.
                 \end{rul}
               ]]>
