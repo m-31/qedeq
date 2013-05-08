@@ -16,6 +16,7 @@
 package org.qedeq.kernel.bo.module;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.qedeq.kernel.bo.common.ModuleReferenceList;
@@ -23,6 +24,7 @@ import org.qedeq.kernel.se.base.module.ChangedRule;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Rule;
+import org.qedeq.kernel.se.common.CheckLevel;
 import org.qedeq.kernel.se.common.IllegalModuleDataException;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.RuleKey;
@@ -367,6 +369,35 @@ public final class ModuleLabels {
      */
     public Map getRuleDefinitions() {
         return this.ruleDefinitions;
+    }
+
+    /**
+     * Set the state of all nodes to UNCHECKED for being well formed and proved.
+     */
+    public void resetNodesToWellFormedUnchecked() {
+        final Iterator i = label2Bo.entrySet().iterator();
+        while (i.hasNext()) {
+            Object obj = i.next();
+            if (obj instanceof KernelNodeBo) {
+                KernelNodeBo bo = (KernelNodeBo) obj;
+                bo.setWellFormed(CheckLevel.UNCHECKED);
+                bo.setProved(CheckLevel.UNCHECKED);
+            }
+        }
+    }
+
+    /**
+     * Set the state of all nodes to UNCHECKED for proved.
+     */
+    public void resetNodesToProvedUnchecked() {
+        final Iterator i = label2Bo.entrySet().iterator();
+        while (i.hasNext()) {
+            Object obj = i.next();
+            if (obj instanceof KernelNodeBo) {
+                KernelNodeBo bo = (KernelNodeBo) obj;
+                bo.setProved(CheckLevel.UNCHECKED);
+            }
+        }
     }
 
 }

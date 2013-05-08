@@ -449,6 +449,7 @@ public class StateManager {
                 ref.getDependentModules().remove(bo);
             }
             required.clear();
+            bo.getLabels().resetNodesToWellFormedUnchecked();
         }
         Trace.end(CLASS, this, method);
     }
@@ -461,33 +462,7 @@ public class StateManager {
         Trace.begin(CLASS, this, method);
         Trace.param(CLASS, this, method, "bo", bo);
         if (hasLoadedRequiredModules()) {
-            final KernelModuleReferenceList dependent = bo.getDependentModules();
-            Trace.trace(CLASS, this, method, "begin list of dependent modules");
-            // remember dependent modules
-            final List list = new ArrayList();
-            for (int i = 0; i < dependent.size(); i++) {
-                Trace.param(CLASS, this, method, "" + i, dependent.getKernelQedeqBo(i));
-                list.add(dependent.getKernelQedeqBo(i));
-            }
-            Trace.trace(CLASS, this, method, "end list of dependent modules");
-            for (int i = 0; i < list.size(); i++) {
-                DefaultKernelQedeqBo ref = (DefaultKernelQedeqBo) list.get(i);
-                // work on it, if still in list of dependent modules
-                if (dependent.contains(ref)) {
-                    ref.getStateManager().invalidateDependentModulesToLoaded();
-                }
-            }
-            list.clear();
-            dependent.clear();
-
-            final KernelModuleReferenceList required = bo.getKernelRequiredModules();
-            for (int i = 0; i < required.size(); i++) {
-                DefaultKernelQedeqBo ref = (DefaultKernelQedeqBo) required.getKernelQedeqBo(i);
-                Trace.param(CLASS, this, method, "remove dependence from", ref);
-                ref.getDependentModules().remove(bo);
-            }
-            required.clear();
-
+            invalidateOtherDependentModulesToLoaded();
             invalidateThisModuleToLoaded();
             setLoadingState(LoadingState.STATE_LOADED);
             ModuleEventLog.getInstance().stateChanged(bo);
@@ -495,93 +470,93 @@ public class StateManager {
         Trace.end(CLASS, this, method);
     }
 
-    /**
-     * Reset this and all (recursive) dependent modules (if any) to state loaded.
-     */
-    private void invalidateDependentModulesToLoadedImports() {
-        final String method = "invalidateDependentModulesToLoadedImports";
-        Trace.begin(CLASS, this, method);
-        Trace.param(CLASS, this, method, "bo", bo);
-        if (hasLoadedImports()) {
-            final KernelModuleReferenceList dependent = bo.getDependentModules();
-            Trace.trace(CLASS, this, method, "begin list of dependent modules");
-            // remember dependent modules
-            final List list = new ArrayList();
-            for (int i = 0; i < dependent.size(); i++) {
-                Trace.param(CLASS, this, method, "" + i, dependent.getKernelQedeqBo(i));
-                list.add(dependent.getKernelQedeqBo(i));
-            }
-            Trace.trace(CLASS, this, method, "end list of dependent modules");
-            for (int i = 0; i < list.size(); i++) {
-                DefaultKernelQedeqBo ref = (DefaultKernelQedeqBo) list.get(i);
-                // work on it, if still in list of dependent modules
-                if (dependent.contains(ref)) {
-                    ref.getStateManager().invalidateDependentModulesToLoadedImports();
-                }
-            }
-            list.clear();
-
-            invalidateThisModuleToLoadedImports();
-            ModuleEventLog.getInstance().stateChanged(bo);
-        }
-        Trace.end(CLASS, this, method);
-    }
-
-    /**
-     * Reset all (recursive) dependent modules (if any) to state loaded required.
-     */
-    private void invalidateOtherDependentModulesToLoadedRequired() {
-        if (isWellFormed()) {
-            final KernelModuleReferenceList dependent = bo.getDependentModules();
-            for (int i = 0; i < dependent.size(); i++) {
-                DefaultKernelQedeqBo ref = (DefaultKernelQedeqBo) dependent.getKernelQedeqBo(i);
-                ref.getStateManager().invalidateDependentModulesToLoadedRequired();
-            }
-        }
-    }
-
-    /**
-     * Reset this and all (recursive) dependent modules (if any) to state loaded required.
-     */
-    private void invalidateDependentModulesToLoadedRequired() {
-        if (isWellFormed()) {
-            final KernelModuleReferenceList dependent = bo.getDependentModules();
-            for (int i = 0; i < dependent.size(); i++) {
-                DefaultKernelQedeqBo ref = (DefaultKernelQedeqBo) dependent.getKernelQedeqBo(i);
-                ref.getStateManager().invalidateDependentModulesToLoadedRequired();
-            }
-            invalidateThisModuleToLoadedReqired();
-            ModuleEventLog.getInstance().stateChanged(bo);
-        }
-    }
-
-    /**
-     * Reset all (recursive) dependent modules (if any) to state well formed.
-     */
-    private void invalidateOtherDependentModulesToWellFormed() {
-        if (isFullyFormallyProved()) {
-            final KernelModuleReferenceList dependent = bo.getDependentModules();
-            for (int i = 0; i < dependent.size(); i++) {
-                DefaultKernelQedeqBo ref = (DefaultKernelQedeqBo) dependent.getKernelQedeqBo(i);
-                ref.getStateManager().invalidateDependentModulesToWellFormed();
-            }
-        }
-    }
-
-    /**
-     * Reset this and all (recursive) dependent modules (if any) to state well formed.
-     */
-    private void invalidateDependentModulesToWellFormed() {
-        if (isFullyFormallyProved()) {
-            final KernelModuleReferenceList dependent = bo.getDependentModules();
-            for (int i = 0; i < dependent.size(); i++) {
-                DefaultKernelQedeqBo ref = (DefaultKernelQedeqBo) dependent.getKernelQedeqBo(i);
-                ref.getStateManager().invalidateDependentModulesToWellFormed();
-            }
-            invalidateThisModuleToWellFormed();
-            ModuleEventLog.getInstance().stateChanged(bo);
-        }
-    }
+//    /**
+//     * Reset this and all (recursive) dependent modules (if any) to state loaded.
+//     */
+//    private void invalidateDependentModulesToLoadedImports() {
+//        final String method = "invalidateDependentModulesToLoadedImports";
+//        Trace.begin(CLASS, this, method);
+//        Trace.param(CLASS, this, method, "bo", bo);
+//        if (hasLoadedImports()) {
+//            final KernelModuleReferenceList dependent = bo.getDependentModules();
+//            Trace.trace(CLASS, this, method, "begin list of dependent modules");
+//            // remember dependent modules
+//            final List list = new ArrayList();
+//            for (int i = 0; i < dependent.size(); i++) {
+//                Trace.param(CLASS, this, method, "" + i, dependent.getKernelQedeqBo(i));
+//                list.add(dependent.getKernelQedeqBo(i));
+//            }
+//            Trace.trace(CLASS, this, method, "end list of dependent modules");
+//            for (int i = 0; i < list.size(); i++) {
+//                DefaultKernelQedeqBo ref = (DefaultKernelQedeqBo) list.get(i);
+//                // work on it, if still in list of dependent modules
+//                if (dependent.contains(ref)) {
+//                    ref.getStateManager().invalidateDependentModulesToLoadedImports();
+//                }
+//            }
+//            list.clear();
+//
+//            invalidateThisModuleToLoadedImports();
+//            ModuleEventLog.getInstance().stateChanged(bo);
+//        }
+//        Trace.end(CLASS, this, method);
+//    }
+//
+//    /**
+//     * Reset all (recursive) dependent modules (if any) to state loaded required.
+//     */
+//    private void invalidateOtherDependentModulesToLoadedRequired() {
+//        if (isWellFormed()) {
+//            final KernelModuleReferenceList dependent = bo.getDependentModules();
+//            for (int i = 0; i < dependent.size(); i++) {
+//                DefaultKernelQedeqBo ref = (DefaultKernelQedeqBo) dependent.getKernelQedeqBo(i);
+//                ref.getStateManager().invalidateDependentModulesToLoadedRequired();
+//            }
+//        }
+//    }
+//
+//    /**
+//     * Reset this and all (recursive) dependent modules (if any) to state loaded required.
+//     */
+//    private void invalidateDependentModulesToLoadedRequired() {
+//        if (isWellFormed()) {
+//            final KernelModuleReferenceList dependent = bo.getDependentModules();
+//            for (int i = 0; i < dependent.size(); i++) {
+//                DefaultKernelQedeqBo ref = (DefaultKernelQedeqBo) dependent.getKernelQedeqBo(i);
+//                ref.getStateManager().invalidateDependentModulesToLoadedRequired();
+//            }
+//            invalidateThisModuleToLoadedReqired();
+//            ModuleEventLog.getInstance().stateChanged(bo);
+//        }
+//    }
+//
+//    /**
+//     * Reset all (recursive) dependent modules (if any) to state well formed.
+//     */
+//    private void invalidateOtherDependentModulesToWellFormed() {
+//        if (isFullyFormallyProved()) {
+//            final KernelModuleReferenceList dependent = bo.getDependentModules();
+//            for (int i = 0; i < dependent.size(); i++) {
+//                DefaultKernelQedeqBo ref = (DefaultKernelQedeqBo) dependent.getKernelQedeqBo(i);
+//                ref.getStateManager().invalidateDependentModulesToWellFormed();
+//            }
+//        }
+//    }
+//
+//    /**
+//     * Reset this and all (recursive) dependent modules (if any) to state well formed.
+//     */
+//    private void invalidateDependentModulesToWellFormed() {
+//        if (isFullyFormallyProved()) {
+//            final KernelModuleReferenceList dependent = bo.getDependentModules();
+//            for (int i = 0; i < dependent.size(); i++) {
+//                DefaultKernelQedeqBo ref = (DefaultKernelQedeqBo) dependent.getKernelQedeqBo(i);
+//                ref.getStateManager().invalidateDependentModulesToWellFormed();
+//            }
+//            invalidateThisModuleToWellFormed();
+//            ModuleEventLog.getInstance().stateChanged(bo);
+//        }
+//    }
 
     private void invalidateThisModuleToLoaded() {
         if (isLoaded()) {
@@ -595,39 +570,39 @@ public class StateManager {
         }
     }
 
-    private void invalidateThisModuleToLoadedImports() {
-        if (hasLoadedImports()) {
-            setLoadingImportsState(LoadingImportsState.STATE_LOADED_IMPORTED_MODULES);
-            setDependencyState(DependencyState.STATE_UNDEFINED);
-            setWellFormedState(WellFormedState.STATE_UNCHECKED);
-            setFormallyProvedState(FormallyProvedState.STATE_UNCHECKED);
-            setErrors(null);
-        }
-    }
-
-    private void invalidateThisModuleToLoadedReqired() {
-        if (hasLoadedRequiredModules()) {
-            setDependencyState(DependencyState.STATE_LOADED_REQUIRED_MODULES);
-            setWellFormedState(WellFormedState.STATE_UNCHECKED);
-            setFormallyProvedState(FormallyProvedState.STATE_UNCHECKED);
-            setErrors(null);
-        }
-    }
-
-    private void invalidateThisModuleToWellFormed() {
-        if (isWellFormed()) {
-            setWellFormedState(WellFormedState.STATE_CHECKED);
-            setFormallyProvedState(FormallyProvedState.STATE_UNCHECKED);
-            setErrors(null);
-        }
-    }
-
-    private void invalidateThisModuleToFormallyProved() {
-        if (isFullyFormallyProved()) {
-            setFormallyProvedState(FormallyProvedState.STATE_CHECKED);
-            setErrors(null);
-        }
-    }
+//    private void invalidateThisModuleToLoadedImports() {
+//        if (hasLoadedImports()) {
+//            setLoadingImportsState(LoadingImportsState.STATE_LOADED_IMPORTED_MODULES);
+//            setDependencyState(DependencyState.STATE_UNDEFINED);
+//            setWellFormedState(WellFormedState.STATE_UNCHECKED);
+//            setFormallyProvedState(FormallyProvedState.STATE_UNCHECKED);
+//            setErrors(null);
+//        }
+//    }
+//
+//    private void invalidateThisModuleToLoadedReqired() {
+//        if (hasLoadedRequiredModules()) {
+//            setDependencyState(DependencyState.STATE_LOADED_REQUIRED_MODULES);
+//            setWellFormedState(WellFormedState.STATE_UNCHECKED);
+//            setFormallyProvedState(FormallyProvedState.STATE_UNCHECKED);
+//            setErrors(null);
+//        }
+//    }
+//
+//    private void invalidateThisModuleToWellFormed() {
+//        if (isWellFormed()) {
+//            setWellFormedState(WellFormedState.STATE_CHECKED);
+//            setFormallyProvedState(FormallyProvedState.STATE_UNCHECKED);
+//            setErrors(null);
+//        }
+//    }
+//
+//    private void invalidateThisModuleToFormallyProved() {
+//        if (isFullyFormallyProved()) {
+//            setFormallyProvedState(FormallyProvedState.STATE_CHECKED);
+//            setErrors(null);
+//        }
+//    }
 
     /**
      * Are all required modules loaded?

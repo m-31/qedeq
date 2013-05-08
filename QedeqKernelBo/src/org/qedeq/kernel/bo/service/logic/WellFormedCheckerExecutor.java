@@ -157,6 +157,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
             return Boolean.FALSE;
         }
         getQedeqBo().setWellFormedProgressState(getPlugin(), WellFormedState.STATE_EXTERNAL_CHECKING);
+        getQedeqBo().getLabels().resetNodesToWellFormedUnchecked();
         final SourceFileExceptionList sfl = new SourceFileExceptionList();
         final Map rules = new HashMap(); // map RuleKey to KernelQedeqBo
         final KernelModuleReferenceList list = getQedeqBo().getKernelRequiredModules();

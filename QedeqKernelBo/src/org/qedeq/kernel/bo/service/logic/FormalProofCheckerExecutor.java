@@ -137,6 +137,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
             return Boolean.FALSE;
         }
         getQedeqBo().setFormallyProvedProgressState(getPlugin(), FormallyProvedState.STATE_EXTERNAL_CHECKING);
+        getQedeqBo().getLabels().resetNodesToProvedUnchecked();
         final KernelModuleReferenceList list = getQedeqBo().getKernelRequiredModules();
         for (int i = 0; i < list.size(); i++) {
             Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label", list.getLabel(i));

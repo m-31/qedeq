@@ -179,44 +179,42 @@ public class ServiceProcessManager {
             process.setFailureState();
             return null;
         }
-//        synchronized (qedeq) {
-            process.setBlocked(false);
-            newBlockedModule = !process.getBlockedModules().contains(qedeq);
-            try {
-                process.addBlockedModule(qedeq);
-                final PluginExecutor exe = plugin.createExecutor(qedeq, parameters);
-                qedeq.setCurrentlyRunningPlugin(plugin);
-                final Object result = exe.executePlugin(process, data);
-                if (exe.getInterrupted()) {
-                    call.setFailureState();
-                    process.setFailureState();
-                } else {
-                    call.setSuccessState();
-                }
-                return result;
-            } catch (final RuntimeException e) {
-                final String msg = plugin.getPluginActionName() + " failed with a runtime exception.";
-                Trace.fatal(CLASS, this, method, msg, e);
-                QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
+        process.setBlocked(false);
+        newBlockedModule = !process.getBlockedModules().contains(qedeq);
+        try {
+            process.addBlockedModule(qedeq);
+            final PluginExecutor exe = plugin.createExecutor(qedeq, parameters);
+            qedeq.setCurrentlyRunningPlugin(plugin);
+            final Object result = exe.executePlugin(process, data);
+            if (exe.getInterrupted()) {
                 call.setFailureState();
                 process.setFailureState();
-                return null;
-            } finally {
-                if (newBlockedModule) {
-                    arbiter.unlockRequiredModule(process, qedeq);
-                    process.removeBlockedModule(qedeq);
-                }
-                // remove old executor
-                call.setExecutor(null);
-                qedeq.setCurrentlyRunningPlugin(null);
-                // if we created the process we also close it
-                if (proc == null) {
-                    if (process.isRunning()) {
-                        process.setSuccessState();
-                    }
+            } else {
+                call.setSuccessState();
+            }
+            return result;
+        } catch (final RuntimeException e) {
+            final String msg = plugin.getPluginActionName() + " failed with a runtime exception.";
+            Trace.fatal(CLASS, this, method, msg, e);
+            QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
+            call.setFailureState();
+            process.setFailureState();
+            return null;
+        } finally {
+            if (newBlockedModule) {
+                arbiter.unlockRequiredModule(process, qedeq);
+                process.removeBlockedModule(qedeq);
+            }
+            // remove old executor
+            call.setExecutor(null);
+            qedeq.setCurrentlyRunningPlugin(null);
+            // if we created the process we also close it
+            if (proc == null) {
+                if (process.isRunning()) {
+                    process.setSuccessState();
                 }
             }
-//        }
+        }
     }
 
 

@@ -50,11 +50,11 @@ public class KernelNodeBo implements NodeBo, CheckLevel {
 
     /** Are all formal formulas of this node well formed.
      * See {@link CheckLevel} for value format. */
-    private int wellFormedCheck;
+    private int wellFormedCheck = UNCHECKED;
 
     /** Is this node been successfully formally proved at least once.
      * See {@link CheckLevel} for value format. */
-    private int provedCheck;
+    private int provedCheck = UNCHECKED;
 
 
     /**
