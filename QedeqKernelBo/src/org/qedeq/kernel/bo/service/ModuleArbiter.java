@@ -27,6 +27,9 @@ import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
  * Get locks for modules.
+ * FIXME 20130508 m31: Currently we make no difference between read and write locks. We also lock
+ * a module during the whole plugin processing for that module. This could be limited to status
+ * changes only.
  *
  * @author  Michael Meyling
  */
@@ -55,6 +58,7 @@ public class ModuleArbiter {
         if (isAlreadyLocked(process, qedeq)) {
             return false;
         }
+        // we try to get a lock, if not we wait
         while (!lock(process, qedeq)) {
             final Object monitor = new Object();
             synchronized (monitor) {
@@ -73,25 +77,6 @@ public class ModuleArbiter {
         return true;
     }
 
-    private synchronized boolean lock(final ServiceProcess process, final KernelQedeqBo qedeq) {
-        System.out.println(getName(process) + " is trying to lock   " + qedeq.getName());
-        final ServiceProcess origin = (ServiceProcess) blocked.get(qedeq);
-        if (origin != null) {
-            System.out.println(getName(process) + " failed to lock      " + qedeq.getName());
-            System.out.println("\tbecause it is locked by " + getName(origin));
-            return false;
-        }
-        System.out.println(getName(process) + " locked successfuly  " + qedeq.getName());
-        blocked.put(qedeq, process);
-        return true;
-    }
-
-    private String getName(final ServiceProcess process) {
-        return StringUtility.format(process.getId(), 3) + " "
-            + (process.getPluginCall() != null ? StringUtility.getLastDotString(
-            process.getPluginCall().getPlugin().getPluginId()) : "");
-    }
-
     /**
      * Unlock module again.
      *
@@ -103,12 +88,12 @@ public class ModuleArbiter {
     }
 
     private synchronized void unlock(final ServiceProcess process, final KernelQedeqBo qedeq) {
+        // FIXME 20130508 m31: remove System.out
         System.out.println(getName(process) + " is trying to unlock " + qedeq.getName());
-        final ServiceProcess origin = (ServiceProcess) blocked.get(qedeq);
+        final ServiceProcess origin = getProcess(qedeq);
         if (origin != null) {
             if (origin.equals(process)) {
-                System.out.println(getName(process) + " unlocked            " + qedeq.getName());
-                blocked.remove(qedeq);
+                removeLock(process, qedeq);
             } else {
                 System.out.println(getName(process) + " illegal unlock try  " + qedeq.getName());
                 // FIXME 20130324 m31: later on we might handle this differently but for now:
@@ -119,12 +104,27 @@ public class ModuleArbiter {
         }
     }
 
-    private synchronized ServiceProcess getProcess(final KernelQedeqBo qedeq) {
-        return (ServiceProcess) blocked.get(qedeq);
+    private synchronized boolean lock(final ServiceProcess process, final KernelQedeqBo qedeq) {
+        // FIXME 20130508 m31: remove System.out
+        System.out.println(getName(process) + " is trying to lock   " + qedeq.getName());
+        final ServiceProcess origin = getProcess(qedeq);
+        if (origin != null) {
+            System.out.println(getName(process) + " failed to lock      " + qedeq.getName());
+            System.out.println("\tbecause it is locked by " + getName(origin));
+            return false;
+        }
+        addLock(process, qedeq);
+        return true;
     }
 
-    private synchronized boolean isLocked(final KernelQedeqBo qedeq) {
-        return blocked.containsKey(qedeq);
+    private String getName(final ServiceProcess process) {
+        return StringUtility.format(process.getId(), 3) + " "
+            + (process.getPluginCall() != null ? StringUtility.getLastDotString(
+            process.getPluginCall().getPlugin().getPluginId()) : "");
+    }
+
+    private synchronized ServiceProcess getProcess(final KernelQedeqBo qedeq) {
+        return (ServiceProcess) blocked.get(qedeq);
     }
 
     private synchronized boolean isAlreadyLocked(final ServiceProcess process,
@@ -133,10 +133,12 @@ public class ModuleArbiter {
     }
 
     private synchronized void addLock(final ServiceProcess process, final KernelQedeqBo qedeq) {
+        System.out.println(getName(process) + " locked successfuly  " + qedeq.getName());
         blocked.put(qedeq, process);
     }
 
-    private synchronized void removeLock(final KernelQedeqBo qedeq) {
+    private synchronized void removeLock(final ServiceProcess process, final KernelQedeqBo qedeq) {
+        System.out.println(getName(process) + " unlocked            " + qedeq.getName());
         blocked.remove(qedeq);
     }
 
