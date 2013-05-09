@@ -32,6 +32,9 @@ public class Parameters {
     /** In this map our values are stored. */
     private final Map map;
 
+    /** Empty parameters. */
+    public static final Parameters EMPTY = new Parameters();
+
     /**
      * Constructs parameter access object.
      *
