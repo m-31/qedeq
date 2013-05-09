@@ -21,8 +21,6 @@ import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.QedeqBoSet;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
-import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.KernelQedeqBoSet;
 
 /**
  * Process info for a kernel service.
@@ -64,22 +62,23 @@ public class ServiceProcessImpl implements InternalServiceProcess {
     /** Is this process blocked? */
     private boolean blocked;
 
-    /** We block these QEDEQ modules for other processes. */
-    private final KernelQedeqBoSet blockedModules;
-
     /** Process id. */
     private final long id;
+
+    /** This arbiter can lock and unlock modules. */
+    private ModuleArbiter arbiter;
 
     /**
      * A new service process within the current thread.
      *
      * @param   actionName  Main process purpose.
      */
-    public ServiceProcessImpl(final String actionName) {
+    public ServiceProcessImpl(final ModuleArbiter arbiter, final String actionName) {
         this.id = inc();
         this.thread = Thread.currentThread();
         this.call = null;
-        this.blockedModules = new KernelQedeqBoSet();
+//        this.blockedModules = new KernelQedeqBoSet();
+        this.arbiter = arbiter;
         this.actionName = actionName;
         start();
     }
@@ -214,24 +213,9 @@ public class ServiceProcessImpl implements InternalServiceProcess {
     }
 
     public synchronized QedeqBoSet getBlockedModules() {
-        return new KernelQedeqBoSet(blockedModules);
+        return arbiter.getBlockedModules(this);
     }
 
-    public synchronized void addBlockedModules(final KernelQedeqBoSet set) {
-        blockedModules.add(set);
-    }
-
-    public synchronized void addBlockedModule(final KernelQedeqBo element) {
-        blockedModules.add(element);
-    }
-
-    public synchronized void removeBlockedModules(final KernelQedeqBoSet set) {
-        blockedModules.remove(set);
-    }
-
-    public synchronized void removeBlockedModule(final KernelQedeqBo element) {
-        blockedModules.remove(element);
-    }
 
     public long getId() {
         return id;
@@ -252,6 +236,5 @@ public class ServiceProcessImpl implements InternalServiceProcess {
         final ServiceProcess s = (ServiceProcess) o;
         return (getId() < s.getId() ? -1 : (getId() == s.getId() ? 0 : 1));
     }
-
 
 }
