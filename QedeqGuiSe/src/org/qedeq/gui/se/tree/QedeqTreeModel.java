@@ -107,7 +107,7 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
                 synchronized (QedeqTreeModel.class) {
                     final TreePath path = (TreePath) address2Path.get(prop.getModuleAddress());
                     if (path == null) {
-                        throw new IllegalArgumentException("unknown property: "
+                        throw new IllegalArgumentException("unknown module: "
                             + prop.getModuleAddress());
                     }
                     final QedeqTreeNode node = (QedeqTreeNode) path.getLastPathComponent();
@@ -138,7 +138,7 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
                 synchronized (QedeqTreeModel.class) {
                     final TreePath path = (TreePath) address2Path.get(prop.getModuleAddress());
                     if (path == null) {
-                        throw new IllegalArgumentException("unknown property: "
+                        throw new IllegalArgumentException("unknown module: "
                             + prop.getModuleAddress());
                     }
                     final QedeqTreeNode node = (QedeqTreeNode) path.getLastPathComponent();
