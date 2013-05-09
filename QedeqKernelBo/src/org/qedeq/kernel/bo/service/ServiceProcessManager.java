@@ -159,7 +159,7 @@ public class ServiceProcessManager {
             }
             process = proc;
         } else {
-            process = new ServiceProcessImpl(plugin.getPluginActionName());
+            process = new ServiceProcessImpl(arbiter, plugin.getPluginActionName());
             synchronized (this) {
                 processes.add(process);
             }
@@ -180,9 +180,7 @@ public class ServiceProcessManager {
             return null;
         }
         process.setBlocked(false);
-        newBlockedModule = !process.getBlockedModules().contains(qedeq);
         try {
-            process.addBlockedModule(qedeq);
             final PluginExecutor exe = plugin.createExecutor(qedeq, parameters);
             qedeq.setCurrentlyRunningPlugin(plugin);
             final Object result = exe.executePlugin(process, data);
@@ -203,7 +201,6 @@ public class ServiceProcessManager {
         } finally {
             if (newBlockedModule) {
                 arbiter.unlockRequiredModule(process, qedeq);
-                process.removeBlockedModule(qedeq);
             }
             // remove old executor
             call.setExecutor(null);
