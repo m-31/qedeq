@@ -27,6 +27,7 @@ import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.config.QedeqConfig;
 import org.qedeq.kernel.se.visitor.ContextChecker;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 public class DummyInternalKernelServices implements InternalKernelServices {
 
@@ -110,6 +111,12 @@ public class DummyInternalKernelServices implements InternalKernelServices {
     }
     public Object executePlugin(InternalServiceProcess parent, String id, KernelQedeqBo qedeq, Object data) {
         return null;
+    }
+    public boolean lockModule(InternalServiceProcess process, KernelQedeqBo qedeq) throws InterruptException {
+        return false;
+    }
+    public boolean unlockModule(InternalServiceProcess process, KernelQedeqBo qedeq) {
+        return false;
     }
 
 }

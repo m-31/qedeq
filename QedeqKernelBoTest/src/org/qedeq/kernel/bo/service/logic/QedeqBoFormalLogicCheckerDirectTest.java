@@ -29,6 +29,7 @@ import org.qedeq.kernel.bo.logic.common.LogicalCheckException;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
+import org.qedeq.kernel.bo.service.ModuleArbiter;
 import org.qedeq.kernel.bo.service.ModuleLabelsCreator;
 import org.qedeq.kernel.bo.service.QedeqVoBuilder;
 import org.qedeq.kernel.bo.service.ServiceProcessImpl;
@@ -168,7 +169,7 @@ public final class QedeqBoFormalLogicCheckerDirectTest extends QedeqBoTestCase {
         YodaUtility.setFieldContent(prop, "qedeq", qedeq);
         final ModuleLabelsCreator creator = new ModuleLabelsCreator(DummyPlugin.getInstance(),
             prop);
-        creator.createLabels(new ServiceProcessImpl("check"));
+        creator.createLabels(new ServiceProcessImpl(new ModuleArbiter(), "check"));
         prop.setLoaded(QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq),
             creator.getLabels(), creator.getConverter(), creator.getTextConverter());
         prop.setLoadedImports(new KernelModuleReferenceList());
