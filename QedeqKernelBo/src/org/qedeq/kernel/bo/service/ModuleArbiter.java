@@ -16,12 +16,15 @@
 package org.qedeq.kernel.bo.service;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.kernel.bo.common.QedeqBoSet;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.KernelQedeqBoSet;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.visitor.InterruptException;
 
@@ -82,18 +85,20 @@ public class ModuleArbiter {
      *
      * @param   process     This process must have acquired the lock.
      * @param   qedeq       This module was locked before.
+     * @return  Was this module even locked?
      */
-    public void unlockRequiredModule(final ServiceProcess process, final KernelQedeqBo qedeq) {
-        unlock(process, qedeq);
+    public boolean unlockRequiredModule(final ServiceProcess process, final KernelQedeqBo qedeq) {
+        return unlock(process, qedeq);
     }
 
-    private synchronized void unlock(final ServiceProcess process, final KernelQedeqBo qedeq) {
+    private synchronized boolean unlock(final ServiceProcess process, final KernelQedeqBo qedeq) {
         // FIXME 20130508 m31: remove System.out
         System.out.println(getName(process) + " is trying to unlock " + qedeq.getName());
         final ServiceProcess origin = getProcess(qedeq);
         if (origin != null) {
             if (origin.equals(process)) {
                 removeLock(process, qedeq);
+                return true;
             } else {
                 System.out.println(getName(process) + " illegal unlock try  " + qedeq.getName());
                 // FIXME 20130324 m31: later on we might handle this differently but for now:
@@ -101,6 +106,7 @@ public class ModuleArbiter {
             }
         } else {
             System.out.println(getName(process) + " unlock unneccassary " + qedeq.getName());
+            return false;
         }
     }
 
@@ -140,6 +146,19 @@ public class ModuleArbiter {
     private synchronized void removeLock(final ServiceProcess process, final KernelQedeqBo qedeq) {
         System.out.println(getName(process) + " unlocked            " + qedeq.getName());
         blocked.remove(qedeq);
+    }
+
+    public synchronized QedeqBoSet getBlockedModules(final ServiceProcess process) {
+        KernelQedeqBoSet result = new KernelQedeqBoSet();
+        final Iterator i = blocked.entrySet().iterator();
+        while (i.hasNext()) {
+            final Map.Entry entry = (Map.Entry) i.next();
+            KernelQedeqBo qedeq = (KernelQedeqBo) entry.getKey();
+            if (process.equals(entry.getValue())) {
+                result.add(qedeq);
+            }
+        }
+        return result;
     }
 
 }
