@@ -42,12 +42,4 @@ public interface InternalServiceProcess extends ServiceProcess {
      */
     public void setFailureState();
 
-    public void addBlockedModules(KernelQedeqBoSet set);
-
-    public void addBlockedModule(KernelQedeqBo element);
-
-    public void removeBlockedModules(KernelQedeqBoSet set);
-
-    public void removeBlockedModule(KernelQedeqBo element);
-
 }
