@@ -28,6 +28,7 @@ import java.util.List;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.LoadingListener;
+import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.io.TextInput;
 import org.qedeq.base.io.UrlUtility;
@@ -42,7 +43,6 @@ import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
-import org.qedeq.kernel.bo.service.dependency.LoadAllRequiredModulesPlugin;
 import org.qedeq.kernel.bo.service.dependency.LoadDirectlyRequiredModulesPlugin;
 import org.qedeq.kernel.bo.service.dependency.LoadRequiredModulesPlugin;
 import org.qedeq.kernel.bo.service.logic.FormalProofCheckerPlugin;
@@ -61,6 +61,7 @@ import org.qedeq.kernel.se.dto.module.QedeqVo;
 import org.qedeq.kernel.se.state.LoadingState;
 import org.qedeq.kernel.se.visitor.ContextChecker;
 import org.qedeq.kernel.se.visitor.DefaultContextChecker;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 
 /**
@@ -138,7 +139,6 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
 
         // add internal plugins
         pluginManager.addPlugin(LoadDirectlyRequiredModulesPlugin.class.getName());
-        pluginManager.addPlugin(LoadAllRequiredModulesPlugin.class.getName());
         pluginManager.addPlugin(LoadRequiredModulesPlugin.class.getName());
         pluginManager.addPlugin(WellFormedCheckerPlugin.class.getName());
         pluginManager.addPlugin(FormalProofCheckerPlugin.class.getName());
@@ -219,16 +219,21 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
      * @param address Remove module identified by this address.
      */
     public void removeModule(final ModuleAddress address) {
-        final QedeqBo prop = getQedeqBo(address);
+        final KernelQedeqBo prop = getKernelQedeqBo(address);
         if (prop != null) {
             QedeqLog.getInstance().logRequest("Removing module", address.getUrl());
+            final InternalServiceProcess proc = new ServiceProcessImpl(arbiter, "loadModule");
+            final PluginCallImpl call = processManager.createPluginCall(this, prop, Parameters.EMPTY, proc, null);
             try {
-                removeModule(getModules().getKernelQedeqBo(this, address));
-            } catch (final RuntimeException e) {
+                arbiter.lockRequiredModule(proc, prop);
+                removeModule((DefaultKernelQedeqBo) prop);
+            } catch (final Exception e) {
                 QedeqLog.getInstance().logFailureReply(
                     "Remove failed", address.getUrl(), e.getMessage());
+            } finally {
+                arbiter.unlockRequiredModule(proc, prop);
+                call.setSuccessState();
             }
-
             if (validate) {
                 modules.validateDependencies();
             }
@@ -242,27 +247,15 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
      * @param prop Remove module identified by this property.
      */
     private void removeModule(final DefaultKernelQedeqBo prop) {
-        do {
-            synchronized (this) {
-                if (processCounter == 0) { // no other method is allowed to run
-                    // FIXME mime 20080319: one could call prop.setLoadingProgressState(
-                    // LoadingState.STATE_DELETED) alone but that would
-                    // miss to inform the KernelQedeqBoPool. How do we inform the pool?
-                    // must the StateManager have a reference to it?
-                    prop.delete();
-                    getModules().removeModule(prop);
-                    return;
-                }
-            }
-            // we must wait for the other processes to stop (so that processCounter == 0)
-            synchronized (MONITOR) {
-                try {
-                    MONITOR.wait(10000);
-                } catch (InterruptedException e) {
-                }
-            }
-        } while (true);
-
+        synchronized (prop) {
+            // FIXME mime 20080319: one could call prop.setLoadingProgressState(
+            // LoadingState.STATE_DELETED) alone but that would
+            // miss to inform the KernelQedeqBoPool. How do we inform the pool?
+            // must the StateManager have a reference to it?
+            prop.delete();
+            getModules().removeModule(prop);
+            return;
+        }
     }
 
     /**
@@ -301,9 +294,9 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
 
     public QedeqBo loadModule(final ModuleAddress address) {
         final String method = "loadModule(ModuleAddress)";
-        final InternalServiceProcess proc = new ServiceProcessImpl("loadModule");
-        processInc();
+        final InternalServiceProcess proc = new ServiceProcessImpl(arbiter, "loadModule");
         final DefaultKernelQedeqBo prop = getModules().getKernelQedeqBo(this, address);
+        final PluginCallImpl call = processManager.createPluginCall(this, prop, Parameters.EMPTY, proc, null);
         try {
             synchronized (prop) {
                 if (prop.isLoaded()) {
@@ -333,7 +326,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             Trace.fatal(CLASS, this, method, "unexpected problem", e);
             QedeqLog.getInstance().logFailureReply("Loading failed", address.getUrl(), e.getMessage());
         } finally {
-            processDec();
+            call.setSuccessState();
         }
         return prop;
     }
@@ -494,7 +487,6 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         final String method = "loadModule(Module, Specification)";
         Trace.begin(CLASS, this, method);
         Trace.trace(CLASS, this, method, spec);
-        processInc();
         DefaultKernelQedeqBo prop = null; // currently tried module
         try {
             final ModuleAddress[] modulePaths;
@@ -519,6 +511,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                     if (prop.isLoaded()) {
                         return (prop);
                     }
+                    final PluginCallImpl call = processManager.createPluginCall(this, prop, Parameters.EMPTY, proc, null);
                     try {
                         if (prop.getModuleAddress().isFileAddress()) {
                             loadLocalModule(proc, prop);
@@ -543,6 +536,8 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                             // we surrender
                             throw e;
                         }
+                    } finally {
+                        call.setSuccessState();
                     }
                 }
             }
@@ -553,7 +548,6 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                 (prop != null ? prop.getUrl() : "unknownURL"), e.getMessage());
             throw e;
         } finally {
-            processDec();
             Trace.end(CLASS, this, method);
         }
     }
@@ -568,75 +562,65 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
      * @return Successfully reloaded all modules.
      */
     public boolean loadPreviouslySuccessfullyLoadedModules() {
-        processInc();
-        try {
-            final String[] list = config.getPreviouslyLoadedModules();
-            boolean errors = false;
-            for (int i = 0; i < list.length; i++) {
-                try {
-                    final ModuleAddress address = getModuleAddress(list[i]);
-                    final QedeqBo prop = loadModule(address);
-                    if (prop.hasErrors()) {
-                        errors = true;
-                    }
-                } catch (IOException e) {
-                    Trace.fatal(CLASS, this, "loadPreviouslySuccessfullyLoadedModules",
-                        "internal error: " + "saved URLs are malformed", e);
+        final String[] list = config.getPreviouslyLoadedModules();
+        boolean errors = false;
+        for (int i = 0; i < list.length; i++) {
+            try {
+                final ModuleAddress address = getModuleAddress(list[i]);
+                final QedeqBo prop = loadModule(address);
+                if (prop.hasErrors()) {
                     errors = true;
                 }
+            } catch (IOException e) {
+                Trace.fatal(CLASS, this, "loadPreviouslySuccessfullyLoadedModules",
+                    "internal error: " + "saved URLs are malformed", e);
+                errors = true;
             }
-            return !errors;
-        } finally {
-            processDec();
         }
+        return !errors;
     }
 
     // LATER mime 20070326: dynamic loading from web page directory
     public boolean loadAllModulesFromQedeq() {
-        processInc();
-        try {
-            final String prefix = "http://www.qedeq.org/" + kernel.getKernelVersionDirectory() + "/";
-            final String[] list = new String[] {
-                prefix + "doc/math/qedeq_logic_v1.xml",
-                prefix + "doc/math/qedeq_formal_logic_v1.xml",
-                prefix + "doc/math/qedeq_set_theory_v1.xml",
-                prefix + "doc/project/qedeq_basic_concept.xml",
-                prefix + "doc/project/qedeq_logic_language.xml",
-                prefix + "sample/qedeq_sample1.xml",
-                prefix + "sample/qedeq_sample2.xml",
-                prefix + "sample/qedeq_sample3.xml",
-                prefix + "sample/qedeq_sample4.xml",
-                prefix + "sample/qedeq_error_sample_00.xml",
-                prefix + "sample/qedeq_error_sample_01.xml",
-                prefix + "sample/qedeq_error_sample_02.xml",
-                prefix + "sample/qedeq_error_sample_03.xml",
-                prefix + "sample/qedeq_error_sample_04.xml",
-                prefix + "sample/qedeq_error_sample_05.xml",
-                prefix + "sample/qedeq_error_sample_12.xml",
-                prefix + "sample/qedeq_error_sample_13.xml",
-                prefix + "sample/qedeq_error_sample_14.xml",
-                prefix + "sample/qedeq_error_sample_15.xml",
-                prefix + "sample/qedeq_error_sample_16.xml",
-                prefix + "sample/qedeq_error_sample_17.xml",
-                prefix + "sample/qedeq_error_sample_18.xml"};
-            boolean errors = false;
-            for (int i = 0; i < list.length; i++) {
-                try {
-                    final ModuleAddress address = getModuleAddress(list[i]);
-                    final QedeqBo prop = loadModule(address);
-                    if (prop.hasErrors()) {
-                        errors = true;
-                    }
-                } catch (IOException e) {
-                    Trace.fatal(CLASS, this, "loadPreviouslySuccessfullyLoadedModules",
-                        "internal error: " + "saved URLs are malformed", e);
+        final String prefix = "http://www.qedeq.org/" + kernel.getKernelVersionDirectory() + "/";
+        final String[] list = new String[] {
+            prefix + "doc/math/qedeq_logic_v1.xml",
+            prefix + "doc/math/qedeq_formal_logic_v1.xml",
+            prefix + "doc/math/qedeq_set_theory_v1.xml",
+            prefix + "doc/project/qedeq_basic_concept.xml",
+            prefix + "doc/project/qedeq_logic_language.xml",
+            prefix + "sample/qedeq_sample1.xml",
+            prefix + "sample/qedeq_sample2.xml",
+            prefix + "sample/qedeq_sample3.xml",
+            prefix + "sample/qedeq_sample4.xml",
+            prefix + "sample/qedeq_error_sample_00.xml",
+            prefix + "sample/qedeq_error_sample_01.xml",
+            prefix + "sample/qedeq_error_sample_02.xml",
+            prefix + "sample/qedeq_error_sample_03.xml",
+            prefix + "sample/qedeq_error_sample_04.xml",
+            prefix + "sample/qedeq_error_sample_05.xml",
+            prefix + "sample/qedeq_error_sample_12.xml",
+            prefix + "sample/qedeq_error_sample_13.xml",
+            prefix + "sample/qedeq_error_sample_14.xml",
+            prefix + "sample/qedeq_error_sample_15.xml",
+            prefix + "sample/qedeq_error_sample_16.xml",
+            prefix + "sample/qedeq_error_sample_17.xml",
+            prefix + "sample/qedeq_error_sample_18.xml"};
+        boolean errors = false;
+        for (int i = 0; i < list.length; i++) {
+            try {
+                final ModuleAddress address = getModuleAddress(list[i]);
+                final QedeqBo prop = loadModule(address);
+                if (prop.hasErrors()) {
                     errors = true;
                 }
+            } catch (IOException e) {
+                Trace.fatal(CLASS, this, "loadPreviouslySuccessfullyLoadedModules",
+                    "internal error: " + "saved URLs are malformed", e);
+                errors = true;
             }
-            return !errors;
-        } finally {
-            processDec();
         }
+        return !errors;
     }
 
     /**
@@ -737,24 +721,6 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         StringUtility.replace(adr, "://", "_"); // before host
         StringUtility.replace(adr, ":", "_"); // before protocol
         return new File(getBufferDirectory(), adr.toString());
-    }
-
-    /**
-     * Increment intern process counter.
-     */
-    private void processInc() {
-        synchronized (processCounterSync) {
-            this.processCounter++;
-        }
-    }
-
-    /**
-     * Decrement intern process counter.
-     */
-    private void processDec() {
-        synchronized (processCounterSync) {
-            this.processCounter--;
-        }
     }
 
     public File getBufferDirectory() {
@@ -1068,6 +1034,14 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
      */
     public void setContextChecker(final ContextChecker contextChecker) {
         this.contextChecker = contextChecker;
+    }
+
+    public boolean lockModule(final InternalServiceProcess process, final KernelQedeqBo qedeq) throws InterruptException {
+        return arbiter.lockRequiredModule(process, qedeq);
+    }
+
+    public boolean unlockModule(final InternalServiceProcess process, final KernelQedeqBo qedeq) {
+        return arbiter.unlockRequiredModule(process, qedeq);
     }
 
 }

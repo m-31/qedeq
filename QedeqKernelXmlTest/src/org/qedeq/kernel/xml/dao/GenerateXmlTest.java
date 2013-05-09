@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.kernel.bo.service.ModuleArbiter;
 import org.qedeq.kernel.bo.service.ServiceProcessImpl;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -113,7 +114,8 @@ public final class GenerateXmlTest extends QedeqBoTestCase {
             throws IOException, SourceFileExceptionList, SAXException {
         final File destination = new File(destinationDirectory, xmlFile.getName() + "_").getAbsoluteFile();
         System.out.println("generation of " + xmlFile + " to " + destination);
-        Xml2Xml.generate(new ServiceProcessImpl("generate"), getServices(), getInternalServices(), xmlFile, destination);
+        Xml2Xml.generate(new ServiceProcessImpl(new ModuleArbiter(), "generate"), getServices(),
+            getInternalServices(), xmlFile, destination);
         if (!normalize) {
             assertEquals(true, IoUtility.compareTextFiles(xmlFile, destination, "UTF-8"));
 //            assertEquals(IoUtility.loadFile(xmlFile.getAbsolutePath(), "UTF-8"), 

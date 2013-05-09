@@ -24,6 +24,7 @@ import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.config.QedeqConfig;
 import org.qedeq.kernel.se.visitor.ContextChecker;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
  * The kernel internal service methods are assembled here. Needed by the kernel and its helpers.
@@ -175,5 +176,9 @@ public interface InternalKernelServices extends KernelProperties {
      * @return  Checker for testing if context is valid.
      */
     public ContextChecker getContextChecker();
+
+    public boolean lockModule(InternalServiceProcess process, KernelQedeqBo qedeq) throws InterruptException;
+
+    public boolean unlockModule(InternalServiceProcess process, KernelQedeqBo qedeq);
 
 }
