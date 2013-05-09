@@ -42,6 +42,7 @@ import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.dependency.LoadDirectlyRequiredModulesPlugin;
 import org.qedeq.kernel.bo.service.dependency.LoadRequiredModulesPlugin;
@@ -77,12 +78,6 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
 
     /** For synchronized waiting. */
     private static final Object MONITOR = new Object();
-
-    /** Number of method calls. */
-    private final String processCounterSync = CLASS.toString();
-
-    /** Number of method calls. */
-    private volatile int processCounter = 0;
 
     /** Collection of already known QEDEQ modules. */
     private KernelQedeqBoStorage modules;
@@ -195,22 +190,8 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     }
 
     public void removeAllModules() {
-        do {
-            synchronized (this) {
-                if (processCounter == 0) {
-                    getModules().removeAllModules();
-                    return;
-                }
-            }
-            // we must wait for the other processes to stop (so that processCounter == 0)
-            synchronized (MONITOR) {
-                try {
-                    MONITOR.wait(10000);
-                } catch (InterruptedException e) {
-                }
-            }
-        } while (true);
-
+        getModules().removeAllModules();
+        // FIXME implement as below for removeModule
     }
 
     /**
@@ -294,41 +275,95 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
 
     public QedeqBo loadModule(final ModuleAddress address) {
         final String method = "loadModule(ModuleAddress)";
-        final InternalServiceProcess proc = new ServiceProcessImpl(arbiter, "loadModule");
+        System.out.println(method);
+        final InternalServiceProcess proc = processManager.createServiceProcess("LoadModule");
         final DefaultKernelQedeqBo prop = getModules().getKernelQedeqBo(this, address);
-        final PluginCallImpl call = processManager.createPluginCall(this, prop, Parameters.EMPTY, proc, null);
-        try {
-            synchronized (prop) {
-                if (prop.isLoaded()) {
-                    return prop;
-                }
-                QedeqLog.getInstance().logRequest("Load module", address.getUrl());
-                if (prop.getModuleAddress().isFileAddress()) {
-                    loadLocalModule(proc, prop);
-                } else {
-                    // search in local file buffer
-                    try {
-                        getCanonicalReadableFile(prop);
-                    } catch (ModuleFileNotFoundException e) { // file not found
-                        // we will continue by creating a local copy
-                        saveQedeqFromWebToBuffer(prop);
+        final PluginExecutor executor = new PluginExecutor() {
+
+            public Object executePlugin(InternalServiceProcess process,
+                    Object data) {
+                try {
+                    synchronized (prop) {
+                        if (prop.isLoaded()) {
+                            return prop;
+                        }
+                        QedeqLog.getInstance().logRequest("Load module", address.getUrl());
+                        if (prop.getModuleAddress().isFileAddress()) {
+                            loadLocalModule(process, prop);
+                        } else {
+                            // search in local file buffer
+                            try {
+                                getCanonicalReadableFile(prop);
+                            } catch (ModuleFileNotFoundException e) { // file not found
+                                // we will continue by creating a local copy
+                                saveQedeqFromWebToBuffer(prop);
+                            }
+                            loadBufferedModule(process, prop);
+                        }
+                        QedeqLog.getInstance().logSuccessfulReply(
+                            "Successfully loaded", address.getUrl());
                     }
-                    loadBufferedModule(proc, prop);
+                } catch (SourceFileExceptionList e) {
+                    Trace.trace(CLASS, this, method, e);
+                    QedeqLog.getInstance().logFailureState("Loading of module failed!", address.getUrl(),
+                        e.toString());
+                } catch (final RuntimeException e) {
+                    Trace.fatal(CLASS, this, method, "unexpected problem", e);
+                    QedeqLog.getInstance().logFailureReply("Loading failed", address.getUrl(), e.getMessage());
                 }
-                QedeqLog.getInstance().logSuccessfulReply(
-                    "Successfully loaded", address.getUrl());
+                return prop;
             }
-        } catch (SourceFileExceptionList e) {
-            Trace.trace(CLASS, this, method, e);
-            QedeqLog.getInstance().logFailureState("Loading of module failed!", address.getUrl(),
-                e.toString());
-        } catch (final RuntimeException e) {
-            Trace.fatal(CLASS, this, method, "unexpected problem", e);
-            QedeqLog.getInstance().logFailureReply("Loading failed", address.getUrl(), e.getMessage());
-        } finally {
-            call.setSuccessState();
-        }
+
+            public double getExecutionPercentage() {
+                // TODO Auto-generated method stub
+                return 0;
+            }
+
+            public boolean getInterrupted() {
+                // TODO Auto-generated method stub
+                return false;
+            }
+
+            public String getLocationDescription() {
+                // TODO Auto-generated method stub
+                return null;
+            }
+        };
+        this.processManager.executeService(this, executor, prop, proc);
+        proc.setSuccessState();
         return prop;
+//        try {
+//            synchronized (prop) {
+//                if (prop.isLoaded()) {
+//                    return prop;
+//                }
+//                QedeqLog.getInstance().logRequest("Load module", address.getUrl());
+//                if (prop.getModuleAddress().isFileAddress()) {
+//                    loadLocalModule(proc, prop);
+//                } else {
+//                    // search in local file buffer
+//                    try {
+//                        getCanonicalReadableFile(prop);
+//                    } catch (ModuleFileNotFoundException e) { // file not found
+//                        // we will continue by creating a local copy
+//                        saveQedeqFromWebToBuffer(prop);
+//                    }
+//                    loadBufferedModule(proc, prop);
+//                }
+//                QedeqLog.getInstance().logSuccessfulReply(
+//                    "Successfully loaded", address.getUrl());
+//            }
+//        } catch (SourceFileExceptionList e) {
+//            Trace.trace(CLASS, this, method, e);
+//            QedeqLog.getInstance().logFailureState("Loading of module failed!", address.getUrl(),
+//                e.toString());
+//        } catch (final RuntimeException e) {
+//            Trace.fatal(CLASS, this, method, "unexpected problem", e);
+//            QedeqLog.getInstance().logFailureReply("Loading failed", address.getUrl(), e.getMessage());
+//        } finally {
+//            call.setSuccessState();
+//        }
+//        return prop;
     }
 
     /**

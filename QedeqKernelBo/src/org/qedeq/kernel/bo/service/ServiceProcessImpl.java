@@ -158,7 +158,8 @@ public class ServiceProcessImpl implements InternalServiceProcess {
             if (!thread.isAlive()) {
                 Trace.fatal(CLASS, this, "isRunning()", "Thread has unexpectly died",
                     new RuntimeException());
-                setFailureState();
+                state = -1;
+                stop();
                 return false;
             }
             return true;

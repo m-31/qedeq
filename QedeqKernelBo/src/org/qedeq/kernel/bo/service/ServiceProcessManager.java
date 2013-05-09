@@ -129,6 +129,65 @@ public class ServiceProcessManager {
         }
     }
 
+    public synchronized InternalServiceProcess createServiceProcess(final String action) {
+        final InternalServiceProcess process = new ServiceProcessImpl(arbiter, action);
+        synchronized (this) {
+            processes.add(process);
+        }
+        return process;
+    }
+
+    Object executeService(final Plugin service, final PluginExecutor executor, final KernelQedeqBo qedeq,
+            final InternalServiceProcess process) {
+        final String method = "executePlugin(String, KernelQedeqBo, Object)";
+        if (process == null) {
+            throw new NullPointerException("ServiceProcess must not be null");
+        }
+        if (!process.isRunning()) {
+            return null;
+        }
+        process.setBlocked(true);
+        final PluginCallImpl call = new PluginCallImpl(service, qedeq, Parameters.EMPTY, process,
+            process.getPluginCall());
+        process.setPluginCall(call);
+        boolean newBlockedModule = false;
+        try {
+            newBlockedModule = arbiter.lockRequiredModule(process, qedeq);
+        } catch (InterruptException e) {
+            final String msg = service.getPluginActionName() + " was interrupted.";
+            Trace.fatal(CLASS, this, method, msg, e);
+            QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
+            call.setFailureState();
+            process.setFailureState();
+            return null;
+        }
+        process.setBlocked(false);
+        try {
+            qedeq.setCurrentlyRunningPlugin(service);
+            final Object result = executor.executePlugin(process, null);
+            if (executor.getInterrupted()) {
+                call.setFailureState();
+                process.setFailureState();
+            } else {
+                call.setSuccessState();
+            }
+            return result;
+        } catch (final RuntimeException e) {
+            final String msg = service.getPluginActionName() + " failed with a runtime exception.";
+            Trace.fatal(CLASS, this, method, msg, e);
+            QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
+            call.setFailureState();
+            process.setFailureState();
+            return null;
+        } finally {
+            if (newBlockedModule) {
+                arbiter.unlockRequiredModule(process, qedeq);
+            }
+            // remove old executor
+            call.setExecutor(null);
+            qedeq.setCurrentlyRunningPlugin(null);
+        }
+    }
 
     /**
      * Execute a plugin on an QEDEQ module.
