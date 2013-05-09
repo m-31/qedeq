@@ -21,6 +21,7 @@ import java.util.Map;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.kernel.bo.common.ModuleReferenceList;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
@@ -32,6 +33,7 @@ import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.state.DependencyState;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 
 /**
@@ -63,6 +65,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         percentage = 0;
         final String method = "executePlugin";
         if (getQedeqBo().hasLoadedRequiredModules()) {
+            percentage = 100;
             return Boolean.TRUE; // everything is OK
         }
         QedeqLog.getInstance().logRequest(
@@ -72,14 +75,26 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         if (loadingRequiredInProgress == null) {
             loadingRequiredInProgress = new HashMap();
         }
-        Boolean all = (Boolean) getServices().executePlugin(process,
-               LoadAllRequiredModulesPlugin.class.getName(), getQedeqBo(), null);
-        if (!all.booleanValue()) {
+        getServices().unlockModule(process, getQedeqBo());
+        if (!loadAllRequiredModules(process, getQedeqBo())) {
+            try {
+                getServices().lockModule(process, getQedeqBo());
+            } catch (InterruptException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             final String msg = "Loading required modules failed";
             QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
                 "Not all required modules could not even be loaded.");
             getQedeqBo().setDependencyFailureState(
                 DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, getQedeqBo().getErrors());
+            return Boolean.FALSE;
+        }
+        try {
+            getServices().lockModule(process, getQedeqBo());
+        } catch (InterruptException e) {
+            // FIXME what about status changes?
+            e.printStackTrace();
             return Boolean.FALSE;
         }
         if (loadingRequiredInProgress.containsKey(getQedeqBo())) { // already checked?
@@ -90,6 +105,8 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         loadingRequiredInProgress.put(getQedeqBo(), getQedeqBo());
 
         final KernelModuleReferenceList required = (KernelModuleReferenceList) getQedeqBo().getRequiredModules();
+
+        getServices().unlockModule(process, getQedeqBo());
 
         final SourceFileExceptionList sfl = new SourceFileExceptionList();
         Trace.trace(CLASS, this, method, "loading required modules of " + getQedeqBo().getUrl());
@@ -129,6 +146,14 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         if (getQedeqBo().getDependencyState().areAllRequiredLoaded()) {
             return Boolean.TRUE; // everything is OK, someone elses thread might have corrected errors!
         }
+        try {
+            getServices().lockModule(process, getQedeqBo());
+        } catch (InterruptException e) {
+            // FIXME what about status changes?
+            e.printStackTrace();
+            return Boolean.FALSE;
+        }
+
         getQedeqBo().getLabels().setModuleReferences(required); // FIXME why here?
         if (!getQedeqBo().hasBasicFailures() && sfl.size() == 0) {
             getQedeqBo().setLoadedRequiredModules();
@@ -147,6 +172,25 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
              StringUtility.replace(getQedeqBo().getErrors().getMessage(), "\n", "\n\t"));
         return  Boolean.FALSE;
+    }
+
+    private boolean loadAllRequiredModules(final InternalServiceProcess process, final KernelQedeqBo bo) {
+        if (bo.hasLoadedRequiredModules()) {
+            return true;
+        }
+        getServices().executePlugin(process,
+            LoadDirectlyRequiredModulesPlugin.class.getName(), bo, null);
+        if (!bo.hasLoadedImports()) {
+            return false;
+        }
+        final ModuleReferenceList imports = bo.getRequiredModules();
+        boolean result = true;
+        for (int i = 0; i < imports.size(); i++) {
+            if (!imports.getQedeqBo(i).hasLoadedImports()) {
+                result &= loadAllRequiredModules(process, (KernelQedeqBo) imports.getQedeqBo(i));
+            }
+        }
+        return result;
     }
 
     public double getExecutionPercentage() {
