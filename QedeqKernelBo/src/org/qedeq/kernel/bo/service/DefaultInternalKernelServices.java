@@ -279,6 +279,9 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         final InternalServiceProcess proc = processManager.createServiceProcess("LoadModule");
         final DefaultKernelQedeqBo prop = getModules().getKernelQedeqBo(this, address);
         final PluginExecutor executor = new PluginExecutor() {
+            private String action = "start";
+            private double percentage = 0;
+            private boolean interrupted = false;
 
             public Object executePlugin(InternalServiceProcess process,
                     Object data) {
@@ -289,6 +292,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                         }
                         QedeqLog.getInstance().logRequest("Load module", address.getUrl());
                         if (prop.getModuleAddress().isFileAddress()) {
+                            action = "file loading";
                             loadLocalModule(process, prop);
                         } else {
                             // search in local file buffer
@@ -296,13 +300,18 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                                 getCanonicalReadableFile(prop);
                             } catch (ModuleFileNotFoundException e) { // file not found
                                 // we will continue by creating a local copy
-                                saveQedeqFromWebToBuffer(prop);
+                                action = "web loading";
+                                saveQedeqFromWebToBuffer(process, prop);
+                                percentage = 50;
                             }
+                            action = "buffer loading";
                             loadBufferedModule(process, prop);
                         }
                         QedeqLog.getInstance().logSuccessfulReply(
                             "Successfully loaded", address.getUrl());
                     }
+                    percentage = 100;
+                    action = "finished";
                 } catch (SourceFileExceptionList e) {
                     Trace.trace(CLASS, this, method, e);
                     QedeqLog.getInstance().logFailureState("Loading of module failed!", address.getUrl(),
@@ -315,18 +324,15 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             }
 
             public double getExecutionPercentage() {
-                // TODO Auto-generated method stub
-                return 0;
+                return percentage;
             }
 
             public boolean getInterrupted() {
-                // TODO Auto-generated method stub
-                return false;
+                return interrupted;
             }
 
-            public String getLocationDescription() {
-                // TODO Auto-generated method stub
-                return null;
+            public String getActionDescription() {
+                return action;
             }
         };
         this.processManager.executeService(this, executor, prop, proc);
@@ -556,7 +562,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                                 getCanonicalReadableFile(prop);
                             } catch (ModuleFileNotFoundException e) { // file not found
                                 // we will continue by creating a local copy
-                                saveQedeqFromWebToBuffer(prop);
+                                saveQedeqFromWebToBuffer(proc, prop);
                             }
                             loadBufferedModule(proc, prop);
                         }
@@ -661,10 +667,11 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     /**
      * Make local copy of a module if it is no file address.
      *
+     * @param   proc    Service process we run within.
      * @param   prop    Module properties.
      * @throws  SourceFileExceptionList Address was malformed or the file can not be found.
      */
-    private void saveQedeqFromWebToBuffer(final DefaultKernelQedeqBo prop)
+    private void saveQedeqFromWebToBuffer(final InternalServiceProcess proc, final DefaultKernelQedeqBo prop)
             throws SourceFileExceptionList {
         final String method = "saveQedeqFromWebToBuffer(DefaultKernelQedeqBo)";
         Trace.begin(CLASS, this, method);
@@ -674,34 +681,56 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             Trace.end(CLASS, this, method);
             return;
         }
-        prop.setLoadingProgressState(this, LoadingState.STATE_LOADING_FROM_WEB);
+        
+        final PluginExecutor executor = new PluginExecutor() {
+            double percentage = 0;
 
-        final File f = getLocalFilePath(prop.getModuleAddress());
-        try {
-            UrlUtility.saveUrlToFile(prop.getUrl(), f,
-            config.getHttpProxyHost(), config.getHttpProxyPort(), config.getHttpNonProxyHosts(),
-            config.getConnectionTimeout(), config.getReadTimeout(), new LoadingListener() {
-                public void loadingCompletenessChanged(final double completeness) {
-                    prop.setLoadingCompleteness((int) completeness * 100);
+            public Object executePlugin(InternalServiceProcess process, Object data) {
+                final File f = getLocalFilePath(prop.getModuleAddress());
+                prop.setLoadingProgressState(DefaultInternalKernelServices.this, LoadingState.STATE_LOADING_FROM_WEB);
+                try {
+                    UrlUtility.saveUrlToFile(prop.getUrl(), f,
+                        config.getHttpProxyHost(), config.getHttpProxyPort(), config.getHttpNonProxyHosts(),
+                        config.getConnectionTimeout(), config.getReadTimeout(), new LoadingListener() {
+                        public void loadingCompletenessChanged(final double completeness) {
+                            percentage = completeness * 100;
+                            prop.setLoadingCompleteness((int) percentage);
+                        }
+                    });
+                    return Boolean.TRUE;
+                } catch (IOException e) {
+                    Trace.trace(CLASS, this, method, e);
+                    try {
+                        f.delete();
+                    } catch (Exception ex) {
+                        Trace.trace(CLASS, this, method, ex);
+                    }
+                    final SourceFileExceptionList sfl = createSourceFileExceptionList(
+                        ServiceErrors.LOADING_FROM_WEB_FAILED_CODE,
+                        ServiceErrors.LOADING_FROM_WEB_FAILED_TEXT,
+                        prop.getUrl(), e);
+                    prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_WEB_FAILED, sfl);
+                    Trace.trace(CLASS, this, method, "Couldn't access " + prop.getUrl());
                 }
-            });
-        } catch (IOException e) {
-            Trace.trace(CLASS, this, method, e);
-            try {
-                f.delete();
-            } catch (Exception ex) {
-                Trace.trace(CLASS, this, method, ex);
+                return Boolean.FALSE;
             }
-            final SourceFileExceptionList sfl = createSourceFileExceptionList(
-                ServiceErrors.LOADING_FROM_WEB_FAILED_CODE,
-                ServiceErrors.LOADING_FROM_WEB_FAILED_TEXT,
-                prop.getUrl(), e);
-            prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_WEB_FAILED, sfl);
-            Trace.trace(CLASS, this, method, "Couldn't access " + prop.getUrl());
-            throw sfl;
-        } finally {
-            Trace.end(CLASS, this, method);
-        }
+
+            public double getExecutionPercentage() {
+                return percentage;
+            }
+
+            public String getActionDescription() {
+                return "save from web to buffer";
+            }
+
+            public boolean getInterrupted() {
+                return false;
+            }
+        };
+
+        this.processManager.executeService(this, executor, prop, proc);
+        Trace.end(CLASS, this, method);
+
     }
 
     public final File getLocalFilePath(final ModuleAddress address) {

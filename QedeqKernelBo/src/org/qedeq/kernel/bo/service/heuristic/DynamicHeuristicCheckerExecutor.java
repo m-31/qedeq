@@ -369,7 +369,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
     }
 
     public void visitEnter(final Node node) {
-        QedeqLog.getInstance().logMessageState(super.getLocationDescription(),
+        QedeqLog.getInstance().logMessageState(super.getActionDescription(),
             getQedeqBo().getUrl());
     }
 
@@ -453,8 +453,8 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         setBlocked(false);
     }
 
-    public String getLocationDescription() {
-        return super.getLocationDescription() + "\n" + interpreter.toString();
+    public String getActionDescription() {
+        return super.getActionDescription() + "\n" + interpreter.toString();
     }
 
 }

@@ -181,12 +181,12 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
         return destination.toString();
     }
 
-    public String getLocationDescription() {
+    public String getActionDescription() {
         if (languages != null && run < languages.length) {
-            return languages[run] + " " + visitor.getLocationDescription();
+            return languages[run] + " " + visitor.getActionDescription();
         }
         if (languages != null && languages.length > 0) {
-            return languages[languages.length] + " " + visitor.getLocationDescription();
+            return languages[languages.length] + " " + visitor.getActionDescription();
         }
         return "unknown";
     }

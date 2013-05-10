@@ -45,10 +45,10 @@ public interface PluginExecutor {
      *
      * @return  We are doing this currently.
      */
-    public String getLocationDescription();
+    public String getActionDescription();
 
     /**
-     * Was the execution interrupted?
+     * Was the execution interrupted by the user?
      *
      * @return  The execution was interrupted.
      */

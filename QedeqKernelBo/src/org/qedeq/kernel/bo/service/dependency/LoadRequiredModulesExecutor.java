@@ -201,8 +201,8 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         return false;
     }
 
-    public String getLocationDescription() {
-        return super.getLocationDescription();
+    public String getActionDescription() {
+        return super.getActionDescription();
     }
 
 

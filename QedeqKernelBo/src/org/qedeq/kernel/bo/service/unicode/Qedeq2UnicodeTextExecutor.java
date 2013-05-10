@@ -117,8 +117,8 @@ public final class Qedeq2UnicodeTextExecutor implements PluginExecutor {
         return printer.toString();
     }
 
-    public String getLocationDescription() {
-        return visitor.getLocationDescription();
+    public String getActionDescription() {
+        return visitor.getActionDescription();
     }
 
     public double getExecutionPercentage() {

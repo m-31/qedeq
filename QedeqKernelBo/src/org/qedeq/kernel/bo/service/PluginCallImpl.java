@@ -57,7 +57,7 @@ public class PluginCallImpl implements PluginCall {
     /** Percentage of currently running plugin execution. */
     private String executionActionDescription = "not yet started";
 
-    /** Created execution object. Might be <code>null</code>. */
+    /** Execution object. Might be <code>null</code>. */
     private PluginExecutor executor;
 
     /** Service process. */
@@ -208,7 +208,7 @@ public class PluginCallImpl implements PluginCall {
     public synchronized String getExecutionActionDescription() {
         if (isRunning()) {
             if (executor != null) {
-                executionActionDescription = executor.getLocationDescription();
+                executionActionDescription = executor.getActionDescription();
             }
         }
         return executionActionDescription;

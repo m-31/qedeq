@@ -221,7 +221,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
             }
             if (proof != null) {
                 QedeqLog.getInstance().logMessage("proof found for "
-                    + super.getLocationDescription());
+                    + super.getActionDescription());
                 // TODO 20110323 m31: we do a dirty cast to modify the current module
                 Object state;
                 try {
@@ -240,7 +240,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
                 }
             } else {
                 QedeqLog.getInstance().logMessage("proof not found for "
-                    + super.getLocationDescription());
+                    + super.getActionDescription());
             }
             if (proof != null && !noSave) {
                 final File file = getServices().getLocalFilePath(
@@ -261,7 +261,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
             }
         } else {
             Trace.info(CLASS, method, "has already a proof: "
-                + super.getLocationDescription());
+                + super.getActionDescription());
             validFormulas.add(new FormalProofLineVo(new FormulaVo(getNodeBo().getFormula()),
                 new AddVo(getNodeBo().getNodeVo().getId())));
         }
@@ -284,8 +284,8 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
         setBlocked(false);
     }
 
-    public String getLocationDescription() {
-        final String s = super.getLocationDescription();
+    public String getActionDescription() {
+        final String s = super.getActionDescription();
         if (finder == null) {
             return s;
         }
