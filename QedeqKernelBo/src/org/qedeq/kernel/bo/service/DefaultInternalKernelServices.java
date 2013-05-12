@@ -678,11 +678,11 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             Trace.end(CLASS, this, method);
             return;
         }
-        
-        final PluginExecutor executor = new PluginExecutor() {
-            double percentage = 0;
 
-            public Object executePlugin(InternalServiceProcess process, Object data) {
+        final PluginExecutor executor = new PluginExecutor() {
+            private double percentage = 0;
+
+            public Object executePlugin(final InternalServiceProcess process, final Object data) {
                 final File f = getLocalFilePath(prop.getModuleAddress());
                 prop.setLoadingProgressState(DefaultInternalKernelServices.this, LoadingState.STATE_LOADING_FROM_WEB);
                 try {
