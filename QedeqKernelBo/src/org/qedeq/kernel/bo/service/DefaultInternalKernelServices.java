@@ -76,9 +76,6 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     /** This class. */
     private static final Class CLASS = DefaultInternalKernelServices.class;
 
-    /** For synchronized waiting. */
-    private static final Object MONITOR = new Object();
-
     /** Collection of already known QEDEQ modules. */
     private KernelQedeqBoStorage modules;
 
@@ -283,8 +280,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             private double percentage = 0;
             private boolean interrupted = false;
 
-            public Object executePlugin(InternalServiceProcess process,
-                    Object data) {
+            public Object executePlugin(final InternalServiceProcess process, final Object data) {
                 try {
                     synchronized (prop) {
                         if (prop.isLoaded()) {
@@ -552,7 +548,8 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                     if (prop.isLoaded()) {
                         return (prop);
                     }
-                    final PluginCallImpl call = processManager.createPluginCall(this, prop, Parameters.EMPTY, proc, null);
+                    final PluginCallImpl call = processManager.createPluginCall(this, prop, Parameters.EMPTY, proc,
+                        null);
                     try {
                         if (prop.getModuleAddress().isFileAddress()) {
                             loadLocalModule(proc, prop);
@@ -1100,7 +1097,8 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         this.contextChecker = contextChecker;
     }
 
-    public boolean lockModule(final InternalServiceProcess process, final KernelQedeqBo qedeq) throws InterruptException {
+    public boolean lockModule(final InternalServiceProcess process, final KernelQedeqBo qedeq)
+            throws InterruptException {
         return arbiter.lockRequiredModule(process, qedeq);
     }
 
