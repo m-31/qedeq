@@ -71,6 +71,7 @@ public class ServiceProcessImpl implements InternalServiceProcess {
     /**
      * A new service process within the current thread.
      *
+     * @param   arbiter     Remember module arbiter.
      * @param   actionName  Main process purpose.
      */
     public ServiceProcessImpl(final ModuleArbiter arbiter, final String actionName) {
