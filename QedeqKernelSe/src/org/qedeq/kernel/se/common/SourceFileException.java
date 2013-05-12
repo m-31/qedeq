@@ -145,7 +145,7 @@ public class SourceFileException extends QedeqException {
             buffer.append(errorArea.getAddress() + ":" + start.getRow() + ":"
                     + start.getColumn());
             final SourcePosition end = errorArea.getEndPosition();
-            if (end != null ) {
+            if (end != null) {
                 buffer.append(":" + end.getRow() + ":" + end.getColumn());
             }
             buffer.append("\n");
