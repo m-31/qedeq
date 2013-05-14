@@ -62,7 +62,7 @@ public class ServiceCallImpl implements InternalServiceCall {
     private boolean running;
 
     /** Percentage of currently running service execution. */
-    private double executionPercentage = 0;
+    private double executionPercentage;
 
     /** Currently taken action. */
     private String action = "not yet started";

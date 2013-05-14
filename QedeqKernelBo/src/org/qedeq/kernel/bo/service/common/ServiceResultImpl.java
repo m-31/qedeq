@@ -25,19 +25,42 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ServiceResultImpl implements ServiceResult {
 
-    public static ServiceResult INTERRUPTED = new ServiceResultImpl(true);
+    /** A simple service result that has a user interrupt. */
+    public static final ServiceResult INTERRUPTED = new ServiceResultImpl(true);
 
-    public static ServiceResult SUCCESSFUL = new ServiceResultImpl(false);
+    /** A simple successful (=ok) service result. */
+    public static final ServiceResult SUCCESSFUL = new ServiceResultImpl(false);
 
+    /** Did a user interrupt occur and ended the service call? */
     private final boolean interrupted;
+
+    /** Was the call fully successful (finished ok without errors and warnings)? */
     private final boolean ok;
+
+    /** Did warnings occur? */
     private final boolean hasWarnings;
+
+    /** Did errors occur? */
     private final boolean hasErrors;
+
+    /** Error message. Might be empty. */
     private final String message;
+
+    /** Result of service call. Might be null even for a successful call. */
     private Object result;
-    
+
+    /**
+     * Constructor.
+     *
+     * @param   interrupted Did a user interrupt occur and ended the service call?
+     * @param   ok          Was the call fully successful (finished ok without errors and warnings)?
+     * @param   hasWarnings Did warnings occur?
+     * @param   hasErrors   Did errors occur?
+     * @param   message     Error message. Might be empty.
+     * @param   result      Result of service call. Might be null even for a successful call.
+     */
     public ServiceResultImpl(final boolean interrupted, final boolean ok, final boolean hasWarnings,
-                final boolean hasErrors, final String message, final Object result) {
+            final boolean hasErrors, final String message, final Object result) {
         this.interrupted = interrupted;
         this.ok = ok;
         this.hasWarnings = hasWarnings;
@@ -46,6 +69,11 @@ public class ServiceResultImpl implements ServiceResult {
         this.result = result;
     }
 
+    /**
+     * Constructor for a failure call.
+     *
+     * @param   errorMessage     Error message. Should not be empty.
+     */
     public ServiceResultImpl(final String errorMessage) {
         this.interrupted = false;
         this.ok = false;
@@ -55,6 +83,11 @@ public class ServiceResultImpl implements ServiceResult {
         this.result = null;
     }
 
+    /**
+     * Constructor for simple successful or user interrupted call.
+     *
+     * @param   interrupted Did a user interrupt occur and ended the service call?
+     */
     private ServiceResultImpl(final boolean interrupted) {
         if (interrupted) {
             this.interrupted = true;
