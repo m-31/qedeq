@@ -28,6 +28,11 @@ import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
 import org.qedeq.kernel.bo.module.PluginExecutor;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
+import org.qedeq.kernel.bo.service.common.Service;
+import org.qedeq.kernel.bo.service.common.ServiceCallImpl;
+import org.qedeq.kernel.bo.service.common.ServiceExecutor;
+import org.qedeq.kernel.bo.service.common.ServiceResult;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.visitor.InterruptException;
 
@@ -137,56 +142,49 @@ public class ServiceProcessManager {
         return process;
     }
 
-    Object executeService(final Plugin service, final PluginExecutor executor, final KernelQedeqBo qedeq,
+    ServiceResult executeService(final Service service, final ServiceExecutor executor, final KernelQedeqBo qedeq,
             final InternalServiceProcess process) {
         final String method = "executePlugin(String, KernelQedeqBo, Object)";
         if (process == null) {
             throw new NullPointerException("ServiceProcess must not be null");
         }
+        final ServiceCallImpl call = new ServiceCallImpl(service, qedeq, Parameters.EMPTY, Parameters.EMPTY, process,
+            (InternalServiceCall) process.getServiceCall());
         if (!process.isRunning()) {
-            return null;
+            call.halt("Service process is not running any more.");
+            return call.getServiceResult();
         }
+        process.setServiceCall(call);
         process.setBlocked(true);
-        final PluginCallImpl call = new PluginCallImpl(service, qedeq, Parameters.EMPTY, process,
-            process.getPluginCall());
-        process.setPluginCall(call);
+        call.pause();
         boolean newBlockedModule = false;
         try {
             newBlockedModule = arbiter.lockRequiredModule(process, qedeq);
         } catch (InterruptException e) {
-            final String msg = service.getPluginActionName() + " was interrupted.";
+            final String msg = service.getServiceAction() + " was interrupted.";
             Trace.fatal(CLASS, this, method, msg, e);
             QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
-            call.setFailureState();
+            call.interrupt();
             process.setFailureState();
-            return null;
+            return call.getServiceResult();
         }
         process.setBlocked(false);
+        call.resume();
         try {
-            qedeq.setCurrentlyRunningPlugin(service);
-            final Object result = executor.executePlugin(process, null);
-            if (executor.getInterrupted()) {
-                call.setFailureState();
-                process.setFailureState();
-            } else {
-                call.setSuccessState();
-            }
-            return result;
+            executor.executeService(call);
         } catch (final RuntimeException e) {
-            final String msg = service.getPluginActionName() + " failed with a runtime exception.";
+            final String msg = service.getServiceAction() + " failed with a runtime exception.";
             Trace.fatal(CLASS, this, method, msg, e);
             QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
-            call.setFailureState();
+            call.finish(msg + " " + e.getMessage());
             process.setFailureState();
-            return null;
+            return call.getServiceResult();
         } finally {
             if (newBlockedModule) {
                 arbiter.unlockRequiredModule(process, qedeq);
             }
-            // remove old executor
-            call.setExecutor(null);
-            qedeq.setCurrentlyRunningPlugin(null);
         }
+        return call.getServiceResult();
     }
 
     /**

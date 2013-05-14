@@ -42,8 +42,10 @@ import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
+import org.qedeq.kernel.bo.service.common.Service;
+import org.qedeq.kernel.bo.service.common.ServiceExecutor;
 import org.qedeq.kernel.bo.service.dependency.LoadDirectlyRequiredModulesPlugin;
 import org.qedeq.kernel.bo.service.dependency.LoadRequiredModulesPlugin;
 import org.qedeq.kernel.bo.service.logic.FormalProofCheckerPlugin;
@@ -275,63 +277,60 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         System.out.println(method);
         final InternalServiceProcess proc = processManager.createServiceProcess("LoadModule");
         final DefaultKernelQedeqBo prop = getModules().getKernelQedeqBo(this, address);
-        final PluginExecutor executor = new PluginExecutor() {
-            private String action = "start";
-            private double percentage = 0;
-            private boolean interrupted = false;
-
-            public Object executePlugin(final InternalServiceProcess process, final Object data) {
+        final ServiceExecutor executor = new ServiceExecutor() {
+            public void executeService(final InternalServiceCall call) {
                 try {
                     synchronized (prop) {
                         if (prop.isLoaded()) {
-                            return prop;
+                            call.finish();
                         }
                         QedeqLog.getInstance().logRequest("Load module", address.getUrl());
                         if (prop.getModuleAddress().isFileAddress()) {
-                            action = "file loading";
-                            loadLocalModule(process, prop);
+                            call.setAction("file loading");
+                            loadLocalModule(call.getInternalServiceProcess(), prop);
                         } else {
                             // search in local file buffer
                             try {
                                 getCanonicalReadableFile(prop);
                             } catch (ModuleFileNotFoundException e) { // file not found
                                 // we will continue by creating a local copy
-                                action = "web loading";
-                                saveQedeqFromWebToBuffer(process, prop);
-                                percentage = 50;
+                                call.setAction("web loading");
+                                saveQedeqFromWebToBuffer(call.getInternalServiceProcess(), prop);
+                                call.setExecutionPercentage(50);
                             }
-                            action = "buffer loading";
-                            loadBufferedModule(process, prop);
+                            call.setAction("buffer loading");
+                            loadBufferedModule(call.getInternalServiceProcess(), prop);
                         }
                         QedeqLog.getInstance().logSuccessfulReply(
                             "Successfully loaded", address.getUrl());
+                        call.finish();
                     }
-                    percentage = 100;
-                    action = "finished";
                 } catch (SourceFileExceptionList e) {
                     Trace.trace(CLASS, this, method, e);
-                    QedeqLog.getInstance().logFailureState("Loading of module failed!", address.getUrl(),
+                    QedeqLog.getInstance().logFailureState("Loading of module failed.", address.getUrl(),
                         e.toString());
+                    call.finish("Loading of module failed.");
                 } catch (final RuntimeException e) {
                     Trace.fatal(CLASS, this, method, "unexpected problem", e);
                     QedeqLog.getInstance().logFailureReply("Loading failed", address.getUrl(), e.getMessage());
+                    call.finish("Loading of module failed: " + e.getMessage());
                 }
-                return prop;
             }
 
-            public double getExecutionPercentage() {
-                return percentage;
-            }
-
-            public boolean getInterrupted() {
-                return interrupted;
-            }
-
-            public String getActionDescription() {
-                return action;
-            }
         };
-        this.processManager.executeService(this, executor, prop, proc);
+        this.processManager.executeService(new Service() {
+            public String getServiceAction() {
+                return "load QEDEQ module";
+            }
+
+            public String getServiceDescription() {
+                return "take QEDEQ module address and try to load and parse the content";
+            }
+
+            public String getServiceId() {
+                return "" + hashCode();
+            }
+        }, executor, prop, proc);
         proc.setSuccessState();
         return prop;
 //        try {
@@ -679,10 +678,9 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             return;
         }
 
-        final PluginExecutor executor = new PluginExecutor() {
-            private double percentage = 0;
+        final ServiceExecutor executor = new ServiceExecutor() {
 
-            public Object executePlugin(final InternalServiceProcess process, final Object data) {
+            public void executeService(final InternalServiceCall call) {
                 final File f = getLocalFilePath(prop.getModuleAddress());
                 prop.setLoadingProgressState(DefaultInternalKernelServices.this, LoadingState.STATE_LOADING_FROM_WEB);
                 try {
@@ -690,11 +688,12 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                         config.getHttpProxyHost(), config.getHttpProxyPort(), config.getHttpNonProxyHosts(),
                         config.getConnectionTimeout(), config.getReadTimeout(), new LoadingListener() {
                         public void loadingCompletenessChanged(final double completeness) {
-                            percentage = completeness * 100;
+                            final double percentage = completeness * 100;
+                            call.setExecutionPercentage(percentage);
                             prop.setLoadingCompleteness((int) percentage);
                         }
                     });
-                    return Boolean.TRUE;
+                    call.finish();
                 } catch (IOException e) {
                     Trace.trace(CLASS, this, method, e);
                     try {
@@ -708,24 +707,24 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                         prop.getUrl(), e);
                     prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_WEB_FAILED, sfl);
                     Trace.trace(CLASS, this, method, "Couldn't access " + prop.getUrl());
+                    call.finish("Couldn't save URL " + prop.getUrl() + " to file: " + e.getMessage());
                 }
-                return Boolean.FALSE;
-            }
-
-            public double getExecutionPercentage() {
-                return percentage;
-            }
-
-            public String getActionDescription() {
-                return "save from web to buffer";
-            }
-
-            public boolean getInterrupted() {
-                return false;
             }
         };
 
-        this.processManager.executeService(this, executor, prop, proc);
+        this.processManager.executeService(new Service() {
+            public String getServiceAction() {
+                return "saving from web to file buffer";
+            }
+
+            public String getServiceDescription() {
+                return "download QEDEQ module from web URL and save it to a local file";
+            }
+
+            public String getServiceId() {
+                return "" + hashCode();
+            }
+        }, executor, prop, proc);
         Trace.end(CLASS, this, method);
 
     }

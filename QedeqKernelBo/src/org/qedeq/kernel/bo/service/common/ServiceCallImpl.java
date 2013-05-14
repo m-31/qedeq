@@ -173,28 +173,17 @@ public class ServiceCallImpl implements InternalServiceCall {
     private void end() {
         end = System.currentTimeMillis();
         duration += end - start;
+        paused = false;
     }
 
-    /**
-     * Set generic success result for call and stop.
-     * Can only be done if call is still running.
-     */
     public synchronized void finish() {
         finish(ServiceResultImpl.SUCCESSFUL);
     }
 
-    /**
-     * Set generic failure result for call and stop.
-     * Can only be done if call is still running.
-     */
     public synchronized void finish(final String errorMessage) {
         finish(new ServiceResultImpl(errorMessage));
     }
 
-    /**
-     * Set result state for call and stop.
-     * Can only be done if call is still running.
-     */
     public synchronized void finish(final ServiceResult result) {
         if (running) {
             end();
@@ -205,10 +194,6 @@ public class ServiceCallImpl implements InternalServiceCall {
         }
     }
 
-    /**
-     * Set result state for call and stop.
-     * Can only be done if call is still running.
-     */
     public synchronized void halt(final ServiceResult result) {
         if (running) {
             end();
@@ -217,23 +202,16 @@ public class ServiceCallImpl implements InternalServiceCall {
         }
     }
 
-    /**
-     * Set generic failure result for call and stop.
-     * Can only be done if call is still running.
-     */
     public synchronized void halt(final String errorMessage) {
         halt(new ServiceResultImpl(errorMessage));
     }
 
-    /**
-     * Set failure state for call and stop.
-     * Can only be done if call is still running.
-     */
     public synchronized void interrupt() {
         if (running) {
             end();
             running = false;
             this.result = ServiceResultImpl.INTERRUPTED;
+            process.interrupt();
         }
     }
 
@@ -249,8 +227,16 @@ public class ServiceCallImpl implements InternalServiceCall {
         return executionPercentage;
     }
 
+    public synchronized void setExecutionPercentage(final double percentage) {
+        this.executionPercentage = percentage;
+    }
+
     public synchronized String getAction() {
         return action;
+    }
+
+    public synchronized void setAction(final String action) {
+        this.action = action;
     }
 
     public long getId() {

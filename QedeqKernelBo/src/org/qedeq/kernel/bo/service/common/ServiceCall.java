@@ -69,6 +69,13 @@ public interface ServiceCall extends Comparable {
     public long getEndTime();
 
     /**
+     * Get milliseconds the call was working and not pausing.
+     *
+     * @return  Work milliseconds.
+     */
+    public long getDuration();
+
+    /**
      * Return parent service call if any.
      *
      * @return  Parent service call. Might be <code>null</code>.
@@ -88,6 +95,13 @@ public interface ServiceCall extends Comparable {
      * @return  Still running?
      */
     public boolean isRunning();
+
+    /**
+     * Is the execution currently paused because we are waiting for another process.
+     *
+     * @return  Are we waiting?
+     */
+    public boolean isPaused();
 
     /**
      * Get percentage of currently running plugin execution.

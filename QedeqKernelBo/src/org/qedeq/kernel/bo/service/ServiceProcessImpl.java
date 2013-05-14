@@ -21,6 +21,7 @@ import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.QedeqBoSet;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
+import org.qedeq.kernel.bo.service.common.ServiceCall;
 
 /**
  * Process info for a kernel service.
@@ -37,6 +38,9 @@ public class ServiceProcessImpl implements InternalServiceProcess {
 
     /** The plugin call the process currently works for. */
     private PluginCall call;
+
+    /** The service call the process currently works for. */
+    private ServiceCall serviceCall;
 
     /** The thread the service is done within. */
     private final Thread thread;
@@ -94,6 +98,14 @@ public class ServiceProcessImpl implements InternalServiceProcess {
 
     public synchronized PluginCall getPluginCall() {
         return call;
+    }
+
+    public synchronized void setServiceCall(final ServiceCall call) {
+        this.serviceCall = call;
+    }
+
+    public synchronized ServiceCall getServiceCall() {
+        return serviceCall;
     }
 
     public synchronized Thread getThread() {

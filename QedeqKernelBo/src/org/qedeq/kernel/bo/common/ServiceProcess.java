@@ -15,6 +15,8 @@
 
 package org.qedeq.kernel.bo.common;
 
+import org.qedeq.kernel.bo.service.common.ServiceCall;
+
 
 /**
  * Process info for a kernel service.
@@ -22,6 +24,20 @@ package org.qedeq.kernel.bo.common;
  * @author  Michael Meyling
  */
 public interface ServiceProcess extends Comparable {
+
+    /**
+     * Get currently running service call.
+     *
+     * @return  Service call.
+     */
+    public ServiceCall getServiceCall();
+
+    /**
+     * Service call.
+     *
+     * @param   call    Execute this service call.
+     */
+    public void setServiceCall(final ServiceCall call);
 
     /**
      * Get currently running plugin call.

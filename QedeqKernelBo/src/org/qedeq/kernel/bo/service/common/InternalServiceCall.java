@@ -16,7 +16,6 @@
 package org.qedeq.kernel.bo.service.common;
 
 import org.qedeq.base.io.Parameters;
-import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 
@@ -50,6 +49,20 @@ public interface InternalServiceCall extends ServiceCall {
     public Parameters getParameters();
 
     /**
+     * Set percentage of currently running plugin execution.
+     *
+     * @param   percentage  Number between 0 and 100.
+     */
+    public void setExecutionPercentage(double percentage);
+
+    /**
+     * Set description of currently taken action.
+     *
+     * @param   action  We are doing this currently.
+     */
+    public void setAction(String action);
+
+    /**
      * Return parent service call if any.
      *
      * @return  Parent service call. Might be <code>null</code>.
@@ -72,5 +85,49 @@ public interface InternalServiceCall extends ServiceCall {
      * Signal execution resume.
      */
     public void resume();
+
+    /**
+     * Set generic success result for call and stop.
+     * Can only be done if call is still running.
+     */
+    public void finish();
+
+    /**
+     * Set generic failure result for call and stop.
+     * Can only be done if call is still running.
+     *
+     * @param   errorMessage    Reason for finishing with error.
+     */
+    public void finish(final String errorMessage);
+
+    /**
+     * Set result state for call and stop.
+     * Can only be done if call is still running.
+     *
+     * @param   result  Service result.
+     */
+    public void finish(ServiceResult result);
+
+    /**
+     * Set result state for call and stop.
+     * Can only be done if call is still running.
+     *
+     * @param   result  Must include reason for halting.
+     */
+    public void halt(ServiceResult result);
+
+    /**
+     * Set generic failure result for call and stop.
+     * Can only be done if call is still running.
+     *
+     * @param   errorMessage    Reason for halting.
+     */
+    public void halt(final String errorMessage);
+
+    /**
+     * Set failure state for call and stop.
+     * Can only be done if call is still running.
+     */
+    public void interrupt();
 
 }
