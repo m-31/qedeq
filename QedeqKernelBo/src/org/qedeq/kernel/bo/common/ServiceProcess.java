@@ -40,20 +40,6 @@ public interface ServiceProcess extends Comparable {
     public void setServiceCall(final ServiceCall call);
 
     /**
-     * Get currently running plugin call.
-     *
-     * @return  Plugin call.
-     */
-    public PluginCall getPluginCall();
-
-    /**
-     * Plugin execution.
-     *
-     * @param   call    Execute this plugin call.
-     */
-    public void setPluginCall(final PluginCall call);
-
-    /**
      * Get thread the service runs within.
      *
      * @return  Service thread.

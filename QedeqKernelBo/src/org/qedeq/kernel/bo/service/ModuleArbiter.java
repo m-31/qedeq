@@ -125,8 +125,8 @@ public class ModuleArbiter {
 
     private String getName(final ServiceProcess process) {
         return StringUtility.format(process.getId(), 3) + " "
-            + (process.getPluginCall() != null ? StringUtility.getLastDotString(
-            process.getPluginCall().getPlugin().getServiceId()) : "");
+            + (process.getServiceCall() != null ? StringUtility.getLastDotString(
+            process.getServiceCall().getService().getServiceId()) : "");
     }
 
     private synchronized ServiceProcess getProcess(final KernelQedeqBo qedeq) {

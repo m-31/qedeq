@@ -15,7 +15,6 @@
 
 package org.qedeq.kernel.bo.common;
 
-import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.service.common.ServiceCall;
 import org.qedeq.kernel.se.common.Plugin;
 
@@ -33,34 +32,6 @@ public interface PluginCall extends ServiceCall {
      * @return  service
      */
     public Plugin getPlugin();
-
-    /**
-     * Get service parameter for plugin.
-     *
-     * @return  Service parameter.
-     */
-    public Parameters getParameters();
-
-    /**
-     * Get service parameter. Filters only for parameters that are explicitly for this plugin.
-     *
-     * @return  Service parameter.
-     */
-    public String getParameterString();
-
-    /**
-     * Get timestamp for service start.
-     *
-     * @return  Service start timestamp.
-     */
-    public long getStart();
-
-    /**
-     * Get timestamp for service stop.
-     *
-     * @return  Service stop timestamp.
-     */
-    public long getStop();
 
     /**
      * Return parent service call if any.

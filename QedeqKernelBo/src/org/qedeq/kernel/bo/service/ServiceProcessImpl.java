@@ -96,10 +96,6 @@ public class ServiceProcessImpl implements InternalServiceProcess {
         this.call = call;
     }
 
-    public synchronized PluginCall getPluginCall() {
-        return call;
-    }
-
     public synchronized void setServiceCall(final ServiceCall call) {
         this.serviceCall = call;
     }
