@@ -53,7 +53,7 @@ public class QedeqConfigTest extends QedeqTestCase {
         super.setUp();
         this.service1 = new Service() {
             public String getServiceId() {
-                return "org.qedeq.kernel.bo.service.logic.SimpleProofFinderService";
+                return "org.qedeq.kernel.bo.service.logic.SimpleProofFinderPlugin";
             }
 
             public String getServiceAction() {
