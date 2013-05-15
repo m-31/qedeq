@@ -35,15 +35,15 @@ public class SourceFileExceptionTest extends QedeqTestCase {
     private SourceFileException seven;
 
     private final Plugin plugin = new Plugin(){
-        public String getPluginDescription() {
+        public String getServiceDescription() {
             return "i am doing nothing";
         }
     
-        public String getPluginId() {
+        public String getServiceId() {
             return this.getClass().toString();
         }
     
-        public String getPluginActionName() {
+        public String getServiceAction() {
             return "dummy";
         }
     };

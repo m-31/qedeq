@@ -53,13 +53,13 @@ public final class BasicParser {
 
     /** Here we describe this "plugin". */
     private static Plugin plugin = new Plugin() {
-        public String getPluginDescription() {
+        public String getServiceDescription() {
             return "parses element lists and atoms";
         }
-        public String getPluginId() {
+        public String getServiceId() {
             return BasicParser.class.getName();
         }
-        public String getPluginActionName() {
+        public String getServiceAction() {
             return "element parser";
         }
     };

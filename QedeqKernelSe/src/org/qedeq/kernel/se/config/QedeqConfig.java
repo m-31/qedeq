@@ -495,7 +495,7 @@ public class QedeqConfig {
      * @return  Map with properties for this plugin.
      */
     public Parameters getPluginEntries(final Plugin plugin) {
-        return new Parameters(configAccess.getProperties(plugin.getPluginId() + "$"));
+        return new Parameters(configAccess.getProperties(plugin.getServiceId() + "$"));
     }
 
     /**
@@ -508,7 +508,7 @@ public class QedeqConfig {
      *          is returned.
      */
     public String getPluginKeyValue(final Plugin plugin, final String key, final String defaultValue) {
-        return getKeyValue(plugin.getPluginId() + "$" + key, defaultValue);
+        return getKeyValue(plugin.getServiceId() + "$" + key, defaultValue);
     }
 
     /**
@@ -519,7 +519,7 @@ public class QedeqConfig {
      * @param   value   Set this value.
      */
     public void setPluginKeyValue(final Plugin plugin, final String key, final String value) {
-        setKeyValue(plugin.getPluginId() + "$" + key, value);
+        setKeyValue(plugin.getServiceId() + "$" + key, value);
     }
 
     /**
@@ -532,7 +532,7 @@ public class QedeqConfig {
         final Iterator it = parameters.keySet().iterator();
         while (it.hasNext()) {
             final String key = (String) it.next();
-            setKeyValue(plugin.getPluginId() + "$" + key, parameters.getString(key));
+            setKeyValue(plugin.getServiceId() + "$" + key, parameters.getString(key));
         }
     }
 
@@ -546,7 +546,7 @@ public class QedeqConfig {
      *          is returned.
      */
     public int getPluginKeyValue(final Plugin plugin, final String key, final int defaultValue) {
-        return getKeyValue(plugin.getPluginId() + "$" + key, defaultValue);
+        return getKeyValue(plugin.getServiceId() + "$" + key, defaultValue);
     }
 
     /**
@@ -557,7 +557,7 @@ public class QedeqConfig {
      * @param   value   Set this value.
      */
     public void setPluginKeyValue(final Plugin plugin, final String key, final int value) {
-        setKeyValue(plugin.getPluginId() + "$" + key, value);
+        setKeyValue(plugin.getServiceId() + "$" + key, value);
     }
 
     /**
@@ -570,7 +570,7 @@ public class QedeqConfig {
      *          is returned.
      */
     public boolean getPluginKeyValue(final Plugin plugin, final String key, final boolean defaultValue) {
-        return getKeyValue(plugin.getPluginId() + "$" + key, defaultValue);
+        return getKeyValue(plugin.getServiceId() + "$" + key, defaultValue);
     }
 
     /**
@@ -581,7 +581,7 @@ public class QedeqConfig {
      * @param   value   Set this value.
      */
     public void setPluginKeyValue(final Plugin plugin, final String key, final boolean value) {
-        setKeyValue(plugin.getPluginId() + "$" + key, value);
+        setKeyValue(plugin.getServiceId() + "$" + key, value);
     }
 
 }

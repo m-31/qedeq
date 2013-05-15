@@ -104,15 +104,15 @@ public final class LoadXmlOperatorListUtility implements Plugin {
         }
     }
 
-    public String getPluginId() {
+    public String getServiceId() {
         return CLASS.getName();
     }
 
-    public String getPluginActionName() {
+    public String getServiceAction() {
         return "Operator Loader";
     }
 
-    public String getPluginDescription() {
+    public String getServiceDescription() {
         return "loads XML descriptoin of mathematical operators";
     }
 

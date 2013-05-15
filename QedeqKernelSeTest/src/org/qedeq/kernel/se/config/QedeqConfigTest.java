@@ -52,28 +52,28 @@ public class QedeqConfigTest extends QedeqTestCase {
     public void setUp() throws Exception {
         super.setUp();
         this.plugin1 = new Plugin() {
-            public String getPluginId() {
+            public String getServiceId() {
                 return "org.qedeq.kernel.bo.service.logic.SimpleProofFinderPlugin";
             }
 
-            public String getPluginActionName() {
+            public String getServiceAction() {
                 return "action";
             }
 
-            public String getPluginDescription() {
+            public String getServiceDescription() {
                 return "description";
             }};
                 
         this.plugin2 = new Plugin() {
-            public String getPluginId() {
+            public String getServiceId() {
                 return Plugin.class.toString();
             }
 
-            public String getPluginActionName() {
+            public String getServiceAction() {
                 return "action";
             }
 
-            public String getPluginDescription() {
+            public String getServiceDescription() {
                 return "description";
             }};
                 

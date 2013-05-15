@@ -26,15 +26,15 @@ public class DummyPlugin implements Plugin {
         return instance;
     }
     
-    public String getPluginId() {
+    public String getServiceId() {
         return DummyPlugin.class.getName();
     }
 
-    public String getPluginActionName() {
+    public String getServiceAction() {
         return "Dummy Plugin";
     }
 
-    public String getPluginDescription() {
+    public String getServiceDescription() {
         return "Dummy Description";
     }
 

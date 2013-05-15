@@ -198,15 +198,15 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
         return new XmlReader(services.getLocalFilePath(bo.getModuleAddress()));
     }
 
-    public String getPluginId() {
+    public String getServiceId() {
         return CLASS.getName();
     }
 
-    public String getPluginActionName() {
+    public String getServiceAction() {
         return "XML Worker";
     }
 
-    public String getPluginDescription() {
+    public String getServiceDescription() {
         return "can read and write XML QEDEQ modules";
     }
 

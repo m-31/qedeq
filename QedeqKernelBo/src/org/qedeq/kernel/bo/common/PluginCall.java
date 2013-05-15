@@ -16,6 +16,7 @@
 package org.qedeq.kernel.bo.common;
 
 import org.qedeq.base.io.Parameters;
+import org.qedeq.kernel.bo.service.common.ServiceCall;
 import org.qedeq.kernel.se.common.Plugin;
 
 
@@ -24,14 +25,7 @@ import org.qedeq.kernel.se.common.Plugin;
  *
  * @author  Michael Meyling
  */
-public interface PluginCall extends Comparable {
-
-    /**
-     * Get QEDEQ module we work on.
-     *
-     * @return  QEDEQ module.
-     */
-    public QedeqBo getQedeq();
+public interface PluginCall extends ServiceCall {
 
     /**
      * Get plugin we work for.
@@ -76,20 +70,6 @@ public interface PluginCall extends Comparable {
     public PluginCall getParentPluginCall();
 
     /**
-     * Return service process the call was initiated.
-     *
-     * @return  Service process for this call.
-     */
-    public ServiceProcess getServiceProcess();
-
-    /**
-     * Is this plugin still working?
-     *
-     * @return  Still running?
-     */
-    public boolean isRunning();
-
-    /**
      * Is the call finished?
      *
      * @return  Call finished?
@@ -109,13 +89,6 @@ public interface PluginCall extends Comparable {
      * @return  Call finished?
      */
     public boolean wasInterrupted();
-
-    /**
-     * Get percentage of currently running plugin execution.
-     *
-     * @return  Number between 0 and 100.
-     */
-    public double getExecutionPercentage();
 
     /**
      * Get description of currently taken action.

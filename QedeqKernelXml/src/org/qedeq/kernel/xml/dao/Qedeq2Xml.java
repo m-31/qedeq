@@ -823,15 +823,15 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
         printer.println("</ITEM>");
     }
 
-    public String getPluginId() {
+    public String getServiceId() {
         return this.getClass().getName();
     }
 
-    public String getPluginActionName() {
+    public String getServiceAction() {
         return "generate XML";
     }
 
-    public String getPluginDescription() {
+    public String getServiceDescription() {
         return "Transformes QEDEQ module into XML data";
     }
 

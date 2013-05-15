@@ -127,13 +127,13 @@ public final class Xml2Xml implements Plugin {
         }
     }
 
-    public String getPluginId() {
+    public String getServiceId() {
         return CLASS.getName();
     }
-    public String getPluginActionName() {
+    public String getServiceAction() {
         return "Xml2Xml";
     }
-    public String getPluginDescription() {
+    public String getServiceDescription() {
         return "transform XML QEDEQ module in a new XML file";
     }
 

@@ -345,15 +345,15 @@ public class GenerateLatexTest extends QedeqBoTestCase {
         }
         QedeqBoDuplicateLanguageChecker.check(new ServiceProcessImpl(new ModuleArbiter(), "generate LaTeX"),
             new Plugin() {
-                public String getPluginId() {
+                public String getServiceId() {
                     return QedeqBoDuplicateLanguageChecker.class.getName();
                 }
     
-                public String getPluginActionName() {
+                public String getServiceAction() {
                     return "duplicate language checker";
                 }
     
-                public String getPluginDescription() {
+                public String getServiceDescription() {
                     return "Test for duplicate language entries within LaTeX sections";
                 }
 
