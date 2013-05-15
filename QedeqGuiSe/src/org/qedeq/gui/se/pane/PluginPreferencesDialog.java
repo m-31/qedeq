@@ -219,7 +219,7 @@ public class PluginPreferencesDialog extends JDialog {
         while (iter.hasNext()) {
             PluginGuiPreferencesCreator creator = (PluginGuiPreferencesCreator) iter.next();
             tabbedPane.addTab(creator.getName(), creator.create(QedeqGuiConfig.getInstance()
-                .getPluginEntries(creator.getPlugin())));
+                .getServiceEntries(creator.getPlugin())));
         }
 
 //        tabbedPane.setBorder(GuiHelper.getEmptyBorder());
@@ -623,65 +623,65 @@ public class PluginPreferencesDialog extends JDialog {
         try {
             {
                 final Plugin plugin = qedeq2utf8Show;
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "language",
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "language",
                         qedeq2Utf8ShowLanguageTF.getText());
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "info", qedeq2Utf8ShowInfoCB.isSelected());
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "maximumColumn",
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "info", qedeq2Utf8ShowInfoCB.isSelected());
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "maximumColumn",
                     qedeq2Utf8ShowMaximumColumnTF.getText());
             }
             {
                 final Plugin plugin = qedeq2latex;
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "info", qedeq2LatexInfoCB.isSelected());
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "brief", qedeq2LatexBriefCB.isSelected());
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "info", qedeq2LatexInfoCB.isSelected());
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "brief", qedeq2LatexBriefCB.isSelected());
             }
             {
                 final Plugin plugin = qedeq2utf8;
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "info", qedeq2Utf8InfoCB.isSelected());
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "maximumColumn",
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "info", qedeq2Utf8InfoCB.isSelected());
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "maximumColumn",
                     qedeq2Utf8MaximumColumnTF.getText());
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "brief", qedeq2Utf8BriefCB.isSelected());
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "brief", qedeq2Utf8BriefCB.isSelected());
             }
             {
                 final Plugin plugin = dynamicHeuristicChecker;
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "model", dynamicHeuristicCheckerModel);
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "model", dynamicHeuristicCheckerModel);
             }
             {
                 final Plugin plugin = proofFinder;
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "maximumProofLines",
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "maximumProofLines",
                     proofFinderMaximumProofLengthTF.getText());
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "logFrequence",
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "logFrequence",
                         proofFinderLogFrequenceTF.getText());
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "skipFormulas",
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "skipFormulas",
                         proofFinderSkipFormulasTF.getText());
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "extraVars",
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "extraVars",
                         proofFinderExtraVarsTF.getText());
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "propositionVariableOrder",
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "propositionVariableOrder",
                         proofFinderPropositionVariableOrderTF.getText());
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "propositionVariableWeight",
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "propositionVariableWeight",
                         proofFinderPropositionVariableWeightTF.getText());
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "partFormulaOrder",
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "partFormulaOrder",
                         proofFinderPartFormulaOrderTF.getText());
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "partFormulaWeight",
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "partFormulaWeight",
                         proofFinderPartFormulaWeightTF.getText());
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "disjunctionOrder",
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "disjunctionOrder",
                         proofFinderDisjunctionOrderTF.getText());
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "disjunctionWeight",
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "disjunctionWeight",
                         proofFinderDisjunctionWeightTF.getText());
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "implicationOrder",
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "implicationOrder",
                         proofFinderImplicationOrderTF.getText());
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "implicationWeight",
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "implicationWeight",
                         proofFinderImplicationWeightTF.getText());
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "negationOrder",
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "negationOrder",
                         proofFinderNegationOrderTF.getText());
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "negationWeight",
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "negationWeight",
                         proofFinderNegationWeightTF.getText());
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "conjunctionOrder",
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "conjunctionOrder",
                         proofFinderConjunctionOrderTF.getText());
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "conjunctionWeight",
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "conjunctionWeight",
                         proofFinderConjunctionWeightTF.getText());
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "equivalenceOrder",
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "equivalenceOrder",
                         proofFinderEquivalenceOrderTF.getText());
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "equivalenceWeight",
+                QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "equivalenceWeight",
                         proofFinderEquivalenceWeightTF.getText());
             }
         } catch (RuntimeException e) {
