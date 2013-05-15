@@ -23,7 +23,7 @@ import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.utility.EqualsUtility;
-import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.Service;
 
 /**
  * Test class.
@@ -38,8 +38,8 @@ public class QedeqConfigTest extends QedeqTestCase {
     private File file2;
     private File basis1;
     private File basis2;
-    private Plugin plugin1;
-    private Plugin plugin2;
+    private Service service1;
+    private Service service2;
 
     public QedeqConfigTest(){
         super();
@@ -51,9 +51,9 @@ public class QedeqConfigTest extends QedeqTestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        this.plugin1 = new Plugin() {
+        this.service1 = new Service() {
             public String getServiceId() {
-                return "org.qedeq.kernel.bo.service.logic.SimpleProofFinderPlugin";
+                return "org.qedeq.kernel.bo.service.logic.SimpleProofFinderService";
             }
 
             public String getServiceAction() {
@@ -64,9 +64,9 @@ public class QedeqConfigTest extends QedeqTestCase {
                 return "description";
             }};
                 
-        this.plugin2 = new Plugin() {
+        this.service2 = new Service() {
             public String getServiceId() {
-                return Plugin.class.toString();
+                return Service.class.toString();
             }
 
             public String getServiceAction() {
@@ -293,32 +293,32 @@ public class QedeqConfigTest extends QedeqTestCase {
         assertEquals(1003, con1.getKeyValue("connectionTimeoutFee", 1003));
     }
 
-    public void testGetSetPluginValues() {
-        Parameters paras = con1.getPluginEntries(plugin1);
+    public void testGetSetServiceValues() {
+        Parameters paras = con1.getServiceEntries(service1);
         assertEquals(20, paras.keySet().size());
         assertEquals(6, paras.getInt("conjunctionOrder"));
         assertTrue(paras.getBoolean("boolean"));
-        paras = con1.getPluginEntries(plugin2);
+        paras = con1.getServiceEntries(service2);
         assertEquals(0, paras.keySet().size());
-        paras = con2.getPluginEntries(plugin2);
+        paras = con2.getServiceEntries(service2);
         assertEquals(0, paras.keySet().size());
         paras = new Parameters();
         paras.setDefault("mine", "value");
         paras.setDefault("apollo", "11");
         paras.setDefault("cheese", "true");
-        con2.setPluginKeyValues(plugin1, paras);
-        assertEquals("value", con2.getPluginKeyValue(plugin1, "mine", ""));
-        assertEquals(11, con2.getPluginKeyValue(plugin1, "apollo", 13));
-        assertEquals(true, con2.getPluginKeyValue(plugin1, "cheese", false));
-        Parameters paras2 = con2.getPluginEntries(plugin1);
+        con2.setServiceKeyValues(service1, paras);
+        assertEquals("value", con2.getServiceKeyValue(service1, "mine", ""));
+        assertEquals(11, con2.getServiceKeyValue(service1, "apollo", 13));
+        assertEquals(true, con2.getServiceKeyValue(service1, "cheese", false));
+        Parameters paras2 = con2.getServiceEntries(service1);
         assertEquals(3, paras2.keySet().size());
         assertEquals("value", paras2.getString("mine"));
         assertEquals("11", paras2.getString("apollo"));
         assertEquals("true", paras2.getString("cheese"));
-        con1.setPluginKeyValue(plugin2, "mine", "value");
-        con1.setPluginKeyValue(plugin2, "apollo", 11);
-        con1.setPluginKeyValue(plugin2, "cheese", true);
-        Parameters paras3 = con1.getPluginEntries(plugin2);
+        con1.setServiceKeyValue(service2, "mine", "value");
+        con1.setServiceKeyValue(service2, "apollo", 11);
+        con1.setServiceKeyValue(service2, "cheese", true);
+        Parameters paras3 = con1.getServiceEntries(service2);
         assertEquals(3, paras3.keySet().size());
         assertEquals("value", paras3.getString("mine"));
         assertEquals("11", paras3.getString("apollo"));
