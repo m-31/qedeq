@@ -111,9 +111,9 @@ public class PluginManager {
         }
         addPlugin(plugin);
         // set default plugin values for not yet set parameters
-        final Parameters parameters = kernel.getConfig().getPluginEntries(plugin);
+        final Parameters parameters = kernel.getConfig().getServiceEntries(plugin);
         plugin.setDefaultValuesForEmptyPluginParameters(parameters);
-        kernel.getConfig().setPluginKeyValues(plugin, parameters);
+        kernel.getConfig().setServiceKeyValues(plugin, parameters);
     }
 
     /**

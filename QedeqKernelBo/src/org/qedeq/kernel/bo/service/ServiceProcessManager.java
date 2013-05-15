@@ -148,7 +148,8 @@ public class ServiceProcessManager {
         if (process == null) {
             throw new NullPointerException("ServiceProcess must not be null");
         }
-        final ServiceCallImpl call = new ServiceCallImpl(service, qedeq, Parameters.EMPTY, Parameters.EMPTY, process,
+        final Parameters configParameters = KernelContext.getInstance().getConfig().getServiceEntries(service);
+        final ServiceCallImpl call = new ServiceCallImpl(service, qedeq, configParameters, Parameters.EMPTY, process,
             (InternalServiceCall) process.getServiceCall());
         if (!process.isRunning()) {
             call.halt("Service process is not running any more.");
@@ -208,7 +209,7 @@ public class ServiceProcessManager {
                 e);
             throw e;
         }
-        final Parameters parameters = KernelContext.getInstance().getConfig().getPluginEntries(plugin);
+        final Parameters parameters = KernelContext.getInstance().getConfig().getServiceEntries(plugin);
         InternalServiceProcess process = null;
         if (proc != null) {
             if (!proc.isRunning()) {
@@ -221,10 +222,10 @@ public class ServiceProcessManager {
                 processes.add(process);
             }
         }
-        process.setBlocked(true);
         final PluginCallImpl call = new PluginCallImpl(plugin, qedeq, parameters, process,
-            process.getPluginCall());
-        process.setPluginCall(call);
+                        process.getPluginCall());
+        process.setServiceCall(call);
+        process.setBlocked(true);
         boolean newBlockedModule = false;
         try {
             newBlockedModule = arbiter.lockRequiredModule(process, qedeq);
@@ -242,8 +243,7 @@ public class ServiceProcessManager {
             qedeq.setCurrentlyRunningPlugin(plugin);
             final Object result = exe.executePlugin(process, data);
             if (exe.getInterrupted()) {
-                call.setFailureState();
-                process.setFailureState();
+                call.interrupt();
             } else {
                 call.setSuccessState();
             }
