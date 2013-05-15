@@ -244,7 +244,6 @@ public class ServiceProcessManager {
                 process.setFailureState();
             } else {
                 call.finish();
-                process.setSuccessState();
             }
             return result;
         } catch (final RuntimeException e) {
