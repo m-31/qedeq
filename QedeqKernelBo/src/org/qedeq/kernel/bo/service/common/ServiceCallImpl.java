@@ -150,7 +150,7 @@ public class ServiceCallImpl implements InternalServiceCall {
         return duration;
     }
 
-    private void begin() {
+    private synchronized void begin() {
         begin = System.currentTimeMillis();
         start = begin;
         action = "started";
@@ -171,7 +171,7 @@ public class ServiceCallImpl implements InternalServiceCall {
         start = System.currentTimeMillis();
     }
 
-    private void end() {
+    private synchronized void end() {
         end = System.currentTimeMillis();
         duration += end - start;
         paused = false;
@@ -260,11 +260,11 @@ public class ServiceCallImpl implements InternalServiceCall {
         return (getId() < s.getId() ? -1 : (getId() == s.getId() ? 0 : 1));
     }
 
-    public synchronized ServiceCall getParentServiceCall() {
+    public ServiceCall getParentServiceCall() {
         return parent;
     }
 
-    public synchronized InternalServiceCall getParentInternalServiceCall() {
+    public InternalServiceCall getParentInternalServiceCall() {
         return parent;
     }
 
