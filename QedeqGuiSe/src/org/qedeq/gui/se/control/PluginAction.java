@@ -75,12 +75,12 @@ public class PluginAction extends AbstractAction {
                 final Thread thread = new Thread() {
                     public void run() {
                         final Object result = KernelContext.getInstance().executePlugin(
-                            plugin.getPluginId(),
+                            plugin.getServiceId(),
                             prop.getModuleAddress(), null);
                         if (result instanceof String) {
                             final Runnable showTextResult = new Runnable() {
                                 public void run() {
-                                    (new TextPaneWindow(plugin.getPluginActionName(),
+                                    (new TextPaneWindow(plugin.getServiceAction(),
                                         PluginAction.this.getIcon(),
                                         (String) result)).setVisible(true);
                                 }
@@ -108,23 +108,23 @@ public class PluginAction extends AbstractAction {
     }
 
     public ImageIcon getIcon() {
-        if (plugin.getPluginActionName().endsWith("LaTeX")) {
+        if (plugin.getServiceAction().endsWith("LaTeX")) {
             return GuiHelper.readImageIcon("tango/" + resolution + "/mimetypes/x-office-document.png");
-        } else if (-1 < plugin.getPluginActionName().indexOf("euristic")) {
+        } else if (-1 < plugin.getServiceAction().indexOf("euristic")) {
             return GuiHelper.readImageIcon("tango/" + resolution + "/apps/accessories-calculator.png");
-        } else if (plugin.getPluginActionName().endsWith("earch")) {
+        } else if (plugin.getServiceAction().endsWith("earch")) {
             return GuiHelper.readImageIcon("tango/" + resolution + "/categories/applications-system.png");
-        } else if (-1 < plugin.getPluginActionName().indexOf("how")) {
+        } else if (-1 < plugin.getServiceAction().indexOf("how")) {
             return GuiHelper.readImageIcon("tango/" + resolution + "/actions/edit-find.png");
-        } else if (-1 < plugin.getPluginActionName().indexOf("odel")) {
+        } else if (-1 < plugin.getServiceAction().indexOf("odel")) {
             return GuiHelper.readImageIcon("oil/" + resolution + "/apps/accessories-calculator-3.png");
-        } else if (-1 < plugin.getPluginActionName().indexOf("UTF-8")) {
+        } else if (-1 < plugin.getServiceAction().indexOf("UTF-8")) {
             return GuiHelper.readImageIcon("tango/" + resolution + "/mimetypes/text-x-generic.png");
-        } else if (-1 < plugin.getPluginActionName().indexOf("heck")
-                && -1 < plugin.getPluginActionName().indexOf("roofs")) {
+        } else if (-1 < plugin.getServiceAction().indexOf("heck")
+                && -1 < plugin.getServiceAction().indexOf("roofs")) {
             return GuiHelper.readImageIcon("tango/" + resolution + "/actions/run.png");
-        } else if (-1 < plugin.getPluginActionName().indexOf("ind")
-                && -1 < plugin.getPluginActionName().indexOf("roofs")) {
+        } else if (-1 < plugin.getServiceAction().indexOf("ind")
+                && -1 < plugin.getServiceAction().indexOf("roofs")) {
             return GuiHelper.readImageIcon("oil/" + resolution + "/apps/development-java-3.png");
         } else {
             return GuiHelper.readImageIcon("tango/" + resolution + "/actions/edit-find.png");

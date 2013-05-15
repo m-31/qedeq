@@ -288,11 +288,11 @@ public class QedeqController {
         JMenuItem[] result = new JMenuItem[pluginActions.length];
         for (int i = 0; i < pluginActions.length; i++) {
             final JMenuItem item = MenuHelper.createMenuItem(pluginActions[i].getPlugin()
-                .getPluginActionName());
+                .getServiceAction());
             item.addActionListener(pluginActions[i]);
             item.setIcon(pluginActions[i].getIcon());
             item.setToolTipText(GuiHelper.getToolTipText(pluginActions[i].getPlugin()
-                .getPluginDescription()));
+                .getServiceDescription()));
             result[i] = item;
         }
         return result;
