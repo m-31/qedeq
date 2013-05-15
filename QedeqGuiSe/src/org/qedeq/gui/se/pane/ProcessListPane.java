@@ -48,10 +48,10 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.DateUtility;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.gui.se.util.GuiHelper;
-import org.qedeq.kernel.bo.common.PluginCall;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.QedeqBoSet;
 import org.qedeq.kernel.bo.common.ServiceProcess;
+import org.qedeq.kernel.bo.service.common.ServiceCall;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -106,8 +106,8 @@ public class ProcessListPane extends JPanel  {
                          tip = "Process has finished";
                      }
                      break;
-                case 1: tip = (process.getPluginCall() != null
-                     ? process.getPluginCall().getPlugin().getServiceDescription()
+                case 1: tip = (process.getServiceCall() != null
+                     ? process.getServiceCall().getService().getServiceDescription()
                      : process.getExecutionActionDescription());
                      break;
                 case 2:
@@ -117,8 +117,9 @@ public class ProcessListPane extends JPanel  {
                      break;
                 case 7: tip = GuiHelper.getToolTipText(process.getExecutionActionDescription());
                      break;
-                case 8: tip = GuiHelper.getToolTipText(process.getPluginCall() != null
-                     ? process.getPluginCall().getParameterString() : "");
+                case 8: tip = GuiHelper.getToolTipText(process.getServiceCall() != null
+                     ? process.getServiceCall().getParametersString() + "; "
+                       + process.getServiceCall().getParametersString() : "");
                      break;
                 default: tip = "";
                 }
@@ -409,26 +410,27 @@ public class ProcessListPane extends JPanel  {
                         result.append(" ").append(qedeq.getName());
                     }
                     result.append("\n\tCalls:   ");
-                    PluginCall parent = process.getPluginCall();
+                    ServiceCall parent = process.getServiceCall();
                     while (parent != null) {
-                        parent = parent.getParentPluginCall();
+                        parent = parent.getParentServiceCall();
                         if (parent != null) {
                             result.append("\n\t\t ").append(parent.getId());
                             tip = "";
-                            if (parent.isFinished()) {
+                            if (!parent.isRunning()) {
                                 tip = "Call is finished";
                             } else {
                                 tip = "Call is running";
                             }
                             result.append("\n\t\t Status:     ").append(tip);
                             result.append("\n\t\t Module:     ").append(parent.getQedeq().getName());
-                            result.append("\n\t\t Plugin:     ").append(parent.getPlugin().getServiceAction());
-                            result.append("\n\t\t Start:      ").append(DateUtility.getIsoTime(parent.getStart()));
-                            result.append("\n\t\t Stop:       ").append((parent.getStop() != 0
-                                ? DateUtility.getIsoTime(parent.getStop()) : ""));
+                            result.append("\n\t\t Plugin:     ").append(parent.getService().getServiceAction());
+                            result.append("\n\t\t Begin:      ").append(DateUtility.getIsoTime(parent.getBeginTime()));
+                            result.append("\n\t\t End:        ").append((!parent.isRunning()
+                                ? DateUtility.getIsoTime(parent.getEndTime()) : ""));
                             result.append("\n\t\t Percentage: ").append(parent.getExecutionPercentage());
-                            result.append("\n\t\t Description:").append(parent.getExecutionActionDescription());
-                            result.append("\n\t\t Parameter:  ").append(parent.getParameterString());
+                            result.append("\n\t\t Description:").append(parent.getAction());
+                            result.append("\n\t\t Config Par.:").append(parent.getConfigParametersString());
+                            result.append("\n\t\t Parameter:  ").append(parent.getParametersString());
                         }
                     }
                     result.append("\n");
