@@ -23,7 +23,7 @@ import java.util.List;
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.Path;
-import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.Service;
 
 
 /**
@@ -489,99 +489,99 @@ public class QedeqConfig {
     }
 
     /**
-     * Get plugin properties from configuration file.
+     * Get service properties from configuration file.
      *
-     * @param   plugin  We want to know properties for this plugin
-     * @return  Map with properties for this plugin.
+     * @param   service  We want to know properties for this service
+     * @return  Map with properties for this service.
      */
-    public Parameters getPluginEntries(final Plugin plugin) {
-        return new Parameters(configAccess.getProperties(plugin.getServiceId() + "$"));
+    public Parameters getServiceEntries(final Service service) {
+        return new Parameters(configAccess.getProperties(service.getServiceId() + "$"));
     }
 
     /**
-     * Get value for given plugin key.
+     * Get value for given service key.
      *
-     * @param   plugin  Setting for this plugin.
+     * @param   service  Setting for this service.
      * @param   key             Get value for this key.
      * @param   defaultValue    Default value..
      * @return  Value. If value for key is originally <code>null</code> <code>defaultValue</code>
      *          is returned.
      */
-    public String getPluginKeyValue(final Plugin plugin, final String key, final String defaultValue) {
-        return getKeyValue(plugin.getServiceId() + "$" + key, defaultValue);
+    public String getServiceKeyValue(final Service service, final String key, final String defaultValue) {
+        return getKeyValue(service.getServiceId() + "$" + key, defaultValue);
     }
 
     /**
-     * Set value for given plugin key.
+     * Set value for given service key.
      *
-     * @param   plugin  Setting for this plugin.
+     * @param   service  Setting for this service.
      * @param   key     For this key.
      * @param   value   Set this value.
      */
-    public void setPluginKeyValue(final Plugin plugin, final String key, final String value) {
-        setKeyValue(plugin.getServiceId() + "$" + key, value);
+    public void setServiceKeyValue(final Service service, final String key, final String value) {
+        setKeyValue(service.getServiceId() + "$" + key, value);
     }
 
     /**
-     * Set value for given plugin key.
+     * Set value for given service key.
      *
-     * @param   plugin      Setting for this plugin.
-     * @param   parameters  Parameters for this plugin.
+     * @param   service     Setting for this service.
+     * @param   parameters  Parameters for this service.
      */
-    public void setPluginKeyValues(final Plugin plugin, final Parameters parameters) {
+    public void setServiceKeyValues(final Service service, final Parameters parameters) {
         final Iterator it = parameters.keySet().iterator();
         while (it.hasNext()) {
             final String key = (String) it.next();
-            setKeyValue(plugin.getServiceId() + "$" + key, parameters.getString(key));
+            setKeyValue(service.getServiceId() + "$" + key, parameters.getString(key));
         }
     }
 
     /**
-     * Get value for given plugin key.
+     * Get value for given service key.
      *
-     * @param   plugin  Setting for this plugin.
+     * @param   service         Setting for this service.
      * @param   key             Get value for this key.
      * @param   defaultValue    Default value..
      * @return  Value. If value for key is originally <code>null</code> <code>defaultValue</code>
      *          is returned.
      */
-    public int getPluginKeyValue(final Plugin plugin, final String key, final int defaultValue) {
-        return getKeyValue(plugin.getServiceId() + "$" + key, defaultValue);
+    public int getServiceKeyValue(final Service service, final String key, final int defaultValue) {
+        return getKeyValue(service.getServiceId() + "$" + key, defaultValue);
     }
 
     /**
-     * Set value for given plugin key.
+     * Set value for given service key.
      *
-     * @param   plugin  Setting for this plugin.
+     * @param   service  Setting for this service.
      * @param   key     For this key.
      * @param   value   Set this value.
      */
-    public void setPluginKeyValue(final Plugin plugin, final String key, final int value) {
-        setKeyValue(plugin.getServiceId() + "$" + key, value);
+    public void setServiceKeyValue(final Service service, final String key, final int value) {
+        setKeyValue(service.getServiceId() + "$" + key, value);
     }
 
     /**
-     * Get value for given plugin key.
+     * Get value for given service key.
      *
-     * @param   plugin  Setting for this plugin.
+     * @param   service         Setting for this service.
      * @param   key             Get value for this key.
      * @param   defaultValue    Default value..
      * @return  Value. If value for key is originally <code>null</code> <code>defaultValue</code>
      *          is returned.
      */
-    public boolean getPluginKeyValue(final Plugin plugin, final String key, final boolean defaultValue) {
-        return getKeyValue(plugin.getServiceId() + "$" + key, defaultValue);
+    public boolean getServiceKeyValue(final Service service, final String key, final boolean defaultValue) {
+        return getKeyValue(service.getServiceId() + "$" + key, defaultValue);
     }
 
     /**
-     * Set value for given plugin key.
+     * Set value for given service key.
      *
-     * @param   plugin  Setting for this plugin.
+     * @param   service  Setting for this service.
      * @param   key     For this key.
      * @param   value   Set this value.
      */
-    public void setPluginKeyValue(final Plugin plugin, final String key, final boolean value) {
-        setKeyValue(plugin.getServiceId() + "$" + key, value);
+    public void setServiceKeyValue(final Service service, final String key, final boolean value) {
+        setKeyValue(service.getServiceId() + "$" + key, value);
     }
 
 }
