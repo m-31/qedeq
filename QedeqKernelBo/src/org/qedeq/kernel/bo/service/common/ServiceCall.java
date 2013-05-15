@@ -17,6 +17,7 @@ package org.qedeq.kernel.bo.service.common;
 
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.ServiceProcess;
+import org.qedeq.kernel.se.common.Service;
 
 
 /**

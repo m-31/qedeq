@@ -105,15 +105,15 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
         }
         QedeqBoDuplicateLanguageChecker.check(new ServiceProcessImpl(new ModuleArbiter(),
                     "createQedeq2"), new Plugin() {
-                public String getPluginId() {
+                public String getServiceId() {
                     return QedeqBoDuplicateLanguageChecker.class.getName();
                 }
     
-                public String getPluginActionName() {
+                public String getServiceAction() {
                     return "duplicate language checker";
                 }
     
-                public String getPluginDescription() {
+                public String getServiceDescription() {
                     return "Test for duplicate language entries within LaTeX sections";
                 }
     

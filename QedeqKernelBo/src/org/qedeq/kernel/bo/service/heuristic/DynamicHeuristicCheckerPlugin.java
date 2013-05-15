@@ -39,15 +39,15 @@ public class DynamicHeuristicCheckerPlugin implements PluginBo {
         // nothing to do
     }
 
-    public String getPluginId() {
+    public String getServiceId() {
         return CLASS.getName();
     }
 
-    public String getPluginActionName() {
+    public String getServiceAction() {
         return "Test Formulas with Model";
     }
 
-    public String getPluginDescription() {
+    public String getServiceDescription() {
         return "checks mathematical correctness by interpreting within a model";
     }
 

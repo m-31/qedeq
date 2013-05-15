@@ -43,15 +43,15 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
     
     final Plugin plugin = new Plugin() {
 
-        public String getPluginId() {
+        public String getServiceId() {
             return this.getClass().getName();
         }
 
-        public String getPluginActionName() {
+        public String getServiceAction() {
             return "basic testing kernel";
         }
 
-        public String getPluginDescription() {
+        public String getServiceDescription() {
             return "Testing Kernel";
         }};
 

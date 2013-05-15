@@ -31,15 +31,15 @@ public final class SimpleProofFinderPlugin implements PluginBo {
     /** This class. */
     private static final Class CLASS = SimpleProofFinderPlugin.class;
 
-    public String getPluginId() {
+    public String getServiceId() {
         return CLASS.getName();
     }
 
-    public String getPluginActionName() {
+    public String getServiceAction() {
         return "Find Proofs";
     }
 
-    public String getPluginDescription() {
+    public String getServiceDescription() {
         return "finds simple formal proofs and add them to module  [EXPERIMENTAL]";
     }
 

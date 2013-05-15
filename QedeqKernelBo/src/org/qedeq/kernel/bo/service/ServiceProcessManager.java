@@ -29,11 +29,11 @@ import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
 import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.bo.service.common.InternalServiceCall;
-import org.qedeq.kernel.bo.service.common.Service;
 import org.qedeq.kernel.bo.service.common.ServiceCallImpl;
 import org.qedeq.kernel.bo.service.common.ServiceExecutor;
 import org.qedeq.kernel.bo.service.common.ServiceResult;
 import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
@@ -216,7 +216,7 @@ public class ServiceProcessManager {
             }
             process = proc;
         } else {
-            process = new ServiceProcessImpl(arbiter, plugin.getPluginActionName());
+            process = new ServiceProcessImpl(arbiter, plugin.getServiceAction());
             synchronized (this) {
                 processes.add(process);
             }
@@ -229,7 +229,7 @@ public class ServiceProcessManager {
         try {
             newBlockedModule = arbiter.lockRequiredModule(process, qedeq);
         } catch (InterruptException e) {
-            final String msg = plugin.getPluginActionName() + " was interrupted.";
+            final String msg = plugin.getServiceAction() + " was interrupted.";
             Trace.fatal(CLASS, this, method, msg, e);
             QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
             call.setFailureState();
@@ -249,7 +249,7 @@ public class ServiceProcessManager {
             }
             return result;
         } catch (final RuntimeException e) {
-            final String msg = plugin.getPluginActionName() + " failed with a runtime exception.";
+            final String msg = plugin.getServiceAction() + " failed with a runtime exception.";
             Trace.fatal(CLASS, this, method, msg, e);
             QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
             call.setFailureState();

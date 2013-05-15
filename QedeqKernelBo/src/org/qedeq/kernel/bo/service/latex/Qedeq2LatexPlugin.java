@@ -38,15 +38,15 @@ public final class Qedeq2LatexPlugin implements PluginBo {
         // nothing to do
     }
 
-    public String getPluginId() {
+    public String getServiceId() {
         return CLASS.getName();
     }
 
-    public String getPluginActionName() {
+    public String getServiceAction() {
         return "Create LaTeX";
     }
 
-    public String getPluginDescription() {
+    public String getServiceDescription() {
         return "transforms QEDEQ module into LaTeX file";
     }
 

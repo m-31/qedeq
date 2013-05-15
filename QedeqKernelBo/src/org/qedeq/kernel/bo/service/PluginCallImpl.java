@@ -17,10 +17,12 @@ package org.qedeq.kernel.bo.service;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.common.PluginCall;
-import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.ServiceProcess;
+import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginExecutor;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
+import org.qedeq.kernel.bo.service.common.ServiceCallImpl;
 import org.qedeq.kernel.se.common.Plugin;
 
 /**
@@ -28,52 +30,11 @@ import org.qedeq.kernel.se.common.Plugin;
  *
  * @author  Michael Meyling
  */
-public class PluginCallImpl implements PluginCall {
-
-    /** Counter for each service call. */
-    private static volatile long globalCounter;
-
-    /** The service the thread works for. */
-    private final Plugin plugin;
-
-    /** QEDEQ module the process is working on. */
-    private final KernelQedeqBo qedeq;
-
-    /** Some important parameters for the service. For example QEDEQ module address. */
-    private final Parameters parameters;
-
-    /** Start time for process. */
-    private long start;
-
-    /** End time for process. */
-    private long stop;
-
-    /** State for process. 0 = running, 1 = success, -1 finished by interrupt. */
-    private int state;
-
-    /** Percentage of currently running plugin execution. */
-    private double executionPercentage = 0;
-
-    /** Percentage of currently running plugin execution. */
-    private String executionActionDescription = "not yet started";
+public class PluginCallImpl extends ServiceCallImpl implements PluginCall {
 
     /** Execution object. Might be <code>null</code>. */
     private PluginExecutor executor;
 
-    /** Service process. */
-    private final ServiceProcess process;
-
-    /** Parent plugin call. Might be <code>null</code>. */
-    private final PluginCall parent;
-
-    /** Call id. */
-    private final long id;
-
-    /** Return code. */
-    private int ret;
-
-    /** Resulting object. */
-    private Object result;
 
     /**
      * A new service process within the current thread.
@@ -87,32 +48,11 @@ public class PluginCallImpl implements PluginCall {
     public PluginCallImpl(final Plugin service,
             final KernelQedeqBo qedeq, final Parameters parameters, final ServiceProcess process,
             final PluginCall parent) {
-        this.id = inc();
-        this.qedeq = qedeq;
-        this.plugin = service;
-        this.parameters = parameters;
-        this.process = process;
-        if (!process.getThread().isAlive()) {
-            throw new RuntimeException("thread is already dead");
-        }
-        this.parent = parent;
-        start();
-    }
-
-    private synchronized long inc() {
-        return globalCounter++;
+        super(service, qedeq, parameters, Parameters.EMPTY, (InternalServiceProcess) process, (InternalServiceCall) parent);  
     }
 
     public Plugin getPlugin() {
-        return plugin;
-    }
-
-    public QedeqBo getQedeq() {
-        return qedeq;
-    }
-
-    public synchronized Parameters getParameters() {
-        return parameters;
+        return (Plugin) getService();
     }
 
     /**
@@ -133,117 +73,79 @@ public class PluginCallImpl implements PluginCall {
         this.executor = executor;
     }
 
-    public String getParameterString() {
-        return parameters.getParameterString();
-    }
-
     public long getStart() {
-        return start;
+        return getBeginTime();
     }
 
-    public synchronized long getStop() {
-        return stop;
-    }
-
-    private synchronized void start() {
-        start = System.currentTimeMillis();
-        executionActionDescription = "started";
-    }
-
-    private synchronized void stop() {
-        stop = System.currentTimeMillis();
+    public long getStop() {
+        return getEndTime();
     }
 
     /**
      * Set success state for call and stop.
      */
     public synchronized void setSuccessState() {
-        if (isRunning()) {
-            state = 1;
-            stop();
-            executionActionDescription = "finished";
-            executionPercentage = 100;
-        }
+        finish();
     }
 
     /**
      * Set failure state for call and stop.
      */
     public synchronized void setFailureState() {
-        if (isRunning()) {
-            state = -1;
-            stop();
-        }
-    }
-
-    public synchronized boolean isRunning() {
-        return state == 0;
+        finish("Failure");
     }
 
     public synchronized boolean isFinished() {
-        return state != 0;
+        return !isRunning();
     }
 
     public synchronized boolean wasInterrupted() {
-        return state == -1;
+        if (isRunning()) {
+            return false;
+        }
+        return getServiceResult().wasInterrupted();
     }
 
     public synchronized boolean hasNormallyFinished() {
-        return state == 1;
-    }
-
-    public synchronized ServiceProcess getServiceProcess() {
-        return process;
+        if (isRunning()) {
+            return false;
+        }
+        return !wasInterrupted();
     }
 
     public synchronized double getExecutionPercentage() {
         if (isRunning()) {
             if (executor != null) {
-                executionPercentage = executor.getExecutionPercentage();
+                setExecutionPercentage(executor.getExecutionPercentage());
             }
         }
-        return executionPercentage;
+        return super.getExecutionPercentage();
     }
 
     public synchronized String getExecutionActionDescription() {
         if (isRunning()) {
             if (executor != null) {
-                executionActionDescription = executor.getActionDescription();
+                return executor.getActionDescription();
             }
         }
-        return executionActionDescription;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public int hashCode() {
-        return (int) id;
-    }
-
-    public boolean equals(final Object obj) {
-        return 0 == compareTo(obj);
-    }
-
-    public int compareTo(final Object o) {
-        if (!(o instanceof PluginCall)) {
-            return -1;
-        }
-        final PluginCall s = (PluginCall) o;
-        return (getId() < s.getId() ? -1 : (getId() == s.getId() ? 0 : 1));
+        return getAction();
     }
 
     public synchronized PluginCall getParentPluginCall() {
-        return parent;
+        return (PluginCall) getParentServiceCall();
     }
 
     public synchronized Object getExecutionResult() {
-        return result;
+        return getServiceResult().getExecutionResult();
     }
 
     public synchronized int getReturnCode() {
-        return ret;
+        return 0;
     }
+
+    public String getParameterString() {
+        return "";
+    }
+
 
 }

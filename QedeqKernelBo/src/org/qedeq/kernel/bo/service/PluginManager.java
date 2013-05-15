@@ -124,14 +124,14 @@ public class PluginManager {
      * @throws  RuntimeException    Plugin addition failed.
      */
     synchronized void addPlugin(final PluginBo plugin) {
-        if (id2plugin.get(plugin.getPluginId()) != null) {
-            final PluginBo oldPlugin = (PluginBo) id2plugin.get(plugin.getPluginId());
+        if (id2plugin.get(plugin.getServiceId()) != null) {
+            final PluginBo oldPlugin = (PluginBo) id2plugin.get(plugin.getServiceId());
             final RuntimeException e = new IllegalArgumentException("plugin with that name already added: "
-                    + oldPlugin.getPluginId() + ": " + plugin.getPluginDescription());
+                    + oldPlugin.getServiceId() + ": " + plugin.getServiceDescription());
             Trace.fatal(CLASS, this, "addPlugin", "Programing error", e);
             throw e;
         }
-        id2plugin.put(plugin.getPluginId(), plugin);
+        id2plugin.put(plugin.getServiceId(), plugin);
         plugins.add(plugin);
     }
 

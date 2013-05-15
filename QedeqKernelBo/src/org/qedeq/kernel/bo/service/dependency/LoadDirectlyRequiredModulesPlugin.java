@@ -31,15 +31,15 @@ public final class LoadDirectlyRequiredModulesPlugin implements InternalPluginBo
     /** This class. */
     private static final Class CLASS = LoadDirectlyRequiredModulesPlugin.class;
 
-    public String getPluginId() {
+    public String getServiceId() {
         return CLASS.getName();
     }
 
-    public String getPluginActionName() {
+    public String getServiceAction() {
         return "loading directly required modules";
     }
 
-    public String getPluginDescription() {
+    public String getServiceDescription() {
         return "load all imported modules";
     }
 

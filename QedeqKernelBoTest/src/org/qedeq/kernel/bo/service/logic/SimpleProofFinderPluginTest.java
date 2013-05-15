@@ -165,6 +165,7 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         removeNodeType(qedeq, "proposition:five");
         removeNodeType(qedeq, "proposition:six");
         removeNodeType(qedeq, "proposition:seven");
+        assertFalse(getServices().getQedeqBo(address).isFullyFormallyProved());
         getServices().checkFormallyProved(address);
         assertFalse(getServices().getQedeqBo(address).isFullyFormallyProved());
         final Map parameters = new HashMap();

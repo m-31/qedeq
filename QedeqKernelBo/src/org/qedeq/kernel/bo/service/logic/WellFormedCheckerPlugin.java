@@ -32,15 +32,15 @@ public final class WellFormedCheckerPlugin implements InternalPluginBo {
     /** This class. */
     private static final Class CLASS = WellFormedCheckerPlugin.class;
 
-    public String getPluginId() {
+    public String getServiceId() {
         return CLASS.getName();
     }
 
-    public String getPluginActionName() {
+    public String getServiceAction() {
         return "check well-formedness";
     }
 
-    public String getPluginDescription() {
+    public String getServiceDescription() {
         return "checks well-formedness of formulas and correct dependency of declarations";
     }
 

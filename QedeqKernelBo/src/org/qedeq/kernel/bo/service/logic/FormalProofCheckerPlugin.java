@@ -32,15 +32,15 @@ public final class FormalProofCheckerPlugin implements InternalPluginBo {
     /** This class. */
     private static final Class CLASS = FormalProofCheckerPlugin.class;
 
-    public String getPluginId() {
+    public String getServiceId() {
         return CLASS.getName();
     }
 
-    public String getPluginActionName() {
+    public String getServiceAction() {
         return "Check Proofs";
     }
 
-    public String getPluginDescription() {
+    public String getServiceDescription() {
         return "checks formal proofs";
     }
 

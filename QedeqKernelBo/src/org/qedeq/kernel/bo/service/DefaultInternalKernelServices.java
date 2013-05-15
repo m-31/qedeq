@@ -44,7 +44,6 @@ import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.common.InternalServiceCall;
-import org.qedeq.kernel.bo.service.common.Service;
 import org.qedeq.kernel.bo.service.common.ServiceExecutor;
 import org.qedeq.kernel.bo.service.dependency.LoadDirectlyRequiredModulesPlugin;
 import org.qedeq.kernel.bo.service.dependency.LoadRequiredModulesPlugin;
@@ -57,6 +56,7 @@ import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.config.QedeqConfig;
@@ -1025,18 +1025,18 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         return (String[]) list.toArray(new String[list.size()]);
     }
 
-    public String getPluginId() {
+    public String getServiceId() {
         return CLASS.getName();
     }
 
-    public String getPluginActionName() {
+    public String getServiceAction() {
         return "Basis";
     }
     public QedeqFileDao getQedeqFileDao() {
         return qedeqFileDao;
     }
 
-    public String getPluginDescription() {
+    public String getServiceDescription() {
         return "provides basic services for loading QEDEQ modules";
     }
 

@@ -38,15 +38,15 @@ public final class Qedeq2Utf8Plugin implements PluginBo {
         // nothing to do
     }
 
-    public String getPluginId() {
+    public String getServiceId() {
         return CLASS.getName();
     }
 
-    public String getPluginActionName() {
+    public String getServiceAction() {
         return "Create UTF-8";
     }
 
-    public String getPluginDescription() {
+    public String getServiceDescription() {
         return "transforms QEDEQ module into UTF-8 file";
     }
 

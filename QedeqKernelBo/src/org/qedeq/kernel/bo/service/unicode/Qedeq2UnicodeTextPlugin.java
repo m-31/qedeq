@@ -38,15 +38,15 @@ public final class Qedeq2UnicodeTextPlugin implements PluginBo {
         // nothing to do
     }
 
-    public String getPluginId() {
+    public String getServiceId() {
         return CLASS.getName();
     }
 
-    public String getPluginActionName() {
+    public String getServiceAction() {
         return "Show Module as UTF-8 text";
     }
 
-    public String getPluginDescription() {
+    public String getServiceDescription() {
         return "shows QEDEQ module within window as UTF-8 text";
     }
 
