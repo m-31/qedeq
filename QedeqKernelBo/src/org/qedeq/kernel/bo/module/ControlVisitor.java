@@ -26,7 +26,7 @@ import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
-import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.common.RuleKey;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -48,8 +48,8 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
     /** This class. */
     private static final Class CLASS = ControlVisitor.class;
 
-    /** This plugin we work for. */
-    private final Plugin plugin;
+    /** This service we work for. */
+    private final Service service;
 
     /** QEDEQ BO object to work on. */
     private final KernelQedeqBo prop;
@@ -70,13 +70,13 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
     private boolean interrupted;
 
     /**
-     * Constructor. Can only be used if instance also implements {@link Plugin}.
+     * Constructor. Can only be used if instance also implements {@link Service}.
      *
      * @param   prop        Internal QedeqBo.
      */
     protected ControlVisitor(final KernelQedeqBo prop) {
         this.prop = prop;
-        this.plugin = (Plugin) this;
+        this.service = (Service) this;
         this.traverser = new QedeqNotNullTraverser(prop.getModuleAddress(), this);
         this.errorList = new SourceFileExceptionList();
         this.warningList = new SourceFileExceptionList();
@@ -85,11 +85,11 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
     /**
      * Constructor.
      *
-     * @param   plugin      This plugin we work for.
+     * @param   service      This service we work for.
      * @param   prop        Internal QedeqBo.
      */
-    protected ControlVisitor(final Plugin plugin, final KernelQedeqBo prop) {
-        this.plugin = plugin;
+    protected ControlVisitor(final Service service, final KernelQedeqBo prop) {
+        this.service = service;
         this.prop = prop;
         this.traverser = new QedeqNotNullTraverser(prop.getModuleAddress(), this);
         this.errorList = new SourceFileExceptionList();
@@ -134,7 +134,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
         this.process = process;
         interrupted = false;
         if (getQedeqBo().getQedeq() == null) {
-            addWarning(new SourceFileException(getPlugin(),
+            addWarning(new SourceFileException(getService(),
                 ModuleErrors.QEDEQ_MODULE_NOT_LOADED_CODE,
                 ModuleErrors.QEDEQ_MODULE_NOT_LOADED_TEXT,
                 new IllegalArgumentException(),
@@ -174,7 +174,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      * @param   me  Exception to be added.
      */
     protected void addError(final ModuleDataException me) {
-        addError(prop.createSourceFileException(getPlugin(), me));
+        addError(prop.createSourceFileException(getService(), me));
     }
 
     /**
@@ -224,7 +224,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
         // and we might want to resolve the location for them also.
         // And perhaps resolving all error locations at the same time is
         // faster because one has to load the source file only once...
-        addWarning(prop.createSourceFileException(getPlugin(), me));
+        addWarning(prop.createSourceFileException(getService(), me));
     }
 
     /**
@@ -273,12 +273,12 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
     }
 
     /**
-     * Get plugin we work for.
+     * Get service we work for.
      *
-     * @return  Plugin we work for.
+     * @return  Service we work for.
      */
-    public Plugin getPlugin() {
-        return plugin;
+    public Service getService() {
+        return service;
     }
 
     /**

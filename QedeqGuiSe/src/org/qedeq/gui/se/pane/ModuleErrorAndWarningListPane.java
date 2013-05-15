@@ -105,7 +105,7 @@ public class ModuleErrorAndWarningListPane extends JPanel implements ModuleEvent
                 case 2: tip = (sfe.getSourceArea() != null
                             ? sfe.getSourceArea().getShortDescription() : "");
                         break;
-                case 3: tip = sfe.getPlugin().getServiceDescription();
+                case 3: tip = sfe.getService().getServiceDescription();
                         break;
                 default: tip = sfe.getMessage() + "\n";
                 }
@@ -340,7 +340,7 @@ public class ModuleErrorAndWarningListPane extends JPanel implements ModuleEvent
                 sb.append("Kind\tType\tCode\tFrom\tTo\tDescription\n");
                 for (int i = 0; i < model.getQedeq().getErrors().size(); i++) {
                     SourceFileException e = model.getQedeq().getErrors().get(i);
-                    sb.append(e.getPlugin().getServiceAction());
+                    sb.append(e.getService().getServiceAction());
                     sb.append("\t");
                     sb.append("Error");
                     sb.append("\t");
@@ -355,7 +355,7 @@ public class ModuleErrorAndWarningListPane extends JPanel implements ModuleEvent
                 }
                 for (int i = 0; i < model.getQedeq().getWarnings().size(); i++) {
                     SourceFileException e = model.getQedeq().getWarnings().get(i);
-                    sb.append(e.getPlugin().getServiceAction());
+                    sb.append(e.getService().getServiceAction());
                     sb.append("\t");
                     sb.append("Warning");
                     sb.append("\t");

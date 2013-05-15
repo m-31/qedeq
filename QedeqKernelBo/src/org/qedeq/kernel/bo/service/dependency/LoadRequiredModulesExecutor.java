@@ -100,7 +100,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         if (loadingRequiredInProgress.containsKey(getQedeqBo())) { // already checked?
             throw new IllegalStateException("Programming error: must not be marked!");
         }
-        getQedeqBo().setDependencyProgressState(getPlugin(), DependencyState.STATE_LOADING_REQUIRED_MODULES);
+        getQedeqBo().setDependencyProgressState(DependencyState.STATE_LOADING_REQUIRED_MODULES);
 
         loadingRequiredInProgress.put(getQedeqBo(), getQedeqBo());
 
@@ -213,7 +213,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
      * @return  Error.
      */
     private SourceFileException createError(final ModuleDataException me) {
-        return getQedeqBo().createSourceFileException(getPlugin(), me);
+        return getQedeqBo().createSourceFileException(getService(), me);
     }
 
 }

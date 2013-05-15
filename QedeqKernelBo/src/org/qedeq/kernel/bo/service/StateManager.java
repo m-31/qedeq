@@ -176,11 +176,10 @@ public class StateManager {
     /**
      * Set loading progress module state.
      *
-     * @param   plugin  Plugin that sets the state.
      * @param   state   Module loading state. Must not be <code>null</code>.
      * @throws  IllegalStateException   State is a failure state or module loaded state.
      */
-    public void setLoadingProgressState(final Plugin plugin , final LoadingState state) {
+    public void setLoadingProgressState(final LoadingState state) {
         checkIfDeleted();
         if (state == LoadingState.STATE_LOADED) {
             throw new IllegalArgumentException(
@@ -200,7 +199,6 @@ public class StateManager {
                 "call delete for " + state);
         }
         setLoadingState(state);
-        setCurrentlyRunningPlugin(plugin);
         bo.setQedeqVo(null);
         bo.getKernelRequiredModules().clear();
         bo.getDependentModules().clear();
@@ -278,14 +276,13 @@ public class StateManager {
     /**
      * Set loading imports progress module state.
      *
-     * @param   plugin  Plugin that sets the state.
      * @param   state   Module state. Must not be <code>null</code>.
      * @throws  IllegalStateException       Module is not yet loaded.
      * @throws  IllegalArgumentException    <code>state</code> is failure state or loaded required
      *                                      state.
      * @throws  NullPointerException        <code>state</code> is <code>null</code>.
      */
-    public void setLoadingImportsProgressState(final Plugin plugin, final LoadingImportsState state) {
+    public void setLoadingImportsProgressState(final LoadingImportsState state) {
         checkIfDeleted();
         if (!isLoaded() && state != LoadingImportsState.STATE_UNDEFINED) {
             throw new IllegalStateException("module is not yet loaded");
@@ -350,14 +347,13 @@ public class StateManager {
     /**
      * Set dependency progress module state.
      *
-     * @param   plugin  Plugin that sets the state.
-     * @param   state   Module state. Must not be <code>null</code>.
+     * @param   state       Module state. Must not be <code>null</code>.
      * @throws  IllegalStateException       Module is not yet loaded.
      * @throws  IllegalArgumentException    <code>state</code> is failure state or loaded required
      *                                      state.
      * @throws  NullPointerException        <code>state</code> is <code>null</code>.
      */
-    public void setDependencyProgressState(final Plugin plugin, final DependencyState state) {
+    public void setDependencyProgressState(final DependencyState state) {
         checkIfDeleted();
         if (!isLoaded() && state != DependencyState.STATE_UNDEFINED) {
             throw new IllegalStateException("module is not yet loaded");
@@ -373,7 +369,6 @@ public class StateManager {
         setWellFormedState(WellFormedState.STATE_UNCHECKED);
         setFormallyProvedState(FormallyProvedState.STATE_UNCHECKED);
         setDependencyState(state);
-        setCurrentlyRunningPlugin(null);
         setErrors(null);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
@@ -691,7 +686,7 @@ public class StateManager {
      * @param   plugin  Plugin that sets the state.
      * @param   state   module state
      */
-    public void setWellFormedProgressState(final Plugin plugin, final WellFormedState state) {
+    public void setWellFormedProgressState(final WellFormedState state) {
         if (getDependencyState().getCode()
                 < DependencyState.STATE_LOADED_REQUIRED_MODULES.getCode()
                 && state != WellFormedState.STATE_UNCHECKED) {
@@ -707,7 +702,6 @@ public class StateManager {
                 "set with setChecked(ExistenceChecker)");
         }
         setWellFormedState(state);
-        setCurrentlyRunningPlugin(plugin);
         setErrors(null);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
@@ -739,10 +733,9 @@ public class StateManager {
     /**
      * Set checking for formally proved progress module state. Must not be <code>null</code>.
      *
-     * @param   plugin  Plugin that sets the state.
      * @param   state   module state
      */
-    public void setFormallyProvedProgressState(final Plugin plugin, final FormallyProvedState state) {
+    public void setFormallyProvedProgressState(final FormallyProvedState state) {
         if (getDependencyState().getCode()
                 < DependencyState.STATE_LOADED_REQUIRED_MODULES.getCode()
                 && state != FormallyProvedState.STATE_UNCHECKED) {
@@ -759,7 +752,6 @@ public class StateManager {
 //                "set with setChecked(ExistenceChecker)");
 //        }
         setFormallyProvedState(state);
-        setCurrentlyRunningPlugin(plugin);
         setErrors(null);
         ModuleEventLog.getInstance().stateChanged(bo);
     }

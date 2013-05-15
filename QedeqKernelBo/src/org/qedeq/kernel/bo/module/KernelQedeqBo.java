@@ -5,6 +5,7 @@ import org.qedeq.kernel.bo.common.Element2Utf8;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.state.DependencyState;
@@ -57,17 +58,17 @@ public interface KernelQedeqBo extends QedeqBo {
     /**
      * Create exception out of {@link ModuleDataException}.
      *
-     * @param   plugin      This plugin generated the error.
+     * @param   service      This service generated the error.
      * @param   exception   Take this exception.
      * @return  Newly created instance.
      */
-    public SourceFileException createSourceFileException(Plugin plugin, ModuleDataException
+    public SourceFileException createSourceFileException(Service service, ModuleDataException
             exception);
 
     /**
-     * Add errors and warnings for plugin.
+     * Add errors and warnings for service.
      *
-     * @param plugin    Add errors for this plugin.
+     * @param plugin    Add errors for this service.
      * @param errors    These errors occurred.
      * @param warnings  These warnings occurred.
      */
@@ -75,7 +76,7 @@ public interface KernelQedeqBo extends QedeqBo {
             SourceFileExceptionList warnings);
 
     /**
-     * Remove all errors and warnings for all plugins.
+     * Remove all errors and warnings for all services.
      */
     public void clearAllPluginErrorsAndWarnings();
 
@@ -100,10 +101,9 @@ public interface KernelQedeqBo extends QedeqBo {
     /**
      * Set logical well formed module state. Must not be <code>null</code>.
      *
-     * @param   plugin                  Plugin that was executed.
      * @param   stateLoadImports        module state
      */
-    public void setLoadingImportsProgressState(Plugin plugin, LoadingImportsState stateLoadImports);
+    public void setLoadingImportsProgressState(LoadingImportsState stateLoadImports);
 
     /**
      * Set loaded imports state.
@@ -128,14 +128,13 @@ public interface KernelQedeqBo extends QedeqBo {
     /**
      * Set dependency module state. Must not be <code>null</code>.
      *
-     * @param   plugin                      Plugin that was executed.
      * @param   state                       Module state
      * @throws  IllegalStateException       Module is not yet loaded.
      * @throws  IllegalArgumentException    <code>state</code> is failure state or loaded required
      *                                      state.
      * @throws  NullPointerException        <code>state</code> is <code>null</code>.
      */
-    public void setDependencyProgressState(Plugin plugin, DependencyState state);
+    public void setDependencyProgressState(DependencyState state);
 
     /**
      * Set loaded required requirements state.
@@ -157,19 +156,17 @@ public interface KernelQedeqBo extends QedeqBo {
     /**
      * Set logical well formed module state. Must not be <code>null</code>.
      *
-     * @param   plugin      Plugin that was executed.
      * @param   stateInternalChecking   module state
      */
-    public void setWellFormedProgressState(Plugin plugin, WellFormedState stateInternalChecking);
+    public void setWellFormedProgressState(WellFormedState stateInternalChecking);
 
     /**
      * Set logical formally proved module progress state. Must not be <code>null</code>.
      *
-     * @param   plugin      Plugin that was executed.
      * @param   state                       module state
      * @throws  IllegalArgumentException    <code>state</code> is no failure state
      */
-    public void setFormallyProvedProgressState(Plugin plugin, FormallyProvedState state);
+    public void setFormallyProvedProgressState(FormallyProvedState state);
 
     /**
      * Set logical formally proved module failure state. Must not be <code>null</code>.
@@ -197,10 +194,11 @@ public interface KernelQedeqBo extends QedeqBo {
 
 
     /**
-     * Set currently running plugin.
+     * Set currently running service.
      *
-     * @param   plugin  Set currently running plugin. Might be <code>null</code>.
+     * @param   service  Set currently running service. Might be <code>null</code>.
      */
-    public void setCurrentlyRunningPlugin(Plugin plugin);
+// FIXME
+//    public void setCurrentlyRunningService(Service service);
 
 }

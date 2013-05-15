@@ -116,6 +116,10 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
         this.parameters = parameters;
     }
 
+    private Plugin getPlugin() {
+        return (Plugin) getService();
+    }
+
     public Object executePlugin(final InternalServiceProcess process, final Object data) {
         getServices().checkWellFormedness(process, getQedeqBo());
         QedeqLog.getInstance().logRequest("Trying to create formal proofs", getQedeqBo().getUrl());

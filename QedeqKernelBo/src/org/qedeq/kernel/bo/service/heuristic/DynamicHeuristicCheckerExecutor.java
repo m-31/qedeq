@@ -44,6 +44,7 @@ import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
+import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.dto.list.DefaultElementList;
 
@@ -101,6 +102,10 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
             model = new FourDynamicModel();
         }
         this.interpreter = new DynamicDirectInterpreter(qedeq, model);
+    }
+
+    private Plugin getPlugin() {
+        return (Plugin) getService();
     }
 
     public Object executePlugin(final InternalServiceProcess process, final Object data) {

@@ -179,45 +179,45 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         assertFalse(bo.isLoaded());
         assertEquals(LoadingState.STATE_UNDEFINED, bo.getLoadingState());
         try {
-            bo.setLoadingProgressState(null, null);
+            bo.setLoadingProgressState(null);
             fail("NullPointerException expected");
         } catch (NullPointerException e) {
             // expected
         }
         try {
-            bo.setLoadingProgressState(plugin, LoadingState.STATE_LOADING_FROM_BUFFER_FAILED);
+            bo.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             // expected
         }
         try {
-            bo.setLoadingProgressState(plugin, LoadingState.STATE_LOADING_FROM_WEB_FAILED);
+            bo.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_WEB_FAILED);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             // expected
         }
         try {
-            bo.setLoadingProgressState(plugin, LoadingState.STATE_LOADING_INTO_MEMORY_FAILED);
+            bo.setLoadingProgressState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             // expected
         }
-        bo.setLoadingProgressState(plugin, LoadingState.STATE_UNDEFINED);
+        bo.setLoadingProgressState(LoadingState.STATE_UNDEFINED);
         assertEquals(LoadingState.STATE_UNDEFINED, bo.getLoadingState());
-        bo.setLoadingProgressState(plugin, LoadingState.STATE_LOADING_FROM_BUFFER);
+        bo.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_BUFFER);
         assertEquals(LoadingState.STATE_LOADING_FROM_BUFFER, bo.getLoadingState());
-        bo.setLoadingProgressState(plugin, LoadingState.STATE_LOADING_FROM_WEB);
+        bo.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_WEB);
         assertEquals(LoadingState.STATE_LOADING_FROM_WEB, bo.getLoadingState());
-        bo.setLoadingProgressState(plugin, LoadingState.STATE_LOADING_FROM_WEB);
+        bo.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_WEB);
         assertEquals(LoadingState.STATE_LOADING_FROM_WEB, bo.getLoadingState());
-        bo.setLoadingProgressState(plugin, LoadingState.STATE_LOADING_INTO_MEMORY);
+        bo.setLoadingProgressState(LoadingState.STATE_LOADING_INTO_MEMORY);
         assertEquals(LoadingState.STATE_LOADING_INTO_MEMORY, bo.getLoadingState());
-        bo.setLoadingProgressState(plugin, LoadingState.STATE_LOCATING_WITHIN_WEB);
+        bo.setLoadingProgressState(LoadingState.STATE_LOCATING_WITHIN_WEB);
         assertEquals(LoadingState.STATE_LOCATING_WITHIN_WEB, bo.getLoadingState());
-        bo.setLoadingProgressState(plugin, LoadingState.STATE_UNDEFINED);
+        bo.setLoadingProgressState(LoadingState.STATE_UNDEFINED);
         assertEquals(LoadingState.STATE_UNDEFINED, bo.getLoadingState());
         try {
-            bo.setLoadingProgressState(plugin, LoadingState.STATE_LOADED);
+            bo.setLoadingProgressState(LoadingState.STATE_LOADED);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             // expected
@@ -254,7 +254,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         } catch (NullPointerException e) {
             // expected
         }
-        bo.setLoadingProgressState(plugin, LoadingState.STATE_UNDEFINED);
+        bo.setLoadingProgressState(LoadingState.STATE_UNDEFINED);
         assertNotNull(bo.getErrors());
         assertEquals(0, bo.getErrors().size());
         try {
@@ -289,7 +289,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         assertTrue(bo.isLoaded());
         assertNotNull(bo.getErrors());
         assertEquals(0, bo.getErrors().size());
-        bo.setDependencyProgressState(plugin, DependencyState.STATE_UNDEFINED);
+        bo.setDependencyProgressState(DependencyState.STATE_UNDEFINED);
         try {
             bo.setDependencyFailureState(DependencyState.STATE_UNDEFINED,
                 defaultSourceFileExceptionList);

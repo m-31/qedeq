@@ -137,8 +137,8 @@ public class SourceFileExceptionTest extends QedeqTestCase {
     }
 
     public void testGetPlugin() {
-        assertEquals(plugin, one.getPlugin());
-        assertNull(seven.getPlugin());
+        assertEquals(plugin, one.getService());
+        assertNull(seven.getService());
     }
 
     public void testGetSourceArea() {

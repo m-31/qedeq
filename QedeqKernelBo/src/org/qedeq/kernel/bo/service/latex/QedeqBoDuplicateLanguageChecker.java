@@ -25,7 +25,7 @@ import org.qedeq.kernel.se.base.module.Latex;
 import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
-import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 
@@ -40,25 +40,25 @@ public final class QedeqBoDuplicateLanguageChecker extends ControlVisitor {
      * Checks if all formulas of a QEDEQ module are well formed.
      *
      * @param   process Service process we work in.
-     * @param   plugin  Plugin we work for.
+     * @param   service  Service we work for.
      * @param   prop              QEDEQ BO.
      * @throws  SourceFileExceptionList An error occurred.
      */
     public static void check(final InternalServiceProcess process,
-            final Plugin plugin, final KernelQedeqBo prop) throws SourceFileExceptionList {
+            final Service service, final KernelQedeqBo prop) throws SourceFileExceptionList {
         final QedeqBoDuplicateLanguageChecker checker
-            = new QedeqBoDuplicateLanguageChecker(plugin, prop);
+            = new QedeqBoDuplicateLanguageChecker(service, prop);
         checker.traverse(process);
     }
 
     /**
      * Constructor.
      *
-     * @param   plugin  Plugin we work for.
+     * @param   service  Service we work for.
      * @param   bo      BO QEDEQ module object.
      */
-    private QedeqBoDuplicateLanguageChecker(final Plugin plugin, final KernelQedeqBo bo) {
-        super(plugin, bo);
+    private QedeqBoDuplicateLanguageChecker(final Service service, final KernelQedeqBo bo) {
+        super(service, bo);
     }
 
     public final void visitEnter(final LatexList list) throws ModuleDataException {

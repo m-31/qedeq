@@ -32,7 +32,7 @@ import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.common.ModuleDataException;
-import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.dto.module.NodeVo;
 
@@ -62,11 +62,11 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     /**
      * Constructor.
      *
-     * @param   plugin      This plugin we work for.
+     * @param   service      This service we work for.
      * @param   prop        Internal QedeqBo.
      */
-    public ModuleLabelsCreator(final Plugin plugin, final KernelQedeqBo prop) {
-        super(plugin, prop);
+    public ModuleLabelsCreator(final Service service, final KernelQedeqBo prop) {
+        super(service, prop);
     }
 
     /**

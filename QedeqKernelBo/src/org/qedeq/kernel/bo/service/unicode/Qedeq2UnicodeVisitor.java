@@ -184,7 +184,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         try {
             traverse(process);
         } finally {
-            getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
+            getQedeqBo().addPluginErrorsAndWarnings((Plugin) getService(), getErrorList(), getWarningList());
         }
     }
 

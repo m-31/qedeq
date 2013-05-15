@@ -73,7 +73,7 @@ import org.qedeq.kernel.se.visitor.InterruptException;
  * @author  Michael Meyling
  */
 public class DefaultInternalKernelServices implements ServiceModule, InternalKernelServices,
-        Plugin {
+        Service {
 
     /** This class. */
     private static final Class CLASS = DefaultInternalKernelServices.class;
@@ -203,16 +203,18 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         if (prop != null) {
             QedeqLog.getInstance().logRequest("Removing module", address.getUrl());
             final InternalServiceProcess proc = new ServiceProcessImpl(arbiter, "loadModule");
-            final PluginCallImpl call = processManager.createPluginCall(this, prop, Parameters.EMPTY, proc, null);
+            InternalServiceCall call = processManager.createServiceCall(this, prop, Parameters.EMPTY, Parameters.EMPTY,
+                proc, null);
             try {
                 arbiter.lockRequiredModule(proc, prop);
                 removeModule((DefaultKernelQedeqBo) prop);
+                call.finish();
             } catch (final Exception e) {
                 QedeqLog.getInstance().logFailureReply(
                     "Remove failed", address.getUrl(), e.getMessage());
+                call.finish("Remove failed for " + address.getUrl() + " " +  e.getMessage());
             } finally {
                 arbiter.unlockRequiredModule(proc, prop);
-                call.setSuccessState();
             }
             if (validate) {
                 modules.validateDependencies();
@@ -377,7 +379,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
      */
     private void loadBufferedModule(final InternalServiceProcess proc,
             final DefaultKernelQedeqBo prop) throws SourceFileExceptionList {
-        prop.setLoadingProgressState(this, LoadingState.STATE_LOADING_FROM_BUFFER);
+        prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_BUFFER);
         final File localFile;
         try {
             localFile = getCanonicalReadableFile(prop);
@@ -410,7 +412,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
      */
     private void loadLocalModule(final InternalServiceProcess proc,
             final DefaultKernelQedeqBo prop) throws SourceFileExceptionList {
-        prop.setLoadingProgressState(this, LoadingState.STATE_LOADING_FROM_LOCAL_FILE);
+        prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_LOCAL_FILE);
         final File localFile;
         try {
             localFile = getCanonicalReadableFile(prop);
@@ -437,7 +439,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     private void setCopiedQedeq(final InternalServiceProcess proc, final DefaultKernelQedeqBo prop,
             final Qedeq qedeq) throws SourceFileExceptionList {
         final String method = "setCopiedQedeq(DefaultKernelQedeqBo, Qedeq)";
-        prop.setLoadingProgressState(this, LoadingState.STATE_LOADING_INTO_MEMORY);
+        prop.setLoadingProgressState(LoadingState.STATE_LOADING_INTO_MEMORY);
         QedeqVo vo = null;
         try {
             vo = QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq);
@@ -548,8 +550,6 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                     if (prop.isLoaded()) {
                         return (prop);
                     }
-                    final PluginCallImpl call = processManager.createPluginCall(this, prop, Parameters.EMPTY, proc,
-                        null);
                     try {
                         if (prop.getModuleAddress().isFileAddress()) {
                             loadLocalModule(proc, prop);
@@ -574,8 +574,6 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                             // we surrender
                             throw e;
                         }
-                    } finally {
-                        call.setSuccessState();
                     }
                 }
             }
@@ -683,7 +681,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
 
             public void executeService(final InternalServiceCall call) {
                 final File f = getLocalFilePath(prop.getModuleAddress());
-                prop.setLoadingProgressState(DefaultInternalKernelServices.this, LoadingState.STATE_LOADING_FROM_WEB);
+                prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_WEB);
                 try {
                     UrlUtility.saveUrlToFile(prop.getUrl(), f,
                         config.getHttpProxyHost(), config.getHttpProxyPort(), config.getHttpNonProxyHosts(),

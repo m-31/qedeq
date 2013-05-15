@@ -156,7 +156,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                 "Not all required modules could be loaded.");
             return Boolean.FALSE;
         }
-        getQedeqBo().setWellFormedProgressState(getPlugin(), WellFormedState.STATE_EXTERNAL_CHECKING);
+        getQedeqBo().setWellFormedProgressState(WellFormedState.STATE_EXTERNAL_CHECKING);
         getQedeqBo().getLabels().resetNodesToWellFormedUnchecked();
         final SourceFileExceptionList sfl = new SourceFileExceptionList();
         final Map rules = new HashMap(); // map RuleKey to KernelQedeqBo
@@ -170,7 +170,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                     LogicErrors.MODULE_IMPORT_CHECK_FAILED_TEXT
                     + list.getQedeqBo(i).getModuleAddress(),
                     list.getModuleContext(i));
-                sfl.add(getQedeqBo().createSourceFileException(getPlugin(), md));
+                sfl.add(getQedeqBo().createSourceFileException(getService(), md));
             }
             final ModuleConstantsExistenceChecker existenceChecker
                 = list.getKernelQedeqBo(i).getExistenceChecker();
@@ -186,7 +186,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                             LogicErrors.RULE_DECLARED_IN_DIFFERENT_IMPORT_MODULES_TEXT
                             + key + " " + previousQedeq.getUrl() + " " + newQedeq.getUrl(),
                             list.getModuleContext(i));
-                        sfl.add(getQedeqBo().createSourceFileException(getPlugin(), md));
+                        sfl.add(getQedeqBo().createSourceFileException(getService(), md));
                     } else {
                         rules.put(key, newQedeq);
                     }
@@ -201,7 +201,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                  StringUtility.replace(sfl.getMessage(), "\n", "\n\t"));
             return Boolean.FALSE;
         }
-        getQedeqBo().setWellFormedProgressState(getPlugin(), WellFormedState.STATE_INTERNAL_CHECKING);
+        getQedeqBo().setWellFormedProgressState(WellFormedState.STATE_INTERNAL_CHECKING);
 
         try {
             traverse(process);

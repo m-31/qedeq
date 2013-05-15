@@ -30,7 +30,7 @@ import org.qedeq.kernel.se.common.Plugin;
  *
  * @author  Michael Meyling
  */
-public class PluginCallImpl extends ServiceCallImpl implements PluginCall {
+public class PluginCallImpls extends ServiceCallImpl implements PluginCall {
 
     /** Execution object. Might be <code>null</code>. */
     private PluginExecutor executor;
@@ -45,7 +45,7 @@ public class PluginCallImpl extends ServiceCallImpl implements PluginCall {
      * @param   process     Service process we run within.
      * @param   parent      Parent plugin call if any.
      */
-    public PluginCallImpl(final Plugin service,
+    public PluginCallImpls(final Plugin service,
             final KernelQedeqBo qedeq, final Parameters parameters, final ServiceProcess process,
             final PluginCall parent) {
         super(service, qedeq, parameters, Parameters.EMPTY, (InternalServiceProcess) process, (InternalServiceCall) parent);  

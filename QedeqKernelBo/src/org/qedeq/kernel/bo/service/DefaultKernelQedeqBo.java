@@ -38,6 +38,7 @@ import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.dto.module.QedeqVo;
@@ -50,7 +51,7 @@ import org.qedeq.kernel.se.state.WellFormedState;
 
 
 /**
- * Represents a module and its states. This is a kernel intern representation.
+ * Represents a module and its states. This is a kernel internal representation.
  *
  * @author  Michael Meyling
  */
@@ -177,12 +178,11 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     /**
      * Set loading progress module state.
      *
-     * @param   plugin  Plugin that sets the state.
      * @param   state   Module loading state. Must not be <code>null</code>.
      * @throws  IllegalStateException   State is a failure state or module loaded state.
      */
-    public void setLoadingProgressState(final Plugin plugin, final LoadingState state) {
-        stateManager.setLoadingProgressState(plugin, state);
+    public void setLoadingProgressState(final LoadingState state) {
+        stateManager.setLoadingProgressState(state);
     }
 
     /**
@@ -233,8 +233,8 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         return this.textConverter;
     }
 
-    public void setLoadingImportsProgressState(final Plugin plugin, final LoadingImportsState state) {
-        stateManager.setLoadingImportsProgressState(plugin, state);
+    public void setLoadingImportsProgressState(final LoadingImportsState state) {
+        stateManager.setLoadingImportsProgressState(state);
     }
 
     public void setLoadingImportsFailureState(final LoadingImportsState state,
@@ -255,8 +255,8 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     }
 
 
-    public void setDependencyProgressState(final Plugin plugin, final DependencyState state) {
-        stateManager.setDependencyProgressState(plugin, state);
+    public void setDependencyProgressState(final DependencyState state) {
+        stateManager.setDependencyProgressState(state);
     }
 
     public void setDependencyFailureState(final DependencyState state,
@@ -306,8 +306,8 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         return stateManager.isFullyFormallyProved();
     }
 
-    public void setWellFormedProgressState(final Plugin plugin, final WellFormedState state) {
-        stateManager.setWellFormedProgressState(plugin, state);
+    public void setWellFormedProgressState(final WellFormedState state) {
+        stateManager.setWellFormedProgressState(state);
     }
 
     public void setWellfFormedFailureState(final WellFormedState state,
@@ -319,8 +319,8 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         return stateManager.getWellFormedState();
     }
 
-    public void setFormallyProvedProgressState(final Plugin plugin, final FormallyProvedState state) {
-        stateManager.setFormallyProvedProgressState(plugin, state);
+    public void setFormallyProvedProgressState(final FormallyProvedState state) {
+        stateManager.setFormallyProvedProgressState(state);
     }
 
     public void setFormallyProvedFailureState(final FormallyProvedState state,
@@ -400,17 +400,17 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     /**
      * Create exception out of {@link ModuleDataException}.
      *
-     * @param   plugin      This plugin generated the error.
+     * @param   service     This service generated the error.
      * @param   exception   Take this exception.
      * @return  Newly created instance.
      */
-    public SourceFileExceptionList createSourceFileExceptionList(final Plugin plugin,
+    public SourceFileExceptionList createSourceFileExceptionList(final Service service,
             final ModuleDataException exception) {
         SourceArea referenceArea = null;
         if (exception.getReferenceContext() != null) {
             referenceArea = createSourceArea(qedeq, exception.getReferenceContext());
         }
-        final SourceFileException e = new SourceFileException(plugin, exception,
+        final SourceFileException e = new SourceFileException(service, exception,
             createSourceArea(qedeq, exception.getContext()), referenceArea);
         final SourceFileExceptionList list = new SourceFileExceptionList(e);
         return list;
@@ -419,29 +419,29 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     /**
      * Create exception out of {@link ModuleDataException}.
      *
-     * @param   plugin      This plugin generated the error.
+     * @param   service     This service generated the error.
      * @param   exception   Take this exception.
      * @param   qedeq       Take this QEDEQ source. (This might not be accessible via
      *                      {@link #getQedeq()}.
      * @return  Newly created instance.
      */
-    public SourceFileExceptionList createSourceFileExceptionList(final Plugin plugin,
+    public SourceFileExceptionList createSourceFileExceptionList(final Service service,
             final ModuleDataException exception, final Qedeq qedeq) {
-        final SourceFileException e = new SourceFileException(plugin, exception,
+        final SourceFileException e = new SourceFileException(service, exception,
             createSourceArea(qedeq, exception.getContext()), createSourceArea(qedeq,
                 exception.getReferenceContext()));
         final SourceFileExceptionList list = new SourceFileExceptionList(e);
         return list;
     }
 
-    public SourceFileException createSourceFileException(final Plugin plugin, final ModuleDataException
+    public SourceFileException createSourceFileException(final Service service, final ModuleDataException
             exception) {
         final SourceArea area = createSourceArea(qedeq, exception.getContext());
         SourceArea referenceArea = null;
         if (exception.getReferenceContext() != null) {
             referenceArea = createSourceArea(qedeq, exception.getReferenceContext());
         }
-        final SourceFileException e = new SourceFileException(plugin, exception, area, referenceArea);
+        final SourceFileException e = new SourceFileException(service, exception, area, referenceArea);
         return e;
     }
 

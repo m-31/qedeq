@@ -33,7 +33,7 @@ public class SourceFileException extends QedeqException {
     private static final long serialVersionUID = -4109767904038020052L;
 
     /** Error code of this Exception. */
-    private final Plugin plugin;
+    private final Service service;
 
     /** Start of error location. */
     private final SourceArea errorArea;
@@ -45,17 +45,17 @@ public class SourceFileException extends QedeqException {
     /**
      * Constructor.
      *
-     * @param   plugin      This plugin generated the error.
+     * @param   service     This service generated the error.
      * @param   errorCode   Error code.
      * @param   errorText   Error text.
      * @param   exception   Exception to wrap.
      * @param   errorArea   Error location.
      * @param   referenceArea   Error reference location.
      */
-    public SourceFileException(final Plugin plugin, final int errorCode, final String errorText,
+    public SourceFileException(final Service service, final int errorCode, final String errorText,
             final Throwable exception, final SourceArea errorArea, final SourceArea referenceArea) {
         super(errorCode, errorText, exception);
-        this.plugin = plugin;
+        this.service = service;
         this.errorArea = errorArea;
         this.referenceArea = referenceArea;
     }
@@ -63,24 +63,24 @@ public class SourceFileException extends QedeqException {
     /**
      * Constructor.
      *
-     * @param   plugin      This plugin generated the error.
+     * @param   service      This service generated the error.
      * @param   exception   Exception to wrap.
      * @param   errorArea   Error location.
      * @param   referenceArea   Error reference location.
      */
-    public SourceFileException(final Plugin plugin, final QedeqException exception,
+    public SourceFileException(final Service service, final QedeqException exception,
             final SourceArea errorArea, final SourceArea referenceArea) {
-        this(plugin, exception.getErrorCode(), exception.getMessage(), exception,
+        this(service, exception.getErrorCode(), exception.getMessage(), exception,
             errorArea, referenceArea);
     }
 
     /**
-     * Get plugin that found the error.
+     * Get service that found the error.
      *
-     * @return  Plugin.
+     * @return  Service.
      */
-    public Plugin getPlugin() {
-        return plugin;
+    public Service getService() {
+        return service;
     }
 
     /**
@@ -156,7 +156,7 @@ public class SourceFileException extends QedeqException {
 
     public final int hashCode() {
         return getErrorCode() ^ (errorArea != null ? errorArea.hashCode() : 13)
-            ^ (getPlugin() != null ? getPlugin().hashCode() : 131)
+            ^ (getService() != null ? getService().hashCode() : 131)
             ^ (getMessage() != null ? getMessage().hashCode() : 499);
     }
 
@@ -166,7 +166,7 @@ public class SourceFileException extends QedeqException {
         }
         final SourceFileException other = (SourceFileException) obj;
         return  (getErrorCode() == other.getErrorCode())
-            &&  EqualsUtility.equals(getPlugin(), other.getPlugin())
+            &&  EqualsUtility.equals(getService(), other.getService())
             &&  EqualsUtility.equals(getMessage(), other.getMessage())
             &&  EqualsUtility.equals(errorArea, other.errorArea);
     }

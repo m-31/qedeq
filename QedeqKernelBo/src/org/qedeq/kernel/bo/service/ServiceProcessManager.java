@@ -21,7 +21,6 @@ import java.util.List;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.KernelContext;
-import org.qedeq.kernel.bo.common.PluginCall;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
@@ -32,7 +31,6 @@ import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 import org.qedeq.kernel.bo.service.common.ServiceCallImpl;
 import org.qedeq.kernel.bo.service.common.ServiceExecutor;
 import org.qedeq.kernel.bo.service.common.ServiceResult;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.visitor.InterruptException;
 
@@ -108,10 +106,10 @@ public class ServiceProcessManager {
      * @param   parent      Parent process that creates a new one.
      * @return  Created process.
      */
-    public synchronized PluginCallImpl createPluginCall(final Plugin service,
-            final KernelQedeqBo qedeq, final Parameters parameters,
-            final InternalServiceProcess process, final PluginCall parent) {
-        final PluginCallImpl call = new PluginCallImpl(service, qedeq, parameters, process, parent);
+    public synchronized ServiceCallImpl createServiceCall(final Service service,
+            final KernelQedeqBo qedeq, final Parameters configParameters, final Parameters parameters,
+            final InternalServiceProcess process, final InternalServiceCall parent) {
+        final ServiceCallImpl call = new ServiceCallImpl(service, qedeq, configParameters, parameters, process, parent);
         calls.add(call);
         return call;
     }
@@ -149,7 +147,7 @@ public class ServiceProcessManager {
             throw new NullPointerException("ServiceProcess must not be null");
         }
         final Parameters configParameters = KernelContext.getInstance().getConfig().getServiceEntries(service);
-        final ServiceCallImpl call = new ServiceCallImpl(service, qedeq, configParameters, Parameters.EMPTY, process,
+        final ServiceCallImpl call = createServiceCall(service, qedeq, configParameters, Parameters.EMPTY, process,
             (InternalServiceCall) process.getServiceCall());
         if (!process.isRunning()) {
             call.halt("Service process is not running any more.");
@@ -209,7 +207,7 @@ public class ServiceProcessManager {
                 e);
             throw e;
         }
-        final Parameters parameters = KernelContext.getInstance().getConfig().getServiceEntries(plugin);
+        final Parameters configParameters = KernelContext.getInstance().getConfig().getServiceEntries(plugin);
         InternalServiceProcess process = null;
         if (proc != null) {
             if (!proc.isRunning()) {
@@ -222,8 +220,8 @@ public class ServiceProcessManager {
                 processes.add(process);
             }
         }
-        final PluginCallImpl call = new PluginCallImpl(plugin, qedeq, parameters, process,
-                        process.getPluginCall());
+        final ServiceCallImpl call = createServiceCall(plugin, qedeq, configParameters, Parameters.EMPTY,
+            process, (InternalServiceCall) process.getServiceCall());
         process.setServiceCall(call);
         process.setBlocked(true);
         boolean newBlockedModule = false;
@@ -233,35 +231,33 @@ public class ServiceProcessManager {
             final String msg = plugin.getServiceAction() + " was interrupted.";
             Trace.fatal(CLASS, this, method, msg, e);
             QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
-            call.setFailureState();
+            call.interrupt();
             process.setFailureState();
             return null;
         }
         process.setBlocked(false);
         try {
-            final PluginExecutor exe = plugin.createExecutor(qedeq, parameters);
-            qedeq.setCurrentlyRunningPlugin(plugin);
+            final PluginExecutor exe = plugin.createExecutor(qedeq, configParameters);
             final Object result = exe.executePlugin(process, data);
             if (exe.getInterrupted()) {
                 call.interrupt();
+                process.setFailureState();
             } else {
-                call.setSuccessState();
+                call.finish();
+                process.setSuccessState();
             }
             return result;
         } catch (final RuntimeException e) {
             final String msg = plugin.getServiceAction() + " failed with a runtime exception.";
             Trace.fatal(CLASS, this, method, msg, e);
             QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
-            call.setFailureState();
+            call.finish(msg + ": " + e.getMessage());
             process.setFailureState();
             return null;
         } finally {
             if (newBlockedModule) {
                 arbiter.unlockRequiredModule(process, qedeq);
             }
-            // remove old executor
-            call.setExecutor(null);
-            qedeq.setCurrentlyRunningPlugin(null);
             // if we created the process we also close it
             if (proc == null) {
                 if (process.isRunning()) {
