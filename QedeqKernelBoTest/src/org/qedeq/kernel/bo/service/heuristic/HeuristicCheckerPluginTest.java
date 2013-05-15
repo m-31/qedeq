@@ -56,7 +56,7 @@ public class HeuristicCheckerPluginTest extends QedeqBoTestCase {
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
-        getInternalServices().getConfig().setPluginKeyValue(new HeuristicCheckerPlugin(), "model",
+        getInternalServices().getConfig().setServiceKeyValue(new HeuristicCheckerPlugin(), "model",
             model.getClass().getName());
         getServices().executePlugin(
             "org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin", prop.getModuleAddress(),

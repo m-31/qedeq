@@ -90,7 +90,7 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         parameters.put("negationWeight", "0");
         parameters.put("conjunctionWeight", "0");
         parameters.put("equivalenceWeight", "0");
-        getInternalServices().getConfig().setPluginKeyValues(new SimpleProofFinderPlugin(),
+        getInternalServices().getConfig().setServiceKeyValues(new SimpleProofFinderPlugin(),
             new Parameters(parameters));
         getServices().executePlugin(SimpleProofFinderPlugin.class.getName(), address, null);
         getServices().checkFormallyProved(address);
@@ -135,7 +135,7 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         parameters.put("negationWeight", "0");
         parameters.put("conjunctionWeight", "0");
         parameters.put("equivalenceWeight", "0");
-        getInternalServices().getConfig().setPluginKeyValues(new SimpleProofFinderPlugin(), new Parameters(parameters));
+        getInternalServices().getConfig().setServiceKeyValues(new SimpleProofFinderPlugin(), new Parameters(parameters));
         getServices().executePlugin(SimpleProofFinderPlugin.class.getName(), address, null);
         getServices().checkFormallyProved(address);
         assertTrue(getServices().getQedeqBo(address).isFullyFormallyProved());
@@ -181,7 +181,7 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         parameters.put("negationWeight", "0");
         parameters.put("conjunctionWeight", "0");
         parameters.put("equivalenceWeight", "0");
-        getInternalServices().getConfig().setPluginKeyValues(new SimpleProofFinderPlugin(),
+        getInternalServices().getConfig().setServiceKeyValues(new SimpleProofFinderPlugin(),
             new Parameters(parameters));
         getServices().executePlugin(SimpleProofFinderPlugin.class.getName(), address, null);
         getServices().checkFormallyProved(address);

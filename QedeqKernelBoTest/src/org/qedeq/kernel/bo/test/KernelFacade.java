@@ -53,7 +53,7 @@ public final class KernelFacade {
                 "This file is part of the project *Hilbert II* - http://www.qedeq.org",
                 dir);
             config.setAutoReloadLastSessionChecked(false);
-            config.setPluginKeyValue(new FormalProofCheckerPlugin(), "checkerFactory",
+            config.setServiceKeyValue(new FormalProofCheckerPlugin(), "checkerFactory",
                 TestingProofCheckerFactoryImpl.class.getName());
             final QedeqFileDao loader = new XmlQedeqFileDao();
             final DefaultInternalKernelServices services = new DefaultInternalKernelServices(
