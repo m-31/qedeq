@@ -145,8 +145,8 @@ public class ModulePropertiesPane extends JPanel {
             url.setText(prop.getUrl().toString());
             final Plugin p = prop.getCurrentlyRunningPlugin();
             if (p != null) {
-                plugin.setText(p.getPluginActionName());
-                plugin.setToolTipText(GuiHelper.getToolTipText(p.getPluginDescription()));
+                plugin.setText(p.getServiceAction());
+                plugin.setToolTipText(GuiHelper.getToolTipText(p.getServiceDescription()));
             } else {
                 plugin.setText("");
                 plugin.setToolTipText("");

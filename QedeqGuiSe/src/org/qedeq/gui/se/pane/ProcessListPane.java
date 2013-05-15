@@ -107,7 +107,7 @@ public class ProcessListPane extends JPanel  {
                      }
                      break;
                 case 1: tip = (process.getPluginCall() != null
-                     ? process.getPluginCall().getPlugin().getPluginDescription()
+                     ? process.getPluginCall().getPlugin().getServiceDescription()
                      : process.getExecutionActionDescription());
                      break;
                 case 2:
@@ -422,7 +422,7 @@ public class ProcessListPane extends JPanel  {
                             }
                             result.append("\n\t\t Status:     ").append(tip);
                             result.append("\n\t\t Module:     ").append(parent.getQedeq().getName());
-                            result.append("\n\t\t Plugin:     ").append(parent.getPlugin().getPluginActionName());
+                            result.append("\n\t\t Plugin:     ").append(parent.getPlugin().getServiceAction());
                             result.append("\n\t\t Start:      ").append(DateUtility.getIsoTime(parent.getStart()));
                             result.append("\n\t\t Stop:       ").append((parent.getStop() != 0
                                 ? DateUtility.getIsoTime(parent.getStop()) : ""));

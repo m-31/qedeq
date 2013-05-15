@@ -266,7 +266,7 @@ public class PluginPreferencesDialog extends JDialog {
                     parameters.getBoolean("brief"));
                 builder.append(qedeq2LatexBriefCB);
 
-                return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
+                return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getServiceDescription());
             }
         };
     }
@@ -304,7 +304,7 @@ public class PluginPreferencesDialog extends JDialog {
                     parameters.getBoolean("brief"));
                 builder.append(qedeq2Utf8BriefCB);
 
-                return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
+                return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getServiceDescription());
             }
         };
     }
@@ -344,7 +344,7 @@ public class PluginPreferencesDialog extends JDialog {
                     + "0 means no break at all.");
                 builder.append(qedeq2Utf8ShowMaximumColumnTF);
 
-                return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
+                return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getServiceDescription());
             }
         };
     }
@@ -434,7 +434,7 @@ public class PluginPreferencesDialog extends JDialog {
                     builder.append(getDescription(modelSix.getDescription()));
                 }
 
-                return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
+                return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getServiceDescription());
             }
         };
     }
@@ -557,7 +557,7 @@ public class PluginPreferencesDialog extends JDialog {
                 builder.append(proofFinderEquivalenceWeightTF);
                 builder.nextLine();
 
-                return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
+                return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getServiceDescription());
             }
         };
     }
@@ -729,7 +729,7 @@ public class PluginPreferencesDialog extends JDialog {
          * @return  Plugin action name.
          */
         public String getName() {
-            return plugin.getPluginActionName();
+            return plugin.getServiceAction();
         }
 
         /**
