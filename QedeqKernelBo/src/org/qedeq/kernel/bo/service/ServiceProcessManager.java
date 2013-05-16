@@ -99,12 +99,13 @@ public class ServiceProcessManager {
     /**
      * Create service process.
      *
-     * @param   service     The service that runs in current thread.
-     * @param   qedeq       QEDEQ module for service.
-     * @param   parameters  Parameter for the service.
-     * @param   process     We run in this process.
-     * @param   parent      Parent process that creates a new one.
-     * @return  Created process.
+     * @param   service             The service that runs in current thread.
+     * @param   qedeq               QEDEQ module for service.
+     * @param   configParameters    Config parameters for the service.
+     * @param   parameters          Parameter for this service call.
+     * @param   process             We run in this process.
+     * @param   parent              Parent process that creates a new one.
+     * @return  Created service call.
      */
     public synchronized ServiceCallImpl createServiceCall(final Service service,
             final KernelQedeqBo qedeq, final Parameters configParameters, final Parameters parameters,
