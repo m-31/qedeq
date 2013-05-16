@@ -215,15 +215,13 @@ public class ServiceProcessManager {
             }
             process = proc;
         } else {
-            process = new ServiceProcessImpl(arbiter, plugin.getServiceAction());
-            synchronized (this) {
-                processes.add(process);
-            }
+            process = createServiceProcess(plugin.getServiceAction());
         }
         final ServiceCallImpl call = createServiceCall(plugin, qedeq, configParameters, Parameters.EMPTY,
             process, (InternalServiceCall) process.getServiceCall());
         process.setServiceCall(call);
         process.setBlocked(true);
+        call.pause();
         boolean newBlockedModule = false;
         try {
             newBlockedModule = arbiter.lockRequiredModule(process, qedeq);
@@ -236,6 +234,7 @@ public class ServiceProcessManager {
             return null;
         }
         process.setBlocked(false);
+        call.resume();
         try {
             final PluginExecutor exe = plugin.createExecutor(qedeq, configParameters);
             final Object result = exe.executePlugin(process, data);

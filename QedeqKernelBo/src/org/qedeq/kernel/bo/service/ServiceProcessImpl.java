@@ -36,11 +36,8 @@ public class ServiceProcessImpl implements InternalServiceProcess {
     /** Counter for each service process. */
     private static long globalCounter;
 
-    /** The plugin call the process currently works for. */
-    private PluginCall call;
-
     /** The service call the process currently works for. */
-    private ServiceCall serviceCall;
+    private ServiceCall call;
 
     /** The thread the service is done within. */
     private final Thread thread;
@@ -58,7 +55,7 @@ public class ServiceProcessImpl implements InternalServiceProcess {
     private final String actionName;
 
     /** Percentage of currently running plugin execution. */
-    private double executionPercentage = 0;
+    private double executionPercentage;
 
     /** Percentage of currently running plugin execution. */
     private String executionActionDescription = "not yet started";
@@ -82,7 +79,6 @@ public class ServiceProcessImpl implements InternalServiceProcess {
         this.id = inc();
         this.thread = Thread.currentThread();
         this.call = null;
-//        this.blockedModules = new KernelQedeqBoSet();
         this.arbiter = arbiter;
         this.actionName = actionName;
         start();
@@ -92,16 +88,12 @@ public class ServiceProcessImpl implements InternalServiceProcess {
         return globalCounter++;
     }
 
-    public synchronized void setPluginCall(final PluginCall call) {
+    public synchronized void setServiceCall(final ServiceCall call) {
         this.call = call;
     }
 
-    public synchronized void setServiceCall(final ServiceCall call) {
-        this.serviceCall = call;
-    }
-
     public synchronized ServiceCall getServiceCall() {
-        return serviceCall;
+        return call;
     }
 
     public synchronized Thread getThread() {
@@ -217,7 +209,7 @@ public class ServiceProcessImpl implements InternalServiceProcess {
     public synchronized String getExecutionActionDescription() {
         if (isRunning() || isBlocked()) {
             if (call != null) {
-                executionActionDescription = call.getExecutionActionDescription();
+                executionActionDescription = call.getAction();
             }
         }
         return executionActionDescription;

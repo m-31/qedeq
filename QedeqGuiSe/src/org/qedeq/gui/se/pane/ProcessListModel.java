@@ -109,7 +109,7 @@ public class ProcessListModel extends AbstractTableModel {
                 }
                 break;
         case 1: return sp.getActionName();
-        case 2: return (sp.getQedeq() != null ? sp.getQedeq().getName() : "");
+        case 2: return sp.getQedeqName();
         case 3: return DateUtility.getIsoTime(sp.getStart());
         case 4: return sp.getStop() != 0 ? DateUtility.getIsoTime(sp.getStop()) : "";
         case 5: return DateUtility.getDuration(current - sp.getStart());
