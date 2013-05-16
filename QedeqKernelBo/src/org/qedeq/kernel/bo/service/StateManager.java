@@ -683,7 +683,6 @@ public class StateManager {
     /**
      * Set checking for well formed progress module state. Must not be <code>null</code>.
      *
-     * @param   plugin  Plugin that sets the state.
      * @param   state   module state
      */
     public void setWellFormedProgressState(final WellFormedState state) {
