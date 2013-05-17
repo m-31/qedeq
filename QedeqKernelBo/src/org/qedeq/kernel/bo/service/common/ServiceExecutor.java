@@ -29,6 +29,7 @@ public interface ServiceExecutor {
      * Execute service.
      *
      * @param   call    Parameters for service call and current execution status.
+     * @throws  InterruptException  User canceled call.
      */
     public void executeService(InternalServiceCall call) throws InterruptException;
 
