@@ -76,9 +76,6 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
     /** Factory for generating new checkers. */
     private ProofCheckerFactory checkerFactory = null;
 
-    /** Parameters for checker. */
-    private Parameters parameters;
-
     /** Rule version the module claims to use at maximum. */
     private Version ruleVersion;
 
@@ -93,7 +90,6 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
             final Parameters parameters) {
         super(plugin, qedeq);
         final String method = "FormalProofCheckerExecutor(Plugin, KernelQedeqBo, Map)";
-        this.parameters = parameters;
         final String checkerFactoryClass = parameters.getString("checkerFactory");
         if (checkerFactoryClass != null && checkerFactoryClass.length() > 0) {
             try {
