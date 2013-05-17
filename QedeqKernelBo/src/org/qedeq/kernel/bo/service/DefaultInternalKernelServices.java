@@ -669,7 +669,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     /**
      * Make local copy of a module if it is no file address.
      *
-     * @param   proc    Service process we run within.
+     * @param   call    Service call we run within.
      * @param   prop    Module properties.
      * @throws  SourceFileExceptionList Address was malformed or the file can not be found.
      * @throws  InterruptException User canceled request.
