@@ -211,7 +211,7 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
         parameters.put("checkerFactory", TestFormulaCheckerFactoryImpl.class.getName());
         final WellFormedCheckerExecutor checker = (WellFormedCheckerExecutor) plugin.createExecutor(
             prop, new Parameters(parameters));
-        checker.executePlugin(null, null);
+        checker.executePlugin(createServiceCall("check", prop), null);
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
@@ -231,7 +231,7 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
         parameters.put("checkerFactory", TestFormulaCheckerFactoryImpl.class.getName());
         final WellFormedCheckerExecutor checker = (WellFormedCheckerExecutor) plugin.createExecutor(
             qedeqBo, new Parameters(parameters));
-        checker.executePlugin(null, null);
+        checker.executePlugin(createServiceCall("check", qedeqBo), null);
         if (qedeqBo.hasErrors()) {
 //            qedeqBo.getErrors().get(0).printStackTrace(System.out);
             throw qedeqBo.getErrors();
