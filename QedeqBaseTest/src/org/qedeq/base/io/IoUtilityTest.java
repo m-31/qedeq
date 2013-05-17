@@ -165,18 +165,14 @@ public class IoUtilityTest extends QedeqTestCase {
             try {
                 out.write(expected.getBytes());
             } finally {
-                if (out != null) {
-                    out.close();
-                }
+                out.close();
             }
             final InputStream in = new FileInputStream(file);
             try {
                 return IoUtility.loadStreamWithoutException(in, length);
             } finally {
-                if (in != null) {
-                    // assert that stream is not closed yet
-                    in.close();
-                }
+                // assert that stream is not closed yet
+                in.close();
             }
         } finally {
             assertTrue(file.delete());
@@ -261,9 +257,7 @@ public class IoUtilityTest extends QedeqTestCase {
         try {
             out.write(expected.getBytes(encoding));
         } finally {
-            if (out != null) {
-                out.close();
-            }
+            out.close();
         }
         final StringBuffer buffer = new StringBuffer();
         IoUtility.loadFile(file, buffer, encoding);

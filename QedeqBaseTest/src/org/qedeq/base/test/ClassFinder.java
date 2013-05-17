@@ -225,7 +225,7 @@ public class ClassFinder {
             return;
         }
 
-        if (jar == null || jarURL == null) {
+        if (jar == null) {
             return;
         }
         // include the jar's "default" package(i.e. jar's root)
@@ -473,8 +473,7 @@ public class ClassFinder {
             Iterator i = v.iterator();
             while (i.hasNext()) {
                 Class cls = (Class) i.next();
-                System.out.println(cls + " in "
-                    + ((finder != null) ? String.valueOf(finder.getLocationOf(cls)) : "?"));
+                System.out.println(cls + " in " + String.valueOf(finder.getLocationOf(cls)));
             }
         } else {
             System.out.println("No subclasses of " + args[0] + " found.");
