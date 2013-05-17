@@ -81,6 +81,8 @@ public class ServiceCallImpl implements InternalServiceCall {
     /** Result of service call. */
     private ServiceResult result;
 
+    /** Was the module newly blocked by this call. Otherwise a previous service call might have locked the module
+     * for the process already. */
     private boolean newBlockedModule;
 
     /**
@@ -119,7 +121,7 @@ public class ServiceCallImpl implements InternalServiceCall {
         newBlockedModule = process.lockRequiredModule(qedeq);
         resume();
     }
- 
+
     private synchronized long inc() {
         return globalCounter++;
     }
