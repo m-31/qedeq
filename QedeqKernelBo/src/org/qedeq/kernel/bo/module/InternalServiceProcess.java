@@ -55,7 +55,6 @@ public interface InternalServiceProcess extends ServiceProcess {
     /**
      * Unlock module again.
      *
-     * @param   process     This process must have acquired the lock.
      * @param   qedeq       This module was locked before.
      * @return  Was this module even locked?
      */
