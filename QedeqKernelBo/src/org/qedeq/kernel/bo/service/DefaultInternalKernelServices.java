@@ -1142,13 +1142,13 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         return arbiter.unlockRequiredModule(process, qedeq);
     }
 
-    public InternalServiceProcess createServiceProcess(String action) {
+    public InternalServiceProcess createServiceProcess(final String action) {
         return processManager.createServiceProcess(action);
     }
 
-    public ServiceCallImpl createServiceCall(Service service, KernelQedeqBo qedeq,
-                    Parameters configParameters, Parameters parameters,
-                    InternalServiceProcess process, InternalServiceCall parent) {
+    public ServiceCallImpl createServiceCall(final Service service, final KernelQedeqBo qedeq,
+            final Parameters configParameters, final Parameters parameters,
+            final InternalServiceProcess process, final InternalServiceCall parent) {
         return processManager.createServiceCall(service, qedeq, configParameters, parameters, process);
     }
 
