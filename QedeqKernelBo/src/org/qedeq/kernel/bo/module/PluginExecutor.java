@@ -33,7 +33,7 @@ public interface PluginExecutor {
      * @param   call        Service call.
      * @param   data        Process execution data.
      * @return  Plugin specific resulting object. Might be <code>null</code>.
-     * @throws  InterruptedException    User canceled execution.
+     * @throws  InterruptException    User canceled execution.
      */
     public Object executePlugin(final InternalServiceCall call, final Object data) throws InterruptException;
 
