@@ -108,18 +108,20 @@ public class ServiceCallImpl implements InternalServiceCall {
         running = false;
     }
 
-    public void start() throws InterruptException {
-        begin();
-        if (!process.isRunning()) {
-            throw new RuntimeException("Service process is not running any more.");
+    public synchronized void start() throws InterruptException {
+        if (!running && result == null) {
+            begin();
+            if (!process.isRunning()) {
+                throw new RuntimeException("Service process is not running any more.");
+            }
+            if (!process.getThread().isAlive()) {
+                throw new RuntimeException("thread is already dead");
+            }
+            process.setServiceCall(this);
+            pause();
+            newBlockedModule = process.lockRequiredModule(qedeq);
+            resume();
         }
-        if (!process.getThread().isAlive()) {
-            throw new RuntimeException("thread is already dead");
-        }
-        process.setServiceCall(this);
-        pause();
-        newBlockedModule = process.lockRequiredModule(qedeq);
-        resume();
     }
 
     private synchronized long inc() {
