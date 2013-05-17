@@ -96,7 +96,7 @@ public final class Qedeq2UnicodeTextExecutor implements PluginExecutor {
     /**
      * Gives a UTF-8 representation of given QEDEQ module as InputStream.
      *
-     * @param   process     This process executes us.
+     * @param   call        We run in this service call.
      * @param   language    Filter text to get and produce text in this language only.
      * @param   level       Filter for this detail level. LATER mime 20050205: not supported
      *                      yet.
