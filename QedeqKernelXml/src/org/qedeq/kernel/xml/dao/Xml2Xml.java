@@ -92,6 +92,7 @@ public final class Xml2Xml implements Plugin {
      * Generate XML file out of XML file.
      *
      * @param   services        Here we get our kernel services.
+     * @param   internal        Our internal kernel services.
      * @param   from            Read this XML file.
      * @param   to              Write to this file. Could not be <code>null</code>.
      * @throws  SourceFileExceptionList     Module could not be successfully loaded.
