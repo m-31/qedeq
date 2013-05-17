@@ -126,7 +126,7 @@ public interface InternalKernelServices extends KernelProperties {
      * @param   qedeq       QEDEQ module.
      * @param   data        Process data. Additional data beside module.
      * @return  Plugin specific resulting object. Might be <code>null</code>.
-     * @throws  InterruptException    Process execution was canceled by user. 
+     * @throws  InterruptException    Process execution was canceled by user.
      */
     public Object executePlugin(final InternalServiceProcess parent, final String id, final KernelQedeqBo qedeq,
         final Object data) throws InterruptException;
