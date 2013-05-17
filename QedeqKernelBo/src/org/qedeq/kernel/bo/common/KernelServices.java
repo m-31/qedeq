@@ -21,6 +21,7 @@ import java.net.URL;
 
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
  * The main QEDEQ kernel methods are assembled here.
@@ -153,9 +154,11 @@ public interface KernelServices {
      * @param   id          Plugin id.
      * @param   address     QEDEQ module address.
      * @param   data        Process data. Additional data beside module.
+     * @throws  InterruptedException    User canceled further processing.
      * @return  Plugin specific resulting object. Might be <code>null</code>.
      */
-    public Object executePlugin(final String id, final ModuleAddress address, final Object data);
+    public Object executePlugin(final String id, final ModuleAddress address, final Object data)
+        throws InterruptException;
 
     /**
      * Clear all plugin warnings and errors for given module.

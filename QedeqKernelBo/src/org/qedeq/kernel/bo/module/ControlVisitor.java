@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.module;
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Node;
@@ -26,8 +27,8 @@ import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
-import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.common.RuleKey;
+import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.visitor.AbstractModuleVisitor;
@@ -54,8 +55,8 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
     /** QEDEQ BO object to work on. */
     private final KernelQedeqBo prop;
 
-    /** We work in this service. */
-    private InternalServiceProcess process;
+    /** We work in this service call. */
+    private InternalServiceCall call;
 
     /** Traverse QEDEQ module with this traverser. */
     private final QedeqNotNullTraverser traverser;
@@ -127,11 +128,11 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      * <br/>
      * If you are interested in warnings you have to call {@link #getWarningList()} afterwards.
      *
-     * @param   process     We work for this process.
+     * @param   call    We work in this service call.
      * @throws  SourceFileExceptionList  All collected error exceptions.
      */
-    public void traverse(final InternalServiceProcess process) throws SourceFileExceptionList {
-        this.process = process;
+    public void traverse(final InternalServiceCall call) throws SourceFileExceptionList {
+        this.call = call;
         interrupted = false;
         if (getQedeqBo().getQedeq() == null) {
             addWarning(new SourceFileException(getService(),
@@ -264,12 +265,12 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
     }
 
     /**
-     * Get process we work for.
+     * Get service call we work in.
      *
      * @return  Service process we work for.
      */
-    public InternalServiceProcess getServiceProcess() {
-        return process;
+    public InternalServiceCall getInternalServiceCall() {
+        return call;
     }
 
     /**

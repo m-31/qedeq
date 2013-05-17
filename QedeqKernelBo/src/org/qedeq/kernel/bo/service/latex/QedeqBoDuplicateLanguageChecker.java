@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.qedeq.kernel.bo.module.ControlVisitor;
-import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 import org.qedeq.kernel.se.base.module.Latex;
 import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.common.ModuleContext;
@@ -39,16 +39,13 @@ public final class QedeqBoDuplicateLanguageChecker extends ControlVisitor {
     /**
      * Checks if all formulas of a QEDEQ module are well formed.
      *
-     * @param   process Service process we work in.
-     * @param   service  Service we work for.
-     * @param   prop              QEDEQ BO.
+     * @param   call        Service process we work in.
      * @throws  SourceFileExceptionList An error occurred.
      */
-    public static void check(final InternalServiceProcess process,
-            final Service service, final KernelQedeqBo prop) throws SourceFileExceptionList {
+    public static void check(final InternalServiceCall call) throws SourceFileExceptionList {
         final QedeqBoDuplicateLanguageChecker checker
-            = new QedeqBoDuplicateLanguageChecker(service, prop);
-        checker.traverse(process);
+            = new QedeqBoDuplicateLanguageChecker(call.getService(), call.getKernelQedeq());
+        checker.traverse(call);
     }
 
     /**

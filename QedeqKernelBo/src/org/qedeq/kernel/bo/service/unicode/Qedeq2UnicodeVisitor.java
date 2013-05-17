@@ -28,10 +28,10 @@ import org.qedeq.base.utility.DateUtility;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.module.ControlVisitor;
-import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.Reference;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Add;
@@ -170,7 +170,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     /**
      * Gives a UTF-8 representation of given QEDEQ module as InputStream.
      *
-     * @param   process     We run in this process.
+     * @param   call        We run in this process.
      * @param   printer     Print herein.
      * @param   language    Filter text to get and produce text in this language only.
      * @param   level       Filter for this detail level. LATER 20100205 m31: not yet supported
@@ -178,11 +178,11 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException     File IO failed.
      */
-    public void generateUtf8(final InternalServiceProcess process, final AbstractOutput printer,
+    public void generateUtf8(final InternalServiceCall call, final AbstractOutput printer,
             final String language, final String level) throws SourceFileExceptionList, IOException {
         setParameters(printer, language);
         try {
-            traverse(process);
+            traverse(call);
         } finally {
             getQedeqBo().addPluginErrorsAndWarnings((Plugin) getService(), getErrorList(), getWarningList());
         }

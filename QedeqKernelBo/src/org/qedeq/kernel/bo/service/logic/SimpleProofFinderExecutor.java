@@ -28,10 +28,10 @@ import org.qedeq.kernel.bo.logic.proof.common.ProofFinderFactory;
 import org.qedeq.kernel.bo.logic.proof.common.ProofFoundException;
 import org.qedeq.kernel.bo.logic.proof.common.ProofNotFoundException;
 import org.qedeq.kernel.bo.module.ControlVisitor;
-import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
@@ -120,12 +120,12 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
         return (Plugin) getService();
     }
 
-    public Object executePlugin(final InternalServiceProcess process, final Object data) {
-        getServices().checkWellFormedness(process, getQedeqBo());
+    public Object executePlugin(final InternalServiceCall call, final Object data) {
+        getServices().checkWellFormedness(call.getInternalServiceProcess(), getQedeqBo());
         QedeqLog.getInstance().logRequest("Trying to create formal proofs", getQedeqBo().getUrl());
         try {
             validFormulas = new FormalProofLineListVo();
-            traverse(process);
+            traverse(call);
             QedeqLog.getInstance().logSuccessfulReply(
                 "Proof creation finished for", getQedeqBo().getUrl());
         } catch (SourceFileExceptionList e) {
@@ -253,7 +253,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
                     QedeqLog.getInstance().logMessage(
                         "Saving file \"" + file + "\"");
                     QedeqFileDao dao = getServices().getQedeqFileDao();
-                    dao.saveQedeq(getServiceProcess(), getQedeqBo(), file);
+                    dao.saveQedeq(getInternalServiceCall(), getQedeqBo(), file);
                     if (!getQedeqBo().getModuleAddress().isFileAddress()) {
                         QedeqLog.getInstance().logMessage("Only the the buffered file changed!");
                     }

@@ -36,11 +36,11 @@ import org.qedeq.kernel.bo.logic.common.PredicateConstant;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
 import org.qedeq.kernel.bo.logic.wf.FormulaCheckerImpl;
 import org.qedeq.kernel.bo.module.ControlVisitor;
-import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceChecker;
 import org.qedeq.kernel.bo.module.PluginExecutor;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 import org.qedeq.kernel.bo.service.dependency.LoadRequiredModulesPlugin;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
@@ -72,6 +72,7 @@ import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.dto.list.ElementSet;
 import org.qedeq.kernel.se.state.WellFormedState;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 
 /**
@@ -95,9 +96,6 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
     /** Factory for generating new checkers. */
     private FormulaCheckerFactory checkerFactory = null;
 
-    /** Parameters for checker. */
-    private Parameters parameters;
-
     /**
      * Constructor.
      *
@@ -109,7 +107,6 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
             final Parameters parameters) {
         super(plugin, qedeq);
         final String method = "QedeqBoFormalLogicChecker(Plugin, KernelQedeqBo, Map)";
-        this.parameters = parameters;
         final String checkerFactoryClass = parameters.getString("checkerFactory");
         if (checkerFactoryClass != null && checkerFactoryClass.length() > 0) {
             try {
@@ -136,18 +133,14 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         }
     }
 
-    private Parameters getParameters() {
-        return parameters;
-    }
-
-    public Object executePlugin(final InternalServiceProcess process, final Object data) {
+    public Object executePlugin(final InternalServiceCall call, final Object data) throws InterruptException {
         if (getQedeqBo().isWellFormed()) {
             return Boolean.TRUE;
         }
         QedeqLog.getInstance().logRequest(
             "Check logical well formedness", getQedeqBo().getUrl());
         if (!getQedeqBo().hasLoadedRequiredModules()) {
-            getServices().executePlugin(process,
+            getServices().executePlugin(call.getInternalServiceProcess(),
                 LoadRequiredModulesPlugin.class.getName(), getQedeqBo(), null);
         }
         if (!getQedeqBo().hasLoadedRequiredModules()) {
@@ -163,7 +156,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         final KernelModuleReferenceList list = getQedeqBo().getKernelRequiredModules();
         for (int i = 0; i < list.size(); i++) {
             Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label", list.getLabel(i));
-            getServices().checkWellFormedness(process, list.getKernelQedeqBo(i));
+            getServices().checkWellFormedness(call.getInternalServiceProcess(), list.getKernelQedeqBo(i));
             if (!list.getKernelQedeqBo(i).isWellFormed()) {
                 ModuleDataException md = new CheckRequiredModuleException(
                     LogicErrors.MODULE_IMPORT_CHECK_FAILED_CODE,
@@ -204,7 +197,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         getQedeqBo().setWellFormedProgressState(WellFormedState.STATE_INTERNAL_CHECKING);
 
         try {
-            traverse(process);
+            traverse(call);
         } catch (SourceFileExceptionList e) {
             getQedeqBo().setWellfFormedFailureState(WellFormedState.STATE_INTERNAL_CHECKING_FAILED, e);
             getQedeqBo().setExistenceChecker(existence);
@@ -219,14 +212,14 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         return Boolean.TRUE;
     }
 
-    public void traverse(final InternalServiceProcess process) throws SourceFileExceptionList {
+    public void traverse(final InternalServiceCall call) throws SourceFileExceptionList {
         try {
             this.existence = new ModuleConstantsExistenceCheckerImpl(getQedeqBo());
         } catch (ModuleDataException me) {
             addError(me);
             throw getErrorList();
         }
-        super.traverse(process);
+        super.traverse(call);
 
         // check if we have the important module parts
         setLocationWithinModule("");

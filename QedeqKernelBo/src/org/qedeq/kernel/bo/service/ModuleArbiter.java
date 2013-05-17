@@ -25,7 +25,6 @@ import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBoSet;
-import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
@@ -49,11 +48,11 @@ public class ModuleArbiter {
     }
 
     /**
-     * Lock QEDEQ module.
+     * Lock QEDEQ module for exclusive read and write access.
      *
      * @param   process This process acquires the lock.
      * @param   qedeq   Lock this module.
-     * @return  The process locked this module already, we didn't do anything.
+     * @return  The process locked this module newly. Before this call the module was not locked.
      * @throws  InterruptException  Lock acquirement interrupted.
      */
     public boolean lockRequiredModule(final InternalServiceProcess process,
@@ -69,12 +68,12 @@ public class ModuleArbiter {
                     monitor.wait(10000);
                 } catch (InterruptedException e) {
                     process.setFailureState();
-                    throw new InterruptException(new ModuleContext(qedeq.getModuleAddress()));
+                    throw new InterruptException(qedeq.getModuleAddress().createModuleContext());
                 }
             }
             if (Thread.interrupted()) {
                 process.setFailureState();
-                    throw new InterruptException(new ModuleContext(qedeq.getModuleAddress()));
+                    throw new InterruptException(qedeq.getModuleAddress().createModuleContext());
             }
         }
         return true;

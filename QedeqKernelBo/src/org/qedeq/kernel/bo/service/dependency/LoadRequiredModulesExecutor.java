@@ -24,10 +24,10 @@ import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.common.ModuleReferenceList;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.ControlVisitor;
-import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginExecutor;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
@@ -61,7 +61,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         super(plugin, prop);
     }
 
-    public Object executePlugin(final InternalServiceProcess process, final Object data) {
+    public Object executePlugin(final InternalServiceCall call, final Object data) throws InterruptException {
         percentage = 0;
         final String method = "executePlugin";
         if (getQedeqBo().hasLoadedRequiredModules()) {
@@ -75,12 +75,12 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         if (loadingRequiredInProgress == null) {
             loadingRequiredInProgress = new HashMap();
         }
-        getServices().unlockModule(process, getQedeqBo());
-        if (!loadAllRequiredModules(process, getQedeqBo())) {
+        call.getInternalServiceProcess().unlockRequiredModule(getQedeqBo());
+        if (!loadAllRequiredModules(call, getQedeqBo())) {
             try {
-                getServices().lockModule(process, getQedeqBo());
+                call.getInternalServiceProcess().lockRequiredModule(getQedeqBo());
             } catch (InterruptException e) {
-                // TODO Auto-generated catch block
+                // FIXME Auto-generated catch block
                 e.printStackTrace();
             }
             final String msg = "Loading required modules failed";
@@ -91,7 +91,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
             return Boolean.FALSE;
         }
         try {
-            getServices().lockModule(process, getQedeqBo());
+            call.getInternalServiceProcess().lockRequiredModule(getQedeqBo());
         } catch (InterruptException e) {
             // FIXME what about status changes?
             e.printStackTrace();
@@ -106,7 +106,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
 
         final KernelModuleReferenceList required = (KernelModuleReferenceList) getQedeqBo().getRequiredModules();
 
-        getServices().unlockModule(process, getQedeqBo());
+        call.getInternalServiceProcess().unlockRequiredModule(getQedeqBo());
 
         final SourceFileExceptionList sfl = new SourceFileExceptionList();
         Trace.trace(CLASS, this, method, "loading required modules of " + getQedeqBo().getUrl());
@@ -122,7 +122,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
                 sfl.add(createError(me));
                 continue;
             }
-            getQedeqBo().getKernelServices().executePlugin(process,
+            getQedeqBo().getKernelServices().executePlugin(call.getInternalServiceProcess(),
                 LoadRequiredModulesPlugin.class.getName(), current, loadingRequiredInProgress);
             if (!current.hasLoadedRequiredModules()) {
                 // LATER 20110119 m31: we take only the first error, is that ok?
@@ -147,7 +147,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
             return Boolean.TRUE; // everything is OK, someone elses thread might have corrected errors!
         }
         try {
-            getServices().lockModule(process, getQedeqBo());
+            call.getInternalServiceProcess().lockRequiredModule(getQedeqBo());
         } catch (InterruptException e) {
             // FIXME what about status changes?
             e.printStackTrace();
@@ -174,11 +174,12 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         return  Boolean.FALSE;
     }
 
-    private boolean loadAllRequiredModules(final InternalServiceProcess process, final KernelQedeqBo bo) {
+    private boolean loadAllRequiredModules(final InternalServiceCall call, final KernelQedeqBo bo)
+                throws InterruptException {
         if (bo.hasLoadedRequiredModules()) {
             return true;
         }
-        getServices().executePlugin(process,
+        getServices().executePlugin(call.getInternalServiceProcess(),
             LoadDirectlyRequiredModulesPlugin.class.getName(), bo, null);
         if (!bo.hasLoadedImports()) {
             return false;
@@ -187,7 +188,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         boolean result = true;
         for (int i = 0; i < imports.size(); i++) {
             if (!imports.getQedeqBo(i).hasLoadedImports()) {
-                result &= loadAllRequiredModules(process, (KernelQedeqBo) imports.getQedeqBo(i));
+                result &= loadAllRequiredModules(call, (KernelQedeqBo) imports.getQedeqBo(i));
             }
         }
         return result;

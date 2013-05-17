@@ -16,6 +16,7 @@
 package org.qedeq.kernel.bo.module;
 
 import org.qedeq.kernel.bo.common.ServiceProcess;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 
 /**
@@ -41,5 +42,23 @@ public interface InternalServiceProcess extends ServiceProcess {
      * Mark that thread execution was canceled.
      */
     public void setFailureState();
+
+    /**
+     * Lock module for exclusive access. This request is blocking (but the user can interrupt this).
+     * 
+     * @param   qedeq   Lock this module.
+     * @return  Was the module newly locked? This is true if the module was not locked before this call.
+     * @throws  InterruptException  Lock acquirement interrupted.
+     */
+    public boolean lockRequiredModule(KernelQedeqBo qedeq) throws InterruptException;
+
+    /**
+     * Unlock module again.
+     *
+     * @param   process     This process must have acquired the lock.
+     * @param   qedeq       This module was locked before.
+     * @return  Was this module even locked?
+     */
+    public boolean unlockRequiredModule(KernelQedeqBo qedeq);
 
 }

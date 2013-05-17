@@ -18,9 +18,13 @@ package org.qedeq.kernel.bo.module;
 import java.io.File;
 import java.io.IOException;
 
+import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.common.KernelProperties;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
+import org.qedeq.kernel.bo.service.common.ServiceCallImpl;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.config.QedeqConfig;
 import org.qedeq.kernel.se.visitor.ContextChecker;
@@ -91,8 +95,9 @@ public interface InternalKernelServices extends KernelProperties {
      * @param   process Working process.
      * @param   qedeq   Module to check.
      * @return  Successful loading.
+     * @throws  InterruptException User canceled request.
      */
-    public boolean loadRequiredModules(InternalServiceProcess process, KernelQedeqBo qedeq);
+    public boolean loadRequiredModules(InternalServiceProcess process, KernelQedeqBo qedeq) throws InterruptException;
 
     /**
      * Check if all formulas of a QEDEQ module and its required modules are well formed.
@@ -120,9 +125,10 @@ public interface InternalKernelServices extends KernelProperties {
      * @param   qedeq       QEDEQ module.
      * @param   data        Process data. Additional data beside module.
      * @return  Plugin specific resulting object. Might be <code>null</code>.
+     * @throws  InterruptException    Process execution was canceled by user. 
      */
     public Object executePlugin(final InternalServiceProcess parent, final String id, final KernelQedeqBo qedeq,
-        final Object data);
+        final Object data) throws InterruptException;
 
     /**
      * Get DAO for reading and writing QEDEQ modules from or to a file.
@@ -176,6 +182,24 @@ public interface InternalKernelServices extends KernelProperties {
      * @return  Checker for testing if context is valid.
      */
     public ContextChecker getContextChecker();
+
+    public InternalServiceProcess createServiceProcess(final String action);
+
+    /**
+     * Create service process.
+     *
+     * @param   service             The service that runs in current thread.
+     * @param   qedeq               QEDEQ module for service.
+     * @param   configParameters    Config parameters for the service.
+     * @param   parameters          Parameter for this service call.
+     * @param   process             We run in this process.
+     * @param   parent              Parent process that creates a new one.
+     * @return  Created service call.
+     */
+    public ServiceCallImpl createServiceCall(Service service,
+            final KernelQedeqBo qedeq, final Parameters configParameters, final Parameters parameters,
+            final InternalServiceProcess process, final InternalServiceCall parent);
+
 
     public boolean lockModule(InternalServiceProcess process, KernelQedeqBo qedeq) throws InterruptException;
 

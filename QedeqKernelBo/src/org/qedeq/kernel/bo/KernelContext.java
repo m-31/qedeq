@@ -35,6 +35,7 @@ import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.config.QedeqConfig;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 
 /**
@@ -399,7 +400,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
         }
 
         public Object executePlugin(final String pluginName, final ModuleAddress address,
-                final Object data) {
+                final Object data) throws InterruptException {
             return services.executePlugin(pluginName, address, data);
         }
 
@@ -580,7 +581,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
     }
 
     public Object executePlugin(final String pluginName, final ModuleAddress address,
-            final Object data) {
+            final Object data) throws InterruptException {
         return currentState.executePlugin(pluginName, address, data);
     }
 

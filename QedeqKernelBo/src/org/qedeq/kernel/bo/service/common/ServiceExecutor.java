@@ -15,6 +15,8 @@
 
 package org.qedeq.kernel.bo.service.common;
 
+import org.qedeq.kernel.se.visitor.InterruptException;
+
 
 /**
  * Represents a service execution.
@@ -28,6 +30,6 @@ public interface ServiceExecutor {
      *
      * @param   call    Parameters for service call and current execution status.
      */
-    public void executeService(InternalServiceCall call);
+    public void executeService(InternalServiceCall call) throws InterruptException;
 
 }

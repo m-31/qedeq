@@ -63,13 +63,6 @@ public interface InternalServiceCall extends ServiceCall {
     public void setAction(String action);
 
     /**
-     * Return parent service call if any.
-     *
-     * @return  Parent service call. Might be <code>null</code>.
-     */
-    public InternalServiceCall getParentInternalServiceCall();
-
-    /**
      * Return service process the call was initiated.
      *
      * @return  Service process for this call.

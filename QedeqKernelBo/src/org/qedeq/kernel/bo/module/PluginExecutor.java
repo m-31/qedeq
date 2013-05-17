@@ -15,6 +15,9 @@
 
 package org.qedeq.kernel.bo.module;
 
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
+import org.qedeq.kernel.se.visitor.InterruptException;
+
 
 
 /**
@@ -27,11 +30,12 @@ public interface PluginExecutor {
     /**
      * Execute plugin.
      *
-     * @param   process     This process executes us.
+     * @param   call        Service call.
      * @param   data        Process execution data.
      * @return  Plugin specific resulting object. Might be <code>null</code>.
+     * @throws  InterruptedException    User canceled execution.
      */
-    public Object executePlugin(final InternalServiceProcess process, final Object data);
+    public Object executePlugin(final InternalServiceCall call, final Object data) throws InterruptException;
 
     /**
      * Get percentage of currently running plugin execution.

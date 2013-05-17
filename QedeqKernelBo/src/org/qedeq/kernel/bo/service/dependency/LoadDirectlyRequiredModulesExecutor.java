@@ -18,10 +18,10 @@ package org.qedeq.kernel.bo.service.dependency;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.module.ControlVisitor;
-import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginExecutor;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
 import org.qedeq.kernel.se.common.ModuleContext;
@@ -57,13 +57,13 @@ public final class LoadDirectlyRequiredModulesExecutor extends ControlVisitor
         super(plugin, prop);
     }
 
-    public Object executePlugin(final InternalServiceProcess process, final Object data) {
+    public Object executePlugin(final InternalServiceCall call, final Object data) {
         if (getQedeqBo().hasLoadedImports()) {
             return getQedeqBo().getRequiredModules();
         }
         this.required = new KernelModuleReferenceList();
         try {
-            super.traverse(process);
+            super.traverse(call);
             getQedeqBo().setLoadedImports(required);
         } catch (final SourceFileExceptionList sfl) {
             getQedeqBo().setLoadingImportsFailureState(
@@ -92,7 +92,7 @@ public final class LoadDirectlyRequiredModulesExecutor extends ControlVisitor
         context.setLocationWithinModule(context.getLocationWithinModule() + ".getLabel()");
         try {
             final KernelQedeqBo propNew = getQedeqBo().getKernelServices().loadModule(
-                getServiceProcess(),
+                getInternalServiceCall().getInternalServiceProcess(),
                 getQedeqBo().getModuleAddress(), imp.getSpecification());
             getRequired().addLabelUnique(context, imp.getLabel(), propNew);
             Trace.param(CLASS, "visitEnter(Import)", "adding context", getCurrentContext());

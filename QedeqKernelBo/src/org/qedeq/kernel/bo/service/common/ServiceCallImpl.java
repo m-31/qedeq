@@ -21,6 +21,7 @@ import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.common.Service;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
  * Single call for a service.
@@ -72,13 +73,15 @@ public class ServiceCallImpl implements InternalServiceCall {
     private final InternalServiceProcess process;
 
     /** Parent service call. Might be <code>null</code>. */
-    private final InternalServiceCall parent;
+    private final ServiceCall parent;
 
     /** Call id. */
     private final long id;
 
     /** Result of service call. */
     private ServiceResult result;
+
+    private boolean newBlockedModule;
 
     /**
      * A new service process within the current thread.
@@ -92,7 +95,7 @@ public class ServiceCallImpl implements InternalServiceCall {
      */
     public ServiceCallImpl(final Service service, final KernelQedeqBo qedeq,
             final Parameters config, final Parameters parameters, final InternalServiceProcess process,
-            final InternalServiceCall parent) {
+            final ServiceCall parent) {
         this.id = inc();
         this.qedeq = qedeq;
         this.service = service;
@@ -100,16 +103,23 @@ public class ServiceCallImpl implements InternalServiceCall {
         this.parameters = parameters;
         this.process = process;
         this.parent = parent;
+        running = false;
+    }
+
+    public void start() throws InterruptException {
         begin();
         if (!process.isRunning()) {
-            finish("Service process is not running any more.");
-            return;
+            throw new RuntimeException("Service process is not running any more.");
         }
         if (!process.getThread().isAlive()) {
             throw new RuntimeException("thread is already dead");
         }
+        process.setServiceCall(this);
+        pause();
+        newBlockedModule = process.lockRequiredModule(qedeq);
+        resume();
     }
-
+ 
     private synchronized long inc() {
         return globalCounter++;
     }
@@ -164,17 +174,23 @@ public class ServiceCallImpl implements InternalServiceCall {
     public synchronized void pause() {
         duration += System.currentTimeMillis() - start;
         paused = true;
+        process.setBlocked(true);
     }
 
     public synchronized void resume() {
         paused = false;
         start = System.currentTimeMillis();
+        process.setBlocked(false);
     }
 
     private synchronized void end() {
+        if (newBlockedModule) {
+            process.unlockRequiredModule(qedeq);
+        }
         end = System.currentTimeMillis();
         duration += end - start;
         paused = false;
+        running = false;
     }
 
     public synchronized void finish() {
@@ -187,19 +203,17 @@ public class ServiceCallImpl implements InternalServiceCall {
 
     public synchronized void finish(final ServiceResult result) {
         if (running) {
-            end();
-            running = false;
             action = "finished";
             executionPercentage = 100;
             this.result = result;
+            end();
         }
     }
 
     public synchronized void halt(final ServiceResult result) {
         if (running) {
-            end();
-            running = false;
             this.result = result;
+            end();
         }
     }
 
@@ -209,10 +223,9 @@ public class ServiceCallImpl implements InternalServiceCall {
 
     public synchronized void interrupt() {
         if (running) {
-            end();
-            running = false;
             this.result = ServiceResultImpl.INTERRUPTED;
-            process.interrupt();
+            process.setFailureState();
+            end();
         }
     }
 
@@ -261,10 +274,6 @@ public class ServiceCallImpl implements InternalServiceCall {
     }
 
     public ServiceCall getParentServiceCall() {
-        return parent;
-    }
-
-    public InternalServiceCall getParentInternalServiceCall() {
         return parent;
     }
 

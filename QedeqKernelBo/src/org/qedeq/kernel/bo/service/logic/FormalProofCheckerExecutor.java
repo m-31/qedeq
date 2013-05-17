@@ -31,11 +31,11 @@ import org.qedeq.kernel.bo.logic.proof.checker.ProofCheckException;
 import org.qedeq.kernel.bo.logic.proof.common.ProofCheckerFactory;
 import org.qedeq.kernel.bo.logic.proof.common.RuleChecker;
 import org.qedeq.kernel.bo.module.ControlVisitor;
-import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.bo.module.Reference;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Axiom;
@@ -120,16 +120,12 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         }
     }
 
-    private Parameters getParameters() {
-        return parameters;
-    }
-
-    public Object executePlugin(final InternalServiceProcess process, final Object data) {
+    public Object executePlugin(final InternalServiceCall call, final Object data) {
         // we set this as module rule version, and hope it will be changed
         ruleVersion = new Version("0.00.00");
         QedeqLog.getInstance().logRequest(
                 "Check logical correctness", getQedeqBo().getUrl());
-        getServices().checkWellFormedness(process, getQedeqBo());
+        getServices().checkWellFormedness(call.getInternalServiceProcess(), getQedeqBo());
         if (!getQedeqBo().isWellFormed()) {
             final String msg = "Check of logical correctness failed";
             QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
@@ -141,7 +137,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         final KernelModuleReferenceList list = getQedeqBo().getKernelRequiredModules();
         for (int i = 0; i < list.size(); i++) {
             Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label", list.getLabel(i));
-            getServices().checkFormallyProved(process, list.getKernelQedeqBo(i));
+            getServices().checkFormallyProved(call.getInternalServiceProcess(), list.getKernelQedeqBo(i));
             if (list.getKernelQedeqBo(i).hasErrors()) {
                 addError(new CheckRequiredModuleException(
                     LogicErrors.MODULE_IMPORT_CHECK_FAILED_CODE,
@@ -161,7 +157,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         }
         getQedeqBo().setFormallyProvedProgressState(FormallyProvedState.STATE_INTERNAL_CHECKING);
         try {
-            traverse(process);
+            traverse(call);
         } catch (SourceFileExceptionList e) {
             getQedeqBo().setFormallyProvedFailureState(FormallyProvedState.STATE_INTERNAL_CHECKING_FAILED,
                 getErrorList());
