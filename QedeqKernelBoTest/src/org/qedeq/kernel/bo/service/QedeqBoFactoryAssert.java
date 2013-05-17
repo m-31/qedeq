@@ -17,19 +17,22 @@ package org.qedeq.kernel.bo.service;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.test.DynamicGetter;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
+import org.qedeq.kernel.bo.module.InternalServiceProcess;
+import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 import org.qedeq.kernel.bo.service.latex.QedeqBoDuplicateLanguageChecker;
 import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleDataException;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.dto.module.QedeqVo;
 import org.qedeq.kernel.se.state.LoadingState;
@@ -57,6 +60,23 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
         super(address);
     }
 
+    public static DefaultInternalKernelServices getInternalServices() {
+        try {
+            return (DefaultInternalKernelServices) YodaUtility.getFieldValue(
+                KernelFacade.getKernelContext(), "services");
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static InternalServiceCall createServiceCall(final String name, final KernelQedeqBo prop) {
+        InternalServiceProcess process = getInternalServices().createServiceProcess(name);
+        InternalServiceCall call = getInternalServices().createServiceCall(DummyPlugin.getInstance(), prop,
+            Parameters.EMPTY, Parameters.EMPTY, process, null);
+        return call;
+
+    }
+ 
     /**
      * Create {@link QedeqBo} out of an {@link Qedeq} instance.
      * During that procedure some basic checking is done. E.g. the uniqueness of entries
@@ -83,41 +103,20 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, xl);
             throw xl;
         }
-        InternalKernelServices services;
-        try {
-            services = (InternalKernelServices) YodaUtility.getFieldValue(
-                KernelFacade.getKernelContext(), "services");
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        }
         final QedeqFileDao loader = new XmlQedeqFileDao();
-        loader.setServices(services);
+        loader.setServices(getInternalServices());
         prop.setQedeqFileDao(loader);
         prop.setQedeqVo(vo);
         final ModuleLabelsCreator mc = new ModuleLabelsCreator(DummyPlugin.getInstance(),
             prop);
-        mc.createLabels(new ServiceProcessImpl(new ModuleArbiter(), "createQedeq"));
+        mc.createLabels(createServiceCall("createQedeq", prop));
         prop.setLoaded(vo, mc.getLabels(), mc.getConverter(), mc.getTextConverter());
         KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
         KernelFacade.getKernelContext().checkWellFormedness(prop.getModuleAddress());
         if (!prop.isWellFormed()) {
             throw prop.getErrors();
         }
-        QedeqBoDuplicateLanguageChecker.check(new ServiceProcessImpl(new ModuleArbiter(),
-                    "createQedeq2"), new Plugin() {
-                public String getServiceId() {
-                    return QedeqBoDuplicateLanguageChecker.class.getName();
-                }
-    
-                public String getServiceAction() {
-                    return "duplicate language checker";
-                }
-    
-                public String getServiceDescription() {
-                    return "Test for duplicate language entries within LaTeX sections";
-                }
-    
-            }, prop);
+        QedeqBoDuplicateLanguageChecker.check(createServiceCall("languageChecker", prop));
     }
 
     /**

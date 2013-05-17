@@ -26,10 +26,10 @@ import org.qedeq.kernel.bo.logic.model.ModelFunctionConstant;
 import org.qedeq.kernel.bo.logic.model.ModelPredicateConstant;
 import org.qedeq.kernel.bo.logic.model.SixDynamicModel;
 import org.qedeq.kernel.bo.module.ControlVisitor;
-import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
 import org.qedeq.kernel.bo.module.PluginExecutor;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
@@ -102,11 +102,11 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
     }
 
 
-    public Object executePlugin(final InternalServiceProcess process, final Object data) {
+    public Object executePlugin(final InternalServiceCall call, final Object data) {
         final String method = "executePlugin)";
         try {
             QedeqLog.getInstance().logRequest("Heuristic test", getQedeqBo().getUrl());
-            traverse(process);
+            traverse(call);
             QedeqLog.getInstance().logSuccessfulReply(
                 "Heuristic test succesfull", getQedeqBo().getUrl());
         } catch (final SourceFileExceptionList e) {

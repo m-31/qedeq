@@ -105,7 +105,7 @@ public class QedeqBoFactoryTest extends QedeqBoTestCase {
             // TODO mime 20080306: move this test to another location, building doesn't include
             // checking any longer
             final ModuleLabelsCreator creator = new ModuleLabelsCreator(DummyPlugin.getInstance(), prop);
-            creator.createLabels(new ServiceProcessImpl(new ModuleArbiter(), "testCreateStringQedeq1"));
+            creator.createLabels(createServiceCall("testCreateStringQedeq1", prop));
             fail("SourceFileExceptionList expected");
         } catch (SourceFileExceptionList e) {
             SourceFileException sf = e.get(0);

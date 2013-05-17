@@ -27,6 +27,7 @@ import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
  * For testing model validity.
@@ -39,7 +40,7 @@ public class HeuristicCheckerPluginTest extends QedeqBoTestCase {
      * Test with model.
      */
     public QedeqBo check(final Model model, final File dir, final String xml) throws IOException,
-            SourceFileExceptionList {
+            SourceFileExceptionList, InterruptException {
         final File xmlFile = new File(dir, xml);
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             UrlUtility.toUrl(xmlFile));

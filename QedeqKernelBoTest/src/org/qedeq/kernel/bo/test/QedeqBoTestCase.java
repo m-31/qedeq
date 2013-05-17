@@ -18,11 +18,15 @@ package org.qedeq.kernel.bo.test;
 import java.io.File;
 import java.io.IOException;
 
+import org.qedeq.base.io.Parameters;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.KernelServices;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
+import org.qedeq.kernel.bo.module.InternalServiceProcess;
+import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 
 /**
  * Test generating LaTeX files for all known samples.
@@ -104,5 +108,12 @@ public abstract class QedeqBoTestCase extends QedeqTestCase {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+    }
+
+    public InternalServiceCall createServiceCall(final String name, final KernelQedeqBo prop) {
+        InternalServiceProcess process = getInternalServices().createServiceProcess(name);
+        InternalServiceCall call = getInternalServices().createServiceCall(DummyPlugin.getInstance(), prop,
+            Parameters.EMPTY, Parameters.EMPTY, process, null);
+        return call;
     }
 }

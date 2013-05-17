@@ -30,14 +30,16 @@ import org.qedeq.kernel.bo.logic.common.LogicalCheckException;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.service.ModuleArbiter;
 import org.qedeq.kernel.bo.service.ServiceProcessImpl;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
+import org.qedeq.kernel.bo.service.common.ServiceCallImpl;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexExecutor;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
 import org.qedeq.kernel.bo.service.latex.QedeqBoDuplicateLanguageChecker;
+import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleDataException;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.xml.sax.SAXParseException;
@@ -343,21 +345,8 @@ public class GenerateLatexTest extends QedeqBoTestCase {
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
-        QedeqBoDuplicateLanguageChecker.check(new ServiceProcessImpl(new ModuleArbiter(), "generate LaTeX"),
-            new Plugin() {
-                public String getServiceId() {
-                    return QedeqBoDuplicateLanguageChecker.class.getName();
-                }
-    
-                public String getServiceAction() {
-                    return "duplicate language checker";
-                }
-    
-                public String getServiceDescription() {
-                    return "Test for duplicate language entries within LaTeX sections";
-                }
-
-            }, prop);
+        final InternalServiceCall call = createServiceCall("generate LaTeX", prop);
+        QedeqBoDuplicateLanguageChecker.check(call);
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
@@ -408,9 +397,10 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             Trace.param(CLASS, method, "level", level);
             final Map parameters = new HashMap();
             parameters.put("info", "true");
-            final InputStream latex =(new Qedeq2LatexExecutor(new Qedeq2LatexPlugin(), prop,
-                new Parameters(parameters))).createLatex(new ServiceProcessImpl(new ModuleArbiter(),
-                    "generate LaTeX"), language, "1");
+            final Parameters configParameters = new Parameters(parameters);
+            final InputStream latex =(new Qedeq2LatexExecutor(new Qedeq2LatexPlugin(), prop, configParameters))
+                .createLatex(new ServiceCallImpl(DummyPlugin.getInstance(), prop, configParameters, Parameters.EMPTY,
+                new ServiceProcessImpl(new ModuleArbiter(), "generate LaTeX"), null), language, "1");
             if (to != null) {
                 IoUtility.createNecessaryDirectories(to);
                 IoUtility.saveFile(latex, to);

@@ -24,6 +24,7 @@ import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.config.QedeqConfig;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
  * Test class.
@@ -430,7 +431,7 @@ public class KernelContextTest extends QedeqBoTestCase {
         kernel.getPlugins();
     }
 
-    public void testExecutePlugin() throws IOException {
+    public void testExecutePlugin() throws IOException, InterruptException {
         final ModuleAddress address = DefaultModuleAddress.MEMORY;
         try {
             kernel.executePlugin("noname", address, null);

@@ -32,10 +32,8 @@ import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
-import org.qedeq.kernel.bo.service.ModuleArbiter;
 import org.qedeq.kernel.bo.service.ModuleLabelsCreator;
 import org.qedeq.kernel.bo.service.QedeqVoBuilder;
-import org.qedeq.kernel.bo.service.ServiceProcessImpl;
 import org.qedeq.kernel.bo.service.logic.WellFormedCheckerExecutor;
 import org.qedeq.kernel.bo.service.logic.WellFormedCheckerPlugin;
 import org.qedeq.kernel.bo.test.DummyPlugin;
@@ -46,6 +44,7 @@ import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.dto.module.QedeqVo;
+import org.qedeq.kernel.se.visitor.InterruptException;
 import org.qedeq.kernel.xml.dao.XmlQedeqFileDao;
 import org.qedeq.kernel.xml.handler.common.SaxDefaultHandler;
 import org.qedeq.kernel.xml.handler.module.QedeqHandler;
@@ -202,7 +201,7 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
         YodaUtility.setFieldContent(prop, "qedeq", qedeq);
         final ModuleLabelsCreator creator = new ModuleLabelsCreator(DummyPlugin.getInstance(),
             prop);
-        creator.createLabels(new ServiceProcessImpl(new ModuleArbiter(), "check"));
+        creator.createLabels(createServiceCall("check", prop));
         prop.setLoaded(QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq),
             creator.getLabels(), creator.getConverter(), creator.getTextConverter());
         prop.setLoadedImports(new KernelModuleReferenceList());
@@ -223,7 +222,7 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
      *
      * @param   xmlFile Module file to check.
      */
-    public void checkViaKernel(final File xmlFile) throws SourceFileExceptionList, IOException {
+    public void checkViaKernel(final File xmlFile) throws SourceFileExceptionList, IOException, InterruptException {
         final ModuleAddress address = getServices().getModuleAddress(
             UrlUtility.toUrl(xmlFile.getAbsoluteFile()));
         KernelQedeqBo qedeqBo= (KernelQedeqBo) getServices().loadModule(address);

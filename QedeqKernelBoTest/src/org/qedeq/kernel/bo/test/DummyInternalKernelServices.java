@@ -18,12 +18,16 @@ package org.qedeq.kernel.bo.test;
 import java.io.File;
 import java.io.IOException;
 
+import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
+import org.qedeq.kernel.bo.service.common.ServiceCallImpl;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.config.QedeqConfig;
 import org.qedeq.kernel.se.visitor.ContextChecker;
@@ -117,6 +121,14 @@ public class DummyInternalKernelServices implements InternalKernelServices {
     }
     public boolean unlockModule(InternalServiceProcess process, KernelQedeqBo qedeq) {
         return false;
+    }
+    public InternalServiceProcess createServiceProcess(String action) {
+        return null;
+    }
+    public ServiceCallImpl createServiceCall(Service service, KernelQedeqBo qedeq,
+                    Parameters configParameters, Parameters parameters,
+                    InternalServiceProcess process, InternalServiceCall parent) {
+        return null;
     }
 
 }
