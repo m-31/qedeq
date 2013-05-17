@@ -23,6 +23,7 @@ import java.net.URL;
 import java.util.Locale;
 
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
@@ -30,6 +31,7 @@ import org.qedeq.kernel.bo.common.KernelServices;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -55,7 +57,6 @@ public final class Xml2Xml implements Plugin {
     /**
      * Generate XML file out of XML file.
      *
-     * @param   process         Process we run within.
      * @param   services        Use this kernel services.
      * @param   internal        Use this internal kernel services.
      * @param   from            Read this XML file.
@@ -63,9 +64,8 @@ public final class Xml2Xml implements Plugin {
      * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      * @return  File name of generated LaTeX file.
      */
-    public static String generate(final InternalServiceProcess process,
-            final KernelServices services, final InternalKernelServices internal, final File from,
-            final File to) throws SourceFileExceptionList {
+    public static String generate(final KernelServices services, final InternalKernelServices internal,
+            final File from, final File to) throws SourceFileExceptionList {
         final String method = "generate(File, File)";
         File destination = null;
         try {
@@ -78,7 +78,7 @@ public final class Xml2Xml implements Plugin {
                 }
                 destination = new File(from.getParentFile(), xml + "_.xml").getCanonicalFile();
             }
-            return generate(process, services, UrlUtility.toUrl(from), destination);
+            return generate(services, internal, UrlUtility.toUrl(from), destination);
         } catch (IOException e) {
             Trace.fatal(CLASS, "Writing failed destionation", method, e);
             throw internal.createSourceFileExceptionList(
@@ -91,7 +91,6 @@ public final class Xml2Xml implements Plugin {
     /**
      * Generate XML file out of XML file.
      *
-     * @param   process         We work for this process.
      * @param   services        Here we get our kernel services.
      * @param   from            Read this XML file.
      * @param   to              Write to this file. Could not be <code>null</code>.
@@ -99,8 +98,8 @@ public final class Xml2Xml implements Plugin {
      * @throws  IOException                 Writing (or reading) failed.
      * @return  File name of generated LaTeX file.
      */
-    private static String generate(final InternalServiceProcess process,
-            final KernelServices services, final URL from, final File to)
+    private static String generate(final KernelServices services, final InternalKernelServices internal,
+            final URL from, final File to)
             throws SourceFileExceptionList, IOException {
         final String method = "generate(URL, File)";
         Trace.begin(CLASS, method);
@@ -117,7 +116,11 @@ public final class Xml2Xml implements Plugin {
             IoUtility.createNecessaryDirectories(to);
             final OutputStream outputStream = new FileOutputStream(to);
             printer = new TextOutput(to.getName(), outputStream, "UTF-8");
-            Qedeq2Xml.print(process, new Xml2Xml(), prop, printer);
+            final InternalServiceProcess process = internal.createServiceProcess("generate XML");
+            final Plugin plugin = new Xml2Xml();
+            final InternalServiceCall call = internal.createServiceCall(plugin, prop, Parameters.EMPTY,
+                Parameters.EMPTY, process, null);
+            Qedeq2Xml.print(call, plugin, prop, printer);
             return to.getCanonicalPath();
         } finally {
             if (printer != null) {

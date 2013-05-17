@@ -22,15 +22,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.qedeq.base.io.IoUtility;
-import org.qedeq.kernel.bo.service.ModuleArbiter;
-import org.qedeq.kernel.bo.service.ServiceProcessImpl;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.xml.test.XmlNormalizer;
 import org.xml.sax.SAXException;
 
 /**
- * Test generating LaTeX files for all known samples.
+ * Test generating XML files for all known samples.
  *
  * @author  Michael Meyling
  */
@@ -88,7 +86,7 @@ public final class GenerateXmlTest extends QedeqBoTestCase {
     }
 
     /**
-     * Call the generation of one LaTeX file and copy XML source to same destination directory.
+     * Call the generation of one XML file and copy XML source to same destination directory.
      *
      * @param   dir         Start directory.
      * @param   xml         Relative path to XML file. Must not be <code>null</code>.
@@ -114,8 +112,7 @@ public final class GenerateXmlTest extends QedeqBoTestCase {
             throws IOException, SourceFileExceptionList, SAXException {
         final File destination = new File(destinationDirectory, xmlFile.getName() + "_").getAbsoluteFile();
         System.out.println("generation of " + xmlFile + " to " + destination);
-        Xml2Xml.generate(new ServiceProcessImpl(new ModuleArbiter(), "generate"), getServices(),
-            getInternalServices(), xmlFile, destination);
+        Xml2Xml.generate(getServices(), getInternalServices(), xmlFile, destination);
         if (!normalize) {
             assertEquals(true, IoUtility.compareTextFiles(xmlFile, destination, "UTF-8"));
 //            assertEquals(IoUtility.loadFile(xmlFile.getAbsolutePath(), "UTF-8"), 
