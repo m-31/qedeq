@@ -45,7 +45,7 @@ public interface InternalServiceProcess extends ServiceProcess {
 
     /**
      * Lock module for exclusive access. This request is blocking (but the user can interrupt this).
-     * 
+     *
      * @param   qedeq   Lock this module.
      * @return  Was the module newly locked? This is true if the module was not locked before this call.
      * @throws  InterruptException  Lock acquirement interrupted.
