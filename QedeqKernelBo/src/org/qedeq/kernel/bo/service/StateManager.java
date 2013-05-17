@@ -615,6 +615,7 @@ public class StateManager {
      * @throws  IllegalStateException   Module is not yet loaded.
      */
     public void setLoadedImports(final KernelModuleReferenceList required) {
+        System.out.println("Setting loaded imports for " + this.bo.getName() + " to " + required); // FIXME REMOVE ME
         checkIfDeleted();
         if (!isLoaded()) {
             throw new IllegalStateException(

@@ -84,9 +84,10 @@ public interface InternalKernelServices extends KernelProperties {
      * @param   spec    Specification for another QEDEQ module.
      * @return  Loaded module.
      * @throws  SourceFileExceptionList     Loading failed.
+     * @throws  InterruptException User canceled request.
      */
     public KernelQedeqBo loadModule(InternalServiceProcess process, ModuleAddress parent,
-        Specification spec) throws SourceFileExceptionList;
+        Specification spec) throws SourceFileExceptionList, InterruptException;
 
     /**
      * Get required modules of given module. You can check the status to know if the loading was

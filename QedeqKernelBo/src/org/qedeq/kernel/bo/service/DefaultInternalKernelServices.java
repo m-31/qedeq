@@ -520,14 +520,14 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     /**
      * Load specified QEDEQ module from QEDEQ parent module.
      *
-     * @param   call    Our service process we run within.
+     * @param   process    Our service process we run within.
      * @param   parent  Parent module address.
      * @param   spec    Specification for another QEDEQ module.
      * @return  Loaded module.
      * @throws  SourceFileExceptionList Loading failed.
      * @throws  InterruptException User canceled request.
      */
-    public KernelQedeqBo loadModule(final InternalServiceCall call, final ModuleAddress parent,
+    public KernelQedeqBo loadModule(final InternalServiceProcess process, final ModuleAddress parent,
             final Specification spec) throws SourceFileExceptionList, InterruptException {
 
         final String method = "loadModule(Module, Specification)";
@@ -559,16 +559,16 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                     }
                     try {
                         if (prop.getModuleAddress().isFileAddress()) {
-                            loadLocalModule(call, prop);
+                            loadLocalModule((InternalServiceCall) process.getServiceCall(), prop);
                         } else {
                             // search in local file buffer
                             try {
                                 getCanonicalReadableFile(prop);
                             } catch (ModuleFileNotFoundException e) { // file not found
                                 // we will continue by creating a local copy
-                                saveQedeqFromWebToBuffer(call, prop);
+                                saveQedeqFromWebToBuffer((InternalServiceCall) process.getServiceCall(), prop);
                             }
-                            loadBufferedModule(call, prop);
+                            loadBufferedModule((InternalServiceCall) process.getServiceCall(), prop);
                         }
                         // success!
                         return prop;
@@ -1140,12 +1140,6 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
 
     public boolean unlockModule(final InternalServiceProcess process, final KernelQedeqBo qedeq) {
         return arbiter.unlockRequiredModule(process, qedeq);
-    }
-
-    public KernelQedeqBo loadModule(InternalServiceProcess process, ModuleAddress parent,
-                    Specification spec) throws SourceFileExceptionList {
-        // FIXME Auto-generated method stub
-        return null;
     }
 
     public InternalServiceProcess createServiceProcess(String action) {
