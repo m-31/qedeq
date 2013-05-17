@@ -29,6 +29,7 @@ import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
  * Execute plugin for selected QEDEQ module files.
@@ -74,15 +75,26 @@ public class PluginAction extends AbstractAction {
                 final QedeqBo prop = props[i];
                 final Thread thread = new Thread() {
                     public void run() {
-                        final Object result = KernelContext.getInstance().executePlugin(
-                            plugin.getServiceId(),
-                            prop.getModuleAddress(), null);
-                        if (result instanceof String) {
+                        try {
+                            final Object result = KernelContext.getInstance().executePlugin(
+                                plugin.getServiceId(),
+                                prop.getModuleAddress(), null);
+                            if (result instanceof String) {
+                                final Runnable showTextResult = new Runnable() {
+                                    public void run() {
+                                        (new TextPaneWindow(plugin.getServiceAction(),
+                                            PluginAction.this.getIcon(),
+                                            (String) result)).setVisible(true);
+                                    }
+                                };
+                                SwingUtilities.invokeLater(showTextResult);
+                            }
+                        } catch (final InterruptException e) {
                             final Runnable showTextResult = new Runnable() {
                                 public void run() {
                                     (new TextPaneWindow(plugin.getServiceAction(),
                                         PluginAction.this.getIcon(),
-                                        (String) result)).setVisible(true);
+                                        e.getMessage())).setVisible(true);
                                 }
                             };
                             SwingUtilities.invokeLater(showTextResult);
