@@ -141,7 +141,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     /**
      * Create QEDEQ module labels and Element2Latex converter.
      *
-     * @param   process We work for this process.
+     * @param   call    We work for this service call.
      * @throws  SourceFileExceptionList Traverse lead to errors.
      */
     public void createLabels(final InternalServiceCall call) throws SourceFileExceptionList {
