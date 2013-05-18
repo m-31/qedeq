@@ -91,38 +91,28 @@
         <!--  Kernel -->
         <antcall target="execMaven">
             <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_kernel"/>
-            <param name="MvnArguments" value="install"/>
-<!--            
-            <param name="MvnArguments" value="-Dmaven.test.skip=true site"/>
--->            
-        </antcall>
-        <antcall target="execMaven">
-            <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_kernel"/>
             <param name="MvnArguments" value="source:jar"/>
         </antcall>
         <antcall target="execMaven">
             <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_kernel"/>
             <param name="MvnArguments" value="javadoc:jar"/>
         </antcall>
-
         <antcall target="execMaven">
             <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_kernel"/>
             <param name="MvnArguments" value="site"/>
-<!--  debug
-            <param name="MvnArguments" value="-X site"/>
- -->
-<!--            
-            <param name="MvnArguments" value="-Dmaven.test.skip=true site"/>
--->            
+<!-- 
+            <param name="MvnArguments" value="install -Dmaven.test.skip=true site"/>
+-->
+        </antcall>
+        <antcall target="execMaven">
+            <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_kernel"/>
+            <param name="MvnArguments" value="install:install-file -DgroupId=org.qedeq.kernel.maven -DartifactId=qedeq_kernel -Dversion=${qedeq.release.version} -Dpackaging=jar -Dfile=target/qedeq_kernel-${qedeq.release.version}.jar"/>
         </antcall>
 
         <!--  GUI -->
         <antcall target="execMaven">
             <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_gui_se"/>
             <param name="MvnArguments" value="install"/>
-<!--            
-            <param name="MvnArguments" value="-Dmaven.test.skip=true site"/>
--->            
         </antcall>
         <antcall target="execMaven">
             <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_gui_se"/>
@@ -135,9 +125,6 @@
         <antcall target="execMaven">
             <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_gui_se"/>
             <param name="MvnArguments" value="site"/>
-<!--            
-            <param name="MvnArguments" value="-Dmaven.test.skip=true site"/>
--->            
         </antcall>
     </target>   
 
