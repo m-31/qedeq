@@ -49,6 +49,15 @@ public final class Trace {
     }
 
     /**
+     * Is tracing on? If not set only fatal errors and business messages are logged.
+     *
+     * @return  Is tracing on?
+     */
+    public static boolean isTraceOn() {
+        return traceOn;
+    }
+
+    /**
      * Trace business log message. The message is logged on "error" level.
      *
      * @param   message         Business log message.
@@ -95,9 +104,8 @@ public final class Trace {
         if (traceOn) {
             final Log log = LogFactory.getFactory().getInstance(tracingClass);
             return log.isDebugEnabled();
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
