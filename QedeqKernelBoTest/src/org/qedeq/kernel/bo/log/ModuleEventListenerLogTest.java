@@ -181,7 +181,7 @@ public class ModuleEventListenerLogTest extends QedeqBoTestCase {
 
     public void testAddModule() throws Exception {
         listener.addModule(qedeq);
-        System.out.println(out.toString("UTF-8"));
+//        System.out.println(out.toString("UTF-8"));
         assertTrue(out.toString("UTF-8").trim().startsWith("dummy"));
         assertTrue(0 <= out.toString("UTF-8").indexOf("Module added"));
     }

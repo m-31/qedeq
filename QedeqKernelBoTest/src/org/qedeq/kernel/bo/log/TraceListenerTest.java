@@ -34,6 +34,7 @@ public class TraceListenerTest extends QedeqBoTestCase {
 
     private TraceListener listener;
     private ByteArrayOutputStream out = new ByteArrayOutputStream();
+    private boolean oldTrace;
 
     protected void setUp() throws Exception {
         super.setUp();
@@ -43,10 +44,17 @@ public class TraceListenerTest extends QedeqBoTestCase {
         rootLogger.setLevel(Level.DEBUG);
         rootLogger.addAppender(new WriterAppender(
             new PatternLayout(PatternLayout.TTCC_CONVERSION_PATTERN), out));
+        oldTrace = Trace.isTraceOn();
         Trace.setTraceOn(true);
         listener = new TraceListener();
         QedeqLog.getInstance().addLog(listener);
 //        LogFactory.getFactory().getInstance("log");
+    }
+
+    protected void tearDown() throws Exception {
+        QedeqLog.getInstance().removeLog(listener);
+        Trace.setTraceOn(oldTrace);
+        super.tearDown();
     }
 
     public void testLogFailureReply() throws Exception{

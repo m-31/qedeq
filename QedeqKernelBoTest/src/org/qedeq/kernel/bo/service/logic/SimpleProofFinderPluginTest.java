@@ -44,6 +44,9 @@ import org.qedeq.kernel.se.dto.module.PropositionVo;
  */
 public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
 
+    private LogListenerImpl listener;
+    private ModuleEventListenerLog moduleListener;
+
     public SimpleProofFinderPluginTest() {
         super();
     }
@@ -54,8 +57,16 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        QedeqLog.getInstance().addLog(new LogListenerImpl());
-        ModuleEventLog.getInstance().addLog(new ModuleEventListenerLog());
+        listener = new LogListenerImpl();
+        QedeqLog.getInstance().addLog(listener);
+        moduleListener = new ModuleEventListenerLog();
+        ModuleEventLog.getInstance().addLog(moduleListener);
+    }
+
+    public void tearDown() throws Exception {
+        ModuleEventLog.getInstance().removeLog(moduleListener);
+        QedeqLog.getInstance().removeLog(listener);
+        super.tearDown();
     }
 
     /**
