@@ -106,6 +106,10 @@
         </antcall>
         <antcall target="execMaven">
             <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_kernel"/>
+            <param name="MvnArguments" value="install"/>
+        </antcall>
+        <antcall target="execMaven">
+            <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_kernel"/>
             <param name="MvnArguments" value="install:install-file -DgroupId=org.qedeq.kernel.maven -DartifactId=qedeq_kernel -Dversion=${qedeq.release.version} -Dpackaging=jar -Dfile=target/qedeq_kernel-${qedeq.release.version}.jar"/>
         </antcall>
 
