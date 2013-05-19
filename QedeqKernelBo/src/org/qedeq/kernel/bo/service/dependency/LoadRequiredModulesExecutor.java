@@ -75,10 +75,10 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         if (loadingRequiredInProgress == null) {
             loadingRequiredInProgress = new HashMap();
         }
-        call.getInternalServiceProcess().unlockRequiredModule(getQedeqBo());
+        getQedeqBo().getKernelServices().unlockModule(call.getInternalServiceProcess(), getQedeqBo());
         if (!loadAllRequiredModules(call, getQedeqBo())) {
             try {
-                call.getInternalServiceProcess().lockRequiredModule(getQedeqBo());
+                getQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getQedeqBo());
             } catch (InterruptException e) {
                 // FIXME Auto-generated catch block
                 e.printStackTrace();
@@ -91,7 +91,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
             return Boolean.FALSE;
         }
         try {
-            call.getInternalServiceProcess().lockRequiredModule(getQedeqBo());
+            getQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getQedeqBo());
         } catch (InterruptException e) {
             // FIXME what about status changes?
             e.printStackTrace();
@@ -106,7 +106,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
 
         final KernelModuleReferenceList required = (KernelModuleReferenceList) getQedeqBo().getRequiredModules();
 
-        call.getInternalServiceProcess().unlockRequiredModule(getQedeqBo());
+        getQedeqBo().getKernelServices().unlockModule(call.getInternalServiceProcess(), getQedeqBo());
 
         final SourceFileExceptionList sfl = new SourceFileExceptionList();
         Trace.trace(CLASS, this, method, "loading required modules of " + getQedeqBo().getUrl());
@@ -147,7 +147,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
             return Boolean.TRUE; // everything is OK, someone elses thread might have corrected errors!
         }
         try {
-            call.getInternalServiceProcess().lockRequiredModule(getQedeqBo());
+            getQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getQedeqBo());
         } catch (InterruptException e) {
             // FIXME what about status changes?
             e.printStackTrace();

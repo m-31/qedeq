@@ -13,15 +13,18 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.common;
+package org.qedeq.kernel.bo.service;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
+import org.qedeq.kernel.bo.service.common.ServiceCall;
+import org.qedeq.kernel.bo.service.common.ServiceResult;
+import org.qedeq.kernel.bo.service.common.ServiceResultImpl;
 import org.qedeq.kernel.se.common.Service;
-import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
  * Single call for a service.
@@ -83,7 +86,7 @@ public class ServiceCallImpl implements InternalServiceCall {
 
     /** Was the module newly blocked by this call. Otherwise a previous service call might have locked the module
      * for the process already. */
-    private boolean newBlockedModule;
+    private boolean newlyBlockedModule;
 
     /**
      * A new service process within the current thread.
@@ -106,22 +109,7 @@ public class ServiceCallImpl implements InternalServiceCall {
         this.process = process;
         this.parent = parent;
         running = false;
-    }
-
-    public void start() throws InterruptException {
-        if (!running && result == null) {
-            begin();
-            if (!process.isRunning()) {
-                throw new RuntimeException("Service process is not running any more.");
-            }
-            if (!process.getThread().isAlive()) {
-                throw new RuntimeException("thread is already dead");
-            }
-            process.setServiceCall(this);
-            pause();
-            newBlockedModule = process.lockRequiredModule(qedeq);
-            resume();
-        }
+        begin();
     }
 
     private synchronized long inc() {
@@ -178,23 +166,26 @@ public class ServiceCallImpl implements InternalServiceCall {
     public synchronized void pause() {
         duration += System.currentTimeMillis() - start;
         paused = true;
-        process.setBlocked(true);
     }
 
     public synchronized void resume() {
         paused = false;
         start = System.currentTimeMillis();
-        process.setBlocked(false);
     }
 
     private synchronized void end() {
-        if (newBlockedModule) {
-            process.unlockRequiredModule(qedeq);
-        }
         end = System.currentTimeMillis();
         duration += end - start;
         paused = false;
         running = false;
+    }
+
+    public void setNewlyBlockedModule(final boolean newlyBlockedModule) {
+        this.newlyBlockedModule = newlyBlockedModule;
+    }
+
+    public boolean getNewlyBlockedModule() {
+        return this.newlyBlockedModule;
     }
 
     public synchronized void finish() {

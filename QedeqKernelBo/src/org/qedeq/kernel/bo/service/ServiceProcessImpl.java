@@ -20,9 +20,7 @@ import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.QedeqBoSet;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
-import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.service.common.ServiceCall;
-import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
  * Process info for a kernel service.
@@ -241,11 +239,4 @@ public class ServiceProcessImpl implements InternalServiceProcess {
         return (getId() < s.getId() ? -1 : (getId() == s.getId() ? 0 : 1));
     }
 
-    public boolean lockRequiredModule(final KernelQedeqBo qedeq) throws InterruptException {
-        return arbiter.lockRequiredModule(this, qedeq);
-    }
-
-    public boolean unlockRequiredModule(final KernelQedeqBo qedeq) {
-        return arbiter.unlockRequiredModule(this, qedeq);
-    }
 }

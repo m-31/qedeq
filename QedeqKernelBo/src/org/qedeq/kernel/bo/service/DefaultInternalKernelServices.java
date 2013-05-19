@@ -44,7 +44,6 @@ import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.common.InternalServiceCall;
-import org.qedeq.kernel.bo.service.common.ServiceCallImpl;
 import org.qedeq.kernel.bo.service.common.ServiceExecutor;
 import org.qedeq.kernel.bo.service.dependency.LoadDirectlyRequiredModulesPlugin;
 import org.qedeq.kernel.bo.service.dependency.LoadRequiredModulesPlugin;
@@ -203,19 +202,23 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         final KernelQedeqBo prop = getKernelQedeqBo(address);
         if (prop != null) {
             QedeqLog.getInstance().logRequest("Removing module", address.getUrl());
-            final InternalServiceProcess proc = new ServiceProcessImpl(arbiter, "loadModule");
-            InternalServiceCall call = processManager.createServiceCall(this, prop, Parameters.EMPTY, Parameters.EMPTY,
-                proc);
+            InternalServiceProcess proc = null;
+            InternalServiceCall call = null;
             try {
-                arbiter.lockRequiredModule(proc, prop);
+                proc = processManager.createServiceProcess("remove module");
+                call = processManager.createServiceCall(this, prop, Parameters.EMPTY,
+                    Parameters.EMPTY, proc);
                 removeModule((DefaultKernelQedeqBo) prop);
                 call.finish();
-            } catch (final Exception e) {
+                proc.setSuccessState();
+            } catch (final InterruptException e) {
                 QedeqLog.getInstance().logFailureReply(
                     "Remove failed", address.getUrl(), e.getMessage());
-                call.finish("Remove failed for " + address.getUrl() + " " +  e.getMessage());
+                if (proc != null) {
+                    proc.setFailureState();
+                }
             } finally {
-                arbiter.unlockRequiredModule(proc, prop);
+                processManager.endServiceCall(call);
             }
             if (validate) {
                 modules.validateDependencies();
@@ -275,10 +278,9 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         }
     }
 
-    public QedeqBo loadModule(final ModuleAddress address) {
-        final String method = "loadModule(ModuleAddress)";
-        System.out.println(method);
-        final InternalServiceProcess proc = processManager.createServiceProcess("LoadModule");
+    public KernelQedeqBo loadKernelModule(final InternalServiceProcess process, final ModuleAddress address)
+            throws InterruptException {
+        final String method = "loadModule(InternalServiceProcess, ModuleAddress)";
         final DefaultKernelQedeqBo prop = getModules().getKernelQedeqBo(this, address);
         final ServiceExecutor executor = new ServiceExecutor() {
             public void executeService(final InternalServiceCall call) throws InterruptException {
@@ -322,25 +324,19 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             }
 
         };
-        try {
-            this.processManager.executeService(new Service() {
-                public String getServiceAction() {
-                    return "load QEDEQ module";
-                }
+        this.processManager.executeService(new Service() {
+            public String getServiceAction() {
+                return "load QEDEQ module";
+            }
 
-                public String getServiceDescription() {
-                    return "take QEDEQ module address and try to load and parse the content";
-                }
+            public String getServiceDescription() {
+                return "take QEDEQ module address and try to load and parse the content";
+            }
 
-                public String getServiceId() {
-                    return "" + hashCode();
-                }
-            }, executor, prop, proc);
-        } catch (InterruptException e) {
-            proc.setFailureState();
-            return null;
-        }
-        proc.setSuccessState();
+            public String getServiceId() {
+                return "" + hashCode();
+            }
+        }, executor, prop, process);
         return prop;
 //        try {
 //            synchronized (prop) {
@@ -374,6 +370,19 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
 //            call.setSuccessState();
 //        }
 //        return prop;
+    }
+
+
+    public QedeqBo loadModule(final ModuleAddress address) {
+        final InternalServiceProcess proc = processManager.createServiceProcess("LoadModule");
+        final QedeqBo result = getQedeqBo(address);
+        try {
+            loadKernelModule(proc, address);
+            proc.setSuccessState();
+        } catch (InterruptException e) {
+            proc.setFailureState();
+        }
+        return result;
     }
 
     /**
@@ -657,7 +666,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                 if (prop.hasErrors()) {
                     errors = true;
                 }
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 Trace.fatal(CLASS, this, "loadPreviouslySuccessfullyLoadedModules",
                     "internal error: " + "saved URLs are malformed", e);
                 errors = true;
@@ -836,13 +845,13 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     }
 
     public boolean loadRequiredModules(final ModuleAddress address) {
-        final KernelQedeqBo prop = (KernelQedeqBo) loadModule(address);
+        final KernelQedeqBo prop = getKernelQedeqBo(address);
         // did we check this already?
         if (prop.hasLoadedRequiredModules()) {
             return true; // everything is OK
         }
-        loadModule(address);
         try {
+            loadModule(address);
             executePlugin(null, LoadRequiredModulesPlugin.class.getName(), prop, null);
         } catch (InterruptException e) {
             // FIXME Auto-generated catch block
@@ -870,8 +879,8 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         if (prop.isWellFormed()) {
             return true; // everything is OK
         }
-        loadModule(address);
         try {
+            loadModule(address);
             executePlugin(null, WellFormedCheckerPlugin.class.getName(), prop, null);
         } catch (InterruptException e) {
             // TODO Auto-generated catch block
@@ -904,8 +913,8 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         if (prop.isFullyFormallyProved()) {
             return true; // everything is OK
         }
-        loadModule(address);
         try {
+            loadModule(address);
             executePlugin(null, FormalProofCheckerPlugin.class.getName(), prop, null);
         } catch (InterruptException e) {
             // TODO Auto-generated catch block
@@ -946,8 +955,8 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     }
 
     public Object executePlugin(final String id, final ModuleAddress address, final Object data) {
-        loadModule(address);
         try {
+            loadModule(address);
             return processManager.executePlugin(id, getKernelQedeqBo(address), data, null);
         } catch (InterruptException e) {
             return null;
@@ -1146,9 +1155,9 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         return processManager.createServiceProcess(action);
     }
 
-    public ServiceCallImpl createServiceCall(final Service service, final KernelQedeqBo qedeq,
+    public InternalServiceCall createServiceCall(final Service service, final KernelQedeqBo qedeq,
             final Parameters configParameters, final Parameters parameters,
-            final InternalServiceProcess process, final InternalServiceCall parent) {
+            final InternalServiceProcess process, final InternalServiceCall parent) throws InterruptException {
         return processManager.createServiceCall(service, qedeq, configParameters, parameters, process);
     }
 

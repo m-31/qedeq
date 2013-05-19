@@ -21,7 +21,6 @@ import java.io.IOException;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.common.KernelProperties;
 import org.qedeq.kernel.bo.service.common.InternalServiceCall;
-import org.qedeq.kernel.bo.service.common.ServiceCallImpl;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.Service;
@@ -77,6 +76,17 @@ public interface InternalKernelServices extends KernelProperties {
     public File getLocalFilePath(ModuleAddress address);
 
     /**
+     * Load QEDEQ module.
+     *
+     * @param   process Working process.
+     * @param   address Load module from this address.
+     * @return  BO for QEDEQ module. Loading still might have failed. Check status.
+     * @throws  InterruptException User canceled request.
+     */
+    public KernelQedeqBo loadKernelModule(final InternalServiceProcess process, final ModuleAddress address)
+            throws InterruptException;
+
+    /**
      * Load specified QEDEQ module from QEDEQ parent module.
      *
      * @param   process Working process.
@@ -87,7 +97,7 @@ public interface InternalKernelServices extends KernelProperties {
      * @throws  InterruptException User canceled request.
      */
     public KernelQedeqBo loadModule(InternalServiceProcess process, ModuleAddress parent,
-        Specification spec) throws SourceFileExceptionList, InterruptException;
+            Specification spec) throws SourceFileExceptionList, InterruptException;
 
     /**
      * Get required modules of given module. You can check the status to know if the loading was
@@ -187,7 +197,7 @@ public interface InternalKernelServices extends KernelProperties {
     public InternalServiceProcess createServiceProcess(final String action);
 
     /**
-     * Create service process.
+     * Create service process for given module. Locks also module access.
      *
      * @param   service             The service that runs in current thread.
      * @param   qedeq               QEDEQ module for service.
@@ -196,10 +206,12 @@ public interface InternalKernelServices extends KernelProperties {
      * @param   process             We run in this process.
      * @param   parent              Parent process that creates a new one.
      * @return  Created service call.
+     * @throws  InterruptException  Locking of module was canceled by user.
      */
-    public ServiceCallImpl createServiceCall(Service service,
+    public InternalServiceCall createServiceCall(Service service,
             final KernelQedeqBo qedeq, final Parameters configParameters, final Parameters parameters,
-            final InternalServiceProcess process, final InternalServiceCall parent);
+            final InternalServiceProcess process, final InternalServiceCall parent)
+            throws InterruptException;
 
 
     public boolean lockModule(InternalServiceProcess process, KernelQedeqBo qedeq) throws InterruptException;

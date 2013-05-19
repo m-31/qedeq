@@ -27,7 +27,7 @@ import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
 import org.qedeq.kernel.bo.module.PluginExecutor;
-import org.qedeq.kernel.bo.service.common.ServiceCallImpl;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 import org.qedeq.kernel.bo.service.common.ServiceExecutor;
 import org.qedeq.kernel.bo.service.common.ServiceResult;
 import org.qedeq.kernel.se.common.Service;
@@ -96,22 +96,39 @@ public class ServiceProcessManager {
     }
 
     /**
-     * Create service process.
+     * Create service process. Might block further execution, because an exclusive access to given module is given.
      *
      * @param   service             The service that runs in current thread.
      * @param   qedeq               QEDEQ module for service.
      * @param   configParameters    Config parameters for the service.
      * @param   parameters          Parameter for this service call.
      * @param   process             We run in this process.
-     * @return  Created service call.
+     * @return  Created service call. Never <code>null</code> (if no {@link InterruptException} occurred).
+     * @throws  InterruptException  User canceled call.
      */
-    public synchronized ServiceCallImpl createServiceCall(final Service service,
+    public ServiceCallImpl createServiceCall(final Service service,
             final KernelQedeqBo qedeq, final Parameters configParameters, final Parameters parameters,
-            final InternalServiceProcess process) {
+            final InternalServiceProcess process) throws InterruptException {
+        if (!process.isRunning()) { // FIXME
+            throw new RuntimeException("Service process is not running any more.");
+        }
+        if (!process.getThread().isAlive()) {
+            throw new RuntimeException("thread is already dead");
+        }
         final ServiceCallImpl call = new ServiceCallImpl(service, qedeq, configParameters, parameters, process,
             process.getServiceCall());
-        calls.add(call);
+        synchronized (this) {
+            calls.add(call);
+        }
+        process.setServiceCall(call);
+        lockRequiredModule(call, qedeq);
         return call;
+    }
+
+    public void endServiceCall(final InternalServiceCall call) {
+        if (call != null && ((ServiceCallImpl) call).getNewlyBlockedModule()) { // FIXME 
+            unlockRequiredModule(call, call.getKernelQedeq());
+        }
     }
 
     /**
@@ -132,11 +149,9 @@ public class ServiceProcessManager {
         }
     }
 
-    public synchronized InternalServiceProcess createServiceProcess(final String action) {
-        final InternalServiceProcess process = new ServiceProcessImpl(arbiter, action);
-        synchronized (this) {
-            processes.add(process);
-        }
+    public synchronized ServiceProcessImpl createServiceProcess(final String action) {
+        final ServiceProcessImpl process = new ServiceProcessImpl(arbiter, action);
+        processes.add(process);
         return process;
     }
 
@@ -147,22 +162,32 @@ public class ServiceProcessManager {
             throw new NullPointerException("ServiceProcess must not be null");
         }
         final Parameters configParameters = KernelContext.getInstance().getConfig().getServiceEntries(service);
-        final ServiceCallImpl call = createServiceCall(service, qedeq, configParameters, Parameters.EMPTY, process);
+        ServiceCallImpl call = null;
         try {
-            call.start();
+            call = createServiceCall(service, qedeq, configParameters, Parameters.EMPTY, process);
             executor.executeService(call);
         } catch (final RuntimeException e) {
             final String msg = service.getServiceAction() + " failed with a runtime exception.";
             Trace.fatal(CLASS, this, method, msg, e);
             QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
+            if (call.getNewlyBlockedModule()) {
+                arbiter.unlockRequiredModule(process, call.getKernelQedeq());
+            }
             call.finish(msg + " " + e.getMessage());
             process.setFailureState();
             return call.getServiceResult();
         } catch (final InterruptException e) {
             final String msg = service.getServiceAction() + " was canceled by user.";
             QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
-            call.interrupt();
+            if (call != null) {
+                call.interrupt();
+            }
+            process.setFailureState();
             throw e;
+        } finally {
+            if (call != null && call.getNewlyBlockedModule()) {
+                arbiter.unlockRequiredModule(process, call.getKernelQedeq());
+            }
         }
         return call.getServiceResult();
     }
@@ -199,10 +224,10 @@ public class ServiceProcessManager {
         } else {
             process = createServiceProcess(plugin.getServiceAction());
         }
-        final ServiceCallImpl call = createServiceCall(plugin, qedeq, configParameters, Parameters.EMPTY,
-            process);
+        ServiceCallImpl call = null;
         try {
-            call.start();
+            call = createServiceCall(plugin, qedeq, configParameters, Parameters.EMPTY,
+                process);
             final PluginExecutor exe = plugin.createExecutor(qedeq, configParameters);
             final Object result = exe.executePlugin(call, data);
             if (exe.getInterrupted()) {
@@ -221,9 +246,14 @@ public class ServiceProcessManager {
         } catch (final InterruptException e) {
             final String msg = plugin.getServiceAction() + " was canceled by user.";
             QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
-            call.interrupt();
+            if (call != null) {
+                call.interrupt();
+            }
             throw e;
         } finally {
+            if (call != null && call.getNewlyBlockedModule()) {
+                arbiter.unlockRequiredModule(process, call.getKernelQedeq());
+            }
             // if we created the process we also close it
             if (proc == null) {
                 if (process.isRunning()) {
@@ -233,5 +263,22 @@ public class ServiceProcessManager {
         }
     }
 
+    public boolean lockRequiredModule(final ServiceCallImpl call, final KernelQedeqBo qedeq)
+            throws InterruptException {
+        call.pause();
+        call.getInternalServiceProcess().setBlocked(true);
+        try {
+            final boolean result = arbiter.lockRequiredModule(call.getInternalServiceProcess(), qedeq);
+            call.setNewlyBlockedModule(result);
+            return result;
+        } finally {
+            call.getInternalServiceProcess().setBlocked(false);
+            call.resume();
+        }
+    }
+
+    public boolean unlockRequiredModule(final InternalServiceCall call, final KernelQedeqBo qedeq) {
+        return arbiter.unlockRequiredModule(call.getInternalServiceProcess(), qedeq);
+    }
 
 }

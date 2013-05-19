@@ -60,21 +60,26 @@ public class ModuleArbiter {
         if (isAlreadyLocked(process, qedeq)) {
             return false;
         }
+        process.setBlocked(true);
         // we try to get a lock, if not we wait
-        while (!lock(process, qedeq)) {
-            final Object monitor = new Object();
-            synchronized (monitor) {
-                try {
-                    monitor.wait(10000);
-                } catch (InterruptedException e) {
+        try {
+            while (!lock(process, qedeq)) {
+                final Object monitor = new Object();
+                synchronized (monitor) {
+                    try {
+                        monitor.wait(10000);
+                    } catch (InterruptedException e) {
+                        process.setFailureState();
+                        throw new InterruptException(qedeq.getModuleAddress().createModuleContext());
+                    }
+                }
+                if (Thread.interrupted()) {
                     process.setFailureState();
-                    throw new InterruptException(qedeq.getModuleAddress().createModuleContext());
+                        throw new InterruptException(qedeq.getModuleAddress().createModuleContext());
                 }
             }
-            if (Thread.interrupted()) {
-                process.setFailureState();
-                    throw new InterruptException(qedeq.getModuleAddress().createModuleContext());
-            }
+        } finally {
+            process.setBlocked(false);
         }
         return true;
     }
