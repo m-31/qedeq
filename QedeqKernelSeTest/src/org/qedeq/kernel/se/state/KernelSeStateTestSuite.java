@@ -44,6 +44,7 @@ public class KernelSeStateTestSuite extends QedeqTestSuite {
         addTestSuite(DependencyStateTest.class);
         addTestSuite(FormallyProvedStateTest.class);
         addTestSuite(LoadingStateTest.class);
+        addTestSuite(LoadingImportsStateTest.class);
         addTestSuite(WellFormedStateTest.class);
     }
 }

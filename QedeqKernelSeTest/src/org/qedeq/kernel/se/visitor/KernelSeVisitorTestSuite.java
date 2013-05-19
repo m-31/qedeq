@@ -18,7 +18,6 @@ package org.qedeq.kernel.se.visitor;
 import junit.framework.Test;
 
 import org.qedeq.base.test.QedeqTestSuite;
-import org.qedeq.kernel.se.visitor.QedeqNotNullTraverserTest;
 
 /**
  * Run all JUnit tests for package org.qedeq.kernel.utility.
@@ -42,7 +41,7 @@ public class KernelSeVisitorTestSuite extends QedeqTestSuite {
     public KernelSeVisitorTestSuite() {
         super();
         addTestSuite(AbstractModuleVisitorTest.class);
-        addTestSuite(DefaultContextChecker.class);
+        addTestSuite(DefaultContextCheckerTest.class);
         addTestSuite(InterruptExceptionTest.class);
         addTestSuite(LatexList2TextTest.class);
         addTestSuite(QedeqNotNullTraverserTest.class);

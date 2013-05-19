@@ -54,6 +54,12 @@ public class GenerateLatexTest extends QedeqBoTestCase {
 
     /** This class. */
     private static final Class CLASS = GenerateLatexTest.class;
+    private InternalServiceCall call;
+
+    protected void tearDown() throws Exception {
+        endServiceCall(call);
+        super.tearDown();
+    }
 
     /**
      * Generate main documents.
@@ -344,7 +350,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
-        final InternalServiceCall call = createServiceCall("generate LaTeX", prop);
+        call = createServiceCall("generate LaTeX", prop);
         QedeqBoDuplicateLanguageChecker.check(call);
         if (prop.hasErrors()) {
             throw prop.getErrors();

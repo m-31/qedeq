@@ -25,6 +25,7 @@ import org.qedeq.base.test.DynamicGetter;
 import org.qedeq.base.test.ObjectProxy;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
@@ -56,6 +57,8 @@ public class QedeqBoFactoryTest extends QedeqBoTestCase {
 
     private File errorFile;
 
+    private InternalServiceCall call;
+
     protected void setUp() throws Exception {
         super.setUp();
         try {
@@ -76,6 +79,7 @@ public class QedeqBoFactoryTest extends QedeqBoTestCase {
     protected void tearDown() throws Exception {
         ok = null;
         error = null;
+        endServiceCall(call);
         super.tearDown();
     }
 
@@ -101,7 +105,8 @@ public class QedeqBoFactoryTest extends QedeqBoTestCase {
             // TODO mime 20080306: move this test to another location, building doesn't include
             // checking any longer
             final ModuleLabelsCreator creator = new ModuleLabelsCreator(DummyPlugin.getInstance(), prop);
-            creator.createLabels(createServiceCall("testCreateStringQedeq1", prop));
+            call = createServiceCall("testCreateStringQedeq1", prop);
+            creator.createLabels(call);
             fail("SourceFileExceptionList expected");
         } catch (SourceFileExceptionList e) {
             SourceFileException sf = e.get(0);

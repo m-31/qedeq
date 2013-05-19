@@ -24,7 +24,6 @@ import org.qedeq.base.utility.KernelBaseUtilityTestSuite;
 /**
  * Run all tests for the project.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class BaseTestSuite extends QedeqTestSuite {

@@ -31,6 +31,7 @@ import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
 import org.qedeq.kernel.bo.service.ModuleLabelsCreator;
 import org.qedeq.kernel.bo.service.QedeqVoBuilder;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
@@ -54,14 +55,12 @@ public final class QedeqBoFormalLogicCheckerDirectTest extends QedeqBoTestCase {
 
     /** This class. */
     private static final Class CLASS = FormulaChecker.class;
+    private InternalServiceCall call;
 
 
-    public QedeqBoFormalLogicCheckerDirectTest() {
-        super();
-    }
-
-    public QedeqBoFormalLogicCheckerDirectTest(final String name) {
-        super(name);
+    protected void tearDown() throws Exception {
+        endServiceCall(call);
+        super.tearDown();
     }
 
     public void testNegative00() throws Exception {
@@ -167,7 +166,8 @@ public final class QedeqBoFormalLogicCheckerDirectTest extends QedeqBoTestCase {
         YodaUtility.setFieldContent(prop, "qedeq", qedeq);
         final ModuleLabelsCreator creator = new ModuleLabelsCreator(DummyPlugin.getInstance(),
             prop);
-        creator.createLabels(createServiceCall("check", prop));
+        call = createServiceCall("check", prop);
+        creator.createLabels(call);
         prop.setLoaded(QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq),
             creator.getLabels(), creator.getConverter(), creator.getTextConverter());
         prop.setLoadedImports(new KernelModuleReferenceList());

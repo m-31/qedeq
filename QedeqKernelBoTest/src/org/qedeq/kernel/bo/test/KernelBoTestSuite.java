@@ -70,7 +70,6 @@ public class KernelBoTestSuite extends QedeqTestSuite {
      */
     public KernelBoTestSuite(final boolean withTest, final boolean withPest) {
         super(withTest, withPest);
-        addTest(KernelBoTestSuite.suite());
         addTest(KernelBoCommonTestSuite.suite());
         addTest(KernelBoLogTestSuite.suite());
         addTest(KernelBoLogicProofCheckerTestSuite.suite());

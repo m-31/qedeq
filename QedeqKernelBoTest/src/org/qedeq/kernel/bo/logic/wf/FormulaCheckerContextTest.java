@@ -34,6 +34,7 @@ import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
 import org.qedeq.kernel.bo.service.ModuleLabelsCreator;
 import org.qedeq.kernel.bo.service.QedeqVoBuilder;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 import org.qedeq.kernel.bo.service.logic.WellFormedCheckerExecutor;
 import org.qedeq.kernel.bo.service.logic.WellFormedCheckerPlugin;
 import org.qedeq.kernel.bo.test.DummyPlugin;
@@ -60,14 +61,12 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
 
     /** This class. */
     private static final Class CLASS = FormulaChecker.class;
+    private InternalServiceCall call;
 
 
-    public FormulaCheckerContextTest() {
-        super();
-    }
-
-    public FormulaCheckerContextTest(final String name) {
-        super(name);
+    protected void tearDown() throws Exception {
+        endServiceCall(call);
+        super.tearDown();
     }
 
     public void testNegative00() throws Exception {
@@ -201,7 +200,8 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
         YodaUtility.setFieldContent(prop, "qedeq", qedeq);
         final ModuleLabelsCreator creator = new ModuleLabelsCreator(DummyPlugin.getInstance(),
             prop);
-        creator.createLabels(createServiceCall("check", prop));
+        call = createServiceCall("check", prop);
+        creator.createLabels(call);
         prop.setLoaded(QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq),
             creator.getLabels(), creator.getConverter(), creator.getTextConverter());
         prop.setLoadedImports(new KernelModuleReferenceList());
@@ -211,7 +211,7 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
         parameters.put("checkerFactory", TestFormulaCheckerFactoryImpl.class.getName());
         final WellFormedCheckerExecutor checker = (WellFormedCheckerExecutor) plugin.createExecutor(
             prop, new Parameters(parameters));
-        checker.executePlugin(createServiceCall("check", prop), null);
+        checker.executePlugin(call, null);
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
@@ -231,7 +231,8 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
         parameters.put("checkerFactory", TestFormulaCheckerFactoryImpl.class.getName());
         final WellFormedCheckerExecutor checker = (WellFormedCheckerExecutor) plugin.createExecutor(
             qedeqBo, new Parameters(parameters));
-        checker.executePlugin(createServiceCall("check", qedeqBo), null);
+        call = createServiceCall("check", qedeqBo);
+        checker.executePlugin(call, null);
         if (qedeqBo.hasErrors()) {
 //            qedeqBo.getErrors().get(0).printStackTrace(System.out);
             throw qedeqBo.getErrors();

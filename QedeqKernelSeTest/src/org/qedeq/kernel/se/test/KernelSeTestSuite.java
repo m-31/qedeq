@@ -62,7 +62,6 @@ public class KernelSeTestSuite extends QedeqTestSuite {
         addTest(KernelSeDtoModuleTestSuite.suite());
         addTest(KernelSeStateTestSuite.suite());
         addTest(KernelSeVisitorTestSuite.suite());
-
         // test if all classes have tests
         addTestSuite(KernelSeEachClassHasATest.class);
 

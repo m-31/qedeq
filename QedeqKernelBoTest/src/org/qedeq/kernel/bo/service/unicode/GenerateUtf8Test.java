@@ -26,6 +26,7 @@ import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
@@ -42,6 +43,12 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
 
     /** This class. */
     private static final Class CLASS = GenerateUtf8Test.class;
+    private InternalServiceCall call;
+
+    protected void tearDown() throws Exception {
+        endServiceCall(call);
+        super.tearDown();
+    }
 
     public void testGeneration1() throws Exception {
         try {
@@ -204,8 +211,9 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
             parameters.put("info", "true");
             parameters.put("brief", "false");
             parameters.put("maximumColumn", "80");
+            call = createServiceCall("generate latex", prop);
             final String source =(new Qedeq2Utf8Executor(new Qedeq2Utf8Plugin(), prop, new Parameters(parameters)))
-                .generateUtf8(createServiceCall("generate latex", prop), language, "1");
+                .generateUtf8(call, language, "1");
             if (to != null) {
                 IoUtility.createNecessaryDirectories(to);
                 IoUtility.copyFile(new File(source), to);
