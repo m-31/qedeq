@@ -108,7 +108,7 @@ public class ServiceCallImpl implements InternalServiceCall {
         running = false;
     }
 
-    public synchronized void start() throws InterruptException {
+    public void start() throws InterruptException {
         if (!running && result == null) {
             begin();
             if (!process.isRunning()) {
