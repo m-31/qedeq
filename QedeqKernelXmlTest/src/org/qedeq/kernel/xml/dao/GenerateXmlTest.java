@@ -24,6 +24,7 @@ import java.util.List;
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.visitor.InterruptException;
 import org.qedeq.kernel.xml.test.XmlNormalizer;
 import org.xml.sax.SAXException;
 
@@ -96,7 +97,7 @@ public final class GenerateXmlTest extends QedeqBoTestCase {
      */
     private void generate(final File dir, final String xml,
             final File destinationDirectory, final boolean normalize)
-            throws IOException, SourceFileExceptionList, SAXException {
+            throws IOException, SourceFileExceptionList, SAXException, InterruptException {
         generate(new File(dir, xml), destinationDirectory, normalize);
     }
 
@@ -109,7 +110,7 @@ public final class GenerateXmlTest extends QedeqBoTestCase {
      * @throws  IOException             File IO failed.
      */
     private void generate(final File xmlFile, final File destinationDirectory, final boolean normalize)
-            throws IOException, SourceFileExceptionList, SAXException {
+            throws IOException, SourceFileExceptionList, SAXException, InterruptException {
         final File destination = new File(destinationDirectory, xmlFile.getName() + "_").getAbsoluteFile();
         System.out.println("generation of " + xmlFile + " to " + destination);
         Xml2Xml.generate(getServices(), getInternalServices(), xmlFile, destination);
