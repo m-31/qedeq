@@ -97,7 +97,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     private final PluginManager pluginManager;
 
     /** This instance manages service processes. */
-    private final ServiceProcessManager processManager;
+    private ServiceProcessManager processManager;
 
     /** Validate module dependencies and status. */
     private boolean validate = true;
@@ -119,8 +119,6 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         this.qedeqFileDao = loader;
         arbiter = new ModuleArbiter();
         pluginManager = new PluginManager(this);
-        processManager = new ServiceProcessManager(pluginManager, arbiter);
-        contextChecker = new DefaultContextChecker();
         loader.setServices(this);
 
 ////      pluginManager.addPlugin(MultiProofFinderPlugin.class.getName());
@@ -140,6 +138,8 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
 
     public void startupServices() {
         modules = new KernelQedeqBoStorage();
+        processManager = new ServiceProcessManager(pluginManager, arbiter);
+        contextChecker = new DefaultContextChecker();
         if (config.isAutoReloadLastSessionChecked()) {
             autoReloadLastSessionChecked();
         }
