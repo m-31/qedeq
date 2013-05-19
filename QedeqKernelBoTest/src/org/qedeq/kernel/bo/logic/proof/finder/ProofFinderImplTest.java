@@ -43,14 +43,6 @@ import org.qedeq.kernel.se.dto.module.FormalProofLineListVo;
  */
 public class ProofFinderImplTest extends QedeqBoTestCase {
 
-    public ProofFinderImplTest() {
-        super();
-    }
-
-    public ProofFinderImplTest(final String name) {
-        super(name);
-    }
-
     /**
      * Find a proof.
      *
