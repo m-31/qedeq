@@ -26,14 +26,6 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
  */
 public class LoadRequiredModulesTest extends QedeqBoTestCase {
 
-    public LoadRequiredModulesTest() {
-        super();
-    }
-
-    public LoadRequiredModulesTest(final String name) {
-        super(name);
-    }
-
     /**
      * Load following dependencies:
      * <pre>
