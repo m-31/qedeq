@@ -76,9 +76,21 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
         InternalServiceCall call = getInternalServices().createServiceCall(DummyPlugin.getInstance(), prop,
             Parameters.EMPTY, Parameters.EMPTY, process, null);
         return call;
-
     }
  
+    public static void endServiceCall(final InternalServiceCall call) {
+        if (call == null) {
+            return;
+        }
+        try {
+            ((ServiceProcessManager) YodaUtility.getFieldValue(getInternalServices(), "processManager"))
+                .endServiceCall(call);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * Create {@link QedeqBo} out of an {@link Qedeq} instance.
      * During that procedure some basic checking is done. E.g. the uniqueness of entries
@@ -110,14 +122,20 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
         prop.setQedeqVo(vo);
         final ModuleLabelsCreator mc = new ModuleLabelsCreator(DummyPlugin.getInstance(),
             prop);
-        mc.createLabels(createServiceCall("createQedeq", prop));
+        InternalServiceCall call = null;
+        try {
+            call = createServiceCall("createQedeq", prop);
+            mc.createLabels(call);
+        } finally {
+            endServiceCall(call);
+        }
         prop.setLoaded(vo, mc.getLabels(), mc.getConverter(), mc.getTextConverter());
         KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
         KernelFacade.getKernelContext().checkWellFormedness(prop.getModuleAddress());
         if (!prop.isWellFormed()) {
             throw prop.getErrors();
         }
-        QedeqBoDuplicateLanguageChecker.check(createServiceCall("languageChecker", prop));
+        QedeqBoDuplicateLanguageChecker.check(call);
     }
 
     /**
