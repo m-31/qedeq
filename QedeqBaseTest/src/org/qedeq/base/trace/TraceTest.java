@@ -36,11 +36,14 @@ public class TraceTest extends QedeqTestCase {
     /** Log4J root logger. */
     private Logger rootLogger;
 
+    private boolean oldTrace;
+
     /*
      * @see TestCase#setUp()
      */
     protected void setUp() throws Exception {
         super.setUp();
+        oldTrace = Trace.isTraceOn();
         initLog4J();
         Trace.setTraceOn(true);
     }
@@ -50,7 +53,10 @@ public class TraceTest extends QedeqTestCase {
      */
     protected void tearDown() throws Exception {
         super.tearDown();
-        Trace.setTraceOn(false);
+        Trace.setTraceOn(oldTrace);
+        rootLogger = Logger.getRootLogger();
+        rootLogger.removeAllAppenders();
+        rootLogger.setLevel(Level.OFF);
     }
 
     private void initLog4J() {
