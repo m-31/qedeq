@@ -352,6 +352,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
         }
         call = createServiceCall("generate LaTeX", prop);
         QedeqBoDuplicateLanguageChecker.check(call);
+        endServiceCall(call);
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
