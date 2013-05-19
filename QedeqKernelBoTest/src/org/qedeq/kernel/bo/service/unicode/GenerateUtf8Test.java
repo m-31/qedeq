@@ -224,6 +224,7 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
             Trace.trace(CLASS, method, e);
             throw new RuntimeException(e);
         } finally {
+            endServiceCall(call);
             Trace.end(CLASS, method);
         }
     }
