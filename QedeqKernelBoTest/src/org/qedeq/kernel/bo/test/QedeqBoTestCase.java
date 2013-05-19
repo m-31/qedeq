@@ -20,6 +20,7 @@ import java.io.IOException;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.test.QedeqTestCase;
+import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.KernelServices;
@@ -67,6 +68,7 @@ public abstract class QedeqBoTestCase extends QedeqTestCase {
             genDir = new File(getOutdir(), "doc");
         }
         KernelFacade.startup();
+        Trace.setTraceOn(false);    // disable trace because it leads to java heap space errors
     }
 
     protected void tearDown() throws Exception {
@@ -132,4 +134,5 @@ public abstract class QedeqBoTestCase extends QedeqTestCase {
             throw new RuntimeException(e);
         }
     }
+
 }
