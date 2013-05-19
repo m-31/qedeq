@@ -170,7 +170,6 @@ public class QedeqTestSuite extends TestSuite {
      * @return  Failure test.
      */
     protected static Test warning(final String message) {
-        System.out.println("adding warning + " + message);  // FIXME remove me
         return new TestCase("warning") {
             protected void runTest() {
                 fail(message);
