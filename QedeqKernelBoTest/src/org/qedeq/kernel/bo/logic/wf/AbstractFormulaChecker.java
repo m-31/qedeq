@@ -16,11 +16,11 @@
 package org.qedeq.kernel.bo.logic.wf;
 
 
-import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.common.FunctionKey;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
+import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.RuleKey;
 
 /**
@@ -28,7 +28,7 @@ import org.qedeq.kernel.se.common.RuleKey;
  *
  * @author  Michael Meyling
  */
-public abstract class AbstractFormulaChecker extends QedeqTestCase {
+public abstract class AbstractFormulaChecker extends QedeqBoTestCase {
 
     /** This class. */
     private static final Class CLASS = AbstractFormulaChecker.class;
