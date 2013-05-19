@@ -194,13 +194,4 @@ class KernelQedeqBoStorage {
         }
     }
 
-    /**
-     * Get number of QEDEQ modules in STATE_LOADED.
-     *
-     * @return  Number of loaded modules.
-     */
-    synchronized int getNumberOfLoadedModules() {
-        return getAllLoadedModules().length;
-    }
-
 }
