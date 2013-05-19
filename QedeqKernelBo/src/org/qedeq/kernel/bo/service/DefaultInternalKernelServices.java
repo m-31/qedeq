@@ -91,7 +91,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     private final QedeqFileDao qedeqFileDao;
 
     /** Synchronize module access. */
-    private final ModuleArbiter arbiter;
+    private ModuleArbiter arbiter;
 
     /** This instance manages plugins. */
     private final PluginManager pluginManager;
@@ -117,7 +117,6 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         this.config = config;
         this.kernel = kernel;
         this.qedeqFileDao = loader;
-        arbiter = new ModuleArbiter();
         pluginManager = new PluginManager(this);
         loader.setServices(this);
 
@@ -138,6 +137,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
 
     public void startupServices() {
         modules = new KernelQedeqBoStorage();
+        arbiter = new ModuleArbiter();
         processManager = new ServiceProcessManager(pluginManager, arbiter);
         contextChecker = new DefaultContextChecker();
         if (config.isAutoReloadLastSessionChecked()) {
@@ -147,8 +147,10 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
 
     public void shutdownServices() {
         processManager.terminateAndRemoveAllServiceProcesses();
+        processManager = null;
         modules.removeAllModules();
         modules = null;
+        arbiter = null;
         // clear thread interrupt flag because we might have interrupted ourself
         Thread.interrupted();
     }
