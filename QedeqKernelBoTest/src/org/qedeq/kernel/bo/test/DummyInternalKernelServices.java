@@ -24,7 +24,6 @@ import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.common.InternalServiceCall;
-import org.qedeq.kernel.bo.service.common.ServiceCallImpl;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.Service;
@@ -99,8 +98,6 @@ public class DummyInternalKernelServices implements InternalKernelServices {
     public boolean isSetReadTimeoutSupported() {
         return false;
     }
-    public void stopAllPluginExecutions() {
-    }
     public ContextChecker getContextChecker() {
         return null;
     }
@@ -125,9 +122,13 @@ public class DummyInternalKernelServices implements InternalKernelServices {
     public InternalServiceProcess createServiceProcess(String action) {
         return null;
     }
-    public ServiceCallImpl createServiceCall(Service service, KernelQedeqBo qedeq,
+    public InternalServiceCall createServiceCall(Service service, KernelQedeqBo qedeq,
                     Parameters configParameters, Parameters parameters,
                     InternalServiceProcess process, InternalServiceCall parent) {
+        return null;
+    }
+    public KernelQedeqBo loadKernelModule(InternalServiceProcess process,
+            ModuleAddress address) throws InterruptException {
         return null;
     }
 

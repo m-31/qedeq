@@ -27,6 +27,7 @@ import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.service.common.InternalServiceCall;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
  * Test generating LaTeX files for all known samples.
@@ -110,7 +111,8 @@ public abstract class QedeqBoTestCase extends QedeqTestCase {
         }
     }
 
-    public InternalServiceCall createServiceCall(final String name, final KernelQedeqBo prop) {
+    public InternalServiceCall createServiceCall(final String name, final KernelQedeqBo prop)
+            throws InterruptException {
         InternalServiceProcess process = getInternalServices().createServiceProcess(name);
         InternalServiceCall call = getInternalServices().createServiceCall(DummyPlugin.getInstance(), prop,
             Parameters.EMPTY, Parameters.EMPTY, process, null);

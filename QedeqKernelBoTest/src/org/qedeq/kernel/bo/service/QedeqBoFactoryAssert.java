@@ -36,6 +36,7 @@ import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.dto.module.QedeqVo;
 import org.qedeq.kernel.se.state.LoadingState;
+import org.qedeq.kernel.se.visitor.InterruptException;
 import org.qedeq.kernel.xml.dao.XmlQedeqFileDao;
 import org.qedeq.kernel.xml.mapper.Context2SimpleXPath;
 import org.qedeq.kernel.xml.tracker.SimpleXPath;
@@ -69,7 +70,8 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
         }
     }
 
-    public static InternalServiceCall createServiceCall(final String name, final KernelQedeqBo prop) {
+    public static InternalServiceCall createServiceCall(final String name, final KernelQedeqBo prop)
+            throws InterruptException {
         InternalServiceProcess process = getInternalServices().createServiceProcess(name);
         InternalServiceCall call = getInternalServices().createServiceCall(DummyPlugin.getInstance(), prop,
             Parameters.EMPTY, Parameters.EMPTY, process, null);
@@ -89,10 +91,9 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
      *
      * @param   prop            Module informations.
      * @param   original        Basic qedeq module object.
-     * @throws  ModuleDataException  Semantic or syntactic error occurred.
      */
     public static void createQedeq(final DefaultKernelQedeqBo prop,
-            final Qedeq original) throws SourceFileExceptionList {
+            final Qedeq original) throws SourceFileExceptionList, InterruptException {
         final QedeqBoFactoryAssert creator = new QedeqBoFactoryAssert(prop.getModuleAddress());
         final QedeqVo vo;
         try {

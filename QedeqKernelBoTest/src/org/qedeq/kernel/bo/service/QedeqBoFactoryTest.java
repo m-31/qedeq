@@ -89,12 +89,8 @@ public class QedeqBoFactoryTest extends QedeqBoTestCase {
 
     /**
      * Class under test for QedeqBo create(String, Qedeq).
-     *
-     * @throws IOException  Module creation failed due to IO error.
-     * @throws SAXException Module parsing failed.
-     * @throws ParserConfigurationException Parser configuration problem.
      */
-    public void testCreateStringQedeq1() throws IOException {
+    public void testCreateStringQedeq1() throws Exception {
         final String method = "testCreateStringQedeq()";
         final ModuleAddress address = getServices().getModuleAddress(
             UrlUtility.toUrl(errorFile.getCanonicalFile()));
@@ -166,13 +162,13 @@ public class QedeqBoFactoryTest extends QedeqBoTestCase {
         }
     }
 
-    public void loadQedeqAndAssertContext(final String name) throws IOException,
+    public void loadQedeqAndAssertContext(final String name) throws Exception,
             ParserConfigurationException, SAXException,
             SourceFileExceptionList {
         loadQedeqAndAssertContext(getQedeqFile(name));
     }
 
-    public static final void loadQedeqAndAssertContext(final File file) throws IOException,
+    public static final void loadQedeqAndAssertContext(final File file) throws Exception,
             ParserConfigurationException, SAXException,
             SourceFileExceptionList {
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(

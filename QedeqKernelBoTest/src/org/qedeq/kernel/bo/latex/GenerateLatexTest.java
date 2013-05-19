@@ -29,9 +29,9 @@ import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckException;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.service.ModuleArbiter;
+import org.qedeq.kernel.bo.service.ServiceCallImpl;
 import org.qedeq.kernel.bo.service.ServiceProcessImpl;
 import org.qedeq.kernel.bo.service.common.InternalServiceCall;
-import org.qedeq.kernel.bo.service.common.ServiceCallImpl;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexExecutor;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
 import org.qedeq.kernel.bo.service.latex.QedeqBoDuplicateLanguageChecker;
@@ -42,6 +42,7 @@ import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.visitor.InterruptException;
 import org.xml.sax.SAXParseException;
 
 /**
@@ -145,7 +146,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
         }
     }
 
-    public void testNegative02() throws IOException {
+    public void testNegative02() throws Exception {
         try {
             generate(getIndir(), "qedeq_error_sample_12.xml", "de", new File(getGenDir(), "null"), false);
             fail("IllegalModuleDataException expected");
@@ -160,7 +161,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
         }
     }
 
-    public void testNegative03() throws IOException {
+    public void testNegative03() throws Exception {
         try {
             generate(getIndir(), "qedeq_error_sample_13.xml", "en", new File(getGenDir(), "null"), false);
             fail("IllegalModuleDataException expected");
@@ -177,7 +178,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
         }
     }
 
-    public void testNegative04() throws IOException {
+    public void testNegative04() throws Exception {
         try {
             generate(getIndir(), "qedeq_error_sample_14.xml", "en", new File(getGenDir(), "null"), false);
             fail("IllegalModuleDataException expected");
@@ -236,7 +237,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
         }
     }
 
-    public void testNegative05() throws IOException {
+    public void testNegative05() throws Exception {
         try {
             generate(getIndir(), "qedeq_error_sample_15.xml", "en", new File(getGenDir(), "null"), false);
             fail("IllegalModuleDataException expected");
@@ -251,7 +252,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
         }
     }
 
-    public void testNegative06() throws IOException {
+    public void testNegative06() throws Exception {
         try {
             generate(getIndir(), "qedeq_error_sample_16.xml", "en", new File(getGenDir(), "null"), false);
             fail("IllegalModuleDataException expected");
@@ -266,7 +267,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
         }
     }
 
-    public void testNegative07() throws IOException {
+    public void testNegative07() throws Exception {
         try {
             generate(getIndir(), "qedeq_error_sample_17.xml", "en", new File(getGenDir(), "null"), false);
             fail("IllegalModuleDataException expected");
@@ -281,7 +282,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
         }
     }
 
-    public void testNegative08() throws IOException {
+    public void testNegative08() throws Exception {
         try {
             generate(getIndir(), "qedeq_error_sample_18.xml", "en", new File(getGenDir(), "null"), false);
             fail("SourceFileExceptionList expected");
@@ -323,12 +324,10 @@ public class GenerateLatexTest extends QedeqBoTestCase {
      * @param   language                Generate text in this language. Can be <code>null</code>.
      * @param   destinationDirectory    Directory path for LaTeX file. Must not be <code>null</code>.
      * @param   ignoreWarnings          Don't bother about warnings?
-     * @throws  IOException             File IO failed.
-     * @throws  XmlFilePositionException File data is invalid.
      */
     public void generate(final File dir, final String xml, final String language,
             final File destinationDirectory, final boolean ignoreWarnings) throws IOException,
-            SourceFileExceptionList {
+            SourceFileExceptionList, InterruptException {
         final File xmlFile = new File(dir, xml);
         final ModuleAddress address = getServices().getModuleAddress(
             UrlUtility.toUrl(xmlFile));

@@ -30,6 +30,7 @@ import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
  * Test generating UTF-8 files for all known samples and scripts.
@@ -132,11 +133,9 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
      * @param xml Relative path to XML file. Must not be <code>null</code>.
      * @param language Generate text in this language. Can be <code>null</code>.
      * @param destinationDirectory Directory path for LaTeX file. Must not be <code>null</code>.
-     * @throws IOException File IO failed.
-     * @throws XmlFilePositionException File data is invalid.
      */
     public void generate(final File dir, final String xml, final String language,
-            final File destinationDirectory) throws IOException, SourceFileExceptionList {
+            final File destinationDirectory) throws IOException, SourceFileExceptionList, InterruptException {
         final File xmlFile = new File(dir, xml);
         final ModuleAddress address = getServices().getModuleAddress(
             UrlUtility.toUrl(xmlFile));
@@ -193,7 +192,7 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
      * @throws SourceFileExceptionList Something went wrong.
      */
     public String generate(final KernelQedeqBo prop, final File to, final String language,
-            final String level) throws SourceFileExceptionList {
+            final String level) throws SourceFileExceptionList, InterruptException {
         final String method = "generate(String, String, String, String)";
         try {
             Trace.begin(CLASS, method);
