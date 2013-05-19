@@ -35,6 +35,7 @@ import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 
 /**
@@ -61,11 +62,12 @@ public final class Xml2Xml implements Plugin {
      * @param   internal        Use this internal kernel services.
      * @param   from            Read this XML file.
      * @param   to              Write to this file. Could be <code>null</code>.
-     * @throws  SourceFileExceptionList    Module could not be successfully loaded.
+     * @throws  SourceFileExceptionList     Module could not be successfully loaded.
+     * @throws  InterruptException          User canceled process.
      * @return  File name of generated LaTeX file.
      */
     public static String generate(final KernelServices services, final InternalKernelServices internal,
-            final File from, final File to) throws SourceFileExceptionList {
+            final File from, final File to) throws SourceFileExceptionList, InterruptException {
         final String method = "generate(File, File)";
         File destination = null;
         try {
@@ -97,11 +99,12 @@ public final class Xml2Xml implements Plugin {
      * @param   to              Write to this file. Could not be <code>null</code>.
      * @throws  SourceFileExceptionList     Module could not be successfully loaded.
      * @throws  IOException                 Writing (or reading) failed.
+     * @throws  InterruptException          Generation canceled by user.
      * @return  File name of generated LaTeX file.
      */
     private static String generate(final KernelServices services, final InternalKernelServices internal,
             final URL from, final File to)
-            throws SourceFileExceptionList, IOException {
+            throws SourceFileExceptionList, IOException, InterruptException {
         final String method = "generate(URL, File)";
         Trace.begin(CLASS, method);
         Trace.param(CLASS, method, "from", from);
@@ -110,15 +113,15 @@ public final class Xml2Xml implements Plugin {
         try {
             final ModuleAddress address = services.getModuleAddress(from);
             // TODO mime 20080303: find a solution without casting!
-            final KernelQedeqBo prop = (KernelQedeqBo) services.loadModule(address);
-            if (prop.getLoadingState().isFailure()) {
+            final InternalServiceProcess process = internal.createServiceProcess("generate XML");
+            final Plugin plugin = new Xml2Xml();
+            final KernelQedeqBo prop = internal.loadKernelModule(process, address);
+            if (!prop.isLoaded()) {
                 throw prop.getErrors();
             }
             IoUtility.createNecessaryDirectories(to);
             final OutputStream outputStream = new FileOutputStream(to);
             printer = new TextOutput(to.getName(), outputStream, "UTF-8");
-            final InternalServiceProcess process = internal.createServiceProcess("generate XML");
-            final Plugin plugin = new Xml2Xml();
             final InternalServiceCall call = internal.createServiceCall(plugin, prop, Parameters.EMPTY,
                 Parameters.EMPTY, process, null);
             Qedeq2Xml.print(call, plugin, prop, printer);
