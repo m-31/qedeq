@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.qedeq.base.io.UrlUtility;
-import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.logic.common.SubjectVariable;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.base.list.Element;
@@ -141,7 +140,6 @@ public class CalculateTruthDynamicThreeModelTest extends CalculateTruthTestCase 
             + "  </EQUI>\n"
         );
 //        System.out.println(ele.toString());
-        Trace.setTraceOn(true);
         assertFalse(isTautology(ele));
     }
 
