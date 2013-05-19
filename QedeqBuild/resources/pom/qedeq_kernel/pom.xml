@@ -12,8 +12,8 @@
   </description>
   <url>http://qedeq.org</url>
   <issueManagement>
-    <system>mantis</system>
-    <url>http://sourceforge.net/apps/mantisbt/pmii/my_view_page.php</url>
+    <system>sourceforge</system>
+    <url>http://sourceforge.net/p/pmii/tickets/</url>
   </issueManagement>
   <scm>
     <connection>
