@@ -137,6 +137,8 @@ public class ServiceProcessManager {
     public synchronized void terminateAndRemoveAllServiceProcesses() {
         terminateAllServiceProcesses();
         processes.clear();
+        finished.clear();
+        calls.clear();
     }
 
     /**
