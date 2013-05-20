@@ -45,7 +45,7 @@ public final class QedeqBoDuplicateLanguageChecker extends ControlVisitor {
     public static void check(final InternalServiceCall call) throws SourceFileExceptionList {
         final QedeqBoDuplicateLanguageChecker checker
             = new QedeqBoDuplicateLanguageChecker(call.getService(), call.getKernelQedeq());
-        checker.traverse(call);
+        checker.traverse(call.getInternalServiceProcess());
     }
 
     /**

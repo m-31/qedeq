@@ -106,7 +106,7 @@ public class QedeqBoFactoryTest extends QedeqBoTestCase {
             // checking any longer
             final ModuleLabelsCreator creator = new ModuleLabelsCreator(DummyPlugin.getInstance(), prop);
             call = createServiceCall("testCreateStringQedeq1", prop);
-            creator.createLabels(call);
+            creator.createLabels(call.getInternalServiceProcess());
             fail("SourceFileExceptionList expected");
         } catch (SourceFileExceptionList e) {
             SourceFileException sf = e.get(0);
@@ -115,7 +115,10 @@ public class QedeqBoFactoryTest extends QedeqBoTestCase {
             assertEquals(267, sf.getSourceArea().getEndPosition().getRow());
             assertEquals(16, sf.getSourceArea().getEndPosition().getColumn());
             Trace.trace(CLASS, this, method, e);
+        } finally {
+            endServiceCall(call);
         }
+        
     }
 
     /**

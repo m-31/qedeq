@@ -125,7 +125,7 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
         InternalServiceCall call = null;
         try {
             call = createServiceCall("createQedeq", prop);
-            mc.createLabels(call);
+            mc.createLabels(call.getInternalServiceProcess());
         } finally {
             endServiceCall(call);
         }

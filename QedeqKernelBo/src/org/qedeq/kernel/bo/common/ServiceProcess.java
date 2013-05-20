@@ -33,13 +33,6 @@ public interface ServiceProcess extends Comparable {
     public ServiceCall getServiceCall();
 
     /**
-     * Service call.
-     *
-     * @param   call    Execute this service call.
-     */
-    public void setServiceCall(final ServiceCall call);
-
-    /**
      * Get thread the service runs within.
      *
      * @return  Service thread.

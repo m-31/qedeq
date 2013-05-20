@@ -213,7 +213,7 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
             parameters.put("maximumColumn", "80");
             call = createServiceCall("generate latex", prop);
             final String source =(new Qedeq2Utf8Executor(new Qedeq2Utf8Plugin(), prop, new Parameters(parameters)))
-                .generateUtf8(call, language, "1");
+                .generateUtf8(call.getInternalServiceProcess(), language, "1");
             if (to != null) {
                 IoUtility.createNecessaryDirectories(to);
                 IoUtility.copyFile(new File(source), to);

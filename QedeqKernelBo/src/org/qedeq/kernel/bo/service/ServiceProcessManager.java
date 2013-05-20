@@ -120,7 +120,7 @@ public class ServiceProcessManager {
         synchronized (this) {
             calls.add(call);
         }
-        process.setServiceCall(call);
+        process.setInternalServiceCall(call);
         lockRequiredModule(call, qedeq);
         return call;
     }

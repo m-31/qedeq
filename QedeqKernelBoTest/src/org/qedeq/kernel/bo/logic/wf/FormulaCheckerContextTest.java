@@ -201,7 +201,7 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
         final ModuleLabelsCreator creator = new ModuleLabelsCreator(DummyPlugin.getInstance(),
             prop);
         call = createServiceCall("check", prop);
-        creator.createLabels(call);
+        creator.createLabels(call.getInternalServiceProcess());
         prop.setLoaded(QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq),
             creator.getLabels(), creator.getConverter(), creator.getTextConverter());
         prop.setLoadedImports(new KernelModuleReferenceList());

@@ -128,11 +128,11 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      * <br/>
      * If you are interested in warnings you have to call {@link #getWarningList()} afterwards.
      *
-     * @param   call    We work in this service call.
+     * @param   process    We work in this service process.
      * @throws  SourceFileExceptionList  All collected error exceptions.
      */
-    public void traverse(final InternalServiceCall call) throws SourceFileExceptionList {
-        this.call = call;
+    public void traverse(final InternalServiceProcess process) throws SourceFileExceptionList {
+        this.call = process.getInternalServiceCall();
         interrupted = false;
         if (getQedeqBo().getQedeq() == null) {
             addWarning(new SourceFileException(getService(),
@@ -287,7 +287,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      *
      * @return  Location description.
      */
-    public String getActionDescription() {
+    public String getLocationDescription() {
         return traverser.getLocationDescription();
     }
 

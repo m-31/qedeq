@@ -281,7 +281,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
                     }
                 };
             }
-            traverse(call);
+            traverse(call.getInternalServiceProcess());
         } finally {
             getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
             if (printer != null) {

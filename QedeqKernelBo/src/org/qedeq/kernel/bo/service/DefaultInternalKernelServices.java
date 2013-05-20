@@ -295,7 +295,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                         QedeqLog.getInstance().logRequest("Load module", address.getUrl());
                         if (prop.getModuleAddress().isFileAddress()) {
                             call.setAction("file loading");
-                            loadLocalModule(call, prop);
+                            loadLocalModule(call.getInternalServiceProcess(), prop);
                         } else {
                             // search in local file buffer
                             try {
@@ -307,7 +307,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                                 call.setExecutionPercentage(50);
                             }
                             call.setAction("buffer loading");
-                            loadBufferedModule(call, prop);
+                            loadBufferedModule(call.getInternalServiceProcess(), prop);
                         }
                         QedeqLog.getInstance().logSuccessfulReply(
                             "Successfully loaded", address.getUrl());
@@ -390,11 +390,11 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     /**
      * Load buffered QEDEQ module file.
      *
-     * @param   call    Service call we run within.
+     * @param   process Service process we run within.
      * @param   prop    Load this.
      * @throws  SourceFileExceptionList Loading or QEDEQ module failed.
      */
-    private void loadBufferedModule(final InternalServiceCall call,
+    private void loadBufferedModule(final InternalServiceProcess process,
             final DefaultKernelQedeqBo prop) throws SourceFileExceptionList {
         prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_BUFFER);
         final File localFile;
@@ -412,22 +412,22 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         prop.setQedeqFileDao(getQedeqFileDao()); // remember loader for this module
         final Qedeq qedeq;
         try {
-            qedeq = getQedeqFileDao().loadQedeq(call, prop, localFile);
+            qedeq = getQedeqFileDao().loadQedeq(process, prop, localFile);
         } catch (SourceFileExceptionList sfl) {
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, sfl);
             throw sfl;
         }
-        setCopiedQedeq(call, prop, qedeq);
+        setCopiedQedeq(process, prop, qedeq);
     }
 
     /**
      * Load QEDEQ module file with file loader.
      *
-     * @param   call    Service call we run within.
+     * @param   process Service process we run within.
      * @param   prop    Load this.
      * @throws  SourceFileExceptionList Loading or copying QEDEQ module failed.
      */
-    private void loadLocalModule(final InternalServiceCall call,
+    private void loadLocalModule(final InternalServiceProcess process,
             final DefaultKernelQedeqBo prop) throws SourceFileExceptionList {
         prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_LOCAL_FILE);
         final File localFile;
@@ -445,15 +445,15 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
 
         final Qedeq qedeq;
         try {
-            qedeq = getQedeqFileDao().loadQedeq(call, prop, localFile);
+            qedeq = getQedeqFileDao().loadQedeq(process, prop, localFile);
         } catch (SourceFileExceptionList sfl) {
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_LOCAL_FILE_FAILED, sfl);
             throw sfl;
         }
-        setCopiedQedeq(call, prop, qedeq);
+        setCopiedQedeq(process, prop, qedeq);
     }
 
-    private void setCopiedQedeq(final InternalServiceCall call, final DefaultKernelQedeqBo prop,
+    private void setCopiedQedeq(final InternalServiceProcess process, final DefaultKernelQedeqBo prop,
             final Qedeq qedeq) throws SourceFileExceptionList {
         final String method = "setCopiedQedeq(DefaultKernelQedeqBo, Qedeq)";
         prop.setLoadingProgressState(LoadingState.STATE_LOADING_INTO_MEMORY);
@@ -494,7 +494,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         // This should be the extended load status.
         final ModuleLabelsCreator moduleNodesCreator = new ModuleLabelsCreator(this, prop);
         try {
-            moduleNodesCreator.createLabels(call);
+            moduleNodesCreator.createLabels(process);
             prop.setLoaded(vo, moduleNodesCreator.getLabels(), moduleNodesCreator.getConverter(),
                 moduleNodesCreator.getTextConverter());
         } catch (SourceFileExceptionList sfl) {
@@ -570,7 +570,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                     }
                     try {
                         if (prop.getModuleAddress().isFileAddress()) {
-                            loadLocalModule((InternalServiceCall) process.getServiceCall(), prop);
+                            loadLocalModule(process, prop);
                         } else {
                             // search in local file buffer
                             try {
@@ -579,7 +579,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                                 // we will continue by creating a local copy
                                 saveQedeqFromWebToBuffer((InternalServiceCall) process.getServiceCall(), prop);
                             }
-                            loadBufferedModule((InternalServiceCall) process.getServiceCall(), prop);
+                            loadBufferedModule(process, prop);
                         }
                         // success!
                         return prop;

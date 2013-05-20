@@ -167,14 +167,14 @@ public final class QedeqBoFormalLogicCheckerDirectTest extends QedeqBoTestCase {
         final ModuleLabelsCreator creator = new ModuleLabelsCreator(DummyPlugin.getInstance(),
             prop);
         call = createServiceCall("check", prop);
-        creator.createLabels(call);
+        creator.createLabels(call.getInternalServiceProcess());
         prop.setLoaded(QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq),
             creator.getLabels(), creator.getConverter(), creator.getTextConverter());
         prop.setLoadedImports(new KernelModuleReferenceList());
         prop.setLoadedRequiredModules();
         final WellFormedCheckerPlugin plugin = new WellFormedCheckerPlugin();
         final Parameters parameters = getInternalServices().getConfig().getServiceEntries(plugin);
-        plugin.createExecutor(prop, parameters).executePlugin(null, null);
+        plugin.createExecutor(prop, parameters).executePlugin(call, null);
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }

@@ -20,6 +20,7 @@ import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.QedeqBoSet;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 import org.qedeq.kernel.bo.service.common.ServiceCall;
 
 /**
@@ -36,7 +37,7 @@ public class ServiceProcessImpl implements InternalServiceProcess {
     private static long globalCounter;
 
     /** The service call the process currently works for. */
-    private ServiceCall call;
+    private InternalServiceCall call;
 
     /** The thread the service is done within. */
     private final Thread thread;
@@ -87,11 +88,15 @@ public class ServiceProcessImpl implements InternalServiceProcess {
         return globalCounter++;
     }
 
-    public synchronized void setServiceCall(final ServiceCall call) {
+    public synchronized void setInternalServiceCall(final InternalServiceCall call) {
         this.call = call;
     }
 
     public synchronized ServiceCall getServiceCall() {
+        return call;
+    }
+
+    public synchronized InternalServiceCall getInternalServiceCall() {
         return call;
     }
 

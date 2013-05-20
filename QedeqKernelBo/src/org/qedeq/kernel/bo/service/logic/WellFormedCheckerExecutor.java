@@ -36,6 +36,7 @@ import org.qedeq.kernel.bo.logic.common.PredicateConstant;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
 import org.qedeq.kernel.bo.logic.wf.FormulaCheckerImpl;
 import org.qedeq.kernel.bo.module.ControlVisitor;
+import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceChecker;
@@ -197,7 +198,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         getQedeqBo().setWellFormedProgressState(WellFormedState.STATE_INTERNAL_CHECKING);
 
         try {
-            traverse(call);
+            traverse(call.getInternalServiceProcess());
         } catch (SourceFileExceptionList e) {
             getQedeqBo().setWellfFormedFailureState(WellFormedState.STATE_INTERNAL_CHECKING_FAILED, e);
             getQedeqBo().setExistenceChecker(existence);
@@ -212,14 +213,14 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         return Boolean.TRUE;
     }
 
-    public void traverse(final InternalServiceCall call) throws SourceFileExceptionList {
+    public void traverse(final InternalServiceProcess process) throws SourceFileExceptionList {
         try {
             this.existence = new ModuleConstantsExistenceCheckerImpl(getQedeqBo());
         } catch (ModuleDataException me) {
             addError(me);
             throw getErrorList();
         }
-        super.traverse(call);
+        super.traverse(process);
 
         // check if we have the important module parts
         setLocationWithinModule("");

@@ -125,7 +125,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
         QedeqLog.getInstance().logRequest("Trying to create formal proofs", getQedeqBo().getUrl());
         try {
             validFormulas = new FormalProofLineListVo();
-            traverse(call);
+            traverse(call.getInternalServiceProcess());
             QedeqLog.getInstance().logSuccessfulReply(
                 "Proof creation finished for", getQedeqBo().getUrl());
         } catch (SourceFileExceptionList e) {
@@ -225,7 +225,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
             }
             if (proof != null) {
                 QedeqLog.getInstance().logMessage("proof found for "
-                    + super.getActionDescription());
+                    + super.getLocationDescription());
                 // TODO 20110323 m31: we do a dirty cast to modify the current module
                 Object state;
                 try {
@@ -244,7 +244,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
                 }
             } else {
                 QedeqLog.getInstance().logMessage("proof not found for "
-                    + super.getActionDescription());
+                    + super.getLocationDescription());
             }
             if (proof != null && !noSave) {
                 final File file = getServices().getLocalFilePath(
@@ -253,7 +253,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
                     QedeqLog.getInstance().logMessage(
                         "Saving file \"" + file + "\"");
                     QedeqFileDao dao = getServices().getQedeqFileDao();
-                    dao.saveQedeq(getInternalServiceCall(), getQedeqBo(), file);
+                    dao.saveQedeq(getInternalServiceCall().getInternalServiceProcess(), getQedeqBo(), file);
                     if (!getQedeqBo().getModuleAddress().isFileAddress()) {
                         QedeqLog.getInstance().logMessage("Only the the buffered file changed!");
                     }
@@ -265,7 +265,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
             }
         } else {
             Trace.info(CLASS, method, "has already a proof: "
-                + super.getActionDescription());
+                + super.getLocationDescription());
             validFormulas.add(new FormalProofLineVo(new FormulaVo(getNodeBo().getFormula()),
                 new AddVo(getNodeBo().getNodeVo().getId())));
         }
@@ -288,8 +288,8 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
         setBlocked(false);
     }
 
-    public String getActionDescription() {
-        final String s = super.getActionDescription();
+    public String getLocationDescription() {
+        final String s = super.getLocationDescription();
         if (finder == null) {
             return s;
         }

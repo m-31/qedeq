@@ -120,7 +120,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
                 Trace.trace(CLASS, method, e);
             }
             condition = new DefaultElementList(Operators.CONJUNCTION_OPERATOR);
-            traverse(call);
+            traverse(call.getInternalServiceProcess());
             QedeqLog.getInstance().logSuccessfulReply(
                 "Heuristic test succesfull", getQedeqBo().getUrl());
         } catch (final SourceFileExceptionList e) {
@@ -374,7 +374,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
     }
 
     public void visitEnter(final Node node) {
-        QedeqLog.getInstance().logMessageState(super.getActionDescription(),
+        QedeqLog.getInstance().logMessageState(super.getLocationDescription(),
             getQedeqBo().getUrl());
     }
 
@@ -458,8 +458,8 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         setBlocked(false);
     }
 
-    public String getActionDescription() {
-        return super.getActionDescription() + "\n" + interpreter.toString();
+    public String getLocationDescription() {
+        return super.getLocationDescription() + "\n" + interpreter.toString();
     }
 
 }

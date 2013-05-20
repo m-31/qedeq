@@ -49,7 +49,7 @@ public interface PluginExecutor {
      *
      * @return  We are doing this currently.
      */
-    public String getActionDescription();
+    public String getLocationDescription();
 
     /**
      * Was the execution interrupted by the user?

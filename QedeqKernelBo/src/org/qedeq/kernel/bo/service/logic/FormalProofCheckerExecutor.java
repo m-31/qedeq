@@ -153,7 +153,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         }
         getQedeqBo().setFormallyProvedProgressState(FormallyProvedState.STATE_INTERNAL_CHECKING);
         try {
-            traverse(call);
+            traverse(call.getInternalServiceProcess());
         } catch (SourceFileExceptionList e) {
             getQedeqBo().setFormallyProvedFailureState(FormallyProvedState.STATE_INTERNAL_CHECKING_FAILED,
                 getErrorList());

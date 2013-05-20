@@ -127,10 +127,11 @@ public final class Xml2Xml implements Plugin {
             printer = new TextOutput(to.getName(), outputStream, "UTF-8");
             call = internal.createServiceCall(plugin, prop, Parameters.EMPTY,
                 Parameters.EMPTY, process, null);
-            Qedeq2Xml.print(call, plugin, prop, printer);
+            Qedeq2Xml.print(call.getInternalServiceProcess(), plugin, prop, printer);
             return to.getCanonicalPath();
         } finally {
-            // FIXME better use executePlugin or something that automatically ends the service call
+            // FIXME
+            // better use executePlugin or something that automatically ends the service call
             if (call != null) {
                 try {
                     ((ServiceProcessManager) YodaUtility.getFieldValue(internal, "processManager")).endServiceCall(call);

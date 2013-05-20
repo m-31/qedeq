@@ -16,6 +16,7 @@
 package org.qedeq.kernel.bo.module;
 
 import org.qedeq.kernel.bo.common.ServiceProcess;
+import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 
 
 /**
@@ -41,5 +42,19 @@ public interface InternalServiceProcess extends ServiceProcess {
      * Mark that thread execution was canceled.
      */
     public void setFailureState();
+
+    /**
+     * Service call.
+     *
+     * @param   call    Execute this service call.
+     */
+    public void setInternalServiceCall(final InternalServiceCall call);
+
+    /**
+     * Get currently running service call.
+     *
+     * @return  Service call.
+     */
+    public InternalServiceCall getInternalServiceCall();
 
 }

@@ -21,6 +21,7 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.StringOutput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.log.QedeqLog;
+import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.bo.service.common.InternalServiceCall;
@@ -73,7 +74,7 @@ public final class Qedeq2UnicodeTextExecutor implements PluginExecutor {
         String result = "";
         try {
             QedeqLog.getInstance().logRequest("Show UTF-8 text", visitor.getQedeqBo().getUrl());
-            result = generateUtf8(call, language, "1");
+            result = generateUtf8(call.getInternalServiceProcess(), language, "1");
             QedeqLog.getInstance().logSuccessfulReply(
                 "UTF-8 text was shown", visitor.getQedeqBo().getUrl());
         } catch (final SourceFileExceptionList e) {
@@ -96,7 +97,7 @@ public final class Qedeq2UnicodeTextExecutor implements PluginExecutor {
     /**
      * Gives a UTF-8 representation of given QEDEQ module as InputStream.
      *
-     * @param   call        We run in this service call.
+     * @param   process     We run in this service process.
      * @param   language    Filter text to get and produce text in this language only.
      * @param   level       Filter for this detail level. LATER mime 20050205: not supported
      *                      yet.
@@ -104,7 +105,7 @@ public final class Qedeq2UnicodeTextExecutor implements PluginExecutor {
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException     File IO failed.
      */
-    public String generateUtf8(final InternalServiceCall call, final String language,
+    public String generateUtf8(final InternalServiceProcess process, final String language,
             final String level) throws SourceFileExceptionList, IOException {
 
         String lan = "en";
@@ -113,12 +114,12 @@ public final class Qedeq2UnicodeTextExecutor implements PluginExecutor {
         }
         printer = new StringOutput();
 
-        visitor.generateUtf8(call, printer, lan, level);
+        visitor.generateUtf8(process, printer, lan, level);
         return printer.toString();
     }
 
-    public String getActionDescription() {
-        return visitor.getActionDescription();
+    public String getLocationDescription() {
+        return visitor.getLocationDescription();
     }
 
     public double getExecutionPercentage() {
