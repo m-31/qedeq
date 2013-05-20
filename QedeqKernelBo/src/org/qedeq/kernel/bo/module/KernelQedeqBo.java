@@ -198,7 +198,7 @@ public interface KernelQedeqBo extends QedeqBo {
      *
      * @param   service  Set currently running service. Might be <code>null</code>.
      */
-// FIXME
+// TODO 20130520 m31: we must decide about the location of the service at this module
 //    public void setCurrentlyRunningService(Service service);
 
 }

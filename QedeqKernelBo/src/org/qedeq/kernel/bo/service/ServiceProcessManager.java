@@ -109,7 +109,7 @@ public class ServiceProcessManager {
     public ServiceCallImpl createServiceCall(final Service service,
             final KernelQedeqBo qedeq, final Parameters configParameters, final Parameters parameters,
             final InternalServiceProcess process) throws InterruptException {
-        if (!process.isRunning()) { // FIXME
+        if (!process.isRunning()) { // should not occur
             throw new RuntimeException("Service process is not running any more.");
         }
         if (!process.getThread().isAlive()) {
@@ -125,8 +125,13 @@ public class ServiceProcessManager {
         return call;
     }
 
+    /**
+     * End service call by unlocking previously locked module.
+     *
+     * @param   call    End this call, which should be finished, interrupted or halted before.
+     */
     public void endServiceCall(final InternalServiceCall call) {
-        if (call != null && ((ServiceCallImpl) call).getNewlyBlockedModule()) { // FIXME 
+        if (call != null && ((ServiceCallImpl) call).getNewlyBlockedModule()) {
             unlockRequiredModule(call, call.getKernelQedeq());
         }
     }
