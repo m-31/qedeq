@@ -27,10 +27,12 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.common.KernelServices;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.service.ServiceProcessManager;
 import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.Plugin;
@@ -110,6 +112,7 @@ public final class Xml2Xml implements Plugin {
         Trace.param(CLASS, method, "from", from);
         Trace.param(CLASS, method, "to", to);
         TextOutput printer = null;
+        InternalServiceCall call = null;
         try {
             final ModuleAddress address = services.getModuleAddress(from);
             // TODO mime 20080303: find a solution without casting!
@@ -122,11 +125,19 @@ public final class Xml2Xml implements Plugin {
             IoUtility.createNecessaryDirectories(to);
             final OutputStream outputStream = new FileOutputStream(to);
             printer = new TextOutput(to.getName(), outputStream, "UTF-8");
-            final InternalServiceCall call = internal.createServiceCall(plugin, prop, Parameters.EMPTY,
+            call = internal.createServiceCall(plugin, prop, Parameters.EMPTY,
                 Parameters.EMPTY, process, null);
             Qedeq2Xml.print(call, plugin, prop, printer);
             return to.getCanonicalPath();
         } finally {
+            // FIXME better use executePlugin or something that automatically ends the service call
+            if (call != null) {
+                try {
+                    ((ServiceProcessManager) YodaUtility.getFieldValue(internal, "processManager")).endServiceCall(call);
+                } catch (NoSuchFieldException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             if (printer != null) {
                 printer.close();
             }
