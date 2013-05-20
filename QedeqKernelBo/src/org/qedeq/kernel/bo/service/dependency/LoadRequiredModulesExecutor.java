@@ -194,7 +194,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         return result;
     }
 
-    public double getExecutionPercentage() {
+    public double getVisitPercentage() {
         return percentage;
     }
 

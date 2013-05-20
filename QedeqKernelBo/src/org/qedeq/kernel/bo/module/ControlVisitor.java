@@ -296,7 +296,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      *
      * @return  Value between 0 and 100.
      */
-    public double getExecutionPercentage() {
+    public double getVisitPercentage() {
         return traverser.getVisitPercentage();
     }
 

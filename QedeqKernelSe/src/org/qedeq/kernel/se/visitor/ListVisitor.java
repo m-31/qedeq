@@ -23,7 +23,6 @@ import org.qedeq.kernel.se.common.ModuleDataException;
 /**
  * Visit elements of the list package.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public interface ListVisitor {

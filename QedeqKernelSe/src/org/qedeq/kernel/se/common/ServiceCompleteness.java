@@ -20,7 +20,7 @@ package org.qedeq.kernel.se.common;
  *
  * @author  Michael Meyling
  */
-public interface ServicePercentage {
+public interface ServiceCompleteness {
 
     /**
      * Get calculated visit percentage.
@@ -28,6 +28,13 @@ public interface ServicePercentage {
      *
      * @return  Value between 0 and 100.
      */
-    public abstract double getVisitPercentage();
+    public double getVisitPercentage();
+
+    /**
+     * Get readable description of current location.
+     *
+     * @return  Description.
+     */
+    public String getLocationDescription();
 
 }

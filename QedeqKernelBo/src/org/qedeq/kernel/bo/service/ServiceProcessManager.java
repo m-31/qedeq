@@ -231,12 +231,14 @@ public class ServiceProcessManager {
             call = createServiceCall(plugin, qedeq, configParameters, Parameters.EMPTY,
                 process);
             final PluginExecutor exe = plugin.createExecutor(qedeq, configParameters);
+            call.setServiceCompleteness(exe);
             final Object result = exe.executePlugin(call, data);
             if (exe.getInterrupted()) {
                 call.interrupt();
                 throw new InterruptException(qedeq.getModuleAddress().createModuleContext());
             } else {
                 call.finish();
+                process.setInternalServiceCall((InternalServiceCall) call.getParentServiceCall());
             }
             return result;
         } catch (final RuntimeException e) {

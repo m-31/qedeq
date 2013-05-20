@@ -25,6 +25,7 @@ import org.qedeq.kernel.bo.service.common.ServiceCall;
 import org.qedeq.kernel.bo.service.common.ServiceResult;
 import org.qedeq.kernel.bo.service.common.ServiceResultImpl;
 import org.qedeq.kernel.se.common.Service;
+import org.qedeq.kernel.se.common.ServiceCompleteness;
 
 /**
  * Single call for a service.
@@ -87,6 +88,9 @@ public class ServiceCallImpl implements InternalServiceCall {
     /** Was the module newly blocked by this call. Otherwise a previous service call might have locked the module
      * for the process already. */
     private boolean newlyBlockedModule;
+
+    /** Answers completeness questions if not <code>null</code>. */
+    private ServiceCompleteness completeness;
 
     /**
      * A new service process within the current thread.
@@ -200,6 +204,7 @@ public class ServiceCallImpl implements InternalServiceCall {
         if (running) {
             action = "finished";
             executionPercentage = 100;
+            completeness = null;
             this.result = result;
             end();
         }
@@ -208,6 +213,11 @@ public class ServiceCallImpl implements InternalServiceCall {
     public synchronized void halt(final ServiceResult result) {
         if (running) {
             this.result = result;
+            if (completeness != null) {
+                executionPercentage = completeness.getVisitPercentage();
+            } else {
+                completeness = null;
+            }
             end();
         }
     }
@@ -219,6 +229,11 @@ public class ServiceCallImpl implements InternalServiceCall {
     public synchronized void interrupt() {
         if (running) {
             this.result = ServiceResultImpl.INTERRUPTED;
+            if (completeness != null) {
+                executionPercentage = completeness.getVisitPercentage();
+            } else {
+                completeness = null;
+            }
             process.setFailureState();
             end();
         }
@@ -233,6 +248,9 @@ public class ServiceCallImpl implements InternalServiceCall {
     }
 
     public synchronized double getExecutionPercentage() {
+        if (completeness != null) {
+            executionPercentage = completeness.getVisitPercentage();
+        }
         return executionPercentage;
     }
 
@@ -241,6 +259,13 @@ public class ServiceCallImpl implements InternalServiceCall {
     }
 
     public synchronized String getAction() {
+        return action;
+    }
+
+    public synchronized String getLocation() {
+        if (completeness != null) {
+            return completeness.getLocationDescription();
+        }
         return action;
     }
 
@@ -282,6 +307,10 @@ public class ServiceCallImpl implements InternalServiceCall {
 
     public InternalServiceProcess getInternalServiceProcess() {
         return process;
+    }
+
+    public synchronized void setServiceCompleteness(final ServiceCompleteness completeness) {
+        this.completeness = completeness;
     }
 
 }

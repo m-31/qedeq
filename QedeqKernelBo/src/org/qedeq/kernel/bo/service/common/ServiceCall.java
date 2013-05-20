@@ -119,6 +119,13 @@ public interface ServiceCall extends Comparable {
     public String getAction();
 
     /**
+     * Where are we now.
+     *
+     * @return  Location description.
+     */
+    public String getLocation();
+
+    /**
      * Result of service execution.
      *
      * @return  Result. Might be <code>null</code>.

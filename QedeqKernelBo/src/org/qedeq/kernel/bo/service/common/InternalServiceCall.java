@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.service.common;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.se.common.ServiceCompleteness;
 
 
 /**
@@ -54,6 +55,13 @@ public interface InternalServiceCall extends ServiceCall {
      * @param   percentage  Number between 0 and 100.
      */
     public void setExecutionPercentage(double percentage);
+
+    /**
+     * Set someone who answers completeness questions.
+     *
+     * @param   completeness    An answer for completeness questions. Might be <code>null</code>.
+     */
+    public void setServiceCompleteness(ServiceCompleteness completeness);
 
     /**
      * Set description of currently taken action.

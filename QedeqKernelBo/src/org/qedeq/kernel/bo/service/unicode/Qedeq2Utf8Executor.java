@@ -192,8 +192,8 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
         return "unknown";
     }
 
-    public double getExecutionPercentage() {
-        return visitor.getExecutionPercentage() / languages.length * (run + 1);
+    public double getVisitPercentage() {
+        return visitor.getVisitPercentage() / languages.length * (run + 1);
     }
 
     public boolean getInterrupted() {

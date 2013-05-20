@@ -16,6 +16,7 @@
 package org.qedeq.kernel.bo.module;
 
 import org.qedeq.kernel.bo.service.common.InternalServiceCall;
+import org.qedeq.kernel.se.common.ServiceCompleteness;
 import org.qedeq.kernel.se.visitor.InterruptException;
 
 
@@ -25,7 +26,7 @@ import org.qedeq.kernel.se.visitor.InterruptException;
  *
  * @author  Michael Meyling
  */
-public interface PluginExecutor {
+public interface PluginExecutor extends ServiceCompleteness {
 
     /**
      * Execute plugin.
@@ -42,7 +43,7 @@ public interface PluginExecutor {
      *
      * @return  Number between 0 and 100.
      */
-    public double getExecutionPercentage();
+    public double getVisitPercentage();
 
     /**
      * Get description of currently taken action.

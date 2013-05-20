@@ -1,13 +1,12 @@
 package org.qedeq.kernel.se.visitor;
 
-import org.qedeq.kernel.se.common.ServicePercentage;
 
 /**
  * Contains various counter values for a {@link org.qedeq.kernel.se.base.module.Qedeq}.
  *
  * @author  Michael Meyling
  */
-public class QedeqNumbers implements ServicePercentage {
+public class QedeqNumbers {
 
     /** Number of imports. */
     private int imports;
@@ -343,8 +342,11 @@ public class QedeqNumbers implements ServicePercentage {
         this.finished = finished;
     }
 
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.se.visitor.ServicePercentage#getVisitPercentage()
+    /**
+     * Get calculated visit percentage.
+     * This is a monotonically nondecreasing visit function.
+     *
+     * @return  Value between 0 and 100.
      */
     public double getVisitPercentage() {
         if (finished) {

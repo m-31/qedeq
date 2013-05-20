@@ -77,6 +77,7 @@ import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.RuleKey;
+import org.qedeq.kernel.se.common.ServiceCompleteness;
 import org.qedeq.kernel.se.dto.module.FormulaVo;
 import org.qedeq.kernel.se.dto.module.TermVo;
 
@@ -87,7 +88,7 @@ import org.qedeq.kernel.se.dto.module.TermVo;
  *
  * @author  Michael Meyling
  */
-public class QedeqNotNullTraverser implements QedeqTraverser {
+public class QedeqNotNullTraverser implements QedeqTraverser, ServiceCompleteness {
 
     /** Current context during creation. */
     private final ModuleContext currentContext;
@@ -1381,11 +1382,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         location.setSize(0);
         location.push(text);
     }
-    /**
-     * Get readable description of current location.
-     *
-     * @return  Description.
-     */
+
     public String getLocationDescription() {
         final StringBuffer buffer = new StringBuffer();
         for (int i = 0; i < location.size(); i++) {

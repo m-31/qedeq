@@ -213,7 +213,7 @@ public class ServiceProcessImpl implements InternalServiceProcess {
     public synchronized String getExecutionActionDescription() {
         if (isRunning() || isBlocked()) {
             if (call != null) {
-                executionActionDescription = call.getAction();
+                executionActionDescription = call.getLocation();
             }
         }
         return executionActionDescription;
