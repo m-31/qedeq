@@ -18,10 +18,9 @@ package org.qedeq.kernel.bo.logic.proof.checker;
 import junit.framework.Test;
 
 import org.qedeq.base.test.QedeqTestSuite;
-import org.qedeq.kernel.bo.logic.wf.FormulaCheckerTest;
 
 /**
- * Run all junit tests for package org.qedeq.kernel.bo.logic.proof.checker
+ * Run all JUnit tests for package org.qedeq.kernel.bo.logic.proof.checker
  *
  * @author    Michael Meyling
  */
@@ -41,6 +40,6 @@ public class KernelBoLogicProofCheckerTestSuite extends QedeqTestSuite {
      */
     public KernelBoLogicProofCheckerTestSuite() {
         super();
-        addTestSuite(FormulaCheckerTest.class);
+        addTestSuite(ProofCheckerTest.class);
     }
 }

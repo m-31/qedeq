@@ -24,7 +24,7 @@ import org.qedeq.base.test.QedeqTestSuite;
  *
  * @author    Michael Meyling
  */
-public class KernelBoTestSuite extends QedeqTestSuite {
+public class KernelBoPackageTestSuite extends QedeqTestSuite {
 
     /**
      * Get a new test suite.
@@ -32,13 +32,13 @@ public class KernelBoTestSuite extends QedeqTestSuite {
      * @return  Test.
      */
     public static Test suite() {
-        return new KernelBoTestSuite();
+        return new KernelBoPackageTestSuite();
     }
 
     /**
      * Constructor.
      */
-    public KernelBoTestSuite() {
+    public KernelBoPackageTestSuite() {
         super();
         addTestSuite(KernelContextTest.class);
     }

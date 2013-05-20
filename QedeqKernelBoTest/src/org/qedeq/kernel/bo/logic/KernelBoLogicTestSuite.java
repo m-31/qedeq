@@ -41,6 +41,7 @@ public class KernelBoLogicTestSuite extends QedeqTestSuite {
     public KernelBoLogicTestSuite() {
         super();
         addTestSuite(FormulaCheckerFactoryImplTest.class);
+        addTestSuite(ProofCheckerFactoryImplTest.class);
     }
 
 }
