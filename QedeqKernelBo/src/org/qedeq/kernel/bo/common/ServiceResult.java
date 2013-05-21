@@ -13,9 +13,8 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.common;
+package org.qedeq.kernel.bo.common;
 
-import org.qedeq.kernel.bo.common.ServiceCall;
 
 
 /**
