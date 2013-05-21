@@ -50,8 +50,8 @@ import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.QedeqBoSet;
+import org.qedeq.kernel.bo.common.ServiceCall;
 import org.qedeq.kernel.bo.common.ServiceProcess;
-import org.qedeq.kernel.bo.service.common.ServiceCall;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
