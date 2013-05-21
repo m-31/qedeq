@@ -16,6 +16,7 @@
 package org.qedeq.kernel.bo.service.common;
 
 import org.qedeq.base.io.Parameters;
+import org.qedeq.kernel.bo.common.ServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.common.ServiceCompleteness;

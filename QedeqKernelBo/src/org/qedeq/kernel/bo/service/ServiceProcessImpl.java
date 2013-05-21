@@ -18,10 +18,10 @@ package org.qedeq.kernel.bo.service;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.QedeqBoSet;
+import org.qedeq.kernel.bo.common.ServiceCall;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.service.common.InternalServiceCall;
-import org.qedeq.kernel.bo.service.common.ServiceCall;
 
 /**
  * Process info for a kernel service.

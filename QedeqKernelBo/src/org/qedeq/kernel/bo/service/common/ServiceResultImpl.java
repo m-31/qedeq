@@ -16,6 +16,7 @@
 package org.qedeq.kernel.bo.service.common;
 
 import org.apache.commons.lang.StringUtils;
+import org.qedeq.kernel.bo.common.ServiceCall;
 
 
 /**

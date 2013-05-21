@@ -15,6 +15,8 @@
 
 package org.qedeq.kernel.bo.service.common;
 
+import org.qedeq.kernel.bo.common.ServiceCall;
+
 
 /**
  * Execution result of a {@link ServiceCall}.
