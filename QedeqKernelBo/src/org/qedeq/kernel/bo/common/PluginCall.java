@@ -15,7 +15,6 @@
 
 package org.qedeq.kernel.bo.common;
 
-import org.qedeq.kernel.bo.service.common.ServiceCall;
 import org.qedeq.kernel.se.common.Plugin;
 
 
