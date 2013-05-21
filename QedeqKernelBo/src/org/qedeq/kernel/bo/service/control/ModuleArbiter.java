@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.common.QedeqBoSet;
 import org.qedeq.kernel.bo.common.ServiceProcess;
@@ -29,13 +30,16 @@ import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
  * Get locks for modules.
- * FIXME 20130508 m31: Currently we make no difference between read and write locks. We also lock
+ * TODO 20130508 m31: Currently we make no difference between read and write locks. We also lock
  * a module during the whole plugin processing for that module. This could be limited to status
  * changes only.
  *
  * @author  Michael Meyling
  */
 public class ModuleArbiter {
+
+    /** This class. */
+    private static final Class CLASS = ModuleArbiter.class;
 
     /** Map blocked QEDEQ modules to service processes. */
     private final Map blocked;
@@ -96,31 +100,41 @@ public class ModuleArbiter {
     }
 
     private synchronized boolean unlock(final ServiceProcess process, final KernelQedeqBo qedeq) {
-        // FIXME 20130508 m31: remove System.out
-        System.out.println(getName(process) + " is trying to unlock " + qedeq.getName());
+        final String method = "unlock";
+        if (Trace.isTraceOn()) {
+            Trace.info(CLASS, this, method, getName(process) + " is trying to unlock " + qedeq.getName());
+        }
         final ServiceProcess origin = getProcess(qedeq);
         if (origin != null) {
             if (origin.equals(process)) {
                 removeLock(process, qedeq);
                 return true;
             } else {
-                System.out.println(getName(process) + " illegal unlock try  " + qedeq.getName());
-                // FIXME 20130324 m31: later on we might handle this differently but for now:
-                throw new IllegalArgumentException("locked by service process " + origin.getId());
+                RuntimeException e = new IllegalArgumentException(getName(process) + " illegal unlock try for "
+                    + qedeq.getName() + " which is currently locked by service process " + getName(origin));
+                Trace.fatal(CLASS, this, method, "Programming error. Unallowed unlock try.", e);
+                // TODO 20130324 m31: later on we might handle this differently but for now:
+                throw e;
             }
         } else {
-            System.out.println(getName(process) + " unlock unneccassary " + qedeq.getName());
+            if (Trace.isTraceOn()) {
+                Trace.info(CLASS, this, method, getName(process) + " unlock unnecessary " + qedeq.getName());
+            }
             return false;
         }
     }
 
     private synchronized boolean lock(final ServiceProcess process, final KernelQedeqBo qedeq) {
-        // FIXME 20130508 m31: remove System.out
-        System.out.println(getName(process) + " is trying to lock   " + qedeq.getName());
+        final String method = "unlock";
+        if (Trace.isTraceOn()) {
+            Trace.info(CLASS, this, method, getName(process) + " is trying to lock " + qedeq.getName());
+        }
         final ServiceProcess origin = getProcess(qedeq);
         if (origin != null) {
-            System.out.println(getName(process) + " failed to lock      " + qedeq.getName());
-            System.out.println("\tbecause it is locked by " + getName(origin));
+            if (Trace.isTraceOn()) {
+                Trace.info(CLASS, this, method, getName(process) + " failed to lock " + qedeq.getName()
+                    + "\tbecause it is locked by " + getName(origin));
+            }
             return false;
         }
         addLock(process, qedeq);
