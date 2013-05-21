@@ -131,7 +131,7 @@ public class ServiceProcessManager {
      * @param   call    End this call, which should be finished, interrupted or halted before.
      */
     public void endServiceCall(final InternalServiceCall call) {
-        if (call != null && ((ServiceCallImpl) call).getNewlyBlockedModule()) {
+        if (call != null && ((ServiceCallImpl) call).getNewlyBlockedModule()) { // TODO 20130521 m31: do it without cast
             unlockRequiredModule(call, call.getKernelQedeq());
         }
     }
@@ -173,16 +173,16 @@ public class ServiceProcessManager {
         try {
             call = createServiceCall(service, qedeq, configParameters, Parameters.EMPTY, process);
             executor.executeService(call);
+            return call.getServiceResult();
         } catch (final RuntimeException e) {
             final String msg = service.getServiceAction() + " failed with a runtime exception.";
             Trace.fatal(CLASS, this, method, msg, e);
             QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
-            if (call.getNewlyBlockedModule()) {
-                arbiter.unlockRequiredModule(process, call.getKernelQedeq());
+            if (call != null) {
+                call.finish(msg + " " + e.getMessage());
             }
-            call.finish(msg + " " + e.getMessage());
             process.setFailureState();
-            return call.getServiceResult();
+            return call != null ? call.getServiceResult() : null;
         } catch (final InterruptException e) {
             final String msg = service.getServiceAction() + " was canceled by user.";
             QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
@@ -192,11 +192,8 @@ public class ServiceProcessManager {
             process.setFailureState();
             throw e;
         } finally {
-            if (call != null && call.getNewlyBlockedModule()) {
-                arbiter.unlockRequiredModule(process, call.getKernelQedeq());
-            }
+            endServiceCall(call);
         }
-        return call.getServiceResult();
     }
 
     /**
@@ -250,7 +247,9 @@ public class ServiceProcessManager {
             final String msg = plugin.getServiceAction() + " failed with a runtime exception.";
             Trace.fatal(CLASS, this, method, msg, e);
             QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
-            call.finish(msg + ": " + e.getMessage());
+            if (call != null) {
+                call.finish(msg + ": " + e.getMessage());
+            }
             return null;
         } catch (final InterruptException e) {
             final String msg = plugin.getServiceAction() + " was canceled by user.";
@@ -260,9 +259,7 @@ public class ServiceProcessManager {
             }
             throw e;
         } finally {
-            if (call != null && call.getNewlyBlockedModule()) {
-                arbiter.unlockRequiredModule(process, call.getKernelQedeq());
-            }
+            endServiceCall(call);
             // if we created the process we also close it
             if (proc == null) {
                 if (process.isRunning()) {
