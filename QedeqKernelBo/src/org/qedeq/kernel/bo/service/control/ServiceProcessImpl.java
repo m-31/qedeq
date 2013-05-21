@@ -15,6 +15,9 @@
 
 package org.qedeq.kernel.bo.service.control;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.QedeqBoSet;
@@ -241,6 +244,19 @@ public class ServiceProcessImpl implements InternalServiceProcess {
         }
         final ServiceProcess s = (ServiceProcess) o;
         return (getId() < s.getId() ? -1 : (getId() == s.getId() ? 0 : 1));
+    }
+
+    public synchronized QedeqBo[] getCurrentlyProcessedModules() {
+        final List result = new ArrayList();
+        ServiceCall parent = call;
+        while (parent != null) {
+            if (parent.getQedeq() != null && (result.size() == 0
+                    || (result.size() > 0 && !parent.getQedeq().equals(result.get(0))))) {
+                result.add(0, parent.getQedeq());
+            }
+            parent =  parent.getParentServiceCall();
+        }
+        return (QedeqBo[]) result.toArray(new QedeqBo[]{});
     }
 
 }
