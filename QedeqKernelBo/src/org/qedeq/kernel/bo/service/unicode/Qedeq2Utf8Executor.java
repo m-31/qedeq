@@ -25,10 +25,10 @@ import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.log.QedeqLog;
+import org.qedeq.kernel.bo.module.InternalServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginExecutor;
-import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
