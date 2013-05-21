@@ -193,7 +193,6 @@ public class ServiceProcessImpl implements InternalServiceProcess {
 
 
     public synchronized void interrupt() {
-        //FIXME             state = -1; stop();
         thread.interrupt();
     }
 
