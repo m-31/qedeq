@@ -79,9 +79,8 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         if (!loadAllRequiredModules(call, getQedeqBo())) {
             try {
                 getQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getQedeqBo());
-            } catch (InterruptException e) {
-                // FIXME Auto-generated catch block
-                e.printStackTrace();
+            } catch (InterruptException e) {    // TODO 20130521 m31: ok?
+                call.interrupt();
             }
             final String msg = "Loading required modules failed";
             QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
@@ -92,9 +91,8 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         }
         try {
             getQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getQedeqBo());
-        } catch (InterruptException e) {
-            // FIXME what about status changes?
-            e.printStackTrace();
+        } catch (InterruptException e) {    // TODO 20130521 m31: ok?
+            call.interrupt();
             return Boolean.FALSE;
         }
         if (loadingRequiredInProgress.containsKey(getQedeqBo())) { // already checked?
@@ -129,7 +127,8 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
                 String text = DependencyErrors.IMPORT_OF_MODULE_FAILED_TEXT + "\""
                     + required.getLabel(i) + "\"";
                 if (current.getErrors().size() > 0) {
-                    // FIXME 20130324 m31: what if this changed directly after .size() call?
+                    // TODO 20130324 m31: what if this changed directly after .size() call?
+                    //                    check if locking the module is active
                     text += ", " + current.getErrors().get(0).getMessage();
                 }
                 ModuleDataException me = new LoadRequiredModuleException(
@@ -148,9 +147,8 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         }
         try {
             getQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getQedeqBo());
-        } catch (InterruptException e) {
-            // FIXME what about status changes?
-            e.printStackTrace();
+        } catch (InterruptException e) {    // TODO 20130521 m31: ok?
+            call.interrupt();
             return Boolean.FALSE;
         }
 
