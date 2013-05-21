@@ -418,6 +418,8 @@ public class ProcessListPane extends JPanel  {
                             tip = "";
                             if (!parent.isRunning()) {
                                 tip = "Call is finished";
+                            } else if (parent.isPaused()) {
+                                tip = "Call is paused";
                             } else {
                                 tip = "Call is running";
                             }
