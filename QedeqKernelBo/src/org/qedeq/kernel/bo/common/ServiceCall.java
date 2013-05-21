@@ -89,7 +89,7 @@ public interface ServiceCall extends Comparable {
     public ServiceProcess getServiceProcess();
 
     /**
-     * Is this service still running?
+     * Is this service still running? This is also true if the process is paused.
      *
      * @return  Still running?
      */
