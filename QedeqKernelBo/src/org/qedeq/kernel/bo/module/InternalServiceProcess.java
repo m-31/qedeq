@@ -16,7 +16,6 @@
 package org.qedeq.kernel.bo.module;
 
 import org.qedeq.kernel.bo.common.ServiceProcess;
-import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 
 
 /**

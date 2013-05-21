@@ -20,7 +20,6 @@ import java.io.IOException;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.common.KernelProperties;
-import org.qedeq.kernel.bo.service.common.InternalServiceCall;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.Service;
