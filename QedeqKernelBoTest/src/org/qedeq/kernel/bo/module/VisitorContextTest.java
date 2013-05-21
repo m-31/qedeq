@@ -22,7 +22,7 @@ import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.test.DynamicGetter;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.service.QedeqBoFactoryTest;
+import org.qedeq.kernel.bo.service.control.QedeqBoFactoryTest;
 import org.qedeq.kernel.se.base.list.Atom;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Add;

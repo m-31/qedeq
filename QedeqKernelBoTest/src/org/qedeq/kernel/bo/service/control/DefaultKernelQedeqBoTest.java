@@ -13,13 +13,16 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service;
+package org.qedeq.kernel.bo.service.control;
 
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.bo.common.Element2Utf8;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.ModuleLabels;
+import org.qedeq.kernel.bo.service.control.DefaultKernelQedeqBo;
+import org.qedeq.kernel.bo.service.control.Element2LatexImpl;
+import org.qedeq.kernel.bo.service.control.Element2Utf8Impl;
 import org.qedeq.kernel.bo.service.logic.ModuleConstantsExistenceCheckerImpl;
 import org.qedeq.kernel.bo.test.DummyInternalKernelServices;
 import org.qedeq.kernel.bo.test.DummyPlugin;

@@ -32,7 +32,7 @@ import org.qedeq.kernel.bo.logic.proof.finder.KernelBoLogicProofFinderTestSuite;
 import org.qedeq.kernel.bo.logic.wf.KernelBoLogicWfTestSuite;
 import org.qedeq.kernel.bo.module.KernelBoModuleTestSuite;
 import org.qedeq.kernel.bo.parser.KernelBoParserTestSuite;
-import org.qedeq.kernel.bo.service.KernelBoServiceTestSuite;
+import org.qedeq.kernel.bo.service.control.KernelBoServiceTestSuite;
 import org.qedeq.kernel.bo.service.heuristic.KernelBoServiceHeuristicTestSuite;
 import org.qedeq.kernel.bo.service.latex.KernelBoServiceLatexTestSuite;
 import org.qedeq.kernel.bo.service.logic.KernelBoServiceLogicTestSuite;

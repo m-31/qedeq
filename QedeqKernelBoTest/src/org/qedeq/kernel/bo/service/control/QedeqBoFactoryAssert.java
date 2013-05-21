@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service;
+package org.qedeq.kernel.bo.service.control;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -23,10 +23,15 @@ import org.qedeq.base.test.DynamicGetter;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
+import org.qedeq.kernel.bo.module.InternalServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
-import org.qedeq.kernel.bo.service.common.InternalServiceCall;
+import org.qedeq.kernel.bo.service.control.DefaultInternalKernelServices;
+import org.qedeq.kernel.bo.service.control.DefaultKernelQedeqBo;
+import org.qedeq.kernel.bo.service.control.ModuleLabelsCreator;
+import org.qedeq.kernel.bo.service.control.QedeqVoBuilder;
+import org.qedeq.kernel.bo.service.control.ServiceProcessManager;
 import org.qedeq.kernel.bo.service.latex.QedeqBoDuplicateLanguageChecker;
 import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.bo.test.KernelFacade;

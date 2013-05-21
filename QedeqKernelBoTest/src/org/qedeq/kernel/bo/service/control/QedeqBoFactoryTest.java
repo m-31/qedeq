@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service;
+package org.qedeq.kernel.bo.service.control;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +25,9 @@ import org.qedeq.base.test.DynamicGetter;
 import org.qedeq.base.test.ObjectProxy;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.service.common.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.service.control.DefaultKernelQedeqBo;
+import org.qedeq.kernel.bo.service.control.ModuleLabelsCreator;
 import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
