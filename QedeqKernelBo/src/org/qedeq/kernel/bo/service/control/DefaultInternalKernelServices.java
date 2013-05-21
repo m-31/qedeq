@@ -855,9 +855,8 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         try {
             loadModule(address);
             executePlugin(null, LoadRequiredModulesPlugin.class.getName(), prop, null);
-        } catch (InterruptException e) {
-            // FIXME Auto-generated catch block
-            e.printStackTrace();
+        } catch (InterruptException e) {    // TODO 20130521 m31: ok?
+            // ignore;
         }
         if (validate) {
             modules.validateDependencies();
