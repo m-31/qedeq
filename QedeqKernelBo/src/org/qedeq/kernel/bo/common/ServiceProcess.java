@@ -137,6 +137,13 @@ public interface ServiceProcess extends Comparable {
     public QedeqBoSet getBlockedModules();
 
     /**
+     * Get currently processed {@link QedeqModule} list. This includes QEDEQ modules we try to get a lock for.
+     *
+     * @return  QEDEQ modules we currently try to process.
+     */
+    public QedeqBo[] getCurrentlyProcessedModules();
+
+    /**
      * Get process id.
      *
      * @return  Process identifying number.

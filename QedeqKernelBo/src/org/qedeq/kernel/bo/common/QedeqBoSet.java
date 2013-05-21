@@ -58,4 +58,18 @@ public interface QedeqBoSet {
      */
     public Iterator iterator();
 
+    /**
+     * Returns list of QEDEQ module names.
+     *
+     * @return  Comma separated list.
+     */
+    public String asShortList();
+
+    /**
+     * Returns list of QEDEQ module URLs.
+     *
+     * @return  Comma separated list.
+     */
+    public String asLongList();
+
 }

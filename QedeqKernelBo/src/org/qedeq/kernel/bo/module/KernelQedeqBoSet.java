@@ -261,4 +261,30 @@ public class KernelQedeqBoSet implements QedeqBoSet {
     }
 
 
+    public String asLongList() {
+        final StringBuffer result = new StringBuffer();
+        final Iterator iterator = elements.iterator();
+        while (iterator.hasNext()) {
+            result.append(((QedeqBo) iterator.next()).getUrl());
+            if (iterator.hasNext()) {
+                result.append(", ");
+            }
+        }
+        return result.toString();
+    }
+
+
+    public String asShortList() {
+        final StringBuffer result = new StringBuffer();
+        final Iterator iterator = elements.iterator();
+        while (iterator.hasNext()) {
+            result.append(((QedeqBo) iterator.next()).getName());
+            if (iterator.hasNext()) {
+                result.append(", ");
+            }
+        }
+        return result.toString();
+    }
+
+
 }

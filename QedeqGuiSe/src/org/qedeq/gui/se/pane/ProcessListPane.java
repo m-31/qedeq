@@ -113,7 +113,7 @@ public class ProcessListPane extends JPanel  {
                 case 2:
                 case 3:
                 case 4:
-                case 5: tip = process.getQedeqUrl();
+                case 5: tip = getUrlList(process.getCurrentlyProcessedModules());
                      break;
                 case 7: tip = GuiHelper.getToolTipText(process.getExecutionActionDescription());
                      break;
@@ -130,6 +130,17 @@ public class ProcessListPane extends JPanel  {
         }
 
     };
+
+    private String getUrlList(final QedeqBo[] list) {
+        final StringBuffer result = new StringBuffer();
+        for (int i = 0; i < list.length; i++) {
+            if (i > 0) {
+                result.append(", ");
+            }
+            result.append(list[i].getUrl());
+        }
+        return result.toString();
+    }
 
     /** Write with this font attributes. */
     private final SimpleAttributeSet errorAttrs = new SimpleAttributeSet();

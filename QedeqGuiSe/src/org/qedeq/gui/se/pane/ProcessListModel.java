@@ -21,6 +21,7 @@ import javax.swing.table.AbstractTableModel;
 
 import org.qedeq.base.utility.DateUtility;
 import org.qedeq.kernel.bo.KernelContext;
+import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 
 /**
@@ -109,7 +110,7 @@ public class ProcessListModel extends AbstractTableModel {
                 }
                 break;
         case 1: return sp.getActionName();
-        case 2: return sp.getQedeqName();
+        case 2: return getNameList(sp.getCurrentlyProcessedModules());
         case 3: return DateUtility.getIsoTime(sp.getStart());
         case 4: return sp.getStop() != 0 ? DateUtility.getIsoTime(sp.getStop()) : "";
         case 5: return DateUtility.getDuration(current - sp.getStart());
@@ -121,6 +122,17 @@ public class ProcessListModel extends AbstractTableModel {
                 return "";
         }
         return "";
+    }
+
+    private String getNameList(final QedeqBo[] list) {
+        final StringBuffer result = new StringBuffer();
+        for (int i = 0; i < list.length; i++) {
+            if (i > 0) {
+                result.append(", ");
+            }
+            result.append(list[i].getName());
+        }
+        return result.toString();
     }
 
     public boolean isCellEditable(final int row, final int column) {
