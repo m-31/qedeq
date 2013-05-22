@@ -14,7 +14,7 @@ Functional Changes
 
   Fixed Bugs
   ----------
-  - 
+  - version of config files for Tools menu actions are now updated
 
 
   Other Changes
