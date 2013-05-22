@@ -423,28 +423,27 @@ public class ProcessListPane extends JPanel  {
                     result.append("\n\tCalls:   ");
                     ServiceCall parent = process.getServiceCall();
                     while (parent != null) {
-                        parent = parent.getParentServiceCall();
-                        if (parent != null) {
-                            result.append("\n\t\t ").append(parent.getId());
-                            tip = "";
-                            if (!parent.isRunning()) {
-                                tip = "Call is finished";
-                            } else if (parent.isPaused()) {
-                                tip = "Call is paused";
-                            } else {
-                                tip = "Call is running";
-                            }
-                            result.append("\n\t\t Status:     ").append(tip);
-                            result.append("\n\t\t Module:     ").append(parent.getQedeq().getName());
-                            result.append("\n\t\t Plugin:     ").append(parent.getService().getServiceAction());
-                            result.append("\n\t\t Begin:      ").append(DateUtility.getIsoTime(parent.getBeginTime()));
-                            result.append("\n\t\t End:        ").append((!parent.isRunning()
-                                ? DateUtility.getIsoTime(parent.getEndTime()) : ""));
-                            result.append("\n\t\t Percentage: ").append(parent.getExecutionPercentage());
-                            result.append("\n\t\t Description:").append(parent.getAction());
-                            result.append("\n\t\t Config Par.:").append(parent.getConfigParametersString());
-                            result.append("\n\t\t Parameter:  ").append(parent.getParametersString());
+                        result.append("\n\t\t ").append(parent.getId());
+                        tip = "";
+                        if (!parent.isRunning()) {
+                            tip = "Call is finished";
+                        } else if (parent.isPaused()) {
+                            tip = "Call is paused";
+                        } else {
+                            tip = "Call is running";
                         }
+                        result.append("\n\t\t Status:     ").append(tip);
+                        result.append("\n\t\t Module:     ").append(parent.getQedeq().getName());
+                        result.append("\n\t\t Plugin:     ").append(parent.getService().getServiceAction());
+                        result.append("\n\t\t Begin:      ").append(DateUtility.getIsoTime(parent.getBeginTime()));
+                        result.append("\n\t\t End:        ").append((!parent.isRunning()
+                            ? DateUtility.getIsoTime(parent.getEndTime()) : ""));
+                        result.append("\n\t\t Percentage: ").append(parent.getExecutionPercentage());
+                        result.append("\n\t\t Description:").append(parent.getAction());
+                        result.append("\n\t\t Config Par.:").append(parent.getConfigParametersString());
+                        result.append("\n\t\t Parameter:  ").append(parent.getParametersString());
+
+                        parent = parent.getParentServiceCall();
                     }
                     result.append("\n");
                 }
