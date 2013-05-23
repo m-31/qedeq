@@ -213,7 +213,8 @@ public interface InternalKernelServices extends KernelProperties {
             throws InterruptException;
 
 
-    public boolean lockModule(InternalServiceProcess process, KernelQedeqBo qedeq) throws InterruptException;
+    public boolean lockModule(InternalServiceProcess process, KernelQedeqBo qedeq, Service service)
+            throws InterruptException;
 
     public boolean unlockModule(InternalServiceProcess process, KernelQedeqBo qedeq);
 

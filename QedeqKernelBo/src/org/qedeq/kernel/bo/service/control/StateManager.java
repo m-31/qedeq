@@ -75,10 +75,6 @@ public class StateManager {
     /** Failure exceptions for basic operations. */
     private SourceFileExceptionList errors;
 
-    /** Currently running plugin. Might be <code>null</code>. */
-    private Plugin currentlyRunningPlugin;
-
-
     StateManager(final DefaultKernelQedeqBo bo) {
         this.bo = bo;
         loadingState = LoadingState.STATE_UNDEFINED;
@@ -237,7 +233,6 @@ public class StateManager {
         bo.getDependentModules().clear();
         bo.setLabels(null);
         setLoadingState(state);
-        setCurrentlyRunningPlugin(null);
         setLoadingImportsState(LoadingImportsState.STATE_UNDEFINED);
         setDependencyState(DependencyState.STATE_UNDEFINED);
         setWellFormedState(WellFormedState.STATE_UNCHECKED);
@@ -259,7 +254,6 @@ public class StateManager {
         if (qedeq == null) {
             throw new NullPointerException("Qedeq is null");
         }
-        setCurrentlyRunningPlugin(null);
         setLoadingState(LoadingState.STATE_LOADED);
         setLoadingImportsState(LoadingImportsState.STATE_UNDEFINED);
         setDependencyState(DependencyState.STATE_UNDEFINED);
@@ -321,7 +315,6 @@ public class StateManager {
                 "this is no failure state, call setLoadingProgressState");
         }
         setLoadingImportsState(state);
-        setCurrentlyRunningPlugin(null);
         setErrors(e);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
@@ -396,7 +389,6 @@ public class StateManager {
                 "this is no failure state, call setLoadingProgressState");
         }
         setDependencyState(state);
-        setCurrentlyRunningPlugin(null);
         setErrors(e);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
@@ -625,7 +617,6 @@ public class StateManager {
         setLoadingImportsState(LoadingImportsState.STATE_LOADED_IMPORTED_MODULES);
         setDependencyState(DependencyState.STATE_UNDEFINED);
         setWellFormedState(WellFormedState.STATE_UNCHECKED);
-        setCurrentlyRunningPlugin(null);
         setErrors(null);
         bo.getKernelRequiredModules().set(required);
         ModuleEventLog.getInstance().stateChanged(bo);
@@ -656,7 +647,6 @@ public class StateManager {
         }
         setDependencyState(DependencyState.STATE_LOADED_REQUIRED_MODULES);
         setWellFormedState(WellFormedState.STATE_UNCHECKED);
-        setCurrentlyRunningPlugin(null);
         setErrors(null);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
@@ -675,7 +665,6 @@ public class StateManager {
                 + "\"" + bo.getName() + "\" is \"" + bo.getLoadingState() + "\"");
         }
         setWellFormedState(WellFormedState.STATE_CHECKED);
-        setCurrentlyRunningPlugin(null);
         bo.setExistenceChecker(checker);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
@@ -724,7 +713,6 @@ public class StateManager {
                 "this is no failure state, call setWellFormedProgressState");
         }
         setWellFormedState(state);
-        setCurrentlyRunningPlugin(null);
         setErrors(e);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
@@ -774,7 +762,6 @@ public class StateManager {
                 "this is no failure state, call setFormallyProvedProgressState");
         }
         setFormallyProvedState(state);
-        setCurrentlyRunningPlugin(null);
         setErrors(e);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
@@ -991,24 +978,6 @@ public class StateManager {
         final SourceFileExceptionList result = new SourceFileExceptionList();
         result.add(pluginResults.getAllWarnings());
         return result;
-    }
-
-    /**
-     * Get the currently running plugin (if any).
-     *
-     * @return  Currently running plugin. Might be <code>null</code>.
-     */
-    public Plugin getCurrentlyRunningPlugin() {
-        return currentlyRunningPlugin;
-    }
-
-    /**
-     * Set the currently running plugin (if any).
-     *
-     * @param   currentlyRunningPlugin  Currently running plugin. Might be <code>null</code>.
-     */
-    public void setCurrentlyRunningPlugin(final Plugin currentlyRunningPlugin) {
-        this.currentlyRunningPlugin = currentlyRunningPlugin;
     }
 
     /**

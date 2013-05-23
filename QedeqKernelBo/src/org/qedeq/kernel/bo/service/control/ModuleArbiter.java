@@ -26,6 +26,7 @@ import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBoSet;
+import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
@@ -56,18 +57,19 @@ public class ModuleArbiter {
      *
      * @param   process This process acquires the lock.
      * @param   qedeq   Lock this module.
+     * @param   service For this service.
      * @return  The process locked this module newly. Before this call the module was not locked.
      * @throws  InterruptException  Lock acquirement interrupted.
      */
     public boolean lockRequiredModule(final InternalServiceProcess process,
-            final KernelQedeqBo qedeq) throws  InterruptException {
+            final KernelQedeqBo qedeq, final Service service) throws  InterruptException {
         if (isAlreadyLocked(process, qedeq)) {
             return false;
         }
         process.setBlocked(true);
         // we try to get a lock, if not we wait
         try {
-            while (!lock(process, qedeq)) {
+            while (!lock(process, qedeq, service)) {
                 final Object monitor = new Object();
                 synchronized (monitor) {
                     try {
@@ -97,6 +99,25 @@ public class ModuleArbiter {
      */
     public boolean unlockRequiredModule(final ServiceProcess process, final KernelQedeqBo qedeq) {
         return unlock(process, qedeq);
+
+    }
+
+    private synchronized boolean lock(final ServiceProcess process, final KernelQedeqBo qedeq, final Service service) {
+        final String method = "lock";
+        if (Trace.isTraceOn()) {
+            Trace.info(CLASS, this, method, getName(process) + " is trying to lock " + qedeq.getName());
+        }
+        final ServiceProcess origin = getProcess(qedeq);
+        if (origin != null) {
+            if (Trace.isTraceOn()) {
+                Trace.info(CLASS, this, method, getName(process) + " failed to lock " + qedeq.getName()
+                    + "\tbecause it is locked by " + getName(origin));
+            }
+            return false;
+        }
+        addLock(process, qedeq);
+        ((DefaultKernelQedeqBo) qedeq).setCurrentlyRunningService(service);
+        return true;
     }
 
     private synchronized boolean unlock(final ServiceProcess process, final KernelQedeqBo qedeq) {
@@ -104,6 +125,7 @@ public class ModuleArbiter {
         if (Trace.isTraceOn()) {
             Trace.info(CLASS, this, method, getName(process) + " is trying to unlock " + qedeq.getName());
         }
+        ((DefaultKernelQedeqBo) qedeq).setCurrentlyRunningService(null);
         final ServiceProcess origin = getProcess(qedeq);
         if (origin != null) {
             if (origin.equals(process)) {
@@ -122,23 +144,6 @@ public class ModuleArbiter {
             }
             return false;
         }
-    }
-
-    private synchronized boolean lock(final ServiceProcess process, final KernelQedeqBo qedeq) {
-        final String method = "unlock";
-        if (Trace.isTraceOn()) {
-            Trace.info(CLASS, this, method, getName(process) + " is trying to lock " + qedeq.getName());
-        }
-        final ServiceProcess origin = getProcess(qedeq);
-        if (origin != null) {
-            if (Trace.isTraceOn()) {
-                Trace.info(CLASS, this, method, getName(process) + " failed to lock " + qedeq.getName()
-                    + "\tbecause it is locked by " + getName(origin));
-            }
-            return false;
-        }
-        addLock(process, qedeq);
-        return true;
     }
 
     private String getName(final ServiceProcess process) {

@@ -30,6 +30,7 @@ import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.state.DependencyState;
@@ -75,10 +76,14 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         if (loadingRequiredInProgress == null) {
             loadingRequiredInProgress = new HashMap();
         }
+        // remember service that currently locked this module
+        final Service service = getQedeqBo().getCurrentlyRunningService();
+        // we unlock the currently locked module to get rid of death locks
         getQedeqBo().getKernelServices().unlockModule(call.getInternalServiceProcess(), getQedeqBo());
         if (!loadAllRequiredModules(call, getQedeqBo())) {
             try {
-                getQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getQedeqBo());
+                getQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getQedeqBo(),
+                     service);
             } catch (InterruptException e) {    // TODO 20130521 m31: ok?
                 call.interrupt();
             }
@@ -90,7 +95,8 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
             return Boolean.FALSE;
         }
         try {
-            getQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getQedeqBo());
+            getQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getQedeqBo(),
+                service);
         } catch (InterruptException e) {    // TODO 20130521 m31: ok?
             call.interrupt();
             return Boolean.FALSE;
@@ -146,7 +152,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
             return Boolean.TRUE; // everything is OK, someone elses thread might have corrected errors!
         }
         try {
-            getQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getQedeqBo());
+            getQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getQedeqBo(), service);
         } catch (InterruptException e) {    // TODO 20130521 m31: ok?
             call.interrupt();
             return Boolean.FALSE;

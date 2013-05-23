@@ -93,6 +93,9 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     /** State change manager. */
     private final StateManager stateManager;
 
+    /** Currently running service for this module. */
+    private Service currentlyRunningService;
+
     /**
      * Creates new module properties.
      *
@@ -352,12 +355,12 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         return stateManager.getLastSuccesfulState();
     }
 
-    public Plugin getCurrentlyRunningPlugin() {
-        return stateManager.getCurrentlyRunningPlugin();
+    public synchronized Service getCurrentlyRunningService() {
+        return currentlyRunningService;
     }
 
-    public void setCurrentlyRunningPlugin(final Plugin currentlyRunningPlugin) {
-        stateManager.setCurrentlyRunningPlugin(currentlyRunningPlugin);
+    public synchronized void setCurrentlyRunningService(final Service currentlyRunningService) {
+        this.currentlyRunningService = currentlyRunningService;
     }
 
     public String getName() {

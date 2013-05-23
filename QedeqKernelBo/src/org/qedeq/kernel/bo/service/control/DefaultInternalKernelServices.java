@@ -1143,9 +1143,9 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         this.contextChecker = contextChecker;
     }
 
-    public boolean lockModule(final InternalServiceProcess process, final KernelQedeqBo qedeq)
+    public boolean lockModule(final InternalServiceProcess process, final KernelQedeqBo qedeq, final Service service)
             throws InterruptException {
-        return arbiter.lockRequiredModule(process, qedeq);
+        return arbiter.lockRequiredModule(process, qedeq, service);
     }
 
     public boolean unlockModule(final InternalServiceProcess process, final KernelQedeqBo qedeq) {

@@ -26,7 +26,7 @@ import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
-import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.state.AbstractState;
 import org.qedeq.kernel.se.state.DependencyState;
@@ -159,7 +159,7 @@ public class ModuleEventListenerLogTest extends QedeqBoTestCase {
                 return LoadingState.STATE_UNDEFINED;
             }
 
-            public Plugin getCurrentlyRunningPlugin() {
+            public Service getCurrentlyRunningService() {
                 return null;
             }
 

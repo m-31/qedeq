@@ -17,7 +17,7 @@ package org.qedeq.kernel.bo.common;
 
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.common.ModuleAddress;
-import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.state.AbstractState;
 import org.qedeq.kernel.se.state.DependencyState;
@@ -78,11 +78,11 @@ public interface QedeqBo {
     public AbstractState getCurrentState();
 
     /**
-     * Get currently running plugin.
+     * Get currently running service.
      *
-     * @return  Currently running plugin. Might be <code>null</code>.
+     * @return  Currently running service. Might be <code>null</code>.
      */
-    public Plugin getCurrentlyRunningPlugin();
+    public Service getCurrentlyRunningService();
 
     /**
      * Get module loading state.

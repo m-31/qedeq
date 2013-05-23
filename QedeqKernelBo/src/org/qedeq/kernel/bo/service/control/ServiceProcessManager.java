@@ -121,7 +121,7 @@ public class ServiceProcessManager {
             calls.add(call);
         }
         process.setInternalServiceCall(call);
-        lockRequiredModule(call, qedeq);
+        lockRequiredModule(call, qedeq, service);
         return call;
     }
 
@@ -269,12 +269,12 @@ public class ServiceProcessManager {
         }
     }
 
-    public boolean lockRequiredModule(final ServiceCallImpl call, final KernelQedeqBo qedeq)
+    public boolean lockRequiredModule(final ServiceCallImpl call, final KernelQedeqBo qedeq, final Service service)
             throws InterruptException {
         call.pause();
         call.getInternalServiceProcess().setBlocked(true);
         try {
-            final boolean result = arbiter.lockRequiredModule(call.getInternalServiceProcess(), qedeq);
+            final boolean result = arbiter.lockRequiredModule(call.getInternalServiceProcess(), qedeq, service);
             call.setNewlyBlockedModule(result);
             return result;
         } finally {

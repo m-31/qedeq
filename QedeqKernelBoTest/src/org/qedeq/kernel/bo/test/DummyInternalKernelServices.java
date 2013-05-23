@@ -113,7 +113,8 @@ public class DummyInternalKernelServices implements InternalKernelServices {
     public Object executePlugin(InternalServiceProcess parent, String id, KernelQedeqBo qedeq, Object data) {
         return null;
     }
-    public boolean lockModule(InternalServiceProcess process, KernelQedeqBo qedeq) throws InterruptException {
+    public boolean lockModule(InternalServiceProcess process, KernelQedeqBo qedeq, Service service)
+            throws InterruptException {
         return false;
     }
     public boolean unlockModule(InternalServiceProcess process, KernelQedeqBo qedeq) {
@@ -123,8 +124,8 @@ public class DummyInternalKernelServices implements InternalKernelServices {
         return null;
     }
     public InternalServiceCall createServiceCall(Service service, KernelQedeqBo qedeq,
-                    Parameters configParameters, Parameters parameters,
-                    InternalServiceProcess process, InternalServiceCall parent) {
+            Parameters configParameters, Parameters parameters,
+            InternalServiceProcess process, InternalServiceCall parent) {
         return null;
     }
     public KernelQedeqBo loadKernelModule(InternalServiceProcess process,
