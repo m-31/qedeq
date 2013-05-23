@@ -28,7 +28,7 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.util.DecoratedIcon;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.state.AbstractState;
 import org.qedeq.kernel.se.state.DependencyState;
 import org.qedeq.kernel.se.state.FormallyProvedState;
@@ -196,7 +196,7 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
                 final String text = prop.getName();
                 setText(text);
                 final AbstractState currentState = prop.getCurrentState();
-                final Plugin plugin = prop.getCurrentlyRunningPlugin();
+                final Service service = prop.getCurrentlyRunningService();
                 if (prop.isLoaded()) {
                     setToolTipText(prop.getUrl().toString());
                 } else {
@@ -210,20 +210,20 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
                 if (currentState == LoadingState.STATE_DELETED) {
                     setIcon(null);
                 } else if (currentState == LoadingState.STATE_UNDEFINED) {
-                    if (plugin == null) {
+                    if (service == null) {
                         setIcon(prop, startIcon);
                     } else {
                         setIcon(startFlashIcon);
                     }
                 } else if (currentState == LoadingState.STATE_LOADED) {
-                    if (plugin == null) {
+                    if (service == null) {
                         setIcon(prop, loadedIcon);
                     } else {
                         setIcon(loadedFlashIcon);
                     }
                 } else if (currentState instanceof LoadingState) {
                     if (currentState.isFailure()) {
-                        if (plugin == null) {
+                        if (service == null) {
                             setIcon(prop, startIcon);
                         } else {
                             setIcon(startFlashIcon);
@@ -232,14 +232,14 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
                         setIcon(startNextIcon);
                     }
                 } else if (currentState == LoadingImportsState.STATE_LOADED_IMPORTED_MODULES) {
-                    if (plugin == null) {
+                    if (service == null) {
                         setIcon(prop, loadedImportsIcon);
                     } else {
                         setIcon(loadedImportsFlashIcon);
                     }
                 } else if (currentState instanceof LoadingImportsState) {
                     if (currentState.isFailure()) {
-                        if (plugin == null) {
+                        if (service == null) {
                             setIcon(prop, loadedImportsIcon);
                         } else {
                             setIcon(loadedImportsFlashIcon);
@@ -248,14 +248,14 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
                         setIcon(loadedImportsNextIcon);
                     }
                 } else if (currentState == DependencyState.STATE_LOADED_REQUIRED_MODULES) {
-                    if (plugin == null) {
+                    if (service == null) {
                         setIcon(prop, loadedRequiredIcon);
                     } else {
                         setIcon(loadedRequiredFlashIcon);
                     }
                 } else if (currentState instanceof DependencyState) {
                     if (currentState.isFailure()) {
-                        if (plugin == null) {
+                        if (service == null) {
                             setIcon(prop, loadedIcon);
                         } else {
                             setIcon(loadedFlashIcon);
@@ -264,14 +264,14 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
                         setIcon(loadedNextIcon);
                     }
                 } else if (currentState == WellFormedState.STATE_CHECKED) {
-                    if (plugin == null) {
+                    if (service == null) {
                         setIcon(prop, wellFormedIcon);
                     } else {
                         setIcon(wellFormedFlashIcon);
                     }
                 } else if (currentState instanceof WellFormedState) {
                     if (currentState.isFailure()) {
-                        if (plugin == null) {
+                        if (service == null) {
                             setIcon(prop, loadedRequiredIcon);
                         } else {
                             setIcon(loadedRequiredFlashIcon);
@@ -280,14 +280,14 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
                         setIcon(loadedRequiredNextIcon);
                     }
                 } else if (currentState == FormallyProvedState.STATE_CHECKED) {
-                    if (plugin == null) {
+                    if (service == null) {
                         setIcon(prop, formallyProvedIcon);
                     } else {
                         setIcon(formallyProvedFlashIcon);
                     }
                 } else if (currentState instanceof FormallyProvedState) {
                     if (currentState.isFailure()) {
-                        if (plugin == null) {
+                        if (service == null) {
                             setIcon(prop, wellFormedIcon);
                         } else {
                             setIcon(wellFormedFlashIcon);

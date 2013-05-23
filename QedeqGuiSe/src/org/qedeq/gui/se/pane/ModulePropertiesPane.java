@@ -29,7 +29,7 @@ import javax.swing.ScrollPaneConstants;
 
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.Service;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
@@ -143,7 +143,7 @@ public class ModulePropertiesPane extends JPanel {
             name.setText(prop.getName());
             ruleVersion.setText(prop.getRuleVersion());
             url.setText(prop.getUrl().toString());
-            final Plugin p = prop.getCurrentlyRunningPlugin();
+            final Service p = prop.getCurrentlyRunningService();
             if (p != null) {
                 plugin.setText(p.getServiceAction());
                 plugin.setToolTipText(GuiHelper.getToolTipText(p.getServiceDescription()));
