@@ -14,12 +14,14 @@ Functional Changes
 
   Fixed Bugs
   ----------
-  - version of config files for Tools menu actions are now updated
+  - version of config files for Tools menu actions are now updated so the
+    tools work again
 
 
   Other Changes
   -------------
-  - none 
+  - we reworked on "Process / View Processes": "Details" shows more useful
+    informations
 
 
 XML Files
