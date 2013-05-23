@@ -162,12 +162,16 @@ public class ModuleArbiter {
     }
 
     private synchronized void addLock(final ServiceProcess process, final KernelQedeqBo qedeq) {
-        System.out.println(getName(process) + " locked successfuly  " + qedeq.getName());
+        if (Trace.isTraceOn()) {
+            Trace.info(CLASS, this, "addLock", getName(process) + " locked successfuly  " + qedeq.getName());
+        }
         blocked.put(qedeq, process);
     }
 
     private synchronized void removeLock(final ServiceProcess process, final KernelQedeqBo qedeq) {
-        System.out.println(getName(process) + " unlocked            " + qedeq.getName());
+        if (Trace.isTraceOn()) {
+            Trace.info(CLASS, this, "removeLock", getName(process) + " unlocked            " + qedeq.getName());
+        }
         blocked.remove(qedeq);
     }
 
