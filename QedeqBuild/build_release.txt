@@ -114,6 +114,11 @@ Update Web Page
   + planning.html ?
 - run W3C html and link validation for web page
 
+Add to maven central
+--------------------
+- adapt maven_central job
+- build
+- uplod ..
 
 Refactoring After Release
 -------------------------
