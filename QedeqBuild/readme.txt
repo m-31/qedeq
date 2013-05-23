@@ -1,7 +1,7 @@
 Code Name:   gaffsie
-Version:     0.04.06
-Timestamp:   2013-04-09 03:50:03
-Subversion:  qedeq_unstable_0_04_06_20130409035003
+Version:     0.04.07
+Timestamp:   2013-05-22 22:32:47
+Subversion:  qedeq_unstable_0_04_07_20130522223247
 
 This is an unstable development release of *Hilbert II*. Once again 
 this release is not completely tested, not all FIXMEs were solved, 
@@ -21,16 +21,21 @@ A script with the beginning of axiomatic set theory is included. See
 The logical background of this project is described in 
 "doc/math/qedeq_logic_v1.pdf". Both documents were generated with
 the current program suite. All formulas of axioms, definitions and
-propositions are written in a formal language. A fully formal 
-mathematical development can be found in 
+propositions are written in a formal language.
+
+A fully formal mathematical development can be found in
 "doc/math/qedeq_formal_logic_v1_en.pdf". It contains all necessary
 axioms and inference rules for predicate calculus. Here you find
 several logical propositions and their formal proofs. A first meta 
-rule - conditional proof - is also introduced and can also be checked
-with the proof checker. This document will be constantly updated.
+rule - conditional proof - is also introduced and can be used.
+All proofs were successfully checked with the proof checker.
+This document will be constantly updated as the number of meta rules
+grow.
 
 See "sample/qedeq_sample3.xml" for some other
-proof samples. See "doc/project/qedeq_logic_language_en.pdf" for 
+proof samples that demonstrate the usage of all basic inference rules.
+
+See "doc/project/qedeq_logic_language_en.pdf" for 
 more details of the formal language. Included are also samples
 showing the error handling for incorrect QEDEQ files. Beside the XSD 
 verification there are some semantic checks: "are all defined labels 
