@@ -116,7 +116,10 @@ Update Web Page
 
 Add to maven central
 --------------------
-- adapt maven_central job
+- adapt maven_central job QedeqPrepareMavenCentral2
+  + check out correct software version
+  + change release version in shell script
+- start job
 - build
 - uplod ..
 
