@@ -118,10 +118,10 @@ Add to maven central
 --------------------
 - adapt maven_central job QedeqPrepareMavenCentral2
   + check out correct software version
-  + change release version in shell script
+  + change release version and build id in shell script
 - start job
-- build
-- uplod ..
+- upload bundle.jar to oss.sonatype.org
+- release staging
 
 Refactoring After Release
 -------------------------
