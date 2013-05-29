@@ -29,7 +29,7 @@ public final class BasicKernel implements KernelProperties {
 
 
     /** Version of this kernel. */
-    private static final String KERNEL_VERSION = "0.04.07";
+    private static final String KERNEL_VERSION = "0.04.08";
 
     /** Version dependent directory of this kernel. */
     private static final String KERNEL_VERSION_DIRECTORY = KERNEL_VERSION.replace('.', '_');
@@ -39,7 +39,7 @@ public final class BasicKernel implements KernelProperties {
 
     /** Kernel version dedication. */
     private static final String KERNEL_DEDICATED
-        = "dedicated to Aang, who had been encased within a sphere of ice for one hundred years";
+        = "dedicated to Balsa, a spear woman and mercenary from Kanbal, the kingdom across the mountains.";
 
     /** Descriptive version information of this kernel. */
     private static final String DESCRIPTIVE_KERNEL_VERSION
