@@ -1,0 +1,999 @@
+================================================================================
+UTF-8-file     qedeq_logic_v1
+Generated from http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1.xml
+Generated at   2013-05-20 16:27:26.267
+================================================================================
+
+If the characters of this document don't display correctly try opening this
+document within a webbrowser and if necessary change the encoding to
+Unicode (UTF-8)
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+
+
+Anfangsgründe der mathematischen Logik
+══════════════════════════════════════
+
+Michael Meyling
+
+
+Die Quelle für dieses Dokument ist hier zu finden:
+
+http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1.xml
+
+
+Die vorliegende Publikation ist urheberrechtlich geschützt.
+
+
+Bei Fragen, Anregungen oder Bitte um Aufnahme in die Liste der abhängigen Module
+schicken Sie bitte eine EMail an die Adresse mime@qedeq.org
+
+
+Die Autoren dieses Dokuments sind:
+
+    Michael Meyling <michael@meyling.com>
+
+
+
+
+___________________________________________________
+
+
+Zusammenfassung
+═══════════════
+
+Das Projekt Ｈｉｌｂｅｒｔ ＩＩ beschäftigt sich mit der formalen Darstellung und 
+Dokumentation von mathematischem Wissen. Dazu stellt Ｈｉｌｂｅｒｔ ＩＩ eine 
+Programmsuite zur Lösung der damit zusammenhängenden Aufgaben bereit. Auch die 
+konkrete Dokumentation mathematischen Grundlagenwissens mit diesen Hilfsmitteln 
+gehört zum Ziel dieses Projekts. Für weitere Informationen über das Projekt 
+Ｈｉｌｂｅｒｔ ＩＩ siehe auch unter  http://www.qedeq.org .
+
+Dieses Dokument beschreibt die logischen Axiome, Schluss- und Metaregeln mit 
+denen logische Schlüsse durchgeführt werden können.
+
+Die Darstellung erfolgt in axiomatischer Weise und in formaler Form. Dazu wird 
+ein Kalkül angegeben, der es gestattet alle wahren Formeln abzuleiten. Weitere 
+abgeleitete Regeln, Sätze, Definitionen, Abkürzungen und Syntaxerweiterungen 
+entsprechen im Wesentlichen der mathematischen Praxis.
+
+Dieses Dokument liegt auch selbst in einer formalen Sprache vor, der 
+Ursprungstext ist eine XML-Datei, deren Syntax mittels der XSD 
+ http://www.qedeq.org/current/xml/qedeq.xsd  definiert wird.
+
+Dieses Dokument ist noch sehr in Arbeit und wird von Zeit zu Zeit aktualisiert. 
+Insbesondere werden an den durch „+++” gekennzeichneten Stellen noch Ergänzungen
+oder Änderungen vorgenommen.
+
+
+
+___________________________________________________
+
+
+Vorwort
+═══════
+
+Das ganze Universium der Mathematik kann mit den Mitteln der Mengenlehre 
+entfaltet werden. Außer den Axiomen der Mengenlehre werden dazu nur noch 
+logische Axiome und Regeln benötigt. Diese elementaren Grundlagen genügen, um 
+die komplexesten mathematischen Strukturen zu definieren und Sätze über solche 
+Strukturen beweisen zu können. Dieses Vorgehen lässt sich vollständig 
+formalisieren und auf die einfache Manipulation von Zeichenketten zurückführen. 
+Die inhaltliche Deutung der Zeichenfolgen stellt dann das mathematische 
+Universum dar.
+
+Dabei ist es natürlich mehr als nur bequem, Abkürzungen einzuführen und weitere 
+abgeleitete Regeln zu verwenden. Diese Bequemlichkeiten können aber jederzeit
+          ┌
+          │ Zumindest ist eine solche Rückführung theoretisch immer möglich. 
+          │ Praktisch kann sie jedoch an der Endlichkeit der zur Verfügung 
+          │ stehenden Zeit und des nutzbaren Raums scheitern. So wird es 
+          │ sicherlich nicht möglich sein, die natürliche Zahl 1.000.000.000 in 
+          │ Mengenschreibweise anzugeben.
+          └
+ eliminiert und durch die grundlegenden Begrifflichkeiten ersetzt werden.
+
+Dieses Projekt entspringt meinem Kindheitstraum eine solche Formalisierung 
+konkret vorzunehmen. Inzwischen sind die technischen Möglichkeiten so weit 
+entwickelt, dass eine Realisierung möglich erscheint.
+
+Dank gebührt den Professoren  W .  K e r b y  und  V .  G ü n t h e r  der 
+Hamburger Universität für ihre inspirierenden Vorlesungen zu den Themen Logik 
+und Axiomatische Mengenlehre. Ohne diese entscheidenden Impulse hätte es dieses 
+Projekt nie gegeben.
+
+Besonderer Dank geht an meine Frau  G e s i n e  D r ä g e r  und unseren Sohn 
+ L e n n a r t  für ihre Unterstützung und ihr Verständnis für ihnen fehlende 
+Zeit ‒ wobei der Verständnisgrad unseres Kleinkinds vielleicht noch nicht so 
+stark ausgeprägt ist.
+
+Hamburg, Januar 2013 
+  Michael Meyling
+
+
+
+___________________________________________________
+
+
+Einleitung
+══════════
+
+An den Anfang sei ein Zitat aus einem von  D .   H i l b e r t  im September 
+1922 gehaltenen Vortrag
+          ┌
+          │ Vortrag, gehalten in der Deutschen Naturforscher-Gesellschaft. 
+          │ September 1922.
+          └
+ mit dem programmatischen Titel „Die logischen Grundlagen der Mathematik” 
+gesetzt.
+
+
+      „Der Grundgedanke meiner Beweistheorie ist folgender:
+
+      Alles, was im bisherigen Sinne die Mathematik ausmacht, wird streng 
+      formalisiert, so daß die eigentliche Mathematik oder die Mathematik in 
+      engerem Sinne zu einem Bestande an Formeln wird. Diese unterscheiden sich 
+      von den gewöhnlichen Formeln der Mathematik nur dadurch, daß außer den 
+      gewöhnlichen Zeichen noch die logischen Zeichen, insbesondere die für 
+      „folgt” (→) und für „nicht” (‾ ) darin vorkommen. Gewisse Formeln, die als
+      Bausteine des formalen Gebäudes der Mathematik dienen, werden Axiome 
+      genannt. Ein Beweis ist die Figur, die uns als solche anschaulich 
+      vorliegen muß; er besteht aus Schlüssen vermöge des Schlußschemas
+          A   
+         A → B  
+       _______________________________________
+         B  
+       wo jedesmal die Prämissen, d. h. die betreffenden Formeln A und A → B 
+      jede entweder ein Axiom ist bzw. direkt durch Einsetzung aus einem Axiom 
+      entsteht oder mit der Endformel B eines Schlusses übereinstimmt, der 
+      vorher im Beweise vorkommt bzw. durch Einsetzung aus einer solchen 
+      Endformel entsteht. Eine Formel soll beweisbar heißen, wenn sie entweder 
+      ein Axiom ist bzw. durch Einsetzen aus einem Axiom entsteht oder die 
+      Endformel eines Beweises ist.”
+
+
+Am Anfang steht die Logik. Sie stellt das Rüstzeug zur Argumentation bereit. Sie
+hilft beim Gewinnen von neuen Aussagen aus bereits vorhandenen. Sie ist 
+universell anwendbar.
+
+In dem 1928 erschienenen Buch  G r u n d z ü g e   d e r  
+ t h e o r e t i s c h e n   L o g i k  formulierten  D .  H i l b e r t  und 
+ W .  A c k e r m a n n  ein axiomatisches System der Aussagenlogik, welches die
+Basis für das hier verwendete bildet. Durch das von  P .  S .  N o v i k o v  
+1959 angegebene Axiomensystem und Regelwerk der Prädikatenlogik wird das System 
+verfeinert.
+
+In diesem Text wird ein Prädikatenkalkül erster Stufe mit Identität und 
+Funktoren vorgestellt, der die Grundlagen für die Entwicklung der mathematischen
+Theorie schafft. Es werden im Folgenden nur die Ergebnisse ohne weitere Beweise 
+und in knapper Form präsentiert.
+          ┌
+          │ Die Beweise werden zu einem späteren Zeitpunkt ergänzt.
+          └
+
+
+
+
+___________________________________________________
+
+
+Kapitel 1 
+
+
+Sprache
+═══════
+
+Um mathematische Aussagen präzise formulieren zu können, wird in diesem Kapitel 
+eine formale Sprache definiert. Obgleich dieses Dokument mathematischen Inhalt 
+sehr formal beschreibt, reicht es nicht aus um als Definition für ein 
+computerlesbares Dokumentformat zu dienen. Daher muss eine solch extensive 
+Spezifikation an anderer Stelle erfolgen. Das dafür ausgewählte Format ist die 
+ E x t e n s i b l e   M a r k u p   L a n g u a g e  abgekürzt  X M L . XML 
+beschreibt eine Menge von Regeln für den Aufbau elektronischer Dokumente.
+          ┌
+          │ Siehe  http://www.w3.org/XML/  für weitere Informationen.
+          └
+ Die daran ausgerichtete formale Syntaxspezifikation kann hier gelesen werden: 
+ http://www.qedeq.org/current/xml/qedeq.xsd . Damit wird ein mathematisches 
+Dokumentenformat festgelegt, das die Erzeugung von LaTeX Büchern und eine 
+automatische Beweisüberprüfung ermöglicht. Weitere Syntaxbeschränkungen und 
+einige Erklärungen werden beschrieben in 
+ http://www.qedeq.org/current/doc/project/qedeq_logic_language_en.pdf .
+
+Auch dieses Dokument ist eine (oder wurde erzeugt aus einer) XML-Datei, die hier
+zu finden ist  http://wwww.qedeq.org/0_04_07/doc/math/qedeq_logic_v1.xml . Aber 
+nun folgen wir einfach dem traditionellen mathematischen Weg, die Anfangsgünde 
+der mathematischen Logik vorzustellen.
+
+
+1.1 Terme und Formeln
+―――――――――――――――――――――
+
+Als Symbole kommen die  l o g i s c h e n   S y m b o l e  L = { ‘¬’, ‘∧’, ‘∨’, 
+↔’, ‘→’, ‘∀’, ‘∃’ }, die  P r ä d i k a t e n k o n s t a n t e n  C = 
+{c^k_i | i, k ∈ ω}, die  F u n k t i o n s v a r i a b l e n 
+          ┌
+          │ Funktionsvariablen dienen der einfacheren Notation und werden 
+          │ beispielsweise zur Formulierung eines identitätslogischen Satzes 
+          │ benötigt: x = y → f(x) = f(y). Ausserdem bereitet ihre Einführung 
+          │ die spätere Syntaxerweiterung zur Anwendung von funktionalen Klassen
+          │ vor.
+          └
+ F = {f^k_i | i, k ∈ ω ∧ k > 0}, die  F u n k t i o n s k o n s t a n t e n 
+          ┌
+          │ Funktionskonstanten dienen ebenfalls der Bequemlichkeit und werden 
+          │ später für direkt definierte Klassenfunktionen verwendet. So zum 
+          │ Beispiel zur Potenzklassenbildung, zur Vereinigungsklassenbildung 
+          │ und für die Nachfolgerfunktion. All diese Funktionskonstanten können
+          │ auch als Abkürzungen verstanden werden.
+          └
+ H = {h^k_i | i, k ∈ ω}, die  S u b j e k t v a r i a b l e n  V = {v_i | i ∈ ω}
+, sowie die  P r ä d i k a t e n v a r i a b l e n  P = {p^k_i | i, k ∈ ω} vor.
+          ┌
+          │ Unter ω werden die natürlichen Zahlen, die Null eingeschlossen, 
+          │ verstanden. Alle bei den Mengenbildungen beteiligten Symbole werden 
+          │ als paarweise verschieden vorausgesetzt. Das bedeutet z. B.: f^k_i =
+          │ f^(k')_(i') → (k = k’ ∧ i = i’) und h^k_i ≠ v_j.
+          └
+ Unter der  S t e l l e n z a h l  eines Operators wird der obere Index 
+verstanden. Die Menge der nullstelligen Prädikatenvariablen wird auch als Menge 
+der  A u s s a g e n v a r i a b l e n  bezeichnet: A := {p_i⁰ | i ∈ ω }. Für 
+die Subjektvariablen werden abkürzend auch bestimmte Kleinbuchstaben 
+geschrieben. Die Kleinbuchstaben stehen für verschiedene Subjektvariablen: v₁ = 
+u’, v₂ = ‘v’, v₃ = ‘w’, v₄ = ‘x’, v₅ = ‘y’, v₅ = ‘z’. Weiter werden als 
+Abkürzungen verwendet: für die Prädikatenvariablen pⁿ₁ = ‘φ’ und pⁿ₂ = ‘ψ’, 
+wobei die jeweilige Stellenanzahl n aus der Anzahl der nachfolgenden Parameter 
+ermittelt wird, für die Aussagenvariablen a₁ = ‘A’, a₂ = ‘B’ und a₃ = ‘C’. Als 
+Abkürzungen für Funktionsvariablen wird festgelegt fⁿ₁ = ‘f’ und fⁿ₂ = ‘g’, 
+wobei wiederum die jeweilige Stellenanzahl n aus der Anzahl der nachfolgenden 
+Parameter ermittelt wird. Bei allen aussagenlogischen zweistelligen Operatoren 
+wird der leichteren Lesbarkeit wegen die Infixschreibweise benutzt, dabei werden
+die Symbole ‘(’ und ‘)’ verwandt. D. h. für den Operator ∧ mit den Argumenten A 
+und B wird (A ∧ B) geschrieben. Es gelten die üblichen Operatorprioritäten und 
+die dazugehörigen Klammerregeln. Insbesondere die äußeren Klammern werden in der
+Regel weggelassen. Auch werden leere Klammern nicht geschrieben.
+
+Nachfolgend werden die Operatoren mit absteigender Priorität aufgelistet. 
+  ¬, ∀, ∃ 
+ ∧ 
+ ∨ 
+ →, ↔ 
+
+
+
+Der Begriff  T e r m  wird im Folgenden rekursiv definiert:  
+1. Jede Subjektvariable ist ein Term. 
+2. Seien i, k ∈ ω und t₁, ..., t_k Terme. Dann ist auch h^k_i(t₁, ..., t_k) und 
+   falls k > 0, so auch f^k_i(t₁, ..., t_k) ein Term. Alle nullstelligen 
+   Funktionskonstanten {h⁰_i | i, ∈ ω} sind demzufolge Terme, sie werden auch 
+    I n d i v i d u e n k o n s t a n t e n  genannt.
+          ┌
+          │ Analog dazu könnten Subjektvariablen auch als nullstellige 
+          │ Funktionsvariablen definiert werden. Da die Subjektvariablen jedoch 
+          │ eine hervorgehobene Rolle spielen, werden sie auch gesondert 
+          │ bezeichnet.
+          └
+
+
+Die Begriffe  F o r m e l ,  f r e i e  und  g e b u n d e n e  Subjektvariable 
+werden rekursiv wie folgt definiert:  
+1. Jede Aussagenvariable ist eine Formel, solche Formeln enthalten keine freien 
+   oder gebundenen Subjektvariablen. 
+2. Ist p^k eine k-stellige Prädikatenvariable und c^k eine k-stellige 
+   Prädikatenkonstante und sind t₁, t₂, ..., t_k Terme, so sind p^k(t₁, t₂, ... 
+   t_k) und c^k(t₁, t₂, ..., t_k) Formeln. Dabei gelten alle in t₁, t₂, ..., t_k
+   vorkommenden Subjektvariablen als freie Subjektvariablen, gebundene 
+   Subjektvariablen kommen nicht vor.
+             ┌
+             │ Dieser zweite Punkt umfasst den ersten, welcher nur der 
+             │ Anschaulichkeit wegen extra aufgeführt ist.
+             └
+ 
+3. Es seien α, β Formeln, in denen keine Subjektvariablen vorkommen, die in 
+   einer Formel gebunden und in der anderen frei sind. Dann sind auch ¬ α, (α ∧ 
+   β), (α ∨ β), (α → β), (α ↔ β) Formeln. Subjektvariablen, welche in α oder β 
+   frei (bzw. gebunden) vorkommen, bleiben frei (bzw. gebunden). 
+4. Falls in der Formel α die Subjektvariable x₁ nicht gebunden vorkommt
+             ┌
+             │ D. h. x₁ kommt höchstens frei vor.
+             └
+   , dann sind auch ∀ x₁ α und ∃ x₁ α Formeln. Dabei wird ∀ als 
+    A l l q u a n t o r  und ∃ als  E x i s t e n z q u a n t o r  bezeichnet. 
+   Bis auf x₁ bleiben alle freien Subjektvariablen von α auch frei, und zu den 
+   gebundenen Subjektvariablen von α kommt x₁ hinzu. Alle Formeln die nur durch 
+   Anwendung von 1. und 3. gebildet werden, heißen Formeln der 
+    A u s s a g e n a l g e b r a .
+
+Es gilt für jede Formel α: die Menge der freien und der gebundenen 
+Subjektvariablen von α sind disjunkt.
+          ┌
+          │ Andere Formalisierungen erlauben z. B. ∀ x₁ α auch dann, wenn x₁ 
+          │ schon in α gebunden vorkommt. Auch Ausdrücke wie α(x₁) ∧ (∀ x₁ β) 
+          │ sind erlaubt. Es wird dann für ein einzelnes Vorkommen einer 
+          │ Variablen definiert, ob es sich um ein freies oder gebundenes 
+          │ Vorkommen handelt.
+          └
+
+
+Falls eine Formel die Gestalt ∀ x₁   α bzw. ∃ x₁   α besitzt, dann heißt die 
+Formel α der  W i r k u n g s b e r e i c h  des Quantors ∀ bzw. ∃.
+
+Alle Formeln, die beim Aufbau einer Formel mittels 1. bis 4. benötigt werden, 
+heißen  T e i l f o r m e l n .
+
+Obgleich wir Predikaten- und Funktionsvariablen haben, handelt es sich immer 
+noch um einen Kalkül erster Stufe. Wenn die Prädikate andere Prädikate oder 
+Funktionen als Argumente haben könnten oder wenn wir über Predikate oder 
+Funktionen quantifizieren könnten, dann würden wir den Bereich der ersten Stufe 
+verlassen haben. Siehe auch [mendelson], S. 55.
+
+
+
+
+___________________________________________________
+
+
+Kapitel 2 
+
+
+Axiome und Schlussregeln
+════════════════════════
+
+Nun geben wir das Axiomensystem für die Prädikatenlogik an und formulieren die 
+Regeln um daraus neue Formeln zu gewinnen.
+
+
+2.1 Axiome
+――――――――――
+
+Die Grundlagen der bei Ｈｉｌｂｅｒｔ ＩＩ verwendeten Logik werden hier 
+zusammengestellt. Die folgende Kalkülsprache und ihre Axiome basieren auf den 
+Formulierungen von  D .  H i l b e r t ,  W .  A c k e r m a n n [hilback], 
+ P .  B e r n a y s  und  P .  S .  N o v i k o v [novikov]. Aus den hier 
+angegebenen logischen Axiomen und den elementaren Schlussregeln können weitere 
+Gesetzmäßigkeiten abgeleitet werden. Erst diese neuen Metaregeln führen zu einer
+komfortablen logischen Argumentation.
+
+Die Axiome, Definitionen und Regeln werden in syntaktischer Weise vorgestellt, 
+aber um die gewählte Form zu motivieren, geben wir bereits einige semantische 
+ I n t e r p r e t a t i o n e n .
+
+Die aussagenlogischen Operatoren ‘¬’, ‘∧’, ‘∨’, ‘→’ und ‘↔’ verknüpfen beliebige
+ A u s s a g e n  zu neuen Aussagen. Dabei verstehen wir unter einer Aussage 
+eine Größe, die nur den Wert „wahr” und „falsch” annehmen kann.
+          ┌
+          │ Später werden wir für die Wahrheitswerte die Symbole ⊤ und ⊥ 
+          │ definieren.
+          └
+
+
+
+Der zweistellige Operator ‘∧’ (Oder-Verknüpfung) legt für die Aussagen α und β 
+die neue Aussage α ∧ β fest. Sie ist dann und nur dann wahr, wenn wenigstens 
+eine der ursprünglichen Aussagen wahr ist.
+
+Durch den einstelligen Operator ‘¬’ wird zu einer Aussage α ihre 
+ N e g a t i o n  definiert. ¬ α ist falsch, wenn α wahr ist und wahr wenn α 
+falsch ist.
+
+Die Implikation, die Und-Verknüpfung und die logische Äquivalenz werden als 
+Abkürzungen definiert.
+          ┌
+          │ Eigentlich werden die Abkürzungssymbole ∨, →, ↔ erst an dieser 
+          │ Stelle definiert und erweitern die Sprachsyntax. Aus 
+          │ Bequemlichkeitsgründen wurden diese Symbole bereits als logische 
+          │ Symbole angegeben.
+          └
+
+
+Die logische Implikation („wenn ... dann„) kann wie folgt definiert werden. 
+α → β :↔  ¬ α ∨ β
+
+
+Definition der Und-Verknüpfung mittels De-Morgan. 
+α ∧ β :↔  ¬ (¬ α ∨ ¬ β)
+
+
+Die logische Äquivalenz („genau dann, wenn”) wird wie üblich definiert. 
+α ↔ β :↔  (α → β) ∧ (β → α)
+
+
+Nun folgt unser erstes Axiom der Aussagenlogik. Mithilfe dieses Axioms können 
+überflüssige Oder-Verknüpfungen entfernt werden.
+
+☉ Axiom 1  (Oder-Kürzung)  [axiom:disjunction_idempotence]
+
+     (A ∨ A) → A
+
+
+Wenn eine Aussage wahr ist, dann kann eine beliebige weitere Aussage mittels 
+Oder-Verknüpfung hinzugefügt werden, ohne dass die Aussage falsch wird.
+
+☉ Axiom 2  (Oder-Verdünnung)  [axiom:disjunction_weakening]
+
+     A → (A ∨ B)
+
+
+Die Oder-Verknüpfung soll kommutativ sein.
+
+☉ Axiom 3  (Oder-Vertauschung)  [axiom:disjunction_commutative]
+
+     (A ∨ B) → (B ∨ A)
+
+
+Eine Oder-Verknüpfung kann auf beiden Seiten einer Implikation hinzugefügt 
+werden.
+
+☉ Axiom 4  (Oder-Vorsehung)  [axiom:disjunction_addition]
+
+     (A → B) → ((C ∨ A) → (C ∨ B))
+
+
+Wenn ein Prädikat auf alle x zutrifft, so trifft es auch auf ein beliebiges y 
+zu.
+
+☉ Axiom 5  (Spezialisierung)  [axiom:universalInstantiation]
+
+     ∀ x φ(x) → φ(y)
+
+
+Wenn ein Prädikat auf irgend ein y zutrifft, so gibt es ein x, auf das es 
+zutrifft.
+
+☉ Axiom 6  (Existenz)  [axiom:existencialGeneralization]
+
+     φ(y) → ∃ x φ(x)
+
+
+
+2.2 Ableitungsregeln
+――――――――――――――――――――
+
+Die im folgenden angegebenen Regeln ermöglichen uns aus den wahr angesehenen 
+Axiomen neue wahre Formeln zu gewinnen. Aus diesen können wiederum weitere 
+Formeln abgeleitet werden, so dass sich die Menge der wahren Formeln sukzessive 
+erweitern lässt.
+
+
+☉ Regel 1  (Abtrennung, Modus Ponens)  [rule:modusPonens]
+  Name: MP  -  Version: 0.01.00
+
+Wenn α und α → β wahre Formeln sind, dann ist auch β eine wahre Formel.
+
+
+☉ Regel 2  (Ersetzung für freie Subjektvariable)  [rule:replaceFree]
+  Name: replaceFree  -  Version: 0.01.00
+
+Ausgehend von einer wahren Formel kann jede freie Subjektvariable durch einen 
+Term ersetzt werden, der keine in der Formel bereits gebundenen Subjektvariablen
+enthält. Die Ersetzung muss durchgängig in der gesamten Formel erfolgen.
+
+Das Verbot in dem Term Subjektvariablen zu verwenden, welche in der 
+Originalformel gebunden vorkommen, dient nicht nur der Absicherung der 
+Wohlgeformtheit, sondern besitzt auch eine inhaltliche Bedeutung. Dazu 
+betrachten wir die folgende Ableitung.
+
+ ∀ x  ∃ y  φ(x, y)   →   ∃ y  φ(z,y)   mit Axiom 5 
+ ∀ x  ∃ y  φ(x, y)   →   ∃ y  φ(y,y)   verbotene Ersetzung: z durch y, obwohl y 
+bereits gebunden 
+ ∀ x  ∃ y  x ≠ y   →   ∃ y  ≠ y   Einsetzung von ≠ für φ
+
+Diese letzte Aussage ist in vielen Modellen nicht gültig.
+
+
+☉ Regel 3  (Umbenennung für gebundene Subjektvariable)  [rule:renameBound]
+  Name: renameBound  -  Version: 0.01.00
+
+Jede gebundene Subjektvariable kann in eine andere, nicht bereits frei 
+vorkommende, Subjektvariable umbenannt werden. Falls über umzubenennende 
+Variable mehrfach quantifiziert wird, dann braucht die Umbenennung nur im 
+Wirkungsbereich eines bestimmten Quantors zu erfolgen.
+
+
+☉ Regel 4  (Einsetzung für Prädikatenvariable)  [rule:replacePred]
+  Name: replacePred  -  Version: 0.01.00
+
+Es sei α eine wahre Formel, die die n-stellige Prädikatenvariable p enthält, x₁,
+..., x_n seien paarweise verschiedene Subjektvariable und β(x₁, ..., x_n) eine 
+beliebige Formel in der die Variablen x₁, ..., x_n nicht gebunden sind. In der 
+Formel β(x₁, ..., x_n) müssen jedoch nicht alle x₁, ..., x_n als freie 
+Subjektvariable vorkommen. Weiterhin können auch noch weitere Variable frei oder
+gebunden vorkommen. Wenn die folgenden Bedingungen erfüllt sind, dann kann durch
+die Ersetzung jedes Vorkommens von p(t₁, ..., t_n) mit jeweils passenden Termen 
+t₁, ..., t_n in α durch β(t₁, ..., t_n) eine weitere wahre Formel gewonnen 
+werden.  
+1. die freien Variablen von β(x₁, ..., x_n) ohne x₁, ..., x_n kommen nicht in α 
+   als gebundene Variablen vor 
+2. jedes Vorkommen von p(t₁, ..., t_n) in α enthält keine gebundene Variable von
+   β(x₁, ..., x_n) 
+3. das Ergebnis der Substitution ist eine wohlgeformte Formel
+
+Siehe III § 5 in [hilback].
+
+Das Verbot in der Ersetzungsformel keine zusätzliche Subjektvariable zu 
+verwenden, welche in der Originalformel gebunden vorkommt, hat nicht nur die 
+Absicherung der Wohlgeformtheit zum Zweck. Es bewahrt auch die inhaltliche 
+Gültigkeit. Dazu betrachten wir die folgende Ableitung.
+
+  φ(x)   →   ∃ y  φ(y)   mit Axiom 6 
+  (∃ y  y = y) ∧ φ(x)   →   ∃ y  φ(y)   
+  ∃ y  (y = y ∧ φ(x))   →   ∃ y  φ(y)   
+  ∃ y  (y = y ∧ x ≠ y)   →   ∃ y  y ≠ y   verbotene Ersetzung: φ(x) durch x ≠ y,
+obwohl y bereits gebunden 
+  ∃ y   x ≠ y   →   ∃ y  y ≠ y  
+
+Diese letzte Aussage ist in vielen Modellen nicht gültig.
+
+
+Analog zu Regel Regel 4 können wir auch Funktionsvariablen ersetzen.
+
+☉ Regel 5  (Einsetzung für Funktionsvariable)  [rule:replaceFunct]
+  Name: replaceFunct  -  Version: 0.01.00
+
+Es sei α eine bereits bewiesene Formel, die die n-stellige Funktionsvariable σ 
+enthält, x₁, ..., x_n seien paarweise verschiedene Subjektvariable und τ(x₁, 
+..., x_n) ein beliebiger Term in dem die Subjektvariablen x₁, ..., x_n nicht 
+gebunden sind. In dem Term τ(x₁, ..., x_n) müssen nicht alle x₁, ..., x_n als 
+freie Subjektvariable vorkommen. Weiterhin können auch noch noch weitere 
+Variable frei oder gebunden vorkommen. Wenn die folgenden Bedingungen erfüllt 
+sind, dann kann durch die Ersetzung jedes Vorkommens von σ(t₁, ..., t_n) mit 
+jeweils passenden Termen t₁, ..., t_n in α durch τ(t₁, ..., t_n) eine weitere 
+wahre Formel gewonnen werden.  
+1. die freien Variablen von τ(x₁, ..., x_n) ohne x₁, ..., x_n kommen in α nicht 
+   als gebundene Variablen vor 
+2. jedes Vorkommen von σ(t₁, ..., t_n) in α enthält keine gebundene Variable von
+   τ(x₁, ..., x_n) 
+3. das Ergebnis der Substitution ist eine wohlgeformte Formel
+
+
+☉ Regel 6  (Hintere Generalisierung)  [rule:universalGeneralization]
+  Name: universalGeneralization  -  Version: 0.01.00
+
+Wenn α → β(x₁) eine wahre Formel ist und α die Subjektvariable x₁ nicht enthält,
+dann ist auch α → (∀ x₁ (β(x₁))) eine wahre Formel.
+
+
+☉ Regel 7  (Vordere Partikularisierung)  [rule:existentialGeneralization]
+  Name: existentialGeneralization  -  Version: 0.01.00
+
+Wenn α(x₁) → β eine wahre Formel ist und β die Subjektvariable x₁ nicht enthält,
+dann ist auch (∃ x₁ α(x₁)) → β eine wahre Formel.
+
+
+Die Auflösung und der Einsatz von Abkürzungen und Konstanten ist auch mit der 
+Anwendung von Regeln verbunden. In vielen Texten zur mathematischen Logik werden
+diese Regeln nicht explizit formuliert, auch dieser Text geht darauf nicht 
+weiter ein. In dem exakten QEDEQ-Format gibt es jedoch entsprechende Regeln.
+
+
+
+___________________________________________________
+
+
+Kapitel 3 
+
+
+Abgeleitete Sätze
+═════════════════
+
+Mit den im Kapitel chapter4 angegebenen Axiomen und Schlussregeln lassen sich 
+elementare logische Gesetzmäßigkeiten ableiten.
+
+
+3.1 Aussagenlogik
+―――――――――――――――――
+
+Zunächst behandeln wir die Aussagenlogik.
+
+
+Um das Prädikat  w a h r  zu definieren, kombinieren wir einfach ein Prädikat 
+und seine Negation.
+
+☉ Definition 1  (Wahr)  [definition:True]
+
+     ⊤ ↔ (A ∨ ¬ A)
+
+Für eine exakte Definiton hätten wir eigentlich so etwas wie p⁰₀ = ⊤ und ⊤ :↔ (A
+∨ ¬ A) schreiben müssen.
+          ┌
+          │ In der noch tiefer liegenden formalen Sprache (siehe 
+          │  http://www.qedeq.org/current/doc/project/qedeq_logic_language_en.pdf )
+          │ hat dieses Prädikat den Namen  T R U E  und besitzt keine Argumente.
+          │ Daher müssten wir nur die Namen auf die natürlichen Zahlen abbilden 
+          │ um der exakten Definition gerecht zu werden.
+          └
+ In Zukunft schreiben wir jedoch nur das Symbol. Die Stellenzahl sollte aus der 
+Formel ersichtlich sein.
+
+
+Für das Prädikat  f a l s c h  negieren wir einfach  w a h r .
+          ┌
+          │ Analog zu der vorhergehenden Definition können wir festlegen p⁰₁ = ⊥
+          └
+
+
+☉ Definition 2  (Falsch)  [definition:False]
+
+     ⊥ ↔ ¬ ⊤
+
+
+Wir haben die folgenden elementaren Aussagen.
+
+☉ Proposition 1  (Elementare Sätze)  [theorem:propositionalCalculus]
+
+  (aa)  ⊤
+  (ab)  ¬ ⊥
+  (ac)  A → A
+  (ad)  A ↔ A
+  (ae)  (A ∨ B) ↔ (B ∨ A)
+  (af)  (A ∧ B) ↔ (B ∧ A)
+  (ag)  (A ∧ B) → A
+  (ah)  (A ↔ B) ↔ (B ↔ A)
+  (ai)  (A ∨ (B ∨ C)) ↔ ((A ∨ B) ∨ C)
+  (aj)  (A ∧ (B ∧ C)) ↔ ((A ∧ B) ∧ C)
+  (ak)  A ↔ (A ∨ A)
+  (al)  A ↔ (A ∧ A)
+  (am)  A ↔ ¬ ¬ A
+  (an)  (A → B) ↔ (¬ B → ¬ A)
+  (ao)  (A ↔ B) ↔ (¬ A ↔ ¬ B)
+  (ap)  (A → (B → C)) ↔ (B → (A → C))
+  (aq)  ¬ (A ∨ B) ↔ (¬ A ∧ ¬ B)
+  (ar)  ¬ (A ∧ B) ↔ (¬ A ∨ ¬ B)
+  (as)  (A ∨ (B ∧ C)) ↔ ((A ∨ B) ∧ (A ∨ C))
+  (at)  (A ∧ (B ∨ C)) ↔ ((A ∧ B) ∨ (A ∧ C))
+  (au)  (A ∧ ⊤) ↔ A
+  (av)  (A ∧ ⊥) ↔ ⊥
+  (aw)  (A ∨ ⊤) ↔ ⊤
+  (ax)  (A ∨ ⊥) ↔ A
+  (ay)  (A ∨ ¬ A) ↔ ⊤
+  (az)  (A ∧ ¬ A) ↔ ⊥
+  (ba)  (⊤ → A) ↔ A
+  (bb)  (⊥ → A) ↔ ⊤
+  (bc)  (A → ⊥) ↔ ¬ A
+  (bd)  (A → ⊤) ↔ ⊤
+  (be)  (A ↔ ⊤) ↔ A
+  (bf)  ((A → B) ∧ (B → C)) → (A → C)
+  (bg)  ((A ↔ B) ∧ (C ↔ B)) → (A ↔ C)
+  (bh)  ((A ∧ B) ↔ (A ∧ C)) ↔ (A → (B ↔ C))
+  (bi)  ((A ∧ B) ↔ (A ∧ ¬ B)) ↔ ¬ A
+  (bj)  (A ↔ (A ∧ B)) ↔ (A → B)
+  (bk)  (A → B) → ((A ∧ C) → (B ∧ C))
+  (bl)  (A ↔ B) → ((A ∧ C) ↔ (B ∧ C))
+  (bm)  (A ∧ (A → B)) → B
+  (bn)  (A ∧ (A → B)) ↔ (A ∧ B)
+
+
+
+3.2 Prädikatenlogik
+―――――――――――――――――――
+
+Für die Prädikatenlogik ergeben sich die folgenden Sätze.
+
+
+Wir haben die folgenden elementaren Aussagen.
+
+☉ Proposition 2  (Elementare Sätze)  [theorem:predicateCalculus]
+
+  (a)  ∀ x (φ(x) → ψ(x)) → (∀ x φ(x) → ∀ x ψ(x))
+  (b)  ∀ x (φ(x) → ψ(x)) → (∃ x φ(x) → ∃ x ψ(x))
+  (c)  ∀ x (φ(x) ↔ ψ(x)) → (∀ x φ(x) ↔ ∀ x ψ(x))
+  (d)  ∃ x (φ(x) ∧ ψ(x)) → (∃ x φ(x) ∧ ∃ x ψ(x))
+  (e)  (∀ x ψ(x) ∨ ∀ x ψ(x)) → ∀ x (φ(x) ∨ ψ(x))
+  (f)  ∃ x (φ(x) ∨ ψ(x)) ↔ (∃ x φ(x) ∨ ∃ x ψ(x))
+  (g)  ∀ x (φ(x) ∧ ψ(x)) ↔ (∀ x φ(x) ∧ ∀ x ψ(x))
+  (h)  ∀ x ∀ y φ(x, y) ↔ ∀ y ∀ x φ(x, y)
+  (i)  ∃ x ∃ y φ(x, y) ↔ ∃ y ∃ x φ(x, y)
+  (j)  ∀ x (φ(x) → A) → (∀ x φ(x) → A)
+  (k)  ∀ x (A → φ(x)) ↔ (A → ∀ x φ(x))
+  (l)  ∀ x (φ(x) ∧ A) ↔ (∀ x φ(x) ∧ A)
+  (m)  ∀ x (φ(x) ∨ A) ↔ (∀ x φ(x) ∨ A)
+  (n)  ∀ x (φ(x) ↔ A) → (∀ x φ(x) ↔ A)
+  (o)  ∀ x (φ(x) ↔ ψ(x)) → (∀ x φ(x) ↔ ∀ x ψ(x))
+
+
+
+3.3 Abgeleitete Regeln
+――――――――――――――――――――――
+
+Aus den logischen Grundlagen lassen sich logische Sätze und Metaregeln ableiten,
+die eine bequemere Argumentation ermöglichen. Erst mit diesem Regelwerk und 
+zusätzlichen Definitionen und Abkürzungen wird die restliche Mathematik 
+entwickelt. Dabei wird stets nur eine  k o n s e r v a t i v e  Erweiterung der 
+bisherigen Syntax vorgenommen. D. h. in dem erweiterten System lassen sich keine
+Formeln ableiten, die in der alten Syntax formuliert, aber dort nicht ableitbar 
+sind. Im Folgenden werden solche konservativen Erweiterungen vorgestellt.
+
+
+☉ Regel 8  (Ersetzung durch logisch äquivalente Formeln)  
+[rule:replaceEquiFormula]
+  Name: replaceEquiFormula  -  Version: 1.00.00
+
+Sei die Aussage α ↔ β bereits bewiesen. Wird dann aus der Formel δ eine neue 
+Formel γ dadurch gewonnen, dass ein beliebiges Vorkommen von α durch β ersetzt
+          ┌
+          │ Bei dieser Ersetzung kann es erforderlich sein, dass gebundene 
+          │ Variablen von β umbenannt werden müssen, damit sich wieder eine 
+          │ Formel ergibt.
+          └
+ wird und besitzt γ zumindest die freien Variablen von δ, dann gilt δ ↔ γ.
+
+
+☉ Regel 9  (Ersetzung von ⊤ durch bereits abgeleitete Formel)  
+[rule:replaceTrueByTrueFormula]
+  Name: replaceTrueByTrueFormula  -  Version: 1.00.00
+
+Sei α eine bereits abgeleitete wahre Formel und β eine Formel, die ⊤ enthält. 
+Falls wir durch Ersetzung eines beliebigen Vorkommens von ⊤ in β durch α eine 
+wohlgeformte Formel γ erhalten, dann ist die folgende Formel ebenfalls wahr: β ↔
+γ
+
+
+☉ Regel 10  (Ersetzung von bereits abgeleiteter Formel durch ⊤)  
+[rule:replaceTrueFormulaByTrue]
+  Name: replaceTrueFormulaByTrue  -  Version: 1.00.00
+
+Sei α eine bereits abgeleitete wahre Formel und β eine Formel, die α enthält. 
+Falls wir durch Ersetzung eines beliebigen Vorkommens von α in β durch ⊤ eine 
+wohlgeformte Formel γ erhalten, dann ist die folgende Formel ebenfalls wahr: β ↔
+γ
+
+
+☉ Regel 11  (Abgeleitete Quantifizierung)  [rule:derivedQuantification]
+  Name: derivedQuantification  -  Version: 1.00.00
+
+Falls wir die wahre Formel α(x) bereits abgeleitet haben und x in α(x) nicht 
+gebunden vorkommt, dann ist die Formel ∀ x  α(x) ebenfalls wahr.
+
+
+☉ Regel 12  (Allgemeine Assoziativität)  [rule:generalAssociativity]
+  Name: generalAssociativity  -  Version: 1.00.00
+
+Falls ein zweistelliger Operator das Assoziativitätsgesetz erfüllt, so erfüllt 
+er auch das allgemeine Assoziativitätsgesetz. Dem Operator kann dann eine 
+beliebige Stellenanzahl größer eins zugeschrieben werden. So wird beispielsweise
+anstelle für (a + b) + (c + d) einfach a + b + c + d geschrieben.
+          ┌
+          │ Der n-stellig Operator wird mit einer bestimmten Klammerung 
+          │ definiert, jede andere Klammerreihenfolge liefert jedoch dasselbe 
+          │ Ergebnis.
+          └
+
+
+
+☉ Regel 13  (Allgemeine Kommutativität)  [rule:generalCommutativity]
+  Name: generalCommutativity  -  Version: 1.00.00
+
+Falls ein Operator das allgemeine Assoziativitätsgesetz erfüllt und kommutativ 
+ist, so sind alle Permutationen von Parameterreihenfolgen einander gleich oder 
+äquivalent.
+          ┌
+          │ Je nachdem ob es sich um einen Termoperator oder einen 
+          │ Formeloperator handelt.
+          └
+ So gilt beispielsweise a + b + c + d = c + a + d + b.
+
+
+☉ Regel 14  (Ableitbarkeit aus einer Formel)  
+[rule:definitionDeductionFromFormula]
+  Name: definitionDeducibleFromFormula  -  Version: 1.00.00
+
+Eine Formel β heißt  a u s   d e r   F o r m e l  α   a b l e i t b a r , wenn 
+sich β mit Hilfe aller Regeln des Prädikatenkalküls und der um α vermehrten 
+Gesamtheit aller wahren Formeln des Prädikatenkalküls herleitbar und α → β eine 
+Formel ist. Dabei dürfen die beiden Quantifizierungsregeln, die Einsetzungsregel
+für Prädikatenvariable und die Umbenennungsregel für freie Subjektvariable nur 
+auf solche Variablen angewendet werden, die in der Formel α nicht auftreten.
+
+Schreibweise: α ⊢ β.
+
+Die Ableitbarkeit einer Formel β aus der Formel α ist streng zu unterscheiden 
+von der Ableitbarkeit einer wahren Formel aus den Axiomen des Kalküls, denn im 
+zweiten Fall stehen mehr Ableitungsregeln zur Verfügung. Falls beispielsweise 
+die Formel A als Axiom aufgenommen wird, so ist die Formel A herleitbar. 
+Hingegen läßt sich aus A nicht B ableiten.
+          ┌
+          │ Die Unterscheidung ist der möglichen Anwendung der verschiedenen 
+          │ Substitionsregeln geschuldet.
+          └
+
+
+
+☉ Regel 15  (Deduktionstheorem)  [rule:deductionTheorem]
+  Name: deductionTheorem  -  Version: 1.00.00
+
+Wenn eine Formel β aus einer Formel α ableitbar ist, so ist die Formel α → β im 
+Prädikatenkalkül herleitbar.
+
+
+
+
+___________________________________________________
+
+
+Kapitel 4 
+
+
+Identität
+═════════
+
+Alles was existiert besitzt eine spezifische Natur. Jede Entität existiert als 
+etwas besonderes und besitzt charakterisierende Merkmale. Identität ist etwas, 
+das eine Entität definierbar und erkennbar macht im Sinne einer Menge von 
+Eigenschaften oder Merkmalen, welche sie von anderen Entitiäten unterscheiden. 
+Eine Entität kann mehrere Merkmale besitzen, aber alle Merkmale die sie besitzt 
+ist Teil ihrer Identität.
+
+
+4.1 Axiome der Identität
+――――――――――――――――――――――――
+
+Wir starten mit den Identitätsaxiomen.
+
+
+Es wird eine zweistellige Prädikatskonstante festgelegt, welche in der 
+Interpretation die Identität von Subjekten ausdrücken soll.
+
+☉ initiale Definition 3  (Identität)  [definition:identity]
+
+     x  =  y
+
+
+Aus Bequemlichkeit definieren wir auch die Negation der Identitätskonstante.
+
+☉ Definition 4  (Verschiedenheit)  [definition:notEqual]
+
+     x  ≠  y ↔ ¬ x  =  y
+
+
+☉ Axiom 7  (Reflexivität der Identität)  [axiom:identityIsReflexive]
+
+     x  =  x
+
+
+☉ Axiom 8  (Leibnizsche Ersetzbarkeit)  [axiom:leibnizReplacement]
+
+     x  =  y → (φ(x) → φ(y))
+
+
+☉ Axiom 9  (Symmetrie der Identität)  [axiom:symmetryOfIdentity]
+
+     x  =  y → y  =  x
+
+
+☉ Axiom 10  (Transitivität der Identität)  [axiom:transitivityOfIdentity]
+
+     (x  =  y ∧ y  =  z) → x  =  z
+
+
+Bei der Leibnizschen Ersetzbarkeit können wir die zweite Implikation umkehren.
+
+☉ Proposition 3   [theorem:leibnizEquivalence]
+
+     x  =  y → (φ(x) ↔ φ(y))
+
+
+☉ Proposition 4   [theorem:identyImpliesFunctionalEquality]
+
+     x  =  y → f(x)  =  f(y)
+
+
+
+4.2 Eingeschränkte Quantoren
+――――――――――――――――――――――――――――
+
+Jede Quantifizierung benötigt eine Subjektvariable und einen Bereich über den 
+die Quantifizierung läuft. Bis jetzt haben wir einen festen Bereich für jede 
+Quantifizierung vorausgesetzt. Die Angabe eines Bereichs ermöglicht uns 
+auszudrücken, dass ein Prädikat nur für einen eingeschränkten Bereich gültig 
+ist.
+
+
+Bei der folgenden Definition muss die für α(x) eingesetzte Formel „erkennen 
+lassen”, über welche Subjektvariable quantifiziert wird. Das ist in der Regel 
+darüber zu entscheiden, welche freie Subjektvariable als erstes in der Formel 
+vorkommt.
+          ┌
+          │ Beispielsweise ist in der folgenden Formel erkennbar, dass die 
+          │ zweite Quantifikation über die Subjektvariable m läuft: ∀  n ∈ ℕ  ∀ 
+          │ m ∈ n  m < n.
+          └
+ In der exakten Syntax des QEDEQ-Formats
+          ┌
+          │ Siehe wieder unter  http://www.qedeq.org/current/xml/qedeq/ .
+          └
+ ist die Subjektvariable immer angegeben.
+
+☉ Axiom 11  (Eingeschränkter Allquantor)  [axiom:restrictedUniversalQuantifier]
+
+     ∀  α(x)  β(x) ↔ ∀ x (α(x) → β(x))
+
+
+Dazu passt die folgende Definition für den eingeschränkten Existenzquantor.
+          ┌
+          │ Passend, da ¬ ∀  ψ(x)  (φ(x)) ↔ ∃  x  ¬ (ψ(x) → φ(x)) ↔ ∃  x  (ψ(x) 
+          │ ∧ ¬φ(x)) ↔ ∃  ψ(x)  (¬φ(x)).
+          └
+
+
+☉ Axiom 12  (Eingeschränkter Existenz)  [axiom:restrictedExistentialQuantifier]
+
+     ∃  α(x)  β(x) ↔ ∃ x (α(x) ∧ β(x))
+
+
+Für eingeschränkte Quantoren gelten analog zu Proposition Proposition 2 
+entsprechende Formeln. 
+ +++
+
+Für die Existenz genau eines Individuums mit einer bestimmten Eigenschaft wird 
+nun ein gesonderter Quantor eingeführt.
+
+☉ Axiom 13  (Eingeschränkter Existenz für genau ein Individuum)  
+[axiom:restrictedUniquenessQuantifier]
+
+     ∃!  α(x)  β(x) ↔ ∃  α(x)  (β(x) ∧ ∀  α(y)  (β(y) → x  =  y))
+
+
+[Termdefinition durch Formel]rule:termdef Falls die Formel ∃! x  α(x) gilt, dann
+kann die Termsyntax durch D(x, α(x)) erweitert werden. Die Formel α(x) möge die 
+Variable y nicht enthalten und β(y) sei eine Formel, welche die Variable x nicht
+enthält. Dann wird durch β(D(x, α(x))) eine Formel definiert durch β(y) ∧ ∃! x  
+(α(x) ∧ x = y). Auch in der abkürzenden Schreibweise gilt die Subjektvariable x 
+als gebunden, die Subjektvariable y ist mit den obigen Einschränkungen frei 
+wählbar und wird in der Abkürzung nicht weiter beachtet. Veränderungen von α in 
+eine andere Formel α’, die eventuell erforderlich sind, damit keine 
+Variablenkollisionen mit Variablen aus β entstehen, müssen jedoch auch in der 
+Abkürzung durchgeführt werden. Alle Termbildungsregeln werden entsprechend 
+erweitert. Der Ausdruck ist auch ersetzbar durch ∃! y  (β(y) ∧ α(y) oder durch 
+β(y) ∧ α(y).
+
+
+
+___________________________________________________
+
+
+
+
+Literaturverzeichnis
+════════════════════
+[witheruss]  A . N .   W h i t e h e a d ,   B .   R u s s e l l , Principia 
+Mathematica, 
+Cambridge University Press, London 1910
+
+[bernays]  P .   B e r n a y s , Axiomatische Untersuchung des Aussagen-Kalkuls 
+der 
+„Principia Mathematica”, Math. Zeitschr. 25 (1926), 305-320
+
+[hilback]  D .   H i l b e r t ,   W .   A c k e r m a n n , Grundzüge der 
+theoretischen 
+Logik, 2. Ed., Springer, Berlin 1938. Siehe auch 
+ http://www.math.uwaterloo.ca/~snburris/htdocs/scav/hilbert/hilbert.html 
+
+[novikov]  P . S .   N o v i k o v , Grundzüge der mathematischen Logik, VEB 
+Deutscher 
+Verlag der Wissenschaften, Berlin 1973
+
+[mendelson]  E .   M e n d e l s o n , Introduction to Mathematical Logic, 3. 
+ed., 
+Wadsworth, Belmont, CA 1987
+
+[guenter]  V .  G ü n t h e r , Vorlesung „Mathematik und Logik”, gehalten an 
+der 
+Universität Hamburg, Wintersemester 1994/1995
+
+[meyling]  M .   M e y l i n g , Hilbert II, Darstellung von formal korrektem 
+mathematischen Wissen, Grobkonzept, 
+ http://www.qedeq.org/current/doc/project/qedeq_basic_concept_de.pdf 
+
+
+
+QEDEQ-Module, welche dieses hier verwenden:
+qedeq_set_theory_v1  
+http://www.qedeq.org/0_04_07/doc/math/qedeq_set_theory_v1.xml
+
+
+
+

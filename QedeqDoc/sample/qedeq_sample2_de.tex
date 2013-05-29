@@ -1,0 +1,128 @@
+% -*- TeX:DE -*-
+%%% ====================================================================
+%%% @LaTeX-file    qedeq_sample2
+%%% Generated from http://www.qedeq.org/0_04_07/doc/sample/qedeq_sample2.xml
+%%% Generated at   2013-05-20 16:27:22.644
+%%% ====================================================================
+
+%%% Permission is granted to copy, distribute and/or modify this document
+%%% under the terms of the GNU Free Documentation License, Version 1.2
+%%% or any later version published by the Free Software Foundation;
+%%% with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+\documentclass[a4paper,german,10pt,twoside]{book}
+\usepackage[german]{babel}
+\usepackage{makeidx}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{color}
+\usepackage{xr}
+\usepackage{tabularx}
+\usepackage[bookmarks=true,bookmarksnumbered,bookmarksopen,
+   unicode=true,colorlinks=true,linkcolor=webgreen,
+   pagebackref=true,pdfnewwindow=true,pdfstartview=FitH]{hyperref}
+\definecolor{webgreen}{rgb}{0,.5,0}
+\usepackage{epsfig,longtable}
+\usepackage{graphicx}
+\usepackage[all]{hypcap}
+
+\newtheorem{thm}{Theorem}
+\newtheorem{cor}[thm]{Korollar}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{ax}{Axiom}
+\newtheorem{rul}{Regel}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{idefn}[defn]{Initiale Definition}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Bemerkung}
+\newtheorem*{notation}{Notation}
+
+
+\addtolength{\textheight}{7\baselineskip}
+\addtolength{\topmargin}{-5\baselineskip}
+
+\setlength{\parindent}{0pt}
+
+\frenchspacing \sloppy
+
+\makeindex
+
+
+\title{Mathematisches Beispielmodul}
+\author{
+Michael Meyling
+}
+
+\begin{document}
+
+\maketitle
+
+\setlength{\parskip}{5pt plus 2pt minus 1pt}
+\mbox{}
+\vfill
+
+\par
+Die Quelle f{"ur} dieses Dokument ist hier zu finden:
+\par
+\url{http://www.qedeq.org/0_04_07/doc/sample/qedeq_sample2.xml}
+
+\par
+Die vorliegende Publikation ist urheberrechtlich gesch{"u}tzt.
+\par
+Bei Fragen, Anregungen oder Bitte um Aufnahme in die Liste der abh{\"a}ngigen Module schicken Sie bitte eine EMail an die Adresse \href{mailto:mime@qedeq.org}{mime@qedeq.org}
+
+\par
+Die Autoren dieses Dokuments sind:
+Michael Meyling \href{mailto:michael@meyling.com}{michael@meyling.com}
+
+
+
+\par
+Benutzte QEDEQ module:
+
+\par
+
+
+\par
+\textbf{l} qedeq\_logic\_v1 \url{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}
+
+\par
+\textbf{s} qedeq\_set\_theory\_v1 \url{http://www.qedeq.org/0_04_07/doc/math/qedeq_set_theory_v1_de.pdf}
+
+
+\setlength{\parskip}{0pt}
+\tableofcontents
+
+\setlength{\parskip}{5pt plus 2pt minus 1pt}
+
+\chapter{Beispiel} \label{chapter1} \hypertarget{chapter1}{}
+
+Wir verwenden die beiden QEDEQ-Hauptmodule und notieren eine einfache Proposition.
+
+\section{Erstes und einziges} \label{chapter1_section1} \hypertarget{chapter1_section1}{}
+Hier starten wir.
+
+\par
+Wir schreiben unsere Proposition, welche Predicate benutzt, die in importierten QEDEQ-Modulen definiert sind.
+
+\begin{prop}
+\label{proposition:one} \hypertarget{proposition:one}{}
+{\tt \tiny [\verb]proposition:one]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall \ \mathfrak{M}(z)\ \ (z \in x\ \leftrightarrow\ z \in y)\ \rightarrow\ x \ = \ y$
+\end{longtable}
+
+\end{prop}
+
+
+
+%% end of chapter Beispiel
+
+\addcontentsline{toc}{chapter}{\indexname} \printindex
+
+\end{document}
+

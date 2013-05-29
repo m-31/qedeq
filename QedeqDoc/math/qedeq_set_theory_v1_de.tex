@@ -1,0 +1,1991 @@
+% -*- TeX:DE -*-
+%%% ====================================================================
+%%% @LaTeX-file    qedeq_set_theory_v1
+%%% Generated from http://www.qedeq.org/0_04_07/doc/math/qedeq_set_theory_v1.xml
+%%% Generated at   2013-05-20 16:27:20.138
+%%% ====================================================================
+
+%%% Permission is granted to copy, distribute and/or modify this document
+%%% under the terms of the GNU Free Documentation License, Version 1.2
+%%% or any later version published by the Free Software Foundation;
+%%% with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+\documentclass[a4paper,german,10pt,twoside]{book}
+\usepackage[german]{babel}
+\usepackage{makeidx}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{color}
+\usepackage{xr}
+\usepackage{tabularx}
+\usepackage[bookmarks=true,bookmarksnumbered,bookmarksopen,
+   unicode=true,colorlinks=true,linkcolor=webgreen,
+   pagebackref=true,pdfnewwindow=true,pdfstartview=FitH]{hyperref}
+\definecolor{webgreen}{rgb}{0,.5,0}
+\usepackage{epsfig,longtable}
+\usepackage{graphicx}
+\usepackage[all]{hypcap}
+
+\newtheorem{thm}{Theorem}
+\newtheorem{cor}[thm]{Korollar}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{ax}{Axiom}
+\newtheorem{rul}{Regel}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{idefn}[defn]{Initiale Definition}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Bemerkung}
+\newtheorem*{notation}{Notation}
+
+
+\addtolength{\textheight}{7\baselineskip}
+\addtolength{\topmargin}{-5\baselineskip}
+
+\setlength{\parindent}{0pt}
+
+\frenchspacing \sloppy
+
+\makeindex
+
+
+\title{Axiomatische Mengenlehre}
+\author{
+Michael Meyling
+}
+
+\begin{document}
+
+\maketitle
+
+\setlength{\parskip}{5pt plus 2pt minus 1pt}
+\mbox{}
+\vfill
+
+\par
+Die Quelle f{"ur} dieses Dokument ist hier zu finden:
+\par
+\url{http://www.qedeq.org/0_04_07/doc/math/qedeq_set_theory_v1.xml}
+
+\par
+Die vorliegende Publikation ist urheberrechtlich gesch{"u}tzt.
+\par
+Bei Fragen, Anregungen oder Bitte um Aufnahme in die Liste der abh{\"a}ngigen Module schicken Sie bitte eine EMail an die Adresse \href{mailto:mime@qedeq.org}{mime@qedeq.org}
+
+\par
+Die Autoren dieses Dokuments sind:
+Michael Meyling \href{mailto:michael@meyling.com}{michael@meyling.com}
+
+
+
+\par
+Benutzte QEDEQ module:
+
+\par
+
+
+\par
+\textbf{l} qedeq\_logic\_v1 \url{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}
+
+
+\setlength{\parskip}{0pt}
+\tableofcontents
+
+\setlength{\parskip}{5pt plus 2pt minus 1pt}
+
+\chapter*{Vorwort\label{ch:preface}} \label{chapter1} \hypertarget{chapter1}{}
+\addcontentsline{toc}{chapter}{Vorwort\label{ch:preface}}
+
+Mathematik ist eine Wissenschaft mit einer Struktur, die im Laufe der Zeit riesige Dimensionen erreicht hat. Diese unglaublich hohe Burg besitzt nur ein ganz schmales Fundament und ihre Festigkeit gr{\"u}ndet sich auf einfachem pr{\"a}dikatenlogischen M{\"o}rtel. Im Prinzip kann der Aufbau von jeder Mathematikerin verstanden werden. Von dem neuesten Gipfel mathematischer Erkenntnis kann jeder Pfad logisch folgerichtig bis in die mengentheoretischen Wurzeln nachvollzogen werden.
+
+\par
+Bei diesem Unternehmen will dieses Dokument Hilfestellung geben. Ziel ist eine Pr{\"a}sentation der mengentheoretischen Wurzeln in verst{\"a}ndlicher Weise. Bei aller Verst{\"a}ndlichkeit soll es jedoch jederzeit m{\"o}glich sein, tief in die Details einzusteigen, ja sogar bis auf die Ebene eines formal korrekten Beweises hinab. Dazu soll es dieses Dokument in verschiedenen Detaillierungen geben. F{\"u}r alle aber gilt, dass die Formeln in Axiomen, Definitionen und Propositionen in formal korrekter Form vorliegen.
+
+\par
+Wir wollen bei den Wurzeln anfangen\ldots
+
+\par
+Dieses Dokument ist im Entstehen begriffen und wird von Zeit zu Zeit aktualisiert. Insbesondere werden an den durch {\glqq+++\grqq} gekennzeichneten Stellen noch Erg{\"a}nzungen oder {\"A}nderungen vorgenommen.
+
+\par
+Besonderer Dank geht an meine Frau \emph{Gesine~Dr{\"a}ger} und unseren Sohn \emph{Lennart} f{\"u}r ihre Unterst{\"u}tzung und ihr Verst{\"a}ndnis f{\"u}r ihnen fehlende Zeit.
+
+\par
+\vspace*{1cm} Hamburg, Januar 2013 \\
+\hspace*{\fill} Michael Meyling
+
+%% end of chapter Vorwort\label{ch:preface}
+
+\chapter*{Einleitung\label{ch:introduction}} \label{chapter2} \hypertarget{chapter2}{}
+\addcontentsline{toc}{chapter}{Einleitung\label{ch:introduction}}
+
+In diesem Dokument nutzen wir die Ergebnisse aus \url{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}~\cite{l}.
+Nachdem durch die Logik die Art der mathematischen Argumentation vorgegeben wird, wird in der Mengenlehre ganz allgemein {\"u}ber Objekte und ihre Zusammenfassungen gesprochen. Besonders interessant ist die Mengenlehre dadurch, dass sie zum einen von eigentlich allen mathematischen Disziplinen verwendet wird. Zum anderen l{\"a}sst sich jede mathematische Disziplin innerhalb der Mengenlehre definieren. Zahlentheorie, Algebra, Analysis und alle weiteren Gebiete lassen sich darauf aufbauen.
+        
+\par
+Dieses Dokument beschreibt die mathematischen Grundlagen der Mengenlehre. Ziel ist dabei die Bereitstellung von elementaren Ergebnissen der Mengenlehre, die in anderen mathematischen Disziplinen ben{\"o}tigt werden. Nach den Grundlagen wird die Boolsche Algebra der Klassen betrachtet. Es schliessen sich Betrachtungen {\"u}ber Relationen und Funktionen an. Ein weiteres wichtiges Ergebnis sind die Definition der nat{\"u}rlichen Zahlen und die Erf{\"u}llung der Peano-Axiome durch diese, auch auf den Begriff der Rekursion wird eingegangen. Anschlie{\ss}end wird das Auswahlaxiom behandelt. Am Schluss geht es um das Kontinuum.
+         
+\par
+Die Darstellung erfolgt in axiomatischer Weise, soll aber im Ergebnis der mathematischen Praxis entsprechen. Daher wird auch das Axiomensystem der Mengenlehre von \emph{A.~P.~Morse} und  \emph{J.~L.~Kelley} (MK\index{MK}) verwendet. Der Aufbau lehnt sich stark an das exzellente und sehr empfehlenswerte Buch von \emph{E.~J.~Lemmon}~\cite{lemmon} an.
+
+%% end of chapter Einleitung\label{ch:introduction}
+
+\chapter{Anfangsgr{\"u}nde} \label{chapter3} \hypertarget{chapter3}{}
+
+In diesem Kapitel beginnen wir mit den ganz elementaren Axiomen und Definitionen der Mengenlehre. Wir versuchen nicht, eine formale Sprache einzuf{\"u}hren,\footnote{Dessen ungeachtet sind die Formeln der Axiome, Definitionen und Propositionen in dem Ursprungstext dieses Dokuments in einer formalen Sprache notiert. Der Ursprungstext ist eine XML-Datei, deren Syntax mittels der XSD \url{http://www.qedeq.org/current/xml/qedeq.xsd} definiert wird. Eine n{\"a}here Beschreibung der Formelsprache ist unter \url{http://www.qedeq.org/current/doc/project/qedeq_logic_language_de.pdf} zu finden.} und setzen das Wissen um den Gebrauch von logischen Symbolen voraus. Noch genauer formuliert: wir arbeiten mit einer Pr{\"a}dikatenlogik erster Stufe mit Identit{\"a}t.
+
+\par\index{Cantor}\index{Menge!Definition}
+\emph{G.~Cantor}, der als Begr{\"u}nder der Mengenlehre gilt, hat in einer Ver{\"o}ffentlichung im Jahre 1895 eine Beschreibung des Begriffs \emph{Menge} gegeben.
+
+\begin{quote}
+ Unter einer {\glqq Menge\grqq} verstehen wir jede Zusammenfassung $M$ von bestimmten wohlunterscheidbaren Objekten $m$ unserer Anschauung oder unseres Denkens (welche die {\glqq Elemente\grqq} von $M$ genannt werden) zu einem Ganzen.
+\end{quote}
+
+\par
+Diese Zusammenfassung kann {\"u}ber die Angabe einer Eigenschaft dieser Elemente erfolgen. Um 1900 wurden verschiedene Widerspr{\"u}che dieser naiven Mengenlehre entdeckt. Diese Widerspr{\"u}che lassen sich auf trickreich gew{\"a}hlte Eigenschaften zur{\"u}ckf{\"u}hren.
+
+\par
+Es gibt verschiedene M{\"o}glichkeiten diese Widerspr{\"u}che zu verhindern. In diesem Text schr{\"a}nken wir zwar die Angabe von Eigenschaften in keiner Weise ein, aber wir nennen das Ergebnis der Zusammenfassung zun{\"a}chst einmal \emph{Klasse}. Zus{\"a}tzliche Axiome regeln dann, wann eine bestimmte Klasse auch eine Menge ist. Alle Mengen sind Klassen, aber nicht alle Klassen sind Mengen. Eine Menge ist eine Klasse, die selbst Element einer anderen Klasse ist. Eine Klasse, die keine Menge ist, ist nicht Element irgend einer anderen Klasse.
+
+\section{Klassen und Mengen} \label{chapter3_section1} \hypertarget{chapter3_section1}{}
+Obgleich wir im Wesentlichen {\"u}ber \emph{Mengen}\index{Menge} sprechen wollen, haben wir am Anfang nur \emph{Klassen}\index{Klasse}. Dieser Begriff wird nicht formal definiert. Anschaulich gesprochen, ist eine Klasse eine Zusammenfassung von Objekten. Die beteiligten Objekte hei{\ss}en auch \emph{Elemente}\index{Element} der Klasse.
+Mengen werden dann als eine besondere Art von Klassen charakterisiert.
+
+\par
+Die folgenden Definitionen und Axiome folgen dem Aufbau einer vereinfachten Version der Mengenlehre nach \emph{von~Neumann-Bernays-G{\"o}del} (\emph{NBG}\index{NBG}). Die genaue Bezeichnung lautet \emph{MK}\index{MK} nach \emph{Morse-Kelley}.
+
+\par
+Die hier vorgestellte Mengenlehre hat als Ausgangsobjekte \emph{Klassen}.
+Weiterhin wird nur ein einziges Symbol f{\"u}r eine bin{\"a}re Relation vorausgesetzt: der \emph{Enthaltenseinoperator}.
+
+\begin{idefn}[Elementbeziehung]
+\label{definition:in} \hypertarget{definition:in}{}
+{\tt \tiny [\verb]definition:in]]}
+$$x \in y
+$$
+
+\end{idefn}
+
+Wir sagen auch \glqq$x$ \emph{ist Element von} $y$\grqq, \glqq$x$ \emph{geh{\"o}rt zu} $y$\grqq, \glqq$x$ \emph{liegt in} $y$\grqq oder auch \glqq$x$ \emph{ist in} $y$\grqq.
+Neben der Identit{\"a}t ist dies das einzige Pr{\"a}dikat welches wir zu Beginn haben. Alle anderen werden definiert. Auch Funktionskonstanten haben wir zu Anfang nicht, ihre Bedeutung wird sukzessive im weiteren Verlauf festgelegt.
+
+
+\par
+Obgleich wir die Elementbeziehung einfach negieren k{\"o}nnen, m{\"o}chten wir daf{\"u}r eine Abk{\"u}rzung definieren.
+
+\begin{defn}[Negation der Elementbeziehung]
+\label{definition:notIn} \hypertarget{definition:notIn}{}
+{\tt \tiny [\verb]definition:notIn]]}
+$$x \notin y\ \leftrightarrow\ \neg x \in y$$
+
+\end{defn}
+
+
+\par
+Unser erstes Axiom besagt, dass beliebige Klassen $x$ und $y$ identisch sind, wenn sie dieselben Elemente enthalten.
+
+\begin{ax}[Extensionalit{\"a}t\index{Extensionalit{\"a}tsaxiom}]
+\label{axiom:extensionality} \hypertarget{axiom:extensionality}{}
+{\tt \tiny [\verb]axiom:extensionality]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall z\ (z \in x\ \leftrightarrow\ z \in y)\ \rightarrow\ x \ = \ y$
+\end{longtable}
+
+\end{ax}
+
+Die Klassen $x$ und $y$ k{\"o}nnen verschieden definiert sein, beispielsweise:
+\par
+\begin{tabularx}{\linewidth}{rcX}
+  $x$ & = & Klasse aller nichtnegativen ganzen Zahlen, \\
+  $y$ & = & Klasse aller ganzen Zahlen, die als Summe von vier Quadraten geschrieben werden k{\"o}nnen,
+\end{tabularx}
+\par
+aber wenn sie dieselben Elemente besitzen, sind sie identisch.
+
+
+\par
+Nun zu unserer ersten Proposition.
+In dem Extensionalit{\"a}tsaxiom k{\"o}nnen wir die Implikation umkehren.
+
+\begin{prop}
+\label{theorem:extensonalityEquivalence} \hypertarget{theorem:extensonalityEquivalence}{}
+{\tt \tiny [\verb]theorem:extensonalityEquivalence]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall z\ (z \in x\ \leftrightarrow\ z \in y)\ \leftrightarrow\ x \ = \ y$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+Dies ist eine einfache Anwendung des zweiten identit{\"a}tslogischen Axioms. Wir setzen $x=y$ voraus. Nun folgt $\phi(x) \leftrightarrow \phi(y)$ f{\"u}r jedes Pr{\"a}dikat $\phi$. So bekommen wir $z \in x \leftrightarrow z \in y$ f{\"u}r beliebiges $z$. Also haben wir $\forall \ z \ z  \in x \leftrightarrow \ z \in y$. Damit zeigten wir $x = y \ \rightarrow \ \forall \ z \ z  \in x \leftrightarrow \ z \in y$. Zusammen mit dem \hyperlink{axiom:extensionality}{Axiom~1} erhalten wir das gew{\"u}nschte Ergebnis.
+\end{proof}
+
+Falls wir das Identit{\"a}tspr{\"a}dikat nicht als logisches Symbol voraussetzen w{\"u}rden, dann w{\"u}rden wir es hiermit definieren. Aber dann wird auch ein weiteres Axiom ben{\"o}tigt und es ergeben sich technischen Schwierigkeiten bei der Herleitung der Identit{\"a}tsaxiome.\footnote{
+  Zus{\"a}tzlich zur Definition der Identit{\"a}t muss das Axiom der Extensionalit{\"a}t in folgender Formulierung treten: $(x = y \land x \in z) \ \rightarrow y \in z$. Das ist ein Spezialfall der Leibnizschen Ersetzbarkeit, die wir bereits als \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{axiom:leibnizReplacement}{Axiom~8}~\cite{l} kennen. Die G{\"u}ltigkeit im allgemeinen Fall kann durch Rekursion {\"u}ber den Aufbau der Formeln nachgewiesen werden. Siehe auch \cite{schmidt} \S 6.
+  
+  \par
+  Alternativ k{\"o}nnen wir definieren $(x = y \leftrightarrow (\forall z \ (x \in z \ \rightarrow \ y \in z)) \land \forall z \ (x \in z \ \rightarrow \ z \in y))$.}
+
+
+\par
+Jetzt legen wir fest, was eine \emph{Menge} ist.
+
+\begin{defn}[Menge\index{Menge!Definition}]
+\label{definition:isSet} \hypertarget{definition:isSet}{}
+{\tt \tiny [\verb]definition:isSet]]}
+$$\mathfrak{M}(x)\ \leftrightarrow\ \exists y\ x \in y$$
+
+\end{defn}
+
+Mengen sind also nichts anderes als Klassen mit einer besonderen Eigenschaft. Eine Klasse ist genau dann eine Menge, wenn sie Element irgendeiner Klasse ist.
+
+
+\par
+Eine triviale Folgerung aus dieser Definition ist die folgende {\"A}quivalenz.
+
+\begin{prop}
+\label{theorem:inSetEqualInSetAndIsSet} \hypertarget{theorem:inSetEqualInSetAndIsSet}{}
+{\tt \tiny [\verb]theorem:inSetEqualInSetAndIsSet]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $x \in y\ \leftrightarrow\ (\mathfrak{M}(x)\ \land\ x \in y)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+`$\Rightarrow$': Sei $x \in y$. Es folgt $\exists \ u \ x \in u$ und daher $\mathfrak{M}(x)$ und logisch $\mathfrak{M}(x) \land x \in y$.
+
+\par
+`$\Leftarrow$': Aus $\mathfrak{M}(x) \land x \in y$ schlie{\ss}en wir $x \in y$.
+\end{proof}
+
+
+\par
+Nun k{\"o}nnen wir das Extensionalit{\"a}tsaxiom wie folgt schreiben.\footnote{Es wird ein eingeschr{\"a}nkter Allquantor benutzt, $z$ l{\"a}uft nur {\"u}ber Mengen.}
+
+\begin{prop}
+\label{theorem:extensionalitySetRestricted} \hypertarget{theorem:extensionalitySetRestricted}{}
+{\tt \tiny [\verb]theorem:extensionalitySetRestricted]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $x \ = \ y\ \leftrightarrow\ \forall \ \mathfrak{M}(z)\ \ (z \in x\ \leftrightarrow\ z \in y)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+`$\Rightarrow$': Genauso wie im Beweis zu \hyperlink{theorem:extensonalityEquivalence}{Proposition~1} erhalten wir die erste Implikation mit dem zweiten identit{\"a}tslogischen Axiom.
+
+\par
+`$\Leftarrow$': 
+Angenommen es gelte $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Sei $u$ eine beliebige Klasse. Falls $u \in x$ dann gilt $u$ ist eine Menge nach \hyperlink{definition:isSet}{Definition~3}, und daraus folgt mit der Annahme $u \in y$. Analog folgt $u \in y \ \rightarrow \ u \in x$. Da $u$ beliebig, haben wir $\forall u \ (u \in x \ \leftrightarrow \ u \in y)$. Und mit dem \hyperlink{axiom:extensionality}{Axiom~1} erhalten wir daraus $x = y$.
+\end{proof}
+\begin{proof}
+\mbox{}
+\par
+\begin{tabularx}{\linewidth}{rclX}
+  $x = y$ & $\leftrightarrow$ & $\forall \ z \ ( z \in x \ \leftrightarrow \ z \in y)$
+    & dies ist \hyperlink{theorem:extensonalityEquivalence}{Proposition~1} \\
+          & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \land z \in x \ \leftrightarrow \ \mathfrak{M}(z) \land z \in y)$ 
+    & \hyperlink{theorem:inSetEqualInSetAndIsSet}{Proposition~2} \\
+          & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \rightarrow (z \in x \ \leftrightarrow \ z \in y))$ 
+    & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:propositionalCalculus/bh}{Proposition~1 (bh)}~\cite{l} \\
+          & $\leftrightarrow$ & $\forall \ \mathfrak{M}(z) \ z \in x \ \leftrightarrow \ z \in y)$ 
+    & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{axiom:restrictedUniversalQuantifier}{Axiom~11}~\cite{l} \\
+\end{tabularx}
+\end{proof}
+
+
+\par
+Unser n{\"a}chstes Axiom der Mengenlehre erm{\"o}glicht uns in simpler Art und Weise neue Klassen zu bilden. Eine Klasse wird ganz einfach durch die Angabe einer pr{\"a}dikatenlogischen Formel charakterisiert.
+
+\begin{ax}[Komprehension]
+\label{axiom:comprehension} \hypertarget{axiom:comprehension}{}
+{\tt \tiny [\verb]axiom:comprehension]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\exists x\ \forall y\ (y \in x\ \leftrightarrow\ (\mathfrak{M}(y)\ \land\ \phi(y)))$
+\end{longtable}
+
+\end{ax}
+
+\index{NBG}Durch eine kleine {\"A}nderung dieses Axioms w{\"u}rden wir im Folgenden ein \emph{NBG}-Axiomensystem der Mengenlehre erhalten, welches auf \emph{John von Neumann}, \emph{Isaak Bernays} und \emph{Kurt G{\"o}del} zur{\"u}ckgeht.\index{pr{\"a}dikativ}\index{Formel, pr{\"a}dikative}
+Dazu definieren wir: eine Formel, in der alle gebundenen Subjektvariablen auf Mengen restringiert sind, wird \emph{pr{\"a}dikative Formel} genannt. Pr{\"a}dikative Formeln formalisieren also diejenigen Eigenschaften, die man als {\glqq Eigenschaften von Mengen\grqq} bezeichnen kann.\footnote{Noch etwas formaler: in einer pr{\"a}dikativen Formel laufen alle Quantorenvariablen nur {\"u}ber Mengen: $\forall \ \mathfrak{M}(x) \ \exists \ \mathfrak{M}(y) \ldots$}
+Fordern wir nun also zus{\"a}tzlich, dass $\phi$ pr{\"a}dikativ sein muss, dann erhalten wir ein NBG-System\footnote{Dazu werden noch einige andere Axiome --- analog zu den folgenden --- ben{\"o}tigt}.
+
+
+\par
+Durch das Komprehensionsaxiom und die Extensionalit{\"a}t wird nun der Zusammenhang zwischen einer Aussage $\phi(y)$ und der durch sie definierten Klasse festgelegt. Dabei behauptet das Komprehensionsaxiom die Existenz mindestens einer Klasse, deren Elemente die Aussage $\mathfrak{M}(y) \land \phi(y)$ erf{\"u}llen. Das Extensionalit{\"a}tsaxiom und die Identit{\"a}tsaxiome sichern ab, dass es h{\"o}chstens eine solche Klasse gibt: irgend zwei Klassen, welche dieselben Elemente besitzen, sind gleich im Sinne der Ersetzbarkeit in allen einschl{\"a}gigen Aussagen. Mit anderen Worten: es gibt nur genau eine solche Klasse.
+
+\begin{prop}
+\label{theorem:comprehension} \hypertarget{theorem:comprehension}{}
+{\tt \tiny [\verb]theorem:comprehension]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\exists! x\ \forall y\ (y \in x\ \leftrightarrow\ (\mathfrak{M}(y)\ \land\ \phi(y)))$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+Zu zeigen ist:
+$$
+\begin{array}{rl}
+\exists x                      & \forall y \ (y \in x \leftrightarrow  \ \mathfrak{M}(y) \land \phi(y)) \\
+\land \ \forall u \ \forall v  & (\forall y \ (y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \ \land  \ \forall y \ ( y \in v \leftrightarrow \ \mathfrak{M}(y) \land \phi(y))) \\
+       & \qquad \rightarrow u = v)
+\end{array}
+$$
+Seien $u$ und $v$ beliebig. Es gelte weiterhin:
+
+\par
+$\forall y \ (y \in u \leftrightarrow \ \mathfrak{M}(y) \land \phi(y)) \land \ \forall y \ ( y \in v \leftrightarrow \mathfrak{M}(y)
+\land \phi(y)))$
+
+\par
+Dann folgt mit \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:predicateCalculus/h}{Proposition~2 (h)}~\cite{l}: $\forall y \ ((y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y)))$
+
+\par
+Daraus erhalten wir mit \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:propositionalCalculus/bg}{Proposition~1 (bg)}~\cite{l}: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. Und mit \hyperlink{theorem:extensonalityEquivalence}{Proposition~1} folgt nun $u = v$. Also haben wir gezeigt:
+
+\par
+$\forall u \ \forall v \ (\forall y \ (y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land \ \forall y \ (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y))) \rightarrow u = v)$
+
+\par
+Zusammen mit dem \hyperlink{axiom:comprehension}{Axiom~2} folgt nun die Behauptung.
+\end{proof}
+
+
+\par
+Ausgehend von \hyperlink{theorem:comprehension}{Proposition~4} k{\"o}nnen wir die Sprachsyntax erweitern und eine neue abk{\"u}rzende Schreibweise einf{\"u}hren.
+
+\begin{rul}[Klassenschreibweise]
+\label{rule:classDefinition} \hypertarget{rule:classDefinition}{}
+{\tt \tiny [\verb]rule:classDefinition]]}
+
+\par
+{\em   Name: \verb]CLASS_DEFINITION_BY_FORMULA]  -  Version: \verb]1.00.00]}
+
+
+F{\"u}r jede Formel $\alpha(x_1)$ definieren wir den Termausdruck $\{ x_1 \ | \ \alpha(x_1)\}$, wobei $x_1$ eine Subjektvariable ist, die in $\alpha(x_1)$ nicht gebunden ist. Die freien Variablen von $\{ x_1 \ | \ \alpha(x_1)\}$ sind die freien Variablen von $\alpha(x_1)$. Die gebundenen Variablen entsprechen den gebundenen Variablen von $\alpha(x_1)$ erg{\"a}nzt um $x_1$.
+
+\par
+Alle Ableitungsregeln werden entsprechend erweitert.
+\end{rul}
+Basierend auf: 
+ \hyperlink{theorem:comprehension}{Proposition~4}
+
+Insbesondere m{\"u}ssen die Substitutionsregeln {\"u}berpr{\"u}ft werden, weil ein Term nun auch gebundene Subjektvariablen enthalten kann.\footnote{Gl{\"u}cklicherweise haben wir das jedoch schon bei der Formulierung unserer Substitutionsregeln ber{\"u}cksichtigt, so dass wir nichts tun m{\"u}ssen.}
+Im Folgenden wird auf diese neue Schreibweise zur{\"u}ckgegriffen.
+
+
+\par
+Wir wollen der neu eingef{\"u}hrten Syntax eine Bedeutung geben, und nach einem Blick auf \hyperlink{theorem:comprehension}{Proposition~4} f{\"u}hren wir das folgende Axiom ein.
+
+\begin{ax}[Axiom der Klassenschreibweise\index{Axiom!der Klassenschreibweise}]
+\label{axiom:classDefinition} \hypertarget{axiom:classDefinition}{}
+{\tt \tiny [\verb]axiom:classDefinition]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $y \in \{ x \ | \ \phi(x) \} \ \leftrightarrow\ (\mathfrak{M}(y)\ \land\ \phi(y))$
+\end{longtable}
+
+\end{ax}
+
+Dies Axiom zusammen mit \hyperlink{rule:classDefinition}{Regel~1} f{\"u}hrt nur zu einer \emph{konservativen} Erweiterung unserer formalen Sprache. Das bedeutet, dass mit der Erweiterung nicht mehr Formeln, die der alten Syntax gen{\"u}gen, abgeleitet werden k{\"o}nnen. Es ist nur bequem, eine neue elegante Schreibweise zu besitzen.\footnote{
+Unter einer konservativen Erweiterung  verstehen wir das Folgende:
+Sei $\mathfrak{L}$ eine Sprache und $\mathfrak{L'}$ eine Erweiterung von $\mathfrak{L}$. Da $\mathfrak{L'} \supset \mathfrak{L}$ gilt auch $\mbox{Formel}_\mathfrak{L'} \supset \mbox{Formel}_\mathfrak{L}$. Falls nun f{\"u}r jede Formelmenge $\Gamma \subseteq \mbox{Formel}_\mathfrak{L}$ und jede Formel $\alpha \in \mbox{Formel}_\mathfrak{L}$ gilt: $\Gamma \vdash_\mathfrak{L'} \alpha \ \Rightarrow \ \Gamma \vdash_\mathfrak{L} \alpha$, dann hei{\ss}t $\mathfrak{L'}$ eine \emph{konservative} Erweiterung von $\mathfrak{L}$.}.
+
+
+\par
+Die neue Schreibweise kann auch in einfacher Weise in die alte Syntax transformiert werden.
+Die G{\"u}ltigkeit der Ausgangspr{\"a}dikate dr{\"u}ckt sich f{\"u}r diese neue Termart wie folgt aus.
+
+\begin{prop}
+\label{theorem:setNotation} \hypertarget{theorem:setNotation}{}
+{\tt \tiny [\verb]theorem:setNotation]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $z \in \{ x \ | \ \phi(x) \} \ \leftrightarrow\ (\mathfrak{M}(z)\ \land\ \phi(z))$ & \label{theorem:setNotation/a} \hypertarget{theorem:setNotation/a}{} \mbox{\emph{(a)}} \\
+\centering $z \ = \ \{ x \ | \ \phi(x) \} \ \leftrightarrow\ \forall u\ (u \in z\ \leftrightarrow\ u \in \{ x \ | \ \phi(x) \} )$ & \label{theorem:setNotation/b} \hypertarget{theorem:setNotation/b}{} \mbox{\emph{(b)}} \\
+\centering $\{ x \ | \ \phi(x) \}  \ = \ \{ y \ | \ \psi(y) \} \ \leftrightarrow\ \forall u\ (u \in \{ x \ | \ \phi(x) \} \ \leftrightarrow\ u \in \{ y \ | \ \psi(y) \} )$ & \label{theorem:setNotation/c} \hypertarget{theorem:setNotation/c}{} \mbox{\emph{(c)}} \\
+\centering $\{ x \ | \ \phi(x) \}  \in \{ y \ | \ \psi(y) \} \ \leftrightarrow\ \forall u\ \forall v\ ((u \ = \ \{ x \ | \ \phi(x) \} \ \land\ v \ = \ \{ y \ | \ \psi(y) \} )\ \rightarrow\ u \in v)$ & \label{theorem:setNotation/d} \hypertarget{theorem:setNotation/d}{} \mbox{\emph{(d)}} \\
+\centering $\{ x \ | \ \phi(x) \}  \in z\ \leftrightarrow\ \forall u\ (u \ = \ \{ x \ | \ \phi(x) \} \ \rightarrow\ u \in z)$ & \label{theorem:setNotation/e} \hypertarget{theorem:setNotation/e}{} \mbox{\emph{(e)}} 
+\end{longtable}
++++ wenn diese Formel richtig gesetzt w{\"u}rde, sollte sie so aussehen:
+\begin{align}
+y \in \{ x~|~\phi(x) \} & \leftrightarrow  \mathfrak{M}(y) \land \phi(y) \tag{a} \\
+y = \{ x~|~ \phi(x) \} & \leftrightarrow  \forall z \ (z \in y \leftrightarrow z \in \{ x~|~\phi(x) \}) \tag{b} \\
+\{ x~|~\phi(x) \} = \{ x~|~\psi(x) \} & \leftrightarrow \forall z \ (z \in \{ x~|~\phi(x) \} \tag{c} \\
+\begin{split}
+  & \qquad \leftrightarrow z \in \{x~|~\psi(x) \}) \nonumber \\
+\{ x~|~\phi(x) \} \in \{ x~|~\psi(x) \} & \leftrightarrow  \forall u \ \forall
+v \ ((u  = \{ x~|~\phi(x) \} \\
+  & \qquad \land \ v = \{ x~|~\psi(x) \}) \rightarrow u \in v) 
+\end{split} \tag{d} \\
+\{ x~|~\phi(x) \} \in y & \leftrightarrow  \forall u \ (u  = \{ x~|~\phi(x) \}  \rightarrow u \in y) \tag{e} 
+\end{align}
+\end{prop}
+\begin{proof}
+Die Formel in a) ist einfach \hyperlink{axiom:classDefinition}{Axiom~3}. Mit \hyperlink{theorem:extensonalityEquivalence}{Proposition~1} erhalten wir b) und c). Mit den Identit{\"a}tsgesetzen bekommen wir d) und e).
+\end{proof}
+
+Durch sukzessives Anwenden des obigen Satzes kann also die neue Syntax in die alte {\"u}berf{\"u}hrt werden.
+
+
+\par
+Da durch die neue Schreibweise ein Term eindeutig festgelegt wird, muss nat{\"u}rlich auch das Folgende gelten.
+
+\begin{prop}
+\label{theorem:setDefinitionUnique} \hypertarget{theorem:setDefinitionUnique}{}
+{\tt \tiny [\verb]theorem:setDefinitionUnique]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\exists! x\ x \ = \ \{ y \ | \ \phi(y) \} $
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}
+\par
+\begin{tabularx}{\linewidth}{lX}
+  $\exists! \ x \ \forall \ z \ ( z \in x \ \leftrightarrow \ \mathfrak{M}(z) \land \phi(z))$
+    & dies ist \hyperlink{theorem:comprehension}{Proposition~4} \\
+  $\exists! \ x \ \forall \ z \ ( z \in x \ \leftrightarrow z \in \{ y \ | \  \phi(y) \}$
+    & \hyperlink{theorem:setNotation}{Proposition~5} \\
+  $\exists! \ x \ x = \{ y \ | \  \phi(y) \}$
+    & \hyperlink{theorem:extensonalityEquivalence}{Proposition~1}
+\end{tabularx}
+\end{proof}
+
+
+\par
+Aus der {\"A}quivalenz von Aussageformen kann auf die Gleichheit der daraus gebildeten Klassen geschlossen werden.
+
+\begin{prop}
+\label{theorem:propositionEqualImplClassEqual} \hypertarget{theorem:propositionEqualImplClassEqual}{}
+{\tt \tiny [\verb]theorem:propositionEqualImplClassEqual]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall x\ (\phi(x)\ \leftrightarrow\ \psi(x))\ \rightarrow\ \{ x \ | \ \phi(x) \}  \ = \ \{ x \ | \ \psi(x) \} $
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}
+\par
+\begin{tabularx}{\linewidth}{rlX}
+%%                  \begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+  $(\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $(\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & {\tiny \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:propositionalCalculus/bl}{Proposition~1 (bl)}~\cite{l}} \\
+  $\forall x \ ((\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $(\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x)))$ & {\tiny \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{rule:derivedQuantification}{Regel~11}~\cite{l}} \\                    
+  $\forall x \ (\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $\forall x \ (\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & {\tiny \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:predicateCalculus/a}{Proposition~2 (a)}~\cite{l}} \\
+  $\rightarrow$ & $\forall x ( x \in \{ y | \phi(y) \} \leftrightarrow x \in \{ y | \psi(y) \})$ 
+    & {\tiny \hyperlink{theorem:setNotation}{Proposition~5}} \\
+  $\rightarrow$ & $ \{ y \ | \ \phi(y) \} = \{ y \ | \ \psi(y) \}$ 
+    & {\tiny \hyperlink{theorem:setNotation}{Proposition~5}}
+\end{tabularx}
+%%                  \end{longtable}
+\end{proof}
+
+Die Umkehrung gilt jedoch nicht. Das liegt daran, dass mit der Klassenschreibweise nur Mengen zusammengefasst werden. Beispiel: wenn $\phi(x) \leftrightarrow x \neq x$ und $\psi(x) \leftrightarrow \forall y \ (y \in x \rightarrow y \notin y)$, dann sind die durch beide Aussageformen erzeugten Klassen identisch mit der leeren Klasse (\hyperlink{definition:emptySet}{Definition~6}). Keine Klasse erf{\"u}llt $\phi(x)$, allerdings erf{\"u}llt die Russellsche Klasse (\hyperlink{definition:RussellClass}{Definition~4}) die Bedingung $\psi(x)$.
+
+
+\par
+Jede Klasse l{\"a}sst sich durch eine Aussage beschreiben, indem auf ihre Elemente Bezug genommen wird.
+
+\begin{prop}
+\label{theorem:classDescriptionPossible} \hypertarget{theorem:classDescriptionPossible}{}
+{\tt \tiny [\verb]theorem:classDescriptionPossible]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $x \ = \ \{ y \ | \ y \in x \} $
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}
+\par
+\begin{tabularx}{\linewidth}{rclX}
+  $z \in x$ & $\leftrightarrow$ & $z \in x \land \mathfrak{M}(z)$ & \hyperlink{theorem:inSetEqualInSetAndIsSet}{Proposition~2} \\
+  $z \in x$ & $\leftrightarrow$ & $z \in \{y \ | \ y \}$ & \hyperlink{theorem:setNotation}{Proposition~5} \\
+  $\forall z \ (z \in x$ & $\leftrightarrow$ & $z \in \{y \ | \ y \})$ & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{rule:derivedQuantification}{Regel~11}~\cite{l} \\
+  $x$ & $=$ & $\{y \ | \ y \}$ & \hyperlink{theorem:extensonalityEquivalence}{Proposition~1}
+\end{tabularx}
+\end{proof}
+
+
+\section{Spezielle Klassen} \label{chapter3_section2} \hypertarget{chapter3_section2}{}
+In diesem Abschnitt definieren wir die ersten Klassen.
+
+\par
+Die Russellsche Klasse kann nun einfach definiert werden.
+
+\begin{defn}[Russell-Klasse\index{Russell!-sche Klasse}\index{Klasse!Russellsche}]
+\label{definition:RussellClass} \hypertarget{definition:RussellClass}{}
+{\tt \tiny [\verb]definition:RussellClass]]}
+$$\mathfrak{Ru} \ = \ \{ x \ | \ x \notin x \} $$
+\end{defn}
+
+
+\par
+Die Russellsche Klasse ist eine \emph{echte}\index{echt}\index{Klasse!echte} Klasse, d.~h. sie ist keine Menge.
+
+\begin{prop}
+\label{theorem:RussellClassIsClass} \hypertarget{theorem:RussellClassIsClass}{}
+{\tt \tiny [\verb]theorem:RussellClassIsClass]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\neg \mathfrak{M}(\mathfrak{Ru})$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}
+\par
+\begin{tabularx}{\linewidth}{rclX}
+  $y \in \{ x \ | \ \phi(x) \}$
+   & $\leftrightarrow$ 
+   & $\mathfrak{M}(y) \land \phi(y)$ 
+   & das ist \hyperlink{theorem:setNotation}{Proposition~5} \\
+  $y \in \{ x \ | \ x \notin x \}$  
+   & $\leftrightarrow$ 
+   & $\mathfrak{M}(y) \land y \notin y$ 
+   & Substitution f{\"u}r $\phi$ \\
+  $y \in \mathfrak{Ru}$         
+   & $\leftrightarrow$ 
+   & $\mathfrak{M}(y) \land y \notin y$ 
+   & \hyperlink{definition:RussellClass}{Definition~4} \\
+  $\mathfrak{Ru} \in \mathfrak{Ru}$ 
+   & $\leftrightarrow$ 
+   & $\mathfrak{M}(\mathfrak{Ru}) \land \mathfrak{Ru} \notin \mathfrak{Ru}$ 
+   & Substitution f{\"u}r $y$ \\
+  $\mathfrak{M}(\mathfrak{Ru}) \land \mathfrak{Ru} \in \mathfrak{Ru}$ 
+   & $\leftrightarrow$ 
+   & $\mathfrak{M}(\mathfrak{Ru}) \land \mathfrak{Ru} \notin \mathfrak{Ru}$ 
+   & \hyperlink{theorem:inSetEqualInSetAndIsSet}{Proposition~2} \\
+   
+   & $\neg \mathfrak{M}(\mathfrak{Ru})$ 
+   &  
+   & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:propositionalCalculus/bi}{Proposition~1 (bi)}~\cite{l}
+\end{tabularx}
+\end{proof}
+
+
+\par
+Die \emph{Allklasse} soll alles m{\"o}gliche umfassen.
+
+\begin{defn}[Allklasse\index{Klasse!All-}\index{Allklasse}]
+\label{definition:universalClass} \hypertarget{definition:universalClass}{}
+{\tt \tiny [\verb]definition:universalClass]]}
+$$\mathfrak{V} \ = \ \{ x \ | \ x \ = \ x \} $$
+\end{defn}
+
+
+\par
+Da in einer Klasse nur Mengen als Elemente vorkommen, verwundert es nicht, dass folgendes gilt.
+
+\begin{prop}
+\label{theorem:isInUniversalClass} \hypertarget{theorem:isInUniversalClass}{}
+{\tt \tiny [\verb]theorem:isInUniversalClass]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $x \in \mathfrak{V}\ \leftrightarrow\ \mathfrak{M}(x)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}
+\par
+\begin{tabularx}{\linewidth}{rclX}
+  $x \in \{ y \ | \ \phi(y) \} $ & $\leftrightarrow$ & $\mathfrak{M}(x) \land \phi(x)$
+    & dies ist \hyperlink{theorem:setNotation}{Proposition~5} \\
+  $x \in \{ y \ | \ y = y \} $ & $\leftrightarrow$ & $\mathfrak{M}(x) \land y = y$
+    & Substitution f{\"u}r $\phi$ \\
+  $x \in \mathfrak{V} $ & $\leftrightarrow$ & $\mathfrak{M}(x) \land y = y$
+    & \hyperlink{definition:universalClass}{Definition~5} \\
+  $x \in \mathfrak{V} $ & $\leftrightarrow$ & $\mathfrak{M}(x)$
+    & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:propositionalCalculus/au}{Proposition~1 (au)}~\cite{l} und \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{axiom:identityIsReflexive}{Axiom~7}~\cite{l}
+\end{tabularx}
+\end{proof}
+
+Mitgliedschaft in der Allklasse ist daher gleichbedeutend mit der 
+Eigenschaft, eine Menge zu sein.
+
+
+\par
+Die Allklasse umfasst alle Mengen.
+
+\begin{prop}
+\label{theorem:universalClassContainsAllSets} \hypertarget{theorem:universalClassContainsAllSets}{}
+{\tt \tiny [\verb]theorem:universalClassContainsAllSets]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\mathfrak{V} \ = \ \{ x \ | \ \mathfrak{M}(x) \} $
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}
+\par
+\begin{tabularx}{\linewidth}{rclX}
+  $\mathfrak{V}$ & $=$ & $\{ x \ | \ x = x\}$
+    & \hyperlink{definition:universalClass}{Definition~5} \\
+  $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $y \in \{ x \ | \ x = x\}$
+    & \hyperlink{theorem:extensonalityEquivalence}{Proposition~1} \\
+  $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $\mathfrak{M}(y) \land y = y$
+    & \hyperlink{theorem:setNotation}{Proposition~5} \\
+  $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $\mathfrak{M}(y) \land \top$
+    & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{rule:replaceTrueFormulaByTrue}{Regel~10}~\cite{l} \\
+  $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $\mathfrak{M}(y)$
+    & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:propositionalCalculus/au}{Proposition~1 (au)}~\cite{l} \\
+  $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $ \mathfrak{M}(y) \land \mathfrak{M}(y)$
+    & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:propositionalCalculus/al}{Proposition~1 (al)}~\cite{l} \\
+  $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $y \in \{ x \ | \ \mathfrak{M}(x)\}$
+    & \hyperlink{theorem:setNotation}{Proposition~5} \\
+  $\mathfrak{V}$ & $=$ & $\{ x \ | \ \mathfrak{M}(x)\}$
+    & \hyperlink{theorem:extensonalityEquivalence}{Proposition~1}
+\end{tabularx}
+\end{proof}
+
+
+\par
+Entsprechend definieren wir die \emph{leere Klasse}. Sp{\"a}ter werden wir feststellen, dass die leere Klasse
+eine Menge ist. Dazu ben{\"o}tigen wir jedoch weitere Mengenaxiome. Wir bezeichnen diese Klasse jedoch
+schon jetzt mit den Worten \emph{leere Menge}.
+
+\begin{defn}[Leere Klasse\index{leere Klasse}\index{leere Menge}\index{Klasse!leere}\index{Menge!leere}]
+\label{definition:emptySet} \hypertarget{definition:emptySet}{}
+{\tt \tiny [\verb]definition:emptySet]]}
+$$\emptyset \ = \ \{ x \ | \ x \ \neq \ x \} $$
+\end{defn}
+
+
+\par
+Keine Klasse ist Element der leeren Klasse.
+
+\begin{prop}
+\label{theorem:noClassIsMemberOfEmptySet} \hypertarget{theorem:noClassIsMemberOfEmptySet}{}
+{\tt \tiny [\verb]theorem:noClassIsMemberOfEmptySet]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall z\ z \notin \emptyset$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+Annahme: $z \in \emptyset$
+\mbox{}
+\par
+\begin{tabularx}{\linewidth}{cX}
+  $z \in \{ x \ | \ x \neq x\}$
+    & \hyperlink{definition:emptySet}{Definition~6} \\
+  $\mathfrak{M}(z) \ \land z \ \neq z$
+    & \hyperlink{axiom:classDefinition}{Axiom~3} \\
+      $z \neq z$
+    & elementary logic \\
+      $\neg \ (z = z)$
+    & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{definition:notEqual}{Definition~4}~\cite{l}
+\end{tabularx}
+
+\par
+Damit haben wir einen Widerspruch zu \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{axiom:identityIsReflexive}{Axiom~7}~\cite{l} und unsere Annahme muss falsch sein. Also gilt $\neg (z \in \emptyset)$ und wir k{\"o}nnen weiter folgern.
+
+\mbox{}
+\par
+\begin{tabularx}{\linewidth}{cX}
+      $\neg \ ( z \in \emptyset)$
+    &  \\
+      $z \notin \emptyset$
+    & \hyperlink{definition:notIn}{Definition~2} \\
+      $\forall z \ z \notin \emptyset$
+    & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{rule:derivedQuantification}{Regel~11}~\cite{l}
+\end{tabularx}
+\end{proof}
+
+
+\par
+Eine Klasse, welche keine Elemente besitzt, ist die leere Klasse.
+
+\begin{prop}
+\label{theorem:noClassIsMemberIsEmptySet} \hypertarget{theorem:noClassIsMemberIsEmptySet}{}
+{\tt \tiny [\verb]theorem:noClassIsMemberIsEmptySet]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall z\ z \notin x\ \leftrightarrow\ x \ = \ \emptyset$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}
+\par
+\begin{tabularx}{\linewidth}{rclX}
+  $x = \emptyset$ & $\leftrightarrow$ & $\forall z \ (z \in x \leftrightarrow z \in \emptyset)$
+    & \hyperlink{theorem:extensonalityEquivalence}{Proposition~1} \\
+  & $\leftrightarrow$ & $\forall z \ (z \notin x \leftrightarrow z \notin \emptyset)$
+    & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{rule:replaceEquiFormula}{Regel~8}~\cite{l} mit \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:propositionalCalculus/ao}{Proposition~1 (ao)}~\cite{l} \\
+  & $\leftrightarrow$ & $\forall z \ (z \notin x \leftrightarrow \ \top)$
+    & \hyperlink{theorem:noClassIsMemberOfEmptySet}{Proposition~12} \\
+  & $\leftrightarrow$ & $\forall z \ z \notin x$
+    & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{rule:replaceEquiFormula}{Regel~8}~\cite{l} mit \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:propositionalCalculus/be}{Proposition~1 (be)}~\cite{l}
+\end{tabularx}
+\end{proof}
+
+
+
+%% end of chapter Anfangsgr{\"u}nde
+
+\chapter{Boolesche Algebra der Klassen\index{Boolesche Algebra!der Klassen}} \label{chapter4} \hypertarget{chapter4}{}
+
+Die elementaren Operationen von Klassen und ihre Eigenschaften werden nun beschrieben.
+
+Eine Boolesche Algebra, oft auch Boolescher Verband genannt, ist eine spezielle algebraische
+Struktur, die die Eigenschaften der logischen Operatoren \emph{und}, \emph{oder}, \emph{nicht}
+sowie die Eigenschaften der mengentheoretischen Verkn{\"u}pfungen \emph{Durchschnitt},
+\emph{Vereinigung} und \emph{Komplement} abstrahiert.
+
+\par
+Sie ist benannt nach \emph{G. Boole}, der sie in der Mitte des 19. Jahrhunderts definierte, um
+algebraische Methoden in der Aussagenlogik anwenden zu k{\"o}nnen.
+
+\section{Boolesche Klassenoperatoren} \label{chapter4_section1} \hypertarget{chapter4_section1}{}
+Die Klassenschreibweise \hyperlink{rule:classDefinition}{Regel~1} erm{\"o}glicht die Definition von Klassenoperatoren mithilfe
+logischer Verkn{\"u}pfungen.
+
+\par
+Die Vereinigung zweier Klassen besteht aus den Elementen beider Klassen.
+
+\begin{defn}[Vereinigung\index{Vereinigung}\index{Klasse!Vereinigung}]
+\label{definition:union} \hypertarget{definition:union}{}
+{\tt \tiny [\verb]definition:union]]}
+$$(x \cup y) \ = \ \{ z \ | \ (z \in x\ \lor\ z \in y) \} $$
+\end{defn}
+
+
+\par
+Entsprechend wird der Durchschnitt zweier Klassen definiert, als die Klasse, die aus den Elementen besteht, die in beiden Klassen vorhanden sind.
+
+\begin{defn}[Durchschnitt\index{Durchschnitt}\index{Klasse!Durchschnitt}]
+\label{definition:intersection} \hypertarget{definition:intersection}{}
+{\tt \tiny [\verb]definition:intersection]]}
+$$(x \cap y) \ = \ \{ z \ | \ (z \in x\ \land\ z \in y) \} $$
+\end{defn}
+
+
+\par
+Auch das Komplement einer Klasse kann einfach definiert werden.
+
+\begin{defn}[Komplement\index{Komplement}\index{Klasse!Komplement}]
+\label{definition:complement} \hypertarget{definition:complement}{}
+{\tt \tiny [\verb]definition:complement]]}
+$$\overline{x} \ = \ \{ z \ | \ z \notin x \} $$
+\end{defn}
+
+
+\par
+Ob eine Menge ein Element der Vereinigung zweier Klassen ist, kann nat{\"u}rlich auch direkt angegeben werden.
+
+\begin{prop}
+\label{theorem:unionMember} \hypertarget{theorem:unionMember}{}
+{\tt \tiny [\verb]theorem:unionMember]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $z \in (x \cup y)\ \leftrightarrow\ (z \in x\ \lor\ z \in y)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}
+\par
+\begin{tabularx}{\linewidth}{rclX}
+  $(x \cup y)$ & $=$ & $\{ z \ | \ (z \in x \lor z \in y ) \}$
+    & \hyperlink{definition:union}{Definition~7} \\
+  $u \in (x \cup y)$ & $\leftrightarrow$ & $u \in \{ z \ | \ (z \in x \lor z \in y ) \}$
+    & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:leibnizEquivalence}{Proposition~3}~\cite{l} \\
+  $u \in (x \cup y)$ & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (u \in x \lor u \in y))$
+    & \hyperlink{axiom:classDefinition}{Axiom~3} \\
+  $u \in (x \cup y)$ & $\leftrightarrow$ & $((\mathfrak{M}(u) \land u \in x ) \lor (\mathfrak{M}(u) \land u \in y))$
+    & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:propositionalCalculus/at}{Proposition~1 (at)}~\cite{l} \\
+  $u \in (x \cup y)$ & $\leftrightarrow$ & $(u \in x \lor u \in y)$
+    & \hyperlink{theorem:inSetEqualInSetAndIsSet}{Proposition~2}
+\end{tabularx}
+\end{proof}
+
+
+\par
+Entsprechendes gilt f{\"u}r den Durchschnitt zweier Klassen.
+
+\begin{prop}
+\label{theorem:intersectionMember} \hypertarget{theorem:intersectionMember}{}
+{\tt \tiny [\verb]theorem:intersectionMember]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $z \in (x \cap y)\ \leftrightarrow\ (z \in x\ \land\ z \in y)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}
+\par
+\begin{tabularx}{\linewidth}{rclX}
+  $(x \cap y)$ & $=$ & $\{ z \ | \ (z \in x \land z \in y ) \}$
+    & \hyperlink{definition:union}{Definition~7} \\
+  $u \in (x \cap y)$ & $\leftrightarrow$ & $u \in \{ z \ | \ (z \in x \land z \in y ) \}$
+    & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:leibnizEquivalence}{Proposition~3}~\cite{l} \\
+  $u \in (x \cap y)$ & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (u \in x \land u \in y))$
+    & \hyperlink{axiom:classDefinition}{Axiom~3} \\
+  $u \in (x \cap y)$ & $\leftrightarrow$ & $((\mathfrak{M}(u) \land u \in x ) \land u \in y))$
+    & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:propositionalCalculus/aj}{Proposition~1 (aj)}~\cite{l} \\
+  $u \in (x \cap y)$ & $\leftrightarrow$ & $(u \in x \land u \in y)$
+    & \hyperlink{theorem:inSetEqualInSetAndIsSet}{Proposition~2}
+\end{tabularx}
+\end{proof}
+
+
+\par
+Analoges gilt f{\"u}r das Komplement, dort muss jedoch die Mengeneigenschaft explizit abgepr{\"u}ft werden.
+
+\begin{prop}
+\label{theorem:complementMember} \hypertarget{theorem:complementMember}{}
+{\tt \tiny [\verb]theorem:complementMember]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $z \in \overline{x}\ \leftrightarrow\ (\mathfrak{M}(z)\ \land\ z \notin x)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}
+\par
+\begin{tabularx}{\linewidth}{rclX}
+  $\overline{x}$ & $=$ & $\{ z \ | \ z \notin x \}$
+    & \hyperlink{definition:complement}{Definition~9} \\
+  $u \in \overline{x}$ & $\leftrightarrow$ & $u \in \{ z \ | \ z \notin x \}$
+    & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:leibnizEquivalence}{Proposition~3}~\cite{l} \\
+  $u \in \overline{x}$ & $\leftrightarrow$ & $(\mathfrak{M}(u) \land u \notin x)$
+    & \hyperlink{axiom:classDefinition}{Axiom~3} 
+\end{tabularx}
+\end{proof}
+
+
+\par
+Die vorherigen S{\"a}tze zeigen die {\"U}bertragbarkeit der Eigenschaften der logischen Verkn{\"u}pfungen $\lor$, $\land$ und $\neg$ auf die Klassenverkn{\"u}pfungen $\cup$, $\cap$ und $\bar{~}$. Deshalb lassen sich die entsprechenden logischen Gesetzm{\"a}ssigkeiten direkt auf die Klassenverkn{\"u}pfungen {\"u}bertragen.
+
+\begin{prop}
+\label{theorem:unionIntersectionComplement} \hypertarget{theorem:unionIntersectionComplement}{}
+{\tt \tiny [\verb]theorem:unionIntersectionComplement]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $(x \cup y) \ = \ (y \cup x)$ & \label{theorem:unionIntersectionComplement/a} \hypertarget{theorem:unionIntersectionComplement/a}{} \mbox{\emph{(a)}} \\
+\centering $(x \cap y) \ = \ (y \cap x)$ & \label{theorem:unionIntersectionComplement/b} \hypertarget{theorem:unionIntersectionComplement/b}{} \mbox{\emph{(b)}} \\
+\centering $((x \cup y) \cup z) \ = \ (x \cup (y \cup z))$ & \label{theorem:unionIntersectionComplement/c} \hypertarget{theorem:unionIntersectionComplement/c}{} \mbox{\emph{(c)}} \\
+\centering $((x \cap y) \cap z) \ = \ (x \cap (y \cap z))$ & \label{theorem:unionIntersectionComplement/d} \hypertarget{theorem:unionIntersectionComplement/d}{} \mbox{\emph{(d)}} \\
+\centering $x \ = \ (x \cup x)$ & \label{theorem:unionIntersectionComplement/e} \hypertarget{theorem:unionIntersectionComplement/e}{} \mbox{\emph{(e)}} \\
+\centering $x \ = \ (x \cap x)$ & \label{theorem:unionIntersectionComplement/f} \hypertarget{theorem:unionIntersectionComplement/f}{} \mbox{\emph{(f)}} \\
+\centering $\overline{\overline{x}} \ = \ x$ & \label{theorem:unionIntersectionComplement/g} \hypertarget{theorem:unionIntersectionComplement/g}{} \mbox{\emph{(g)}} \\
+\centering $\overline{(x \cup y)} \ = \ (\overline{x} \cap \overline{y})$ & \label{theorem:unionIntersectionComplement/h} \hypertarget{theorem:unionIntersectionComplement/h}{} \mbox{\emph{(h)}} \\
+\centering $\overline{(x \cap y)} \ = \ (\overline{x} \cup \overline{y})$ & \label{theorem:unionIntersectionComplement/i} \hypertarget{theorem:unionIntersectionComplement/i}{} \mbox{\emph{(i)}} \\
+\centering $(x \cup (y \cap z)) \ = \ ((x \cup y) \cap (x \cup z))$ & \label{theorem:unionIntersectionComplement/j} \hypertarget{theorem:unionIntersectionComplement/j}{} \mbox{\emph{(j)}} \\
+\centering $(x \cap (y \cup z)) \ = \ ((x \cap y) \cup (x \cap z))$ & \label{theorem:unionIntersectionComplement/k} \hypertarget{theorem:unionIntersectionComplement/k}{} \mbox{\emph{(k)}} \\
+\centering $\overline{\emptyset} \ = \ \mathfrak{V}$ & \label{theorem:unionIntersectionComplement/l} \hypertarget{theorem:unionIntersectionComplement/l}{} \mbox{\emph{(l)}} \\
+\centering $\overline{\mathfrak{V}} \ = \ \emptyset$ & \label{theorem:unionIntersectionComplement/m} \hypertarget{theorem:unionIntersectionComplement/m}{} \mbox{\emph{(m)}} \\
+\centering $(x \cap \mathfrak{V}) \ = \ x$ & \label{theorem:unionIntersectionComplement/n} \hypertarget{theorem:unionIntersectionComplement/n}{} \mbox{\emph{(n)}} \\
+\centering $(x \cap \emptyset) \ = \ \emptyset$ & \label{theorem:unionIntersectionComplement/o} \hypertarget{theorem:unionIntersectionComplement/o}{} \mbox{\emph{(o)}} \\
+\centering $(x \cup \mathfrak{V}) \ = \ \mathfrak{V}$ & \label{theorem:unionIntersectionComplement/p} \hypertarget{theorem:unionIntersectionComplement/p}{} \mbox{\emph{(p)}} \\
+\centering $(x \cup \emptyset) \ = \ x$ & \label{theorem:unionIntersectionComplement/q} \hypertarget{theorem:unionIntersectionComplement/q}{} \mbox{\emph{(q)}} \\
+\centering $(x \cup \overline{x}) \ = \ \mathfrak{V}$ & \label{theorem:unionIntersectionComplement/r} \hypertarget{theorem:unionIntersectionComplement/r}{} \mbox{\emph{(r)}} \\
+\centering $(x \cap \overline{x}) \ = \ \emptyset$ & \label{theorem:unionIntersectionComplement/s} \hypertarget{theorem:unionIntersectionComplement/s}{} \mbox{\emph{(s)}} 
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+Exemplarisch beweisen wir (g).
+\mbox{}
+\par
+\begin{tabularx}{\linewidth}{rclX}
+  $u \in x$ & $\leftrightarrow$ & $(\mathfrak{M}(u) \land u \in x)$
+    & \hyperlink{definition:complement}{Definition~9} \\
+            & $\leftrightarrow$ & $(\bot \lor (\mathfrak{M}(u) \land u \in x))$
+    & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:propositionalCalculus/ax}{Proposition~1 (ax)}~\cite{l} \\
+            & $\leftrightarrow$ & $((\mathfrak{M}(u) \land \neg \mathfrak{M}(u)) \lor (\mathfrak{M}(u) \land u \in x))$
+    & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:propositionalCalculus/az}{Proposition~1 (az)}~\cite{l} \\
+            & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (\neg \mathfrak{M}(u)) \land u \in x))$
+    & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:propositionalCalculus/at}{Proposition~1 (at)}~\cite{l} \\
+            & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (\neg \mathfrak{M}(u)) \land \neg \neg u \in x))$
+    & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:propositionalCalculus/am}{Proposition~1 (am)}~\cite{l} \\
+            & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (\neg \mathfrak{M}(u)) \land \neg u \notin x))$
+    & \hyperlink{definition:notIn}{Definition~2} \\
+            & $\leftrightarrow$ & $(\mathfrak{M}(u) \land \neg (\mathfrak{M}(u)) \lor u \notin x))$
+    & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:propositionalCalculus/aq}{Proposition~1 (aq)}~\cite{l} \\
+            & $\leftrightarrow$ & $(\mathfrak{M}(u) \land \neg (u \in \overline{x}))$
+    & \hyperlink{theorem:complementMember}{Proposition~16} \\
+            & $\leftrightarrow$ & $(\mathfrak{M}(u) \land u \notin \overline{x})$
+    & \hyperlink{definition:notIn}{Definition~2} \\
+            & $\leftrightarrow$ & $u \in \overline{\overline{x}}$
+    & \hyperlink{theorem:complementMember}{Proposition~16}
+\end{tabularx}
+
+\par
+Also haben wir gezeigt: $u \in x \leftrightarrow u \in \overline{\overline{x}}$
+Nun k{\"o}nnen wir weiter schlie{\ss}en.
+
+\mbox{}
+\par
+\begin{tabularx}{\linewidth}{rclX}
+
+  $u \in x$ & $\leftrightarrow$ & $u \in \overline{\overline{x}}$
+    &  \\
+  $\forall u \ (u \in x$ & $\leftrightarrow$ & $u \in \overline{\overline{x}})$
+    & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{rule:derivedQuantification}{Regel~11}~\cite{l} \\
+  $\forall u \ u \in x$ & $\leftrightarrow$ & $\forall u \ u \in \overline{\overline{x}}$
+    & \hyperref{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:predicateCalculus/c}{Proposition~2 (c)}~\cite{l} \\
+  $x$ & $=$ & $\overline{\overline{x}}$
+    & \hyperlink{theorem:extensionalitySetRestricted}{Proposition~3}
+\end{tabularx}
+\end{proof}
+
+
+\section{Boolsche Algebra\index{Boolesche Algebra}} \label{chapter4_section2} \hypertarget{chapter4_section2}{}
+Die Klassen bilden mit den Operatoren $\cap$, $\cup$, $\bar{~}$ und den Konstanten $\emptyset$,
+$\mathfrak{V}$ eine Boolesche Algebra\index{Boolesche Algebra}.
+\par
++++ 
+Referenzen zu Kommutativit{\"a}t, Assoziativit{\"a}t, Distributivit{\"a}t, Idempotenz, etc.
+
+\section{Ordnung\index{Ordnung}} \label{chapter4_section3} \hypertarget{chapter4_section3}{}
+F{\"u}r eine Boolsche Algebra kann eine kanonische \emph{Teilordnung}\index{Teilordnung} definiert werden. Daher
+k{\"o}nnen wir auch f{\"u}r die Klassenalgebra eine Teilordnung festlegen.
+
+\par
+Wir definieren die \emph{Teilklassenrelation} durch eine Schnittklassenbildung.
+
+\begin{defn}[Teilklasse\index{Teilklasse}]
+\label{definition:subclass} \hypertarget{definition:subclass}{}
+{\tt \tiny [\verb]definition:subclass]]}
+$$x \ \subseteq \ y\ \leftrightarrow\ (x \cap y) \ = \ x$$
+
+\end{defn}
+
+Sind $x$ und $y$ Mengen sagen wir auch: $x$ ist \emph{Teilmenge}\index{Teilmenge} von $y$.
+
+
+\par
+Die {\"u}bliche Definition der Teilklassenrelation erhalten wir nun als Satz.
+
+\begin{prop}
+\label{theorem:subsetIfMemberschipImpl} \hypertarget{theorem:subsetIfMemberschipImpl}{}
+{\tt \tiny [\verb]theorem:subsetIfMemberschipImpl]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $x \ \subseteq \ y\ \leftrightarrow\ \forall z\ (z \in x\ \rightarrow\ z \in y)$
+\end{longtable}
+
+\end{prop}
+
+
+\par
+Diese Relation ist reflexiv, transitiv und antisymmetrisch, definiert also eine Teilordnung\index{Teilordnung} mit $\emptyset$ als kleinstem und $\mathfrak{V}$ als gr{\"o}{\ss}tem Element.
+
+\begin{prop}
+\label{theorem:subsetIsPartialOrdered} \hypertarget{theorem:subsetIsPartialOrdered}{}
+{\tt \tiny [\verb]theorem:subsetIsPartialOrdered]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $x \ \subseteq \ x$ & \label{theorem:subsetIsPartialOrdered/a} \hypertarget{theorem:subsetIsPartialOrdered/a}{} \mbox{\emph{(a)}} \\
+\centering $(x \ \subseteq \ y\ \land\ y \ \subseteq \ z)\ \rightarrow\ x \ \subseteq \ z$ & \label{theorem:subsetIsPartialOrdered/b} \hypertarget{theorem:subsetIsPartialOrdered/b}{} \mbox{\emph{(b)}} \\
+\centering $(x \ \subseteq \ y\ \land\ y \ \subseteq \ x)\ \leftrightarrow\ x \ = \ y$ & \label{theorem:subsetIsPartialOrdered/c} \hypertarget{theorem:subsetIsPartialOrdered/c}{} \mbox{\emph{(c)}} \\
+\centering $\emptyset \ \subseteq \ x$ & \label{theorem:subsetIsPartialOrdered/d} \hypertarget{theorem:subsetIsPartialOrdered/d}{} \mbox{\emph{(d)}} \\
+\centering $x \ \subseteq \ \mathfrak{V}$ & \label{theorem:subsetIsPartialOrdered/e} \hypertarget{theorem:subsetIsPartialOrdered/e}{} \mbox{\emph{(e)}} \\
+\centering $x \ \subseteq \ \emptyset\ \rightarrow\ x \ = \ \emptyset$ & \label{theorem:subsetIsPartialOrdered/f} \hypertarget{theorem:subsetIsPartialOrdered/f}{} \mbox{\emph{(f)}} \\
+\centering $\mathfrak{V} \ \subseteq \ x\ \rightarrow\ x \ = \ \mathfrak{V}$ & \label{theorem:subsetIsPartialOrdered/g} \hypertarget{theorem:subsetIsPartialOrdered/g}{} \mbox{\emph{(g)}} 
+\end{longtable}
+
+\end{prop}
+
+
+\par
+Eine Schnittklasse ist immer Teilmenge ihrer Ausgangsklassen.
+
+\begin{prop}
+\label{theorem:intersectionIsSubset} \hypertarget{theorem:intersectionIsSubset}{}
+{\tt \tiny [\verb]theorem:intersectionIsSubset]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $(x \cap y) \ \subseteq \ x$ & \label{theorem:intersectionIsSubset/a} \hypertarget{theorem:intersectionIsSubset/a}{} \mbox{\emph{(a)}} \\
+\centering $(x \cap y) \ \subseteq \ y$ & \label{theorem:intersectionIsSubset/b} \hypertarget{theorem:intersectionIsSubset/b}{} \mbox{\emph{(b)}} 
+\end{longtable}
+
+\end{prop}
+
+
+\par
+Eine Vereinigungsklasse hat ihre Ausgangsklassen als Teilklassen.
+
+\begin{prop}
+\label{theorem:unionIsSuperset} \hypertarget{theorem:unionIsSuperset}{}
+{\tt \tiny [\verb]theorem:unionIsSuperset]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $x \ \subseteq \ (x \cup y)$ & \label{theorem:unionIsSuperset/a} \hypertarget{theorem:unionIsSuperset/a}{} \mbox{\emph{(a)}} \\
+\centering $y \ \subseteq \ (x \cup y)$ & \label{theorem:unionIsSuperset/b} \hypertarget{theorem:unionIsSuperset/b}{} \mbox{\emph{(b)}} 
+\end{longtable}
+
+\end{prop}
+
+
+\par
+F{\"u}r zwei Teilklassen ist auch die Vereinigungsklasse Teilklasse. Und falls eine Klasse Teilklasse von zwei Klassen ist, dann ist sie auch Teilklasse der Schnittklasse. Beide Beziehungen sind auch umkehrbar.
+
+\begin{prop}
+\label{theorem:subsetAndAddition} \hypertarget{theorem:subsetAndAddition}{}
+{\tt \tiny [\verb]theorem:subsetAndAddition]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $(x \ \subseteq \ z\ \land\ y \ \subseteq \ z)\ \leftrightarrow\ (x \cup y) \ \subseteq \ z$ & \label{theorem:subsetAndAddition/a} \hypertarget{theorem:subsetAndAddition/a}{} \mbox{\emph{(a)}} \\
+\centering $(z \ \subseteq \ x\ \land\ z \ \subseteq \ y)\ \leftrightarrow\ z \ \subseteq \ (x \cap y)$ & \label{theorem:subsetAndAddition/b} \hypertarget{theorem:subsetAndAddition/b}{} \mbox{\emph{(b)}} 
+\end{longtable}
+
+\end{prop}
+
+
+\par
+Bei Schnitt oder Vereinigung bleibt eine Teilklassenbeziehung erhalten.
+
+\begin{prop}
+\label{theorem:subsetAddition} \hypertarget{theorem:subsetAddition}{}
+{\tt \tiny [\verb]theorem:subsetAddition]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $x \ \subseteq \ y\ \rightarrow\ (x \cup z) \ \subseteq \ (y \cup z)$ & \label{theorem:subsetAddition/a} \hypertarget{theorem:subsetAddition/a}{} \mbox{\emph{(a)}} \\
+\centering $x \ \subseteq \ y\ \rightarrow\ (x \cap z) \ \subseteq \ (y \cap z)$ & \label{theorem:subsetAddition/b} \hypertarget{theorem:subsetAddition/b}{} \mbox{\emph{(b)}} 
+\end{longtable}
+
+\end{prop}
+
+
+\par
+Bei der Bildung des Komplements kehrt sich die Teilklassenbeziehung um.
+
+\begin{prop}
+\label{theorem:subsetComplement} \hypertarget{theorem:subsetComplement}{}
+{\tt \tiny [\verb]theorem:subsetComplement]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $x \ \subseteq \ y\ \leftrightarrow\ \overline{y} \ \subseteq \ \overline{x}$
+\end{longtable}
+
+\end{prop}
+
+
+\par
+F{\"u}r das Komplement und die Teilklassenbeziehung gelten die folgenden {\"A}quivalenzen.
+
+\begin{prop}
+\label{theorem:subsetComplementEquations} \hypertarget{theorem:subsetComplementEquations}{}
+{\tt \tiny [\verb]theorem:subsetComplementEquations]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $x \ \subseteq \ y\ \leftrightarrow\ (x \cap \overline{y}) \ = \ \emptyset$ & \label{theorem:subsetComplementEquations/a} \hypertarget{theorem:subsetComplementEquations/a}{} \mbox{\emph{(a)}} \\
+\centering $x \ \subseteq \ y\ \leftrightarrow\ (\overline{x} \cup y) \ = \ \mathfrak{V}$ & \label{theorem:subsetComplementEquations/b} \hypertarget{theorem:subsetComplementEquations/b}{} \mbox{\emph{(b)}} \\
+\centering $x \ \subseteq \ \overline{y}\ \leftrightarrow\ (x \cap y) \ = \ \emptyset$ & \label{theorem:subsetComplementEquations/c} \hypertarget{theorem:subsetComplementEquations/c}{} \mbox{\emph{(c)}} \\
+\centering $(x \cap y) \ \subseteq \ z\ \leftrightarrow\ x \ \subseteq \ (\overline{y} \cup z)$ & \label{theorem:subsetComplementEquations/d} \hypertarget{theorem:subsetComplementEquations/d}{} \mbox{\emph{(d)}} 
+\end{longtable}
+
+\end{prop}
+
+
+\section{Einerklassen und Klassenpaare} \label{chapter4_section4} \hypertarget{chapter4_section4}{}
+Eine Klasse kann auch durch explizite Auflistung ihrer Elemente definiert werden.
+
+\par
+Insbesondere kann durch Angabe eines Elements die sogenannte \emph{Einerklasse} 
+              festgelegt werden.
+Wiederum mit \hyperlink{rule:classDefinition}{Regel~1} k{\"o}nnen wir die Sprachsyntax erweitern und eine neue abk{\"u}rzende Schreibweise einf{\"u}hren.
+
+\begin{defn}[Einerklasse\index{Einerklasse}\index{Klasse!Einer-}]
+\label{definition:singleton} \hypertarget{definition:singleton}{}
+{\tt \tiny [\verb]definition:singleton]]}
+$$\{ x \} \ = \ \{ y \ | \ (\mathfrak{M}(x)\ \rightarrow\ y \ = \ x) \} $$
+\end{defn}
+
+Da der Ausdruck $\{x\}$ f{\"u}r jegliches $x$ definiert ist, kann er auch f{\"u}r den Fall, 
+dass $x$ eine echte Klasse ist, gebildet werden. In diesem Fall erf{\"u}llen alle Mengen 
+$y$ die Bedingung 
+$\mathfrak{M}(y) \land (\mathfrak{M}(x) \rightarrow y = x)$ und die Einerklasse ist 
+mit der Allklasse identisch. Das f{\"u}hrt zu einem technisch einfacheren Umgang mit der
+Einerklasse.\footnote{Andere Autoren wie z.~B. auch K.~G{\"o}del, definieren $\{x\}$ durch
+$\{y~|~y = x\}$.}
+
+
+\par
+F{\"u}r Mengen enth{\"a}lt die Einerklasse wie gew{\"u}nscht nur die Menge selbst.
+
+\begin{prop}
+\label{theorem:setSingletonHasSetAsOnlyElement} \hypertarget{theorem:setSingletonHasSetAsOnlyElement}{}
+{\tt \tiny [\verb]theorem:setSingletonHasSetAsOnlyElement]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\mathfrak{M}(x)\ \rightarrow\ \forall z\ (z \in \{ x \}\ \leftrightarrow\ z \ = \ x)$
+\end{longtable}
+
+\end{prop}
+
+
+\par
+F{\"u}r echte Mengen ist die Einerklasse mit der Allklasse identisch.
+
+\begin{prop}
+\label{theorem:properSingletonIsUniversalClass} \hypertarget{theorem:properSingletonIsUniversalClass}{}
+{\tt \tiny [\verb]theorem:properSingletonIsUniversalClass]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\neg \mathfrak{M}(x)\ \rightarrow\ \{ x \} \ = \ \mathfrak{V}$
+\end{longtable}
+
+\end{prop}
+
+
+\par
+Einerklasse einer Menge zu sein ist {\"a}quivalent dazu Element seiner
+Einerklasse zu sein.
+
+\begin{prop}
+\label{theorem:setSingletonEqualHasItselfAsElement} \hypertarget{theorem:setSingletonEqualHasItselfAsElement}{}
+{\tt \tiny [\verb]theorem:setSingletonEqualHasItselfAsElement]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\mathfrak{M}(x)\ \leftrightarrow\ x \in \{ x \}$
+\end{longtable}
+
+\end{prop}
+
+
+\par
+Nun kann einfach durch Vereinigung zweier Einerklassen das \emph{Paar}
+zweier Klassen definiert werden.
+
+\begin{defn}[Paar\index{Paar}\index{Klasse!Paar-}]
+\label{definition:pair} \hypertarget{definition:pair}{}
+{\tt \tiny [\verb]definition:pair]]}
+$$\{ x, y \} \ = \ (\{ x \} \cup \{ y \})$$
+\end{defn}
+
+
+\par
+Ein Klassenpaar kann auch direkt, d.~h. ohne Zuhilfenahme der Einerklassen
+beschrieben werden.
+
+\begin{prop}
+\label{theorem:classPairIsEqual} \hypertarget{theorem:classPairIsEqual}{}
+{\tt \tiny [\verb]theorem:classPairIsEqual]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\{ x, y \} \ = \ \{ z \ | \ ((\mathfrak{M}(x)\ \land\ \mathfrak{M}(y))\ \rightarrow\ (z \ = \ x\ \lor\ z \ = \ y)) \} $
+\end{longtable}
+
+\end{prop}
+
+
+\par
+F{\"u}r Klassenpaare, die aus Mengen gebildet werden, kann die Eigenschaft, Element des Klassenpaares zu sein, einfacher ausgedr{\"u}ckt werden.
+
+\begin{prop}
+\label{theorem:membershipOfClassPair} \hypertarget{theorem:membershipOfClassPair}{}
+{\tt \tiny [\verb]theorem:membershipOfClassPair]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(\mathfrak{M}(x)\ \land\ \mathfrak{M}(y))\ \rightarrow\ \forall z\ (z \in \{ x, y \}\ \leftrightarrow\ (z \ = \ x\ \lor\ z \ = \ y))$
+\end{longtable}
+
+\end{prop}
+
+
+\par
+Falls bei der Klassenpaarbildung eine echte Klasse dabei ist, dann ist das
+resultierende Klassenpaar mit der Allklasse identisch.
+
+\begin{prop}
+\label{theorem:properClassPairIsUniversalClass} \hypertarget{theorem:properClassPairIsUniversalClass}{}
+{\tt \tiny [\verb]theorem:properClassPairIsUniversalClass]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(\neg \mathfrak{M}(x)\ \lor\ \neg \mathfrak{M}(y))\ \rightarrow\ \{ x, y \} \ = \ \mathfrak{V}$
+\end{longtable}
+
+\end{prop}
+
+
+\par
+Wir notieren, dass die Klassenpaarbildung kommutativ ist.
+
+\begin{prop}
+\label{theorem:classPairBuildingIsCommutative} \hypertarget{theorem:classPairBuildingIsCommutative}{}
+{\tt \tiny [\verb]theorem:classPairBuildingIsCommutative]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\{ x, y \} \ = \ \{ y, x \}$
+\end{longtable}
+
+\end{prop}
+
+
+\par
+Die Einerklasse ist ein Spezialfall des Klassenpaares.
+
+\begin{prop}
+\label{theorem:singletonIsClassPair} \hypertarget{theorem:singletonIsClassPair}{}
+{\tt \tiny [\verb]theorem:singletonIsClassPair]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\{ x \} \ = \ \{ x, x \}$
+\end{longtable}
+
+\end{prop}
+
+
+\par
+Menge zu sein ist {\"a}quivalent dazu, Element eines Klassenpaares zu sein.
+
+\begin{prop}
+\label{theorem:setEquiInClassPair} \hypertarget{theorem:setEquiInClassPair}{}
+{\tt \tiny [\verb]theorem:setEquiInClassPair]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\mathfrak{M}(x)\ \leftrightarrow\ x \in \{ x, y \}$
+\end{longtable}
+
+\end{prop}
+
+
+\par
+F{\"u}r Mengen ist die Elementbeziehung {\"a}quivalent zur Teilklassenbeziehung
+f{\"u}r die zugeh{\"o}rige Einerklasse.
+
+\begin{prop}
+\label{theorem:elementEquiSingletonSubclass} \hypertarget{theorem:elementEquiSingletonSubclass}{}
+{\tt \tiny [\verb]theorem:elementEquiSingletonSubclass]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\mathfrak{M}(x)\ \rightarrow\ (x \in y\ \leftrightarrow\ \{ x \} \ \subseteq \ y)$
+\end{longtable}
+
+\end{prop}
+
+
+\par
+Die Gleichheit von aus Mengen gebildeten Klassenpaaren ist wie erwartet.
+
+\begin{prop}
+\label{theorem:pairIdentities} \hypertarget{theorem:pairIdentities}{}
+{\tt \tiny [\verb]theorem:pairIdentities]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(\mathfrak{M}(x)\ \land\ \mathfrak{M}(y)\ \land\ \mathfrak{M}(u)\ \land\ \mathfrak{M}(v))\ \rightarrow\ (\{ x, y \} \ = \ \{ u, v \}\ \rightarrow\ ((x \ = \ u\ \land\ y \ = \ v)\ \lor\ (x \ = \ v\ \land\ y \ = \ u)))$
+\end{longtable}
+
+\end{prop}
+
+
+\section{Unendliche Boolsche Operatoren} \label{chapter4_section5} \hypertarget{chapter4_section5}{}
+Es k{\"o}nnen auch beliebige Schnittklassen und Vereinigungsklassen gebildet werden. Dazu muss nur
+festgelegt werden, {\"u}ber welche Klassen jeweils geschnitten bzw. vereinigt wird.
+
+\par
+F{\"u}r eine Klasse von Mengen wird ein \emph{Produkt} so definiert, dass genau die Elemente, 
+die in allen Mengen enthalten sind, in dem Produkt liegen.
+
+\begin{defn}[Mengenprodukt\index{Mengenprodukt}\index{Produkt!von Mengen}]
+\label{setProduct} \hypertarget{setProduct}{}
+{\tt \tiny [\verb]setProduct]]}
+$$\bigcap \ x \ = \ \{ z \ | \ \forall y\ (y \in x\ \rightarrow\ z \in y) \} $$
+\end{defn}
+
+Diese Funktion kann als Verallgemeinerung der Schnittklassenbildung angesehen werden.
+Siehe auch \hyperlink{theorem:setPairSetSumProduct}{Proposition~46}.
+
+\par
+Wir sagen auch, dass die Klasse $x$ eine \emph{Mengenfamilie}\index{Familie}\index{Mengenfamilie}
+festlegt. Jedes Element von $x$ ist ein Mitglied der Familie.
+
+
+\par
+Wie {\"u}blich k{\"o}nnen wir die Elementbeziehung zum Mengenprodukt wie folgt beschreiben.
+
+\begin{prop}
+\label{theorem:setProductMembership} \hypertarget{theorem:setProductMembership}{}
+{\tt \tiny [\verb]theorem:setProductMembership]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $z \in \bigcap \ x\ \leftrightarrow\ (\mathfrak{M}(z)\ \land\ \forall y\ (y \in x\ \rightarrow\ z \in y))$
+\end{longtable}
+
+\end{prop}
+
+
+\par
+F{\"u}r den Speziallfall $x\,=\,\emptyset$ erhalten wir.
+
+\begin{prop}
+\label{theorem:emptySetProduct} \hypertarget{theorem:emptySetProduct}{}
+{\tt \tiny [\verb]theorem:emptySetProduct]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\bigcap \ \emptyset \ = \ \mathfrak{V}$
+\end{longtable}
+
+\end{prop}
+
+
+\par
+Falls wir das Mengenprodukt einer nichtleeren Klasse bilden,
+k{\"o}nnen wir die Mengenbedingung weglassen.
+
+\begin{prop}
+\label{theorem:nonEmptySetProductMembership} \hypertarget{theorem:nonEmptySetProductMembership}{}
+{\tt \tiny [\verb]theorem:nonEmptySetProductMembership]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $x \ \neq \ \emptyset\ \rightarrow\ (z \in \bigcap \ x\ \leftrightarrow\ \forall y\ (y \in x\ \rightarrow\ z \in y))$
+\end{longtable}
+
+\end{prop}
+
+
+\par
+Analog k{\"o}nnen wir die \emph{Mengensumme} definieren.
+Genau die Elemente, die in irgend einer der Mengen vorkommen, sollen in der Summe liegen.
+
+\begin{defn}[Mengensumme\index{Mengensumme}\index{Summe!von Mengen}]
+\label{definition:setSum} \hypertarget{definition:setSum}{}
+{\tt \tiny [\verb]definition:setSum]]}
+$$\bigcup \ x \ = \ \{ z \ | \ \exists y\ (y \in x\ \land\ z \in y) \} $$
+\end{defn}
+
+
+\par
+Die Zugeh{\"o}rigkeit zur Mengensumme kann wie folgt ausgedr{\"u}ckt werden.
+
+\begin{prop}
+\label{theorem:setSumMembership} \hypertarget{theorem:setSumMembership}{}
+{\tt \tiny [\verb]theorem:setSumMembership]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $z \in \bigcup \ x\ \leftrightarrow\ \exists y\ (y \in x\ \land\ z \in y)$
+\end{longtable}
+
+\end{prop}
+
+Hier k{\"o}nnen wir die Mengenbedingung $\mathfrak{M}(z)$ weglassen.
+
+
+\par
+F{\"u}r die leere Klasse erhalten wir.
+
+\begin{prop}
+\label{theorem:emptySetSum} \hypertarget{theorem:emptySetSum}{}
+{\tt \tiny [\verb]theorem:emptySetSum]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\bigcup \ \emptyset \ = \ \emptyset$
+\end{longtable}
+
+\end{prop}
+
+
+\par
+Die Teilklassenrelation verh{\"a}lt sich zu Mengenprodukt und Mengensumme wie folgt.
+
+\begin{prop}
+\label{theorem:subsetSumProductImplication} \hypertarget{theorem:subsetSumProductImplication}{}
+{\tt \tiny [\verb]theorem:subsetSumProductImplication]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $x \ \subseteq \ y\ \rightarrow\ \bigcap \ y \ \subseteq \ \bigcap \ x$ & \label{theorem:subsetSumProductImplication/a} \hypertarget{theorem:subsetSumProductImplication/a}{} \mbox{\emph{(a)}} \\
+\centering $x \ \subseteq \ y\ \rightarrow\ \bigcup \ x \ \subseteq \ \bigcup \ y$ & \label{theorem:subsetSumProductImplication/b} \hypertarget{theorem:subsetSumProductImplication/b}{} \mbox{\emph{(b)}} 
+\end{longtable}
+
+\end{prop}
+
+
+\par
+Die Elementbeziehung induziert Teilklassenbeziehungen in der folgenden Weise.
+
+\begin{prop}
+\label{theorem:membershipToSetProductAndSum} \hypertarget{theorem:membershipToSetProductAndSum}{}
+{\tt \tiny [\verb]theorem:membershipToSetProductAndSum]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $x \in y\ \rightarrow\ x \ \subseteq \ \bigcup \ y$ & \label{theorem:membershipToSetProductAndSum/a} \hypertarget{theorem:membershipToSetProductAndSum/a}{} \mbox{\emph{(a)}} \\
+\centering $x \in y\ \rightarrow\ \bigcap \ y \ \subseteq \ x$ & \label{theorem:membershipToSetProductAndSum/b} \hypertarget{theorem:membershipToSetProductAndSum/b}{} \mbox{\emph{(b)}} 
+\end{longtable}
+
+\end{prop}
+
+
+\par
+Die Vereinigungs- und Schnittklassenbildung passt zu Mengensumme und
+Mengenprodukt wie nachfolgend beschrieben.
+
+\begin{prop}
+\label{theorem:unionIntersectionSetSumProduct} \hypertarget{theorem:unionIntersectionSetSumProduct}{}
+{\tt \tiny [\verb]theorem:unionIntersectionSetSumProduct]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $\bigcap \ (x \cup y) \ = \ (\bigcap \ x \cap \bigcap \ y)$ & \label{theorem:unionIntersectionSetSumProduct/a} \hypertarget{theorem:unionIntersectionSetSumProduct/a}{} \mbox{\emph{(a)}} \\
+\centering $\bigcup \ (x \cup y) \ = \ (\bigcup \ x \cup \bigcup \ y)$ & \label{theorem:unionIntersectionSetSumProduct/b} \hypertarget{theorem:unionIntersectionSetSumProduct/b}{} \mbox{\emph{(b)}} \\
+\centering $\bigcup \ (x \cap y) \ \subseteq \ (\bigcup \ x \cap \bigcup \ y)$ & \label{theorem:unionIntersectionSetSumProduct/c} \hypertarget{theorem:unionIntersectionSetSumProduct/c}{} \mbox{\emph{(c)}} 
+\end{longtable}
+
+\end{prop}
+
+
+\par
+F{\"u}r den Fall einer nichtleeren Mengenfamilie haben wir dieses Ergebnis.
+
+\begin{prop}
+\label{theorem:nonEmptySumProductSubSet} \hypertarget{theorem:nonEmptySumProductSubSet}{}
+{\tt \tiny [\verb]theorem:nonEmptySumProductSubSet]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall x\ (x \ \neq \ \emptyset\ \rightarrow\ \bigcap \ x \ \subseteq \ \bigcup \ x)$
+\end{longtable}
+
+\end{prop}
+
+
+\par
+F{\"u}r Mengenpaare erhalten wir die erwarteten Ergebnisse.
+
+\begin{prop}
+\label{theorem:setPairSetSumProduct} \hypertarget{theorem:setPairSetSumProduct}{}
+{\tt \tiny [\verb]theorem:setPairSetSumProduct]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $(\mathfrak{M}(x)\ \land\ \mathfrak{M}(y))\ \rightarrow\ \bigcap \ \{ x, y \} \ = \ (x \cap y)$ & \label{theorem:setPairSetSumProduct/a} \hypertarget{theorem:setPairSetSumProduct/a}{} \mbox{\emph{(a)}} \\
+\centering $(\mathfrak{M}(x)\ \land\ \mathfrak{M}(y))\ \rightarrow\ \bigcup \ \{ x, y \} \ = \ (x \cup y)$ & \label{theorem:setPairSetSumProduct/b} \hypertarget{theorem:setPairSetSumProduct/b}{} \mbox{\emph{(b)}} 
+\end{longtable}
+
+\end{prop}
+
+
+\par
+F{\"u}r Einermengen erhalten wir analoge Aussagen.
+
+\begin{prop}
+\label{theorem:singletonSetSumProduct} \hypertarget{theorem:singletonSetSumProduct}{}
+{\tt \tiny [\verb]theorem:singletonSetSumProduct]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $\mathfrak{M}(x)\ \rightarrow\ \bigcap \ \{ x \} \ = \ x$ & \label{theorem:singletonSetSumProduct/a} \hypertarget{theorem:singletonSetSumProduct/a}{} \mbox{\emph{(a)}} \\
+\centering $\mathfrak{M}(x)\ \rightarrow\ \bigcup \ \{ x \} \ = \ x$ & \label{theorem:singletonSetSumProduct/b} \hypertarget{theorem:singletonSetSumProduct/b}{} \mbox{\emph{(b)}} 
+\end{longtable}
+
+\end{prop}
+
+
+\section{Potenzklassenbildung} \label{chapter4_section6} \hypertarget{chapter4_section6}{}
+Ein wichtiger Operator fehlt uns noch.
+
+\par
+Aus der Teilklassenrelation l{\"a}sst sich ein weiterer Klassenoperator gewinnen, die \emph{Potenzklassenbildung}.
+
+\begin{defn}[Potenzklasse\index{Klasse!Potenz-}]
+\label{definition:power} \hypertarget{definition:power}{}
+{\tt \tiny [\verb]definition:power]]}
+$$\mathfrak{P}(x) \ = \ \{ z \ | \ z \ \subseteq \ x \} $$
+\end{defn}
+
+Wir erinnern noch einmal daran, dass nur Mengen in der Potenzklasse enthalten sein k{\"o}nnen.
+
+
+\par
+F{\"u}r diesen neuen Operator gelten die folgenden Aussagen.
+
+\begin{prop}
+\label{theorem:powerPropositions} \hypertarget{theorem:powerPropositions}{}
+{\tt \tiny [\verb]theorem:powerPropositions]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $z \in \mathfrak{P}(x)\ \leftrightarrow\ (\mathfrak{M}(z)\ \land\ z \ \subseteq \ x)$ & \label{theorem:powerPropositions/a} \hypertarget{theorem:powerPropositions/a}{} \mbox{\emph{(a)}} \\
+\centering $\mathfrak{P}(\mathfrak{V}) \ = \ \mathfrak{V}$ & \label{theorem:powerPropositions/b} \hypertarget{theorem:powerPropositions/b}{} \mbox{\emph{(b)}} \\
+\centering $\mathfrak{P}(\emptyset) \ = \ \{ \emptyset \}$ & \label{theorem:powerPropositions/c} \hypertarget{theorem:powerPropositions/c}{} \mbox{\emph{(c)}} \\
+\centering $\mathfrak{M}(x)\ \leftrightarrow\ x \in \mathfrak{P}(x)$ & \label{theorem:powerPropositions/d} \hypertarget{theorem:powerPropositions/d}{} \mbox{\emph{(d)}} \\
+\centering $x \ \subseteq \ y\ \rightarrow\ \mathfrak{P}(x) \ \subseteq \ \mathfrak{P}(y)$ & \label{theorem:powerPropositions/e} \hypertarget{theorem:powerPropositions/e}{} \mbox{\emph{(e)}} \\
+\centering $(\mathfrak{M}(x)\ \land\ \mathfrak{P}(x) \ \subseteq \ \mathfrak{P}(y))\ \rightarrow\ x \ \subseteq \ y$ & \label{theorem:powerPropositions/f} \hypertarget{theorem:powerPropositions/f}{} \mbox{\emph{(f)}} \\
+\centering $\mathfrak{P}((x \cap y)) \ = \ (\mathfrak{P}(x) \cap \mathfrak{P}(y))$ & \label{theorem:powerPropositions/g} \hypertarget{theorem:powerPropositions/g}{} \mbox{\emph{(g)}} \\
+\centering $(\mathfrak{P}(x) \cup \mathfrak{P}(y)) \ \subseteq \ \mathfrak{P}((x \cup y))$ & \label{theorem:powerPropositions/h} \hypertarget{theorem:powerPropositions/h}{} \mbox{\emph{(h)}} \\
+\centering $x \ \subseteq \ \mathfrak{P}(\bigcup \ x)$ & \label{theorem:powerPropositions/i} \hypertarget{theorem:powerPropositions/i}{} \mbox{\emph{(i)}} \\
+\centering $\bigcup \ \mathfrak{P}(x) \ \subseteq \ x$ & \label{theorem:powerPropositions/j} \hypertarget{theorem:powerPropositions/j}{} \mbox{\emph{(j)}} 
+\end{longtable}
+
+\end{prop}
+
+
+\par
+Speziell f{\"u}r die Potenzklasse einer Menge l{\"a}sst sich \hyperlink{theorem:powerPropositions}{Proposition~48} versch{\"a}rfen.
+
+\begin{prop}
+\label{theorem:powerSetPropositions} \hypertarget{theorem:powerSetPropositions}{}
+{\tt \tiny [\verb]theorem:powerSetPropositions]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\mathfrak{M}(x)\ \rightarrow\ x \ = \ \bigcup \ \mathfrak{P}(x)$
+\end{longtable}
+
+\end{prop}
+
+F{\"u}r Mengen heben sich die Potenzklassenbildung und die Mengensumme (in dieser Reihenfolge) gegenseitig auf.
+Sp{\"a}ter k{\"o}nnen wir die Mengenbedingung fallenlassen, da wir dann {\"u}ber weitere Axiome
+verf{\"u}gen.
+
+
+
+%% end of chapter Boolesche Algebra der Klassen\index{Boolesche Algebra!der Klassen}
+
+\chapter{Mengen, Relationen und Funktionen} \label{chapter5} \hypertarget{chapter5}{}
+
+In diesem Kapitel wird noch einmal genauer auf die Mengeneigenschaft eingegangen und es werden neue Axiome angegeben, um die Existenz von Mengen abzusichern.
+
+\par
+Um Relationen definieren zu k{\"o}nnen, wird der Begriff des \emph{geordneten Klassenpaares} ben{\"o}tigt,
+der es erm{\"o}glicht, das \emph{cartesische Produkt} von Klassen zu definieren. Relationen sind
+Teilklassen von cartesischen Produkten und bilden zusammen mit bestimmten Operationen eine
+\emph{universelle Algebra}\index{Algebra!universelle}. 
+
+\par
+Spezielle Relationen sind die \emph{{\"A}quivalenzrelationen}, die einen etwas
+weiter gefassten Gleichheitsbegriff erm{\"o}glichen. Funktionen sind ebenfalls spezielle Relationen,
+Das Fraenkelsche Ersetzungsaxiom garantiert, dass Mengen auf Mengen abgebildet werden.
+
+\section{Mengen} \label{chapter5_section1} \hypertarget{chapter5_section1}{}
+Zur Darstellung der Booleschen Klassenalgebra wurden noch keine mengentheoretischen Axiome ben{\"o}tigt
+Im Folgenden werden weitere Axiome vorgestellt, die Bedingungen daf{\"u}r angeben, wann eine Klasse
+eine Menge ist.
+
+\par
+Die leere Klasse soll eine Menge sein.
+
+\begin{ax}[Axiom der leeren Menge\index{Axiom!der leeren Menge}]
+\label{axiom:emptySet} \hypertarget{axiom:emptySet}{}
+{\tt \tiny [\verb]axiom:emptySet]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\mathfrak{M}(\emptyset)$
+\end{longtable}
+
+\end{ax}
+
+Damit haben wir zum ersten Mal Kenntnis {\"u}ber die Existenz einer Menge.
+
+
+\par
+Um die Mengeneigenschaft f{\"u}r Paare von Mengen zu erhalten, haben wir das
+folgende Axiom.
+
+\begin{ax}[Axiom der Paarmenge\index{Axiom!Paarmengen-}]
+\label{axiom:pairingSet} \hypertarget{axiom:pairingSet}{}
+{\tt \tiny [\verb]axiom:pairingSet]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(\mathfrak{M}(x)\ \land\ \mathfrak{M}(y))\ \rightarrow\ \mathfrak{M}(\{ x, y \})$
+\end{longtable}
+
+\end{ax}
+
+
+\par
+Auch die Mengensumme einer Menge soll wieder eine Menge sein.
+
+\begin{ax}[Summenmengenaxiom\index{Axiom!Summenmengen-}]
+\label{axiom:setSumSet} \hypertarget{axiom:setSumSet}{}
+{\tt \tiny [\verb]axiom:setSumSet]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\mathfrak{M}(x)\ \rightarrow\ \mathfrak{M}(\bigcup \ x)$
+\end{longtable}
+
+\end{ax}
+
+
+\par
+Die Potenzklasse einer Menge soll auch wieder eine Menge sein.
+
+\begin{ax}[Axiom der Potenzmenge\index{Axiom!Potenzmengen-}]
+\label{axiom:powerSet} \hypertarget{axiom:powerSet}{}
+{\tt \tiny [\verb]axiom:powerSet]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\mathfrak{M}(x)\ \rightarrow\ \mathfrak{M}(\mathfrak{P}(x))$
+\end{longtable}
+
+\end{ax}
+
+
+\par
+Die Teilklasse einer Menge soll wieder eine Menge sein.
+
+\begin{ax}[Teilmengenaxiom\index{Axiom!Teilmengen-}]
+\label{axiom:subset} \hypertarget{axiom:subset}{}
+{\tt \tiny [\verb]axiom:subset]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(\mathfrak{M}(x)\ \land\ y \ \subseteq \ x)\ \rightarrow\ \mathfrak{M}(y)$
+\end{longtable}
+
+\end{ax}
+
+
+Die obigen Mengenaxiome erm{\"o}glichen es uns Mengen zu konstruieren.
+Durch das \hyperlink{axiom:emptySet}{Axiom~4} haben wir eine erste Menge $\emptyset$. 
+Durch die Anwendung von \hyperlink{axiom:powerSet}{Axiom~7} erhalten wir die Menge
+$\{ \emptyset \}$. Die erneute Bildung der Potenzmenge erzeugt die Menge
+$\{ \emptyset, \{ \emptyset \} \}$. Durch wiederholtes Anwendung der Prozedur
+bekommen wir eine beliebige Anzahl von Mengen.\footnote{Dass die Mengen alle
+paarweise voneinander verschieden sind, ist leicht zu zeigen.}
+
+\par
+Weiterhin stellen wir fest, dass wir mit unseren bisherigen Axiomen nur die 
+Existenz von Mengen mit einer endlichen Elementanzahl nachweisen k{\"o}nnen.
+Diese endlichen Mengen sind {\glqq sicher\grqq} in dem Sinne, dass sie nicht zu
+den Widerspr{\"u}chen f{\"u}hren, wie sie in der uneingeschr{\"a}nkten Mengenlehre 
+Zermelos auftreten,
+
+
+\par
+Mit Hilfe der neuen Axiome k{\"o}nnen weitere Folgerungen gezogen werden.
+
+\begin{prop}
+\label{theorem:isSet} \hypertarget{theorem:isSet}{}
+{\tt \tiny [\verb]theorem:isSet]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $(\neg \mathfrak{M}(y)\ \land\ y \ \subseteq \ x)\ \rightarrow\ \neg \mathfrak{M}(x)$ & \label{theorem:isSet/a} \hypertarget{theorem:isSet/a}{} \mbox{\emph{(a)}} \\
+\centering $\neg \mathfrak{M}(\mathfrak{V})$ & \label{theorem:isSet/b} \hypertarget{theorem:isSet/b}{} \mbox{\emph{(b)}} \\
+\centering $(\mathfrak{M}(x)\ \land\ \mathfrak{M}(y))\ \rightarrow\ \mathfrak{M}((x \cup y))$ & \label{theorem:isSet/c} \hypertarget{theorem:isSet/c}{} \mbox{\emph{(c)}} \\
+\centering $(\mathfrak{M}(x)\ \land\ \mathfrak{M}(y))\ \rightarrow\ \mathfrak{M}((x \cap y))$ & \label{theorem:isSet/d} \hypertarget{theorem:isSet/d}{} \mbox{\emph{(d)}} \\
+\centering $\mathfrak{M}(x)\ \rightarrow\ \mathfrak{M}(\{ x \})$ & \label{theorem:isSet/e} \hypertarget{theorem:isSet/e}{} \mbox{\emph{(e)}} \\
+\centering $\mathfrak{M}(x)\ \rightarrow\ \neg \mathfrak{M}(\overline{x})$ & \label{theorem:isSet/f} \hypertarget{theorem:isSet/f}{} \mbox{\emph{(f)}} \\
+\centering $x \ = \ \bigcup \ \mathfrak{P}(x)$ & \label{theorem:isSet/g} \hypertarget{theorem:isSet/g}{} \mbox{\emph{(g)}} \\
+\centering $\mathfrak{M}(x)\ \leftrightarrow\ \mathfrak{M}(\bigcup \ x)$ & \label{theorem:isSet/h} \hypertarget{theorem:isSet/h}{} \mbox{\emph{(h)}} \\
+\centering $\bigcap \ \mathfrak{V} \ = \ \emptyset$ & \label{theorem:isSet/i} \hypertarget{theorem:isSet/i}{} \mbox{\emph{(i)}} \\
+\centering $\bigcup \ \mathfrak{V} \ = \ \mathfrak{V}$ & \label{theorem:isSet/j} \hypertarget{theorem:isSet/j}{} \mbox{\emph{(j)}} \\
+\centering $x \ \neq \ \emptyset\ \rightarrow\ \mathfrak{M}(\bigcap \ x)$ & \label{theorem:isSet/k} \hypertarget{theorem:isSet/k}{} \mbox{\emph{(k)}} 
+\end{longtable}
+
+\end{prop}
+
+
+Wir stellen abschlie{\ss}end fest, dass wir \hyperlink{axiom:emptySet}{Axiom~4} (Axiom der leeren Menge) in den Beweisen bisher noch nicht verwendet haben. Da bedeutet, dass alle bisherigen S{\"a}tze unabh{\"a}ngig von der Existenz einer einzigen Menge g{\"u}ltig sind.
+
+
+\section{Geordnetes Klassenpaar} \label{chapter5_section2} \hypertarget{chapter5_section2}{}
+Das Konzept eines geordneten Paares ist f{\"u}r die weitere Entwicklung unserer Theorie wichtig.
+Es erm{\"o}glicht uns die Objekte anzuordnen. Bisher hingen unsere Objektzusammenfassungen nicht
+von der Reihenfolge der Sammlung ab. Wir wollen nun aber auch nach der Zusammenfassung
+herausfinden k{\"o}nnen, welches das \emph{erste} Element und welches das \emph{zweite} Element
+war.
+
+\par
+Die Definition eines geordneten Paares $\langle x, y\rangle$ erfolgt nach \emph{N.~Wiener} (1914) bzw. \emph{K.~Kuratowski} (1921).
+
+\begin{defn}[Geordnetes Paar\index{geordnetes Paar}\index{Paar!geordnetes}]
+\label{definition:orderedPair} \hypertarget{definition:orderedPair}{}
+{\tt \tiny [\verb]definition:orderedPair]]}
+$$\langle x, y \rangle \ = \ \{ \{ x \}, \{ x, y \} \}$$
+\end{defn}
+
+
+\par
+F{\"u}r geordnete Paare von Mengen spielt die Reihe der angegebenen Elemente
+eine Rolle. Geordnete Paare sollten nur dann identisch sein, wenn
+ihre ersten Elemente und ihre zweiten Elemente identisch sind.
+
+\begin{prop}
+\label{theorem:orderedPairEquality} \hypertarget{theorem:orderedPairEquality}{}
+{\tt \tiny [\verb]theorem:orderedPairEquality]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(\mathfrak{M}(x)\ \land\ \mathfrak{M}(y)\ \land\ \mathfrak{M}(u)\ \land\ \mathfrak{M}(v))\ \rightarrow\ (\langle x, y \rangle \ = \ \langle u, v \rangle\ \rightarrow\ (x \ = \ u\ \land\ y \ = \ v))$
+\end{longtable}
+
+\end{prop}
+
+
+\par
+Ein aus Mengen gebildetes geordnetes Paar ist auch eine Menge. 
+Die Umkehrung gilt auch.
+
+\begin{prop}
+\label{theorem:orderedPairOfSets} \hypertarget{theorem:orderedPairOfSets}{}
+{\tt \tiny [\verb]theorem:orderedPairOfSets]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(\mathfrak{M}(x)\ \land\ \mathfrak{M}(y))\ \leftrightarrow\ \mathfrak{M}(\langle x, y \rangle)$
+\end{longtable}
+
+\end{prop}
+
+
+\par
+Falls eine der Klassen keine Menge ist, dann ist das geordnete Paar
+mit der Allklasse identisch.
+
+\begin{prop}
+\label{theorem:orderedPairWithNonSet} \hypertarget{theorem:orderedPairWithNonSet}{}
+{\tt \tiny [\verb]theorem:orderedPairWithNonSet]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(\neg \mathfrak{M}(x)\ \lor\ \neg \mathfrak{M}(y))\ \rightarrow\ \langle x, y \rangle \ = \ \mathfrak{V}$
+\end{longtable}
+
+\end{prop}
+
+
+\par
+Um {\"u}ber geordnete Paare sprechen zu k{\"o}nnen, ben{\"o}tigen wir ein neues Pr{\"a}dikat
+{\glqq ist ein geordnetes Paar \grqq}.
+
+\begin{defn}[Eigenschaft geordnetes Paar\index{Paar!geordnetes}]
+\label{definition:isOrderedPair} \hypertarget{definition:isOrderedPair}{}
+{\tt \tiny [\verb]definition:isOrderedPair]]}
+$$\mbox{isOrderedPair}(x)\ \leftrightarrow\ \exists u\ \exists v\ x \ = \ \langle u, v \rangle$$
+
+\end{defn}
+
+Wir betonen noch einmal, dass auch $\mathfrak{V}$ ein geordnetes Paar ist. Aber da
+wir meistens {\"u}ber Elemente von Klassen sprechen, haben wir nur mit Mengen zu tun,
+die eventuell auch geordnete Paare sind.
+
+
+\section{Kartesisches Produkt} \label{chapter5_section3} \hypertarget{chapter5_section3}{}
+F{\"u}r die geordneten Klassenpaare brauchen wir eine Metastruktur. Daf{\"u}r fassen wir einfach geordnete
+Paare in einer Klasse zusammen.
+
+\par
+Das Kartesische Produkt\footnote{Kartesisch oder kartesianisch nach der 
+lateinischen Namensform \emph{Cartesius} des Philosophen und Mathematikers 
+\emph{R.~Descartes}.}, auch \emph{Kreuzprodukt} genannt, ist die Klasse 
+aller geordneter Paare, deren Elemente aus den Ausgangsklassen stammen.
+
+\begin{defn}[Kartesisches Produkt\index{Produkt!kartesisches}\index{Produkt!Kreuz-}\index{Kartesisches Produkt}\index{Kreuzprodukt}]
+\label{definition:cartesianProduct} \hypertarget{definition:cartesianProduct}{}
+{\tt \tiny [\verb]definition:cartesianProduct]]}
+$$( x \times y) \ = \ \{ z \ | \ \exists u\ \exists v\ (u \in x\ \land\ v \in y\ \land\ z \ = \ \langle u, v \rangle) \} $$
+\end{defn}
+
+
+\section{Relationen} \label{chapter5_section4} \hypertarget{chapter5_section4}{}
+Es ist wichtig, Relationen zwischen mathematischen Objekten
+ausdr{\"u}cken zu k{\"o}nnen und sie auch als Objekte behandeln
+zu k{\"o}nnen. Es stellt sich heraus, dass wir keine neuen
+Objektarten ben{\"o}tigen. Unsere bisherigen Strukturen reichen aus.
+
+\par
+Nun k{\"o}nnen wir den Begriff der \emph{Relation} auch innerhalb unserer Mengenlehre definieren.
+
+\begin{defn}[Relation\index{relation}]
+\label{definition:relation} \hypertarget{definition:relation}{}
+{\tt \tiny [\verb]definition:relation]]}
+$$\mathfrak{Rel}(x)\ \leftrightarrow\ \forall y\ (y \in x\ \rightarrow\ \mbox{isOrderedPair}(y))$$
+
+\end{defn}
+
+
+\par
+Ein paar Aussagen {\"u}ber Relationen.
+
+\begin{prop}
+\label{theorem:relationProperties} \hypertarget{theorem:relationProperties}{}
+{\tt \tiny [\verb]theorem:relationProperties]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $\mathfrak{Rel}(\emptyset)$ & \label{theorem:relationProperties/a} \hypertarget{theorem:relationProperties/a}{} \mbox{\emph{(a)}} \\
+\centering $\mathfrak{Rel}(( \mathfrak{V} \times \mathfrak{V}))$ & \label{theorem:relationProperties/b} \hypertarget{theorem:relationProperties/b}{} \mbox{\emph{(b)}} \\
+\centering $(\mathfrak{Rel}(x)\ \land\ \mathfrak{Rel}(y))\ \rightarrow\ \mathfrak{Rel}((x \cap y))$ & \label{theorem:relationProperties/c} \hypertarget{theorem:relationProperties/c}{} \mbox{\emph{(c)}} \\
+\centering $(\mathfrak{Rel}(x)\ \land\ \mathfrak{Rel}(y))\ \rightarrow\ \mathfrak{Rel}((x \cup y))$ & \label{theorem:relationProperties/d} \hypertarget{theorem:relationProperties/d}{} \mbox{\emph{(d)}} 
+\end{longtable}
+
+\end{prop}
+
+
+\par
+Wie geben nun eine allgemeine Definition des Begriffs \emph{Definitionsbereich} an.
+
+\begin{defn}[Definitionsbereich\index{Definitionsbereich}]
+\label{definition:domain} \hypertarget{definition:domain}{}
+{\tt \tiny [\verb]definition:domain]]}
+$$\mathfrak{Dom}(x) \ = \ \{ y \ | \ \exists z\ \langle y, z \rangle \in x \} $$
+\end{defn}
+
+
+\par
+Analog zu dem Definitionsbereich legen wir den \emph{Wertebereich} einer Klasse fest.
+
+\begin{defn}[Wertebereich\index{Wertebereich}]
+\label{definition:range} \hypertarget{definition:range}{}
+{\tt \tiny [\verb]definition:range]]}
+$$\mathfrak{Rng}(x) \ = \ \{ y \ | \ \exists z\ \langle z, y \rangle \in x \} $$
+\end{defn}
+
+
+\section{Relationenalgebra} \label{chapter5_section5} \hypertarget{chapter5_section5}{}
+MISSING! OTHER: +++
+
+\section{{\"A}quivalenzrelationen} \label{chapter5_section6} \hypertarget{chapter5_section6}{}
+MISSING! OTHER: +++
+
+\section{Abbildungen und Funktionen} \label{chapter5_section7} \hypertarget{chapter5_section7}{}
+MISSING! OTHER: +++
+
+\par
+Eine Funktion ist einfach eine spezielle Art von Relation.
+
+\begin{defn}[Funktion\index{Funktion}]
+\label{definition:function} \hypertarget{definition:function}{}
+{\tt \tiny [\verb]definition:function]]}
+$$\mathfrak{Funct}(x)\ \leftrightarrow\ (\mathfrak{Rel}(x)\ \land\ \forall y\ (y \in \mathfrak{Dom}(x)\ \rightarrow\ \exists! z\ \langle y, z \rangle \in x))$$
+
+\end{defn}
+
+
+\par
+Falls der Definitionsbereich einer Funktion eine Menge ist, dann sollte auch ihr Wertebereich eine Menge sein.
+
+\begin{ax}[Fraenkelsches Ersetzungsaxiom\index{Axiom!Fraenkelsches Ersetzungs-}\index{Substitutionsaxiom}\index{Fraenkel}]
+\label{axiom:FraenkelsReplacement} \hypertarget{axiom:FraenkelsReplacement}{}
+{\tt \tiny [\verb]axiom:FraenkelsReplacement]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(\mathfrak{Funct}(f)\ \land\ \mathfrak{M}(\mathfrak{Dom}(f)))\ \rightarrow\ \mathfrak{M}(\mathfrak{Rng}(f))$
+\end{longtable}
+
+\end{ax}
+
+
+
+%% end of chapter Mengen, Relationen und Funktionen
+
+\chapter{Nat{\"u}rliche Zahlen} \label{chapter6} \hypertarget{chapter6}{}
+
+MISSING! OTHER: +++
+
+\section{Fundierung und Unendlichkeit} \label{chapter6_section1} \hypertarget{chapter6_section1}{}
+MISSING! OTHER: +++
+
+\par
+Mengen $x$ sollten sich nicht selbst als Element enthalten oder ein Element besitzen, das wiederum
+$x$ als Element hat. Um diese und andere Enthaltenseinszirkel auszuschlie{\ss}en, stellen wir das folgende
+Axiom vor.
+
+\begin{ax}[Fundierungsaxiom\index{Axiom!Fundierungs-}\index{Axiom!Regularit{\"a}ts-}]
+\label{axiom:foundation} \hypertarget{axiom:foundation}{}
+{\tt \tiny [\verb]axiom:foundation]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $x \ \neq \ \emptyset\ \rightarrow\ \exists y\ (y \in x\ \land\ (y \cap x) \ = \ \emptyset)$
+\end{longtable}
+
+\end{ax}
+
+Dieses Axiom hei{\ss}t auch Regularit{\"a}tsaxiom.
+
+
+\par
+Eine naheliegende Klassenerweiterung ist die Bildung der
+Vereinigungsmenge mit der Einerklasse.
+
+\begin{defn}[Nachfolger\index{Nachfolger}]
+\label{definition:successor} \hypertarget{definition:successor}{}
+{\tt \tiny [\verb]definition:successor]]}
+$$x' \ = \ (x \cup \{ x \})$$
+\end{defn}
+
+Weil $x \notin x$ f{\"u}gt die Nachfolgerfunktion der orginalen Klasse
+genau ein Element hinzu.
+
+
+\par
+Wir wollen eine Menge mit unendlich vielen Elementen haben. So fordern wir einfach ihre Existenz.
+
+\begin{ax}[Unendlichkeitsaxiom\index{Unendlichkeit!-saxiom}\index{Axiom!Unendlichkeits-}]
+\label{axiom:infinity} \hypertarget{axiom:infinity}{}
+{\tt \tiny [\verb]axiom:infinity]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\exists x\ (\mathfrak{M}(x)\ \land\ \emptyset \in x\ \land\ \forall y\ (y \in x\ \rightarrow\ y' \in x))$
+\end{longtable}
+
+\end{ax}
+
+
+\section{Definition und Grundeigenschaften} \label{chapter6_section2} \hypertarget{chapter6_section2}{}
+MISSING! OTHER: +++
+
+\section{Induktion} \label{chapter6_section3} \hypertarget{chapter6_section3}{}
+MISSING! OTHER: +++
+
+\section{Folgen und normale Funktionen} \label{chapter6_section4} \hypertarget{chapter6_section4}{}
+MISSING! OTHER: +++
+
+\section{Rekursion} \label{chapter6_section5} \hypertarget{chapter6_section5}{}
+MISSING! OTHER: +++
+
+
+%% end of chapter Nat{\"u}rliche Zahlen
+
+\chapter{Auswahlaxiom} \label{chapter7} \hypertarget{chapter7}{}
+
++++
+
+\section{Wohlordnungen} \label{chapter7_section1} \hypertarget{chapter7_section1}{}
++++
+
+\par
+Nun kommen wir zu dem bekannten Auswahlaxiom. Wir formulieren es f{\"u}r Relationen.
+
+\begin{ax}[Auswahlaxiom\index{Axiom!Auswahl-}]
+\label{axiom:choice} \hypertarget{axiom:choice}{}
+{\tt \tiny [\verb]axiom:choice]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\mathfrak{Rel}(x)\ \rightarrow\ \exists y\ (\mathfrak{Funct}(y)\ \rightarrow\ (y \ \subseteq \ x\ \land\ \mathfrak{Dom}(x) \ = \ \mathfrak{Dom}(y)))$
+\end{longtable}
+
+\end{ax}
+
+
+\section{Anwendungen des Auswahlaxioms} \label{chapter7_section2} \hypertarget{chapter7_section2}{}
+MISSING!
+
+
+%% end of chapter Auswahlaxiom
+
+\chapter{Kontinuum} \label{chapter8} \hypertarget{chapter8}{}
+
+
+
+%% end of chapter Kontinuum
+
+\backmatter
+
+\begin{thebibliography}{99}
+\addcontentsline{toc}{chapter}{Literaturverzeichnis}
+
+
+%% Used other QEDEQ modules:
+\bibitem{l} qedeq\_logic\_v1 \url{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1_de.pdf}
+
+
+%% Other references:
+
+\bibitem{lemmon} \emph{E. J. Lemmon}, Introduction to Axiomatic Set Theory, Routledge \& Kegan Paul Ltd, London 1968
+
+\bibitem{monk} \emph{J. D. Monk}, Introduction to Set Theory, McGraw-Hill, New York 1996
+
+\bibitem{schmidt} \emph{J. Schmidt}, Mengenlehre I, BI, Mannheim 1966
+
+\end{thebibliography}
+\addcontentsline{toc}{chapter}{\indexname} \printindex
+
+\end{document}
+

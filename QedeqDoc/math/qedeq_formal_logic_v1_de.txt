@@ -1,0 +1,1405 @@
+================================================================================
+UTF-8-file     qedeq_formal_logic_v1
+Generated from http://www.qedeq.org/0_04_07/doc/math/qedeq_formal_logic_v1.xml
+Generated at   2013-05-20 16:27:27.451
+================================================================================
+
+If the characters of this document don't display correctly try opening this
+document within a webbrowser and if necessary change the encoding to
+Unicode (UTF-8)
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+
+
+Formale Prädikatenlogik
+═══════════════════════
+
+Michael Meyling
+
+
+Die Quelle für dieses Dokument ist hier zu finden:
+
+http://www.qedeq.org/0_04_07/doc/math/qedeq_formal_logic_v1.xml
+
+
+Die vorliegende Publikation ist urheberrechtlich geschützt.
+
+
+Bei Fragen, Anregungen oder Bitte um Aufnahme in die Liste der abhängigen Module
+schicken Sie bitte eine EMail an die Adresse mime@qedeq.org
+
+
+Die Autoren dieses Dokuments sind:
+
+    Michael Meyling <michael@meyling.com>
+
+
+
+
+___________________________________________________
+
+
+Zusammenfassung
+═══════════════
+
+In diesem Text wird die Prädikatenlogik in axiomatischer Weise entwickelt. Die 
+folgende Kalkülsprache und ihre Axiome basieren auf den Formulierungen von 
+ D .  H i l b e r t ,  W .  A c k e r m a n n [hilback], 
+ P .  S .  N o v i k o v [novikov],  V .  D e t l o v s  und 
+ K .  P o d n i e k s [detnieks]. Aus den hier angegebenen logischen Axiomen und
+den elementaren Schlussregeln können weitere Gesetzmäßigkeiten abgeleitet 
+werden. Erst diese neuen Metaregeln führen zu einer komfortablen logischen 
+Argumentation. Hintergrundinformationen stehen unter 
+  https://dspace.lu.lv/dspace/handle/7/1308  [detnieks] und 
+ http://en.wikipedia.org/wiki/Propositional_calculus .
+
+
+
+___________________________________________________
+
+
+Kapitel 1 
+
+
+Sprache
+═══════
+
+Um mathematische Aussagen präzise formulieren zu können, wird in diesem Kapitel 
+eine formale Sprache definiert. Obgleich dieses Dokument mathematischen Inhalt 
+sehr formal beschreibt, reicht es nicht aus um als Definition für ein 
+computerlesbares Dokumentformat zu dienen. Daher muss eine solch extensive 
+Spezifikation an anderer Stelle erfolgen. Das hier dafür ausgewählte Format ist 
+die  E x t e n s i b l e   M a r k u p   L a n g u a g e  abgekürzt  X M L . XML
+beschreibt eine Menge von Regeln für den Aufbau elektronischer Dokumente.
+          ┌
+          │ Siehe  http://www.w3.org/XML/  für weitere Informationen.
+          └
+ Die daran ausgerichtete formale Syntaxspezifikation kann hier gelesen werden: 
+ http://www.qedeq.org/current/xml/qedeq.xsd . Damit wird ein mathematisches 
+Dokumentenformat festgelegt, das die Erzeugung von LaTeX Büchern und eine 
+automatische Beweisüberprüfung ermöglicht. Weitere Syntaxbeschränkungen und 
+einige Erklärungen werden beschrieben in 
+ http://www.qedeq.org/current/doc/project/qedeq_logic_language_en.pdf .
+
+Auch dieses Dokument ist eine (oder wurde erzeugt aus einer) XML-Datei, die hier
+zu finden ist  http://wwww.qedeq.org/0_04_07/doc/math/qedeq_logic_v1.xml . Aber 
+nun folgen wir einfach dem traditionellen mathematischen Weg, die Anfangsgünde 
+der mathematischen Logik vorzustellen.
+
+
+1.1 Terme und Formeln
+―――――――――――――――――――――
+
+Als Symbole kommen die  l o g i s c h e n   S y m b o l e  L = { ‘¬’, ‘∧’, ‘∨’, 
+↔’, ‘→’, ‘∀’, ‘∃’ }, die  P r ä d i k a t e n k o n s t a n t e n  C = 
+{c^k_i | i, k ∈ ω}, die  F u n k t i o n s v a r i a b l e n 
+          ┌
+          │ Funktionsvariablen dienen der einfacheren Notation und werden 
+          │ beispielsweise zur Formulierung eines identitätslogischen Satzes 
+          │ benötigt: x = y → f(x) = f(y). Ausserdem bereitet ihre Einführung 
+          │ die spätere Syntaxerweiterung zur Anwendung von funktionalen Klassen
+          │ vor.
+          └
+ F = {f^k_i | i, k ∈ ω ∧ k > 0}, die  F u n k t i o n s k o n s t a n t e n 
+          ┌
+          │ Funktionskonstanten dienen ebenfalls der Bequemlichkeit und werden 
+          │ später für direkt definierte Klassenfunktionen verwendet. So zum 
+          │ Beispiel zur Potenzklassenbildung, zur Vereinigungsklassenbildung 
+          │ und für die Nachfolgerfunktion. All diese Funktionskonstanten können
+          │ auch als Abkürzungen verstanden werden.
+          └
+ H = {h^k_i | i, k ∈ ω}, die  S u b j e k t v a r i a b l e n  V = {v_i | i ∈ ω}
+, sowie die  P r ä d i k a t e n v a r i a b l e n  P = {p^k_i | i, k ∈ ω} vor.
+          ┌
+          │ Unter ω werden die natürlichen Zahlen, die Null eingeschlossen, 
+          │ verstanden. Alle bei den Mengenbildungen beteiligten Symbole werden 
+          │ als paarweise verschieden vorausgesetzt. Das bedeutet z. B.: f^k_i =
+          │ f^(k')_(i') → (k = k’ ∧ i = i’) und h^k_i ≠ v_j.
+          └
+ Unter der  S t e l l e n z a h l  eines Operators wird der obere Index 
+verstanden. Die Menge der nullstelligen Prädikatenvariablen wird auch als Menge 
+der  A u s s a g e n v a r i a b l e n  bezeichnet: A := {p_i⁰ | i ∈ ω }. Für 
+die Subjektvariablen werden abkürzend auch bestimmte Kleinbuchstaben 
+geschrieben. Die Kleinbuchstaben stehen für verschiedene Subjektvariablen: v₁ = 
+u’, v₂ = ‘v’, v₃ = ‘w’, v₄ = ‘x’, v₅ = ‘y’, v₅ = ‘z’. Weiter werden als 
+Abkürzungen verwendet: für die Prädikatenvariablen pⁿ₁ = ‘φ’ und pⁿ₂ = ‘ψ’, 
+wobei die jeweilige Stellenanzahl n aus der Anzahl der nachfolgenden Parameter 
+ermittelt wird, für die Aussagenvariablen a₁ = ‘A’, a₂ = ‘B’ und a₃ = ‘C’. Als 
+Abkürzungen für Funktionsvariablen wird festgelegt fⁿ₁ = ‘f’ und fⁿ₂ = ‘g’, 
+wobei wiederum die jeweilige Stellenanzahl n aus der Anzahl der nachfolgenden 
+Parameter ermittelt wird. Bei allen aussagenlogischen zweistelligen Operatoren 
+wird der leichteren Lesbarkeit wegen die Infixschreibweise benutzt, dabei werden
+die Symbole ‘(’ und ‘)’ verwandt. D. h. für den Operator ∧ mit den Argumenten A 
+und B wird (A ∧ B) geschrieben. Es gelten die üblichen Operatorprioritäten und 
+die dazugehörigen Klammerregeln. Insbesondere die äußeren Klammern werden in der
+Regel weggelassen. Auch werden leere Klammern nicht geschrieben.
+
+Nachfolgend werden die Operatoren mit absteigender Priorität aufgelistet. 
+  ¬, ∀, ∃ 
+ ∧ 
+ ∨ 
+ →, ↔ 
+
+
+
+Der Begriff  T e r m  wird im Folgenden rekursiv definiert:  
+1. Jede Subjektvariable ist ein Term. 
+2. Seien i, k ∈ ω und t₁, ..., t_k Terme. Dann ist auch h^k_i(t₁, ..., t_k) und 
+   falls k > 0, so auch f^k_i(t₁, ..., t_k) ein Term. Alle nullstelligen 
+   Funktionskonstanten {h⁰_i | i, ∈ ω} sind demzufolge Terme, sie werden auch 
+    I n d i v i d u e n k o n s t a n t e n  genannt.
+          ┌
+          │ Analog dazu könnten Subjektvariablen auch als nullstellige 
+          │ Funktionsvariablen definiert werden. Da die Subjektvariablen jedoch 
+          │ eine hervorgehobene Rolle spielen, werden sie auch gesondert 
+          │ bezeichnet.
+          └
+
+
+Die Begriffe  F o r m e l ,  f r e i e  und  g e b u n d e n e  Subjektvariable 
+werden rekursiv wie folgt definiert:  
+1. Jede Aussagenvariable ist eine Formel, solche Formeln enthalten keine freien 
+   oder gebundenen Subjektvariablen. 
+2. Ist p^k eine k-stellige Prädikatenvariable und c^k eine k-stellige 
+   Prädikatenkonstante und sind t₁, t₂, ..., t_k Terme, so sind p^k(t₁, t₂, ... 
+   t_k) und c^k(t₁, t₂, ..., t_k) Formeln. Dabei gelten alle in t₁, t₂, ..., t_k
+   vorkommenden Subjektvariablen als freie Subjektvariablen, gebundene 
+   Subjektvariablen kommen nicht vor.
+             ┌
+             │ Dieser zweite Punkt umfasst den ersten, welcher nur der 
+             │ Anschaulichkeit wegen extra aufgeführt ist.
+             └
+ 
+3. Es seien α, β Formeln, in denen keine Subjektvariablen vorkommen, die in 
+   einer Formel gebunden und in der anderen frei sind. Dann sind auch ¬ α, (α ∧ 
+   β), (α ∨ β), (α → β), (α ↔ β) Formeln. Subjektvariablen, welche in α oder β 
+   frei (bzw. gebunden) vorkommen, bleiben frei (bzw. gebunden). 
+4. Falls in der Formel α die Subjektvariable x₁ nicht gebunden vorkommt
+             ┌
+             │ D. h. x₁ kommt höchstens frei vor.
+             └
+   , dann sind auch ∀ x₁ α und ∃ x₁ α Formeln. Dabei wird ∀ als 
+    A l l q u a n t o r  und ∃ als  E x i s t e n z q u a n t o r  bezeichnet. 
+   Bis auf x₁ bleiben alle freien Subjektvariablen von α auch frei, und zu den 
+   gebundenen Subjektvariablen von α kommt x₁ hinzu. Alle Formeln die nur durch 
+   Anwendung von 1. und 3. gebildet werden, heißen Formeln der 
+    A u s s a g e n a l g e b r a .
+
+Es gilt für jede Formel α: die Menge der freien und der gebundenen 
+Subjektvariablen von α sind disjunkt.
+          ┌
+          │ Andere Formalisierungen erlauben z. B. ∀ x₁ α auch dann, wenn x₁ 
+          │ schon in α gebunden vorkommt. Auch Ausdrücke wie α(x₁) ∧ (∀ x₁ β) 
+          │ sind erlaubt. Es wird dann für ein einzelnes Vorkommen einer 
+          │ Variablen definiert, ob es sich um ein freies oder gebundenes 
+          │ Vorkommen handelt.
+          └
+
+
+Falls eine Formel die Gestalt ∀ x₁   α bzw. ∃ x₁   α besitzt, dann heißt die 
+Formel α der  W i r k u n g s b e r e i c h  des Quantors ∀ bzw. ∃.
+
+Alle Formeln, die beim Aufbau einer Formel mittels 1. bis 4. benötigt werden, 
+heißen  T e i l f o r m e l n .
+
+
+
+
+___________________________________________________
+
+
+Kapitel 2 
+
+
+Axiome und Schlussregeln
+════════════════════════
+
+Nun geben wir das Axiomensystem für die Aussagenlogik an und formulieren die 
+Regeln um daraus neue Formeln zu gewinnen.
+
+
+2.1 Axiome
+――――――――――
+
+Wir listen einfach alle Axiome ohne weitere Erläuterungen auf.
+
+
+☉ Axiom 1  (Hypotheseineinführung)  [axiom:THEN-1]
+
+     A → (B → A)
+
+
+☉ Axiom 2  (Verteilung einer Hypothese über Implikation)  [axiom:THEN-2]
+
+     (A → (B → C)) → ((A → B) → (A → C))
+
+
+☉ Axiom 3  (Konjunktionskürzung rechts)  [axiom:AND-1]
+
+     (A ∧ B) → A
+
+
+☉ Axiom 4  (Konjunktionskürzung links)  [axiom:AND-2]
+
+     (A ∧ B) → B
+
+
+☉ Axiom 5  (Konjunktionseinführung)  [axiom:AND-3]
+
+     B → (A → (A ∧ B))
+
+
+☉ Axiom 6  (Konjunktionseinführung rechts)  [axiom:OR-1]
+
+     A → (A ∨ B)
+
+
+☉ Axiom 7  (Konjunktionseinführung links)  [axiom:OR-2]
+
+     A → (B ∨ A)
+
+
+☉ Axiom 8  (Konjunktionskürzung)  [axiom:OR-3]
+
+     (A → C) → ((B → C) → ((A ∨ B) → C))
+
+
+☉ Axiom 9  (Negationseinführung)  [axiom:NOT-1]
+
+     (A → B) → ((A → ¬ B) → ¬ A)
+
+
+☉ Axiom 10  (Negationskürzung)  [axiom:NOT-2]
+
+     ¬ A → (A → B)
+
+
+☉ Axiom 11  (Ausgeschlossenes Drittes)  [axiom:NOT-3]
+
+     A ∨ ¬ A
+
+
+☉ Axiom 12  (Äquivalenzkürzung rechts)  [axiom:IFF-1]
+
+     (A ↔ B) → (A → B)
+
+
+☉ Axiom 13  (Äquivalenzkürzung links)  [axiom:IFF-2]
+
+     (A ↔ B) → (B → A)
+
+
+☉ Axiom 14  (Äquivalenzeinführung)  [axiom:IFF-3]
+
+     (A → B) → ((B → A) → (A ↔ B))
+
+
+Wenn ein Prädikat auf alle x zutrifft, so trifft es auch auf ein beliebiges y 
+zu.
+
+☉ Axiom 15  (Spezialisierung)  [axiom:universalInstantiation]
+
+     ∀ x φ(x) → φ(y)
+
+
+Wenn ein Prädikat auf irgend ein y zutrifft, so gibt es ein x, auf das es 
+zutrifft.
+
+☉ Axiom 16  (Existenz)  [axiom:existencialGeneralization]
+
+     φ(y) → ∃ x φ(x)
+
+
+
+2.2 Ableitungsregeln
+――――――――――――――――――――
+
+Die im folgenden angegebenen Regeln ermöglichen uns aus den wahr angesehenen 
+Axiomen neue wahre Formeln zu gewinnen. Aus diesen können wiederum weitere 
+Formeln abgeleitet werden, so dass sich die Menge der wahren Formeln sukzessive 
+erweitern lässt.
+
+
+☉ Regel 1  (Hinzufügung einer wahren Formel)  [rule:addProvenFormula]
+  Name: Add  -  Version: 0.01.00
+
+Hinzufügen eines Axioms, einer Definition oder einer bereits bewiesenen 
+Proposition. Wir müssen den Ort der Formel angeben.
+
+
+☉ Regel 2  (Abtrennung, Modus Ponens)  [rule:modusPonens]
+  Name: MP  -  Version: 0.01.00
+
+Wenn α und α → β wahre Formeln sind, dann ist auch β eine wahre Formel.
+
+
+☉ Regel 3  (Ersetzung für freie Subjektvariable)  [rule:replaceFree]
+  Name: SubstFree  -  Version: 0.01.00
+
+Ausgehend von einer wahren Formel kann jede freie Subjektvariable durch einen 
+Term ersetzt werden, der keine in der Formel bereits gebundenen Subjektvariablen
+enthält. Die Ersetzung muss durchgängig in der gesamten Formel erfolgen.
+
+Das Verbot in dem Term Subjektvariablen zu verwenden, welche in der 
+Originalformel gebunden vorkommen, dient nicht nur der Absicherung der 
+Wohlgeformtheit, sondern besitzt auch eine inhaltliche Bedeutung. Dazu 
+betrachten wir die folgende Ableitung.
+
+ ∀ x  ∃ y  φ(x, y)   →   ∃ y  φ(z,y)   mit Axiom 15 
+ ∀ x  ∃ y  φ(x, y)   →   ∃ y  φ(y,y)   verbotene Ersetzung: z durch y, obwohl y 
+bereits gebunden 
+ ∀ x  ∃ y  x ≠ y   →   ∃ y  y ≠ y   Einsetzung von ≠ für φ
+
+Diese letzte Aussage ist in vielen Modellen nicht gültig.
+
+
+☉ Regel 4  (Umbenennung für gebundene Subjektvariable)  [rule:renameBound]
+  Name: Rename  -  Version: 0.01.00
+
+Jede gebundene Subjektvariable kann in eine andere, nicht bereits frei 
+vorkommende, Subjektvariable umbenannt werden. Falls über umzubenennende 
+Variable mehrfach quantifiziert wird, dann braucht die Umbenennung nur im 
+Wirkungsbereich eines bestimmten Quantors zu erfolgen.
+
+
+☉ Regel 5  (Einsetzung für Prädikatenvariable)  [rule:replacePred]
+  Name: SubstPred  -  Version: 0.01.00
+
+Es sei α eine wahre Formel, die die n-stellige Prädikatenvariable p enthält, x₁,
+..., x_n seien paarweise verschiedene Subjektvariable und β(x₁, ..., x_n) eine 
+beliebige Formel in der die Variablen x₁, ..., x_n nicht gebunden sind. In der 
+Formel β(x₁, ..., x_n) müssen jedoch nicht alle x₁, ..., x_n als freie 
+Subjektvariable vorkommen. Weiterhin können auch noch weitere Variable frei oder
+gebunden vorkommen. Wenn die folgenden Bedingungen erfüllt sind, dann kann durch
+die Ersetzung jedes Vorkommens von p(t₁, ..., t_n) mit jeweils passenden Termen 
+t₁, ..., t_n in α durch β(t₁, ..., t_n) eine weitere wahre Formel gewonnen 
+werden.  
+1. die freien Variablen von β(x₁, ..., x_n) ohne x₁, ..., x_n kommen nicht in α 
+   als gebundene Variablen vor 
+2. jedes Vorkommen von p(t₁, ..., t_n) in α enthält keine gebundene Variable von
+   β(x₁, ..., x_n) 
+3. das Ergebnis der Substitution ist eine wohlgeformte Formel
+
+Siehe III § 5 in [hilback].
+
+Es läßt sich ähnlich wie bei Regel 3 argumentieren. Das Verbot in der 
+Ersetzungsformel keine zusätzliche Subjektvariable zu verwenden, welche in der 
+Originalformel gebunden vorkommt, hat nicht nur die Absicherung der 
+Wohlgeformtheit zum Zweck. Es bewahrt auch die inhaltliche Gültigkeit. Dazu 
+betrachten wir die folgende Ableitung.
+
+  φ(x)   →   ∃ y  φ(y)   mit Axiom 16 
+  (∃ y  y = y) ∧ φ(x)   →   ∃ y  φ(y)   
+  ∃ y  (y = y ∧ φ(x))   →   ∃ y  φ(y)   
+  ∃ y  (y = y ∧ x ≠ y)   →   ∃ y  y ≠ y   verbotene Ersetzung: φ(x) durch x ≠ y,
+obwohl y bereits gebunden 
+  ∃ y   x ≠ y   →   ∃ y  y ≠ y  
+
+Diese letzte Aussage ist in vielen Modellen nicht gültig.
+
+
+Analog zu Regel Regel 5 können wir auch Funktionsvariablen ersetzen.
+
+☉ Regel 6  (Einsetzung für Funktionsvariable)  [rule:replaceFunct]
+  Name: SubstFun  -  Version: 0.01.00
+
+Es sei α eine bereits bewiesene Formel, die die n-stellige Funktionsvariable σ 
+enthält, x₁, ..., x_n seien paarweise verschiedene Subjektvariable und τ(x₁, 
+..., x_n) ein beliebiger Term in dem die Subjektvariablen x₁, ..., x_n nicht 
+gebunden sind. In dem Term τ(x₁, ..., x_n) müssen nicht alle x₁, ..., x_n als 
+freie Subjektvariable vorkommen. Weiterhin können auch noch noch weitere 
+Variable frei oder gebunden vorkommen. Wenn die folgenden Bedingungen erfüllt 
+sind, dann kann durch die Ersetzung jedes Vorkommens von σ(t₁, ..., t_n) mit 
+jeweils passenden Termen t₁, ..., t_n in α durch τ(t₁, ..., t_n) eine weitere 
+wahre Formel gewonnen werden.  
+1. die freien Variablen von τ(x₁, ..., x_n) ohne x₁, ..., x_n kommen in α nicht 
+   als gebundene Variablen vor 
+2. jedes Vorkommen von σ(t₁, ..., t_n) in α enthält keine gebundene Variable von
+   τ(x₁, ..., x_n) 
+3. das Ergebnis der Substitution ist eine wohlgeformte Formel
+
+
+☉ Regel 7  (Hintere Generalisierung)  [rule:universalGeneralization]
+  Name: Universal  -  Version: 0.01.00
+
+Wenn α → β(x₁) eine wahre Formel ist und α die Subjektvariable x₁ nicht enthält,
+dann ist auch α → (∀ x₁ (β(x₁))) eine wahre Formel.
+
+
+☉ Regel 8  (Vordere Partikularisierung)  [rule:existentialGeneralization]
+  Name: Existential  -  Version: 0.01.00
+
+Wenn α(x₁) → β eine wahre Formel ist und β die Subjektvariable x₁ nicht enthält,
+dann ist auch (∃ x₁ α(x₁)) → β eine wahre Formel.
+
+
+
+
+___________________________________________________
+
+
+Kapitel 3 
+
+
+Aussagenlogik
+═════════════
+
+In diesem Kapitel stellen wir eine wichtige neue Ableitungsregel vor und 
+entwickeln die üblichen Sätze der Aussagenlogik.
+
+
+3.1 First Propositions
+――――――――――――――――――――――
+
+Hier nehmen wir die ersten Ableitungen vor.
+
+
+☉ Proposition 1   [proposition:implicationReflexive1]
+
+     A → A
+
+Beweis (formal):
+  (1) A → (B → A)                           Add Axiom 1
+  (2) (A → (B → C)) → ((A → B) → (A → C))   Add Axiom 2
+  (3) A → (B ∨ A)                           Add Axiom 7
+  (4) A → ((B ∨ A) → A)                     SubstPred B by B ∨ A in (1)
+  (5) (A → ((B ∨ A) → C)) → ((A → (B ∨ A))  SubstPred B by B ∨ A in (2)
+       → (A → C))
+  (6) (A → ((B ∨ A) → A)) → ((A → (B ∨ A))  SubstPred C by A in (5)
+       → (A → A))
+  (7) (A → (B ∨ A)) → (A → A)               MP (6), (4)
+  (8) A → A                                 MP (7), (3)
+q.e.d.
+
+
+☉ Proposition 2   [proposition:implication2]
+
+     (A ∨ A) → A
+
+Beweis (formal):
+  (1) A → A                                 Add Proposition 1
+  (2) (A → C) → ((B → C) → ((A ∨ B) → C))   Add Axiom 8
+  (3) (A → C) → ((A → C) → ((A ∨ A) → C))   SubstPred B by A in (2)
+  (4) (A → A) → ((A → A) → ((A ∨ A) → A))   SubstPred C by A in (3)
+  (5) (A → A) → ((A ∨ A) → A)               MP (4), (1)
+  (6) (A ∨ A) → A                           MP (5), (1)
+q.e.d.
+
+
+☉ Proposition 3   [proposition:implication03]
+
+     (A ∨ B) → (B ∨ A)
+
+Beweis (formal):
+  (1) A → (A ∨ B)                           Add Axiom 6
+  (2) A → (B ∨ A)                           Add Axiom 7
+  (3) (A → C) → ((B → C) → ((A ∨ B) → C))   Add Axiom 8
+  (4) D → (D ∨ B)                           SubstPred A by D in (1)
+  (5) (A → (C ∨ A)) → ((B → (C ∨ A)) → ((A  SubstPred C by C ∨ A in (3)
+       ∨ B) → (C ∨ A)))
+  (6) D → (D ∨ A)                           SubstPred B by A in (4)
+  (7) (A → (B ∨ A)) → ((B → (B ∨ A)) → ((A  SubstPred C by B in (5)
+       ∨ B) → (B ∨ A)))
+  (8) (B → (B ∨ A)) → ((A ∨ B) → (B ∨ A))   MP (7), (2)
+  (9) B → (B ∨ A)                           SubstPred D by B in (6)
+ (10) (A ∨ B) → (B ∨ A)                     MP (8), (9)
+q.e.d.
+
+
+☉ Proposition 4   [proposition:implication04]
+
+     ¬ (A ∧ ¬ A)
+
+Beweis (formal):
+  (1) (A ∧ B) → A                           Add Axiom 3
+  (2) (A ∧ B) → B                           Add Axiom 4
+  (3) (A → B) → ((A → ¬ B) → ¬ A)           Add Axiom 9
+  (4) (A ∧ ¬ A) → A                         SubstPred B by ¬ A in (1)
+  (5) (A ∧ ¬ A) → ¬ A                       SubstPred B by ¬ A in (2)
+  (6) ((A ∧ ¬ A) → B) → (((A ∧ ¬ A) → ¬ B)  SubstPred A by A ∧ ¬ A in (3)
+       → ¬ (A ∧ ¬ A))
+  (7) ((A ∧ ¬ A) → A) → (((A ∧ ¬ A) → ¬ A)  SubstPred B by A in (6)
+       → ¬ (A ∧ ¬ A))
+  (8) ((A ∧ ¬ A) → ¬ A) → ¬ (A ∧ ¬ A)       MP (7), (4)
+  (9) ¬ (A ∧ ¬ A)                           MP (8), (5)
+q.e.d.
+
+
+
+3.2 Deduktionstheorem
+―――――――――――――――――――――
+
+Wir leiten das Deduktionstheorem her. Dies ermöglicht die neue Regel 
+ C o n d i t i o n a l   P r o o f .
+
+
+Wenn wir B beweisen können, indem wir A als Hypothese annehmen, dann haben wir A
+→ B bewiesen. Diese Argumentation wir durch das sogenannte 
+ D e d u k t i o n s t h e o r e m  gerechtfertigt. Das Deduktionstheorem gilt 
+für alle üblichen Ableitungssysteme der Prädikatenlogik der ersten Stufe. Leider
+macht unsere Verwendung von Prädikatsvariablen und Ersetzungsregeln hier 
+Schwierigkeiten. Wir müssen die Verwendung von Ableitungsregeln einschränken um 
+ein entsprechendes Resultat zu erhalten.
+
+☉ Regel 9   [rule:CP]
+  Name: CP  -  Version: 0.02.00
+
+Wir haben die wohlgeformte Formel α und fügen sie als neue Beweiszeile hinzu. 
+Nun modifizieren wir die existierenden Ableitungsregeln. Wir können eine weitere
+Beweiszeile anfügen, wenn α → β eine wohlgeformte Formel ist und die Verwendung 
+einer vorherigen Regel mit den folgenden Einschränkungen die Hinzufügung 
+rechtfertigt: für Regel 3 kommt die ersetzte freie Variable nicht in α vor, für 
+Regel 5 kommt die ersetzte Prädikatenvariable nicht in α vor, für Regel 6 kommt 
+die ersetzte Funktionsvariable nicht in α vor.
+
+Basierend auf: 
+ (axiom:THEN-1) (axiom:THEN-2)
+
+Die folgenden Regeln müssen erweitert werden.
+
+  Name: MP  -  Version: 0.02.00
+
+Siehe Regel 9.
+
+  Name: Add  -  Version: 0.02.00
+
+Siehe Regel 9.
+
+  Name: Rename  -  Version: 0.02.00
+
+Siehe Regel 9.
+
+  Name: SubstFree  -  Version: 0.02.00
+
+Siehe Regel 9.
+
+  Name: SubstPred  -  Version: 0.02.00
+
+Siehe Regel 9.
+
+  Name: SubstFun  -  Version: 0.02.00
+
+Siehe Regel 9.
+
+  Name: Universal  -  Version: 0.02.00
+
+Siehe Regel 9.
+
+  Name: Existential  -  Version: 0.02.00
+
+Siehe Regel 9.
+
+Beweis:
+TODO 20110613 m31
+q.e.d.
+
+Mittels Deduktionstheorem leiten wir im Folgenden weitere Sätze ab.
+
+
+
+3.3 Sätze zur Implikation
+―――――――――――――――――――――――――
+
+Mittels Regel 9 leiten wir weitere Sätze ab, in deren Formeln nur die 
+Implikation vorkommt.
+
+
+☉ Proposition 5   [proposition:implication10]
+
+     (A → (A → B)) → (A → B)
+
+Beweis (formal):
+      Conditional Proof
+  (1)   A → (A → B)                         Hypothesis
+        Conditional Proof
+  (2)     A                                 Hypothesis
+  (3)     A → B                             MP (1), (2)
+  (4)     B                                 MP (3), (2)
+  (5)   A → B                               Conclusion
+  (6) (A → (A → B)) → (A → B)               Conclusion
+q.e.d.
+
+
+☉ Proposition 6   [proposition:implication11]
+
+     ((A → B) → (A → C)) → (A → (B → C))
+
+Beweis (formal):
+  (1) A → (B → A)                           Add Axiom 1
+  (2) D → (B → D)                           SubstPred A by D in (1)
+  (3) D → (A → D)                           SubstPred B by A in (2)
+  (4) B → (A → B)                           SubstPred D by B in (3)
+      Conditional Proof
+  (5)   (A → B) → (A → C)                   Hypothesis
+        Conditional Proof
+  (6)     A                                 Hypothesis
+          Conditional Proof
+  (7)       B                               Hypothesis
+  (8)       A → B                           MP (4), (7)
+  (9)       A → C                           MP (5), (8)
+ (10)       C                               MP (9), (6)
+ (11)     B → C                             Conclusion
+ (12)   A → (B → C)                         Conclusion
+ (13) ((A → B) → (A → C)) → (A → (B → C))   Conclusion
+q.e.d.
+
+
+☉ Proposition 7   [proposition:implication12]
+
+     (A → B) → ((B → C) → (A → C))
+
+Beweis (formal):
+      Conditional Proof
+  (1)   A → B                               Hypothesis
+        Conditional Proof
+  (2)     B → C                             Hypothesis
+          Conditional Proof
+  (3)       A                               Hypothesis
+  (4)       B                               MP (1), (3)
+  (5)       C                               MP (2), (4)
+  (6)     A → C                             Conclusion
+  (7)   (B → C) → (A → C)                   Conclusion
+  (8) (A → B) → ((B → C) → (A → C))         Conclusion
+q.e.d.
+
+
+☉ Proposition 8   [proposition:implication13]
+
+     (A → (B → C)) → (B → (A → C))
+
+Beweis (formal):
+      Conditional Proof
+  (1)   A → (B → C)                         Hypothesis
+        Conditional Proof
+  (2)     B                                 Hypothesis
+          Conditional Proof
+  (3)       A                               Hypothesis
+  (4)       B → C                           MP (1), (3)
+  (5)       C                               MP (4), (2)
+  (6)     A → C                             Conclusion
+  (7)   B → (A → C)                         Conclusion
+  (8) (A → (B → C)) → (B → (A → C))         Conclusion
+q.e.d.
+
+
+
+3.4 Sätze zur Konjunktion
+―――――――――――――――――――――――――
+
+Mittels Regel 9 leiten wir weitere Sätze ab, in deren Formeln die Konjunktion 
+vorkommt.
+
+
+☉ Proposition 9   [proposition:implication14]
+
+     A → (A ∧ A)
+
+Beweis (formal):
+  (1) B → (A → (A ∧ B))                     Add Axiom 5
+  (2) A → (A → (A ∧ A))                     SubstPred B by A in (1)
+      Conditional Proof
+  (3)   A                                   Hypothesis
+  (4)   A → (A ∧ A)                         MP (2), (3)
+  (5)   A ∧ A                               MP (4), (3)
+  (6) A → (A ∧ A)                           Conclusion
+q.e.d.
+
+
+☉ Proposition 10   [proposition:AND-3b]
+
+     A → (B → (A ∧ B))
+
+Beweis (formal):
+  (1) (A → (B → C)) → (B → (A → C))         Add Proposition 8
+  (2) (A → (D → C)) → (D → (A → C))         SubstPred B by D in (1)
+  (3) (B → (D → C)) → (D → (B → C))         SubstPred A by B in (2)
+  (4) (B → (A → C)) → (A → (B → C))         SubstPred D by A in (3)
+  (5) (B → (A → (A ∧ B))) → (A → (B → (A ∧  SubstPred C by A ∧ B in (4)
+       B)))
+  (6) B → (A → (A ∧ B))                     Add Axiom 5
+  (7) A → (B → (A ∧ B))                     MP (5), (6)
+q.e.d.
+
+
+☉ Proposition 11   [proposition:implication15]
+
+     ((A → B) ∧ (B → C)) → (A → C)
+
+Beweis (formal):
+  (1) (A ∧ B) → A                           Add Axiom 3
+  (2) (A ∧ (B → C)) → A                     SubstPred B by B → C in (1)
+  (3) ((A → B) ∧ (B → C)) → (A → B)         SubstPred A by A → B in (2)
+  (4) (A ∧ B) → B                           Add Axiom 4
+  (5) (A ∧ (B → C)) → (B → C)               SubstPred B by B → C in (4)
+  (6) ((A → B) ∧ (B → C)) → (B → C)         SubstPred A by A → B in (5)
+      Conditional Proof
+  (7)   (A → B) ∧ (B → C)                   Hypothesis
+  (8)   A → B                               MP (3), (7)
+  (9)   B → C                               MP (6), (7)
+ (10)   (A → B) → ((B → C) → (A → C))       Add Proposition 7
+ (11)   (B → C) → (A → C)                   MP (10), (8)
+ (12)   A → C                               MP (11), (9)
+ (13) ((A → B) ∧ (B → C)) → (A → C)         Conclusion
+q.e.d.
+
+
+☉ Proposition 12   [proposition:implication17]
+
+     (A → B) → ((A → C) → (A → (B ∧ C)))
+
+Beweis (formal):
+  (1) B → (A → (A ∧ B))                     Add Axiom 5
+  (2) C → (A → (A ∧ C))                     SubstPred B by C in (1)
+  (3) C → (B → (B ∧ C))                     SubstPred A by B in (2)
+      Conditional Proof
+  (4)   A → B                               Hypothesis
+        Conditional Proof
+  (5)     A → C                             Hypothesis
+          Conditional Proof
+  (6)       A                               Hypothesis
+  (7)       C                               MP (5), (6)
+  (8)       B → (B ∧ C)                     MP (3), (7)
+  (9)       B                               MP (4), (6)
+ (10)       B ∧ C                           MP (8), (9)
+ (11)     A → (B ∧ C)                       Conclusion
+ (12)   (A → C) → (A → (B ∧ C))             Conclusion
+ (13) (A → B) → ((A → C) → (A → (B ∧ C)))   Conclusion
+q.e.d.
+
+
+☉ Proposition 13   [proposition:implication18]
+
+     (A → B) → ((A ∧ C) → (B ∧ C))
+
+Beweis (formal):
+  (1) (A ∧ B) → A                           Add Axiom 3
+  (2) (A ∧ C) → A                           SubstPred B by C in (1)
+  (3) (A ∧ B) → B                           Add Axiom 4
+  (4) (A ∧ C) → C                           SubstPred B by C in (3)
+  (5) B → (A → (A ∧ B))                     Add Axiom 5
+  (6) C → (A → (A ∧ C))                     SubstPred B by C in (5)
+  (7) C → (B → (B ∧ C))                     SubstPred A by B in (6)
+      Conditional Proof
+  (8)   A → B                               Hypothesis
+        Conditional Proof
+  (9)     A ∧ C                             Hypothesis
+ (10)     A                                 MP (2), (9)
+ (11)     B                                 MP (8), (10)
+ (12)     C                                 MP (4), (9)
+ (13)     B → (B ∧ C)                       MP (7), (12)
+ (14)     B ∧ C                             MP (13), (11)
+ (15)   (A ∧ C) → (B ∧ C)                   Conclusion
+ (16) (A → B) → ((A ∧ C) → (B ∧ C))         Conclusion
+q.e.d.
+
+
+☉ Proposition 14   [proposition:implication19]
+
+     (A ∧ B) → (B ∧ A)
+
+Beweis (formal):
+  (1) B → (A → (A ∧ B))                     Add Axiom 5
+  (2) C → (A → (A ∧ C))                     SubstPred B by C in (1)
+  (3) C → (B → (B ∧ C))                     SubstPred A by B in (2)
+  (4) A → (B → (B ∧ A))                     SubstPred C by A in (3)
+  (5) (A ∧ B) → A                           Add Axiom 3
+  (6) (A ∧ B) → B                           Add Axiom 4
+      Conditional Proof
+  (7)   A ∧ B                               Hypothesis
+  (8)   A                                   MP (5), (7)
+  (9)   B → (B ∧ A)                         MP (4), (8)
+ (10)   B                                   MP (6), (7)
+ (11)   B ∧ A                               MP (9), (10)
+ (12) (A ∧ B) → (B ∧ A)                     Conclusion
+q.e.d.
+
+
+☉ Proposition 15   [proposition:implication20]
+
+     (A → (B → C)) → ((A ∧ B) → C)
+
+Beweis (formal):
+      Conditional Proof
+  (1)   A → (B → C)                         Hypothesis
+        Conditional Proof
+  (2)     A ∧ B                             Hypothesis
+  (3)     (A ∧ B) → A                       Add Axiom 3
+  (4)     A                                 MP (3), (2)
+  (5)     (A ∧ B) → B                       Add Axiom 4
+  (6)     B                                 MP (5), (2)
+  (7)     B → C                             MP (1), (4)
+  (8)     C                                 MP (7), (6)
+  (9)   (A ∧ B) → C                         Conclusion
+ (10) (A → (B → C)) → ((A ∧ B) → C)         Conclusion
+q.e.d.
+
+
+☉ Proposition 16   [proposition:implication21]
+
+     ((A ∧ B) → C) → (A → (B → C))
+
+Beweis (formal):
+      Conditional Proof
+  (1)   (A ∧ B) → C                         Hypothesis
+        Conditional Proof
+  (2)     A                                 Hypothesis
+  (3)     B → (A → (A ∧ B))                 Add Axiom 5
+          Conditional Proof
+  (4)       B                               Hypothesis
+  (5)       A → (A ∧ B)                     MP (3), (4)
+  (6)       A ∧ B                           MP (5), (2)
+  (7)       C                               MP (1), (6)
+  (8)     B → C                             Conclusion
+  (9)   A → (B → C)                         Conclusion
+ (10) ((A ∧ B) → C) → (A → (B → C))         Conclusion
+q.e.d.
+
+
+☉ Proposition 17   [proposition:implication25]
+
+     ((A → B) ∧ (A → C)) → (A → (B ∧ C))
+
+Beweis (formal):
+  (1) (A ∧ B) → A                           Add Axiom 3
+  (2) (A ∧ C) → A                           SubstPred B by C in (1)
+  (3) ((A → B) ∧ C) → (A → B)               SubstPred A by A → B in (2)
+  (4) ((A → B) ∧ (A → C)) → (A → B)         SubstPred C by A → C in (3)
+  (5) (A ∧ B) → B                           Add Axiom 4
+  (6) (A ∧ C) → C                           SubstPred B by C in (5)
+  (7) ((A → B) ∧ C) → C                     SubstPred A by A → B in (6)
+  (8) ((A → B) ∧ (A → C)) → (A → C)         SubstPred C by A → C in (7)
+  (9) B → (A → (A ∧ B))                     Add Axiom 5
+ (10) C → (A → (A ∧ C))                     SubstPred B by C in (9)
+ (11) C → (B → (B ∧ C))                     SubstPred A by B in (10)
+      Conditional Proof
+ (12)   (A → B) ∧ (A → C)                   Hypothesis
+ (13)   A → B                               MP (4), (12)
+ (14)   A → C                               MP (8), (12)
+        Conditional Proof
+ (15)     A                                 Hypothesis
+ (16)     B                                 MP (13), (15)
+ (17)     C                                 MP (14), (15)
+ (18)     B → (B ∧ C)                       MP (11), (17)
+ (19)     B ∧ C                             MP (18), (16)
+ (20)   A → (B ∧ C)                         Conclusion
+ (21) ((A → B) ∧ (A → C)) → (A → (B ∧ C))   Conclusion
+q.e.d.
+
+
+☉ Proposition 18   [proposition:implication26]
+
+     (A → (B ∧ C)) → ((A → B) ∧ (A → C))
+
+Beweis (formal):
+  (1) (A ∧ B) → A                           Add Axiom 3
+  (2) (A ∧ C) → A                           SubstPred B by C in (1)
+  (3) (B ∧ C) → B                           SubstPred A by B in (2)
+  (4) (A ∧ B) → B                           Add Axiom 4
+  (5) (A ∧ C) → C                           SubstPred B by C in (4)
+  (6) (B ∧ C) → C                           SubstPred A by B in (5)
+  (7) B → (A → (A ∧ B))                     Add Axiom 5
+  (8) C → (A → (A ∧ C))                     SubstPred B by C in (7)
+  (9) C → ((A → B) → ((A → B) ∧ C))         SubstPred A by A → B in (8)
+ (10) (A → C) → ((A → B) → ((A → B) ∧ (A →  SubstPred C by A → C in (9)
+       C)))
+      Conditional Proof
+ (11)   A → (B ∧ C)                         Hypothesis
+        Conditional Proof
+ (12)     A                                 Hypothesis
+ (13)     B ∧ C                             MP (11), (12)
+ (14)     B                                 MP (3), (13)
+ (15)   A → B                               Conclusion
+        Conditional Proof
+ (16)     A                                 Hypothesis
+ (17)     B ∧ C                             MP (11), (16)
+ (18)     C                                 MP (6), (17)
+ (19)   A → C                               Conclusion
+ (20)   (A → B) → ((A → B) ∧ (A → C))       MP (10), (19)
+ (21)   (A → B) ∧ (A → C)                   MP (20), (15)
+ (22) (A → (B ∧ C)) → ((A → B) ∧ (A → C))   Conclusion
+q.e.d.
+
+
+☉ Proposition 19   [proposition:implication27]
+
+     ((A ∧ B) ∧ C) → (A ∧ (B ∧ C))
+
+Beweis (formal):
+  (1) (A ∧ B) → A                           Add Axiom 3
+  (2) (A ∧ C) → A                           SubstPred B by C in (1)
+  (3) ((A ∧ B) ∧ C) → (A ∧ B)               SubstPred A by A ∧ B in (2)
+  (4) (A ∧ B) → B                           Add Axiom 4
+  (5) (A ∧ C) → C                           SubstPred B by C in (4)
+  (6) ((A ∧ B) ∧ C) → C                     SubstPred A by A ∧ B in (5)
+  (7) B → (A → (A ∧ B))                     Add Axiom 5
+  (8) C → (A → (A ∧ C))                     SubstPred B by C in (7)
+  (9) C → (B → (B ∧ C))                     SubstPred A by B in (8)
+ (10) (B ∧ C) → (A → (A ∧ (B ∧ C)))         SubstPred B by B ∧ C in (7)
+      Conditional Proof
+ (11)   (A ∧ B) ∧ C                         Hypothesis
+ (12)   A ∧ B                               MP (3), (11)
+ (13)   A                                   MP (1), (12)
+ (14)   B                                   MP (4), (12)
+ (15)   C                                   MP (6), (11)
+ (16)   B → (B ∧ C)                         MP (9), (15)
+ (17)   B ∧ C                               MP (16), (14)
+ (18)   A → (A ∧ (B ∧ C))                   MP (10), (17)
+ (19)   A ∧ (B ∧ C)                         MP (18), (13)
+ (20) ((A ∧ B) ∧ C) → (A ∧ (B ∧ C))         Conclusion
+q.e.d.
+
+
+☉ Proposition 20   [proposition:implication28]
+
+     (A ∧ (B ∧ C)) → ((A ∧ B) ∧ C)
+
+Beweis (formal):
+  (1) (A ∧ B) → A                           Add Axiom 3
+  (2) (A ∧ (B ∧ C)) → A                     SubstPred B by B ∧ C in (1)
+  (3) (A ∧ C) → A                           SubstPred B by C in (1)
+  (4) (B ∧ C) → B                           SubstPred A by B in (3)
+  (5) (A ∧ B) → B                           Add Axiom 4
+  (6) (A ∧ (B ∧ C)) → (B ∧ C)               SubstPred B by B ∧ C in (5)
+  (7) (A ∧ C) → C                           SubstPred B by C in (5)
+  (8) (B ∧ C) → C                           SubstPred A by B in (7)
+  (9) B → (A → (A ∧ B))                     Add Axiom 5
+ (10) C → (A → (A ∧ C))                     SubstPred B by C in (9)
+ (11) C → ((A ∧ B) → ((A ∧ B) ∧ C))         SubstPred A by A ∧ B in (10)
+      Conditional Proof
+ (12)   A ∧ (B ∧ C)                         Hypothesis
+ (13)   A                                   MP (2), (12)
+ (14)   B ∧ C                               MP (6), (12)
+ (15)   B                                   MP (4), (14)
+ (16)   C                                   MP (8), (14)
+ (17)   A → (A ∧ B)                         MP (9), (15)
+ (18)   A ∧ B                               MP (17), (13)
+ (19)   (A ∧ B) → ((A ∧ B) ∧ C)             MP (11), (16)
+ (20)   (A ∧ B) ∧ C                         MP (19), (18)
+ (21) (A ∧ (B ∧ C)) → ((A ∧ B) ∧ C)         Conclusion
+q.e.d.
+
+
+
+3.5 Sätze zur Disjunktion
+―――――――――――――――――――――――――
+
+Die Disjunktion ist jetzt unser Thema.
+
+
+☉ Proposition 21   [proposition:implication40]
+
+     (A ∨ (B ∨ C)) → ((A ∨ B) ∨ C)
+
+Beweis (formal):
+  (1) A → (A ∨ B)                           Add Axiom 6
+  (2) A → (A ∨ C)                           SubstPred B by C in (1)
+  (3) (A ∨ B) → ((A ∨ B) ∨ C)               SubstPred A by A ∨ B in (2)
+      Conditional Proof
+  (4)   A                                   Hypothesis
+  (5)   A ∨ B                               MP (1), (4)
+  (6)   (A ∨ B) ∨ C                         MP (3), (5)
+  (7) A → ((A ∨ B) ∨ C)                     Conclusion
+  (8) A → (B ∨ A)                           Add Axiom 7
+  (9) C → (B ∨ C)                           SubstPred A by C in (8)
+ (10) C → (A ∨ C)                           SubstPred B by A in (9)
+ (11) B → (A ∨ B)                           SubstPred C by B in (10)
+      Conditional Proof
+ (12)   B                                   Hypothesis
+ (13)   A ∨ B                               MP (11), (12)
+ (14)   (A ∨ B) ∨ C                         MP (3), (13)
+ (15) B → ((A ∨ B) ∨ C)                     Conclusion
+ (16) C → ((A ∨ B) ∨ C)                     SubstPred B by A ∨ B in (9)
+ (17) (A → C) → ((B → C) → ((A ∨ B) → C))   Add Axiom 8
+ (18) (A → D) → ((B → D) → ((A ∨ B) → D))   SubstPred C by D in (17)
+ (19) (A → D) → ((C → D) → ((A ∨ C) → D))   SubstPred B by C in (18)
+ (20) (B → D) → ((C → D) → ((B ∨ C) → D))   SubstPred A by B in (19)
+ (21) (B → ((A ∨ B) ∨ C)) → ((C → ((A ∨ B)  SubstPred D by (A ∨ B) ∨ C in (20)
+       ∨ C)) → ((B ∨ C) → ((A ∨ B) ∨ C)))
+ (22) (C → ((A ∨ B) ∨ C)) → ((B ∨ C) → ((A  MP (21), (15)
+       ∨ B) ∨ C))
+ (23) (B ∨ C) → ((A ∨ B) ∨ C)               MP (22), (16)
+ (24) (A → D) → (((B ∨ C) → D) → ((A ∨ (B   SubstPred B by B ∨ C in (18)
+      ∨ C)) → D))
+ (25) (A → ((A ∨ B) ∨ C)) → (((B ∨ C) → ((  SubstPred D by (A ∨ B) ∨ C in (24)
+      A ∨ B) ∨ C)) → ((A ∨ (B ∨ C)) → ((A 
+      ∨ B) ∨ C)))
+ (26) ((B ∨ C) → ((A ∨ B) ∨ C)) → ((A ∨ (B  MP (25), (7)
+       ∨ C)) → ((A ∨ B) ∨ C))
+ (27) (A ∨ (B ∨ C)) → ((A ∨ B) ∨ C)         MP (26), (23)
+q.e.d.
+
+
+☉ Proposition 22   [proposition:implication41]
+
+     ((A ∨ B) ∨ C) → (A ∨ (B ∨ C))
+
+Beweis (formal):
+  (1) A → (A ∨ B)                           Add Axiom 6
+  (2) A → (A ∨ (B ∨ C))                     SubstPred B by B ∨ C in (1)
+  (3) A → (A ∨ C)                           SubstPred B by C in (1)
+  (4) B → (B ∨ C)                           SubstPred A by B in (3)
+  (5) A → (B ∨ A)                           Add Axiom 7
+  (6) A → (D ∨ A)                           SubstPred B by D in (5)
+  (7) (B ∨ C) → (D ∨ (B ∨ C))               SubstPred A by B ∨ C in (6)
+  (8) (B ∨ C) → (A ∨ (B ∨ C))               SubstPred D by A in (7)
+      Conditional Proof
+  (9)   B                                   Hypothesis
+ (10)   B ∨ C                               MP (4), (9)
+ (11)   A ∨ (B ∨ C)                         MP (8), (10)
+ (12) B → (A ∨ (B ∨ C))                     Conclusion
+ (13) C → (B ∨ C)                           SubstPred A by C in (5)
+      Conditional Proof
+ (14)   C                                   Hypothesis
+ (15)   B ∨ C                               MP (13), (14)
+ (16)   A ∨ (B ∨ C)                         MP (8), (15)
+ (17) C → (A ∨ (B ∨ C))                     Conclusion
+ (18) (A → C) → ((B → C) → ((A ∨ B) → C))   Add Axiom 8
+ (19) (A → (A ∨ (B ∨ C))) → ((B → (A ∨ (B   SubstPred C by A ∨ (B ∨ C) in (18)
+      ∨ C))) → ((A ∨ B) → (A ∨ (B ∨ C))))
+ (20) (B → (A ∨ (B ∨ C))) → ((A ∨ B) → (A   MP (19), (2)
+      ∨ (B ∨ C)))
+ (21) (A ∨ B) → (A ∨ (B ∨ C))               MP (20), (12)
+ (22) (A → D) → ((B → D) → ((A ∨ B) → D))   SubstPred C by D in (18)
+ (23) (A → D) → ((C → D) → ((A ∨ C) → D))   SubstPred B by C in (22)
+ (24) ((A ∨ B) → D) → ((C → D) → (((A ∨ B)  SubstPred A by A ∨ B in (23)
+       ∨ C) → D))
+ (25) ((A ∨ B) → (A ∨ (B ∨ C))) → ((C → (A  SubstPred D by A ∨ (B ∨ C) in (24)
+       ∨ (B ∨ C))) → (((A ∨ B) ∨ C) → (A ∨
+       (B ∨ C))))
+ (26) (C → (A ∨ (B ∨ C))) → (((A ∨ B) ∨ C)  MP (25), (21)
+       → (A ∨ (B ∨ C)))
+ (27) ((A ∨ B) ∨ C) → (A ∨ (B ∨ C))         MP (26), (17)
+q.e.d.
+
+
+☉ Proposition 23   [proposition:implication42]
+
+     (A → B) → ((A ∨ C) → (B ∨ C))
+
+Beweis (formal):
+  (1) (A → C) → ((B → C) → ((A ∨ B) → C))   Add Axiom 8
+  (2) (A → D) → ((B → D) → ((A ∨ B) → D))   SubstPred C by D in (1)
+  (3) (A → D) → ((C → D) → ((A ∨ C) → D))   SubstPred B by C in (2)
+  (4) (A → (B ∨ C)) → ((C → (B ∨ C)) → ((A  SubstPred D by B ∨ C in (3)
+       ∨ C) → (B ∨ C)))
+  (5) A → (A ∨ B)                           Add Axiom 6
+  (6) A → (A ∨ C)                           SubstPred B by C in (5)
+  (7) B → (B ∨ C)                           SubstPred A by B in (6)
+  (8) A → (B ∨ A)                           Add Axiom 7
+  (9) C → (B ∨ C)                           SubstPred A by C in (8)
+      Conditional Proof
+ (10)   A → B                               Hypothesis
+        Conditional Proof
+ (11)     A                                 Hypothesis
+ (12)     B                                 MP (10), (11)
+ (13)     B ∨ C                             MP (7), (12)
+ (14)   A → (B ∨ C)                         Conclusion
+ (15)   (C → (B ∨ C)) → ((A ∨ C) → (B ∨ C)  MP (4), (14)
+        )
+ (16)   (A ∨ C) → (B ∨ C)                   MP (15), (9)
+ (17) (A → B) → ((A ∨ C) → (B ∨ C))         Conclusion
+q.e.d.
+
+
+
+3.6 Sätze zur Negation
+――――――――――――――――――――――
+
+Wir kommen nun zur Negation. Hier müssen wir das erste Mal von dem Prinzip vom 
+ausgeschlossenen Dritten Gebrauch machen.
+
+
+☉ Proposition 24   [proposition:implication50]
+
+     A → ¬ ¬ A
+
+Beweis (formal):
+  (1) A → (B → A)                           Add Axiom 1
+  (2) A → (¬ A → A)                         SubstPred B by ¬ A in (1)
+  (3) (A → B) → ((A → ¬ B) → ¬ A)           Add Axiom 9
+  (4) (¬ A → B) → ((¬ A → ¬ B) → ¬ ¬ A)     SubstPred A by ¬ A in (3)
+  (5) (¬ A → A) → ((¬ A → ¬ A) → ¬ ¬ A)     SubstPred B by A in (4)
+  (6) A → A                                 Add Proposition 1
+  (7) ¬ A → ¬ A                             SubstPred A by ¬ A in (6)
+      Conditional Proof
+  (8)   A                                   Hypothesis
+  (9)   ¬ A → A                             MP (2), (8)
+ (10)   (¬ A → ¬ A) → ¬ ¬ A                 MP (5), (9)
+ (11)   ¬ ¬ A                               MP (10), (7)
+ (12) A → ¬ ¬ A                             Conclusion
+q.e.d.
+
+
+☉ Proposition 25   [proposition:implication51]
+
+     (A → ¬ B) → (B → ¬ A)
+
+Beweis (formal):
+  (1) A → (B → A)                           Add Axiom 1
+  (2) C → (B → C)                           SubstPred A by C in (1)
+  (3) C → (A → C)                           SubstPred B by A in (2)
+  (4) B → (A → B)                           SubstPred C by B in (3)
+  (5) (A → B) → ((A → ¬ B) → ¬ A)           Add Axiom 9
+      Conditional Proof
+  (6)   A → ¬ B                             Hypothesis
+        Conditional Proof
+  (7)     B                                 Hypothesis
+  (8)     A → B                             MP (4), (7)
+  (9)     (A → ¬ B) → ¬ A                   MP (5), (8)
+ (10)     ¬ A                               MP (9), (6)
+ (11)   B → ¬ A                             Conclusion
+ (12) (A → ¬ B) → (B → ¬ A)                 Conclusion
+q.e.d.
+
+
+☉ Proposition 26   [proposition:implication52]
+
+     (A → B) → (¬ B → ¬ A)
+
+Beweis (formal):
+  (1) A → (B → A)                           Add Axiom 1
+  (2) C → (B → C)                           SubstPred A by C in (1)
+  (3) C → (A → C)                           SubstPred B by A in (2)
+  (4) ¬ B → (A → ¬ B)                       SubstPred C by ¬ B in (3)
+  (5) (A → B) → ((A → ¬ B) → ¬ A)           Add Axiom 9
+      Conditional Proof
+  (6)   A → B                               Hypothesis
+  (7)   (A → ¬ B) → ¬ A                     MP (5), (6)
+        Conditional Proof
+  (8)     ¬ B                               Hypothesis
+  (9)     A → ¬ B                           MP (4), (8)
+ (10)     ¬ A                               MP (7), (9)
+ (11)   ¬ B → ¬ A                           Conclusion
+ (12) (A → B) → (¬ B → ¬ A)                 Conclusion
+q.e.d.
+
+
+☉ Proposition 27   [proposition:implication54]
+
+     ¬ ¬ ¬ A → ¬ A
+
+Beweis (formal):
+  (1) A → ¬ ¬ A                             Add Proposition 24
+  (2) (A → B) → (¬ B → ¬ A)                 Add Proposition 26
+  (3) (A → ¬ ¬ A) → (¬ ¬ ¬ A → ¬ A)         SubstPred B by ¬ ¬ A in (2)
+  (4) ¬ ¬ ¬ A → ¬ A                         MP (3), (1)
+q.e.d.
+
+
+☉ Proposition 28   [proposition:implication55]
+
+     (¬ A → A) → ¬ ¬ A
+
+Beweis (formal):
+  (1) A → A                                 Add Proposition 1
+  (2) ¬ A → ¬ A                             SubstPred A by ¬ A in (1)
+  (3) (A → B) → ((A → ¬ B) → ¬ A)           Add Axiom 9
+  (4) (¬ A → B) → ((¬ A → ¬ B) → ¬ ¬ A)     SubstPred A by ¬ A in (3)
+  (5) (¬ A → A) → ((¬ A → ¬ A) → ¬ ¬ A)     SubstPred B by A in (4)
+      Conditional Proof
+  (6)   ¬ A → A                             Hypothesis
+  (7)   (¬ A → ¬ A) → ¬ ¬ A                 MP (5), (6)
+  (8)   ¬ ¬ A                               MP (7), (2)
+  (9) (¬ A → A) → ¬ ¬ A                     Conclusion
+q.e.d.
+
+
+☉ Proposition 29   [proposition:implication56]
+
+     ¬ ¬ A → A
+
+Beweis (formal):
+  (1) A ∨ ¬ A                               Add Axiom 11
+  (2) (A → C) → ((B → C) → ((A ∨ B) → C))   Add Axiom 8
+  (3) (A → A) → ((B → A) → ((A ∨ B) → A))   SubstPred C by A in (2)
+  (4) A → A                                 Add Proposition 1
+  (5) (B → A) → ((A ∨ B) → A)               MP (3), (4)
+  (6) (¬ A → A) → ((A ∨ ¬ A) → A)           SubstPred B by ¬ A in (5)
+  (7) ¬ A → (A → B)                         Add Axiom 10
+  (8) ¬ ¬ A → (¬ A → B)                     SubstPred A by ¬ A in (7)
+  (9) ¬ ¬ A → (¬ A → A)                     SubstPred B by A in (8)
+      Conditional Proof
+ (10)   ¬ ¬ A                               Hypothesis
+ (11)   ¬ A → A                             MP (9), (10)
+ (12)   (A ∨ ¬ A) → A                       MP (6), (11)
+ (13)   A                                   MP (12), (1)
+ (14) ¬ ¬ A → A                             Conclusion
+q.e.d.
+
+
+☉ Proposition 30   [proposition:implication57]
+
+     (¬ B → ¬ A) → (A → B)
+
+Beweis (formal):
+  (1) ¬ ¬ A → A                             Add Proposition 29
+  (2) ¬ ¬ B → B                             SubstPred A by B in (1)
+  (3) (A → ¬ B) → (B → ¬ A)                 Add Proposition 25
+  (4) (C → ¬ B) → (B → ¬ C)                 SubstPred A by C in (3)
+  (5) (C → ¬ A) → (A → ¬ C)                 SubstPred B by A in (4)
+  (6) (¬ B → ¬ A) → (A → ¬ ¬ B)             SubstPred C by ¬ B in (5)
+      Conditional Proof
+  (7)   ¬ B → ¬ A                           Hypothesis
+  (8)   A → ¬ ¬ B                           MP (6), (7)
+        Conditional Proof
+  (9)     A                                 Hypothesis
+ (10)     ¬ ¬ B                             MP (8), (9)
+ (11)     B                                 MP (2), (10)
+ (12)   A → B                               Conclusion
+ (13) (¬ B → ¬ A) → (A → B)                 Conclusion
+q.e.d.
+
+
+
+3.7 Conjunktion und Disjunktion gemischt.
+―――――――――――――――――――――――――――――――――――――――――
+
+Nun zeigen wir die Verbindung von Disjunktion und Konjunktion auf.
+
+
+☉ Proposition 31   [proposition:implication70]
+
+     ((A → C) ∧ (B → C)) → ((A ∨ B) → C)
+
+Beweis (formal):
+  (1) (A → (B → C)) → ((A ∧ B) → C)         Add Proposition 15
+  (2) (A → (B → D)) → ((A ∧ B) → D)         SubstPred C by D in (1)
+  (3) ((A → C) → (B → D)) → (((A → C) ∧ B)  SubstPred A by A → C in (2)
+       → D)
+  (4) ((A → C) → ((B → C) → D)) → (((A → C  SubstPred B by B → C in (3)
+      ) ∧ (B → C)) → D)
+  (5) ((A → C) → ((B → C) → ((A ∨ B) → C))  SubstPred D by (A ∨ B) → C in (4)
+      ) → (((A → C) ∧ (B → C)) → ((A ∨ B) 
+      → C))
+  (6) (A → C) → ((B → C) → ((A ∨ B) → C))   Add Axiom 8
+  (7) ((A → C) ∧ (B → C)) → ((A ∨ B) → C)   MP (5), (6)
+q.e.d.
+
+
+☉ Proposition 32   [proposition:implication71]
+
+     ((A ∧ B) ∨ C) → ((A ∨ C) ∧ (B ∨ C))
+
+Beweis (formal):
+  (1) B → (A → (A ∧ B))                     Add Axiom 5
+  (2) (B ∨ C) → (A → (A ∧ (B ∨ C)))         SubstPred B by B ∨ C in (1)
+  (3) (B ∨ C) → ((A ∨ C) → ((A ∨ C) ∧ (B ∨  SubstPred A by A ∨ C in (2)
+       C)))
+  (4) (A ∧ B) → A                           Add Axiom 3
+  (5) (A → B) → ((A ∨ C) → (B ∨ C))         Add Proposition 23
+  (6) (A → D) → ((A ∨ C) → (D ∨ C))         SubstPred B by D in (5)
+  (7) ((A ∧ B) → D) → (((A ∧ B) ∨ C) → (D   SubstPred A by A ∧ B in (6)
+      ∨ C))
+  (8) ((A ∧ B) → A) → (((A ∧ B) ∨ C) → (A   SubstPred D by A in (7)
+      ∨ C))
+  (9) ((A ∧ B) ∨ C) → (A ∨ C)               MP (8), (4)
+ (10) (A ∧ B) → B                           Add Axiom 4
+ (11) ((A ∧ B) → B) → (((A ∧ B) ∨ C) → (B   SubstPred D by B in (7)
+      ∨ C))
+ (12) ((A ∧ B) ∨ C) → (B ∨ C)               MP (11), (10)
+      Conditional Proof
+ (13)   (A ∧ B) ∨ C                         Hypothesis
+ (14)   A ∨ C                               MP (9), (13)
+ (15)   B ∨ C                               MP (12), (13)
+ (16)   (A ∨ C) → ((A ∨ C) ∧ (B ∨ C))       MP (3), (15)
+ (17)   (A ∨ C) ∧ (B ∨ C)                   MP (16), (14)
+ (18) ((A ∧ B) ∨ C) → ((A ∨ C) ∧ (B ∨ C))   Conclusion
+q.e.d.
+
+
+☉ Proposition 33   [proposition:implication72]
+
+     ((A ∨ C) ∧ (B ∨ C)) → ((A ∧ B) ∨ C)
+
+Beweis (formal):
+  (1) A → (B ∨ A)                           Add Axiom 7
+  (2) C → (B ∨ C)                           SubstPred A by C in (1)
+  (3) C → ((A ∧ B) ∨ C)                     SubstPred B by A ∧ B in (2)
+  (4) (A → C) → ((B → C) → ((A ∨ B) → C))   Add Axiom 8
+  (5) (A → D) → ((B → D) → ((A ∨ B) → D))   SubstPred C by D in (4)
+  (6) (A → D) → ((C → D) → ((A ∨ C) → D))   SubstPred B by C in (5)
+  (7) (B → D) → ((C → D) → ((B ∨ C) → D))   SubstPred A by B in (6)
+  (8) (B → ((A ∧ B) ∨ C)) → ((C → ((A ∧ B)  SubstPred D by (A ∧ B) ∨ C in (7)
+       ∨ C)) → ((B ∨ C) → ((A ∧ B) ∨ C)))
+      Conditional Proof
+  (9)   C                                   Hypothesis
+        Conditional Proof
+ (10)     B                                 Hypothesis
+ (11)     (A ∧ B) ∨ C                       MP (3), (9)
+ (12)   B → ((A ∧ B) ∨ C)                   Conclusion
+ (13)   (C → ((A ∧ B) ∨ C)) → ((B ∨ C) → (  MP (8), (12)
+        (A ∧ B) ∨ C))
+ (14)   (B ∨ C) → ((A ∧ B) ∨ C)             MP (13), (3)
+ (15) C → ((B ∨ C) → ((A ∧ B) ∨ C))         Conclusion
+ (16) (A → B) → ((A ∨ C) → (B ∨ C))         Add Proposition 23
+ (17) (D → B) → ((D ∨ C) → (B ∨ C))         SubstPred A by D in (16)
+ (18) (D → (A ∧ B)) → ((D ∨ C) → ((A ∧ B)   SubstPred B by A ∧ B in (17)
+      ∨ C))
+ (19) (B → (A ∧ B)) → ((B ∨ C) → ((A ∧ B)   SubstPred D by B in (18)
+      ∨ C))
+ (20) A → (B → (A ∧ B))                     Add Proposition 10
+      Conditional Proof
+ (21)   A                                   Hypothesis
+ (22)   B → (A ∧ B)                         MP (20), (21)
+ (23)   (B ∨ C) → ((A ∧ B) ∨ C)             MP (19), (22)
+ (24) A → ((B ∨ C) → ((A ∧ B) ∨ C))         Conclusion
+ (25) (A → C) → ((B → C) → ((A ∨ B) → C))   Add Axiom 8
+ (26) (A → D) → ((B → D) → ((A ∨ B) → D))   SubstPred C by D in (25)
+ (27) (A → D) → ((C → D) → ((A ∨ C) → D))   SubstPred B by C in (26)
+ (28) (A → ((B ∨ C) → ((A ∧ B) ∨ C))) → ((  SubstPred D by (B ∨ C) → ((A ∧ B) ∨ 
+      C → ((B ∨ C) → ((A ∧ B) ∨ C))) → ((A  C) in (27)
+       ∨ C) → ((B ∨ C) → ((A ∧ B) ∨ C))))
+ (29) (C → ((B ∨ C) → ((A ∧ B) ∨ C))) → ((  MP (28), (24)
+      A ∨ C) → ((B ∨ C) → ((A ∧ B) ∨ C)))
+ (30) (A ∨ C) → ((B ∨ C) → ((A ∧ B) ∨ C))   MP (29), (15)
+ (31) (A → (B → C)) → ((A ∧ B) → C)         Add Proposition 15
+ (32) (A → (B → D)) → ((A ∧ B) → D)         SubstPred C by D in (31)
+ (33) ((A ∨ C) → (B → D)) → (((A ∨ C) ∧ B)  SubstPred A by A ∨ C in (32)
+       → D)
+ (34) ((A ∨ C) → ((B ∨ C) → D)) → (((A ∨ C  SubstPred B by B ∨ C in (33)
+      ) ∧ (B ∨ C)) → D)
+ (35) ((A ∨ C) → ((B ∨ C) → ((A ∧ B) ∨ C))  SubstPred D by (A ∧ B) ∨ C in (34)
+      ) → (((A ∨ C) ∧ (B ∨ C)) → ((A ∧ B) 
+      ∨ C))
+ (36) ((A ∨ C) ∧ (B ∨ C)) → ((A ∧ B) ∨ C)   MP (35), (30)
+q.e.d.
+
+
+
+
+___________________________________________________
+
+
+
+
+Literaturverzeichnis
+════════════════════
+[novikov]  P . S .   N o v i k o v , Grundzüge der mathematischen Logik, VEB 
+Deutscher 
+Verlag der Wissenschaften, Berlin 1973
+
+[detnieks]  V .  D e t l o v s ,   K .  P o d n i e k s , Introduction to 
+Mathematical 
+Logic,   https://dspace.lu.lv/dspace/handle/7/1308 
+
+[hilback]  D .  H i l b e r t ,   W .  A c k e r m a n n , Grundzüge der 
+theoretischen 
+Logik, 2. Ed., Springer, Berlin 1938. Siehe auch 
+ http://www.math.uwaterloo.ca/~snburris/htdocs/scav/hilbert/hilbert.html 
+
+[mendelson]  E .  M e n d e l s o n , Introduction to Mathematical Logic, 3. 
+ed., Wadsworth,
+Belmont, CA 1987
+
+
+
+QEDEQ-Module, welche dieses hier verwenden:
+qedeq_logic_v1  http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1.xml
+
+
+
+

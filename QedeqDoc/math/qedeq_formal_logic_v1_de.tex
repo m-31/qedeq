@@ -1,0 +1,1781 @@
+% -*- TeX:DE -*-
+%%% ====================================================================
+%%% @LaTeX-file    qedeq_formal_logic_v1
+%%% Generated from http://www.qedeq.org/0_04_07/doc/math/qedeq_formal_logic_v1.xml
+%%% Generated at   2013-05-20 16:27:21.672
+%%% ====================================================================
+
+%%% Permission is granted to copy, distribute and/or modify this document
+%%% under the terms of the GNU Free Documentation License, Version 1.2
+%%% or any later version published by the Free Software Foundation;
+%%% with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+\documentclass[a4paper,german,10pt,twoside]{book}
+\usepackage[german]{babel}
+\usepackage{makeidx}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{color}
+\usepackage{xr}
+\usepackage{tabularx}
+\usepackage[bookmarks=true,bookmarksnumbered,bookmarksopen,
+   unicode=true,colorlinks=true,linkcolor=webgreen,
+   pagebackref=true,pdfnewwindow=true,pdfstartview=FitH]{hyperref}
+\definecolor{webgreen}{rgb}{0,.5,0}
+\usepackage{epsfig,longtable}
+\usepackage{graphicx}
+\usepackage[all]{hypcap}
+
+\newtheorem{thm}{Theorem}
+\newtheorem{cor}[thm]{Korollar}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{ax}{Axiom}
+\newtheorem{rul}{Regel}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{idefn}[defn]{Initiale Definition}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Bemerkung}
+\newtheorem*{notation}{Notation}
+
+
+\addtolength{\textheight}{7\baselineskip}
+\addtolength{\topmargin}{-5\baselineskip}
+
+\setlength{\parindent}{0pt}
+
+\frenchspacing \sloppy
+
+\makeindex
+
+
+\title{Formale Pr{\"a}dikatenlogik}
+\author{
+Michael Meyling
+}
+
+\begin{document}
+
+\maketitle
+
+\setlength{\parskip}{5pt plus 2pt minus 1pt}
+\mbox{}
+\vfill
+
+\par
+Die Quelle f{"ur} dieses Dokument ist hier zu finden:
+\par
+\url{http://www.qedeq.org/0_04_07/doc/math/qedeq_formal_logic_v1.xml}
+
+\par
+Die vorliegende Publikation ist urheberrechtlich gesch{"u}tzt.
+\par
+Bei Fragen, Anregungen oder Bitte um Aufnahme in die Liste der abh{\"a}ngigen Module schicken Sie bitte eine EMail an die Adresse \href{mailto:mime@qedeq.org}{mime@qedeq.org}
+
+\par
+Die Autoren dieses Dokuments sind:
+Michael Meyling \href{mailto:michael@meyling.com}{michael@meyling.com}
+
+
+
+\setlength{\parskip}{0pt}
+\tableofcontents
+
+\setlength{\parskip}{5pt plus 2pt minus 1pt}
+
+\chapter*{Zusammenfassung\index{Zusammenfassung}} \label{chapter1} \hypertarget{chapter1}{}
+\addcontentsline{toc}{chapter}{Zusammenfassung\index{Zusammenfassung}}
+
+In diesem Text wird die Pr{\"a}dikatenlogik in axiomatischer Weise entwickelt.
+Die folgende Kalk{\"u}lsprache und ihre Axiome basieren auf den Formulierungen von \emph{D.~Hilbert}, \emph{W.~Ackermann}\cite{hilback}, \emph{P.~S.~Novikov}\cite{novikov}, \emph{V.~Detlovs} und \emph{K.~Podnieks}\cite{detnieks}. Aus den hier angegebenen logischen Axiomen und den elementaren Schlussregeln k{\"o}nnen weitere Gesetzm{\"a}{\ss}igkeiten abgeleitet werden. Erst diese neuen Metaregeln f{\"u}hren zu einer komfortablen logischen Argumentation.
+Hintergrundinformationen stehen unter \url{ https://dspace.lu.lv/dspace/handle/7/1308}~\cite{detnieks}
+und \url{http://en.wikipedia.org/wiki/Propositional_calculus}.
+
+%% end of chapter Zusammenfassung\index{Zusammenfassung}
+
+\chapter{Sprache} \label{chapter2} \hypertarget{chapter2}{}
+
+Um mathematische Aussagen pr{\"a}zise formulieren zu k{\"o}nnen, wird in diesem Kapitel eine formale Sprache definiert. Obgleich dieses Dokument mathematischen Inhalt sehr formal beschreibt, reicht es nicht aus um als Definition f{\"u}r ein computerlesbares Dokumentformat zu dienen. Daher muss eine solch extensive Spezifikation an anderer Stelle erfolgen.
+Das hier daf{\"u}r ausgew{\"a}hlte Format ist die \emph{Extensible Markup Language} abgek{\"u}rzt \emph{XML}. XML beschreibt eine Menge von Regeln f{\"u}r den Aufbau elektronischer Dokumente.\footnote{Siehe \url{http://www.w3.org/XML/} f{\"u}r weitere Informationen.} Die daran ausgerichtete formale Syntaxspezifikation kann hier gelesen werden: \url{http://www.qedeq.org/current/xml/qedeq.xsd}.
+Damit wird ein mathematisches Dokumentenformat festgelegt, das die Erzeugung von \LaTeX B{\"u}chern und eine automatische Beweis{\"u}berpr{\"u}fung erm{\"o}glicht. 
+Weitere Syntaxbeschr{\"a}nkungen und einige Erkl{\"a}rungen werden beschrieben in \url{http://www.qedeq.org/current/doc/project/qedeq_logic_language_en.pdf}.
+
+\par
+Auch dieses Dokument ist eine (oder wurde erzeugt aus einer) XML-Datei, die hier zu finden ist \url{http://wwww.qedeq.org/0_04_07/doc/math/qedeq_logic_v1.xml}.
+Aber nun folgen wir einfach dem traditionellen mathematischen Weg, die Anfangsg{\"u}nde der mathematischen Logik vorzustellen.
+
+\section{Terme\index{Term} und Formeln\index{Formel}} \label{chapter2_section1} \hypertarget{chapter2_section1}{}
+Als Symbole kommen die \emph{logischen Symbole} $L = \{$ \mbox{`$\neg$'}, \mbox{`$\vee$'}, \mbox{`$\wedge$'},             \mbox{`$\leftrightarrow$'}, \mbox{`$\rightarrow$'}, \mbox{`$\forall$'}, \mbox{`$\exists$'} $\}$, die 
+\emph{Pr{\"a}dikatenkonstanten}\index{Pr{\"a}dikatenkonstante}\index{Konstante!Pr{\"a}dikaten-} $C = \{c^k_i~|~i, k \in \omega\}$, die 
+\emph{Funktionsvariablen}\index{Funktionsvariablen}\index{Variable!Funktions-}\footnote{Funktionsvariablen dienen der einfacheren Notation und werden beispielsweise zur Formulierung eines identit{\"a}tslogischen Satzes ben{\"o}tigt: $x = y \rightarrow f(x) = f(y)$. Ausserdem bereitet ihre Einf{\"u}hrung die sp{\"a}tere Syntaxerweiterung zur Anwendung von funktionalen Klassen vor.} $F = \{f^k_i~|~i, k \in \omega \land k > 0\}$, die \emph{Funktionskonstanten}\index{Funktionskonstanten}\index{Konstante!Funktions-}\footnote{Funktionskonstanten dienen ebenfalls der Bequemlichkeit und werden sp{\"a}ter f{\"u}r direkt 
+definierte Klassenfunktionen verwendet. So zum Beispiel zur Potenzklassenbildung, zur Vereinigungsklassenbildung und f{\"u}r die
+Nachfolgerfunktion. All diese Funktionskonstanten k{\"o}nnen auch als Abk{\"u}rzungen verstanden werden.}
+$H = \{h^k_i~|~i, k \in \omega\}$, die \emph{Subjektvariablen}\index{Subjektvariable}\index{Variable!Subjekt-} 
+$V = \{v_i~|~i \in \omega\}$, sowie die \emph{Pr{\"a}dikatenvariablen}\index{Pr{\"a}dikatenvariable}\index{Variable!Pr{\"a}dikaten-}
+$P = \{p^k_i~|~i, k \in \omega\}$ vor.\footnote{Unter $\omega$ werden die nat{\"u}rlichen Zahlen, die Null eingeschlossen, verstanden. Alle bei den Mengenbildungen beteiligten Symbole werden als paarweise verschieden vorausgesetzt. Das bedeutet z.~B.: $f^k_i = f^{k'}_{i'} \rightarrow (k = k' \land i = i')$ und $h^k_i \neq v_j$.} Unter der \emph{Stellenzahl} eines Operators wird der obere Index verstanden. Die Menge der nullstelligen Pr{\"a}dikatenvariablen wird auch als Menge der
+\emph{Aussagenvariablen}\index{Aussagenvariable}\index{Variable!Aussagen-} bezeichnet: $A := \{p_i^0~|~i \in \omega \}$. 
+F{\"u}r die Subjektvariablen werden abk{\"u}rzend auch bestimmte Kleinbuchstaben geschrieben. Die Kleinbuchstaben stehen f{\"u}r verschiedene Subjektvariablen: \mbox{$v_1 = $ `$u$'}, \mbox{$v_2 = $ `$v$'}, \mbox{$v_3 = $ `$w$'}, \mbox{$v_4 = $ `$x$'}, \mbox{$v_5 = $ `$y$'}, \mbox{$v_5 = $ `$z$'}. Weiter werden als Abk{\"u}rzungen verwendet: f{\"u}r die Pr{\"a}dikatenvariablen $p^n_1 = $ `$\phi$' und $p^n_2 = $ `$\psi$', wobei die jeweilige Stellenanzahl $n$ aus der Anzahl der nachfolgenden Parameter ermittelt wird, f{\"u}r die Aussagenvariablen $a_1 = $ `$A$', $a_2 = $ `$B$' und $a_3 = $ `$C$'. Als Abk{\"u}rzungen f{\"u}r Funktionsvariablen wird festgelegt $f^n_1 = $ `$f$' und $f^n_2 = $ `$g$', wobei wiederum die jeweilige Stellenanzahl $n$ aus der Anzahl der nachfolgenden Parameter ermittelt wird. Bei allen aussagenlogischen zwei\-stelligen Operatoren wird der leichteren Lesbarkeit wegen die Infixschreibweise benutzt, dabei werden die Symbole `(' und `)' verwandt. 
+D.~h. f{\"u}r den Operator $\land$ mit den Argumenten $A$ und $B$ wird $(A \land B)$ geschrieben. 
+Es gelten die {\"u}blichen Operatorpriorit{\"a}ten und die dazugeh{\"o}rigen Klammerregeln. Insbesondere die {\"a}u{\ss}eren Klammern werden in der Regel weggelassen. Auch werden leere Klammern nicht geschrieben.
+
+\par
+Nachfolgend werden die Operatoren mit absteigender Priorit{\"a}t aufgelistet.
+$$
+\begin{array}{c}
+  \neg, \forall, \exists  \\
+  \land \\
+  \lor \\
+  \rightarrow, \leftrightarrow \\
+\end{array}
+$$
+
+\par
+Der Begriff \emph{Term\index{Term}} wird im Folgenden rekursiv definiert:
+
+\begin{enumerate}
+\item Jede Subjektvariable ist ein Term. \item Seien $i, k \in \omega$ und $t_1$, \ldots, $t_k$ Terme. Dann ist auch $h^k_i(t_1, \ldots, t_k)$ und falls $k > 0$, so auch $f^k_i(t_1, \ldots, t_k)$ ein Term.
+\end{enumerate}
+
+Alle nullstelligen Funktionskonstanten $\{h^0_i~|~i, \in \omega\}$ sind demzufolge Terme, sie werden auch 
+\emph{Individuenkonstanten}\index{Individuenkonstante}\index{Konstante!Individuen-} genannt.\footnote{Analog dazu k{\"o}nnten Subjektvariablen auch als nullstellige Funktionsvariablen definiert werden. Da die Subjektvariablen jedoch eine hervorgehobene Rolle spielen, werden sie auch gesondert bezeichnet.}
+
+\par
+Die Begriffe \emph{Formel\index{Formel}}, \emph{freie\index{freie Subjektvariable}\index{Subjektvariable!freie}} und 
+\emph{gebundene\index{gebundene  Subjektvariable}\index{Subjektvariable!gebundene}} Subjektvariable werden rekursiv wie folgt definiert:
+
+\begin{enumerate}
+
+\item Jede Aussagenvariable ist eine Formel, solche Formeln enthalten keine freien oder gebundenen Subjektvariablen. 
+\item Ist $p^k$ eine $k$-stellige Pr{\"a}dikatenvariable und $c^k$ eine $k$-stellige Pr{\"a}dikatenkonstante und sind $t_1, t_2, \ldots, t_k$ Terme, so sind $p^k(t_1, t_2, \ldots t_k)$ und $c^k(t_1, t_2, \ldots, t_k)$ Formeln. Dabei gelten alle in 
+$t_1, t_2, \ldots, t_k$ vorkommenden Subjektvariablen als freie Subjektvariablen, gebundene Subjektvariablen kommen nicht 
+vor.\footnote{Dieser zweite Punkt umfasst den ersten, welcher nur der Anschaulichkeit wegen extra aufgef{\"u}hrt ist.} 
+
+\item Es seien $\alpha, \beta$ Formeln, in denen keine Subjektvariablen vorkommen, die in einer Formel gebunden und in der anderen frei sind. Dann sind auch $\neg \alpha$, $(\alpha \land \beta)$, $(\alpha \lor \beta)$, $(\alpha \rightarrow \beta)$, $(\alpha \leftrightarrow \beta)$ Formeln. Subjektvariablen, welche in $\alpha$ oder $\beta$ frei (bzw. gebunden) vorkommen, bleiben frei (bzw. gebunden).
+
+\item Falls in der Formel $\alpha$ die Subjektvariable $x_1$ nicht gebunden vorkommt\footnote{D.~h. $x_1$ kommt h{\"o}chstens frei vor.}, dann sind auch $\forall x_1~\alpha$ und $\exists x_1~\alpha$ Formeln. Dabei wird $\forall$ als
+\emph{Allquantor}\index{Allquantor}\index{Quantor!All-} und $\exists$ als \emph{Existenzquantor}\index{Existenzquantor}\index{Quantor!Existenz-} bezeichnet. Bis auf $x_1$ bleiben alle freien Subjektvariablen von $\alpha$ auch frei, und zu den gebundenen Subjektvariablen von $\alpha$ kommt $x_1$ hinzu. 
+
+\end{enumerate}
+Alle Formeln die nur durch Anwendung von 1. und 3. gebildet werden, hei{\ss}en Formeln der \emph{Aussagenalgebra}. 
+
+\par
+Es gilt f{\"u}r jede Formel $\alpha$: die Menge der freien und der gebundenen Subjektvariablen von $\alpha$ sind disjunkt.\footnote{Andere Formalisierungen erlauben z.~B. $\forall x_1~\alpha$ auch dann, wenn $x_1$ schon in $\alpha$ gebunden vorkommt. Auch Ausdr{\"u}cke wie $\alpha(x_1)~\land~(\forall~x_1~\beta)$ sind erlaubt. Es wird dann
+f{\"u}r ein einzelnes Vorkommen einer Variablen definiert, ob es sich um ein freies oder gebundenes Vorkommen handelt.}
+
+\par
+Falls eine Formel die Gestalt $\forall x_1 ~ \alpha$ bzw. $\exists x_1 ~ \alpha$ besitzt, dann hei{\ss}t die Formel $\alpha$ der
+\emph{Wirkungsbereich} des Quantors $\forall$ bzw. $\exists$.
+
+\par
+Alle Formeln, die beim Aufbau einer Formel mittels 1. bis 4. ben{\"o}tigt werden, hei{\ss}en \emph{Teilformeln}.
+
+
+%% end of chapter Sprache
+
+\chapter{Axiome und Schlussregeln} \label{chapter3} \hypertarget{chapter3}{}
+
+Nun geben wir das Axiomensystem f{\"u}r die Aussagenlogik an und formulieren die Regeln um daraus neue Formeln zu gewinnen.
+
+\section{Axiome\index{Axiome}} \label{chapter3_section1} \hypertarget{chapter3_section1}{}
+Wir listen einfach alle Axiome ohne weitere Erl{\"a}uterungen auf.
+
+\begin{ax}[Hypotheseineinf{\"u}hrung\index{Hypotheseneinf{\"u}hrung}]
+\label{axiom:THEN-1} \hypertarget{axiom:THEN-1}{}
+{\tt \tiny [\verb]axiom:THEN-1]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $A\ \rightarrow\ (B\ \rightarrow\ A)$
+\end{longtable}
+
+\end{ax}
+
+
+\begin{ax}[Verteilung einer Hypothese {\"u}ber Implikation\index{Hypothesenverteilung}]
+\label{axiom:THEN-2} \hypertarget{axiom:THEN-2}{}
+{\tt \tiny [\verb]axiom:THEN-2]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \rightarrow\ (B\ \rightarrow\ C))\ \rightarrow\ ((A\ \rightarrow\ B)\ \rightarrow\ (A\ \rightarrow\ C))$
+\end{longtable}
+
+\end{ax}
+
+
+\begin{ax}[Konjunktionsk{\"u}rzung rechts\index{Konjunktion!K{\"u}rzung}]
+\label{axiom:AND-1} \hypertarget{axiom:AND-1}{}
+{\tt \tiny [\verb]axiom:AND-1]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \land\ B)\ \rightarrow\ A$
+\end{longtable}
+
+\end{ax}
+
+
+\begin{ax}[Konjunktionsk{\"u}rzung links\index{Konjunktion!K{\"u}rzung}]
+\label{axiom:AND-2} \hypertarget{axiom:AND-2}{}
+{\tt \tiny [\verb]axiom:AND-2]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \land\ B)\ \rightarrow\ B$
+\end{longtable}
+
+\end{ax}
+
+
+\begin{ax}[Konjunktionseinf{\"u}hrung\index{Konjunktion!Einf{\"u}hrung}]
+\label{axiom:AND-3} \hypertarget{axiom:AND-3}{}
+{\tt \tiny [\verb]axiom:AND-3]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $B\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ B))$
+\end{longtable}
+
+\end{ax}
+
+
+\begin{ax}[Konjunktionseinf{\"u}hrung rechts\index{Disjunktion!Einf{\"u}hrung}]
+\label{axiom:OR-1} \hypertarget{axiom:OR-1}{}
+{\tt \tiny [\verb]axiom:OR-1]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $A\ \rightarrow\ (A\ \lor\ B)$
+\end{longtable}
+
+\end{ax}
+
+
+\begin{ax}[Konjunktionseinf{\"u}hrung links\index{Disjunktion!Einf{\"u}hrung}]
+\label{axiom:OR-2} \hypertarget{axiom:OR-2}{}
+{\tt \tiny [\verb]axiom:OR-2]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $A\ \rightarrow\ (B\ \lor\ A)$
+\end{longtable}
+
+\end{ax}
+
+
+\begin{ax}[Konjunktionsk{\"u}rzung\index{Disjunktion!K{\"u}rzung}]
+\label{axiom:OR-3} \hypertarget{axiom:OR-3}{}
+{\tt \tiny [\verb]axiom:OR-3]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \rightarrow\ C)\ \rightarrow\ ((B\ \rightarrow\ C)\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ C))$
+\end{longtable}
+
+\end{ax}
+
+
+\begin{ax}[Negationseinf{\"u}hrung\index{Negation!Einf{\"u}hrung}]
+\label{axiom:NOT-1} \hypertarget{axiom:NOT-1}{}
+{\tt \tiny [\verb]axiom:NOT-1]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \rightarrow\ B)\ \rightarrow\ ((A\ \rightarrow\ \neg B)\ \rightarrow\ \neg A)$
+\end{longtable}
+
+\end{ax}
+
+
+\begin{ax}[Negationsk{\"u}rzung\index{Negation!K{\"u}rzung}]
+\label{axiom:NOT-2} \hypertarget{axiom:NOT-2}{}
+{\tt \tiny [\verb]axiom:NOT-2]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\neg A\ \rightarrow\ (A\ \rightarrow\ B)$
+\end{longtable}
+
+\end{ax}
+
+
+\begin{ax}[Ausgeschlossenes Drittes\index{Negation!ausgeschlossenes Drittes}]
+\label{axiom:NOT-3} \hypertarget{axiom:NOT-3}{}
+{\tt \tiny [\verb]axiom:NOT-3]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $A\ \lor\ \neg A$
+\end{longtable}
+
+\end{ax}
+
+
+\begin{ax}[{\"A}quivalenzk{\"u}rzung rechts\index{{\"A}quivalenz!K{\"u}rzung}]
+\label{axiom:IFF-1} \hypertarget{axiom:IFF-1}{}
+{\tt \tiny [\verb]axiom:IFF-1]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \leftrightarrow\ B)\ \rightarrow\ (A\ \rightarrow\ B)$
+\end{longtable}
+
+\end{ax}
+
+
+\begin{ax}[{\"A}quivalenzk{\"u}rzung links\index{{\"A}quivalenz!K{\"u}rzung}]
+\label{axiom:IFF-2} \hypertarget{axiom:IFF-2}{}
+{\tt \tiny [\verb]axiom:IFF-2]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \leftrightarrow\ B)\ \rightarrow\ (B\ \rightarrow\ A)$
+\end{longtable}
+
+\end{ax}
+
+
+\begin{ax}[{\"A}quivalenzeinf{\"u}hrung\index{{\"A}quivalenz!Einf{\"u}hrung}]
+\label{axiom:IFF-3} \hypertarget{axiom:IFF-3}{}
+{\tt \tiny [\verb]axiom:IFF-3]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \rightarrow\ B)\ \rightarrow\ ((B\ \rightarrow\ A)\ \rightarrow\ (A\ \leftrightarrow\ B))$
+\end{longtable}
+
+\end{ax}
+
+
+\par
+Wenn ein Pr{\"a}dikat auf alle $x$ zutrifft, so trifft es auch auf ein beliebiges $y$ zu.
+
+\begin{ax}[Spezialisierung\index{Axiom!der Spezialisierung}]
+\label{axiom:universalInstantiation} \hypertarget{axiom:universalInstantiation}{}
+{\tt \tiny [\verb]axiom:universalInstantiation]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall x\ \phi(x)\ \rightarrow\ \phi(y)$
+\end{longtable}
+
+\end{ax}
+
+
+\par
+Wenn ein Pr{\"a}dikat auf irgend ein $y$ zutrifft, so gibt es ein $x$, auf das es zutrifft.
+
+\begin{ax}[Existenz\index{Axiom!der Existenz}]
+\label{axiom:existencialGeneralization} \hypertarget{axiom:existencialGeneralization}{}
+{\tt \tiny [\verb]axiom:existencialGeneralization]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\phi(y)\ \rightarrow\ \exists x\ \phi(x)$
+\end{longtable}
+
+\end{ax}
+
+
+\section{Ableitungsregeln\index{Regeln!predikatenlogische}} \label{chapter3_section2} \hypertarget{chapter3_section2}{}
+Die im folgenden angegebenen Regeln erm{\"o}glichen uns aus den wahr angesehenen Axiomen neue wahre Formeln zu gewinnen. Aus diesen k{\"o}nnen wiederum weitere Formeln abgeleitet werden, so dass sich die Menge der wahren Formeln sukzessive erweitern l{\"a}sst.
+
+\begin{rul}[Hinzuf{\"u}gung einer wahren Formel]
+\label{rule:addProvenFormula} \hypertarget{rule:addProvenFormula}{}
+{\tt \tiny [\verb]rule:addProvenFormula]]}
+
+\par
+{\em   Name: \verb]Add]  -  Version: \verb]0.01.00]}
+
+
+Hinzuf{\"u}gen eines Axioms, einer Definition oder einer bereits bewiesenen Proposition. Wir m{\"u}ssen den Ort der Formel angeben.
+\end{rul}
+
+
+\begin{rul}[Abtrennung, Modus Ponens\index{Modus Ponens}\index{Abtrennungsregel}]
+\label{rule:modusPonens} \hypertarget{rule:modusPonens}{}
+{\tt \tiny [\verb]rule:modusPonens]]}
+
+\par
+{\em   Name: \verb]MP]  -  Version: \verb]0.01.00]}
+
+
+Wenn $\alpha$ und $\alpha \rightarrow \beta$ wahre Formeln sind, dann ist auch $\beta$ eine wahre Formel.
+\end{rul}
+
+
+\begin{rul}[Ersetzung f{\"u}r freie Subjektvariable]
+\label{rule:replaceFree} \hypertarget{rule:replaceFree}{}
+{\tt \tiny [\verb]rule:replaceFree]]}
+
+\par
+{\em   Name: \verb]SubstFree]  -  Version: \verb]0.01.00]}
+
+
+Ausgehend von einer wahren Formel kann jede freie Subjektvariable durch einen Term ersetzt werden, der keine in der Formel bereits gebundenen Subjektvariablen enth{\"a}lt. Die Ersetzung muss durchg{\"a}ngig in der gesamten Formel erfolgen.
+\end{rul}
+
+Das Verbot in dem Term Subjektvariablen zu verwenden, welche in der Originalformel gebunden vorkommen, dient nicht nur der Absicherung der Wohlgeformtheit, sondern besitzt auch eine inhaltliche Bedeutung. Dazu betrachten wir die folgende Ableitung.
+
+\par
+\begin{tabularx}{\linewidth}{rclX}
+  $\forall x \ \exists y \ \phi(x, y)$ & $\rightarrow$ & $\exists y \ \phi(z,y)$ 
+    & mit \hyperlink{axiom:universalInstantiation}{Axiom~15} \\
+  $\forall x \ \exists y \ \phi(x, y)$ & $\rightarrow$ & $\exists y \ \phi(y,y)$ 
+    & verbotene Ersetzung: $z$ durch $y$, obwohl $y$ bereits gebunden \\
+  $\forall x \ \exists y \ x \neq y$ & $\rightarrow$ & $\exists y \ y \neq y$ 
+    &  Einsetzung von $\neq$ f{\"u}r $\phi$
+\end{tabularx}
+
+\par
+Diese letzte Aussage ist in vielen Modellen nicht g{\"u}ltig.
+
+
+\begin{rul}[Umbenennung f{\"u}r gebundene Subjektvariable]
+\label{rule:renameBound} \hypertarget{rule:renameBound}{}
+{\tt \tiny [\verb]rule:renameBound]]}
+
+\par
+{\em   Name: \verb]Rename]  -  Version: \verb]0.01.00]}
+
+
+Jede gebundene Subjektvariable kann in eine andere, nicht bereits frei vorkommende, Subjektvariable umbenannt werden. Falls {\"u}ber umzubenennende Variable mehrfach quantifiziert wird, dann braucht die Umbenennung nur im Wirkungsbereich eines bestimmten Quantors zu erfolgen.
+\end{rul}
+
+
+\begin{rul}[Einsetzung f{\"u}r Pr{\"a}dikatenvariable]
+\label{rule:replacePred} \hypertarget{rule:replacePred}{}
+{\tt \tiny [\verb]rule:replacePred]]}
+
+\par
+{\em   Name: \verb]SubstPred]  -  Version: \verb]0.01.00]}
+
+
+Es sei $\alpha$ eine wahre Formel, die die $n$-stellige Pr{\"a}dikatenvariable $p$ enth{\"a}lt, $x_1$, \ldots, $x_n$ seien paarweise verschiedene Subjektvariable und $\beta(x_1, \ldots, x_n)$ eine beliebige Formel in der die Variablen $x_1$, \ldots, $x_n$ nicht gebunden sind. In der Formel $\beta(x_1, \ldots, x_n)$ m{\"u}ssen jedoch nicht alle $x_1$, \ldots, $x_n$ als freie Subjektvariable vorkommen. 
+Weiterhin k{\"o}nnen auch noch weitere Variable frei oder gebunden vorkommen. 
+
+Wenn die folgenden Bedingungen erf{\"u}llt sind, dann kann durch die Ersetzung jedes Vorkommens von $p(t_1, \ldots, t_n)$ mit jeweils passenden Termen $t_1$, \ldots, $t_n$ in $\alpha$ durch $\beta(t_1, \ldots, t_n)$ eine weitere wahre Formel gewonnen werden.
+
+\begin{itemize}
+
+\item 
+die freien Variablen von $\beta(x_1, \ldots, x_n)$ ohne $x_1$, \ldots, $x_n$ kommen nicht in $\alpha$ als gebundene Variablen vor
+
+\item
+jedes Vorkommen von $p(t_1, \ldots, t_n)$ in $\alpha$ enth{\"a}lt keine gebundene Variable von $\beta(x_1, \ldots, x_n)$
+
+\item
+das Ergebnis der Substitution ist eine wohlgeformte Formel
+
+\end{itemize}
+\end{rul}
+
+Siehe III \S 5 in \cite{hilback}.
+
+\par
+Es l{\"a}{\ss}t sich {\"a}hnlich wie bei \hyperlink{rule:replaceFree}{Regel~3} argumentieren.
+Das Verbot in der Ersetzungsformel keine zus{\"a}tzliche Subjektvariable zu verwenden, welche in der Originalformel gebunden vorkommt, hat nicht nur die Absicherung der Wohlgeformtheit zum Zweck. Es bewahrt auch die inhaltliche G{\"u}ltigkeit. Dazu betrachten wir die folgende Ableitung.
+
+\par
+\begin{tabularx}{\linewidth}{rclX}
+  $ \phi(x)$                             & $\rightarrow$ & $\exists y \ \phi(y)$  
+    & mit \hyperlink{axiom:existencialGeneralization}{Axiom~16} \\
+  $ (\exists y \ y = y) \land \phi(x)$   & $\rightarrow$ & $\exists y \ \phi(y)$  
+    &  \\
+  $ \exists y \ (y = y \land \phi(x))$   & $\rightarrow$ & $\exists y \ \phi(y)$  
+    &  \\
+  $ \exists y \ (y = y \land x \neq y)$  & $\rightarrow$ & $\exists y \ y \neq y$  
+    & verbotene Ersetzung: $\phi(x)$ durch $x \neq y$, obwohl $y$ bereits gebunden \\
+  $ \exists y \  x \neq y$  & $\rightarrow$ & $\exists y \ y \neq y$  
+    &
+\end{tabularx}
+
+\par
+Diese letzte Aussage ist in vielen Modellen nicht g{\"u}ltig.
+
+
+\par
+Analog zu Regel~\hyperlink{rule:replacePred}{Regel~5} k{\"o}nnen wir auch Funktionsvariablen ersetzen.
+
+\begin{rul}[Einsetzung f{\"u}r Funktionsvariable]
+\label{rule:replaceFunct} \hypertarget{rule:replaceFunct}{}
+{\tt \tiny [\verb]rule:replaceFunct]]}
+
+\par
+{\em   Name: \verb]SubstFun]  -  Version: \verb]0.01.00]}
+
+
+Es sei $\alpha$ eine bereits bewiesene Formel, die die $n$-stellige Funktionsvariable $\sigma$ enth{\"a}lt, $x_1$, \ldots, $x_n$ seien paarweise verschiedene Subjektvariable und $\tau(x_1, \ldots, x_n)$ ein beliebiger Term in dem die Subjektvariablen $x_1$, \ldots, $x_n$ nicht gebunden sind. In dem Term $\tau(x_1, \ldots, x_n)$ m{\"u}ssen nicht alle $x_1$, \ldots, $x_n$ als freie Subjektvariable vorkommen. Weiterhin k{\"o}nnen auch noch  noch weitere Variable frei oder gebunden vorkommen.
+
+Wenn die folgenden Bedingungen erf{\"u}llt sind, dann kann durch die Ersetzung jedes Vorkommens von $\sigma(t_1, \ldots, t_n)$ mit jeweils passenden Termen $t_1$, \ldots, $t_n$ in $\alpha$ durch $\tau(t_1, \ldots, t_n)$ eine weitere wahre Formel gewonnen 
+werden.
+
+\begin{itemize}
+
+\item
+die freien Variablen von $\tau(x_1, \ldots, x_n)$ ohne $x_1$, \ldots, $x_n$ kommen in $\alpha$ nicht als gebundene Variablen vor
+
+\item
+jedes Vorkommen von $\sigma(t_1, \ldots, t_n)$ in $\alpha$ enth{\"a}lt keine gebundene Variable von $\tau(x_1, \ldots, x_n)$
+
+\item
+das Ergebnis der Substitution ist eine wohlgeformte Formel
+
+\end{itemize}
+\end{rul}
+
+
+\begin{rul}[Hintere Generalisierung\index{Generalisierung!hintere}]
+\label{rule:universalGeneralization} \hypertarget{rule:universalGeneralization}{}
+{\tt \tiny [\verb]rule:universalGeneralization]]}
+
+\par
+{\em   Name: \verb]Universal]  -  Version: \verb]0.01.00]}
+
+
+Wenn $\alpha \rightarrow \beta(x_1)$ eine wahre Formel ist und $\alpha$ die Subjektvariable $x_1$ nicht enth{\"a}lt, dann ist auch $\alpha \rightarrow (\forall x_1~(\beta(x_1)))$ 
+eine wahre Formel.
+\end{rul}
+
+
+\begin{rul}[Vordere Partikularisierung\index{Partikularisierung!vordere}]
+\label{rule:existentialGeneralization} \hypertarget{rule:existentialGeneralization}{}
+{\tt \tiny [\verb]rule:existentialGeneralization]]}
+
+\par
+{\em   Name: \verb]Existential]  -  Version: \verb]0.01.00]}
+
+
+Wenn $\alpha(x_1) \rightarrow \beta$ eine wahre Formel ist und $\beta$ die Subjektvariable $x_1$ nicht enth{\"a}lt, dann ist auch $(\exists x_1~\alpha(x_1)) \rightarrow \beta$ eine wahre Formel.
+\end{rul}
+
+
+
+%% end of chapter Axiome und Schlussregeln
+
+\chapter{Aussagenlogik} \label{chapter4} \hypertarget{chapter4}{}
+
+In diesem Kapitel stellen wir eine wichtige neue Ableitungsregel vor und entwickeln die {\"u}blichen S{\"a}tze der Aussagenlogik.
+
+\section{First Propositions} \label{chapter4_section1} \hypertarget{chapter4_section1}{}
+Hier nehmen wir die ersten Ableitungen vor.
+
+\begin{prop}
+\label{proposition:implicationReflexive1} \hypertarget{proposition:implicationReflexive1}{}
+{\tt \tiny [\verb]proposition:implicationReflexive1]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $A\ \rightarrow\ A$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implicationReflexive1!1} \hypertarget{proposition:implicationReflexive1!1}{\mbox{(1)}}  \ &  \ $A\ \rightarrow\ (B\ \rightarrow\ A)$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperlink{axiom:THEN-1}{Axiom~1}} \\ 
+\label{proposition:implicationReflexive1!2} \hypertarget{proposition:implicationReflexive1!2}{\mbox{(2)}}  \ &  \ $(A\ \rightarrow\ (B\ \rightarrow\ C))\ \rightarrow\ ((A\ \rightarrow\ B)\ \rightarrow\ (A\ \rightarrow\ C))$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperlink{axiom:THEN-2}{Axiom~2}} \\ 
+\label{proposition:implicationReflexive1!3} \hypertarget{proposition:implicationReflexive1!3}{\mbox{(3)}}  \ &  \ $A\ \rightarrow\ (B\ \lor\ A)$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperlink{axiom:OR-2}{Axiom~7}} \\ 
+\label{proposition:implicationReflexive1!4} \hypertarget{proposition:implicationReflexive1!4}{\mbox{(4)}}  \ &  \ $A\ \rightarrow\ ((B\ \lor\ A)\ \rightarrow\ A)$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $B$ by $B\ \lor\ A$ in \hyperlink{proposition:implicationReflexive1!1}{(1)}} \\ 
+\label{proposition:implicationReflexive1!5} \hypertarget{proposition:implicationReflexive1!5}{\mbox{(5)}}  \ &  \ $(A\ \rightarrow\ ((B\ \lor\ A)\ \rightarrow\ C))\ \rightarrow\ ((A\ \rightarrow\ (B\ \lor\ A))\ \rightarrow\ (A\ \rightarrow\ C))$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $B$ by $B\ \lor\ A$ in \hyperlink{proposition:implicationReflexive1!2}{(2)}} \\ 
+\label{proposition:implicationReflexive1!6} \hypertarget{proposition:implicationReflexive1!6}{\mbox{(6)}}  \ &  \ $(A\ \rightarrow\ ((B\ \lor\ A)\ \rightarrow\ A))\ \rightarrow\ ((A\ \rightarrow\ (B\ \lor\ A))\ \rightarrow\ (A\ \rightarrow\ A))$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $C$ by $A$ in \hyperlink{proposition:implicationReflexive1!5}{(5)}} \\ 
+\label{proposition:implicationReflexive1!7} \hypertarget{proposition:implicationReflexive1!7}{\mbox{(7)}}  \ &  \ $(A\ \rightarrow\ (B\ \lor\ A))\ \rightarrow\ (A\ \rightarrow\ A)$ \ &  \ {\tiny \hyperlink{rule:modusPonens}{MP} \hyperlink{proposition:implicationReflexive1!6}{(6)}, \hyperlink{proposition:implicationReflexive1!4}{(4)}} \\ 
+\label{proposition:implicationReflexive1!8} \hypertarget{proposition:implicationReflexive1!8}{\mbox{(8)}}  \ &  \ $A\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:modusPonens}{MP} \hyperlink{proposition:implicationReflexive1!7}{(7)}, \hyperlink{proposition:implicationReflexive1!3}{(3)}} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication2} \hypertarget{proposition:implication2}{}
+{\tt \tiny [\verb]proposition:implication2]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \lor\ A)\ \rightarrow\ A$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication2!1} \hypertarget{proposition:implication2!1}{\mbox{(1)}}  \ &  \ $A\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperlink{proposition:implicationReflexive1}{Proposition~1}} \\ 
+\label{proposition:implication2!2} \hypertarget{proposition:implication2!2}{\mbox{(2)}}  \ &  \ $(A\ \rightarrow\ C)\ \rightarrow\ ((B\ \rightarrow\ C)\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ C))$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperlink{axiom:OR-3}{Axiom~8}} \\ 
+\label{proposition:implication2!3} \hypertarget{proposition:implication2!3}{\mbox{(3)}}  \ &  \ $(A\ \rightarrow\ C)\ \rightarrow\ ((A\ \rightarrow\ C)\ \rightarrow\ ((A\ \lor\ A)\ \rightarrow\ C))$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $B$ by $A$ in \hyperlink{proposition:implication2!2}{(2)}} \\ 
+\label{proposition:implication2!4} \hypertarget{proposition:implication2!4}{\mbox{(4)}}  \ &  \ $(A\ \rightarrow\ A)\ \rightarrow\ ((A\ \rightarrow\ A)\ \rightarrow\ ((A\ \lor\ A)\ \rightarrow\ A))$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $C$ by $A$ in \hyperlink{proposition:implication2!3}{(3)}} \\ 
+\label{proposition:implication2!5} \hypertarget{proposition:implication2!5}{\mbox{(5)}}  \ &  \ $(A\ \rightarrow\ A)\ \rightarrow\ ((A\ \lor\ A)\ \rightarrow\ A)$ \ &  \ {\tiny \hyperlink{rule:modusPonens}{MP} \hyperlink{proposition:implication2!4}{(4)}, \hyperlink{proposition:implication2!1}{(1)}} \\ 
+\label{proposition:implication2!6} \hypertarget{proposition:implication2!6}{\mbox{(6)}}  \ &  \ $(A\ \lor\ A)\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:modusPonens}{MP} \hyperlink{proposition:implication2!5}{(5)}, \hyperlink{proposition:implication2!1}{(1)}} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication03} \hypertarget{proposition:implication03}{}
+{\tt \tiny [\verb]proposition:implication03]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \lor\ B)\ \rightarrow\ (B\ \lor\ A)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication03!1} \hypertarget{proposition:implication03!1}{\mbox{(1)}}  \ &  \ $A\ \rightarrow\ (A\ \lor\ B)$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperlink{axiom:OR-1}{Axiom~6}} \\ 
+\label{proposition:implication03!2} \hypertarget{proposition:implication03!2}{\mbox{(2)}}  \ &  \ $A\ \rightarrow\ (B\ \lor\ A)$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperlink{axiom:OR-2}{Axiom~7}} \\ 
+\label{proposition:implication03!3} \hypertarget{proposition:implication03!3}{\mbox{(3)}}  \ &  \ $(A\ \rightarrow\ C)\ \rightarrow\ ((B\ \rightarrow\ C)\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ C))$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperlink{axiom:OR-3}{Axiom~8}} \\ 
+\label{proposition:implication03!4} \hypertarget{proposition:implication03!4}{\mbox{(4)}}  \ &  \ $D\ \rightarrow\ (D\ \lor\ B)$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $A$ by $D$ in \hyperlink{proposition:implication03!1}{(1)}} \\ 
+\label{proposition:implication03!5} \hypertarget{proposition:implication03!5}{\mbox{(5)}}  \ &  \ $(A\ \rightarrow\ (C\ \lor\ A))\ \rightarrow\ ((B\ \rightarrow\ (C\ \lor\ A))\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ (C\ \lor\ A)))$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $C$ by $C\ \lor\ A$ in \hyperlink{proposition:implication03!3}{(3)}} \\ 
+\label{proposition:implication03!6} \hypertarget{proposition:implication03!6}{\mbox{(6)}}  \ &  \ $D\ \rightarrow\ (D\ \lor\ A)$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $B$ by $A$ in \hyperlink{proposition:implication03!4}{(4)}} \\ 
+\label{proposition:implication03!7} \hypertarget{proposition:implication03!7}{\mbox{(7)}}  \ &  \ $(A\ \rightarrow\ (B\ \lor\ A))\ \rightarrow\ ((B\ \rightarrow\ (B\ \lor\ A))\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ (B\ \lor\ A)))$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $C$ by $B$ in \hyperlink{proposition:implication03!5}{(5)}} \\ 
+\label{proposition:implication03!8} \hypertarget{proposition:implication03!8}{\mbox{(8)}}  \ &  \ $(B\ \rightarrow\ (B\ \lor\ A))\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ (B\ \lor\ A))$ \ &  \ {\tiny \hyperlink{rule:modusPonens}{MP} \hyperlink{proposition:implication03!7}{(7)}, \hyperlink{proposition:implication03!2}{(2)}} \\ 
+\label{proposition:implication03!9} \hypertarget{proposition:implication03!9}{\mbox{(9)}}  \ &  \ $B\ \rightarrow\ (B\ \lor\ A)$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $D$ by $B$ in \hyperlink{proposition:implication03!6}{(6)}} \\ 
+\label{proposition:implication03!10} \hypertarget{proposition:implication03!10}{\mbox{(10)}}  \ &  \ $(A\ \lor\ B)\ \rightarrow\ (B\ \lor\ A)$ \ &  \ {\tiny \hyperlink{rule:modusPonens}{MP} \hyperlink{proposition:implication03!8}{(8)}, \hyperlink{proposition:implication03!9}{(9)}} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication04} \hypertarget{proposition:implication04}{}
+{\tt \tiny [\verb]proposition:implication04]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\neg (A\ \land\ \neg A)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication04!1} \hypertarget{proposition:implication04!1}{\mbox{(1)}}  \ &  \ $(A\ \land\ B)\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperlink{axiom:AND-1}{Axiom~3}} \\ 
+\label{proposition:implication04!2} \hypertarget{proposition:implication04!2}{\mbox{(2)}}  \ &  \ $(A\ \land\ B)\ \rightarrow\ B$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperlink{axiom:AND-2}{Axiom~4}} \\ 
+\label{proposition:implication04!3} \hypertarget{proposition:implication04!3}{\mbox{(3)}}  \ &  \ $(A\ \rightarrow\ B)\ \rightarrow\ ((A\ \rightarrow\ \neg B)\ \rightarrow\ \neg A)$ \ &  \ {\tiny \hyperlink{rule:addProvenFormula}{Add} \hyperlink{axiom:NOT-1}{Axiom~9}} \\ 
+\label{proposition:implication04!4} \hypertarget{proposition:implication04!4}{\mbox{(4)}}  \ &  \ $(A\ \land\ \neg A)\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $B$ by $\neg A$ in \hyperlink{proposition:implication04!1}{(1)}} \\ 
+\label{proposition:implication04!5} \hypertarget{proposition:implication04!5}{\mbox{(5)}}  \ &  \ $(A\ \land\ \neg A)\ \rightarrow\ \neg A$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $B$ by $\neg A$ in \hyperlink{proposition:implication04!2}{(2)}} \\ 
+\label{proposition:implication04!6} \hypertarget{proposition:implication04!6}{\mbox{(6)}}  \ &  \ $((A\ \land\ \neg A)\ \rightarrow\ B)\ \rightarrow\ (((A\ \land\ \neg A)\ \rightarrow\ \neg B)\ \rightarrow\ \neg (A\ \land\ \neg A))$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $A$ by $A\ \land\ \neg A$ in \hyperlink{proposition:implication04!3}{(3)}} \\ 
+\label{proposition:implication04!7} \hypertarget{proposition:implication04!7}{\mbox{(7)}}  \ &  \ $((A\ \land\ \neg A)\ \rightarrow\ A)\ \rightarrow\ (((A\ \land\ \neg A)\ \rightarrow\ \neg A)\ \rightarrow\ \neg (A\ \land\ \neg A))$ \ &  \ {\tiny \hyperlink{rule:replacePred}{SubstPred} $B$ by $A$ in \hyperlink{proposition:implication04!6}{(6)}} \\ 
+\label{proposition:implication04!8} \hypertarget{proposition:implication04!8}{\mbox{(8)}}  \ &  \ $((A\ \land\ \neg A)\ \rightarrow\ \neg A)\ \rightarrow\ \neg (A\ \land\ \neg A)$ \ &  \ {\tiny \hyperlink{rule:modusPonens}{MP} \hyperlink{proposition:implication04!7}{(7)}, \hyperlink{proposition:implication04!4}{(4)}} \\ 
+\label{proposition:implication04!9} \hypertarget{proposition:implication04!9}{\mbox{(9)}}  \ &  \ $\neg (A\ \land\ \neg A)$ \ &  \ {\tiny \hyperlink{rule:modusPonens}{MP} \hyperlink{proposition:implication04!8}{(8)}, \hyperlink{proposition:implication04!5}{(5)}} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\section{Deduktionstheorem\index{Deduktionstheorem}} \label{chapter4_section2} \hypertarget{chapter4_section2}{}
+Wir leiten das Deduktionstheorem her. Dies erm{\"o}glicht die neue Regel \emph{Conditional Proof}.
+
+\par
+Wenn wir $B$ beweisen k{\"o}nnen, indem wir $A$ als Hypothese annehmen, dann haben wir $A \rightarrow B$ bewiesen. Diese Argumentation wir durch das sogenannte \emph{Deduktionstheorem} gerechtfertigt. Das Deduktionstheorem gilt f{\"u}r alle {\"u}blichen Ableitungssysteme der Pr{\"a}dikatenlogik der ersten Stufe. Leider macht unsere Verwendung von Pr{\"a}dikatsvariablen und Ersetzungsregeln hier Schwierigkeiten. Wir m{\"u}ssen die Verwendung von Ableitungsregeln einschr{\"a}nken um ein entsprechendes Resultat zu erhalten.
+
+\begin{rul}
+\label{rule:CP} \hypertarget{rule:CP}{}
+{\tt \tiny [\verb]rule:CP]]}
+
+\par
+{\em   Name: \verb]CP]  -  Version: \verb]0.02.00]}
+
+
+Wir haben die wohlgeformte Formel $\alpha$ und f{\"u}gen sie als neue Beweiszeile hinzu. Nun modifizieren wir die existierenden Ableitungsregeln. Wir k{\"o}nnen eine weitere Beweiszeile anf{\"u}gen, wenn $\alpha \rightarrow \beta$ eine wohlgeformte Formel ist und die Verwendung einer vorherigen Regel mit den folgenden Einschr{\"a}nkungen die Hinzuf{\"u}gung rechtfertigt:
+f{\"u}r \hyperlink{rule:replaceFree}{Regel~3} kommt die ersetzte freie Variable nicht in $\alpha$ vor, f{\"u}r \hyperlink{rule:replacePred}{Regel~5} kommt die ersetzte Pr{\"a}dikatenvariable nicht in $\alpha$ vor, f{\"u}r \hyperlink{rule:replaceFunct}{Regel~6} kommt die ersetzte Funktionsvariable nicht in $\alpha$ vor.
+\end{rul}
+Basierend auf: 
+ \hyperlink{axiom:THEN-1}{Axiom~1} \hyperlink{axiom:THEN-2}{Axiom~2}
+Die folgenden Regeln m{\"u}ssen erweitert werden.
+
+\par
+\label{rule:CP!MP} \hypertarget{rule:CP!MP}{}
+{\em   Name: \verb]MP]  -  Version: \verb]0.02.00]  -  Old Version: \hyperlink{rule:modusPonens}{0.01.00}}
+
+Siehe \hyperlink{rule:CP}{Regel~9}.
+
+
+\par
+\label{rule:CP!Add} \hypertarget{rule:CP!Add}{}
+{\em   Name: \verb]Add]  -  Version: \verb]0.02.00]  -  Old Version: \hyperlink{rule:addProvenFormula}{0.01.00}}
+
+Siehe \hyperlink{rule:CP}{Regel~9}.
+
+
+\par
+\label{rule:CP!Rename} \hypertarget{rule:CP!Rename}{}
+{\em   Name: \verb]Rename]  -  Version: \verb]0.02.00]  -  Old Version: \hyperlink{rule:renameBound}{0.01.00}}
+
+Siehe \hyperlink{rule:CP}{Regel~9}.
+
+
+\par
+\label{rule:CP!SubstFree} \hypertarget{rule:CP!SubstFree}{}
+{\em   Name: \verb]SubstFree]  -  Version: \verb]0.02.00]  -  Old Version: \hyperlink{rule:replaceFree}{0.01.00}}
+
+Siehe \hyperlink{rule:CP}{Regel~9}.
+
+
+\par
+\label{rule:CP!SubstPred} \hypertarget{rule:CP!SubstPred}{}
+{\em   Name: \verb]SubstPred]  -  Version: \verb]0.02.00]  -  Old Version: \hyperlink{rule:replacePred}{0.01.00}}
+
+Siehe \hyperlink{rule:CP}{Regel~9}.
+
+
+\par
+\label{rule:CP!SubstFun} \hypertarget{rule:CP!SubstFun}{}
+{\em   Name: \verb]SubstFun]  -  Version: \verb]0.02.00]  -  Old Version: \hyperlink{rule:replaceFunct}{0.01.00}}
+
+Siehe \hyperlink{rule:CP}{Regel~9}.
+
+
+\par
+\label{rule:CP!Universal} \hypertarget{rule:CP!Universal}{}
+{\em   Name: \verb]Universal]  -  Version: \verb]0.02.00]  -  Old Version: \hyperlink{rule:universalGeneralization}{0.01.00}}
+
+Siehe \hyperlink{rule:CP}{Regel~9}.
+
+
+\par
+\label{rule:CP!Existential} \hypertarget{rule:CP!Existential}{}
+{\em   Name: \verb]Existential]  -  Version: \verb]0.02.00]  -  Old Version: \hyperlink{rule:existentialGeneralization}{0.01.00}}
+
+Siehe \hyperlink{rule:CP}{Regel~9}.
+
+
+\begin{proof}
+TODO 20110613 m31
+\end{proof}
+
+Mittels Deduktionstheorem leiten wir im Folgenden weitere S{\"a}tze ab.
+
+
+\section{S{\"a}tze zur Implikation} \label{chapter4_section3} \hypertarget{chapter4_section3}{}
+Mittels \hyperlink{rule:CP}{Regel~9} leiten wir weitere S{\"a}tze ab, in deren Formeln nur die Implikation vorkommt.
+
+\begin{prop}
+\label{proposition:implication10} \hypertarget{proposition:implication10}{}
+{\tt \tiny [\verb]proposition:implication10]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \rightarrow\ (A\ \rightarrow\ B))\ \rightarrow\ (A\ \rightarrow\ B)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication10!1} \hypertarget{proposition:implication10!1}{\mbox{(1)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ (A\ \rightarrow\ B)$ \ &  \ {\tiny Hypothesis} \\ 
+ \ &  \ \mbox{\qquad}Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication10!2} \hypertarget{proposition:implication10!2}{\mbox{(2)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$A$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication10!3} \hypertarget{proposition:implication10!3}{\mbox{(3)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$A\ \rightarrow\ B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication10!1}{(1)}, \hyperlink{proposition:implication10!2}{(2)}} \\ 
+\label{proposition:implication10!4} \hypertarget{proposition:implication10!4}{\mbox{(4)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication10!3}{(3)}, \hyperlink{proposition:implication10!2}{(2)}} \\ 
+\label{proposition:implication10!5} \hypertarget{proposition:implication10!5}{\mbox{(5)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ B$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication10!6} \hypertarget{proposition:implication10!6}{\mbox{(6)}}  \ &  \ $(A\ \rightarrow\ (A\ \rightarrow\ B))\ \rightarrow\ (A\ \rightarrow\ B)$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication11} \hypertarget{proposition:implication11}{}
+{\tt \tiny [\verb]proposition:implication11]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $((A\ \rightarrow\ B)\ \rightarrow\ (A\ \rightarrow\ C))\ \rightarrow\ (A\ \rightarrow\ (B\ \rightarrow\ C))$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication11!1} \hypertarget{proposition:implication11!1}{\mbox{(1)}}  \ &  \ $A\ \rightarrow\ (B\ \rightarrow\ A)$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:THEN-1}{Axiom~1}} \\ 
+\label{proposition:implication11!2} \hypertarget{proposition:implication11!2}{\mbox{(2)}}  \ &  \ $D\ \rightarrow\ (B\ \rightarrow\ D)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $D$ in \hyperlink{proposition:implication11!1}{(1)}} \\ 
+\label{proposition:implication11!3} \hypertarget{proposition:implication11!3}{\mbox{(3)}}  \ &  \ $D\ \rightarrow\ (A\ \rightarrow\ D)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $A$ in \hyperlink{proposition:implication11!2}{(2)}} \\ 
+\label{proposition:implication11!4} \hypertarget{proposition:implication11!4}{\mbox{(4)}}  \ &  \ $B\ \rightarrow\ (A\ \rightarrow\ B)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $D$ by $B$ in \hyperlink{proposition:implication11!3}{(3)}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication11!5} \hypertarget{proposition:implication11!5}{\mbox{(5)}}  \ &  \ \mbox{\qquad}$(A\ \rightarrow\ B)\ \rightarrow\ (A\ \rightarrow\ C)$ \ &  \ {\tiny Hypothesis} \\ 
+ \ &  \ \mbox{\qquad}Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication11!6} \hypertarget{proposition:implication11!6}{\mbox{(6)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$A$ \ &  \ {\tiny Hypothesis} \\ 
+ \ &  \ \mbox{\qquad}\mbox{\qquad}Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication11!7} \hypertarget{proposition:implication11!7}{\mbox{(7)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}\mbox{\qquad}$B$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication11!8} \hypertarget{proposition:implication11!8}{\mbox{(8)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}\mbox{\qquad}$A\ \rightarrow\ B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication11!4}{(4)}, \hyperlink{proposition:implication11!7}{(7)}} \\ 
+\label{proposition:implication11!9} \hypertarget{proposition:implication11!9}{\mbox{(9)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}\mbox{\qquad}$A\ \rightarrow\ C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication11!5}{(5)}, \hyperlink{proposition:implication11!8}{(8)}} \\ 
+\label{proposition:implication11!10} \hypertarget{proposition:implication11!10}{\mbox{(10)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}\mbox{\qquad}$C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication11!9}{(9)}, \hyperlink{proposition:implication11!6}{(6)}} \\ 
+\label{proposition:implication11!11} \hypertarget{proposition:implication11!11}{\mbox{(11)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$B\ \rightarrow\ C$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication11!12} \hypertarget{proposition:implication11!12}{\mbox{(12)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ (B\ \rightarrow\ C)$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication11!13} \hypertarget{proposition:implication11!13}{\mbox{(13)}}  \ &  \ $((A\ \rightarrow\ B)\ \rightarrow\ (A\ \rightarrow\ C))\ \rightarrow\ (A\ \rightarrow\ (B\ \rightarrow\ C))$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication12} \hypertarget{proposition:implication12}{}
+{\tt \tiny [\verb]proposition:implication12]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \rightarrow\ B)\ \rightarrow\ ((B\ \rightarrow\ C)\ \rightarrow\ (A\ \rightarrow\ C))$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication12!1} \hypertarget{proposition:implication12!1}{\mbox{(1)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ B$ \ &  \ {\tiny Hypothesis} \\ 
+ \ &  \ \mbox{\qquad}Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication12!2} \hypertarget{proposition:implication12!2}{\mbox{(2)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$B\ \rightarrow\ C$ \ &  \ {\tiny Hypothesis} \\ 
+ \ &  \ \mbox{\qquad}\mbox{\qquad}Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication12!3} \hypertarget{proposition:implication12!3}{\mbox{(3)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}\mbox{\qquad}$A$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication12!4} \hypertarget{proposition:implication12!4}{\mbox{(4)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}\mbox{\qquad}$B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication12!1}{(1)}, \hyperlink{proposition:implication12!3}{(3)}} \\ 
+\label{proposition:implication12!5} \hypertarget{proposition:implication12!5}{\mbox{(5)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}\mbox{\qquad}$C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication12!2}{(2)}, \hyperlink{proposition:implication12!4}{(4)}} \\ 
+\label{proposition:implication12!6} \hypertarget{proposition:implication12!6}{\mbox{(6)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$A\ \rightarrow\ C$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication12!7} \hypertarget{proposition:implication12!7}{\mbox{(7)}}  \ &  \ \mbox{\qquad}$(B\ \rightarrow\ C)\ \rightarrow\ (A\ \rightarrow\ C)$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication12!8} \hypertarget{proposition:implication12!8}{\mbox{(8)}}  \ &  \ $(A\ \rightarrow\ B)\ \rightarrow\ ((B\ \rightarrow\ C)\ \rightarrow\ (A\ \rightarrow\ C))$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication13} \hypertarget{proposition:implication13}{}
+{\tt \tiny [\verb]proposition:implication13]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \rightarrow\ (B\ \rightarrow\ C))\ \rightarrow\ (B\ \rightarrow\ (A\ \rightarrow\ C))$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication13!1} \hypertarget{proposition:implication13!1}{\mbox{(1)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ (B\ \rightarrow\ C)$ \ &  \ {\tiny Hypothesis} \\ 
+ \ &  \ \mbox{\qquad}Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication13!2} \hypertarget{proposition:implication13!2}{\mbox{(2)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$B$ \ &  \ {\tiny Hypothesis} \\ 
+ \ &  \ \mbox{\qquad}\mbox{\qquad}Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication13!3} \hypertarget{proposition:implication13!3}{\mbox{(3)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}\mbox{\qquad}$A$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication13!4} \hypertarget{proposition:implication13!4}{\mbox{(4)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}\mbox{\qquad}$B\ \rightarrow\ C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication13!1}{(1)}, \hyperlink{proposition:implication13!3}{(3)}} \\ 
+\label{proposition:implication13!5} \hypertarget{proposition:implication13!5}{\mbox{(5)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}\mbox{\qquad}$C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication13!4}{(4)}, \hyperlink{proposition:implication13!2}{(2)}} \\ 
+\label{proposition:implication13!6} \hypertarget{proposition:implication13!6}{\mbox{(6)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$A\ \rightarrow\ C$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication13!7} \hypertarget{proposition:implication13!7}{\mbox{(7)}}  \ &  \ \mbox{\qquad}$B\ \rightarrow\ (A\ \rightarrow\ C)$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication13!8} \hypertarget{proposition:implication13!8}{\mbox{(8)}}  \ &  \ $(A\ \rightarrow\ (B\ \rightarrow\ C))\ \rightarrow\ (B\ \rightarrow\ (A\ \rightarrow\ C))$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\section{S{\"a}tze zur Konjunktion} \label{chapter4_section4} \hypertarget{chapter4_section4}{}
+Mittels \hyperlink{rule:CP}{Regel~9} leiten wir weitere S{\"a}tze ab, in deren Formeln die Konjunktion vorkommt.
+
+\begin{prop}
+\label{proposition:implication14} \hypertarget{proposition:implication14}{}
+{\tt \tiny [\verb]proposition:implication14]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $A\ \rightarrow\ (A\ \land\ A)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication14!1} \hypertarget{proposition:implication14!1}{\mbox{(1)}}  \ &  \ $B\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ B))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-3}{Axiom~5}} \\ 
+\label{proposition:implication14!2} \hypertarget{proposition:implication14!2}{\mbox{(2)}}  \ &  \ $A\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ A))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $A$ in \hyperlink{proposition:implication14!1}{(1)}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication14!3} \hypertarget{proposition:implication14!3}{\mbox{(3)}}  \ &  \ \mbox{\qquad}$A$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication14!4} \hypertarget{proposition:implication14!4}{\mbox{(4)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ (A\ \land\ A)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication14!2}{(2)}, \hyperlink{proposition:implication14!3}{(3)}} \\ 
+\label{proposition:implication14!5} \hypertarget{proposition:implication14!5}{\mbox{(5)}}  \ &  \ \mbox{\qquad}$A\ \land\ A$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication14!4}{(4)}, \hyperlink{proposition:implication14!3}{(3)}} \\ 
+\label{proposition:implication14!6} \hypertarget{proposition:implication14!6}{\mbox{(6)}}  \ &  \ $A\ \rightarrow\ (A\ \land\ A)$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:AND-3b} \hypertarget{proposition:AND-3b}{}
+{\tt \tiny [\verb]proposition:AND-3b]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $A\ \rightarrow\ (B\ \rightarrow\ (A\ \land\ B))$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:AND-3b!1} \hypertarget{proposition:AND-3b!1}{\mbox{(1)}}  \ &  \ $(A\ \rightarrow\ (B\ \rightarrow\ C))\ \rightarrow\ (B\ \rightarrow\ (A\ \rightarrow\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{proposition:implication13}{Proposition~8}} \\ 
+\label{proposition:AND-3b!2} \hypertarget{proposition:AND-3b!2}{\mbox{(2)}}  \ &  \ $(A\ \rightarrow\ (D\ \rightarrow\ C))\ \rightarrow\ (D\ \rightarrow\ (A\ \rightarrow\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $D$ in \hyperlink{proposition:AND-3b!1}{(1)}} \\ 
+\label{proposition:AND-3b!3} \hypertarget{proposition:AND-3b!3}{\mbox{(3)}}  \ &  \ $(B\ \rightarrow\ (D\ \rightarrow\ C))\ \rightarrow\ (D\ \rightarrow\ (B\ \rightarrow\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $B$ in \hyperlink{proposition:AND-3b!2}{(2)}} \\ 
+\label{proposition:AND-3b!4} \hypertarget{proposition:AND-3b!4}{\mbox{(4)}}  \ &  \ $(B\ \rightarrow\ (A\ \rightarrow\ C))\ \rightarrow\ (A\ \rightarrow\ (B\ \rightarrow\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $D$ by $A$ in \hyperlink{proposition:AND-3b!3}{(3)}} \\ 
+\label{proposition:AND-3b!5} \hypertarget{proposition:AND-3b!5}{\mbox{(5)}}  \ &  \ $(B\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ B)))\ \rightarrow\ (A\ \rightarrow\ (B\ \rightarrow\ (A\ \land\ B)))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $C$ by $A\ \land\ B$ in \hyperlink{proposition:AND-3b!4}{(4)}} \\ 
+\label{proposition:AND-3b!6} \hypertarget{proposition:AND-3b!6}{\mbox{(6)}}  \ &  \ $B\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ B))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-3}{Axiom~5}} \\ 
+\label{proposition:AND-3b!7} \hypertarget{proposition:AND-3b!7}{\mbox{(7)}}  \ &  \ $A\ \rightarrow\ (B\ \rightarrow\ (A\ \land\ B))$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:AND-3b!5}{(5)}, \hyperlink{proposition:AND-3b!6}{(6)}} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication15} \hypertarget{proposition:implication15}{}
+{\tt \tiny [\verb]proposition:implication15]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $((A\ \rightarrow\ B)\ \land\ (B\ \rightarrow\ C))\ \rightarrow\ (A\ \rightarrow\ C)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication15!1} \hypertarget{proposition:implication15!1}{\mbox{(1)}}  \ &  \ $(A\ \land\ B)\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-1}{Axiom~3}} \\ 
+\label{proposition:implication15!2} \hypertarget{proposition:implication15!2}{\mbox{(2)}}  \ &  \ $(A\ \land\ (B\ \rightarrow\ C))\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $B\ \rightarrow\ C$ in \hyperlink{proposition:implication15!1}{(1)}} \\ 
+\label{proposition:implication15!3} \hypertarget{proposition:implication15!3}{\mbox{(3)}}  \ &  \ $((A\ \rightarrow\ B)\ \land\ (B\ \rightarrow\ C))\ \rightarrow\ (A\ \rightarrow\ B)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $A\ \rightarrow\ B$ in \hyperlink{proposition:implication15!2}{(2)}} \\ 
+\label{proposition:implication15!4} \hypertarget{proposition:implication15!4}{\mbox{(4)}}  \ &  \ $(A\ \land\ B)\ \rightarrow\ B$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-2}{Axiom~4}} \\ 
+\label{proposition:implication15!5} \hypertarget{proposition:implication15!5}{\mbox{(5)}}  \ &  \ $(A\ \land\ (B\ \rightarrow\ C))\ \rightarrow\ (B\ \rightarrow\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $B\ \rightarrow\ C$ in \hyperlink{proposition:implication15!4}{(4)}} \\ 
+\label{proposition:implication15!6} \hypertarget{proposition:implication15!6}{\mbox{(6)}}  \ &  \ $((A\ \rightarrow\ B)\ \land\ (B\ \rightarrow\ C))\ \rightarrow\ (B\ \rightarrow\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $A\ \rightarrow\ B$ in \hyperlink{proposition:implication15!5}{(5)}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication15!7} \hypertarget{proposition:implication15!7}{\mbox{(7)}}  \ &  \ \mbox{\qquad}$(A\ \rightarrow\ B)\ \land\ (B\ \rightarrow\ C)$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication15!8} \hypertarget{proposition:implication15!8}{\mbox{(8)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication15!3}{(3)}, \hyperlink{proposition:implication15!7}{(7)}} \\ 
+\label{proposition:implication15!9} \hypertarget{proposition:implication15!9}{\mbox{(9)}}  \ &  \ \mbox{\qquad}$B\ \rightarrow\ C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication15!6}{(6)}, \hyperlink{proposition:implication15!7}{(7)}} \\ 
+\label{proposition:implication15!10} \hypertarget{proposition:implication15!10}{\mbox{(10)}}  \ &  \ \mbox{\qquad}$(A\ \rightarrow\ B)\ \rightarrow\ ((B\ \rightarrow\ C)\ \rightarrow\ (A\ \rightarrow\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{proposition:implication12}{Proposition~7}} \\ 
+\label{proposition:implication15!11} \hypertarget{proposition:implication15!11}{\mbox{(11)}}  \ &  \ \mbox{\qquad}$(B\ \rightarrow\ C)\ \rightarrow\ (A\ \rightarrow\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication15!10}{(10)}, \hyperlink{proposition:implication15!8}{(8)}} \\ 
+\label{proposition:implication15!12} \hypertarget{proposition:implication15!12}{\mbox{(12)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication15!11}{(11)}, \hyperlink{proposition:implication15!9}{(9)}} \\ 
+\label{proposition:implication15!13} \hypertarget{proposition:implication15!13}{\mbox{(13)}}  \ &  \ $((A\ \rightarrow\ B)\ \land\ (B\ \rightarrow\ C))\ \rightarrow\ (A\ \rightarrow\ C)$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication17} \hypertarget{proposition:implication17}{}
+{\tt \tiny [\verb]proposition:implication17]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \rightarrow\ B)\ \rightarrow\ ((A\ \rightarrow\ C)\ \rightarrow\ (A\ \rightarrow\ (B\ \land\ C)))$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication17!1} \hypertarget{proposition:implication17!1}{\mbox{(1)}}  \ &  \ $B\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ B))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-3}{Axiom~5}} \\ 
+\label{proposition:implication17!2} \hypertarget{proposition:implication17!2}{\mbox{(2)}}  \ &  \ $C\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication17!1}{(1)}} \\ 
+\label{proposition:implication17!3} \hypertarget{proposition:implication17!3}{\mbox{(3)}}  \ &  \ $C\ \rightarrow\ (B\ \rightarrow\ (B\ \land\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $B$ in \hyperlink{proposition:implication17!2}{(2)}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication17!4} \hypertarget{proposition:implication17!4}{\mbox{(4)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ B$ \ &  \ {\tiny Hypothesis} \\ 
+ \ &  \ \mbox{\qquad}Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication17!5} \hypertarget{proposition:implication17!5}{\mbox{(5)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$A\ \rightarrow\ C$ \ &  \ {\tiny Hypothesis} \\ 
+ \ &  \ \mbox{\qquad}\mbox{\qquad}Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication17!6} \hypertarget{proposition:implication17!6}{\mbox{(6)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}\mbox{\qquad}$A$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication17!7} \hypertarget{proposition:implication17!7}{\mbox{(7)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}\mbox{\qquad}$C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication17!5}{(5)}, \hyperlink{proposition:implication17!6}{(6)}} \\ 
+\label{proposition:implication17!8} \hypertarget{proposition:implication17!8}{\mbox{(8)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}\mbox{\qquad}$B\ \rightarrow\ (B\ \land\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication17!3}{(3)}, \hyperlink{proposition:implication17!7}{(7)}} \\ 
+\label{proposition:implication17!9} \hypertarget{proposition:implication17!9}{\mbox{(9)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}\mbox{\qquad}$B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication17!4}{(4)}, \hyperlink{proposition:implication17!6}{(6)}} \\ 
+\label{proposition:implication17!10} \hypertarget{proposition:implication17!10}{\mbox{(10)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}\mbox{\qquad}$B\ \land\ C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication17!8}{(8)}, \hyperlink{proposition:implication17!9}{(9)}} \\ 
+\label{proposition:implication17!11} \hypertarget{proposition:implication17!11}{\mbox{(11)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$A\ \rightarrow\ (B\ \land\ C)$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication17!12} \hypertarget{proposition:implication17!12}{\mbox{(12)}}  \ &  \ \mbox{\qquad}$(A\ \rightarrow\ C)\ \rightarrow\ (A\ \rightarrow\ (B\ \land\ C))$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication17!13} \hypertarget{proposition:implication17!13}{\mbox{(13)}}  \ &  \ $(A\ \rightarrow\ B)\ \rightarrow\ ((A\ \rightarrow\ C)\ \rightarrow\ (A\ \rightarrow\ (B\ \land\ C)))$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication18} \hypertarget{proposition:implication18}{}
+{\tt \tiny [\verb]proposition:implication18]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \rightarrow\ B)\ \rightarrow\ ((A\ \land\ C)\ \rightarrow\ (B\ \land\ C))$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication18!1} \hypertarget{proposition:implication18!1}{\mbox{(1)}}  \ &  \ $(A\ \land\ B)\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-1}{Axiom~3}} \\ 
+\label{proposition:implication18!2} \hypertarget{proposition:implication18!2}{\mbox{(2)}}  \ &  \ $(A\ \land\ C)\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication18!1}{(1)}} \\ 
+\label{proposition:implication18!3} \hypertarget{proposition:implication18!3}{\mbox{(3)}}  \ &  \ $(A\ \land\ B)\ \rightarrow\ B$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-2}{Axiom~4}} \\ 
+\label{proposition:implication18!4} \hypertarget{proposition:implication18!4}{\mbox{(4)}}  \ &  \ $(A\ \land\ C)\ \rightarrow\ C$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication18!3}{(3)}} \\ 
+\label{proposition:implication18!5} \hypertarget{proposition:implication18!5}{\mbox{(5)}}  \ &  \ $B\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ B))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-3}{Axiom~5}} \\ 
+\label{proposition:implication18!6} \hypertarget{proposition:implication18!6}{\mbox{(6)}}  \ &  \ $C\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication18!5}{(5)}} \\ 
+\label{proposition:implication18!7} \hypertarget{proposition:implication18!7}{\mbox{(7)}}  \ &  \ $C\ \rightarrow\ (B\ \rightarrow\ (B\ \land\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $B$ in \hyperlink{proposition:implication18!6}{(6)}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication18!8} \hypertarget{proposition:implication18!8}{\mbox{(8)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ B$ \ &  \ {\tiny Hypothesis} \\ 
+ \ &  \ \mbox{\qquad}Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication18!9} \hypertarget{proposition:implication18!9}{\mbox{(9)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$A\ \land\ C$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication18!10} \hypertarget{proposition:implication18!10}{\mbox{(10)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$A$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication18!2}{(2)}, \hyperlink{proposition:implication18!9}{(9)}} \\ 
+\label{proposition:implication18!11} \hypertarget{proposition:implication18!11}{\mbox{(11)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication18!8}{(8)}, \hyperlink{proposition:implication18!10}{(10)}} \\ 
+\label{proposition:implication18!12} \hypertarget{proposition:implication18!12}{\mbox{(12)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication18!4}{(4)}, \hyperlink{proposition:implication18!9}{(9)}} \\ 
+\label{proposition:implication18!13} \hypertarget{proposition:implication18!13}{\mbox{(13)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$B\ \rightarrow\ (B\ \land\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication18!7}{(7)}, \hyperlink{proposition:implication18!12}{(12)}} \\ 
+\label{proposition:implication18!14} \hypertarget{proposition:implication18!14}{\mbox{(14)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$B\ \land\ C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication18!13}{(13)}, \hyperlink{proposition:implication18!11}{(11)}} \\ 
+\label{proposition:implication18!15} \hypertarget{proposition:implication18!15}{\mbox{(15)}}  \ &  \ \mbox{\qquad}$(A\ \land\ C)\ \rightarrow\ (B\ \land\ C)$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication18!16} \hypertarget{proposition:implication18!16}{\mbox{(16)}}  \ &  \ $(A\ \rightarrow\ B)\ \rightarrow\ ((A\ \land\ C)\ \rightarrow\ (B\ \land\ C))$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication19} \hypertarget{proposition:implication19}{}
+{\tt \tiny [\verb]proposition:implication19]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \land\ B)\ \rightarrow\ (B\ \land\ A)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication19!1} \hypertarget{proposition:implication19!1}{\mbox{(1)}}  \ &  \ $B\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ B))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-3}{Axiom~5}} \\ 
+\label{proposition:implication19!2} \hypertarget{proposition:implication19!2}{\mbox{(2)}}  \ &  \ $C\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication19!1}{(1)}} \\ 
+\label{proposition:implication19!3} \hypertarget{proposition:implication19!3}{\mbox{(3)}}  \ &  \ $C\ \rightarrow\ (B\ \rightarrow\ (B\ \land\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $B$ in \hyperlink{proposition:implication19!2}{(2)}} \\ 
+\label{proposition:implication19!4} \hypertarget{proposition:implication19!4}{\mbox{(4)}}  \ &  \ $A\ \rightarrow\ (B\ \rightarrow\ (B\ \land\ A))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $C$ by $A$ in \hyperlink{proposition:implication19!3}{(3)}} \\ 
+\label{proposition:implication19!5} \hypertarget{proposition:implication19!5}{\mbox{(5)}}  \ &  \ $(A\ \land\ B)\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-1}{Axiom~3}} \\ 
+\label{proposition:implication19!6} \hypertarget{proposition:implication19!6}{\mbox{(6)}}  \ &  \ $(A\ \land\ B)\ \rightarrow\ B$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-2}{Axiom~4}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication19!7} \hypertarget{proposition:implication19!7}{\mbox{(7)}}  \ &  \ \mbox{\qquad}$A\ \land\ B$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication19!8} \hypertarget{proposition:implication19!8}{\mbox{(8)}}  \ &  \ \mbox{\qquad}$A$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication19!5}{(5)}, \hyperlink{proposition:implication19!7}{(7)}} \\ 
+\label{proposition:implication19!9} \hypertarget{proposition:implication19!9}{\mbox{(9)}}  \ &  \ \mbox{\qquad}$B\ \rightarrow\ (B\ \land\ A)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication19!4}{(4)}, \hyperlink{proposition:implication19!8}{(8)}} \\ 
+\label{proposition:implication19!10} \hypertarget{proposition:implication19!10}{\mbox{(10)}}  \ &  \ \mbox{\qquad}$B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication19!6}{(6)}, \hyperlink{proposition:implication19!7}{(7)}} \\ 
+\label{proposition:implication19!11} \hypertarget{proposition:implication19!11}{\mbox{(11)}}  \ &  \ \mbox{\qquad}$B\ \land\ A$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication19!9}{(9)}, \hyperlink{proposition:implication19!10}{(10)}} \\ 
+\label{proposition:implication19!12} \hypertarget{proposition:implication19!12}{\mbox{(12)}}  \ &  \ $(A\ \land\ B)\ \rightarrow\ (B\ \land\ A)$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication20} \hypertarget{proposition:implication20}{}
+{\tt \tiny [\verb]proposition:implication20]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \rightarrow\ (B\ \rightarrow\ C))\ \rightarrow\ ((A\ \land\ B)\ \rightarrow\ C)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication20!1} \hypertarget{proposition:implication20!1}{\mbox{(1)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ (B\ \rightarrow\ C)$ \ &  \ {\tiny Hypothesis} \\ 
+ \ &  \ \mbox{\qquad}Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication20!2} \hypertarget{proposition:implication20!2}{\mbox{(2)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$A\ \land\ B$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication20!3} \hypertarget{proposition:implication20!3}{\mbox{(3)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$(A\ \land\ B)\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-1}{Axiom~3}} \\ 
+\label{proposition:implication20!4} \hypertarget{proposition:implication20!4}{\mbox{(4)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$A$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication20!3}{(3)}, \hyperlink{proposition:implication20!2}{(2)}} \\ 
+\label{proposition:implication20!5} \hypertarget{proposition:implication20!5}{\mbox{(5)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$(A\ \land\ B)\ \rightarrow\ B$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-2}{Axiom~4}} \\ 
+\label{proposition:implication20!6} \hypertarget{proposition:implication20!6}{\mbox{(6)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication20!5}{(5)}, \hyperlink{proposition:implication20!2}{(2)}} \\ 
+\label{proposition:implication20!7} \hypertarget{proposition:implication20!7}{\mbox{(7)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$B\ \rightarrow\ C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication20!1}{(1)}, \hyperlink{proposition:implication20!4}{(4)}} \\ 
+\label{proposition:implication20!8} \hypertarget{proposition:implication20!8}{\mbox{(8)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication20!7}{(7)}, \hyperlink{proposition:implication20!6}{(6)}} \\ 
+\label{proposition:implication20!9} \hypertarget{proposition:implication20!9}{\mbox{(9)}}  \ &  \ \mbox{\qquad}$(A\ \land\ B)\ \rightarrow\ C$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication20!10} \hypertarget{proposition:implication20!10}{\mbox{(10)}}  \ &  \ $(A\ \rightarrow\ (B\ \rightarrow\ C))\ \rightarrow\ ((A\ \land\ B)\ \rightarrow\ C)$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication21} \hypertarget{proposition:implication21}{}
+{\tt \tiny [\verb]proposition:implication21]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $((A\ \land\ B)\ \rightarrow\ C)\ \rightarrow\ (A\ \rightarrow\ (B\ \rightarrow\ C))$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication21!1} \hypertarget{proposition:implication21!1}{\mbox{(1)}}  \ &  \ \mbox{\qquad}$(A\ \land\ B)\ \rightarrow\ C$ \ &  \ {\tiny Hypothesis} \\ 
+ \ &  \ \mbox{\qquad}Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication21!2} \hypertarget{proposition:implication21!2}{\mbox{(2)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$A$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication21!3} \hypertarget{proposition:implication21!3}{\mbox{(3)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$B\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ B))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-3}{Axiom~5}} \\ 
+ \ &  \ \mbox{\qquad}\mbox{\qquad}Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication21!4} \hypertarget{proposition:implication21!4}{\mbox{(4)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}\mbox{\qquad}$B$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication21!5} \hypertarget{proposition:implication21!5}{\mbox{(5)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}\mbox{\qquad}$A\ \rightarrow\ (A\ \land\ B)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication21!3}{(3)}, \hyperlink{proposition:implication21!4}{(4)}} \\ 
+\label{proposition:implication21!6} \hypertarget{proposition:implication21!6}{\mbox{(6)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}\mbox{\qquad}$A\ \land\ B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication21!5}{(5)}, \hyperlink{proposition:implication21!2}{(2)}} \\ 
+\label{proposition:implication21!7} \hypertarget{proposition:implication21!7}{\mbox{(7)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}\mbox{\qquad}$C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication21!1}{(1)}, \hyperlink{proposition:implication21!6}{(6)}} \\ 
+\label{proposition:implication21!8} \hypertarget{proposition:implication21!8}{\mbox{(8)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$B\ \rightarrow\ C$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication21!9} \hypertarget{proposition:implication21!9}{\mbox{(9)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ (B\ \rightarrow\ C)$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication21!10} \hypertarget{proposition:implication21!10}{\mbox{(10)}}  \ &  \ $((A\ \land\ B)\ \rightarrow\ C)\ \rightarrow\ (A\ \rightarrow\ (B\ \rightarrow\ C))$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication25} \hypertarget{proposition:implication25}{}
+{\tt \tiny [\verb]proposition:implication25]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $((A\ \rightarrow\ B)\ \land\ (A\ \rightarrow\ C))\ \rightarrow\ (A\ \rightarrow\ (B\ \land\ C))$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication25!1} \hypertarget{proposition:implication25!1}{\mbox{(1)}}  \ &  \ $(A\ \land\ B)\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-1}{Axiom~3}} \\ 
+\label{proposition:implication25!2} \hypertarget{proposition:implication25!2}{\mbox{(2)}}  \ &  \ $(A\ \land\ C)\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication25!1}{(1)}} \\ 
+\label{proposition:implication25!3} \hypertarget{proposition:implication25!3}{\mbox{(3)}}  \ &  \ $((A\ \rightarrow\ B)\ \land\ C)\ \rightarrow\ (A\ \rightarrow\ B)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $A\ \rightarrow\ B$ in \hyperlink{proposition:implication25!2}{(2)}} \\ 
+\label{proposition:implication25!4} \hypertarget{proposition:implication25!4}{\mbox{(4)}}  \ &  \ $((A\ \rightarrow\ B)\ \land\ (A\ \rightarrow\ C))\ \rightarrow\ (A\ \rightarrow\ B)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $C$ by $A\ \rightarrow\ C$ in \hyperlink{proposition:implication25!3}{(3)}} \\ 
+\label{proposition:implication25!5} \hypertarget{proposition:implication25!5}{\mbox{(5)}}  \ &  \ $(A\ \land\ B)\ \rightarrow\ B$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-2}{Axiom~4}} \\ 
+\label{proposition:implication25!6} \hypertarget{proposition:implication25!6}{\mbox{(6)}}  \ &  \ $(A\ \land\ C)\ \rightarrow\ C$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication25!5}{(5)}} \\ 
+\label{proposition:implication25!7} \hypertarget{proposition:implication25!7}{\mbox{(7)}}  \ &  \ $((A\ \rightarrow\ B)\ \land\ C)\ \rightarrow\ C$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $A\ \rightarrow\ B$ in \hyperlink{proposition:implication25!6}{(6)}} \\ 
+\label{proposition:implication25!8} \hypertarget{proposition:implication25!8}{\mbox{(8)}}  \ &  \ $((A\ \rightarrow\ B)\ \land\ (A\ \rightarrow\ C))\ \rightarrow\ (A\ \rightarrow\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $C$ by $A\ \rightarrow\ C$ in \hyperlink{proposition:implication25!7}{(7)}} \\ 
+\label{proposition:implication25!9} \hypertarget{proposition:implication25!9}{\mbox{(9)}}  \ &  \ $B\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ B))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-3}{Axiom~5}} \\ 
+\label{proposition:implication25!10} \hypertarget{proposition:implication25!10}{\mbox{(10)}}  \ &  \ $C\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication25!9}{(9)}} \\ 
+\label{proposition:implication25!11} \hypertarget{proposition:implication25!11}{\mbox{(11)}}  \ &  \ $C\ \rightarrow\ (B\ \rightarrow\ (B\ \land\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $B$ in \hyperlink{proposition:implication25!10}{(10)}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication25!12} \hypertarget{proposition:implication25!12}{\mbox{(12)}}  \ &  \ \mbox{\qquad}$(A\ \rightarrow\ B)\ \land\ (A\ \rightarrow\ C)$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication25!13} \hypertarget{proposition:implication25!13}{\mbox{(13)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication25!4}{(4)}, \hyperlink{proposition:implication25!12}{(12)}} \\ 
+\label{proposition:implication25!14} \hypertarget{proposition:implication25!14}{\mbox{(14)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication25!8}{(8)}, \hyperlink{proposition:implication25!12}{(12)}} \\ 
+ \ &  \ \mbox{\qquad}Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication25!15} \hypertarget{proposition:implication25!15}{\mbox{(15)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$A$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication25!16} \hypertarget{proposition:implication25!16}{\mbox{(16)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication25!13}{(13)}, \hyperlink{proposition:implication25!15}{(15)}} \\ 
+\label{proposition:implication25!17} \hypertarget{proposition:implication25!17}{\mbox{(17)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication25!14}{(14)}, \hyperlink{proposition:implication25!15}{(15)}} \\ 
+\label{proposition:implication25!18} \hypertarget{proposition:implication25!18}{\mbox{(18)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$B\ \rightarrow\ (B\ \land\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication25!11}{(11)}, \hyperlink{proposition:implication25!17}{(17)}} \\ 
+\label{proposition:implication25!19} \hypertarget{proposition:implication25!19}{\mbox{(19)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$B\ \land\ C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication25!18}{(18)}, \hyperlink{proposition:implication25!16}{(16)}} \\ 
+\label{proposition:implication25!20} \hypertarget{proposition:implication25!20}{\mbox{(20)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ (B\ \land\ C)$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication25!21} \hypertarget{proposition:implication25!21}{\mbox{(21)}}  \ &  \ $((A\ \rightarrow\ B)\ \land\ (A\ \rightarrow\ C))\ \rightarrow\ (A\ \rightarrow\ (B\ \land\ C))$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication26} \hypertarget{proposition:implication26}{}
+{\tt \tiny [\verb]proposition:implication26]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \rightarrow\ (B\ \land\ C))\ \rightarrow\ ((A\ \rightarrow\ B)\ \land\ (A\ \rightarrow\ C))$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication26!1} \hypertarget{proposition:implication26!1}{\mbox{(1)}}  \ &  \ $(A\ \land\ B)\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-1}{Axiom~3}} \\ 
+\label{proposition:implication26!2} \hypertarget{proposition:implication26!2}{\mbox{(2)}}  \ &  \ $(A\ \land\ C)\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication26!1}{(1)}} \\ 
+\label{proposition:implication26!3} \hypertarget{proposition:implication26!3}{\mbox{(3)}}  \ &  \ $(B\ \land\ C)\ \rightarrow\ B$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $B$ in \hyperlink{proposition:implication26!2}{(2)}} \\ 
+\label{proposition:implication26!4} \hypertarget{proposition:implication26!4}{\mbox{(4)}}  \ &  \ $(A\ \land\ B)\ \rightarrow\ B$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-2}{Axiom~4}} \\ 
+\label{proposition:implication26!5} \hypertarget{proposition:implication26!5}{\mbox{(5)}}  \ &  \ $(A\ \land\ C)\ \rightarrow\ C$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication26!4}{(4)}} \\ 
+\label{proposition:implication26!6} \hypertarget{proposition:implication26!6}{\mbox{(6)}}  \ &  \ $(B\ \land\ C)\ \rightarrow\ C$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $B$ in \hyperlink{proposition:implication26!5}{(5)}} \\ 
+\label{proposition:implication26!7} \hypertarget{proposition:implication26!7}{\mbox{(7)}}  \ &  \ $B\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ B))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-3}{Axiom~5}} \\ 
+\label{proposition:implication26!8} \hypertarget{proposition:implication26!8}{\mbox{(8)}}  \ &  \ $C\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication26!7}{(7)}} \\ 
+\label{proposition:implication26!9} \hypertarget{proposition:implication26!9}{\mbox{(9)}}  \ &  \ $C\ \rightarrow\ ((A\ \rightarrow\ B)\ \rightarrow\ ((A\ \rightarrow\ B)\ \land\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $A\ \rightarrow\ B$ in \hyperlink{proposition:implication26!8}{(8)}} \\ 
+\label{proposition:implication26!10} \hypertarget{proposition:implication26!10}{\mbox{(10)}}  \ &  \ $(A\ \rightarrow\ C)\ \rightarrow\ ((A\ \rightarrow\ B)\ \rightarrow\ ((A\ \rightarrow\ B)\ \land\ (A\ \rightarrow\ C)))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $C$ by $A\ \rightarrow\ C$ in \hyperlink{proposition:implication26!9}{(9)}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication26!11} \hypertarget{proposition:implication26!11}{\mbox{(11)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ (B\ \land\ C)$ \ &  \ {\tiny Hypothesis} \\ 
+ \ &  \ \mbox{\qquad}Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication26!12} \hypertarget{proposition:implication26!12}{\mbox{(12)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$A$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication26!13} \hypertarget{proposition:implication26!13}{\mbox{(13)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$B\ \land\ C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication26!11}{(11)}, \hyperlink{proposition:implication26!12}{(12)}} \\ 
+\label{proposition:implication26!14} \hypertarget{proposition:implication26!14}{\mbox{(14)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication26!3}{(3)}, \hyperlink{proposition:implication26!13}{(13)}} \\ 
+\label{proposition:implication26!15} \hypertarget{proposition:implication26!15}{\mbox{(15)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ B$ \ &  \ {\tiny Conclusion} \\ 
+ \ &  \ \mbox{\qquad}Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication26!16} \hypertarget{proposition:implication26!16}{\mbox{(16)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$A$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication26!17} \hypertarget{proposition:implication26!17}{\mbox{(17)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$B\ \land\ C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication26!11}{(11)}, \hyperlink{proposition:implication26!16}{(16)}} \\ 
+\label{proposition:implication26!18} \hypertarget{proposition:implication26!18}{\mbox{(18)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication26!6}{(6)}, \hyperlink{proposition:implication26!17}{(17)}} \\ 
+\label{proposition:implication26!19} \hypertarget{proposition:implication26!19}{\mbox{(19)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ C$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication26!20} \hypertarget{proposition:implication26!20}{\mbox{(20)}}  \ &  \ \mbox{\qquad}$(A\ \rightarrow\ B)\ \rightarrow\ ((A\ \rightarrow\ B)\ \land\ (A\ \rightarrow\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication26!10}{(10)}, \hyperlink{proposition:implication26!19}{(19)}} \\ 
+\label{proposition:implication26!21} \hypertarget{proposition:implication26!21}{\mbox{(21)}}  \ &  \ \mbox{\qquad}$(A\ \rightarrow\ B)\ \land\ (A\ \rightarrow\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication26!20}{(20)}, \hyperlink{proposition:implication26!15}{(15)}} \\ 
+\label{proposition:implication26!22} \hypertarget{proposition:implication26!22}{\mbox{(22)}}  \ &  \ $(A\ \rightarrow\ (B\ \land\ C))\ \rightarrow\ ((A\ \rightarrow\ B)\ \land\ (A\ \rightarrow\ C))$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication27} \hypertarget{proposition:implication27}{}
+{\tt \tiny [\verb]proposition:implication27]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $((A\ \land\ B)\ \land\ C)\ \rightarrow\ (A\ \land\ (B\ \land\ C))$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication27!1} \hypertarget{proposition:implication27!1}{\mbox{(1)}}  \ &  \ $(A\ \land\ B)\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-1}{Axiom~3}} \\ 
+\label{proposition:implication27!2} \hypertarget{proposition:implication27!2}{\mbox{(2)}}  \ &  \ $(A\ \land\ C)\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication27!1}{(1)}} \\ 
+\label{proposition:implication27!3} \hypertarget{proposition:implication27!3}{\mbox{(3)}}  \ &  \ $((A\ \land\ B)\ \land\ C)\ \rightarrow\ (A\ \land\ B)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $A\ \land\ B$ in \hyperlink{proposition:implication27!2}{(2)}} \\ 
+\label{proposition:implication27!4} \hypertarget{proposition:implication27!4}{\mbox{(4)}}  \ &  \ $(A\ \land\ B)\ \rightarrow\ B$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-2}{Axiom~4}} \\ 
+\label{proposition:implication27!5} \hypertarget{proposition:implication27!5}{\mbox{(5)}}  \ &  \ $(A\ \land\ C)\ \rightarrow\ C$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication27!4}{(4)}} \\ 
+\label{proposition:implication27!6} \hypertarget{proposition:implication27!6}{\mbox{(6)}}  \ &  \ $((A\ \land\ B)\ \land\ C)\ \rightarrow\ C$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $A\ \land\ B$ in \hyperlink{proposition:implication27!5}{(5)}} \\ 
+\label{proposition:implication27!7} \hypertarget{proposition:implication27!7}{\mbox{(7)}}  \ &  \ $B\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ B))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-3}{Axiom~5}} \\ 
+\label{proposition:implication27!8} \hypertarget{proposition:implication27!8}{\mbox{(8)}}  \ &  \ $C\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication27!7}{(7)}} \\ 
+\label{proposition:implication27!9} \hypertarget{proposition:implication27!9}{\mbox{(9)}}  \ &  \ $C\ \rightarrow\ (B\ \rightarrow\ (B\ \land\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $B$ in \hyperlink{proposition:implication27!8}{(8)}} \\ 
+\label{proposition:implication27!10} \hypertarget{proposition:implication27!10}{\mbox{(10)}}  \ &  \ $(B\ \land\ C)\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ (B\ \land\ C)))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $B\ \land\ C$ in \hyperlink{proposition:implication27!7}{(7)}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication27!11} \hypertarget{proposition:implication27!11}{\mbox{(11)}}  \ &  \ \mbox{\qquad}$(A\ \land\ B)\ \land\ C$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication27!12} \hypertarget{proposition:implication27!12}{\mbox{(12)}}  \ &  \ \mbox{\qquad}$A\ \land\ B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication27!3}{(3)}, \hyperlink{proposition:implication27!11}{(11)}} \\ 
+\label{proposition:implication27!13} \hypertarget{proposition:implication27!13}{\mbox{(13)}}  \ &  \ \mbox{\qquad}$A$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication27!1}{(1)}, \hyperlink{proposition:implication27!12}{(12)}} \\ 
+\label{proposition:implication27!14} \hypertarget{proposition:implication27!14}{\mbox{(14)}}  \ &  \ \mbox{\qquad}$B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication27!4}{(4)}, \hyperlink{proposition:implication27!12}{(12)}} \\ 
+\label{proposition:implication27!15} \hypertarget{proposition:implication27!15}{\mbox{(15)}}  \ &  \ \mbox{\qquad}$C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication27!6}{(6)}, \hyperlink{proposition:implication27!11}{(11)}} \\ 
+\label{proposition:implication27!16} \hypertarget{proposition:implication27!16}{\mbox{(16)}}  \ &  \ \mbox{\qquad}$B\ \rightarrow\ (B\ \land\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication27!9}{(9)}, \hyperlink{proposition:implication27!15}{(15)}} \\ 
+\label{proposition:implication27!17} \hypertarget{proposition:implication27!17}{\mbox{(17)}}  \ &  \ \mbox{\qquad}$B\ \land\ C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication27!16}{(16)}, \hyperlink{proposition:implication27!14}{(14)}} \\ 
+\label{proposition:implication27!18} \hypertarget{proposition:implication27!18}{\mbox{(18)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ (A\ \land\ (B\ \land\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication27!10}{(10)}, \hyperlink{proposition:implication27!17}{(17)}} \\ 
+\label{proposition:implication27!19} \hypertarget{proposition:implication27!19}{\mbox{(19)}}  \ &  \ \mbox{\qquad}$A\ \land\ (B\ \land\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication27!18}{(18)}, \hyperlink{proposition:implication27!13}{(13)}} \\ 
+\label{proposition:implication27!20} \hypertarget{proposition:implication27!20}{\mbox{(20)}}  \ &  \ $((A\ \land\ B)\ \land\ C)\ \rightarrow\ (A\ \land\ (B\ \land\ C))$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication28} \hypertarget{proposition:implication28}{}
+{\tt \tiny [\verb]proposition:implication28]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \land\ (B\ \land\ C))\ \rightarrow\ ((A\ \land\ B)\ \land\ C)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication28!1} \hypertarget{proposition:implication28!1}{\mbox{(1)}}  \ &  \ $(A\ \land\ B)\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-1}{Axiom~3}} \\ 
+\label{proposition:implication28!2} \hypertarget{proposition:implication28!2}{\mbox{(2)}}  \ &  \ $(A\ \land\ (B\ \land\ C))\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $B\ \land\ C$ in \hyperlink{proposition:implication28!1}{(1)}} \\ 
+\label{proposition:implication28!3} \hypertarget{proposition:implication28!3}{\mbox{(3)}}  \ &  \ $(A\ \land\ C)\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication28!1}{(1)}} \\ 
+\label{proposition:implication28!4} \hypertarget{proposition:implication28!4}{\mbox{(4)}}  \ &  \ $(B\ \land\ C)\ \rightarrow\ B$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $B$ in \hyperlink{proposition:implication28!3}{(3)}} \\ 
+\label{proposition:implication28!5} \hypertarget{proposition:implication28!5}{\mbox{(5)}}  \ &  \ $(A\ \land\ B)\ \rightarrow\ B$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-2}{Axiom~4}} \\ 
+\label{proposition:implication28!6} \hypertarget{proposition:implication28!6}{\mbox{(6)}}  \ &  \ $(A\ \land\ (B\ \land\ C))\ \rightarrow\ (B\ \land\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $B\ \land\ C$ in \hyperlink{proposition:implication28!5}{(5)}} \\ 
+\label{proposition:implication28!7} \hypertarget{proposition:implication28!7}{\mbox{(7)}}  \ &  \ $(A\ \land\ C)\ \rightarrow\ C$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication28!5}{(5)}} \\ 
+\label{proposition:implication28!8} \hypertarget{proposition:implication28!8}{\mbox{(8)}}  \ &  \ $(B\ \land\ C)\ \rightarrow\ C$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $B$ in \hyperlink{proposition:implication28!7}{(7)}} \\ 
+\label{proposition:implication28!9} \hypertarget{proposition:implication28!9}{\mbox{(9)}}  \ &  \ $B\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ B))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-3}{Axiom~5}} \\ 
+\label{proposition:implication28!10} \hypertarget{proposition:implication28!10}{\mbox{(10)}}  \ &  \ $C\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication28!9}{(9)}} \\ 
+\label{proposition:implication28!11} \hypertarget{proposition:implication28!11}{\mbox{(11)}}  \ &  \ $C\ \rightarrow\ ((A\ \land\ B)\ \rightarrow\ ((A\ \land\ B)\ \land\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $A\ \land\ B$ in \hyperlink{proposition:implication28!10}{(10)}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication28!12} \hypertarget{proposition:implication28!12}{\mbox{(12)}}  \ &  \ \mbox{\qquad}$A\ \land\ (B\ \land\ C)$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication28!13} \hypertarget{proposition:implication28!13}{\mbox{(13)}}  \ &  \ \mbox{\qquad}$A$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication28!2}{(2)}, \hyperlink{proposition:implication28!12}{(12)}} \\ 
+\label{proposition:implication28!14} \hypertarget{proposition:implication28!14}{\mbox{(14)}}  \ &  \ \mbox{\qquad}$B\ \land\ C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication28!6}{(6)}, \hyperlink{proposition:implication28!12}{(12)}} \\ 
+\label{proposition:implication28!15} \hypertarget{proposition:implication28!15}{\mbox{(15)}}  \ &  \ \mbox{\qquad}$B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication28!4}{(4)}, \hyperlink{proposition:implication28!14}{(14)}} \\ 
+\label{proposition:implication28!16} \hypertarget{proposition:implication28!16}{\mbox{(16)}}  \ &  \ \mbox{\qquad}$C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication28!8}{(8)}, \hyperlink{proposition:implication28!14}{(14)}} \\ 
+\label{proposition:implication28!17} \hypertarget{proposition:implication28!17}{\mbox{(17)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ (A\ \land\ B)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication28!9}{(9)}, \hyperlink{proposition:implication28!15}{(15)}} \\ 
+\label{proposition:implication28!18} \hypertarget{proposition:implication28!18}{\mbox{(18)}}  \ &  \ \mbox{\qquad}$A\ \land\ B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication28!17}{(17)}, \hyperlink{proposition:implication28!13}{(13)}} \\ 
+\label{proposition:implication28!19} \hypertarget{proposition:implication28!19}{\mbox{(19)}}  \ &  \ \mbox{\qquad}$(A\ \land\ B)\ \rightarrow\ ((A\ \land\ B)\ \land\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication28!11}{(11)}, \hyperlink{proposition:implication28!16}{(16)}} \\ 
+\label{proposition:implication28!20} \hypertarget{proposition:implication28!20}{\mbox{(20)}}  \ &  \ \mbox{\qquad}$(A\ \land\ B)\ \land\ C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication28!19}{(19)}, \hyperlink{proposition:implication28!18}{(18)}} \\ 
+\label{proposition:implication28!21} \hypertarget{proposition:implication28!21}{\mbox{(21)}}  \ &  \ $(A\ \land\ (B\ \land\ C))\ \rightarrow\ ((A\ \land\ B)\ \land\ C)$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\section{S{\"a}tze zur Disjunktion} \label{chapter4_section5} \hypertarget{chapter4_section5}{}
+Die Disjunktion ist jetzt unser Thema.
+
+\begin{prop}
+\label{proposition:implication40} \hypertarget{proposition:implication40}{}
+{\tt \tiny [\verb]proposition:implication40]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \lor\ (B\ \lor\ C))\ \rightarrow\ ((A\ \lor\ B)\ \lor\ C)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication40!1} \hypertarget{proposition:implication40!1}{\mbox{(1)}}  \ &  \ $A\ \rightarrow\ (A\ \lor\ B)$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:OR-1}{Axiom~6}} \\ 
+\label{proposition:implication40!2} \hypertarget{proposition:implication40!2}{\mbox{(2)}}  \ &  \ $A\ \rightarrow\ (A\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication40!1}{(1)}} \\ 
+\label{proposition:implication40!3} \hypertarget{proposition:implication40!3}{\mbox{(3)}}  \ &  \ $(A\ \lor\ B)\ \rightarrow\ ((A\ \lor\ B)\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $A\ \lor\ B$ in \hyperlink{proposition:implication40!2}{(2)}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication40!4} \hypertarget{proposition:implication40!4}{\mbox{(4)}}  \ &  \ \mbox{\qquad}$A$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication40!5} \hypertarget{proposition:implication40!5}{\mbox{(5)}}  \ &  \ \mbox{\qquad}$A\ \lor\ B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication40!1}{(1)}, \hyperlink{proposition:implication40!4}{(4)}} \\ 
+\label{proposition:implication40!6} \hypertarget{proposition:implication40!6}{\mbox{(6)}}  \ &  \ \mbox{\qquad}$(A\ \lor\ B)\ \lor\ C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication40!3}{(3)}, \hyperlink{proposition:implication40!5}{(5)}} \\ 
+\label{proposition:implication40!7} \hypertarget{proposition:implication40!7}{\mbox{(7)}}  \ &  \ $A\ \rightarrow\ ((A\ \lor\ B)\ \lor\ C)$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication40!8} \hypertarget{proposition:implication40!8}{\mbox{(8)}}  \ &  \ $A\ \rightarrow\ (B\ \lor\ A)$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:OR-2}{Axiom~7}} \\ 
+\label{proposition:implication40!9} \hypertarget{proposition:implication40!9}{\mbox{(9)}}  \ &  \ $C\ \rightarrow\ (B\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $C$ in \hyperlink{proposition:implication40!8}{(8)}} \\ 
+\label{proposition:implication40!10} \hypertarget{proposition:implication40!10}{\mbox{(10)}}  \ &  \ $C\ \rightarrow\ (A\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $A$ in \hyperlink{proposition:implication40!9}{(9)}} \\ 
+\label{proposition:implication40!11} \hypertarget{proposition:implication40!11}{\mbox{(11)}}  \ &  \ $B\ \rightarrow\ (A\ \lor\ B)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $C$ by $B$ in \hyperlink{proposition:implication40!10}{(10)}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication40!12} \hypertarget{proposition:implication40!12}{\mbox{(12)}}  \ &  \ \mbox{\qquad}$B$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication40!13} \hypertarget{proposition:implication40!13}{\mbox{(13)}}  \ &  \ \mbox{\qquad}$A\ \lor\ B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication40!11}{(11)}, \hyperlink{proposition:implication40!12}{(12)}} \\ 
+\label{proposition:implication40!14} \hypertarget{proposition:implication40!14}{\mbox{(14)}}  \ &  \ \mbox{\qquad}$(A\ \lor\ B)\ \lor\ C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication40!3}{(3)}, \hyperlink{proposition:implication40!13}{(13)}} \\ 
+\label{proposition:implication40!15} \hypertarget{proposition:implication40!15}{\mbox{(15)}}  \ &  \ $B\ \rightarrow\ ((A\ \lor\ B)\ \lor\ C)$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication40!16} \hypertarget{proposition:implication40!16}{\mbox{(16)}}  \ &  \ $C\ \rightarrow\ ((A\ \lor\ B)\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $A\ \lor\ B$ in \hyperlink{proposition:implication40!9}{(9)}} \\ 
+\label{proposition:implication40!17} \hypertarget{proposition:implication40!17}{\mbox{(17)}}  \ &  \ $(A\ \rightarrow\ C)\ \rightarrow\ ((B\ \rightarrow\ C)\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:OR-3}{Axiom~8}} \\ 
+\label{proposition:implication40!18} \hypertarget{proposition:implication40!18}{\mbox{(18)}}  \ &  \ $(A\ \rightarrow\ D)\ \rightarrow\ ((B\ \rightarrow\ D)\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ D))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $C$ by $D$ in \hyperlink{proposition:implication40!17}{(17)}} \\ 
+\label{proposition:implication40!19} \hypertarget{proposition:implication40!19}{\mbox{(19)}}  \ &  \ $(A\ \rightarrow\ D)\ \rightarrow\ ((C\ \rightarrow\ D)\ \rightarrow\ ((A\ \lor\ C)\ \rightarrow\ D))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication40!18}{(18)}} \\ 
+\label{proposition:implication40!20} \hypertarget{proposition:implication40!20}{\mbox{(20)}}  \ &  \ $(B\ \rightarrow\ D)\ \rightarrow\ ((C\ \rightarrow\ D)\ \rightarrow\ ((B\ \lor\ C)\ \rightarrow\ D))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $B$ in \hyperlink{proposition:implication40!19}{(19)}} \\ 
+\label{proposition:implication40!21} \hypertarget{proposition:implication40!21}{\mbox{(21)}}  \ &  \ $(B\ \rightarrow\ ((A\ \lor\ B)\ \lor\ C))\ \rightarrow\ ((C\ \rightarrow\ ((A\ \lor\ B)\ \lor\ C))\ \rightarrow\ ((B\ \lor\ C)\ \rightarrow\ ((A\ \lor\ B)\ \lor\ C)))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $D$ by $(A\ \lor\ B)\ \lor\ C$ in \hyperlink{proposition:implication40!20}{(20)}} \\ 
+\label{proposition:implication40!22} \hypertarget{proposition:implication40!22}{\mbox{(22)}}  \ &  \ $(C\ \rightarrow\ ((A\ \lor\ B)\ \lor\ C))\ \rightarrow\ ((B\ \lor\ C)\ \rightarrow\ ((A\ \lor\ B)\ \lor\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication40!21}{(21)}, \hyperlink{proposition:implication40!15}{(15)}} \\ 
+\label{proposition:implication40!23} \hypertarget{proposition:implication40!23}{\mbox{(23)}}  \ &  \ $(B\ \lor\ C)\ \rightarrow\ ((A\ \lor\ B)\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication40!22}{(22)}, \hyperlink{proposition:implication40!16}{(16)}} \\ 
+\label{proposition:implication40!24} \hypertarget{proposition:implication40!24}{\mbox{(24)}}  \ &  \ $(A\ \rightarrow\ D)\ \rightarrow\ (((B\ \lor\ C)\ \rightarrow\ D)\ \rightarrow\ ((A\ \lor\ (B\ \lor\ C))\ \rightarrow\ D))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $B\ \lor\ C$ in \hyperlink{proposition:implication40!18}{(18)}} \\ 
+\label{proposition:implication40!25} \hypertarget{proposition:implication40!25}{\mbox{(25)}}  \ &  \ $(A\ \rightarrow\ ((A\ \lor\ B)\ \lor\ C))\ \rightarrow\ (((B\ \lor\ C)\ \rightarrow\ ((A\ \lor\ B)\ \lor\ C))\ \rightarrow\ ((A\ \lor\ (B\ \lor\ C))\ \rightarrow\ ((A\ \lor\ B)\ \lor\ C)))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $D$ by $(A\ \lor\ B)\ \lor\ C$ in \hyperlink{proposition:implication40!24}{(24)}} \\ 
+\label{proposition:implication40!26} \hypertarget{proposition:implication40!26}{\mbox{(26)}}  \ &  \ $((B\ \lor\ C)\ \rightarrow\ ((A\ \lor\ B)\ \lor\ C))\ \rightarrow\ ((A\ \lor\ (B\ \lor\ C))\ \rightarrow\ ((A\ \lor\ B)\ \lor\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication40!25}{(25)}, \hyperlink{proposition:implication40!7}{(7)}} \\ 
+\label{proposition:implication40!27} \hypertarget{proposition:implication40!27}{\mbox{(27)}}  \ &  \ $(A\ \lor\ (B\ \lor\ C))\ \rightarrow\ ((A\ \lor\ B)\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication40!26}{(26)}, \hyperlink{proposition:implication40!23}{(23)}} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication41} \hypertarget{proposition:implication41}{}
+{\tt \tiny [\verb]proposition:implication41]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $((A\ \lor\ B)\ \lor\ C)\ \rightarrow\ (A\ \lor\ (B\ \lor\ C))$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication41!1} \hypertarget{proposition:implication41!1}{\mbox{(1)}}  \ &  \ $A\ \rightarrow\ (A\ \lor\ B)$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:OR-1}{Axiom~6}} \\ 
+\label{proposition:implication41!2} \hypertarget{proposition:implication41!2}{\mbox{(2)}}  \ &  \ $A\ \rightarrow\ (A\ \lor\ (B\ \lor\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $B\ \lor\ C$ in \hyperlink{proposition:implication41!1}{(1)}} \\ 
+\label{proposition:implication41!3} \hypertarget{proposition:implication41!3}{\mbox{(3)}}  \ &  \ $A\ \rightarrow\ (A\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication41!1}{(1)}} \\ 
+\label{proposition:implication41!4} \hypertarget{proposition:implication41!4}{\mbox{(4)}}  \ &  \ $B\ \rightarrow\ (B\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $B$ in \hyperlink{proposition:implication41!3}{(3)}} \\ 
+\label{proposition:implication41!5} \hypertarget{proposition:implication41!5}{\mbox{(5)}}  \ &  \ $A\ \rightarrow\ (B\ \lor\ A)$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:OR-2}{Axiom~7}} \\ 
+\label{proposition:implication41!6} \hypertarget{proposition:implication41!6}{\mbox{(6)}}  \ &  \ $A\ \rightarrow\ (D\ \lor\ A)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $D$ in \hyperlink{proposition:implication41!5}{(5)}} \\ 
+\label{proposition:implication41!7} \hypertarget{proposition:implication41!7}{\mbox{(7)}}  \ &  \ $(B\ \lor\ C)\ \rightarrow\ (D\ \lor\ (B\ \lor\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $B\ \lor\ C$ in \hyperlink{proposition:implication41!6}{(6)}} \\ 
+\label{proposition:implication41!8} \hypertarget{proposition:implication41!8}{\mbox{(8)}}  \ &  \ $(B\ \lor\ C)\ \rightarrow\ (A\ \lor\ (B\ \lor\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $D$ by $A$ in \hyperlink{proposition:implication41!7}{(7)}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication41!9} \hypertarget{proposition:implication41!9}{\mbox{(9)}}  \ &  \ \mbox{\qquad}$B$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication41!10} \hypertarget{proposition:implication41!10}{\mbox{(10)}}  \ &  \ \mbox{\qquad}$B\ \lor\ C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication41!4}{(4)}, \hyperlink{proposition:implication41!9}{(9)}} \\ 
+\label{proposition:implication41!11} \hypertarget{proposition:implication41!11}{\mbox{(11)}}  \ &  \ \mbox{\qquad}$A\ \lor\ (B\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication41!8}{(8)}, \hyperlink{proposition:implication41!10}{(10)}} \\ 
+\label{proposition:implication41!12} \hypertarget{proposition:implication41!12}{\mbox{(12)}}  \ &  \ $B\ \rightarrow\ (A\ \lor\ (B\ \lor\ C))$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication41!13} \hypertarget{proposition:implication41!13}{\mbox{(13)}}  \ &  \ $C\ \rightarrow\ (B\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $C$ in \hyperlink{proposition:implication41!5}{(5)}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication41!14} \hypertarget{proposition:implication41!14}{\mbox{(14)}}  \ &  \ \mbox{\qquad}$C$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication41!15} \hypertarget{proposition:implication41!15}{\mbox{(15)}}  \ &  \ \mbox{\qquad}$B\ \lor\ C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication41!13}{(13)}, \hyperlink{proposition:implication41!14}{(14)}} \\ 
+\label{proposition:implication41!16} \hypertarget{proposition:implication41!16}{\mbox{(16)}}  \ &  \ \mbox{\qquad}$A\ \lor\ (B\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication41!8}{(8)}, \hyperlink{proposition:implication41!15}{(15)}} \\ 
+\label{proposition:implication41!17} \hypertarget{proposition:implication41!17}{\mbox{(17)}}  \ &  \ $C\ \rightarrow\ (A\ \lor\ (B\ \lor\ C))$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication41!18} \hypertarget{proposition:implication41!18}{\mbox{(18)}}  \ &  \ $(A\ \rightarrow\ C)\ \rightarrow\ ((B\ \rightarrow\ C)\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:OR-3}{Axiom~8}} \\ 
+\label{proposition:implication41!19} \hypertarget{proposition:implication41!19}{\mbox{(19)}}  \ &  \ $(A\ \rightarrow\ (A\ \lor\ (B\ \lor\ C)))\ \rightarrow\ ((B\ \rightarrow\ (A\ \lor\ (B\ \lor\ C)))\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ (A\ \lor\ (B\ \lor\ C))))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $C$ by $A\ \lor\ (B\ \lor\ C)$ in \hyperlink{proposition:implication41!18}{(18)}} \\ 
+\label{proposition:implication41!20} \hypertarget{proposition:implication41!20}{\mbox{(20)}}  \ &  \ $(B\ \rightarrow\ (A\ \lor\ (B\ \lor\ C)))\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ (A\ \lor\ (B\ \lor\ C)))$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication41!19}{(19)}, \hyperlink{proposition:implication41!2}{(2)}} \\ 
+\label{proposition:implication41!21} \hypertarget{proposition:implication41!21}{\mbox{(21)}}  \ &  \ $(A\ \lor\ B)\ \rightarrow\ (A\ \lor\ (B\ \lor\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication41!20}{(20)}, \hyperlink{proposition:implication41!12}{(12)}} \\ 
+\label{proposition:implication41!22} \hypertarget{proposition:implication41!22}{\mbox{(22)}}  \ &  \ $(A\ \rightarrow\ D)\ \rightarrow\ ((B\ \rightarrow\ D)\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ D))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $C$ by $D$ in \hyperlink{proposition:implication41!18}{(18)}} \\ 
+\label{proposition:implication41!23} \hypertarget{proposition:implication41!23}{\mbox{(23)}}  \ &  \ $(A\ \rightarrow\ D)\ \rightarrow\ ((C\ \rightarrow\ D)\ \rightarrow\ ((A\ \lor\ C)\ \rightarrow\ D))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication41!22}{(22)}} \\ 
+\label{proposition:implication41!24} \hypertarget{proposition:implication41!24}{\mbox{(24)}}  \ &  \ $((A\ \lor\ B)\ \rightarrow\ D)\ \rightarrow\ ((C\ \rightarrow\ D)\ \rightarrow\ (((A\ \lor\ B)\ \lor\ C)\ \rightarrow\ D))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $A\ \lor\ B$ in \hyperlink{proposition:implication41!23}{(23)}} \\ 
+\label{proposition:implication41!25} \hypertarget{proposition:implication41!25}{\mbox{(25)}}  \ &  \ $((A\ \lor\ B)\ \rightarrow\ (A\ \lor\ (B\ \lor\ C)))\ \rightarrow\ ((C\ \rightarrow\ (A\ \lor\ (B\ \lor\ C)))\ \rightarrow\ (((A\ \lor\ B)\ \lor\ C)\ \rightarrow\ (A\ \lor\ (B\ \lor\ C))))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $D$ by $A\ \lor\ (B\ \lor\ C)$ in \hyperlink{proposition:implication41!24}{(24)}} \\ 
+\label{proposition:implication41!26} \hypertarget{proposition:implication41!26}{\mbox{(26)}}  \ &  \ $(C\ \rightarrow\ (A\ \lor\ (B\ \lor\ C)))\ \rightarrow\ (((A\ \lor\ B)\ \lor\ C)\ \rightarrow\ (A\ \lor\ (B\ \lor\ C)))$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication41!25}{(25)}, \hyperlink{proposition:implication41!21}{(21)}} \\ 
+\label{proposition:implication41!27} \hypertarget{proposition:implication41!27}{\mbox{(27)}}  \ &  \ $((A\ \lor\ B)\ \lor\ C)\ \rightarrow\ (A\ \lor\ (B\ \lor\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication41!26}{(26)}, \hyperlink{proposition:implication41!17}{(17)}} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication42} \hypertarget{proposition:implication42}{}
+{\tt \tiny [\verb]proposition:implication42]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \rightarrow\ B)\ \rightarrow\ ((A\ \lor\ C)\ \rightarrow\ (B\ \lor\ C))$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication42!1} \hypertarget{proposition:implication42!1}{\mbox{(1)}}  \ &  \ $(A\ \rightarrow\ C)\ \rightarrow\ ((B\ \rightarrow\ C)\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:OR-3}{Axiom~8}} \\ 
+\label{proposition:implication42!2} \hypertarget{proposition:implication42!2}{\mbox{(2)}}  \ &  \ $(A\ \rightarrow\ D)\ \rightarrow\ ((B\ \rightarrow\ D)\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ D))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $C$ by $D$ in \hyperlink{proposition:implication42!1}{(1)}} \\ 
+\label{proposition:implication42!3} \hypertarget{proposition:implication42!3}{\mbox{(3)}}  \ &  \ $(A\ \rightarrow\ D)\ \rightarrow\ ((C\ \rightarrow\ D)\ \rightarrow\ ((A\ \lor\ C)\ \rightarrow\ D))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication42!2}{(2)}} \\ 
+\label{proposition:implication42!4} \hypertarget{proposition:implication42!4}{\mbox{(4)}}  \ &  \ $(A\ \rightarrow\ (B\ \lor\ C))\ \rightarrow\ ((C\ \rightarrow\ (B\ \lor\ C))\ \rightarrow\ ((A\ \lor\ C)\ \rightarrow\ (B\ \lor\ C)))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $D$ by $B\ \lor\ C$ in \hyperlink{proposition:implication42!3}{(3)}} \\ 
+\label{proposition:implication42!5} \hypertarget{proposition:implication42!5}{\mbox{(5)}}  \ &  \ $A\ \rightarrow\ (A\ \lor\ B)$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:OR-1}{Axiom~6}} \\ 
+\label{proposition:implication42!6} \hypertarget{proposition:implication42!6}{\mbox{(6)}}  \ &  \ $A\ \rightarrow\ (A\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication42!5}{(5)}} \\ 
+\label{proposition:implication42!7} \hypertarget{proposition:implication42!7}{\mbox{(7)}}  \ &  \ $B\ \rightarrow\ (B\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $B$ in \hyperlink{proposition:implication42!6}{(6)}} \\ 
+\label{proposition:implication42!8} \hypertarget{proposition:implication42!8}{\mbox{(8)}}  \ &  \ $A\ \rightarrow\ (B\ \lor\ A)$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:OR-2}{Axiom~7}} \\ 
+\label{proposition:implication42!9} \hypertarget{proposition:implication42!9}{\mbox{(9)}}  \ &  \ $C\ \rightarrow\ (B\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $C$ in \hyperlink{proposition:implication42!8}{(8)}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication42!10} \hypertarget{proposition:implication42!10}{\mbox{(10)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ B$ \ &  \ {\tiny Hypothesis} \\ 
+ \ &  \ \mbox{\qquad}Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication42!11} \hypertarget{proposition:implication42!11}{\mbox{(11)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$A$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication42!12} \hypertarget{proposition:implication42!12}{\mbox{(12)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication42!10}{(10)}, \hyperlink{proposition:implication42!11}{(11)}} \\ 
+\label{proposition:implication42!13} \hypertarget{proposition:implication42!13}{\mbox{(13)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$B\ \lor\ C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication42!7}{(7)}, \hyperlink{proposition:implication42!12}{(12)}} \\ 
+\label{proposition:implication42!14} \hypertarget{proposition:implication42!14}{\mbox{(14)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ (B\ \lor\ C)$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication42!15} \hypertarget{proposition:implication42!15}{\mbox{(15)}}  \ &  \ \mbox{\qquad}$(C\ \rightarrow\ (B\ \lor\ C))\ \rightarrow\ ((A\ \lor\ C)\ \rightarrow\ (B\ \lor\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication42!4}{(4)}, \hyperlink{proposition:implication42!14}{(14)}} \\ 
+\label{proposition:implication42!16} \hypertarget{proposition:implication42!16}{\mbox{(16)}}  \ &  \ \mbox{\qquad}$(A\ \lor\ C)\ \rightarrow\ (B\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication42!15}{(15)}, \hyperlink{proposition:implication42!9}{(9)}} \\ 
+\label{proposition:implication42!17} \hypertarget{proposition:implication42!17}{\mbox{(17)}}  \ &  \ $(A\ \rightarrow\ B)\ \rightarrow\ ((A\ \lor\ C)\ \rightarrow\ (B\ \lor\ C))$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\section{S{\"a}tze zur Negation} \label{chapter4_section6} \hypertarget{chapter4_section6}{}
+Wir kommen nun zur Negation. Hier m{\"u}ssen wir das erste Mal von dem Prinzip vom ausgeschlossenen Dritten Gebrauch machen.
+
+\begin{prop}
+\label{proposition:implication50} \hypertarget{proposition:implication50}{}
+{\tt \tiny [\verb]proposition:implication50]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $A\ \rightarrow\ \neg \neg A$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication50!1} \hypertarget{proposition:implication50!1}{\mbox{(1)}}  \ &  \ $A\ \rightarrow\ (B\ \rightarrow\ A)$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:THEN-1}{Axiom~1}} \\ 
+\label{proposition:implication50!2} \hypertarget{proposition:implication50!2}{\mbox{(2)}}  \ &  \ $A\ \rightarrow\ (\neg A\ \rightarrow\ A)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $\neg A$ in \hyperlink{proposition:implication50!1}{(1)}} \\ 
+\label{proposition:implication50!3} \hypertarget{proposition:implication50!3}{\mbox{(3)}}  \ &  \ $(A\ \rightarrow\ B)\ \rightarrow\ ((A\ \rightarrow\ \neg B)\ \rightarrow\ \neg A)$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:NOT-1}{Axiom~9}} \\ 
+\label{proposition:implication50!4} \hypertarget{proposition:implication50!4}{\mbox{(4)}}  \ &  \ $(\neg A\ \rightarrow\ B)\ \rightarrow\ ((\neg A\ \rightarrow\ \neg B)\ \rightarrow\ \neg \neg A)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $\neg A$ in \hyperlink{proposition:implication50!3}{(3)}} \\ 
+\label{proposition:implication50!5} \hypertarget{proposition:implication50!5}{\mbox{(5)}}  \ &  \ $(\neg A\ \rightarrow\ A)\ \rightarrow\ ((\neg A\ \rightarrow\ \neg A)\ \rightarrow\ \neg \neg A)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $A$ in \hyperlink{proposition:implication50!4}{(4)}} \\ 
+\label{proposition:implication50!6} \hypertarget{proposition:implication50!6}{\mbox{(6)}}  \ &  \ $A\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{proposition:implicationReflexive1}{Proposition~1}} \\ 
+\label{proposition:implication50!7} \hypertarget{proposition:implication50!7}{\mbox{(7)}}  \ &  \ $\neg A\ \rightarrow\ \neg A$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $\neg A$ in \hyperlink{proposition:implication50!6}{(6)}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication50!8} \hypertarget{proposition:implication50!8}{\mbox{(8)}}  \ &  \ \mbox{\qquad}$A$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication50!9} \hypertarget{proposition:implication50!9}{\mbox{(9)}}  \ &  \ \mbox{\qquad}$\neg A\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication50!2}{(2)}, \hyperlink{proposition:implication50!8}{(8)}} \\ 
+\label{proposition:implication50!10} \hypertarget{proposition:implication50!10}{\mbox{(10)}}  \ &  \ \mbox{\qquad}$(\neg A\ \rightarrow\ \neg A)\ \rightarrow\ \neg \neg A$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication50!5}{(5)}, \hyperlink{proposition:implication50!9}{(9)}} \\ 
+\label{proposition:implication50!11} \hypertarget{proposition:implication50!11}{\mbox{(11)}}  \ &  \ \mbox{\qquad}$\neg \neg A$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication50!10}{(10)}, \hyperlink{proposition:implication50!7}{(7)}} \\ 
+\label{proposition:implication50!12} \hypertarget{proposition:implication50!12}{\mbox{(12)}}  \ &  \ $A\ \rightarrow\ \neg \neg A$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication51} \hypertarget{proposition:implication51}{}
+{\tt \tiny [\verb]proposition:implication51]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \rightarrow\ \neg B)\ \rightarrow\ (B\ \rightarrow\ \neg A)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication51!1} \hypertarget{proposition:implication51!1}{\mbox{(1)}}  \ &  \ $A\ \rightarrow\ (B\ \rightarrow\ A)$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:THEN-1}{Axiom~1}} \\ 
+\label{proposition:implication51!2} \hypertarget{proposition:implication51!2}{\mbox{(2)}}  \ &  \ $C\ \rightarrow\ (B\ \rightarrow\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $C$ in \hyperlink{proposition:implication51!1}{(1)}} \\ 
+\label{proposition:implication51!3} \hypertarget{proposition:implication51!3}{\mbox{(3)}}  \ &  \ $C\ \rightarrow\ (A\ \rightarrow\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $A$ in \hyperlink{proposition:implication51!2}{(2)}} \\ 
+\label{proposition:implication51!4} \hypertarget{proposition:implication51!4}{\mbox{(4)}}  \ &  \ $B\ \rightarrow\ (A\ \rightarrow\ B)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $C$ by $B$ in \hyperlink{proposition:implication51!3}{(3)}} \\ 
+\label{proposition:implication51!5} \hypertarget{proposition:implication51!5}{\mbox{(5)}}  \ &  \ $(A\ \rightarrow\ B)\ \rightarrow\ ((A\ \rightarrow\ \neg B)\ \rightarrow\ \neg A)$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:NOT-1}{Axiom~9}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication51!6} \hypertarget{proposition:implication51!6}{\mbox{(6)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ \neg B$ \ &  \ {\tiny Hypothesis} \\ 
+ \ &  \ \mbox{\qquad}Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication51!7} \hypertarget{proposition:implication51!7}{\mbox{(7)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$B$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication51!8} \hypertarget{proposition:implication51!8}{\mbox{(8)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$A\ \rightarrow\ B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication51!4}{(4)}, \hyperlink{proposition:implication51!7}{(7)}} \\ 
+\label{proposition:implication51!9} \hypertarget{proposition:implication51!9}{\mbox{(9)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$(A\ \rightarrow\ \neg B)\ \rightarrow\ \neg A$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication51!5}{(5)}, \hyperlink{proposition:implication51!8}{(8)}} \\ 
+\label{proposition:implication51!10} \hypertarget{proposition:implication51!10}{\mbox{(10)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$\neg A$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication51!9}{(9)}, \hyperlink{proposition:implication51!6}{(6)}} \\ 
+\label{proposition:implication51!11} \hypertarget{proposition:implication51!11}{\mbox{(11)}}  \ &  \ \mbox{\qquad}$B\ \rightarrow\ \neg A$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication51!12} \hypertarget{proposition:implication51!12}{\mbox{(12)}}  \ &  \ $(A\ \rightarrow\ \neg B)\ \rightarrow\ (B\ \rightarrow\ \neg A)$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication52} \hypertarget{proposition:implication52}{}
+{\tt \tiny [\verb]proposition:implication52]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(A\ \rightarrow\ B)\ \rightarrow\ (\neg B\ \rightarrow\ \neg A)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication52!1} \hypertarget{proposition:implication52!1}{\mbox{(1)}}  \ &  \ $A\ \rightarrow\ (B\ \rightarrow\ A)$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:THEN-1}{Axiom~1}} \\ 
+\label{proposition:implication52!2} \hypertarget{proposition:implication52!2}{\mbox{(2)}}  \ &  \ $C\ \rightarrow\ (B\ \rightarrow\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $C$ in \hyperlink{proposition:implication52!1}{(1)}} \\ 
+\label{proposition:implication52!3} \hypertarget{proposition:implication52!3}{\mbox{(3)}}  \ &  \ $C\ \rightarrow\ (A\ \rightarrow\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $A$ in \hyperlink{proposition:implication52!2}{(2)}} \\ 
+\label{proposition:implication52!4} \hypertarget{proposition:implication52!4}{\mbox{(4)}}  \ &  \ $\neg B\ \rightarrow\ (A\ \rightarrow\ \neg B)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $C$ by $\neg B$ in \hyperlink{proposition:implication52!3}{(3)}} \\ 
+\label{proposition:implication52!5} \hypertarget{proposition:implication52!5}{\mbox{(5)}}  \ &  \ $(A\ \rightarrow\ B)\ \rightarrow\ ((A\ \rightarrow\ \neg B)\ \rightarrow\ \neg A)$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:NOT-1}{Axiom~9}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication52!6} \hypertarget{proposition:implication52!6}{\mbox{(6)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ B$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication52!7} \hypertarget{proposition:implication52!7}{\mbox{(7)}}  \ &  \ \mbox{\qquad}$(A\ \rightarrow\ \neg B)\ \rightarrow\ \neg A$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication52!5}{(5)}, \hyperlink{proposition:implication52!6}{(6)}} \\ 
+ \ &  \ \mbox{\qquad}Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication52!8} \hypertarget{proposition:implication52!8}{\mbox{(8)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$\neg B$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication52!9} \hypertarget{proposition:implication52!9}{\mbox{(9)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$A\ \rightarrow\ \neg B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication52!4}{(4)}, \hyperlink{proposition:implication52!8}{(8)}} \\ 
+\label{proposition:implication52!10} \hypertarget{proposition:implication52!10}{\mbox{(10)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$\neg A$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication52!7}{(7)}, \hyperlink{proposition:implication52!9}{(9)}} \\ 
+\label{proposition:implication52!11} \hypertarget{proposition:implication52!11}{\mbox{(11)}}  \ &  \ \mbox{\qquad}$\neg B\ \rightarrow\ \neg A$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication52!12} \hypertarget{proposition:implication52!12}{\mbox{(12)}}  \ &  \ $(A\ \rightarrow\ B)\ \rightarrow\ (\neg B\ \rightarrow\ \neg A)$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication54} \hypertarget{proposition:implication54}{}
+{\tt \tiny [\verb]proposition:implication54]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\neg \neg \neg A\ \rightarrow\ \neg A$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication54!1} \hypertarget{proposition:implication54!1}{\mbox{(1)}}  \ &  \ $A\ \rightarrow\ \neg \neg A$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{proposition:implication50}{Proposition~24}} \\ 
+\label{proposition:implication54!2} \hypertarget{proposition:implication54!2}{\mbox{(2)}}  \ &  \ $(A\ \rightarrow\ B)\ \rightarrow\ (\neg B\ \rightarrow\ \neg A)$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{proposition:implication52}{Proposition~26}} \\ 
+\label{proposition:implication54!3} \hypertarget{proposition:implication54!3}{\mbox{(3)}}  \ &  \ $(A\ \rightarrow\ \neg \neg A)\ \rightarrow\ (\neg \neg \neg A\ \rightarrow\ \neg A)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $\neg \neg A$ in \hyperlink{proposition:implication54!2}{(2)}} \\ 
+\label{proposition:implication54!4} \hypertarget{proposition:implication54!4}{\mbox{(4)}}  \ &  \ $\neg \neg \neg A\ \rightarrow\ \neg A$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication54!3}{(3)}, \hyperlink{proposition:implication54!1}{(1)}} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication55} \hypertarget{proposition:implication55}{}
+{\tt \tiny [\verb]proposition:implication55]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(\neg A\ \rightarrow\ A)\ \rightarrow\ \neg \neg A$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication55!1} \hypertarget{proposition:implication55!1}{\mbox{(1)}}  \ &  \ $A\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{proposition:implicationReflexive1}{Proposition~1}} \\ 
+\label{proposition:implication55!2} \hypertarget{proposition:implication55!2}{\mbox{(2)}}  \ &  \ $\neg A\ \rightarrow\ \neg A$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $\neg A$ in \hyperlink{proposition:implication55!1}{(1)}} \\ 
+\label{proposition:implication55!3} \hypertarget{proposition:implication55!3}{\mbox{(3)}}  \ &  \ $(A\ \rightarrow\ B)\ \rightarrow\ ((A\ \rightarrow\ \neg B)\ \rightarrow\ \neg A)$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:NOT-1}{Axiom~9}} \\ 
+\label{proposition:implication55!4} \hypertarget{proposition:implication55!4}{\mbox{(4)}}  \ &  \ $(\neg A\ \rightarrow\ B)\ \rightarrow\ ((\neg A\ \rightarrow\ \neg B)\ \rightarrow\ \neg \neg A)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $\neg A$ in \hyperlink{proposition:implication55!3}{(3)}} \\ 
+\label{proposition:implication55!5} \hypertarget{proposition:implication55!5}{\mbox{(5)}}  \ &  \ $(\neg A\ \rightarrow\ A)\ \rightarrow\ ((\neg A\ \rightarrow\ \neg A)\ \rightarrow\ \neg \neg A)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $A$ in \hyperlink{proposition:implication55!4}{(4)}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication55!6} \hypertarget{proposition:implication55!6}{\mbox{(6)}}  \ &  \ \mbox{\qquad}$\neg A\ \rightarrow\ A$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication55!7} \hypertarget{proposition:implication55!7}{\mbox{(7)}}  \ &  \ \mbox{\qquad}$(\neg A\ \rightarrow\ \neg A)\ \rightarrow\ \neg \neg A$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication55!5}{(5)}, \hyperlink{proposition:implication55!6}{(6)}} \\ 
+\label{proposition:implication55!8} \hypertarget{proposition:implication55!8}{\mbox{(8)}}  \ &  \ \mbox{\qquad}$\neg \neg A$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication55!7}{(7)}, \hyperlink{proposition:implication55!2}{(2)}} \\ 
+\label{proposition:implication55!9} \hypertarget{proposition:implication55!9}{\mbox{(9)}}  \ &  \ $(\neg A\ \rightarrow\ A)\ \rightarrow\ \neg \neg A$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication56} \hypertarget{proposition:implication56}{}
+{\tt \tiny [\verb]proposition:implication56]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\neg \neg A\ \rightarrow\ A$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication56!1} \hypertarget{proposition:implication56!1}{\mbox{(1)}}  \ &  \ $A\ \lor\ \neg A$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:NOT-3}{Axiom~11}} \\ 
+\label{proposition:implication56!2} \hypertarget{proposition:implication56!2}{\mbox{(2)}}  \ &  \ $(A\ \rightarrow\ C)\ \rightarrow\ ((B\ \rightarrow\ C)\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:OR-3}{Axiom~8}} \\ 
+\label{proposition:implication56!3} \hypertarget{proposition:implication56!3}{\mbox{(3)}}  \ &  \ $(A\ \rightarrow\ A)\ \rightarrow\ ((B\ \rightarrow\ A)\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ A))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $C$ by $A$ in \hyperlink{proposition:implication56!2}{(2)}} \\ 
+\label{proposition:implication56!4} \hypertarget{proposition:implication56!4}{\mbox{(4)}}  \ &  \ $A\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{proposition:implicationReflexive1}{Proposition~1}} \\ 
+\label{proposition:implication56!5} \hypertarget{proposition:implication56!5}{\mbox{(5)}}  \ &  \ $(B\ \rightarrow\ A)\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ A)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication56!3}{(3)}, \hyperlink{proposition:implication56!4}{(4)}} \\ 
+\label{proposition:implication56!6} \hypertarget{proposition:implication56!6}{\mbox{(6)}}  \ &  \ $(\neg A\ \rightarrow\ A)\ \rightarrow\ ((A\ \lor\ \neg A)\ \rightarrow\ A)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $\neg A$ in \hyperlink{proposition:implication56!5}{(5)}} \\ 
+\label{proposition:implication56!7} \hypertarget{proposition:implication56!7}{\mbox{(7)}}  \ &  \ $\neg A\ \rightarrow\ (A\ \rightarrow\ B)$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:NOT-2}{Axiom~10}} \\ 
+\label{proposition:implication56!8} \hypertarget{proposition:implication56!8}{\mbox{(8)}}  \ &  \ $\neg \neg A\ \rightarrow\ (\neg A\ \rightarrow\ B)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $\neg A$ in \hyperlink{proposition:implication56!7}{(7)}} \\ 
+\label{proposition:implication56!9} \hypertarget{proposition:implication56!9}{\mbox{(9)}}  \ &  \ $\neg \neg A\ \rightarrow\ (\neg A\ \rightarrow\ A)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $A$ in \hyperlink{proposition:implication56!8}{(8)}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication56!10} \hypertarget{proposition:implication56!10}{\mbox{(10)}}  \ &  \ \mbox{\qquad}$\neg \neg A$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication56!11} \hypertarget{proposition:implication56!11}{\mbox{(11)}}  \ &  \ \mbox{\qquad}$\neg A\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication56!9}{(9)}, \hyperlink{proposition:implication56!10}{(10)}} \\ 
+\label{proposition:implication56!12} \hypertarget{proposition:implication56!12}{\mbox{(12)}}  \ &  \ \mbox{\qquad}$(A\ \lor\ \neg A)\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication56!6}{(6)}, \hyperlink{proposition:implication56!11}{(11)}} \\ 
+\label{proposition:implication56!13} \hypertarget{proposition:implication56!13}{\mbox{(13)}}  \ &  \ \mbox{\qquad}$A$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication56!12}{(12)}, \hyperlink{proposition:implication56!1}{(1)}} \\ 
+\label{proposition:implication56!14} \hypertarget{proposition:implication56!14}{\mbox{(14)}}  \ &  \ $\neg \neg A\ \rightarrow\ A$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication57} \hypertarget{proposition:implication57}{}
+{\tt \tiny [\verb]proposition:implication57]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(\neg B\ \rightarrow\ \neg A)\ \rightarrow\ (A\ \rightarrow\ B)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication57!1} \hypertarget{proposition:implication57!1}{\mbox{(1)}}  \ &  \ $\neg \neg A\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{proposition:implication56}{Proposition~29}} \\ 
+\label{proposition:implication57!2} \hypertarget{proposition:implication57!2}{\mbox{(2)}}  \ &  \ $\neg \neg B\ \rightarrow\ B$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $B$ in \hyperlink{proposition:implication57!1}{(1)}} \\ 
+\label{proposition:implication57!3} \hypertarget{proposition:implication57!3}{\mbox{(3)}}  \ &  \ $(A\ \rightarrow\ \neg B)\ \rightarrow\ (B\ \rightarrow\ \neg A)$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{proposition:implication51}{Proposition~25}} \\ 
+\label{proposition:implication57!4} \hypertarget{proposition:implication57!4}{\mbox{(4)}}  \ &  \ $(C\ \rightarrow\ \neg B)\ \rightarrow\ (B\ \rightarrow\ \neg C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $C$ in \hyperlink{proposition:implication57!3}{(3)}} \\ 
+\label{proposition:implication57!5} \hypertarget{proposition:implication57!5}{\mbox{(5)}}  \ &  \ $(C\ \rightarrow\ \neg A)\ \rightarrow\ (A\ \rightarrow\ \neg C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $A$ in \hyperlink{proposition:implication57!4}{(4)}} \\ 
+\label{proposition:implication57!6} \hypertarget{proposition:implication57!6}{\mbox{(6)}}  \ &  \ $(\neg B\ \rightarrow\ \neg A)\ \rightarrow\ (A\ \rightarrow\ \neg \neg B)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $C$ by $\neg B$ in \hyperlink{proposition:implication57!5}{(5)}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication57!7} \hypertarget{proposition:implication57!7}{\mbox{(7)}}  \ &  \ \mbox{\qquad}$\neg B\ \rightarrow\ \neg A$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication57!8} \hypertarget{proposition:implication57!8}{\mbox{(8)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ \neg \neg B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication57!6}{(6)}, \hyperlink{proposition:implication57!7}{(7)}} \\ 
+ \ &  \ \mbox{\qquad}Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication57!9} \hypertarget{proposition:implication57!9}{\mbox{(9)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$A$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication57!10} \hypertarget{proposition:implication57!10}{\mbox{(10)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$\neg \neg B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication57!8}{(8)}, \hyperlink{proposition:implication57!9}{(9)}} \\ 
+\label{proposition:implication57!11} \hypertarget{proposition:implication57!11}{\mbox{(11)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$B$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication57!2}{(2)}, \hyperlink{proposition:implication57!10}{(10)}} \\ 
+\label{proposition:implication57!12} \hypertarget{proposition:implication57!12}{\mbox{(12)}}  \ &  \ \mbox{\qquad}$A\ \rightarrow\ B$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication57!13} \hypertarget{proposition:implication57!13}{\mbox{(13)}}  \ &  \ $(\neg B\ \rightarrow\ \neg A)\ \rightarrow\ (A\ \rightarrow\ B)$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\section{Conjunktion und Disjunktion gemischt.} \label{chapter4_section7} \hypertarget{chapter4_section7}{}
+Nun zeigen wir die Verbindung von Disjunktion und Konjunktion auf.
+
+\begin{prop}
+\label{proposition:implication70} \hypertarget{proposition:implication70}{}
+{\tt \tiny [\verb]proposition:implication70]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $((A\ \rightarrow\ C)\ \land\ (B\ \rightarrow\ C))\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ C)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication70!1} \hypertarget{proposition:implication70!1}{\mbox{(1)}}  \ &  \ $(A\ \rightarrow\ (B\ \rightarrow\ C))\ \rightarrow\ ((A\ \land\ B)\ \rightarrow\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{proposition:implication20}{Proposition~15}} \\ 
+\label{proposition:implication70!2} \hypertarget{proposition:implication70!2}{\mbox{(2)}}  \ &  \ $(A\ \rightarrow\ (B\ \rightarrow\ D))\ \rightarrow\ ((A\ \land\ B)\ \rightarrow\ D)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $C$ by $D$ in \hyperlink{proposition:implication70!1}{(1)}} \\ 
+\label{proposition:implication70!3} \hypertarget{proposition:implication70!3}{\mbox{(3)}}  \ &  \ $((A\ \rightarrow\ C)\ \rightarrow\ (B\ \rightarrow\ D))\ \rightarrow\ (((A\ \rightarrow\ C)\ \land\ B)\ \rightarrow\ D)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $A\ \rightarrow\ C$ in \hyperlink{proposition:implication70!2}{(2)}} \\ 
+\label{proposition:implication70!4} \hypertarget{proposition:implication70!4}{\mbox{(4)}}  \ &  \ $((A\ \rightarrow\ C)\ \rightarrow\ ((B\ \rightarrow\ C)\ \rightarrow\ D))\ \rightarrow\ (((A\ \rightarrow\ C)\ \land\ (B\ \rightarrow\ C))\ \rightarrow\ D)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $B\ \rightarrow\ C$ in \hyperlink{proposition:implication70!3}{(3)}} \\ 
+\label{proposition:implication70!5} \hypertarget{proposition:implication70!5}{\mbox{(5)}}  \ &  \ $((A\ \rightarrow\ C)\ \rightarrow\ ((B\ \rightarrow\ C)\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ C)))\ \rightarrow\ (((A\ \rightarrow\ C)\ \land\ (B\ \rightarrow\ C))\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $D$ by $(A\ \lor\ B)\ \rightarrow\ C$ in \hyperlink{proposition:implication70!4}{(4)}} \\ 
+\label{proposition:implication70!6} \hypertarget{proposition:implication70!6}{\mbox{(6)}}  \ &  \ $(A\ \rightarrow\ C)\ \rightarrow\ ((B\ \rightarrow\ C)\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:OR-3}{Axiom~8}} \\ 
+\label{proposition:implication70!7} \hypertarget{proposition:implication70!7}{\mbox{(7)}}  \ &  \ $((A\ \rightarrow\ C)\ \land\ (B\ \rightarrow\ C))\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication70!5}{(5)}, \hyperlink{proposition:implication70!6}{(6)}} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication71} \hypertarget{proposition:implication71}{}
+{\tt \tiny [\verb]proposition:implication71]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $((A\ \land\ B)\ \lor\ C)\ \rightarrow\ ((A\ \lor\ C)\ \land\ (B\ \lor\ C))$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication71!1} \hypertarget{proposition:implication71!1}{\mbox{(1)}}  \ &  \ $B\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ B))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-3}{Axiom~5}} \\ 
+\label{proposition:implication71!2} \hypertarget{proposition:implication71!2}{\mbox{(2)}}  \ &  \ $(B\ \lor\ C)\ \rightarrow\ (A\ \rightarrow\ (A\ \land\ (B\ \lor\ C)))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $B\ \lor\ C$ in \hyperlink{proposition:implication71!1}{(1)}} \\ 
+\label{proposition:implication71!3} \hypertarget{proposition:implication71!3}{\mbox{(3)}}  \ &  \ $(B\ \lor\ C)\ \rightarrow\ ((A\ \lor\ C)\ \rightarrow\ ((A\ \lor\ C)\ \land\ (B\ \lor\ C)))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $A\ \lor\ C$ in \hyperlink{proposition:implication71!2}{(2)}} \\ 
+\label{proposition:implication71!4} \hypertarget{proposition:implication71!4}{\mbox{(4)}}  \ &  \ $(A\ \land\ B)\ \rightarrow\ A$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-1}{Axiom~3}} \\ 
+\label{proposition:implication71!5} \hypertarget{proposition:implication71!5}{\mbox{(5)}}  \ &  \ $(A\ \rightarrow\ B)\ \rightarrow\ ((A\ \lor\ C)\ \rightarrow\ (B\ \lor\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{proposition:implication42}{Proposition~23}} \\ 
+\label{proposition:implication71!6} \hypertarget{proposition:implication71!6}{\mbox{(6)}}  \ &  \ $(A\ \rightarrow\ D)\ \rightarrow\ ((A\ \lor\ C)\ \rightarrow\ (D\ \lor\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $D$ in \hyperlink{proposition:implication71!5}{(5)}} \\ 
+\label{proposition:implication71!7} \hypertarget{proposition:implication71!7}{\mbox{(7)}}  \ &  \ $((A\ \land\ B)\ \rightarrow\ D)\ \rightarrow\ (((A\ \land\ B)\ \lor\ C)\ \rightarrow\ (D\ \lor\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $A\ \land\ B$ in \hyperlink{proposition:implication71!6}{(6)}} \\ 
+\label{proposition:implication71!8} \hypertarget{proposition:implication71!8}{\mbox{(8)}}  \ &  \ $((A\ \land\ B)\ \rightarrow\ A)\ \rightarrow\ (((A\ \land\ B)\ \lor\ C)\ \rightarrow\ (A\ \lor\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $D$ by $A$ in \hyperlink{proposition:implication71!7}{(7)}} \\ 
+\label{proposition:implication71!9} \hypertarget{proposition:implication71!9}{\mbox{(9)}}  \ &  \ $((A\ \land\ B)\ \lor\ C)\ \rightarrow\ (A\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication71!8}{(8)}, \hyperlink{proposition:implication71!4}{(4)}} \\ 
+\label{proposition:implication71!10} \hypertarget{proposition:implication71!10}{\mbox{(10)}}  \ &  \ $(A\ \land\ B)\ \rightarrow\ B$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:AND-2}{Axiom~4}} \\ 
+\label{proposition:implication71!11} \hypertarget{proposition:implication71!11}{\mbox{(11)}}  \ &  \ $((A\ \land\ B)\ \rightarrow\ B)\ \rightarrow\ (((A\ \land\ B)\ \lor\ C)\ \rightarrow\ (B\ \lor\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $D$ by $B$ in \hyperlink{proposition:implication71!7}{(7)}} \\ 
+\label{proposition:implication71!12} \hypertarget{proposition:implication71!12}{\mbox{(12)}}  \ &  \ $((A\ \land\ B)\ \lor\ C)\ \rightarrow\ (B\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication71!11}{(11)}, \hyperlink{proposition:implication71!10}{(10)}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication71!13} \hypertarget{proposition:implication71!13}{\mbox{(13)}}  \ &  \ \mbox{\qquad}$(A\ \land\ B)\ \lor\ C$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication71!14} \hypertarget{proposition:implication71!14}{\mbox{(14)}}  \ &  \ \mbox{\qquad}$A\ \lor\ C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication71!9}{(9)}, \hyperlink{proposition:implication71!13}{(13)}} \\ 
+\label{proposition:implication71!15} \hypertarget{proposition:implication71!15}{\mbox{(15)}}  \ &  \ \mbox{\qquad}$B\ \lor\ C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication71!12}{(12)}, \hyperlink{proposition:implication71!13}{(13)}} \\ 
+\label{proposition:implication71!16} \hypertarget{proposition:implication71!16}{\mbox{(16)}}  \ &  \ \mbox{\qquad}$(A\ \lor\ C)\ \rightarrow\ ((A\ \lor\ C)\ \land\ (B\ \lor\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication71!3}{(3)}, \hyperlink{proposition:implication71!15}{(15)}} \\ 
+\label{proposition:implication71!17} \hypertarget{proposition:implication71!17}{\mbox{(17)}}  \ &  \ \mbox{\qquad}$(A\ \lor\ C)\ \land\ (B\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication71!16}{(16)}, \hyperlink{proposition:implication71!14}{(14)}} \\ 
+\label{proposition:implication71!18} \hypertarget{proposition:implication71!18}{\mbox{(18)}}  \ &  \ $((A\ \land\ B)\ \lor\ C)\ \rightarrow\ ((A\ \lor\ C)\ \land\ (B\ \lor\ C))$ \ &  \ {\tiny Conclusion} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+\begin{prop}
+\label{proposition:implication72} \hypertarget{proposition:implication72}{}
+{\tt \tiny [\verb]proposition:implication72]]}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $((A\ \lor\ C)\ \land\ (B\ \lor\ C))\ \rightarrow\ ((A\ \land\ B)\ \lor\ C)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+\mbox{}\\
+\begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
+\label{proposition:implication72!1} \hypertarget{proposition:implication72!1}{\mbox{(1)}}  \ &  \ $A\ \rightarrow\ (B\ \lor\ A)$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:OR-2}{Axiom~7}} \\ 
+\label{proposition:implication72!2} \hypertarget{proposition:implication72!2}{\mbox{(2)}}  \ &  \ $C\ \rightarrow\ (B\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $C$ in \hyperlink{proposition:implication72!1}{(1)}} \\ 
+\label{proposition:implication72!3} \hypertarget{proposition:implication72!3}{\mbox{(3)}}  \ &  \ $C\ \rightarrow\ ((A\ \land\ B)\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $A\ \land\ B$ in \hyperlink{proposition:implication72!2}{(2)}} \\ 
+\label{proposition:implication72!4} \hypertarget{proposition:implication72!4}{\mbox{(4)}}  \ &  \ $(A\ \rightarrow\ C)\ \rightarrow\ ((B\ \rightarrow\ C)\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:OR-3}{Axiom~8}} \\ 
+\label{proposition:implication72!5} \hypertarget{proposition:implication72!5}{\mbox{(5)}}  \ &  \ $(A\ \rightarrow\ D)\ \rightarrow\ ((B\ \rightarrow\ D)\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ D))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $C$ by $D$ in \hyperlink{proposition:implication72!4}{(4)}} \\ 
+\label{proposition:implication72!6} \hypertarget{proposition:implication72!6}{\mbox{(6)}}  \ &  \ $(A\ \rightarrow\ D)\ \rightarrow\ ((C\ \rightarrow\ D)\ \rightarrow\ ((A\ \lor\ C)\ \rightarrow\ D))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication72!5}{(5)}} \\ 
+\label{proposition:implication72!7} \hypertarget{proposition:implication72!7}{\mbox{(7)}}  \ &  \ $(B\ \rightarrow\ D)\ \rightarrow\ ((C\ \rightarrow\ D)\ \rightarrow\ ((B\ \lor\ C)\ \rightarrow\ D))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $B$ in \hyperlink{proposition:implication72!6}{(6)}} \\ 
+\label{proposition:implication72!8} \hypertarget{proposition:implication72!8}{\mbox{(8)}}  \ &  \ $(B\ \rightarrow\ ((A\ \land\ B)\ \lor\ C))\ \rightarrow\ ((C\ \rightarrow\ ((A\ \land\ B)\ \lor\ C))\ \rightarrow\ ((B\ \lor\ C)\ \rightarrow\ ((A\ \land\ B)\ \lor\ C)))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $D$ by $(A\ \land\ B)\ \lor\ C$ in \hyperlink{proposition:implication72!7}{(7)}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication72!9} \hypertarget{proposition:implication72!9}{\mbox{(9)}}  \ &  \ \mbox{\qquad}$C$ \ &  \ {\tiny Hypothesis} \\ 
+ \ &  \ \mbox{\qquad}Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication72!10} \hypertarget{proposition:implication72!10}{\mbox{(10)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$B$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication72!11} \hypertarget{proposition:implication72!11}{\mbox{(11)}}  \ &  \ \mbox{\qquad}\mbox{\qquad}$(A\ \land\ B)\ \lor\ C$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication72!3}{(3)}, \hyperlink{proposition:implication72!9}{(9)}} \\ 
+\label{proposition:implication72!12} \hypertarget{proposition:implication72!12}{\mbox{(12)}}  \ &  \ \mbox{\qquad}$B\ \rightarrow\ ((A\ \land\ B)\ \lor\ C)$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication72!13} \hypertarget{proposition:implication72!13}{\mbox{(13)}}  \ &  \ \mbox{\qquad}$(C\ \rightarrow\ ((A\ \land\ B)\ \lor\ C))\ \rightarrow\ ((B\ \lor\ C)\ \rightarrow\ ((A\ \land\ B)\ \lor\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication72!8}{(8)}, \hyperlink{proposition:implication72!12}{(12)}} \\ 
+\label{proposition:implication72!14} \hypertarget{proposition:implication72!14}{\mbox{(14)}}  \ &  \ \mbox{\qquad}$(B\ \lor\ C)\ \rightarrow\ ((A\ \land\ B)\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication72!13}{(13)}, \hyperlink{proposition:implication72!3}{(3)}} \\ 
+\label{proposition:implication72!15} \hypertarget{proposition:implication72!15}{\mbox{(15)}}  \ &  \ $C\ \rightarrow\ ((B\ \lor\ C)\ \rightarrow\ ((A\ \land\ B)\ \lor\ C))$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication72!16} \hypertarget{proposition:implication72!16}{\mbox{(16)}}  \ &  \ $(A\ \rightarrow\ B)\ \rightarrow\ ((A\ \lor\ C)\ \rightarrow\ (B\ \lor\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{proposition:implication42}{Proposition~23}} \\ 
+\label{proposition:implication72!17} \hypertarget{proposition:implication72!17}{\mbox{(17)}}  \ &  \ $(D\ \rightarrow\ B)\ \rightarrow\ ((D\ \lor\ C)\ \rightarrow\ (B\ \lor\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $D$ in \hyperlink{proposition:implication72!16}{(16)}} \\ 
+\label{proposition:implication72!18} \hypertarget{proposition:implication72!18}{\mbox{(18)}}  \ &  \ $(D\ \rightarrow\ (A\ \land\ B))\ \rightarrow\ ((D\ \lor\ C)\ \rightarrow\ ((A\ \land\ B)\ \lor\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $A\ \land\ B$ in \hyperlink{proposition:implication72!17}{(17)}} \\ 
+\label{proposition:implication72!19} \hypertarget{proposition:implication72!19}{\mbox{(19)}}  \ &  \ $(B\ \rightarrow\ (A\ \land\ B))\ \rightarrow\ ((B\ \lor\ C)\ \rightarrow\ ((A\ \land\ B)\ \lor\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $D$ by $B$ in \hyperlink{proposition:implication72!18}{(18)}} \\ 
+\label{proposition:implication72!20} \hypertarget{proposition:implication72!20}{\mbox{(20)}}  \ &  \ $A\ \rightarrow\ (B\ \rightarrow\ (A\ \land\ B))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{proposition:AND-3b}{Proposition~10}} \\ 
+ \ &  \ Conditional Proof
+ \ &  \  \\ 
+\label{proposition:implication72!21} \hypertarget{proposition:implication72!21}{\mbox{(21)}}  \ &  \ \mbox{\qquad}$A$ \ &  \ {\tiny Hypothesis} \\ 
+\label{proposition:implication72!22} \hypertarget{proposition:implication72!22}{\mbox{(22)}}  \ &  \ \mbox{\qquad}$B\ \rightarrow\ (A\ \land\ B)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication72!20}{(20)}, \hyperlink{proposition:implication72!21}{(21)}} \\ 
+\label{proposition:implication72!23} \hypertarget{proposition:implication72!23}{\mbox{(23)}}  \ &  \ \mbox{\qquad}$(B\ \lor\ C)\ \rightarrow\ ((A\ \land\ B)\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication72!19}{(19)}, \hyperlink{proposition:implication72!22}{(22)}} \\ 
+\label{proposition:implication72!24} \hypertarget{proposition:implication72!24}{\mbox{(24)}}  \ &  \ $A\ \rightarrow\ ((B\ \lor\ C)\ \rightarrow\ ((A\ \land\ B)\ \lor\ C))$ \ &  \ {\tiny Conclusion} \\ 
+\label{proposition:implication72!25} \hypertarget{proposition:implication72!25}{\mbox{(25)}}  \ &  \ $(A\ \rightarrow\ C)\ \rightarrow\ ((B\ \rightarrow\ C)\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{axiom:OR-3}{Axiom~8}} \\ 
+\label{proposition:implication72!26} \hypertarget{proposition:implication72!26}{\mbox{(26)}}  \ &  \ $(A\ \rightarrow\ D)\ \rightarrow\ ((B\ \rightarrow\ D)\ \rightarrow\ ((A\ \lor\ B)\ \rightarrow\ D))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $C$ by $D$ in \hyperlink{proposition:implication72!25}{(25)}} \\ 
+\label{proposition:implication72!27} \hypertarget{proposition:implication72!27}{\mbox{(27)}}  \ &  \ $(A\ \rightarrow\ D)\ \rightarrow\ ((C\ \rightarrow\ D)\ \rightarrow\ ((A\ \lor\ C)\ \rightarrow\ D))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $C$ in \hyperlink{proposition:implication72!26}{(26)}} \\ 
+\label{proposition:implication72!28} \hypertarget{proposition:implication72!28}{\mbox{(28)}}  \ &  \ $(A\ \rightarrow\ ((B\ \lor\ C)\ \rightarrow\ ((A\ \land\ B)\ \lor\ C)))\ \rightarrow\ ((C\ \rightarrow\ ((B\ \lor\ C)\ \rightarrow\ ((A\ \land\ B)\ \lor\ C)))\ \rightarrow\ ((A\ \lor\ C)\ \rightarrow\ ((B\ \lor\ C)\ \rightarrow\ ((A\ \land\ B)\ \lor\ C))))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $D$ by $(B\ \lor\ C)\ \rightarrow\ ((A\ \land\ B)\ \lor\ C)$ in \hyperlink{proposition:implication72!27}{(27)}} \\ 
+\label{proposition:implication72!29} \hypertarget{proposition:implication72!29}{\mbox{(29)}}  \ &  \ $(C\ \rightarrow\ ((B\ \lor\ C)\ \rightarrow\ ((A\ \land\ B)\ \lor\ C)))\ \rightarrow\ ((A\ \lor\ C)\ \rightarrow\ ((B\ \lor\ C)\ \rightarrow\ ((A\ \land\ B)\ \lor\ C)))$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication72!28}{(28)}, \hyperlink{proposition:implication72!24}{(24)}} \\ 
+\label{proposition:implication72!30} \hypertarget{proposition:implication72!30}{\mbox{(30)}}  \ &  \ $(A\ \lor\ C)\ \rightarrow\ ((B\ \lor\ C)\ \rightarrow\ ((A\ \land\ B)\ \lor\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication72!29}{(29)}, \hyperlink{proposition:implication72!15}{(15)}} \\ 
+\label{proposition:implication72!31} \hypertarget{proposition:implication72!31}{\mbox{(31)}}  \ &  \ $(A\ \rightarrow\ (B\ \rightarrow\ C))\ \rightarrow\ ((A\ \land\ B)\ \rightarrow\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!Add}{Add} \hyperlink{proposition:implication20}{Proposition~15}} \\ 
+\label{proposition:implication72!32} \hypertarget{proposition:implication72!32}{\mbox{(32)}}  \ &  \ $(A\ \rightarrow\ (B\ \rightarrow\ D))\ \rightarrow\ ((A\ \land\ B)\ \rightarrow\ D)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $C$ by $D$ in \hyperlink{proposition:implication72!31}{(31)}} \\ 
+\label{proposition:implication72!33} \hypertarget{proposition:implication72!33}{\mbox{(33)}}  \ &  \ $((A\ \lor\ C)\ \rightarrow\ (B\ \rightarrow\ D))\ \rightarrow\ (((A\ \lor\ C)\ \land\ B)\ \rightarrow\ D)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $A$ by $A\ \lor\ C$ in \hyperlink{proposition:implication72!32}{(32)}} \\ 
+\label{proposition:implication72!34} \hypertarget{proposition:implication72!34}{\mbox{(34)}}  \ &  \ $((A\ \lor\ C)\ \rightarrow\ ((B\ \lor\ C)\ \rightarrow\ D))\ \rightarrow\ (((A\ \lor\ C)\ \land\ (B\ \lor\ C))\ \rightarrow\ D)$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $B$ by $B\ \lor\ C$ in \hyperlink{proposition:implication72!33}{(33)}} \\ 
+\label{proposition:implication72!35} \hypertarget{proposition:implication72!35}{\mbox{(35)}}  \ &  \ $((A\ \lor\ C)\ \rightarrow\ ((B\ \lor\ C)\ \rightarrow\ ((A\ \land\ B)\ \lor\ C)))\ \rightarrow\ (((A\ \lor\ C)\ \land\ (B\ \lor\ C))\ \rightarrow\ ((A\ \land\ B)\ \lor\ C))$ \ &  \ {\tiny \hyperlink{rule:CP!SubstPred}{SubstPred} $D$ by $(A\ \land\ B)\ \lor\ C$ in \hyperlink{proposition:implication72!34}{(34)}} \\ 
+\label{proposition:implication72!36} \hypertarget{proposition:implication72!36}{\mbox{(36)}}  \ &  \ $((A\ \lor\ C)\ \land\ (B\ \lor\ C))\ \rightarrow\ ((A\ \land\ B)\ \lor\ C)$ \ &  \ {\tiny \hyperlink{rule:CP!MP}{MP} \hyperlink{proposition:implication72!35}{(35)}, \hyperlink{proposition:implication72!30}{(30)}} \\ 
+ & & \qedhere
+\end{longtable}
+\end{proof}
+
+
+
+%% end of chapter Aussagenlogik
+
+\backmatter
+
+\begin{thebibliography}{99}
+\addcontentsline{toc}{chapter}{Literaturverzeichnis}
+\bibitem{novikov} \emph{P.S. Novikov}, Grundz{\"u}ge der mathematischen Logik, VEB Deutscher Verlag der Wissenschaften, Berlin 1973
+
+\bibitem{detnieks} \emph{V.~Detlovs, K.~Podnieks}, Introduction to Mathematical Logic, \url{ https://dspace.lu.lv/dspace/handle/7/1308}
+
+\bibitem{hilback} \emph{D.~Hilbert, W.~Ackermann}, Grundz{\"u}ge der theoretischen Logik, 2. Ed., Springer, Berlin 1938. Siehe auch \url{http://www.math.uwaterloo.ca/~snburris/htdocs/scav/hilbert/hilbert.html}
+
+\bibitem{mendelson} \emph{E.~Mendelson}, Introduction to Mathematical Logic, 3. ed., Wadsworth, Belmont, CA 1987
+
+
+
+%% QEDEQ modules that use this one:
+\bibitem{qedeq_logic_v1} qedeq\_logic\_v1 \url{http://www.qedeq.org/0_04_07/doc/math/qedeq_logic_v1.xml}
+
+
+\end{thebibliography}
+\addcontentsline{toc}{chapter}{\indexname} \printindex
+
+\end{document}
+
