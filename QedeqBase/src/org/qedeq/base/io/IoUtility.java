@@ -1085,15 +1085,20 @@ public final class IoUtility {
      * stored in. If this is no Java Webstart version the result is
      * <code>new File(".")</code>. Otherwise the start directory is the subdirectory
      * "." concatenated <code>application</code> within <code>user.home</code>.
+     * If a system property <code>application + ".startDirectory" is defined we take this
+     * as the start directory.
      *
-     * @param   application Application name, used for Java Webstart version. Should
-     *          be written in lowercase letters. A "." is automatically appended at
-     *          the beginning.
+     * @param application   Application name, used for Java Webstart version. Should
+     *                       be written in lowercase letters. A "." is automatically appended at
+     *                       the beginning.
      * @return  Start directory for application.
      */
     public static final File getStartDirectory(final String application) {
         final File startDirectory;
-        if (isWebStarted()) {
+        final String property = System.getProperty(application + ".startDirectory");
+        if (property != null && property.length() > 0) {
+            startDirectory = new File(property);
+        } else if (isWebStarted()) {
             startDirectory = new File(getUserHomeDirectory(), "." + application);
         } else {
             startDirectory = new File(".");
