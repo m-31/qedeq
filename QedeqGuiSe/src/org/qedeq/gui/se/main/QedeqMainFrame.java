@@ -192,8 +192,9 @@ public class QedeqMainFrame extends JFrame {
     public static void main(final String[] args) {
         // load configuration file
         try {
-            QedeqGuiConfig.init(new File(IoUtility.getStartDirectory("qedeq"),
-                "config/org.qedeq.properties"), IoUtility.getStartDirectory("qedeq"));
+            final File startDirectory = IoUtility.getStartDirectory("qedeq");
+            QedeqGuiConfig.init(new File(startDirectory,
+                "config/org.qedeq.properties"), startDirectory);
         } catch (Throwable e) {
             e.printStackTrace();
             JOptionPane.showInternalMessageDialog(null, "Configuration file not found!\n\n"
