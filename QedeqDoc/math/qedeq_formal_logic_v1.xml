@@ -2496,7 +2496,19 @@
             </CHANGED_RULE>
             <PROOF kind="informal" level="1">
               <LATEX language="en">
-                TODO 20110613 m31
+                <![CDATA[
+                  We must transfer a proof of the following form
+                  \par
+                  \begin{tabularx}{\linewidth}{ll}
+                    $\alpha$                        & Hypothesis \\
+                    $\beta_1$                       & $\cdots$ \\ 
+                    $\vdots$                        & $\vdots$ \\ 
+                    $\beta_n$                       & $\cdots$ \\ 
+                    $\alpha \rightarrow \gamma $    & Conclusion
+                  \end{tabularx}
+                  \par
+                  TODO 20110613 m31
+                ]]>
               </LATEX>
               <LATEX language="de">
                 TODO 20110613 m31
