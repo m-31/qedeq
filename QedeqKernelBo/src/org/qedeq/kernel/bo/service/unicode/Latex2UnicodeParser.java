@@ -879,6 +879,10 @@ public final class Latex2UnicodeParser {
             output.addToken("\u201E");
         } else if (token.equals("\\ldots")) {
             output.addToken("...");
+        } else if (token.equals("\\cdots")) {
+            output.addToken("\u00B7\u00B7\u00B7");
+        } else if (token.equals("\\hdots")) {
+            output.addToken("\\u2807");
         } else if (token.equals("\\overline")) {    // TODO 20101018 m31: we assume set complement
             output.addToken("\u2201");
         } else if (token.startsWith("\\")) {
