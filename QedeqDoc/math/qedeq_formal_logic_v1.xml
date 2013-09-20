@@ -2509,9 +2509,13 @@
                     $\alpha \rightarrow \gamma $ &  & Conclusion
                   \end{tabularx}
                   \par
-                  $alpha$ is the hypothesis we asume as true. Starting with this hypothesis we apply the usual rules (reference $1$ to $n$) with the above restrictions. As a result we get $\beta_n$. 
+                  $alpha$ is the hypothesis we assume as true. Starting with this hypothesis we apply the usual rules (reference $1$ to $n$) with the above restrictions. As a result we get $\beta_n$. 
                   \par
-                  Now we describe how to transform this proof into a proof of the classical form. Afterwards we show how to allow the conditional proof recursivly. 
+                  Now we describe how to transform this proof into a proof of the classical form. Afterwards we show how to allow the conditional proof recursivly.
+                  \par
+                  $1$ $2$ 
+                  \par
+                  a $1$ b $2$ c $3$ 
                   TODO 20130920 m31
                 ]]>
               </LATEX>
