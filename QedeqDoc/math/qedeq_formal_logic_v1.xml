@@ -2497,21 +2497,26 @@
             <PROOF kind="informal" level="1">
               <LATEX language="en">
                 <![CDATA[
-                  We must transfer a proof of the following form
+                  We have a proof of the following form.
                   \par
-                  \begin{tabularx}{\linewidth}{ll}
-                    $\alpha$                        & Hypothesis \\
-                    $\beta_1$                       & $\cdots$ \\ 
-                    $\vdots$                        & $\vdots$ \\ 
-                    $\beta_n$                       & $\cdots$ \\ 
-                    $\alpha \rightarrow \gamma $    & Conclusion
+                  \begin{tabularx}{\linewidth}{lll}
+                              &  $\alpha$        & Hypothesis \\
+                              &  $\beta_1$       & rule reference $1$ \\ 
+                              &  $\beta_2$       & rule reference $2$ \\ 
+                              &  $\beta_3$       & rule reference $3$ \\ 
+                              &  $\vdots$        & $\vdots$ \\ 
+                              &  $\beta_n$       & rule reference $n$ \\ 
+                    $\alpha \rightarrow \gamma $ &  & Conclusion
                   \end{tabularx}
                   \par
-                  TODO 20110613 m31
+                  $alpha$ is the hypothesis we asume as true. Starting with this hypothesis we apply the usual rules (reference $1$ to $n$) with the above restrictions. As a result we get $\beta_n$. 
+                  \par
+                  Now we describe how to transform this proof into a proof of the classical form. Afterwards we show how to allow the conditional proof recursivly. 
+                  TODO 20130920 m31
                 ]]>
               </LATEX>
               <LATEX language="de">
-                TODO 20110613 m31
+                TODO 20130920 m31
               </LATEX>
             </PROOF>
           </RULE>
