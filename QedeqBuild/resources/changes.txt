@@ -10,37 +10,32 @@ Functional Changes
 
   Extensions
   ----------
-  - process list shows now all modules we currently try to work on
+  none
 
   Fixed Bugs
   ----------
-  - version of config files for Tools menu actions are now updated so the
-    tools work again
-
+  none
 
   Other Changes
   -------------
-  - we reworked on "Process / View Processes": "Details" shows more useful
-    informations
-
+  none
+  
 
 XML Files
 -----------
 
   Extensions
   ----------
-  qedeq_development_concept.xml: started
+  - started writing proof for meta rule "conditional proof"
+
 
   Fixed Bugs
   ----------
-  qedeq_formal_logic_v1.xml: some minor corrections, link change to
-    https://dspace.lu.lv/dspace/handle/7/1308 for V. Detlovs and K. Podnieks
-    great "Introduction to Mathematical Logic"  http://www.ltn.lv/~podnieks/
-  qedeq_logic_v1.xml: some minor corrections
+  none
 
   Other Changes
   -------------
-  qedeq_logic_language.xml \ref removed
+  none
 
 
 Source Code
@@ -48,40 +43,16 @@ Source Code
 
   Extensions
   ----------
-  - KernelContext.init throws now explicitly NullPointerException if one of
-    the parameters is null
-  - Parameters has now an global EMPTY instance
-  - Trace.isTraceOn added
-  - new interface ServiceCall and Service Result to represent single service
-    calls and their results within a ServiceProcess. An implementation of
-    ServiceExecutor should do the work and document the progress in the
-    ServiceCall
-  - QedeqBoSet has two methods asLongList() and asShortList to get a better
-    String representation
+  - start directory can now also be set by System.property application name
+    + ".startDirectory"
 
   Fixed Bugs
   ----------
-  - KernelContext.shutdown gets now rid of old config and services
-  - Context2SimpleXPath finding within ElementLists fixed
+  none
 
   Other Changes
   -------------
-  - kernel jar and sources are now available via maven central by groupId
-    org.qedeq.kernel
-  - testing of XML location findings is now integrated (using property
-    qedeq.test.xmlLocationFailures)
-  - InternalKernelServices:
-    + loadModule requires now also an InternalServiceProcess
-    + some methods have now an InterruptException in signature
-    + new methods for creation of a ServiceProcess and a ServiceCall
-    + new methods for locking and unlocking of modules for a ServiceProcess
-  - methods of QedeqFileDao are now not satisfied with a simple ServiceProcess
-    any longer
-  - now PluginCall extends new interface ServiceCall
-  - ModuleLabels has now two new methods to reset nodes to UNCHECKED for
-    being well formed or being proved, these methods are now called from
-    the appropriate plugins
-    
+  none
   
 
 XSD
@@ -97,5 +68,4 @@ XSD
 
   Other Changes
   -------------
-  element BIBLIOGRAPHY is allowed to have no ITEM sub elements
-
+  none
