@@ -385,7 +385,7 @@ public class PreferencesDialog extends JDialog {
             QedeqGuiConfig.getInstance().isAutoStartHtmlBrowser());
         builder.append(autoStartHtmlBrowserCB);
 
-        traceOnCB = new JCheckBox(" Enable trace output generation. Must be on to configure detailed log.",
+        traceOnCB = new JCheckBox(" Enable trace output. Must be on to configure detailed log.",
                 QedeqGuiConfig.getInstance().isTraceOn());
             builder.append(traceOnCB);
 
