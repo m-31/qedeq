@@ -65,6 +65,15 @@
                     excludes="**/*.java,**/package.html"
                 />
             </copy>
+
+            <!-- TODO this a quick and dirty hack: we copy the log4j config file to the test resources -->   
+            <copy todir="@{dir}/target/test-outdir/config">
+                <fileset file="${basedir}/QedeqGuiSe/src/config/*" 
+                    excludes="**/log4j.properties" />
+                <!-- TODO mime 20090608: refactor: the line below is a dependency from the releaseBuild.xml script ! -->
+                <filterset refid="qedeq_filter" />
+            </copy>
+
             <available file="${basedir}/@{name}Test/data" type="dir"
                         property="qedeq.test.@{name}.data-present"  />
             <echo>qedeq.test.@{name}.data-present=${qedeq.test.@{name}.data-present}</echo>   
@@ -88,13 +97,6 @@
         <copy todir="${QedeqDest}/src/test/resources/data/doc" >
           <fileset dir="${basedir}/QedeqDoc"
           />
-        </copy>
-        <!-- TODO this a quick and dirty hack: we copy the log4j config file to the test resources -->   
-        <copy todir="${QedeqDest}/target/test-outdir/config">
-            <fileset file="${basedir}/QedeqGuiSe/src/config/*" 
-                excludes="**/log4j.properties" />
-            <!-- TODO mime 20090608: refactor: the line below is a dependency from the releaseBuild.xml script ! -->
-            <filterset refid="qedeq_filter" />
         </copy>
    </target>
 
@@ -211,7 +213,7 @@
             <mkdir dir="@{dir}/target/reports/junit/report" />
             <mkdir dir="@{dir}/target/test-outdir" />
             <mkdir dir="@{dir}/src/test/resources" /> <!-- create if it doesn't exist already -->   
-            <junit fork="yes" printsummary="yes" dir="@{dir}/target/test-outdir"
+            <junit fork="yes" printsummary="yes" dir="@{dir}"
                 failureproperty="qedeq.junitfailure"   
                 showoutput="true"   
                 maxmemory="1024M">
