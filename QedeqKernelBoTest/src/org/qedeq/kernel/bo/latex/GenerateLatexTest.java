@@ -407,7 +407,6 @@ public class GenerateLatexTest extends QedeqBoTestCase {
                 .createLatex(new ServiceCallImpl(DummyPlugin.getInstance(), prop, configParameters, Parameters.EMPTY,
                 new ServiceProcessImpl(new ModuleArbiter(), "generate LaTeX"), null), language, "1");
             if (to != null) {
-                IoUtility.createNecessaryDirectories(to);
                 IoUtility.saveFile(latex, to);
                 return to.getCanonicalPath();
             }

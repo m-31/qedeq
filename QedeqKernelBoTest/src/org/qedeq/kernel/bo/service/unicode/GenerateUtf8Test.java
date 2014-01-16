@@ -177,7 +177,6 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
         final File texCopy = new File(dir, new File(new File(xml).getParent(), texFile.getName())
             .getPath());
         final File xmlCopy = new File(destinationDirectory, xml);
-        IoUtility.createNecessaryDirectories(xmlCopy);
         IoUtility.copyFile(xmlFile, xmlCopy);
         IoUtility.copyFile(texFile, texCopy);
         if (webBo.hasErrors()) {
