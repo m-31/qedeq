@@ -16,6 +16,7 @@
 package org.qedeq.base.test;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 
 import junit.framework.TestCase;
@@ -47,7 +48,7 @@ public abstract class QedeqTestCase extends TestCase {
         // init Log4J watchdog
         try {
             final File logConfig = new File(System.getProperty("qedeq.test.log4j",
-                "../../qedeq_test/config/log4j.xml"));
+                OUTDIR + "/config/log4j.xml"));
             URL url = null;
             if (logConfig.canRead()) {
                 url = UrlUtility.toUrl(logConfig);
@@ -69,6 +70,10 @@ public abstract class QedeqTestCase extends TestCase {
                 Logger.getRootLogger().setLevel(Level.ERROR);
             }
         } catch (Exception e) {
+            try {
+                System.out.println((new File(".")).getCanonicalPath());
+            } catch (IOException ignore) {
+            }
             e.printStackTrace(System.out);
             // we ignore this
         }
