@@ -55,7 +55,7 @@ public abstract class QedeqBoTestCase extends QedeqTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         docDir = new File("../QedeqDoc");
-        genDir = new File("../../../qedeq_gen");
+        genDir = new File("../../qedeq_gen");
         // test if we are in the normal development environment, where a project with name
         // "../QedeqDoc" exists, otherwise we assume to run within the release directory
         // structure where the docs are in the directory ../doc
