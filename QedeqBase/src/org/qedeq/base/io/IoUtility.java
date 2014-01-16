@@ -1085,7 +1085,7 @@ public final class IoUtility {
      * stored in. If this is no Java Webstart version the result is
      * <code>new File(".")</code>. Otherwise the start directory is the subdirectory
      * "." concatenated <code>application</code> within <code>user.home</code>.
-     * If a system property <code>application + ".startDirectory" is defined we take this
+     * If a system property <code>application + ".startDirectory"</code> is defined we take this
      * as the start directory.
      *
      * @param application   Application name, used for Java Webstart version. Should
