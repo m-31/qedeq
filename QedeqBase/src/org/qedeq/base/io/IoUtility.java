@@ -448,6 +448,7 @@ public final class IoUtility {
      */
     public static void saveFile(final File file, final String text)
             throws IOException {
+        createNecessaryDirectories(file);
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new FileWriter(file));
@@ -480,6 +481,7 @@ public final class IoUtility {
      */
     public static void saveFile(final File file, final String text, final String encoding)
             throws IOException {
+        createNecessaryDirectories(file);
         BufferedWriter out = new BufferedWriter(
             new OutputStreamWriter(new FileOutputStream(file), encoding));
         try {
@@ -498,6 +500,7 @@ public final class IoUtility {
      */
     public static void saveFileBinary(final File file, final byte[] data)
             throws IOException {
+        createNecessaryDirectories(file);
         BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
         try {
             out.write(data);
