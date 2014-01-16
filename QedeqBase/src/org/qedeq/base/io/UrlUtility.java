@@ -315,7 +315,6 @@ public final class UrlUtility {
 
             // Read the response body.
             byte[] responseBody = httpMethod.getResponseBody();
-            IoUtility.createNecessaryDirectories(f);
             IoUtility.saveFileBinary(f, responseBody);
             listener.loadingCompletenessChanged(1);
         } finally {

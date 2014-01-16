@@ -1399,7 +1399,6 @@ public class IoUtilityTest extends QedeqTestCase {
 
         assertTrue(IoUtility.deleteDir(new File(getOutdir(), "testDeleteDirFileBoolean"), true));
         final File file = new File(getOutdir() + "/testDeleteDirFileBoolean/my/test/path");
-        IoUtility.createNecessaryDirectories(file);
         IoUtility.saveFile(file, new StringBuffer("hei"), "UTF-8");
         assertTrue(IoUtility.deleteDir(new File(getOutdir(), "testDeleteDirFileBoolean"), true));
 
