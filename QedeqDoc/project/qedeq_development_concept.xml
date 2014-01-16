@@ -128,6 +128,10 @@
                 'Help/Install New Software...' Add 'svn' '\url{http://subclipse.tigris.org/update_1.6.x}' install svn.
                
                 \par
+                'Help/Install New Software...' Add 'checkstyle' '\url{http://eclipse-cs.sf.net/update/}' install checkstyle.
+                'Window/Preferences/Checkstyle' click 'New..', choose 'External Configuration File' and import 'QedeqBuild/resoures/checkstyle/QedeqFormalChecks.xml'.
+                Name check configuration: 'QEDEQ Java Formal Checks 2'
+                \par
                 'Window/Open Perspective/Other/SVN Repository Exploring' 'Add SVN Repository' with URL '\url{https://svn.code.sf.net/p/pmii/code/trunk}'. Browse the new repository and check out all direct subnodes as projects.\footnote{This should be: QedeqBase
 QedeqBaseTest, QedeqBuild, QedeqDoc, QedeqGuiSe, QedeqKernelBo, QedeqKernelBoTest, QedeqKernelSe, QedeqKernelSeTest, QedeqKernelXml, QedeqKernelXmlTest, QedeqLib}
               ]]>
