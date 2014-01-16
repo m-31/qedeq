@@ -7,8 +7,9 @@
     
     <!-- file logging -->
     <appender name="FileAppender" class="org.apache.log4j.RollingFileAppender">
-        <param name="file" value="log/log.txt"/>
+        <param name="file" value="./log/trace.log"/>
         <param name="Append" value="true"/>
+        <param name="MaxFileSize" value="100KB"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d %c{2} %m%n"/>
         </layout>
@@ -17,11 +18,11 @@
     <!-- console logging -->
     <appender name="ConsoleAppender" class="org.apache.log4j.ConsoleAppender">
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d %c{2} %m%n"/>
+            <param name="ConversionPattern" value="%d %c{2} %m%n" />
         </layout>
     </appender>
-    
-    <!-- examples for logging output of certain classes -->
+
+<!-- examples for logging output of certain classes -->
 <!--
     <logger name="org.qedeq.kernel.bo.control.QedeqBoFormalLogicChecker">
         <level value="debug" /> 
@@ -34,7 +35,7 @@
 
     <!-- log level for FileAppender and ConsoleAppender -->
     <root>
-        <priority value="error"/>
+        <level value="fatal"/>
         <appender-ref ref="FileAppender"/>
         <appender-ref ref="ConsoleAppender"/>
     </root>
