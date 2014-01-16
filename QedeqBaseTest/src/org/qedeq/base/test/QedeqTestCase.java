@@ -24,7 +24,9 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.helpers.Loader;
 import org.apache.log4j.xml.DOMConfigurator;
+import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.UrlUtility;
+import org.qedeq.base.utility.StringUtility;
 
 /**
  * Basis class for all tests.
@@ -33,23 +35,34 @@ import org.qedeq.base.io.UrlUtility;
  */
 public abstract class QedeqTestCase extends TestCase {
 
+    /** Destination directory for generated output files. */
+    private static final File OUTDIR =
+        new File(System.getProperty("qedeq.test.outdir", "../../qedeq_test"));
+
+    /** Source directory for input files. */
+    private static final File INDIR =
+        new File(System.getProperty("qedeq.test.indir", "data"));
+
+
     static {
         // init Log4J watchdog
         try {
             final File logConfig = new File(System.getProperty("qedeq.test.log4j",
-            "../../../qedeq_gen/config/log4j.xml"));
+                "../../qedeq_test/config/log4j.xml"));
             URL url = null;
             if (logConfig.canRead()) {
-                url  = UrlUtility.toUrl(logConfig);
-            }
-            if (url == null) {
-                url = Loader.getResource("config/log4j.xml");
+                url = UrlUtility.toUrl(logConfig);
             }
             if (url == null) {
                 // try development environment
-                url = UrlUtility.toUrl(new File("../QedeqBuild/resources/config/log4j.xml"));
+                final StringBuffer buffer = new StringBuffer();
+                IoUtility.loadFile(new File("../QedeqBuild/resources/config/log4j.xml"), buffer, "UTF8");
+                StringUtility.replace(buffer, "\"./log/trace.log\"", "\"../../qedeq_test/log/trace.log\"");
+                IoUtility.saveFile(logConfig, buffer, "UTF8");
+                if (logConfig.canRead()) {
+                    url = UrlUtility.toUrl(logConfig);
+                }
             }
-//            System.out.println(url);
             if (url != null) {
                 // set properties and watch file every 15 seconds
                 DOMConfigurator.configureAndWatch(url.getPath(), 15000);
@@ -57,15 +70,10 @@ public abstract class QedeqTestCase extends TestCase {
                 Logger.getRootLogger().setLevel(Level.ERROR);
             }
         } catch (Exception e) {
+            e.printStackTrace(System.out);
             // we ignore this
         }
     }
-
-    /** Destination directory for generated output files. */
-    private final File outdir;
-
-    /** Source directory for input files. */
-    private final File indir;
 
     /** Should the methods of this class execute fast? */
     private final boolean fast;
@@ -77,8 +85,6 @@ public abstract class QedeqTestCase extends TestCase {
      */
     public QedeqTestCase(final String name) {
         super(name);
-        outdir = new File(System.getProperty("qedeq.test.outdir", "../../../qedeq_gen"));
-        indir = new File(System.getProperty("qedeq.test.indir", "data"));
         fast = "true".equalsIgnoreCase(System.getProperty("qedeq.test.fast", "true"));
     }
 
@@ -87,8 +93,6 @@ public abstract class QedeqTestCase extends TestCase {
      */
     public QedeqTestCase() {
         super();
-        outdir = new File(System.getProperty("qedeq.test.outdir", "../../../qedeq_gen"));
-        indir = new File(System.getProperty("qedeq.test.indir", "data"));
         fast = "true".equalsIgnoreCase(System.getProperty("qedeq.test.fast", "true"));
     }
 
@@ -99,7 +103,7 @@ public abstract class QedeqTestCase extends TestCase {
      * @return  Directory for test output.
      */
     public File getOutdir() {
-        return outdir;
+        return OUTDIR;
     }
 
     /**
@@ -109,7 +113,7 @@ public abstract class QedeqTestCase extends TestCase {
      * @return  Directory for test input.
      */
     public File getIndir() {
-        return indir;
+        return INDIR;
     }
 
     /**
