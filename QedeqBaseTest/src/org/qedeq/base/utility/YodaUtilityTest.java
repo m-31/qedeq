@@ -37,7 +37,7 @@ public class YodaUtilityTest extends QedeqTestCase {
      */
     public void testGetFieldValue() throws Exception {
         assertEquals(new Integer(secret), YodaUtility.getFieldValue(this, "secret"));
-        assertEquals(getOutdir(), YodaUtility.getFieldValue(this, "outdir"));
+        assertEquals(getOutdir(), YodaUtility.getFieldValue(this, "OUTDIR"));
         try {
             YodaUtility.getFieldValue(this, "unknown");
             fail("Exception expected");
@@ -54,8 +54,8 @@ public class YodaUtilityTest extends QedeqTestCase {
     public void testGetField() throws Exception {
         assertEquals(this.getClass().getDeclaredField("secret"),
             YodaUtility.getField(this, "secret"));
-        assertEquals(QedeqTestCase.class.getDeclaredField("outdir"),
-            YodaUtility.getField(this, "outdir"));
+        assertEquals(QedeqTestCase.class.getDeclaredField("OUTDIR"),
+            YodaUtility.getField(this, "OUTDIR"));
         try {
             YodaUtility.getField(this, "unknown");
             fail("Exception expected");
