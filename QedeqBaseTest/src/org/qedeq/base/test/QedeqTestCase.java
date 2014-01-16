@@ -22,7 +22,6 @@ import junit.framework.TestCase;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.helpers.Loader;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.UrlUtility;
