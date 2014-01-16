@@ -22,14 +22,14 @@
     <property name="qedeq.test.fast"       value="false" /> <!-- test all methods, even slow ones -->
     <property file="${basedir}/QedeqBuild/scripts/build.properties" />
     <property name="qedeq.lib"             value="${basedir}/QedeqLib" />
-    <property name="qedeq.gen"             value="${basedir}/../../qedeq_gen" />
-    <property name="qedeq.directory"       value="qedeq" />
-    <property name="qedeq.dest"            value="${basedir}/../../qedeq_gen/release/ant/${qedeq.directory}" />
-    <property name="qedeq.dest.module"     value="${basedir}/../../qedeq_gen/release/ant/modules" />
-    <property name="qedeq.dist"            value="${basedir}/../../qedeq_gen/release/ant/dist" />
-    <property name="qedeq.temp"            value="${basedir}/../../qedeq_gen/release/ant/temp" />
-    <property name="qedeq.webstart"        value="${basedir}/../../qedeq_gen/release/ant/webstart" />
     <property name="qedeq.resources"       value="${basedir}/QedeqBuild/resources" />
+    <property name="qedeq.gen"             value="${basedir}/../qedeq_gen" />
+    <property name="qedeq.directory"       value="qedeq" />
+    <property name="qedeq.dest"            value="${qedeq.gen}/release/ant/${qedeq.directory}" />
+    <property name="qedeq.dest.module"     value="${qedeq.gen}/release/ant/modules" />
+    <property name="qedeq.dist"            value="${qedeq.gen}/release/ant/dist" />
+    <property name="qedeq.temp"            value="${qedeq.gen}/release/ant/temp" />
+    <property name="qedeq.webstart"        value="${qedeq.gen}/release/ant/webstart" />
 
     <!-- Java2Html - java2html.de -->
     <taskdef name="java2html" classname="de.java2html.anttasks.Java2HtmlTask"
@@ -140,6 +140,8 @@ currently in ants classpath
             directory=${qedeq.release.directory}
             timestamp=${qedeq.se.timestamp}
             buildId=  ${qedeq.se.buildId}
+        	
+        	basedir=  ${basedir}
         </echo>
         <echoproperties />
     </target>
