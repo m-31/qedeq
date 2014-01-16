@@ -361,6 +361,7 @@ public final class IoUtility {
      * @throws  IOException Reading or writing failed.
      */
     public static void saveFile(final InputStream in, final File file) throws IOException {
+        createNecessaryDirectories(file);
         FileOutputStream out = null;
         try {
             out = new FileOutputStream(file);
