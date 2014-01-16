@@ -90,8 +90,8 @@ public class GenerateLatexTest extends QedeqBoTestCase {
      */
     public void testGeneration2() throws Exception {
 //        System.setProperty("qedeq.test.xmlLocationFailures", Boolean.TRUE.toString());
-        generate(getIndir(), "proof/proof_001.xml", getGenDir(), true, false);
-        generate(getIndir(), "proof/proof_002.xml", getGenDir(), true, true);
+        generate(getIndir(), "proof/proof_001.xml", getOutdir(), true, false);
+        generate(getIndir(), "proof/proof_002.xml", getOutdir(), true, true);
 //        System.setProperty("qedeq.test.xmlLocationFailures", Boolean.FALSE.toString());
     }
 
@@ -103,7 +103,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
     public void testNegativeGeneration2() throws Exception {
 //        System.setProperty("qedeq.test.xmlLocationFailures", Boolean.TRUE.toString());
         try {
-            generate(getIndir(), "proof/proof_002.xml", getGenDir(), true, false);
+            generate(getIndir(), "proof/proof_002.xml", getOutdir(), true, false);
         } catch (SourceFileExceptionList list) {
             SourceFileExceptionList ex = list;
             assertEquals(8, ex.size());
@@ -154,7 +154,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
 
     public void testNegative02() throws Exception {
         try {
-            generate(getIndir(), "qedeq_error_sample_12.xml", "de", new File(getGenDir(), "null"), false);
+            generate(getIndir(), "qedeq_error_sample_12.xml", "de", new File(getOutdir(), "null"), false);
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             SourceFileExceptionList ex = list;
@@ -169,7 +169,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
 
     public void testNegative03() throws Exception {
         try {
-            generate(getIndir(), "qedeq_error_sample_13.xml", "en", new File(getGenDir(), "null"), false);
+            generate(getIndir(), "qedeq_error_sample_13.xml", "en", new File(getOutdir(), "null"), false);
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             SourceFileExceptionList ex = list;
@@ -186,7 +186,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
 
     public void testNegative04() throws Exception {
         try {
-            generate(getIndir(), "qedeq_error_sample_14.xml", "en", new File(getGenDir(), "null"), false);
+            generate(getIndir(), "qedeq_error_sample_14.xml", "en", new File(getOutdir(), "null"), false);
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             SourceFileExceptionList ex = list;
@@ -245,7 +245,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
 
     public void testNegative05() throws Exception {
         try {
-            generate(getIndir(), "qedeq_error_sample_15.xml", "en", new File(getGenDir(), "null"), false);
+            generate(getIndir(), "qedeq_error_sample_15.xml", "en", new File(getOutdir(), "null"), false);
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             SourceFileExceptionList ex = list;
@@ -260,7 +260,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
 
     public void testNegative06() throws Exception {
         try {
-            generate(getIndir(), "qedeq_error_sample_16.xml", "en", new File(getGenDir(), "null"), false);
+            generate(getIndir(), "qedeq_error_sample_16.xml", "en", new File(getOutdir(), "null"), false);
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             SourceFileExceptionList ex = list;
@@ -275,7 +275,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
 
     public void testNegative07() throws Exception {
         try {
-            generate(getIndir(), "qedeq_error_sample_17.xml", "en", new File(getGenDir(), "null"), false);
+            generate(getIndir(), "qedeq_error_sample_17.xml", "en", new File(getOutdir(), "null"), false);
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             SourceFileExceptionList ex = list;
@@ -290,7 +290,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
 
     public void testNegative08() throws Exception {
         try {
-            generate(getIndir(), "qedeq_error_sample_18.xml", "en", new File(getGenDir(), "null"), false);
+            generate(getIndir(), "qedeq_error_sample_18.xml", "en", new File(getOutdir(), "null"), false);
             fail("SourceFileExceptionList expected");
         } catch (SourceFileExceptionList list) {
             SourceFileExceptionList ex = list;
@@ -368,10 +368,9 @@ public class GenerateLatexTest extends QedeqBoTestCase {
         final File texFile = new File(destinationDirectory, xml.substring(0, xml.lastIndexOf('.'))
             + "_" + language + ".tex");
         generate((KernelQedeqBo) webBo, texFile, language, "1");
-        final File texCopy = new File(dir, new File(new File(xml).getParent(), texFile.getName())
+        final File texCopy = new File(getOutdir(), new File(new File(xml).getParent(), texFile.getName())
             .getPath());
         final File xmlCopy = new File(destinationDirectory, xml);
-        IoUtility.createNecessaryDirectories(xmlCopy);
         IoUtility.copyFile(xmlFile, xmlCopy);
         IoUtility.copyFile(texFile, texCopy);
         if (webBo.hasErrors()) {
