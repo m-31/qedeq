@@ -783,8 +783,12 @@ public class TextInput extends InputStream {
     public final int getPosition(final SourcePosition position) {
         int find = 0;
         int r = 0;
-        while (++r < position.getRow() && -1 < (find = source.indexOf("" + CR, find))) {
-            // nothing to do
+
+        while (++r < position.getRow()) {
+            find = source.indexOf("" + CR, find);
+            if (-1 == find) {
+                break;
+            }
         }
         if (find < 0) {
             find = source.length();
