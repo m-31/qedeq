@@ -332,6 +332,13 @@ public final class UrlUtility {
      */
     private static final class LazyHolderTimeoutMethods {
 
+        /**
+         * Constructor, should never be called.
+         */
+        private LazyHolderTimeoutMethods() {
+            // don't call me
+        }
+
         /** Lazy initialized constant that knows about the existence of the method
          * <code>URLConnection.setConnectTimeout</code>. This depends on the currently running
          * JVM. */
