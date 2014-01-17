@@ -81,7 +81,7 @@ public class QedeqMainFrame extends JFrame {
         QedeqLog.getInstance().addLog(new TraceListener());     // trace file
         QedeqLog.getInstance()                                  // log file
             .addLog(new LogListenerImpl(new PrintStream(
-            new FileOutputStream(QedeqGuiConfig.getInstance().getLogFile(), true), true)));
+            new FileOutputStream(QedeqGuiConfig.getInstance().getLogFile(), true), true, "UTF8")));
         ModuleEventLog.getInstance().addLog(new ModuleEventListenerLog());  // all loggers
 
         // initialize the kernel, this may create already some logging events
