@@ -16,6 +16,5 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/QedeqKernelSe"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/QedeqBase"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/QedeqKernelBo"/>
-	<classpathentry kind="lib" path="/QedeqLib/junit.jar" sourcepath="/QedeqLib/src/junit_3.8.1_src.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
