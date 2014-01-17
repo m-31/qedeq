@@ -95,10 +95,11 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
                     list.getModuleContext(i));
             }
             final Map cut = bo.getExistenceChecker().getRules();
-            final Iterator iter = cut.keySet().iterator();
+            final Iterator iter = cut.entrySet().iterator();
             while (iter.hasNext()) {
-                final RuleKey key = (RuleKey) iter.next();
-                if (rules.containsKey(key) && !rules.get(key).equals(cut.get(key))) {
+                final Map.Entry entry = (Map.Entry) iter.next();
+                final RuleKey key = (RuleKey) entry.getKey();
+                if (rules.containsKey(key) && !rules.get(key).equals(entry.getValue())) {
                     throw new IllegalModuleDataException(
                         LogicErrors.RULE_DEFINITIONS_DONT_MIX_CODE,
                         LogicErrors.RULE_DEFINITIONS_DONT_MIX_TEXT + key + " in "
