@@ -114,7 +114,9 @@
                    debuglevel="lines,vars,source"
                    target="1.4"
                    source="1.4"
-                   deprecation="true"
+                   deprecation="off"
+                   includeAntRuntime="false"
+         	       nowarn="true"
                    >
                <classpath refid="@{classpath}" />
             </javac>
@@ -135,7 +137,9 @@
                    debuglevel="lines,vars,source"
                    target="1.4"
                    source="1.4"
-                   deprecation="true"
+                   deprecation="off"
+                   includeAntRuntime="false"
+            	   nowarn="true"
                    >
                <classpath refid="@{classpath}" />
             </javac>
