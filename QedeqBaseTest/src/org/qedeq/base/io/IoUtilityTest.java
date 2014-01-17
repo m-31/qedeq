@@ -59,11 +59,11 @@ public class IoUtilityTest extends QedeqTestCase {
         final String encoding = new InputStreamReader(new ByteArrayInputStream(
             new byte[0])).getEncoding();
         // UTF-8 and UTF8 are the same, so we remove all "-" ...
-        if (!StringUtility.replace(System.getProperty("file.encoding"), "-", "").equals(
+        if (!StringUtility.replace(IoUtility.getDefaultEncoding(), "-", "").equals(
                 StringUtility.replace(encoding, "-", ""))) {
             System.out.println("This system showed the java property \"file.encoding\" "
                 + System.getProperty("file.encoding") + " but the detected writing default is: "
-                + "\"" + IoUtility.getDefaultEncoding()
+                + "\"" + encoding
                 + "\"\nThis might be ok, but you should check it");
         }
     }
