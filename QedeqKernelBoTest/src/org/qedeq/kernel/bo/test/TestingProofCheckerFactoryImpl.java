@@ -46,7 +46,7 @@ public class TestingProofCheckerFactoryImpl extends ProofCheckerFactoryImpl {
                 protected void setLocationWithinModule(final String locationWithinModule) {
                     getCurrentContext().setLocationWithinModule(locationWithinModule);
                     try {
-                        System.out.println("testing context " + locationWithinModule);
+//                        System.out.println("testing context " + locationWithinModule);
                         QedeqBo qedeq = KernelContext.getInstance().getQedeqBo(getCurrentContext().getModuleLocation());
                         DynamicGetter.get(qedeq.getQedeq(), getCurrentContext().getLocationWithinModule());
                     } catch (RuntimeException e) {
@@ -65,7 +65,7 @@ public class TestingProofCheckerFactoryImpl extends ProofCheckerFactoryImpl {
                 protected void setLocationWithinModule(final String locationWithinModule) {
                     getCurrentContext().setLocationWithinModule(locationWithinModule);
                     try {
-                        System.out.println("testing context " + locationWithinModule);
+//                        System.out.println("testing context " + locationWithinModule);
                         QedeqBo qedeq = KernelContext.getInstance().getQedeqBo(getCurrentContext().getModuleLocation());
                         DynamicGetter.get(qedeq.getQedeq(), getCurrentContext().getLocationWithinModule());
                     } catch (RuntimeException e) {
