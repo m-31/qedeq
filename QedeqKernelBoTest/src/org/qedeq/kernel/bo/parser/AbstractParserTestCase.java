@@ -99,13 +99,13 @@ public abstract class AbstractParserTestCase extends QedeqTestCase {
             System.out.println("\t" + result.getQedeq());
             fail("Exception expected");
         } catch (ParserException e) {
-            e.printStackTrace(System.out);
-            System.out.println(input.getRow() + ":" + input.getColumn() + ":");
-            System.out.println(e.getMessage());
-            System.out.println(input.getLine().replace('\t', ' ').replace('\015', ' '));
-            final StringBuffer pointer = StringUtility.getSpaces(input.getColumn());
-            pointer.append('^');
-            System.out.println(pointer);
+//            e.printStackTrace(System.out);
+//            System.out.println(input.getRow() + ":" + input.getColumn() + ":");
+//            System.out.println(e.getMessage());
+//            System.out.println(input.getLine().replace('\t', ' ').replace('\015', ' '));
+//            final StringBuffer pointer = StringUtility.getSpaces(input.getColumn());
+//            pointer.append('^');
+//            System.out.println(pointer);
             assertEquals(getExceptionTest()[number][1], input.getRow() + ":" + input.getColumn()
                 + ":" + e.getMessage());
         }
