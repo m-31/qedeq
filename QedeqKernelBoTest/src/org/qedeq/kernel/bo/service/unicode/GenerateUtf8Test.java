@@ -52,43 +52,43 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
 
     public void testGeneration1() throws Exception {
         try {
-            generate(getDocDir(), "math/qedeq_logic_v1.xml", getGenDir(), false);
+            generate(getDocDir(), "math/qedeq_logic_v1.xml", false);
         } catch (SourceFileExceptionList e) {
             assertEquals(4, e.size());
         }
     }
 
     public void testGeneration1b() throws Exception {
-        generate(getDocDir(), "math/qedeq_formal_logic_v1.xml", getGenDir(), false);
+        generate(getDocDir(), "math/qedeq_formal_logic_v1.xml", false);
     }
 
     public void testGeneration2() throws Exception {
         try {
-            generate(getDocDir(), "sample/qedeq_sample1.xml", getGenDir(), false);
+            generate(getDocDir(), "sample/qedeq_sample1.xml", false);
         } catch (SourceFileExceptionList e) {
             assertEquals(4, e.size());
         }
     }
 
     public void testGeneration3() throws Exception {
-        generate(getDocDir(), "sample/qedeq_sample2.xml", getGenDir(), false);
+        generate(getDocDir(), "sample/qedeq_sample2.xml", false);
     }
 
     public void testGeneration3b() throws Exception {
-        generate(getDocDir(), "sample/qedeq_sample3.xml", getGenDir(), false);
+        generate(getDocDir(), "sample/qedeq_sample3.xml", false);
     }
 
     public void testGeneration3c() throws Exception {
-        generate(getDocDir(), "sample/qedeq_sample4.xml", getGenDir(), false);
+        generate(getDocDir(), "sample/qedeq_sample4.xml", false);
     }
 
     public void testGeneration4() throws Exception {
-        generate(getDocDir(), "math/qedeq_set_theory_v1.xml", getGenDir(), false);
+        generate(getDocDir(), "math/qedeq_set_theory_v1.xml", false);
     }
 
     public void testGeneration5() throws Exception {
         try {
-            generate(getDocDir(), "project/qedeq_basic_concept.xml", getGenDir(), false);
+            generate(getDocDir(), "project/qedeq_basic_concept.xml", false);
         } catch (SourceFileExceptionList e) {
             assertEquals(14, e.size());
         }
@@ -96,7 +96,7 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
 
     public void testGeneration6() throws Exception {
         try {
-            generate(getDocDir(), "project/qedeq_logic_language.xml", getGenDir(), true);
+            generate(getDocDir(), "project/qedeq_logic_language.xml", true);
         } catch (SourceFileExceptionList e) {
 //            System.out.println(e);
             assertEquals(8, e.size());
@@ -109,12 +109,11 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
      *
      * @param dir Start directory.
      * @param xml Relative path to XML file. Must not be <code>null</code>.
-     * @param destinationDirectory Directory path for LaTeX file. Must not be <code>null</code>.
      * @param onlyEn Generate only for language "en".
      * @throws Exception Failure.
      */
-    public void generate(final File dir, final String xml, final File destinationDirectory,
-            final boolean onlyEn) throws Exception {
+    public void generate(final File dir, final String xml, final boolean onlyEn) throws Exception {
+    	final File destinationDirectory = new File(getGenDir(), "doc");
         final SourceFileExceptionList sfe = new SourceFileExceptionList();
         try {
             generate(dir, xml, "en", destinationDirectory);
@@ -171,14 +170,15 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
 
         getServices().checkWellFormedness(webAddress);
         final QedeqBo webBo = getServices().getQedeqBo(webAddress);
-        final File texFile = new File(destinationDirectory, xml.substring(0, xml.lastIndexOf('.'))
+        final File utfFile = new File(destinationDirectory, xml.substring(0, xml.lastIndexOf('.'))
             + "_" + language + ".txt");
-        generate((KernelQedeqBo) webBo, texFile, language, "1");
-        final File texCopy = new File(dir, new File(new File(xml).getParent(), texFile.getName())
-            .getPath());
+        System.out.println(utfFile);
+        generate((KernelQedeqBo) webBo, utfFile, language, "1");
+//        final File utfCopy = new File(dir, new File(new File(xml).getParent(), utfFile.getName())
+//            .getPath());
+//        IoUtility.copyFile(utfFile, utfCopy);
         final File xmlCopy = new File(destinationDirectory, xml);
         IoUtility.copyFile(xmlFile, xmlCopy);
-        IoUtility.copyFile(texFile, texCopy);
         if (webBo.hasErrors()) {
             throw webBo.getErrors();
         }
