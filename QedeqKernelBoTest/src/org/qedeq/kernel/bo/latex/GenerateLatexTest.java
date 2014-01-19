@@ -368,11 +368,11 @@ public class GenerateLatexTest extends QedeqBoTestCase {
         final File texFile = new File(destinationDirectory, xml.substring(0, xml.lastIndexOf('.'))
             + "_" + language + ".tex");
         generate((KernelQedeqBo) webBo, texFile, language, "1");
-        final File texCopy = new File(getOutdir(), new File(new File(xml).getParent(), texFile.getName())
-            .getPath());
+//        final File texCopy = new File(getOutdir(), new File(new File(xml).getParent(), texFile.getName())
+//            .getPath());
+//        IoUtility.copyFile(texFile, texCopy);
         final File xmlCopy = new File(destinationDirectory, xml);
         IoUtility.copyFile(xmlFile, xmlCopy);
-        IoUtility.copyFile(texFile, texCopy);
         if (webBo.hasErrors()) {
             throw webBo.getErrors();
         }
