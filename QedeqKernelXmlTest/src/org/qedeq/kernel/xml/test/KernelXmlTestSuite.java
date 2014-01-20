@@ -31,7 +31,6 @@ import com.sun.syndication.io.XmlReaderExceptionTest;
 /**
  * Run all tests for the project.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class KernelXmlTestSuite extends QedeqTestSuite {
@@ -73,7 +72,7 @@ public class KernelXmlTestSuite extends QedeqTestSuite {
         addTestSuite(KernelXmlEachClassHasATest.class);
 
         // test that we don't missed adding a test to this suite
-        addTestIfEveryExistingTestIsCalled("org.qedeq.kernel.se");
+        addTestIfEveryExistingTestIsCalled("org.qedeq.kernel.xml");
 
     }
 
