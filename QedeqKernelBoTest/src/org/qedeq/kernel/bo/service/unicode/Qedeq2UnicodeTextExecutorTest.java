@@ -218,7 +218,7 @@ public class Qedeq2UnicodeTextExecutorTest extends QedeqBoTestCase {
             Trace.param(CLASS, method, "language", language);
             Trace.param(CLASS, method, "level", level);
             final Map parameters = new HashMap();
-            parameters.put("info", "true");
+            parameters.put("info", "false");
             parameters.put("brief", Boolean.toString(brief));
             parameters.put("maximumColumn", "80");
             call = createServiceCall("generate utf8", prop);
