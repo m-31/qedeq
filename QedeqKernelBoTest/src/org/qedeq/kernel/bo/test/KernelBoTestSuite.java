@@ -36,6 +36,7 @@ import org.qedeq.kernel.bo.service.latex.KernelBoServiceLatexTestSuite;
 import org.qedeq.kernel.bo.service.logic.KernelBoServiceLogicTestSuite;
 import org.qedeq.kernel.bo.service.unicode.GenerateUtf8Test;
 import org.qedeq.kernel.bo.service.unicode.Latex2UnicodeParserTest;
+import org.qedeq.kernel.bo.service.unicode.Qedeq2UnicodeTextExecutor;
 
 /**
  * Run all tests for the project.
@@ -86,6 +87,7 @@ public class KernelBoTestSuite extends QedeqTestSuite {
 
         addTestSuite(Latex2UnicodeParserTest.class);
         addTestSuite(GenerateUtf8Test.class);
+        addTestSuite(Qedeq2UnicodeTextExecutor.class);
         addTestSuite(FormulaUtilityReplaceSubjectVariableQuantifierTest.class);
         addTestSuite(FormulaUtilityReplaceOperatorVariableTest.class);
 
