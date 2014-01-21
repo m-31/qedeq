@@ -104,7 +104,7 @@ public class Qedeq2UnicodeTextExecutorTest extends QedeqBoTestCase {
     }
 
     /**
-     * Call the generation of one LaTeX file and copy XML source to same destination directory for
+     * Call the generation of one UTF-8 file and copy XML source to same destination directory for
      * all supported languages.
      *
      * @param dir Start directory.
@@ -123,6 +123,12 @@ public class Qedeq2UnicodeTextExecutorTest extends QedeqBoTestCase {
         if (!onlyEn) {
             try {
                 generate(dir, xml, "de", destinationDirectory);
+            } catch (SourceFileExceptionList e) {
+                sfe.add(e);
+            }
+        } else {
+            try {
+                generate(dir, xml, "xx", destinationDirectory);
             } catch (SourceFileExceptionList e) {
                 sfe.add(e);
             }
@@ -173,7 +179,11 @@ public class Qedeq2UnicodeTextExecutorTest extends QedeqBoTestCase {
         final File utfFile = new File(destinationDirectory, xml.substring(0, xml.lastIndexOf('.'))
             + "_" + language + ".utf8");
         System.out.println(utfFile);
-        generate((KernelQedeqBo) webBo, utfFile, language, "1");
+        generate((KernelQedeqBo) webBo, utfFile, language, "1", false);
+        final File utfFileB = new File(destinationDirectory, xml.substring(0, xml.lastIndexOf('.'))
+                + "_" + language + ".b.utf8");
+        System.out.println(utfFileB);
+        generate((KernelQedeqBo) webBo, utfFileB , language, "1", true);
 //        final File utfCopy = new File(dir, new File(new File(xml).getParent(), utfFile.getName())
 //            .getPath());
 //        IoUtility.copyFile(utfFile, utfCopy);
@@ -190,15 +200,16 @@ public class Qedeq2UnicodeTextExecutorTest extends QedeqBoTestCase {
     /**
      * Generate LaTeX file out of XML file.
      *
-     * @param prop Take this QEDEQ module.
-     * @param to Write to this file. Could be <code>null</code>.
-     * @param language Resulting language. Could be <code>null</code>.
-     * @param level Resulting detail level. Could be <code>null</code>.
+     * @param 	prop 		Take this QEDEQ module.
+     * @param 	to 			Write to this file. Could be <code>null</code>.
+     * @param 	language 	Resulting language. Could be <code>null</code>.
+     * @param 	level 		Resulting detail level. Could be <code>null</code>.
+     * @param 	brief		Only brief node output.
      * @return File name of generated LaTeX file.
      * @throws SourceFileExceptionList Something went wrong.
      */
     public String generate(final KernelQedeqBo prop, final File to, final String language,
-            final String level) throws SourceFileExceptionList, InterruptException {
+            final String level, final boolean brief) throws SourceFileExceptionList, InterruptException {
         final String method = "generate(String, String, String, String)";
         try {
             Trace.begin(CLASS, method);
@@ -208,7 +219,7 @@ public class Qedeq2UnicodeTextExecutorTest extends QedeqBoTestCase {
             Trace.param(CLASS, method, "level", level);
             final Map parameters = new HashMap();
             parameters.put("info", "true");
-            parameters.put("brief", "false");
+            parameters.put("brief", Boolean.toString(brief));
             parameters.put("maximumColumn", "80");
             call = createServiceCall("generate utf8", prop);
             final String source =(new Qedeq2UnicodeTextExecutor(new Qedeq2Utf8Plugin(), prop, new Parameters(parameters)))
