@@ -25,7 +25,7 @@
     <url>https://svn.code.sf.net/p/pmii/code/trunk/</url>
   </scm>
   <ciManagement>
-  	<system>hudson</system>
+  	<system>jenkins</system>
   	<url>http://meyling.de:8080/hudson</url>
   </ciManagement>
   <developers>
