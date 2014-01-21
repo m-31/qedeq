@@ -32,8 +32,6 @@ import org.qedeq.kernel.bo.module.KernelBoModuleTestSuite;
 import org.qedeq.kernel.bo.parser.KernelBoParserTestSuite;
 import org.qedeq.kernel.bo.service.control.KernelBoServiceTestSuite;
 import org.qedeq.kernel.bo.service.heuristic.KernelBoServiceHeuristicTestSuite;
-import org.qedeq.kernel.bo.service.latex.ExtendedGenerateLatexTest;
-import org.qedeq.kernel.bo.service.latex.GenerateLatexTest;
 import org.qedeq.kernel.bo.service.latex.KernelBoServiceLatexTestSuite;
 import org.qedeq.kernel.bo.service.logic.KernelBoServiceLogicTestSuite;
 import org.qedeq.kernel.bo.service.unicode.GenerateUtf8Test;
