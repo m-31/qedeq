@@ -80,9 +80,9 @@ public final class Element2LatexImpl implements Element2Latex {
         this.elementList2ListType.put("CLASS", new Class());
         this.elementList2ListType.put("CLASSLIST", new Classlist());
 
-        // TODO mime 20080126: wrong spelled and not used any longer (?)
-        this.elementList2ListType.put("QUANTOR_INTERSECTION", new QuantorIntersection());
-        this.elementList2ListType.put("QUANTOR_UNION", new QuantorUnion());
+//        // TODO mime 20080126: wrong spelled and not used any longer (?)
+//        this.elementList2ListType.put("QUANTOR_INTERSECTION", new QuantorIntersection());
+//        this.elementList2ListType.put("QUANTOR_UNION", new QuantorUnion());
 
         fillBackup();
 
@@ -561,52 +561,52 @@ public final class Element2LatexImpl implements Element2Latex {
         }
     }
 
-    /**
-     * Transformer for a quantifier intersection.
-     */
-    class QuantorIntersection implements ListType {
-        public String getLatex(final ElementList list, final boolean first) {
-            final StringBuffer buffer = new StringBuffer();
-            final String prefix = "\\bigcap";
-            buffer.append(prefix);
-            if (0 < list.size()) {
-                buffer.append("{").append(Element2LatexImpl.this.getLatex(list.getElement(0), false))
-                .append("}");
-            }
-            for (int i = 1; i < list.size(); i++) {
-                buffer.append(Element2LatexImpl.this.getLatex(list.getElement(i), false));
-                if (i + 1 < list.size()) {
-                    buffer.append(" \\ \\ ");
-                }
-            }
-            buffer.append(" \\} ");
-            return buffer.toString();
-        }
-    }
-
-    /**
-     * LATER mime 20080126: needed?
-     */
-    class QuantorUnion implements ListType {
-        public String getLatex(final ElementList list, final boolean first) {
-            final StringBuffer buffer = new StringBuffer();
-            final String prefix = "\\bigcup";
-            buffer.append(prefix);
-            if (0 < list.size()) {
-                buffer.append("{").append(Element2LatexImpl.this.getLatex(list.getElement(0), false))
-                .append("}");
-            }
-            for (int i = 1; i < list.size(); i++) {
-                buffer.append(Element2LatexImpl.this.getLatex(list.getElement(i), false));
-                if (i + 1 < list.size()) {
-                    buffer.append(" \\ \\ ");
-                }
-            }
-            buffer.append(" \\} ");
-            return buffer.toString();
-        }
-    }
-
+//    /**
+//     * Transformer for a quantifier intersection.
+//     */
+//    class QuantorIntersection implements ListType {
+//        public String getLatex(final ElementList list, final boolean first) {
+//            final StringBuffer buffer = new StringBuffer();
+//            final String prefix = "\\bigcap";
+//            buffer.append(prefix);
+//            if (0 < list.size()) {
+//                buffer.append("{").append(Element2LatexImpl.this.getLatex(list.getElement(0), false))
+//                .append("}");
+//            }
+//            for (int i = 1; i < list.size(); i++) {
+//                buffer.append(Element2LatexImpl.this.getLatex(list.getElement(i), false));
+//                if (i + 1 < list.size()) {
+//                    buffer.append(" \\ \\ ");
+//                }
+//            }
+//            buffer.append(" \\} ");
+//            return buffer.toString();
+//        }
+//    }
+//
+//    /**
+//     * LATER mime 20080126: needed?
+//     */
+//    class QuantorUnion implements ListType {
+//        public String getLatex(final ElementList list, final boolean first) {
+//            final StringBuffer buffer = new StringBuffer();
+//            final String prefix = "\\bigcup";
+//            buffer.append(prefix);
+//            if (0 < list.size()) {
+//                buffer.append("{").append(Element2LatexImpl.this.getLatex(list.getElement(0), false))
+//                .append("}");
+//            }
+//            for (int i = 1; i < list.size(); i++) {
+//                buffer.append(Element2LatexImpl.this.getLatex(list.getElement(i), false));
+//                if (i + 1 < list.size()) {
+//                    buffer.append(" \\ \\ ");
+//                }
+//            }
+//            buffer.append(" \\} ");
+//            return buffer.toString();
+//        }
+//    }
+//
     /**
      * If we don't now what kind of type we have we do this.
      */
