@@ -41,5 +41,9 @@ public class KernelBoServiceLatexTestSuite extends QedeqTestSuite {
     public KernelBoServiceLatexTestSuite() {
         super();
         addTestSuite(Qedeq2LatexTest.class);
+        addTestSuite(GenerateLatexTest.class);
+        
+        // very slow
+        addTestSuite(ExtendedGenerateLatexTest.class);
     }
 }

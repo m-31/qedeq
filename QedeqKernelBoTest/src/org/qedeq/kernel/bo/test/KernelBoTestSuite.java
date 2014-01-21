@@ -20,8 +20,6 @@ import junit.framework.Test;
 import org.qedeq.base.test.QedeqTestSuite;
 import org.qedeq.kernel.bo.KernelBoPackageTestSuite;
 import org.qedeq.kernel.bo.common.KernelBoCommonTestSuite;
-import org.qedeq.kernel.bo.latex.ExtendedGenerateLatexTest;
-import org.qedeq.kernel.bo.latex.GenerateLatexTest;
 import org.qedeq.kernel.bo.log.KernelBoLogTestSuite;
 import org.qedeq.kernel.bo.logic.KernelBoLogicTestSuite;
 import org.qedeq.kernel.bo.logic.common.FormulaUtilityReplaceOperatorVariableTest;
@@ -34,6 +32,8 @@ import org.qedeq.kernel.bo.module.KernelBoModuleTestSuite;
 import org.qedeq.kernel.bo.parser.KernelBoParserTestSuite;
 import org.qedeq.kernel.bo.service.control.KernelBoServiceTestSuite;
 import org.qedeq.kernel.bo.service.heuristic.KernelBoServiceHeuristicTestSuite;
+import org.qedeq.kernel.bo.service.latex.ExtendedGenerateLatexTest;
+import org.qedeq.kernel.bo.service.latex.GenerateLatexTest;
 import org.qedeq.kernel.bo.service.latex.KernelBoServiceLatexTestSuite;
 import org.qedeq.kernel.bo.service.logic.KernelBoServiceLogicTestSuite;
 import org.qedeq.kernel.bo.service.unicode.GenerateUtf8Test;
@@ -86,14 +86,10 @@ public class KernelBoTestSuite extends QedeqTestSuite {
         addTest(KernelBoServiceHeuristicTestSuite.suite());
         addTest(KernelBoServiceLogicTestSuite.suite());
 
-        addTestSuite(GenerateLatexTest.class);
         addTestSuite(Latex2UnicodeParserTest.class);
         addTestSuite(GenerateUtf8Test.class);
         addTestSuite(FormulaUtilityReplaceSubjectVariableQuantifierTest.class);
         addTestSuite(FormulaUtilityReplaceOperatorVariableTest.class);
-
-        // very slow:
-        addTestSuite(ExtendedGenerateLatexTest.class);
 
         // test if all classes have tests
         addTestSuite(KernelBoEachClassHasATest.class);

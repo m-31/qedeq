@@ -39,10 +39,10 @@ import org.qedeq.kernel.se.visitor.InterruptException;
  *
  * @author Michael Meyling
  */
-public class GenerateUtf8Test extends QedeqBoTestCase {
+public class Qedeq2UnicodeTextExecutorTest extends QedeqBoTestCase {
 
     /** This class. */
-    private static final Class CLASS = GenerateUtf8Test.class;
+    private static final Class CLASS = Qedeq2UnicodeTextExecutorTest.class;
     private InternalServiceCall call;
 
     protected void tearDown() throws Exception {
@@ -104,7 +104,7 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
     }
 
     /**
-     * Call the generation of one UTF-8 file and copy XML source to same destination directory for
+     * Call the generation of one LaTeX file and copy XML source to same destination directory for
      * all supported languages.
      *
      * @param dir Start directory.
@@ -138,7 +138,7 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
      * @param dir Start directory.
      * @param xml Relative path to XML file. Must not be <code>null</code>.
      * @param language Generate text in this language. Can be <code>null</code>.
-     * @param destinationDirectory Directory path for UTF-8 file. Must not be <code>null</code>.
+     * @param destinationDirectory Directory path for LaTeX file. Must not be <code>null</code>.
      */
     public void generate(final File dir, final String xml, final String language,
             final File destinationDirectory) throws IOException, SourceFileExceptionList, InterruptException {
@@ -171,7 +171,7 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
         getServices().checkWellFormedness(webAddress);
         final QedeqBo webBo = getServices().getQedeqBo(webAddress);
         final File utfFile = new File(destinationDirectory, xml.substring(0, xml.lastIndexOf('.'))
-            + "_" + language + ".txt");
+            + "_" + language + ".utf8");
         System.out.println(utfFile);
         generate((KernelQedeqBo) webBo, utfFile, language, "1");
 //        final File utfCopy = new File(dir, new File(new File(xml).getParent(), utfFile.getName())
@@ -188,13 +188,13 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
     }
 
     /**
-     * Generate UTF-8 file out of XML file.
+     * Generate LaTeX file out of XML file.
      *
      * @param prop Take this QEDEQ module.
      * @param to Write to this file. Could be <code>null</code>.
      * @param language Resulting language. Could be <code>null</code>.
      * @param level Resulting detail level. Could be <code>null</code>.
-     * @return File name of generated UTF-8 file.
+     * @return File name of generated LaTeX file.
      * @throws SourceFileExceptionList Something went wrong.
      */
     public String generate(final KernelQedeqBo prop, final File to, final String language,
@@ -210,12 +210,12 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
             parameters.put("info", "true");
             parameters.put("brief", "false");
             parameters.put("maximumColumn", "80");
-            call = createServiceCall("generate UTF-8", prop);
-            final String source =(new Qedeq2Utf8Executor(new Qedeq2Utf8Plugin(), prop, new Parameters(parameters)))
+            call = createServiceCall("generate utf8", prop);
+            final String source =(new Qedeq2UnicodeTextExecutor(new Qedeq2Utf8Plugin(), prop, new Parameters(parameters)))
                 .generateUtf8(call.getInternalServiceProcess(), language, "1");
             if (to != null) {
                 IoUtility.createNecessaryDirectories(to);
-                IoUtility.copyFile(new File(source), to);
+                IoUtility.saveFile(to, source, "UTF-8");
                 return to.getCanonicalPath();
             }
             return prop.getName();
