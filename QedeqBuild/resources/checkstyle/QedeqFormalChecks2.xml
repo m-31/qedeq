@@ -133,7 +133,7 @@ this are the Checkstyle settings for the Hilbert II project
     <property name="message" value="Line has trailing spaces."/>
   </module>
   <module name="Header">
-    <property name="header" value="/* This file is part of the project &quot;Hilbert II&quot; - http://www.qedeq.org\n *\n * Copyright 2000-2013,  Michael Meyling &lt;mime@qedeq.org&gt;.\n *\n * &quot;Hilbert II&quot; is free software; you can redistribute\n * it and/or modify it under the terms of the GNU General Public\n * License as published by the Free Software Foundation; either\n * version 2 of the License, or (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n * GNU General Public License for more details.\n */"/>
+    <property name="header" value="/* This file is part of the project &quot;Hilbert II&quot; - http://www.qedeq.org\n *\n * Copyright 2000-2014,  Michael Meyling &lt;mime@qedeq.org&gt;.\n *\n * &quot;Hilbert II&quot; is free software; you can redistribute\n * it and/or modify it under the terms of the GNU General Public\n * License as published by the Free Software Foundation; either\n * version 2 of the License, or (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n * GNU General Public License for more details.\n */"/>
     <property name="fileExtensions" value="*.java"/>
   </module>
 </module>
