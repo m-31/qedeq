@@ -89,6 +89,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
 //        System.setProperty("qedeq.test.xmlLocationFailures", Boolean.TRUE.toString());
         generate(getIndir(), "proof/proof_001.xml", getOutdir(), true, false);
         generate(getIndir(), "proof/proof_002.xml", getOutdir(), true, true);
+        generate(getIndir(), "proof/proof_003.xml", getOutdir(), true, false);
 //        System.setProperty("qedeq.test.xmlLocationFailures", Boolean.FALSE.toString());
     }
 

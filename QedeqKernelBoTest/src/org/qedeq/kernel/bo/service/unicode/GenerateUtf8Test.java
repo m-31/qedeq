@@ -102,6 +102,11 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
             assertEquals(8, e.size());
         }
     }
+    
+    public void testGeneration7() throws Exception {
+        generate(getIndir(), "proof/proof_003.xml", true);
+    }
+
 
     /**
      * Call the generation of one UTF-8 file and copy XML source to same destination directory for
