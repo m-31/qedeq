@@ -44,6 +44,7 @@ import org.qedeq.kernel.se.base.module.Header;
 import org.qedeq.kernel.se.base.module.Hypothesis;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
+import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
 import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.Latex;
 import org.qedeq.kernel.se.base.module.LatexList;
@@ -876,6 +877,37 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     }
 
     public final void visitLeave(final PredicateDefinition definition) {
+        leave();
+    }
+
+    public final void visitEnter(final InitialFunctionDefinition definition) throws ModuleDataException {
+        enter("DEFINITION_FUNCTION_INITIAL");
+        final String method = "visitEnter(InitialFunctionDefinition)";
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
+        checkMatching(method);
+
+        traverser.setLocationWithinModule(context + ".getArgumentNumber()");
+        current.setAttribute("arguments");
+        checkIfFound();
+
+        traverser.setLocationWithinModule(context + ".getName()");
+        current.setAttribute("name");
+        checkIfFound();
+
+        traverser.setLocationWithinModule(context + ".getLatexPattern()");
+        enter("LATEXPATTERN");
+        if (find.getLocationWithinModule().equals(traverser.getCurrentContext()
+                .getLocationWithinModule())) {
+            if (definition.getLatexPattern() == null) { // NOT FOUND
+                leave();
+            }
+            throw new LocationFoundException(traverser.getCurrentContext());
+        }
+        leave();
+    }
+
+    public final void visitLeave(final InitialFunctionDefinition definition) {
         leave();
     }
 
