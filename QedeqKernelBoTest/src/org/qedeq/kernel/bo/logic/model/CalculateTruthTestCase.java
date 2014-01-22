@@ -17,7 +17,6 @@ package org.qedeq.kernel.bo.logic.model;
 
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.base.list.Element;
-import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.xml.parser.BasicParser;
 
 /**
@@ -1558,9 +1557,35 @@ public abstract class CalculateTruthTestCase extends QedeqBoTestCase {
         assertTrue(isTautology(ele));
     }
 
-    // make clover happy: don't fail here in subclasses
-    protected void checkAndThrowOrFail(final Element ele) throws ModuleDataException {
-        assertTrue(isTautology(ele));
+    /**
+     * Create formula.
+     *
+     * @return  (y \in {x | \phi(x)} <-> (isSet(y) n \phi(y))
+     * @throws Exception
+     */
+    public Element createTautology44() throws Exception {
+        final Element ele = BasicParser.createElement(
+                "    <EQUI>\n"
+                + "    <PREDCON ref=\"in\">\n"
+                + "      <VAR id=\"y\"/>\n"
+                + "      <CLASS>\n"
+                + "        <VAR id=\"x\"/>\n"
+                + "        <PREDVAR id=\"\\phi\">\n"
+                + "          <VAR id=\"x\"/>\n"
+                + "        </PREDVAR>\n"
+                + "      </CLASS>\n"
+                + "    </PREDCON>\n"
+                + "    <AND>\n"
+                + "      <PREDCON ref=\"isSet\">\n"
+                + "        <VAR id=\"y\"/>\n"
+                + "      </PREDCON>\n"
+                + "      <PREDVAR id=\"\\phi\">\n"
+                + "        <VAR id=\"y\"/>\n"
+                + "      </PREDVAR>\n"
+                + "    </AND>\n"
+                + "  </EQUI>\n");
+//      System.out.println(ele.toString());
+         return ele;
     }
 
     /**
@@ -1571,39 +1596,15 @@ public abstract class CalculateTruthTestCase extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology44() throws Exception {
-        final Element ele = BasicParser.createElement(
-            "    <EQUI>\n"
-            + "    <PREDCON ref=\"in\">\n"
-            + "      <VAR id=\"y\"/>\n"
-            + "      <CLASS>\n"
-            + "        <VAR id=\"x\"/>\n"
-            + "        <PREDVAR id=\"\\phi\">\n"
-            + "          <VAR id=\"x\"/>\n"
-            + "        </PREDVAR>\n"
-            + "      </CLASS>\n"
-            + "    </PREDCON>\n"
-            + "    <AND>\n"
-            + "      <PREDCON ref=\"isSet\">\n"
-            + "        <VAR id=\"y\"/>\n"
-            + "      </PREDCON>\n"
-            + "      <PREDVAR id=\"\\phi\">\n"
-            + "        <VAR id=\"y\"/>\n"
-            + "      </PREDVAR>\n"
-            + "    </AND>\n"
-            + "  </EQUI>\n"
-        );
-//        System.out.println(ele.toString());
-        checkAndThrowOrFail(ele);
+        assertTrue(isTautology(createTautology44()));
     }
 
     /**
-     * Function: isTautology(Element)
-     * Type:     positive
-     * Data:     C(x) = (z | z \nin x}
+     * Create formula.
      *
-     * @throws  Exception   Test failed.
+     * @return  C(x) = (z | z \nin x}
      */
-    public void testTautology45() throws Exception {
+    public Element createTautology45() throws Exception {
         final Element ele = BasicParser.createElement(
             "<PREDCON id=\"equal\">\n"
             + "  <FUNCON id=\"complement\">\n"
@@ -1619,17 +1620,27 @@ public abstract class CalculateTruthTestCase extends QedeqBoTestCase {
             + "</PREDCON>\n"
         );
 //      System.out.println(ele.toString());
-        checkAndThrowOrFail(ele);
-  }
+        return ele;
+   }
+
 
     /**
      * Function: isTautology(Element)
      * Type:     positive
-     * Data:     x <= y <-> x n C(y) = 0
+     * Data:     C(x) = (z | z \nin x}
      *
      * @throws  Exception   Test failed.
      */
-    public void testTautology46() throws Exception {
+    public void testTautology45() throws Exception {
+        assertTrue(isTautology(createTautology45()));
+  }
+
+    /**
+     * Create formula.
+     *
+     * @return x <= y <-> x n C(y) = 0
+     */
+    public Element createTautology46() throws Exception {
         final Element ele = BasicParser.createElement(
             "  <EQUI>\n"
             + "    <PREDCON ref=\"subclass\">\n"
@@ -1648,17 +1659,26 @@ public abstract class CalculateTruthTestCase extends QedeqBoTestCase {
             + "  </EQUI>\n"
             );
 //      System.out.println(ele.toString());
-        checkAndThrowOrFail(ele);
+        return ele;
     }
 
     /**
      * Function: isTautology(Element)
      * Type:     positive
-     * Data:     see below
+     * Data:     x <= y <-> x n C(y) = 0
      *
      * @throws  Exception   Test failed.
      */
-    public void testTautology47() throws Exception {
+    public void testTautology46() throws Exception {
+        assertTrue(isTautology(createTautology46()));
+    }
+
+    /**
+     * Create formula.
+     *
+     * @return  Formula.
+     */
+    public Element createTautology47() throws Exception {
         final Element ele = BasicParser.createElement(
             "<AND>\n"
             + "  <EQUI>\n"
@@ -1715,7 +1735,18 @@ public abstract class CalculateTruthTestCase extends QedeqBoTestCase {
             + "</AND>\n"
         );
 //      System.out.println(ele.toString());
-        checkAndThrowOrFail(ele);
+        return ele;
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     see below
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology47() throws Exception {
+        assertTrue(isTautology(createTautology47()));
     }
 
 }
