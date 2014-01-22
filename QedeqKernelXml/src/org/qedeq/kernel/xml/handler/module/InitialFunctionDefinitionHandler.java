@@ -48,7 +48,7 @@ public class InitialFunctionDefinitionHandler extends AbstractSimpleHandler {
      * @param   handler Parent handler.
      */
     public InitialFunctionDefinitionHandler(final AbstractSimpleHandler handler) {
-        super(handler, "DEFINITION_FUNCTION");
+        super(handler, "DEFINITION_FUNCTION_INITIAL");
         elementHandler = new ElementHandler(this);
         descriptionHandler = new LatexListHandler(this, "DESCRIPTION");
     }

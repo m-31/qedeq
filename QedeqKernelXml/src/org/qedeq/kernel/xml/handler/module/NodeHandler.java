@@ -54,6 +54,9 @@ public class NodeHandler extends AbstractSimpleHandler {
     /** Handler for a function definition. */
     private final FunctionDefinitionHandler functionDefinitionHandler;
 
+    /** Handler for a initial function definition. */
+    private final InitialFunctionDefinitionHandler initialFunctionDefinitionHandler;
+
     /** Handler for a proposition. */
     private final PropositionHandler propositionHandler;
 
@@ -79,6 +82,7 @@ public class NodeHandler extends AbstractSimpleHandler {
         initialPredicateDefinitionHandler = new InitialPredicateDefinitionHandler(this);
         predicateDefinitionHandler = new PredicateDefinitionHandler(this);
         functionDefinitionHandler = new FunctionDefinitionHandler(this);
+        initialFunctionDefinitionHandler = new InitialFunctionDefinitionHandler(this);
         propositionHandler = new PropositionHandler(this);
         ruleHandler = new RuleHandler(this);
     }
@@ -118,6 +122,8 @@ public class NodeHandler extends AbstractSimpleHandler {
             changeHandler(predicateDefinitionHandler, name, attributes);
         } else if (functionDefinitionHandler.getStartTag().equals(name)) {
             changeHandler(functionDefinitionHandler, name, attributes);
+        } else if (initialFunctionDefinitionHandler.getStartTag().equals(name)) {
+            changeHandler(initialFunctionDefinitionHandler, name, attributes);
         } else if (propositionHandler.getStartTag().equals(name)) {
             changeHandler(propositionHandler, name, attributes);
         } else if (ruleHandler.getStartTag().equals(name)) {
@@ -146,6 +152,8 @@ public class NodeHandler extends AbstractSimpleHandler {
             node.setNodeType(predicateDefinitionHandler.getDefinition());
         } else if (functionDefinitionHandler.getStartTag().equals(name)) {
             node.setNodeType(functionDefinitionHandler.getDefinition());
+        } else if (initialFunctionDefinitionHandler.getStartTag().equals(name)) {
+            node.setNodeType(initialFunctionDefinitionHandler.getDefinition());
         } else if (propositionHandler.getStartTag().equals(name)) {
             node.setNodeType(propositionHandler.getProposition());
         } else if (ruleHandler.getStartTag().equals(name)) {
