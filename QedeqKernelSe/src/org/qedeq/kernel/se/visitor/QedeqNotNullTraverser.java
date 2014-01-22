@@ -710,7 +710,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser, ServiceCompletenes
             return;
         }
         data.increaseFunctionDefinitionNumber();
-        location.set(location.size() - 1, "Definition " + (data.getPredicateDefinitionNumber()
+        location.set(location.size() - 1, "Definition " + (data.getFunctionDefinitionNumber()
                 + data.getFunctionDefinitionNumber()) + " "
                 + (String) location.lastElement());
         final String context = getCurrentContext().getLocationWithinModule();
@@ -734,7 +734,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser, ServiceCompletenes
             return;
         }
         data.increaseFunctionDefinitionNumber();
-        location.set(location.size() - 1, "Definition " + (data.getPredicateDefinitionNumber()
+        location.set(location.size() - 1, "Definition " + (data.getFunctionDefinitionNumber()
                 + data.getFunctionDefinitionNumber()) + " "
                 + (String) location.lastElement());
         final String context = getCurrentContext().getLocationWithinModule();
