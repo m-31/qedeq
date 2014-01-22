@@ -54,8 +54,16 @@ public abstract class EachClassHasATestCase extends TestCase {
      *
      * @return  Tests for all classes of this package or its sub packages must occur.
      */
-    public abstract String getPackagePrefix();
+    protected abstract String getPackagePrefix();
 
+    /**
+     * Should the test fail if a test class is missing?
+     * Otherwise the missing classes are just printed to <code>System.out</code>.
+     *
+     * @return  Failure if test classes are missing?
+     */
+    protected abstract boolean failIfTestClassesAreMissing();
+    
     /**
      * Test if all classes have a test class.
      */
@@ -101,8 +109,10 @@ public abstract class EachClassHasATestCase extends TestCase {
         if (!result.isEmpty()) {
             System.out.println("The following classes have no test classes:");
             System.out.println(StringUtility.asLines(result));
-            fail("the following classes have no test classes: "
-                + StringUtility.toString(result));
+            if (failIfTestClassesAreMissing()) {
+                fail("the following classes have no test classes: "
+                    + StringUtility.toString(result));
+            }
         }
     }
 

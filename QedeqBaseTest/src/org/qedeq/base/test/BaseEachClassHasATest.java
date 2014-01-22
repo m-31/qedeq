@@ -23,8 +23,12 @@ package org.qedeq.base.test;
  */
 public class BaseEachClassHasATest extends EachClassHasATestCase {
 
-    public String getPackagePrefix() {
+    protected String getPackagePrefix() {
         return "org.qedeq.base";
+    }
+
+    protected boolean failIfTestClassesAreMissing() {
+        return true;
     }
 
 }

@@ -25,17 +25,14 @@ import org.qedeq.base.test.EachClassHasATestCase;
  */
 public class KernelBoEachClassHasATest extends EachClassHasATestCase {
 
-    public String getPackagePrefix() {
+    protected String getPackagePrefix() {
         return "org.qedeq.kernel.bo";
     }
 
-    public void testIfEveryClassIsTested() {
+    
+    protected boolean failIfTestClassesAreMissing() {
         // TODO m31 20101013: add missing tests
-        try {
-            super.testIfEveryClassIsTested();
-        } catch (Throwable e) {
-            // ignore
-        }
+        return false;
     }
 
 }
