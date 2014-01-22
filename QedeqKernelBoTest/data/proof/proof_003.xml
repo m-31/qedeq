@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QEDEQ
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_08/xml/qedeq.xsd">
+  <HEADER email="mime@qedeq.org">
+    <SPECIFICATION name="proof_003" ruleVersion="0.01.00">
+      <LOCATIONS>
+        <LOCATION value="http://www.qedeq.org/0_04_08/sample" />
+      </LOCATIONS>
+    </SPECIFICATION>
+    <TITLE>
+      <LATEX language="en">Test formal proofs.</LATEX>
+    </TITLE>
+    <ABSTRACT>
+      <LATEX language="en">Test formal proofs.</LATEX>
+    </ABSTRACT>
+    <AUTHORS>
+      <AUTHOR email="michael@meyling.com">
+        <NAME>
+          <LATEX language="en">Michael Meyling</LATEX>
+        </NAME>
+      </AUTHOR>
+    </AUTHORS>
+  </HEADER>
+  <CHAPTER>
+    <TITLE>
+      <LATEX language="en">One and Only</LATEX>
+    </TITLE>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">One</LATEX>
+      </TITLE>
+      <SUBSECTIONS>
+        <NODE id="rule:addProvenFormula">
+          <NAME>
+            <LATEX language="en">add true formula</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Add true formula</LATEX>
+          </TITLE>
+          <RULE name="Add" version="0.01.00">
+            <DESCRIPTION>
+              <LATEX language="en">Addition of an axiom, definition or already proven formula. We have to reference to the location of a true formula.</LATEX>
+            </DESCRIPTION>
+          </RULE>
+        </NODE>
+        <NODE id="rule:modusPonens">
+          <NAME>
+            <LATEX language="en">modus ponens</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Modus Ponens\index{Modus Ponens}</LATEX>
+          </TITLE>
+          <RULE name="MP" version="0.01.00">
+            <DESCRIPTION>
+              <LATEX language="en">If both formulas $\alpha$ and $\alpha \rightarrow \beta$ are true, then we can conclude that $\beta$ is true as well.</LATEX>
+            </DESCRIPTION>
+          </RULE>
+        </NODE>
+        <NODE id="definition:in">
+          <NAME>
+            <LATEX language="en">is a member of</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Membership Operator</LATEX>
+          </TITLE>
+          <DEFINITION_PREDICATE_INITIAL arguments="2" name="in">
+            <LATEXPATTERN>#1 \in #2</LATEXPATTERN>
+            <PREDCON ref="in">
+              <VAR id="x"/>
+              <VAR id="y"/>
+            </PREDCON>
+          </DEFINITION_PREDICATE_INITIAL>
+        </NODE>
+        <NODE id="definition:union">
+          <NAME>
+            <LATEX language="en">union</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Union Operator</LATEX>
+          </TITLE>
+          <DEFINITION_FUNCTION_INITIAL arguments="2" name="union">
+            <LATEXPATTERN>(#1 \cup #2)</LATEXPATTERN>
+            <FUNCON ref="union">
+              <VAR id="x"/>
+              <VAR id="y"/>
+            </FUNCON>
+          </DEFINITION_FUNCTION_INITIAL>
+        </NODE>
+      </SUBSECTIONS>
+    </SECTION>
+  </CHAPTER>
+</QEDEQ>

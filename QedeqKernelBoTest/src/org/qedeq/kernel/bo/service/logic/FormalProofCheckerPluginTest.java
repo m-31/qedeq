@@ -268,4 +268,22 @@ public class FormalProofCheckerPluginTest extends QedeqBoTestCase {
         assertEquals(0, bo.getErrors().size());
     }
 
+    public void testProof_003() throws Exception {
+        final ModuleAddress address = new DefaultModuleAddress(new File(getIndir(),
+                "proof/proof_003.xml"));
+        final boolean locationFailures = "true".equalsIgnoreCase(
+            System.getProperty("qedeq.test.xmlLocationFailures", "false"));
+        System.setProperty("qedeq.test.xmlLocationFailures", "true");
+        try {
+            getServices().checkFormallyProved(address);
+            final QedeqBo bo = getServices().getQedeqBo(address);
+            assertTrue(bo.isWellFormed());
+            assertEquals(0, bo.getWarnings().size());
+            assertEquals(0, bo.getErrors().size());
+        } finally {
+            System.setProperty("qedeq.test.xmlLocationFailures",
+                Boolean.toString(locationFailures));
+        }
+    }
+
 }
