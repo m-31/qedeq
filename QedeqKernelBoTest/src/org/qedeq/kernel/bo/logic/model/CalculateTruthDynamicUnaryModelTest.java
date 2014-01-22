@@ -16,7 +16,6 @@
 package org.qedeq.kernel.bo.logic.model;
 
 import org.qedeq.kernel.se.base.list.Element;
-import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.xml.parser.BasicParser;
 
 
