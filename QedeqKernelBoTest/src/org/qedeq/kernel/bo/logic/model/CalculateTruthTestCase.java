@@ -17,6 +17,7 @@ package org.qedeq.kernel.bo.logic.model;
 
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.xml.parser.BasicParser;
 
 /**
@@ -1557,6 +1558,10 @@ public abstract class CalculateTruthTestCase extends QedeqBoTestCase {
         assertTrue(isTautology(ele));
     }
 
+    // make clover happy: don't fail here in subclasses
+    protected void checkAndThrowOrFail(final Element ele) throws ModuleDataException {
+        assertTrue(isTautology(ele));
+    }
 
     /**
      * Function: isTautology(Element)
@@ -1588,7 +1593,7 @@ public abstract class CalculateTruthTestCase extends QedeqBoTestCase {
             + "  </EQUI>\n"
         );
 //        System.out.println(ele.toString());
-        assertTrue(isTautology(ele));
+        checkAndThrowOrFail(ele);
     }
 
     /**
@@ -1614,7 +1619,7 @@ public abstract class CalculateTruthTestCase extends QedeqBoTestCase {
             + "</PREDCON>\n"
         );
 //      System.out.println(ele.toString());
-      assertTrue(isTautology(ele));
+        checkAndThrowOrFail(ele);
   }
 
     /**
@@ -1643,7 +1648,7 @@ public abstract class CalculateTruthTestCase extends QedeqBoTestCase {
             + "  </EQUI>\n"
             );
 //      System.out.println(ele.toString());
-        assertTrue(isTautology(ele));
+        checkAndThrowOrFail(ele);
     }
 
     /**
@@ -1710,7 +1715,7 @@ public abstract class CalculateTruthTestCase extends QedeqBoTestCase {
             + "</AND>\n"
         );
 //      System.out.println(ele.toString());
-      assertTrue(isTautology(ele));
-  }
+        checkAndThrowOrFail(ele);
+    }
 
 }

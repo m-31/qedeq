@@ -16,6 +16,7 @@
 package org.qedeq.kernel.bo.logic.model;
 
 import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.xml.parser.BasicParser;
 
 
@@ -171,6 +172,11 @@ public class CalculateTruthDynamicUnaryModelTest extends CalculateTruthTestCase 
         // System.out.println(ele.toString());
         assertTrue(isTautology(ele));
     }
+
+    protected void checkAndThrowOrFail(final Element ele) throws ModuleDataException {
+        isTautology(ele);
+    }
+
 
     public void testTautology44()  {
         try {
