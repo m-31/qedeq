@@ -183,7 +183,7 @@ public class CalculateTruthDynamicUnaryModelTest extends CalculateTruthTestCase 
 
     public void testTautology45()  {
         try {
-            super.testTautology44();
+            super.testTautology45();
             fail("Exception expected");
         } catch (Exception e) {
             assertTrue(e.getMessage().indexOf("unknown term operator: isSet") >= 0);
@@ -192,19 +192,19 @@ public class CalculateTruthDynamicUnaryModelTest extends CalculateTruthTestCase 
 
     public void testTautology46()  {
         try {
-            super.testTautology44();
+            super.testTautology46();
             fail("Exception expected");
         } catch (Exception e) {
-            assertTrue(e.getMessage().indexOf("unknown term operator: isSet") >= 0);
+            assertTrue(e.getMessage().indexOf("unknown predicate constant: subclass") >= 0);
         }
     }
 
     public void testTautology47()  {
         try {
-            super.testTautology44();
+            super.testTautology47();
             fail("Exception expected");
         } catch (Exception e) {
-            assertTrue(e.getMessage().indexOf("unknown term operator: isSet") >= 0);
+            assertTrue(e.getMessage().indexOf("unknown predicate constant: subclass") >= 0);
         }
     }
 
