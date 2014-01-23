@@ -1,4 +1,5 @@
 developer guide
+===============
 
 Allgemeines
 ===========
@@ -7,6 +8,7 @@ Das Format der QEDEQ-Dateien ist durch eine XSD definiert.
 Es gibt eine Referenzimplementierung, die mit solchen Dateien
 umgehen kann. D.h. sie kann Überprüfungen vornehmen, LaTeX-Ausgaben
 erzeugen u.ä.
+
 Die Referenzimplementierung ist eine Java 1.4.2 GUI-Anwendung,
 welches standalone direkt oder via Java-Webstart aufgerufen werden
 kann.
@@ -25,24 +27,24 @@ Es werden auch Maven POMs bereitgestellt
 Der Sourcecode liegt in UTF-8 mit Unix-Zeilentrennung vor.
 
 Subversion Repository Location:
-https://pmii.svn.sourceforge.net/svnroot/pmii
+<https://pmii.svn.sourceforge.net/svnroot/pmii>
 
 Für den aktuellen Stand auf "trunk" gehen
 
 Folgende Projekte als Eclipse-Projekte auschecken:
 
-QedeqBase
-QedeqBaseTest
-QedeqBuild
-QedeqDoc
-QedeqGuiSe
-QedeqKernelBo
-QedeqKernelBoTest
-QedeqKernelSe
-QedeqKernelSeTest
-QedeqKernelXml
-QedeqKernelXmlTest
-QedeqLib
+    QedeqBase
+    QedeqBaseTest
+    QedeqBuild
+    QedeqDoc
+    QedeqGuiSe
+    QedeqKernelBo
+    QedeqKernelBoTest
+    QedeqKernelSe
+    QedeqKernelSeTest
+    QedeqKernelXml
+    QedeqKernelXmlTest
+    QedeqLib
 
 
 Architektur
@@ -96,7 +98,7 @@ Der CI-Server zeigt diese an.
 Neben Checkstyle wird auch Clover, FindBugs und JDepend werden natürlich
 auch die Ergebnisse der JUnit-Tests ermittelt.
 
-Nightly build auf qedeq.org/nightly abrufbar. Dazu gehört auch der Maven-uild.
+Nightly build auf <http://qedeq.org/nightly> abrufbar. Dazu gehört auch der Maven-Build.
 
 
 Entwicklungsziele
