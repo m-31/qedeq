@@ -84,9 +84,32 @@ Vorteil: besseres Patternmatching auf Baumebene möglich.
 Flexibel, da untypisiert auf unterster Ebene.
 
 
+Das Zusammenspiel von Service, ServiceProcess, ServiceCall
+----------------------------------------------------------
+
+Der Kernel stellt verschiedene Services bereit. Ein Service bezieht sich immer auf ein QedeqModul, gegebenenfalls werden auch weitere QedeqModule einbezogen.
+
+Ein `Service` besitzt eine identifizierende `id`, einen vorgangsbeschreibenden `action name` und eine längere `description`. Ein `Plugin` ist ein austauschbarer `Service`.
+Während der Ausführung eines Services ist ein `ServiceCompleteness` Objekt abrufbar, welches Auskunft darüber gibt, zu wieviel Prozent eine bestimmte Serviceausführung abgeschlossen ist und an welcher Stelle gerade gearbeitet wird.
+
+Wenn ein `Service` ausgeführt wird, geschieht das im Rahmen eines `ServiceProcess`. Für von außen aufrufbare Services muss kein solcher ServiceProcess übergeben werden, er wird als erstes im Kernel erzeugt. Wenn ein Service selbst wieder einen Kernelservice benötigt, dann übergibt er seinen eigenen ServiceProcess an diesen. So hängen alle Serviceaufrufe, die im Rahmen eines einzigen äußeren Serviceaufrufes stattfinden, an demselben ServiceProcess-Objekt.
+
+ServiceCall
+ServiceResult
+InternalServiceCall
+InternalServiceProcess
+ServiceResult
+PluginResult
+PluginExecutor
+PluginBo
+ServiceExecutor
+
+Im ServiceProcessManager die executeService und executePlugin angleichen! Erstere wird nur noch an zwei Codestellen verwendet!!!
+
+
 Code-Konventionen
 =================
-Checkstyle
+Durch Checkstyle-Konfiguration festgelegt.
 
 
 CI-Server
@@ -98,7 +121,7 @@ Der CI-Server zeigt diese an.
 Neben Checkstyle wird auch Clover, FindBugs und JDepend werden natürlich
 auch die Ergebnisse der JUnit-Tests ermittelt.
 
-Nightly build auf <http://qedeq.org/nightly> abrufbar. Dazu gehört auch der Maven-Build.
+Der Nightly Build ist auf <http://qedeq.org/nightly> abrufbar. Dazu gehört auch der Maven-Build.
 
 
 Entwicklungsziele
