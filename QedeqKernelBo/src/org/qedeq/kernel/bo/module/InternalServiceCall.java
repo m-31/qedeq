@@ -22,7 +22,8 @@ import org.qedeq.kernel.se.common.ServiceCompleteness;
 
 
 /**
- * Information for a service call. Occurs during execution of a {@link ServiceProcess}.
+ * Information for a service call. Occurs during execution of a
+ * {@link org.qedeq.kernel.se.common.ServiceProcess}.
  *
  * @author  Michael Meyling
  */
