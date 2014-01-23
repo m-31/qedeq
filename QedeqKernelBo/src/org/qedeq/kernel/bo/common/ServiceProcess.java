@@ -16,7 +16,6 @@
 package org.qedeq.kernel.bo.common;
 
 
-
 /**
  * Process info for a kernel service.
  *

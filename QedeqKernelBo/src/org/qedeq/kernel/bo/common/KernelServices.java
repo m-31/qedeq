@@ -67,9 +67,9 @@ public interface KernelServices {
     public boolean loadAllModulesFromQedeq();
 
     /**
-     * Remove a certain module.
+     * Remove a QEDEQ module from memory.
      *
-     * @param   address     Address of module.
+     * @param address Remove module identified by this address.
      */
     public void removeModule(ModuleAddress address);
 
