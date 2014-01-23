@@ -191,15 +191,27 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     }
 
     public void removeAllModules() {
-        getModules().removeAllModules();
+//        getModules().removeAllModules();
+        InternalServiceProcess proc = null;
+        InternalServiceCall call = null;
+        try {
+            proc = processManager.createServiceProcess("remove all modules");
+            getModules().lockAndRemoveAllModules(this, processManager, proc);
+            proc.setSuccessState();
+        } catch (final InterruptException e) {
+            QedeqLog.getInstance().logMessage("Remove all modules failed: " + e.getMessage());
+            if (proc != null) {
+                proc.setFailureState();
+            }
+        } finally {
+            processManager.endServiceCall(call);
+        }
+        if (validate) {
+            modules.validateDependencies();
+        }
         // FIXME implement as below for removeModule
     }
 
-    /**
-     * Remove a QEDEQ module from memory.
-     *
-     * @param address Remove module identified by this address.
-     */
     public void removeModule(final ModuleAddress address) {
         final KernelQedeqBo prop = getKernelQedeqBo(address);
         if (prop != null) {

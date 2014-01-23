@@ -22,15 +22,20 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
+import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.state.LoadingState;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
  * Holds all known QEDEQ modules.
@@ -59,6 +64,59 @@ class KernelQedeqBoStorage {
         final DefaultKernelQedeqBo prop = new DefaultKernelQedeqBo(services, address);
         bos.put(address, prop);
         return prop;
+    }
+
+    /**
+     * FIXME 20140123 m31: rework: don't give so many parameters into this method!!! 
+     *
+     * Remove all modules from memory.
+     *
+     * @throws  InterruptException  User stopped process.
+     */
+    void lockAndRemoveAllModules(final Service service,
+            final ServiceProcessManager processManager, final InternalServiceProcess proc) throws InterruptException {
+        final String method = "removeAllModules()";
+        Trace.begin(CLASS, this, method);
+        final List calls = new ArrayList();
+        boolean ok = false;
+        try {
+            // lock all modules
+            for (final Iterator iterator
+                    = bos.entrySet().iterator();
+                    iterator.hasNext(); ) {
+                Map.Entry entry = (Map.Entry) iterator.next();
+                final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) entry.getValue();
+                final InternalServiceCall call = processManager.createServiceCall(service, prop, Parameters.EMPTY,
+                        Parameters.EMPTY, proc);
+                calls.add(call);
+            }
+
+            // delete all modules
+            for (final Iterator iterator
+                    = bos.entrySet().iterator();
+                    iterator.hasNext(); ) {
+                Map.Entry entry = (Map.Entry) iterator.next();
+                final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) entry.getValue();
+                synchronized (prop) {
+                    prop.delete();
+                }
+            }
+            bos.clear();
+            ok = true;
+
+        } catch (RuntimeException e) {
+            Trace.trace(CLASS, this, method, e);
+        } finally {
+            final Iterator iterator = calls.iterator();
+            while (iterator.hasNext()) {
+                if (ok) {
+                    ((InternalServiceCall) (iterator.next())).finish();
+                } else {
+                    ((InternalServiceCall) (iterator.next())).finish("couldn't lock all modules");
+                }
+            }
+            Trace.end(CLASS, this, method);
+        }
     }
 
     /**
