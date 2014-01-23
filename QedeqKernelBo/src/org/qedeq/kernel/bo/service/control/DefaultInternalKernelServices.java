@@ -993,7 +993,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         return processManager.getRunningServiceProcesses();
     }
 
-    public void stopAllPluginExecutions() {
+    public void terminateAllServiceProcesses() {
         processManager.terminateAllServiceProcesses();
     }
 
