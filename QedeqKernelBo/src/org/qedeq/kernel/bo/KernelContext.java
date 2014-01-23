@@ -198,7 +198,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
-        public void stopAllPluginExecutions() {
+        public void terminateAllServiceProcesses() {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
@@ -302,7 +302,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
             throw new IllegalStateException(KERNEL_NOT_STARTED);
         }
 
-        public void stopAllPluginExecutions() {
+        public void terminateAllServiceProcesses() {
             throw new IllegalStateException(KERNEL_NOT_STARTED);
         }
 
@@ -416,8 +416,8 @@ public final class KernelContext implements KernelProperties, KernelServices {
             return services.getRunningServiceProcesses();
         }
 
-        public void stopAllPluginExecutions() {
-            services.stopAllPluginExecutions();
+        public void terminateAllServiceProcesses() {
+            services.terminateAllServiceProcesses();
         }
 
     };
@@ -597,8 +597,8 @@ public final class KernelContext implements KernelProperties, KernelServices {
         return currentState.getRunningServiceProcesses();
     }
 
-    public void stopAllPluginExecutions() {
-        currentState.stopAllPluginExecutions();
+    public void terminateAllServiceProcesses() {
+        currentState.terminateAllServiceProcesses();
     }
 
     /**

@@ -507,20 +507,20 @@ public class KernelContextTest extends QedeqBoTestCase {
 
     public void testStopAllPluginExecutions() throws IOException {
         try {
-            kernel.stopAllPluginExecutions();
+            kernel.terminateAllServiceProcesses();
             fail("IllegalStateException expected");
         } catch (IllegalStateException e) {
             // expected
         }
         kernel.init(getConfig(), new DummyServiceModule());
         try {
-            kernel.stopAllPluginExecutions();
+            kernel.terminateAllServiceProcesses();
             fail("IllegalStateException expected");
         } catch (IllegalStateException e) {
             // expected
         }
         kernel.startup();
-        kernel.stopAllPluginExecutions();
+        kernel.terminateAllServiceProcesses();
     }
 
     private QedeqConfig getConfig() throws IOException {

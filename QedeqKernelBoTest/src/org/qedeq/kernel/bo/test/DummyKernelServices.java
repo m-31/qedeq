@@ -78,7 +78,7 @@ public class DummyKernelServices implements KernelServices {
     public ServiceProcess[] getRunningServiceProcesses() {
         return null;
     }
-    public void stopAllPluginExecutions() {
+    public void terminateAllServiceProcesses() {
     }
     public Object executePlugin(String id, ModuleAddress address, Object data) {
         return null;

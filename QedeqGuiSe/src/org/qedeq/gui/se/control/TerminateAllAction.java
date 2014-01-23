@@ -39,7 +39,7 @@ class TerminateAllAction extends AbstractAction {
     public void actionPerformed(final ActionEvent e) {
         final Runnable start = new Runnable() {
             public void run() {
-                KernelContext.getInstance().stopAllPluginExecutions();
+                KernelContext.getInstance().terminateAllServiceProcesses();
             }
         };
         SwingUtilities.invokeLater(start);
