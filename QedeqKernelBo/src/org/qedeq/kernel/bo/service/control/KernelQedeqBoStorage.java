@@ -67,7 +67,7 @@ class KernelQedeqBoStorage {
     }
 
     /**
-     * FIXME 20140123 m31: rework: don't give so many parameters into this method!!! 
+     * FIXME 20140123 m31: rework: don't give so many parameters into this method!!!
      *
      * Remove all modules from memory.
      *
