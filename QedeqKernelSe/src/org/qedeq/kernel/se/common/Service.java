@@ -17,7 +17,7 @@ package org.qedeq.kernel.se.common;
 
 
 /**
- * Represents a service and its properties.
+ * Represents a service and its basic properties.
  *
  * @author  Michael Meyling
  */
@@ -26,14 +26,14 @@ public interface Service {
     /**
      * Get service id.
      *
-     * @return  Service id
+     * @return  Service id.
      */
     public String getServiceId();
 
     /**
-     * Get plugin action name. This is what the plugin does.
+     * Get service action name. This is what the service does.
      *
-     * @return  Plugin name
+     * @return  Service action name.
      */
     public String getServiceAction();
 

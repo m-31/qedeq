@@ -18,31 +18,10 @@ package org.qedeq.kernel.se.common;
 
 
 /**
- * Represents a plugin and its properties.
+ * Currently just a marker interface for exchangeable or additional services.
  *
  * @author  Michael Meyling
  */
 public interface Plugin extends Service {
-
-    /**
-     * Get plugin id.
-     *
-     * @return  Plugin id
-     */
-    public String getServiceId();
-
-    /**
-     * Get plugin action name. This is what the plugin does.
-     *
-     * @return  Plugin name
-     */
-    public String getServiceAction();
-
-    /**
-     * Get plugin description.
-     *
-     * @return  Description of plugin.
-     */
-    public String getServiceDescription();
 
 }
