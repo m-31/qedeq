@@ -202,10 +202,10 @@ public class ServiceProcessManager {
      * @param   id          Plugin to use.
      * @param   qedeq       QEDEQ module to work on.
      * @param   data        Process parameters.
-     * @param   proc        Process. Might be <code>null</code>.
+     * @param   proc        Process. Might be <code>null</code>. Otherwise should be a process that is still running.
      * @return  Plugin specific result object. Might be <code>null</code>.
-     * @throws  InterruptException  User interrupt occured.
-     * @throws  RuntimeException    Plugin unknown.
+     * @throws  InterruptException  User interrupt occurred.
+     * @throws  RuntimeException    Plugin unknown or process is not running any more.
      */
     Object executePlugin(final String id, final KernelQedeqBo qedeq, final Object data,
             final InternalServiceProcess proc) throws InterruptException {
@@ -222,7 +222,13 @@ public class ServiceProcessManager {
         InternalServiceProcess process = null;
         if (proc != null) {
             if (!proc.isRunning()) {
-                return null;
+                // TODO 20140124 m31: but if it was interrupted we want to throw a InterrruptException
+                final String message = "Process " + proc.getId() + " was already finished: "
+                    + proc.getExecutionActionDescription();
+                final RuntimeException e = new RuntimeException(message + id);
+                Trace.fatal(CLASS, this, method, message + id,
+                    e);
+                throw e;
             }
             process = proc;
         } else {
