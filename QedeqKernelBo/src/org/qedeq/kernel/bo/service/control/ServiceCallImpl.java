@@ -17,10 +17,10 @@ package org.qedeq.kernel.bo.service.control;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.bo.common.ServiceCall;
+import org.qedeq.kernel.bo.common.ModuleServiceCall;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.common.ServiceResult;
-import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.common.Service;
@@ -31,7 +31,7 @@ import org.qedeq.kernel.se.common.ServiceCompleteness;
  *
  * @author  Michael Meyling
  */
-public class ServiceCallImpl implements InternalServiceCall {
+public class ServiceCallImpl implements InternalModuleServiceCall {
 
     /** Counter for each service call. */
     private static volatile long globalCounter;
@@ -76,7 +76,7 @@ public class ServiceCallImpl implements InternalServiceCall {
     private final InternalServiceProcess process;
 
     /** Parent service call. Might be <code>null</code>. */
-    private final ServiceCall parent;
+    private final ModuleServiceCall parent;
 
     /** Call id. */
     private final long id;
@@ -103,7 +103,7 @@ public class ServiceCallImpl implements InternalServiceCall {
      */
     public ServiceCallImpl(final Service service, final KernelQedeqBo qedeq,
             final Parameters config, final Parameters parameters, final InternalServiceProcess process,
-            final ServiceCall parent) {
+            final ModuleServiceCall parent) {
         this.id = inc();
         this.qedeq = qedeq;
         this.service = service;
@@ -285,14 +285,14 @@ public class ServiceCallImpl implements InternalServiceCall {
     }
 
     public int compareTo(final Object o) {
-        if (!(o instanceof ServiceCall)) {
+        if (!(o instanceof ModuleServiceCall)) {
             return -1;
         }
-        final ServiceCall s = (ServiceCall) o;
+        final ModuleServiceCall s = (ModuleServiceCall) o;
         return (getId() < s.getId() ? -1 : (getId() == s.getId() ? 0 : 1));
     }
 
-    public ServiceCall getParentServiceCall() {
+    public ModuleServiceCall getParentServiceCall() {
         return parent;
     }
 

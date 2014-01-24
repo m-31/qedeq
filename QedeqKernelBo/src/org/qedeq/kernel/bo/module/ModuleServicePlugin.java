@@ -16,7 +16,7 @@
 package org.qedeq.kernel.bo.module;
 
 import org.qedeq.base.io.Parameters;
-import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.bo.common.ModuleService;
 
 
 /**
@@ -24,7 +24,7 @@ import org.qedeq.kernel.se.common.Plugin;
  *
  * @author  Michael Meyling
  */
-public interface PluginBo extends Plugin {
+public interface ModuleServicePlugin extends ModuleService {
 
     /**
      * Create execution instance for this plugin.
@@ -33,7 +33,7 @@ public interface PluginBo extends Plugin {
      * @param   parameters  Plugin specific parameters. Might not be <code>null</code>.
      * @return  Instance to execute the plugin.
      */
-    public PluginExecutor createExecutor(KernelQedeqBo qedeq, Parameters parameters);
+    public ModuleServicePluginExecutor createExecutor(KernelQedeqBo qedeq, Parameters parameters);
 
     /**
      * Set default configuration parameters.

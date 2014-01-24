@@ -17,16 +17,16 @@ package org.qedeq.kernel.bo.service.dependency;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.module.ControlVisitor;
-import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginExecutor;
+import org.qedeq.kernel.bo.module.ModuleServicePluginExecutor;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.state.LoadingImportsState;
 
@@ -37,7 +37,7 @@ import org.qedeq.kernel.se.state.LoadingImportsState;
  * @author  Michael Meyling
  */
 public final class LoadDirectlyRequiredModulesExecutor extends ControlVisitor
-        implements PluginExecutor {
+        implements ModuleServicePluginExecutor {
 
     /** This class. */
     private static final Class CLASS = LoadDirectlyRequiredModulesExecutor.class;
@@ -52,12 +52,12 @@ public final class LoadDirectlyRequiredModulesExecutor extends ControlVisitor
      * @param   prop        Internal QedeqBo.
      * @param   parameter   Currently ignored.
      */
-    public LoadDirectlyRequiredModulesExecutor(final Plugin plugin, final KernelQedeqBo prop,
+    public LoadDirectlyRequiredModulesExecutor(final ModuleService plugin, final KernelQedeqBo prop,
             final Parameters parameter) {
         super(plugin, prop);
     }
 
-    public Object executePlugin(final InternalServiceCall call, final Object data) {
+    public Object executePlugin(final InternalModuleServiceCall call, final Object data) {
         if (getQedeqBo().hasLoadedImports()) {
             return getQedeqBo().getRequiredModules();
         }

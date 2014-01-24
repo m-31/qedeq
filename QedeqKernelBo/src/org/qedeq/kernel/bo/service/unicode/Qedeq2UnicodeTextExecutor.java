@@ -20,12 +20,12 @@ import java.io.IOException;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.StringOutput;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.log.QedeqLog;
-import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginExecutor;
-import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.bo.module.ModuleServicePluginExecutor;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 
@@ -37,7 +37,7 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
  *
  * @author  Michael Meyling
  */
-public final class Qedeq2UnicodeTextExecutor implements PluginExecutor {
+public final class Qedeq2UnicodeTextExecutor implements ModuleServicePluginExecutor {
 
     /** This class. */
     private static final Class CLASS = Qedeq2UnicodeTextExecutor.class;
@@ -59,7 +59,7 @@ public final class Qedeq2UnicodeTextExecutor implements PluginExecutor {
      * @param   prop        QEDEQ BO object.
      * @param   parameters  Plugin parameter.
      */
-    Qedeq2UnicodeTextExecutor(final Plugin plugin, final KernelQedeqBo prop,
+    Qedeq2UnicodeTextExecutor(final ModuleService plugin, final KernelQedeqBo prop,
             final Parameters parameters) {
         language = parameters.getString("language");
         final boolean info = parameters.getBoolean("info");
@@ -69,7 +69,7 @@ public final class Qedeq2UnicodeTextExecutor implements PluginExecutor {
         visitor = new Qedeq2UnicodeVisitor(plugin, prop, info , maxColumns, false, false);
     }
 
-    public Object executePlugin(final InternalServiceCall call, final Object data) {
+    public Object executePlugin(final InternalModuleServiceCall call, final Object data) {
         final String method = "executePlugin()";
         String result = "";
         try {

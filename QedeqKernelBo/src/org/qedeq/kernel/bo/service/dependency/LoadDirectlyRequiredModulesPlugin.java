@@ -16,9 +16,9 @@
 package org.qedeq.kernel.bo.service.dependency;
 
 import org.qedeq.base.io.Parameters;
-import org.qedeq.kernel.bo.module.InternalPluginBo;
+import org.qedeq.kernel.bo.module.InternalModuleServicePlugin;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginExecutor;
+import org.qedeq.kernel.bo.module.ModuleServicePluginExecutor;
 
 
 /**
@@ -26,7 +26,7 @@ import org.qedeq.kernel.bo.module.PluginExecutor;
  *
  * @author  Michael Meyling
  */
-public final class LoadDirectlyRequiredModulesPlugin implements InternalPluginBo {
+public final class LoadDirectlyRequiredModulesPlugin implements InternalModuleServicePlugin {
 
     /** This class. */
     private static final Class CLASS = LoadDirectlyRequiredModulesPlugin.class;
@@ -43,7 +43,7 @@ public final class LoadDirectlyRequiredModulesPlugin implements InternalPluginBo
         return "load all imported modules";
     }
 
-    public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Parameters parameters) {
+    public ModuleServicePluginExecutor createExecutor(final KernelQedeqBo qedeq, final Parameters parameters) {
         return new LoadDirectlyRequiredModulesExecutor(this, qedeq, parameters);
     }
 

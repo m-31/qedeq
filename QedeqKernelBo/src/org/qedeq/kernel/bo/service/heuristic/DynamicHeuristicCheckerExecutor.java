@@ -17,6 +17,7 @@ package org.qedeq.kernel.bo.service.heuristic;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.bo.logic.model.DynamicDirectInterpreter;
@@ -27,10 +28,10 @@ import org.qedeq.kernel.bo.logic.model.HeuristicException;
 import org.qedeq.kernel.bo.logic.model.ModelFunctionConstant;
 import org.qedeq.kernel.bo.logic.model.ModelPredicateConstant;
 import org.qedeq.kernel.bo.module.ControlVisitor;
-import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginBo;
-import org.qedeq.kernel.bo.module.PluginExecutor;
+import org.qedeq.kernel.bo.module.ModuleServicePlugin;
+import org.qedeq.kernel.bo.module.ModuleServicePluginExecutor;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.ConditionalProof;
@@ -44,7 +45,6 @@ import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.dto.list.DefaultElementList;
 
@@ -54,7 +54,7 @@ import org.qedeq.kernel.se.dto.list.DefaultElementList;
  *
  * @author  Michael Meyling
  */
-public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implements PluginExecutor {
+public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implements ModuleServicePluginExecutor {
 
     /** This class. */
     private static final Class CLASS = DynamicHeuristicCheckerExecutor.class;
@@ -72,7 +72,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
      * @param   qedeq       QEDEQ module object.
      * @param   parameters  Execution parameters.
      */
-    DynamicHeuristicCheckerExecutor(final PluginBo plugin, final KernelQedeqBo qedeq,
+    DynamicHeuristicCheckerExecutor(final ModuleServicePlugin plugin, final KernelQedeqBo qedeq,
             final Parameters parameters) {
         super(plugin, qedeq);
         final String method = "DynamicHeuristicChecker(PluginBo, QedeqBo, Map)";
@@ -104,11 +104,11 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         this.interpreter = new DynamicDirectInterpreter(qedeq, model);
     }
 
-    private Plugin getPlugin() {
-        return (Plugin) getService();
+    private ModuleService getPlugin() {
+        return (ModuleService) getService();
     }
 
-    public Object executePlugin(final InternalServiceCall call, final Object data) {
+    public Object executePlugin(final InternalModuleServiceCall call, final Object data) {
         final String method = "executePlugin()";
         try {
             QedeqLog.getInstance().logRequest("Dynamic heuristic test", getQedeqBo().getUrl());

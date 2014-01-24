@@ -2,9 +2,9 @@ package org.qedeq.kernel.bo.module;
 
 import org.qedeq.kernel.bo.common.Element2Latex;
 import org.qedeq.kernel.bo.common.Element2Utf8;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.se.common.ModuleDataException;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -72,7 +72,7 @@ public interface KernelQedeqBo extends QedeqBo {
      * @param errors    These errors occurred.
      * @param warnings  These warnings occurred.
      */
-    public void addPluginErrorsAndWarnings(Plugin plugin, SourceFileExceptionList errors,
+    public void addPluginErrorsAndWarnings(ModuleService plugin, SourceFileExceptionList errors,
             SourceFileExceptionList warnings);
 
     /**

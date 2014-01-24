@@ -24,12 +24,12 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.KernelContext;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.log.QedeqLog;
-import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginExecutor;
-import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.bo.module.ModuleServicePluginExecutor;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 
@@ -41,7 +41,7 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
  *
  * @author  Michael Meyling
  */
-public class Qedeq2Utf8Executor implements PluginExecutor {
+public class Qedeq2Utf8Executor implements ModuleServicePluginExecutor {
 
     /** This class. */
     private static final Class CLASS = Qedeq2Utf8Executor.class;
@@ -71,7 +71,7 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
      * @param   prop        QEDEQ BO object.
      * @param   parameters  Plugin parameter.
      */
-    public Qedeq2Utf8Executor(final Plugin plugin, final KernelQedeqBo prop,
+    public Qedeq2Utf8Executor(final ModuleService plugin, final KernelQedeqBo prop,
             final Parameters parameters) {
         final boolean info = parameters.getBoolean("info");
         // automatically line break after this column. 0 means no automatic line breaking
@@ -83,7 +83,7 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
         visitor = new Qedeq2UnicodeVisitor(plugin, prop, info , maxColumns, true, brief);
     }
 
-    public Object executePlugin(final InternalServiceCall call, final Object data) {
+    public Object executePlugin(final InternalModuleServiceCall call, final Object data) {
         final String method = "executePlugin()";
         try {
             QedeqLog.getInstance().logRequest("Generate UTF-8", visitor.getQedeqBo().getUrl());

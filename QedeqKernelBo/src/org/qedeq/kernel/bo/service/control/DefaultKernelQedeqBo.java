@@ -26,6 +26,7 @@ import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.common.Element2Latex;
 import org.qedeq.kernel.bo.common.Element2Utf8;
 import org.qedeq.kernel.bo.common.ModuleReferenceList;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -37,7 +38,6 @@ import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -560,7 +560,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
        return address.getUrl();
     }
 
-    public void addPluginErrorsAndWarnings(final Plugin plugin, final SourceFileExceptionList errors,
+    public void addPluginErrorsAndWarnings(final ModuleService plugin, final SourceFileExceptionList errors,
             final SourceFileExceptionList warnings) {
         stateManager.addPluginResults(plugin, errors, warnings);
     }

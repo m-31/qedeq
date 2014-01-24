@@ -35,16 +35,16 @@ import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.common.KernelProperties;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.ServiceModule;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
-import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
-import org.qedeq.kernel.bo.module.ServiceExecutor;
 import org.qedeq.kernel.bo.service.dependency.LoadDirectlyRequiredModulesPlugin;
 import org.qedeq.kernel.bo.service.dependency.LoadRequiredModulesPlugin;
 import org.qedeq.kernel.bo.service.logic.FormalProofCheckerPlugin;
@@ -55,7 +55,6 @@ import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleDataException;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -193,7 +192,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     public void removeAllModules() {
 //        getModules().removeAllModules();
         InternalServiceProcess proc = null;
-        InternalServiceCall call = null;
+        InternalModuleServiceCall call = null;
         try {
             proc = processManager.createServiceProcess("remove all modules");
             getModules().lockAndRemoveAllModules(this, processManager, proc);
@@ -217,7 +216,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         if (prop != null) {
             QedeqLog.getInstance().logRequest("Removing module", address.getUrl());
             InternalServiceProcess proc = null;
-            InternalServiceCall call = null;
+            InternalModuleServiceCall call = null;
             try {
                 proc = processManager.createServiceProcess("remove module");
                 call = processManager.createServiceCall(this, prop, Parameters.EMPTY,
@@ -297,7 +296,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         final String method = "loadModule(InternalServiceProcess, ModuleAddress)";
         final DefaultKernelQedeqBo prop = getModules().getKernelQedeqBo(this, address);
         final ServiceExecutor executor = new ServiceExecutor() {
-            public void executeService(final InternalServiceCall call) throws InterruptException {
+            public void executeService(final InternalModuleServiceCall call) throws InterruptException {
                 try {
                     synchronized (prop) {
                         if (prop.isLoaded()) {
@@ -589,7 +588,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                                 getCanonicalReadableFile(prop);
                             } catch (ModuleFileNotFoundException e) { // file not found
                                 // we will continue by creating a local copy
-                                saveQedeqFromWebToBuffer((InternalServiceCall) process.getServiceCall(), prop);
+                                saveQedeqFromWebToBuffer((InternalModuleServiceCall) process.getServiceCall(), prop);
                             }
                             loadBufferedModule(process, prop);
                         }
@@ -697,7 +696,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
      * @throws  SourceFileExceptionList Address was malformed or the file can not be found.
      * @throws  InterruptException User canceled request.
      */
-    private void saveQedeqFromWebToBuffer(final InternalServiceCall call, final DefaultKernelQedeqBo prop)
+    private void saveQedeqFromWebToBuffer(final InternalModuleServiceCall call, final DefaultKernelQedeqBo prop)
             throws SourceFileExceptionList,  InterruptException {
         final String method = "saveQedeqFromWebToBuffer(DefaultKernelQedeqBo)";
         Trace.begin(CLASS, this, method);
@@ -710,7 +709,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
 
         final ServiceExecutor executor = new ServiceExecutor() {
 
-            public void executeService(final InternalServiceCall call) {
+            public void executeService(final InternalModuleServiceCall call) {
                 final File f = getLocalFilePath(prop.getModuleAddress());
                 prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_WEB);
                 try {
@@ -963,7 +962,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         pluginManager.addPlugin(pluginClass);
     }
 
-    public Plugin[] getPlugins() {
+    public ModuleService[] getPlugins() {
         return pluginManager.getNonInternalPlugins();
     }
 
@@ -1168,9 +1167,9 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         return processManager.createServiceProcess(action);
     }
 
-    public InternalServiceCall createServiceCall(final Service service, final KernelQedeqBo qedeq,
+    public InternalModuleServiceCall createServiceCall(final Service service, final KernelQedeqBo qedeq,
             final Parameters configParameters, final Parameters parameters,
-            final InternalServiceProcess process, final InternalServiceCall parent) throws InterruptException {
+            final InternalServiceProcess process, final InternalModuleServiceCall parent) throws InterruptException {
         return processManager.createServiceCall(service, qedeq, configParameters, parameters, process);
     }
 

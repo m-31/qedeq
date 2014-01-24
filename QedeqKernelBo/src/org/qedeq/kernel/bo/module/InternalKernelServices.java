@@ -207,9 +207,9 @@ public interface InternalKernelServices extends KernelProperties {
      * @return  Created service call.
      * @throws  InterruptException  Locking of module was canceled by user.
      */
-    public InternalServiceCall createServiceCall(Service service,
+    public InternalModuleServiceCall createServiceCall(Service service,
             final KernelQedeqBo qedeq, final Parameters configParameters, final Parameters parameters,
-            final InternalServiceProcess process, final InternalServiceCall parent)
+            final InternalServiceProcess process, final InternalModuleServiceCall parent)
             throws InterruptException;
 
 

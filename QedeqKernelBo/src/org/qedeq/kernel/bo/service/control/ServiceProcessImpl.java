@@ -21,9 +21,9 @@ import java.util.List;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.QedeqBoSet;
-import org.qedeq.kernel.bo.common.ServiceCall;
+import org.qedeq.kernel.bo.common.ModuleServiceCall;
 import org.qedeq.kernel.bo.common.ServiceProcess;
-import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 
 /**
@@ -40,7 +40,7 @@ public class ServiceProcessImpl implements InternalServiceProcess {
     private static long globalCounter;
 
     /** The service call the process currently works for. */
-    private InternalServiceCall call;
+    private InternalModuleServiceCall call;
 
     /** The thread the service is done within. */
     private final Thread thread;
@@ -91,15 +91,15 @@ public class ServiceProcessImpl implements InternalServiceProcess {
         return globalCounter++;
     }
 
-    public synchronized void setInternalServiceCall(final InternalServiceCall call) {
+    public synchronized void setInternalServiceCall(final InternalModuleServiceCall call) {
         this.call = call;
     }
 
-    public synchronized ServiceCall getServiceCall() {
+    public synchronized ModuleServiceCall getServiceCall() {
         return call;
     }
 
-    public synchronized InternalServiceCall getInternalServiceCall() {
+    public synchronized InternalModuleServiceCall getInternalServiceCall() {
         return call;
     }
 
@@ -248,7 +248,7 @@ public class ServiceProcessImpl implements InternalServiceProcess {
 
     public synchronized QedeqBo[] getCurrentlyProcessedModules() {
         final List result = new ArrayList();
-        ServiceCall parent = call;
+        ModuleServiceCall parent = call;
         while (parent != null) {
             if (parent.getQedeq() != null && (result.size() == 0
                     || (result.size() > 0 && !parent.getQedeq().equals(result.get(0))))) {

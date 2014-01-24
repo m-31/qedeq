@@ -28,7 +28,7 @@ import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
-import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -86,7 +86,7 @@ class KernelQedeqBoStorage {
                     iterator.hasNext(); ) {
                 Map.Entry entry = (Map.Entry) iterator.next();
                 final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) entry.getValue();
-                final InternalServiceCall call = processManager.createServiceCall(service, prop, Parameters.EMPTY,
+                final InternalModuleServiceCall call = processManager.createServiceCall(service, prop, Parameters.EMPTY,
                         Parameters.EMPTY, proc);
                 calls.add(call);
             }
@@ -110,9 +110,9 @@ class KernelQedeqBoStorage {
             final Iterator iterator = calls.iterator();
             while (iterator.hasNext()) {
                 if (ok) {
-                    ((InternalServiceCall) (iterator.next())).finish();
+                    ((InternalModuleServiceCall) (iterator.next())).finish();
                 } else {
-                    ((InternalServiceCall) (iterator.next())).finish("couldn't lock all modules");
+                    ((InternalModuleServiceCall) (iterator.next())).finish("couldn't lock all modules");
                 }
             }
             Trace.end(CLASS, this, method);

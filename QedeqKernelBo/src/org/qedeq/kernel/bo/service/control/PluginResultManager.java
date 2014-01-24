@@ -19,9 +19,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.qedeq.kernel.bo.module.PluginBo;
+import org.qedeq.kernel.bo.common.ModuleService;
+import org.qedeq.kernel.bo.module.ModuleServicePlugin;
 import org.qedeq.kernel.bo.module.PluginResults;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 /**
@@ -38,8 +38,8 @@ public class PluginResultManager {
      *
      * @return  Used plugins.
      */
-    synchronized PluginBo[] getPlugins() {
-        return (PluginBo[]) plugins.keySet().toArray(new PluginBo[] {});
+    synchronized ModuleServicePlugin[] getPlugins() {
+        return (ModuleServicePlugin[]) plugins.keySet().toArray(new ModuleServicePlugin[] {});
     }
 
     /**
@@ -56,7 +56,7 @@ public class PluginResultManager {
      * @param   errors      Plugin errors.
      * @param   warnings    Plugin warnings.
      */
-    public synchronized void setResult(final PluginBo plugin, final SourceFileExceptionList errors,
+    public synchronized void setResult(final ModuleServicePlugin plugin, final SourceFileExceptionList errors,
             final SourceFileExceptionList warnings) {
         PluginResults results = (PluginResults) plugins.get(plugin);
         if (results == null) {
@@ -75,7 +75,7 @@ public class PluginResultManager {
      * @param   errors      Plugin errors.
      * @param   warnings    Plugin warnings.
      */
-    public synchronized void addResult(final Plugin plugin, final SourceFileExceptionList errors,
+    public synchronized void addResult(final ModuleService plugin, final SourceFileExceptionList errors,
             final SourceFileExceptionList warnings) {
         PluginResults results = (PluginResults) plugins.get(plugin);
         if (results == null) {
@@ -126,7 +126,7 @@ public class PluginResultManager {
             if (text.length() > 0) {
                 text.append(", ");
             }
-            final PluginBo key = (PluginBo) iterator.next();
+            final ModuleServicePlugin key = (ModuleServicePlugin) iterator.next();
             PluginResults result = (PluginResults) plugins.get(key);
             text.append(key.getServiceAction());
             text.append(" ");

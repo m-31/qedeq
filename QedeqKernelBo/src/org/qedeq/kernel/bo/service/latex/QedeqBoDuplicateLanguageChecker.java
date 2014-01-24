@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.qedeq.kernel.bo.module.ControlVisitor;
-import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.base.module.Latex;
 import org.qedeq.kernel.se.base.module.LatexList;
@@ -42,7 +42,7 @@ public final class QedeqBoDuplicateLanguageChecker extends ControlVisitor {
      * @param   call        Service process we work in.
      * @throws  SourceFileExceptionList An error occurred.
      */
-    public static void check(final InternalServiceCall call) throws SourceFileExceptionList {
+    public static void check(final InternalModuleServiceCall call) throws SourceFileExceptionList {
         final QedeqBoDuplicateLanguageChecker checker
             = new QedeqBoDuplicateLanguageChecker(call.getService(), call.getKernelQedeq());
         checker.traverse(call.getInternalServiceProcess());

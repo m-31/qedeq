@@ -25,7 +25,7 @@ import org.qedeq.kernel.se.visitor.InterruptException;
  *
  * @author  Michael Meyling
  */
-public interface PluginExecutor extends ServiceCompleteness {
+public interface ModuleServicePluginExecutor extends ServiceCompleteness {
 
     /**
      * Execute plugin.
@@ -35,7 +35,7 @@ public interface PluginExecutor extends ServiceCompleteness {
      * @return  Plugin specific resulting object. Might be <code>null</code>.
      * @throws  InterruptException    User canceled execution.
      */
-    public Object executePlugin(final InternalServiceCall call, final Object data) throws InterruptException;
+    public Object executePlugin(final InternalModuleServiceCall call, final Object data) throws InterruptException;
 
     /**
      * Get percentage of currently running plugin execution.

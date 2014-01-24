@@ -47,13 +47,13 @@ public interface InternalServiceProcess extends ServiceProcess {
      *
      * @param   call    Execute this service call.
      */
-    public void setInternalServiceCall(final InternalServiceCall call);
+    public void setInternalServiceCall(final InternalModuleServiceCall call);
 
     /**
      * Get currently running service call.
      *
      * @return  Service call.
      */
-    public InternalServiceCall getInternalServiceCall();
+    public InternalModuleServiceCall getInternalServiceCall();
 
 }

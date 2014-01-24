@@ -15,22 +15,13 @@
 
 package org.qedeq.kernel.bo.module;
 
-import org.qedeq.kernel.se.visitor.InterruptException;
 
 
 /**
- * Represents a service execution.
+ * Just a marker interface for an internal plugin.
  *
  * @author  Michael Meyling
  */
-public interface ServiceExecutor {
-
-    /**
-     * Execute service.
-     *
-     * @param   call    Parameters for service call and current execution status.
-     * @throws  InterruptException  User canceled call.
-     */
-    public void executeService(InternalServiceCall call) throws InterruptException;
+public interface InternalModuleServicePlugin extends ModuleServicePlugin {
 
 }

@@ -20,13 +20,13 @@ import java.util.List;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.log.ModuleEventLog;
-import org.qedeq.kernel.bo.module.InternalPluginBo;
+import org.qedeq.kernel.bo.module.InternalModuleServicePlugin;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceChecker;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.se.common.ModuleDataException;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.dto.module.QedeqVo;
 import org.qedeq.kernel.se.state.AbstractState;
@@ -1000,9 +1000,9 @@ public class StateManager {
      * @param   errors      Resulting errors.
      * @param   warnings    Resulting warnings.
      */
-    public void addPluginResults(final Plugin plugin, final SourceFileExceptionList errors,
+    public void addPluginResults(final ModuleService plugin, final SourceFileExceptionList errors,
             final SourceFileExceptionList warnings) {
-        if (plugin instanceof InternalPluginBo) {
+        if (plugin instanceof InternalModuleServicePlugin) {
             throw new RuntimeException(
                 "Programming error: an internal plugin should not add exeptions here!\n"
                 + plugin.getClass().getName());

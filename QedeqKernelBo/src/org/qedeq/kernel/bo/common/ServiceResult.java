@@ -18,7 +18,7 @@ package org.qedeq.kernel.bo.common;
 
 
 /**
- * Execution result of a {@link ServiceCall}.
+ * Execution result of a {@link ModuleServiceCall}.
  *
  * @author  Michael Meyling
  */

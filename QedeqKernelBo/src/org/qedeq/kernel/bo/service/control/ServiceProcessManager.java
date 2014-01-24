@@ -24,12 +24,11 @@ import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.common.ServiceResult;
 import org.qedeq.kernel.bo.log.QedeqLog;
-import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginBo;
-import org.qedeq.kernel.bo.module.PluginExecutor;
-import org.qedeq.kernel.bo.module.ServiceExecutor;
+import org.qedeq.kernel.bo.module.ModuleServicePlugin;
+import org.qedeq.kernel.bo.module.ModuleServicePluginExecutor;
 import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.visitor.InterruptException;
 
@@ -130,7 +129,7 @@ public class ServiceProcessManager {
      *
      * @param   call    End this call, which should be finished, interrupted or halted before.
      */
-    public void endServiceCall(final InternalServiceCall call) {
+    public void endServiceCall(final InternalModuleServiceCall call) {
         if (call != null && ((ServiceCallImpl) call).getNewlyBlockedModule()) { // TODO 20130521 m31: do it without cast
             unlockRequiredModule(call, call.getKernelQedeq());
         }
@@ -210,7 +209,7 @@ public class ServiceProcessManager {
     Object executePlugin(final String id, final KernelQedeqBo qedeq, final Object data,
             final InternalServiceProcess proc) throws InterruptException {
         final String method = "executePlugin(String, KernelQedeqBo, Object)";
-        final PluginBo plugin = pluginManager.getPlugin(id);
+        final ModuleServicePlugin plugin = pluginManager.getPlugin(id);
         if (plugin == null) {
             final String message = "Kernel does not know about plugin: ";
             final RuntimeException e = new RuntimeException(message + id);
@@ -238,7 +237,7 @@ public class ServiceProcessManager {
         try {
             call = createServiceCall(plugin, qedeq, configParameters, Parameters.EMPTY,
                 process);
-            final PluginExecutor exe = plugin.createExecutor(qedeq, configParameters);
+            final ModuleServicePluginExecutor exe = plugin.createExecutor(qedeq, configParameters);
             call.setServiceCompleteness(exe);
             final Object result = exe.executePlugin(call, data);
             if (exe.getInterrupted()) {
@@ -246,7 +245,7 @@ public class ServiceProcessManager {
                 throw new InterruptException(qedeq.getModuleAddress().createModuleContext());
             } else {
                 call.finish();
-                process.setInternalServiceCall((InternalServiceCall) call.getParentServiceCall());
+                process.setInternalServiceCall((InternalModuleServiceCall) call.getParentServiceCall());
             }
             return result;
         } catch (final RuntimeException e) {
@@ -289,7 +288,7 @@ public class ServiceProcessManager {
         }
     }
 
-    public boolean unlockRequiredModule(final InternalServiceCall call, final KernelQedeqBo qedeq) {
+    public boolean unlockRequiredModule(final InternalModuleServiceCall call, final KernelQedeqBo qedeq) {
         return arbiter.unlockRequiredModule(call.getInternalServiceProcess(), qedeq);
     }
 

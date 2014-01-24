@@ -20,6 +20,7 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.Version;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.ProofCheckerFactoryImpl;
 import org.qedeq.kernel.bo.logic.common.FormulaUtility;
@@ -31,10 +32,10 @@ import org.qedeq.kernel.bo.logic.proof.checker.ProofCheckException;
 import org.qedeq.kernel.bo.logic.proof.common.ProofCheckerFactory;
 import org.qedeq.kernel.bo.logic.proof.common.RuleChecker;
 import org.qedeq.kernel.bo.module.ControlVisitor;
-import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginExecutor;
+import org.qedeq.kernel.bo.module.ModuleServicePluginExecutor;
 import org.qedeq.kernel.bo.module.Reference;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
@@ -53,7 +54,6 @@ import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.common.CheckLevel;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.RuleKey;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -67,7 +67,7 @@ import org.qedeq.kernel.se.state.FormallyProvedState;
  *
  * @author  Michael Meyling
  */
-public final class FormalProofCheckerExecutor extends ControlVisitor implements PluginExecutor,
+public final class FormalProofCheckerExecutor extends ControlVisitor implements ModuleServicePluginExecutor,
         ReferenceResolver, RuleChecker {
 
     /** This class. */
@@ -86,7 +86,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
      * @param   qedeq       QEDEQ BO object.
      * @param   parameters  Parameters.
      */
-    FormalProofCheckerExecutor(final Plugin plugin, final KernelQedeqBo qedeq,
+    FormalProofCheckerExecutor(final ModuleService plugin, final KernelQedeqBo qedeq,
             final Parameters parameters) {
         super(plugin, qedeq);
         final String method = "FormalProofCheckerExecutor(Plugin, KernelQedeqBo, Map)";
@@ -116,7 +116,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         }
     }
 
-    public Object executePlugin(final InternalServiceCall call, final Object data) {
+    public Object executePlugin(final InternalModuleServiceCall call, final Object data) {
         // we set this as module rule version, and hope it will be changed
         ruleVersion = new Version("0.00.00");
         QedeqLog.getInstance().logRequest(

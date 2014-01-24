@@ -31,12 +31,13 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.DateUtility;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.ControlVisitor;
-import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginExecutor;
+import org.qedeq.kernel.bo.module.ModuleServicePluginExecutor;
 import org.qedeq.kernel.bo.module.Reference;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
@@ -88,7 +89,6 @@ import org.qedeq.kernel.se.base.module.UsedByList;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.RuleKey;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
@@ -102,7 +102,7 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
  *
  * @author  Michael Meyling
  */
-public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginExecutor {
+public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleServicePluginExecutor {
 
     /** This class. */
     private static final Class CLASS = Qedeq2LatexExecutor.class;
@@ -156,17 +156,17 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
      * @param   prop        QEDEQ BO object.
      * @param   parameters  Parameters.
      */
-    public Qedeq2LatexExecutor(final Plugin plugin, final KernelQedeqBo prop, final Parameters parameters) {
+    public Qedeq2LatexExecutor(final ModuleService plugin, final KernelQedeqBo prop, final Parameters parameters) {
         super(plugin, prop);
         info = parameters.getBoolean("info");
         brief = parameters.getBoolean("brief");
     }
 
-    private Plugin getPlugin() {
-        return (Plugin) getService();
+    private ModuleService getPlugin() {
+        return (ModuleService) getService();
     }
 
-    public Object executePlugin(final InternalServiceCall call, final Object data) {
+    public Object executePlugin(final InternalModuleServiceCall call, final Object data) {
         final String method = "executePlugin(QedeqBo, Map)";
         try {
             QedeqLog.getInstance().logRequest("Generate LaTeX", getQedeqBo().getUrl());
@@ -220,7 +220,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException File IO failed.
      */
-    public InputStream createLatex(final InternalServiceCall call, final String language, final String level)
+    public InputStream createLatex(final InternalModuleServiceCall call, final String language, final String level)
             throws SourceFileExceptionList, IOException {
         return new FileInputStream(generateLatex(call, language, level));
     }
@@ -237,7 +237,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException     File IO failed.
      */
-    public File generateLatex(final InternalServiceCall call, final String language, final String level)
+    public File generateLatex(final InternalModuleServiceCall call, final String language, final String level)
             throws SourceFileExceptionList, IOException {
         final String method = "generateLatex(String, String)";
         this.language = language;

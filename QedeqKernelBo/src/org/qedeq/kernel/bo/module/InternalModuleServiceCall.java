@@ -16,7 +16,7 @@
 package org.qedeq.kernel.bo.module;
 
 import org.qedeq.base.io.Parameters;
-import org.qedeq.kernel.bo.common.ServiceCall;
+import org.qedeq.kernel.bo.common.ModuleServiceCall;
 import org.qedeq.kernel.bo.common.ServiceResult;
 import org.qedeq.kernel.se.common.ServiceCompleteness;
 
@@ -27,7 +27,7 @@ import org.qedeq.kernel.se.common.ServiceCompleteness;
  *
  * @author  Michael Meyling
  */
-public interface InternalServiceCall extends ServiceCall {
+public interface InternalModuleServiceCall extends ModuleServiceCall {
 
     /**
      * Get QEDEQ module we work on.

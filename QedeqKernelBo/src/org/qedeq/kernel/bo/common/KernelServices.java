@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.net.URL;
 
 import org.qedeq.kernel.se.common.ModuleAddress;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
@@ -146,7 +145,7 @@ public interface KernelServices {
      *
      * @return  Installed plugins.
      */
-    public Plugin[] getPlugins();
+    public ModuleService[] getPlugins();
 
     /**
      * Execute plugin on given QEDEQ module.

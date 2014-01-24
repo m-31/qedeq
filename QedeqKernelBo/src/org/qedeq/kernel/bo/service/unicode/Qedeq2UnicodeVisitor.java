@@ -27,6 +27,7 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.DateUtility;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
@@ -82,7 +83,6 @@ import org.qedeq.kernel.se.base.module.UsedByList;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.visitor.QedeqNumbers;
 
@@ -157,7 +157,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
      *                          if LaTeX problems occur?
      * @param   brief           Should only names and formulas be be printed?
      */
-    public Qedeq2UnicodeVisitor(final Plugin plugin, final KernelQedeqBo prop,
+    public Qedeq2UnicodeVisitor(final ModuleService plugin, final KernelQedeqBo prop,
             final boolean info, final int maximumColumn, final boolean addWarnings,
             final boolean brief) {
         super(plugin, prop);
@@ -184,7 +184,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         try {
             traverse(process);
         } finally {
-            getQedeqBo().addPluginErrorsAndWarnings((Plugin) getService(), getErrorList(), getWarningList());
+            getQedeqBo().addPluginErrorsAndWarnings((ModuleService) getService(), getErrorList(), getWarningList());
         }
     }
 

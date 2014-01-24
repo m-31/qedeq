@@ -55,7 +55,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
     private final KernelQedeqBo prop;
 
     /** We work in this service call. */
-    private InternalServiceCall call;
+    private InternalModuleServiceCall call;
 
     /** Traverse QEDEQ module with this traverser. */
     private final QedeqNotNullTraverser traverser;
@@ -268,7 +268,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      *
      * @return  Service process we work for.
      */
-    public InternalServiceCall getInternalServiceCall() {
+    public InternalModuleServiceCall getInternalServiceCall() {
         return call;
     }
 

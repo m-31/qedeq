@@ -28,7 +28,7 @@ public interface ServiceProcess extends Comparable {
      *
      * @return  Service call.
      */
-    public ServiceCall getServiceCall();
+    public ModuleServiceCall getServiceCall();
 
     /**
      * Get thread the service runs within.

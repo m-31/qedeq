@@ -23,7 +23,7 @@ import org.qedeq.kernel.se.common.Service;
  *
  * @author  Michael Meyling
  */
-public interface ServiceCall extends Comparable {
+public interface ModuleServiceCall extends Comparable {
 
     /**
      * Get QEDEQ module we work on.
@@ -79,7 +79,7 @@ public interface ServiceCall extends Comparable {
      *
      * @return  Parent service call. Might be <code>null</code>.
      */
-    public ServiceCall getParentServiceCall();
+    public ModuleServiceCall getParentServiceCall();
 
     /**
      * Return service process the call was initiated by.

@@ -17,8 +17,8 @@ package org.qedeq.kernel.bo.service.logic;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginBo;
-import org.qedeq.kernel.bo.module.PluginExecutor;
+import org.qedeq.kernel.bo.module.ModuleServicePlugin;
+import org.qedeq.kernel.bo.module.ModuleServicePluginExecutor;
 
 
 /**
@@ -26,7 +26,7 @@ import org.qedeq.kernel.bo.module.PluginExecutor;
  *
  * @author  Michael Meyling
  */
-public final class SimpleProofFinderPlugin implements PluginBo {
+public final class SimpleProofFinderPlugin implements ModuleServicePlugin {
 
     /** This class. */
     private static final Class CLASS = SimpleProofFinderPlugin.class;
@@ -43,7 +43,7 @@ public final class SimpleProofFinderPlugin implements PluginBo {
         return "finds simple formal proofs and add them to module  [EXPERIMENTAL]";
     }
 
-    public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Parameters parameters) {
+    public ModuleServicePluginExecutor createExecutor(final KernelQedeqBo qedeq, final Parameters parameters) {
         return new SimpleProofFinderExecutor(this, qedeq, parameters);
     }
 

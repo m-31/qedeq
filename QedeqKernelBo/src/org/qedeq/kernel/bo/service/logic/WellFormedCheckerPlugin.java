@@ -17,9 +17,9 @@ package org.qedeq.kernel.bo.service.logic;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.logic.FormulaCheckerFactoryImpl;
-import org.qedeq.kernel.bo.module.InternalPluginBo;
+import org.qedeq.kernel.bo.module.InternalModuleServicePlugin;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginExecutor;
+import org.qedeq.kernel.bo.module.ModuleServicePluginExecutor;
 
 
 /**
@@ -27,7 +27,7 @@ import org.qedeq.kernel.bo.module.PluginExecutor;
  *
  * @author  Michael Meyling
  */
-public final class WellFormedCheckerPlugin implements InternalPluginBo {
+public final class WellFormedCheckerPlugin implements InternalModuleServicePlugin {
 
     /** This class. */
     private static final Class CLASS = WellFormedCheckerPlugin.class;
@@ -44,7 +44,7 @@ public final class WellFormedCheckerPlugin implements InternalPluginBo {
         return "checks well-formedness of formulas and correct dependency of declarations";
     }
 
-    public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Parameters parameters) {
+    public ModuleServicePluginExecutor createExecutor(final KernelQedeqBo qedeq, final Parameters parameters) {
         return new WellFormedCheckerExecutor(this, qedeq, parameters);
     }
 

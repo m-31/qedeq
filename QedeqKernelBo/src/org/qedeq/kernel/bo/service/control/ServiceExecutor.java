@@ -13,15 +13,25 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.module;
+package org.qedeq.kernel.bo.service.control;
 
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 
 /**
- * Just a marker interface for an internal plugin.
+ * Represents a service execution.
  *
  * @author  Michael Meyling
  */
-public interface InternalPluginBo extends PluginBo {
+public interface ServiceExecutor {
+
+    /**
+     * Execute service.
+     *
+     * @param   call    Parameters for service call and current execution status.
+     * @throws  InterruptException  User canceled call.
+     */
+    public void executeService(InternalModuleServiceCall call) throws InterruptException;
 
 }

@@ -17,8 +17,8 @@ package org.qedeq.kernel.bo.service.unicode;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginBo;
-import org.qedeq.kernel.bo.module.PluginExecutor;
+import org.qedeq.kernel.bo.module.ModuleServicePlugin;
+import org.qedeq.kernel.bo.module.ModuleServicePluginExecutor;
 
 
 /**
@@ -26,7 +26,7 @@ import org.qedeq.kernel.bo.module.PluginExecutor;
  *
  * @author  Michael Meyling
  */
-public final class Qedeq2Utf8Plugin implements PluginBo {
+public final class Qedeq2Utf8Plugin implements ModuleServicePlugin {
 
     /** This class. */
     public static final Class CLASS = Qedeq2Utf8Plugin.class;
@@ -50,7 +50,7 @@ public final class Qedeq2Utf8Plugin implements PluginBo {
         return "transforms QEDEQ module into UTF-8 file";
     }
 
-    public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Parameters parameters) {
+    public ModuleServicePluginExecutor createExecutor(final KernelQedeqBo qedeq, final Parameters parameters) {
         return new Qedeq2Utf8Executor(this, qedeq, parameters);
     }
 

@@ -20,7 +20,7 @@ import org.qedeq.kernel.bo.common.ServiceResult;
 
 
 /**
- * Execution result of a {@link ServiceCall}.
+ * Execution result of a {@link ModuleServiceCall}.
  *
  * @author  Michael Meyling
  */

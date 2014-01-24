@@ -24,6 +24,7 @@ import org.qedeq.base.io.Version;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.FormulaCheckerFactoryImpl;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
@@ -36,12 +37,12 @@ import org.qedeq.kernel.bo.logic.common.PredicateConstant;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
 import org.qedeq.kernel.bo.logic.wf.FormulaCheckerImpl;
 import org.qedeq.kernel.bo.module.ControlVisitor;
-import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceChecker;
-import org.qedeq.kernel.bo.module.PluginExecutor;
+import org.qedeq.kernel.bo.module.ModuleServicePluginExecutor;
 import org.qedeq.kernel.bo.service.dependency.LoadRequiredModulesPlugin;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
@@ -67,7 +68,6 @@ import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.common.CheckLevel;
 import org.qedeq.kernel.se.common.IllegalModuleDataException;
 import org.qedeq.kernel.se.common.ModuleDataException;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.RuleKey;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -82,7 +82,7 @@ import org.qedeq.kernel.se.visitor.InterruptException;
  *
  * @author  Michael Meyling
  */
-public final class WellFormedCheckerExecutor extends ControlVisitor implements PluginExecutor {
+public final class WellFormedCheckerExecutor extends ControlVisitor implements ModuleServicePluginExecutor {
 
     /** This class. */
     private static final Class CLASS = WellFormedCheckerExecutor.class;
@@ -104,7 +104,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
      * @param   qedeq       QEDEQ BO object.
      * @param   parameters  Parameters.
      */
-    WellFormedCheckerExecutor(final Plugin plugin, final KernelQedeqBo qedeq,
+    WellFormedCheckerExecutor(final ModuleService plugin, final KernelQedeqBo qedeq,
             final Parameters parameters) {
         super(plugin, qedeq);
         final String method = "QedeqBoFormalLogicChecker(Plugin, KernelQedeqBo, Map)";
@@ -134,7 +134,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         }
     }
 
-    public Object executePlugin(final InternalServiceCall call, final Object data) throws InterruptException {
+    public Object executePlugin(final InternalModuleServiceCall call, final Object data) throws InterruptException {
         if (getQedeqBo().isWellFormed()) {
             return Boolean.TRUE;
         }

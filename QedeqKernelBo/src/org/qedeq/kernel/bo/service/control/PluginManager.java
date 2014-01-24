@@ -23,9 +23,9 @@ import java.util.Map;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
-import org.qedeq.kernel.bo.module.InternalPluginBo;
+import org.qedeq.kernel.bo.module.InternalModuleServicePlugin;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginBo;
+import org.qedeq.kernel.bo.module.ModuleServicePlugin;
 
 /**
  * Manage all known plugins.
@@ -59,8 +59,8 @@ public class PluginManager {
      * @param   id  Plugin id.
      * @return  Registered plugin. Might be <code>null</code>..
      */
-    public synchronized PluginBo getPlugin(final String id) {
-        return (PluginBo) id2plugin.get(id);
+    public synchronized ModuleServicePlugin getPlugin(final String id) {
+        return (ModuleServicePlugin) id2plugin.get(id);
     }
 
     /**
@@ -68,30 +68,30 @@ public class PluginManager {
      *
      * @return  Registered plugins. Internal plugins are not included.
      */
-    synchronized PluginBo[] getNonInternalPlugins() {
+    synchronized ModuleServicePlugin[] getNonInternalPlugins() {
         final List result = new ArrayList(plugins.size());
         for (int i = 0; i < plugins.size(); i++) {
-            if (!(plugins.get(i) instanceof InternalPluginBo)) {
+            if (!(plugins.get(i) instanceof InternalModuleServicePlugin)) {
                 result.add(plugins.get(i));
             }
         }
-        return (PluginBo[]) result.toArray(new PluginBo[] {});
+        return (ModuleServicePlugin[]) result.toArray(new ModuleServicePlugin[] {});
     }
 
     /**
      * Add a plugin..
      *
-     * @param   pluginClass Class that extends {@link PluginBo} to add.
+     * @param   pluginClass Class that extends {@link ModuleServicePlugin} to add.
      *                      A plugin with same name can not be added twice.
      *                      Must not be <code>null</code>.
      * @throws  RuntimeException    Plugin addition failed.
      */
     synchronized void addPlugin(final String pluginClass) {
         final String method = "addPlugin";
-        PluginBo plugin = null;
+        ModuleServicePlugin plugin = null;
         try {
             Class cl = Class.forName(pluginClass);
-            plugin = (PluginBo) cl.newInstance();
+            plugin = (ModuleServicePlugin) cl.newInstance();
         } catch (ClassNotFoundException e) {
             Trace.fatal(CLASS, this, method, "Plugin class not in class path: " + pluginClass, e);
             throw new RuntimeException(e);
@@ -123,9 +123,9 @@ public class PluginManager {
      *                  Must not be <code>null</code>.
      * @throws  RuntimeException    Plugin addition failed.
      */
-    synchronized void addPlugin(final PluginBo plugin) {
+    synchronized void addPlugin(final ModuleServicePlugin plugin) {
         if (id2plugin.get(plugin.getServiceId()) != null) {
-            final PluginBo oldPlugin = (PluginBo) id2plugin.get(plugin.getServiceId());
+            final ModuleServicePlugin oldPlugin = (ModuleServicePlugin) id2plugin.get(plugin.getServiceId());
             final RuntimeException e = new IllegalArgumentException("plugin with that name already added: "
                     + oldPlugin.getServiceId() + ": " + plugin.getServiceDescription());
             Trace.fatal(CLASS, this, "addPlugin", "Programing error", e);

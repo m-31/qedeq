@@ -20,6 +20,7 @@ import java.io.File;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.log.ModuleLogListener;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.ProofFinderFactoryImpl;
@@ -28,9 +29,9 @@ import org.qedeq.kernel.bo.logic.proof.common.ProofFinderFactory;
 import org.qedeq.kernel.bo.logic.proof.common.ProofFoundException;
 import org.qedeq.kernel.bo.logic.proof.common.ProofNotFoundException;
 import org.qedeq.kernel.bo.module.ControlVisitor;
-import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginExecutor;
+import org.qedeq.kernel.bo.module.ModuleServicePluginExecutor;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
@@ -41,7 +42,6 @@ import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.common.ModuleDataException;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.dto.module.AddVo;
 import org.qedeq.kernel.se.dto.module.FormalProofLineListVo;
@@ -57,7 +57,7 @@ import org.qedeq.kernel.se.state.WellFormedState;
  *
  * @author  Michael Meyling
  */
-public final class SimpleProofFinderExecutor extends ControlVisitor implements PluginExecutor {
+public final class SimpleProofFinderExecutor extends ControlVisitor implements ModuleServicePluginExecutor {
 
     /** This class. */
     private static final Class CLASS = SimpleProofFinderExecutor.class;
@@ -84,7 +84,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
      * @param   qedeq       QEDEQ BO object.
      * @param   parameters  Parameters.
      */
-    SimpleProofFinderExecutor(final Plugin plugin, final KernelQedeqBo qedeq,
+    SimpleProofFinderExecutor(final ModuleService plugin, final KernelQedeqBo qedeq,
             final Parameters parameters) {
         super(plugin, qedeq);
         final String method = "SimpleProofFinderExecutor(Plugin, KernelQedeqBo, Map)";
@@ -116,11 +116,11 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
         this.parameters = parameters;
     }
 
-    private Plugin getPlugin() {
-        return (Plugin) getService();
+    private ModuleService getPlugin() {
+        return (ModuleService) getService();
     }
 
-    public Object executePlugin(final InternalServiceCall call, final Object data) {
+    public Object executePlugin(final InternalModuleServiceCall call, final Object data) {
         getServices().checkWellFormedness(call.getInternalServiceProcess(), getQedeqBo());
         QedeqLog.getInstance().logRequest("Trying to create formal proofs", getQedeqBo().getUrl());
         try {

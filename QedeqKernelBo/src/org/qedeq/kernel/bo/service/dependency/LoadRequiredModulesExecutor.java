@@ -22,14 +22,14 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.common.ModuleReferenceList;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.ControlVisitor;
-import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginExecutor;
+import org.qedeq.kernel.bo.module.ModuleServicePluginExecutor;
 import org.qedeq.kernel.se.common.ModuleDataException;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -42,7 +42,7 @@ import org.qedeq.kernel.se.visitor.InterruptException;
  *
  * @author  Michael Meyling
  */
-public final class LoadRequiredModulesExecutor extends ControlVisitor implements PluginExecutor {
+public final class LoadRequiredModulesExecutor extends ControlVisitor implements ModuleServicePluginExecutor {
 
     /** This class. */
     private static final Class CLASS = LoadRequiredModulesExecutor.class;
@@ -57,12 +57,12 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
      * @param   prop        Internal QedeqBo.
      * @param   parameters  Currently ignored.
      */
-    LoadRequiredModulesExecutor(final Plugin plugin, final KernelQedeqBo prop,
+    LoadRequiredModulesExecutor(final ModuleService plugin, final KernelQedeqBo prop,
             final Parameters parameters) {
         super(plugin, prop);
     }
 
-    public Object executePlugin(final InternalServiceCall call, final Object data) throws InterruptException {
+    public Object executePlugin(final InternalModuleServiceCall call, final Object data) throws InterruptException {
         percentage = 0;
         final String method = "executePlugin";
         if (getQedeqBo().hasLoadedRequiredModules()) {
@@ -178,7 +178,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         return  Boolean.FALSE;
     }
 
-    private boolean loadAllRequiredModules(final InternalServiceCall call, final KernelQedeqBo bo)
+    private boolean loadAllRequiredModules(final InternalModuleServiceCall call, final KernelQedeqBo bo)
                 throws InterruptException {
         if (bo.hasLoadedRequiredModules()) {
             return true;
