@@ -16,12 +16,12 @@ package org.qedeq.kernel.bo.service.unicode;
 
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.io.SourcePosition;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.service.latex.LatexContentException;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
@@ -61,7 +61,7 @@ public class Latex2UnicodeParserTest extends QedeqBoTestCase {
                     SourcePosition endDelta) {
                 ModuleDataException e = new LatexContentException(code, msg,
                         new ModuleContext(new DefaultModuleAddress(), "", startDelta, endDelta));
-                final SourceFileException sf = new SourceFileException((Plugin) null, e,
+                final SourceFileException sf = new SourceFileException((ModuleService) null, e,
                         new SourceArea("memory", startDelta, endDelta), null);
 
                 warnings.add(sf);

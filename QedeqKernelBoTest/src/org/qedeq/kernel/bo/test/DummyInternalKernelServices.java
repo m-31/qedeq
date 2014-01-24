@@ -20,7 +20,7 @@ import java.io.IOException;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
-import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
@@ -123,9 +123,9 @@ public class DummyInternalKernelServices implements InternalKernelServices {
     public InternalServiceProcess createServiceProcess(String action) {
         return null;
     }
-    public InternalServiceCall createServiceCall(Service service, KernelQedeqBo qedeq,
+    public InternalModuleServiceCall createServiceCall(Service service, KernelQedeqBo qedeq,
             Parameters configParameters, Parameters parameters,
-            InternalServiceProcess process, InternalServiceCall parent) {
+            InternalServiceProcess process, InternalModuleServiceCall parent) {
         return null;
     }
     public KernelQedeqBo loadKernelModule(InternalServiceProcess process,

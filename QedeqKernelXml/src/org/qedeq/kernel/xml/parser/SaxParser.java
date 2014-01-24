@@ -25,7 +25,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
@@ -75,7 +75,7 @@ public final class SaxParser {
     private SourceFileExceptionList exceptionList;
 
     /** Plugin we work for. */
-    private Plugin plugin;
+    private ModuleService plugin;
 
     /**
      * Constructor.
@@ -85,7 +85,7 @@ public final class SaxParser {
      * @throws  ParserConfigurationException    Severe parser configuration problem.
      * @throws  SAXException                    Option not recognized or supported.
      */
-    public SaxParser(final Plugin plugin, final SaxDefaultHandler handler)
+    public SaxParser(final ModuleService plugin, final SaxDefaultHandler handler)
             throws ParserConfigurationException, SAXException {
         super();
 

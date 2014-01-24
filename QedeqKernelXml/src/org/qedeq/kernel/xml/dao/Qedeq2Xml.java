@@ -20,6 +20,7 @@ import java.io.IOException;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.KernelContext;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -69,7 +70,6 @@ import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Term;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 
@@ -78,7 +78,7 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
  *
  * @author  Michael Meyling
  */
-public final class Qedeq2Xml extends ControlVisitor implements Plugin {
+public final class Qedeq2Xml extends ControlVisitor implements ModuleService {
 
     /** Output goes here. */
     private TextOutput printer;
@@ -90,7 +90,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
      * @param   bo      QEDEQ BO.
      * @param   printer Print herein.
      */
-    public Qedeq2Xml(final Plugin plugin, final KernelQedeqBo bo, final TextOutput printer) {
+    public Qedeq2Xml(final ModuleService plugin, final KernelQedeqBo bo, final TextOutput printer) {
         super(plugin, bo);
         this.printer = printer;
     }
@@ -106,7 +106,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
      * @throws  IOException         Writing failed.
      */
     public static void print(final InternalServiceProcess process,
-            final Plugin plugin, final KernelQedeqBo bo, final TextOutput printer) throws
+            final ModuleService plugin, final KernelQedeqBo bo, final TextOutput printer) throws
             SourceFileExceptionList, IOException {
         final Qedeq2Xml converter = new Qedeq2Xml(plugin, bo, printer);
         try {

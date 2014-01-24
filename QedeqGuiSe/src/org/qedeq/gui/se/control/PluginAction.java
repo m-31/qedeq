@@ -27,8 +27,8 @@ import org.qedeq.gui.se.pane.TextPaneWindow;
 import org.qedeq.gui.se.tree.NothingSelectedException;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.KernelContext;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
@@ -43,7 +43,7 @@ public class PluginAction extends AbstractAction {
     private final QedeqController controller;
 
     /** Start this plugin. */
-    private Plugin plugin;
+    private ModuleService plugin;
 
     /** Icon resolution. */
     private String resolution = QedeqGuiConfig.getInstance().getIconSize();
@@ -54,7 +54,7 @@ public class PluginAction extends AbstractAction {
      * @param   controller  Reference to controller.
      * @param   plugin      Start action for this plugin.
      */
-    PluginAction(final QedeqController controller, final Plugin plugin) {
+    PluginAction(final QedeqController controller, final ModuleService plugin) {
         this.controller = controller;
         this.plugin = plugin;
     }
@@ -115,7 +115,7 @@ public class PluginAction extends AbstractAction {
      *
      * @return  The plugin we work for.
      */
-    public Plugin getPlugin() {
+    public ModuleService getPlugin() {
         return plugin;
     }
 

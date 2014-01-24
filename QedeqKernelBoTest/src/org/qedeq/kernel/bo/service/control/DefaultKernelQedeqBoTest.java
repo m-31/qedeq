@@ -17,6 +17,7 @@ package org.qedeq.kernel.bo.service.control;
 
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.bo.common.Element2Utf8;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.ModuleLabels;
@@ -27,7 +28,6 @@ import org.qedeq.kernel.bo.service.logic.ModuleConstantsExistenceCheckerImpl;
 import org.qedeq.kernel.bo.test.DummyInternalKernelServices;
 import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.QedeqException;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -44,7 +44,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
 
     final InternalKernelServices services = new DummyInternalKernelServices();
     
-    final Plugin plugin = new Plugin() {
+    final ModuleService plugin = new ModuleService() {
 
         public String getServiceId() {
             return this.getClass().getName();

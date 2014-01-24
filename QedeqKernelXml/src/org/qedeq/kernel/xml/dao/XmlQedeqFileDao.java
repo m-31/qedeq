@@ -27,6 +27,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
@@ -35,7 +36,6 @@ import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.xml.handler.common.SaxDefaultHandler;
 import org.qedeq.kernel.xml.handler.module.QedeqHandler;
@@ -53,7 +53,7 @@ import com.sun.syndication.io.XmlReader;
  *
  * @author  Michael Meyling
  */
-public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
+public class XmlQedeqFileDao implements QedeqFileDao, ModuleService {
 
     /** This class. */
     private static final Class CLASS = XmlQedeqFileDao.class;

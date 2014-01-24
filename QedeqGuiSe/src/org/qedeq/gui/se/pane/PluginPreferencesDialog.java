@@ -43,17 +43,17 @@ import javax.swing.border.EmptyBorder;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.util.GuiHelper;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.logic.model.FourDynamicModel;
 import org.qedeq.kernel.bo.logic.model.SixDynamicModel;
 import org.qedeq.kernel.bo.logic.model.ThreeDynamicModel;
 import org.qedeq.kernel.bo.logic.model.UnaryDynamicModel;
-import org.qedeq.kernel.bo.module.PluginBo;
+import org.qedeq.kernel.bo.module.ModuleServicePlugin;
 import org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
 import org.qedeq.kernel.bo.service.logic.SimpleProofFinderPlugin;
 import org.qedeq.kernel.bo.service.unicode.Qedeq2UnicodeTextPlugin;
 import org.qedeq.kernel.bo.service.unicode.Qedeq2Utf8Plugin;
-import org.qedeq.kernel.se.common.Plugin;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -247,7 +247,7 @@ public class PluginPreferencesDialog extends JDialog {
      * @param   plugin  The transformation plugin.
      * @return  Created panel.
      */
-    private PluginGuiPreferencesCreator qedeq2LatexConfig(final PluginBo plugin) {
+    private PluginGuiPreferencesCreator qedeq2LatexConfig(final ModuleServicePlugin plugin) {
         return new PluginGuiPreferencesCreator(plugin) {
             JComponent create(final Parameters parameters) {
                 FormLayout layout = new FormLayout(
@@ -277,7 +277,7 @@ public class PluginPreferencesDialog extends JDialog {
      * @param   plugin  The transformation plugin.
      * @return  Created panel.
      */
-    private PluginGuiPreferencesCreator qedeq2Utf8Config(final PluginBo plugin) {
+    private PluginGuiPreferencesCreator qedeq2Utf8Config(final ModuleServicePlugin plugin) {
         return new PluginGuiPreferencesCreator(plugin) {
             JComponent create(final Parameters parameters) {
                 FormLayout layout = new FormLayout(
@@ -315,7 +315,7 @@ public class PluginPreferencesDialog extends JDialog {
      * @param   plugin  The transformation plugin.
      * @return  Created panel.
      */
-    private PluginGuiPreferencesCreator qedeq2Utf8ShowConfig(final PluginBo plugin) {
+    private PluginGuiPreferencesCreator qedeq2Utf8ShowConfig(final ModuleServicePlugin plugin) {
         return new PluginGuiPreferencesCreator(plugin) {
             JComponent create(final Parameters parameters) {
                 FormLayout layout = new FormLayout(
@@ -356,7 +356,7 @@ public class PluginPreferencesDialog extends JDialog {
      * @param   plugin  The transformation plugin.
      * @return  Created panel.
      */
-    private PluginGuiPreferencesCreator dynamicHeuristicCheckerConfig(final PluginBo plugin) {
+    private PluginGuiPreferencesCreator dynamicHeuristicCheckerConfig(final ModuleServicePlugin plugin) {
         return new PluginGuiPreferencesCreator(plugin) {
             JComponent create(final Parameters parameters) {
                 FormLayout layout = new FormLayout(
@@ -445,7 +445,7 @@ public class PluginPreferencesDialog extends JDialog {
      * @param   plugin  The transformation plugin.
      * @return  Created panel.
      */
-    private PluginGuiPreferencesCreator proofFinderConfig(final PluginBo plugin) {
+    private PluginGuiPreferencesCreator proofFinderConfig(final ModuleServicePlugin plugin) {
         return new PluginGuiPreferencesCreator(plugin) {
             JComponent create(final Parameters parameters) {
                 FormLayout layout = new FormLayout(
@@ -622,7 +622,7 @@ public class PluginPreferencesDialog extends JDialog {
     void save() {
         try {
             {
-                final Plugin plugin = qedeq2utf8Show;
+                final ModuleService plugin = qedeq2utf8Show;
                 QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "language",
                         qedeq2Utf8ShowLanguageTF.getText());
                 QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "info", qedeq2Utf8ShowInfoCB.isSelected());
@@ -630,23 +630,23 @@ public class PluginPreferencesDialog extends JDialog {
                     qedeq2Utf8ShowMaximumColumnTF.getText());
             }
             {
-                final Plugin plugin = qedeq2latex;
+                final ModuleService plugin = qedeq2latex;
                 QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "info", qedeq2LatexInfoCB.isSelected());
                 QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "brief", qedeq2LatexBriefCB.isSelected());
             }
             {
-                final Plugin plugin = qedeq2utf8;
+                final ModuleService plugin = qedeq2utf8;
                 QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "info", qedeq2Utf8InfoCB.isSelected());
                 QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "maximumColumn",
                     qedeq2Utf8MaximumColumnTF.getText());
                 QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "brief", qedeq2Utf8BriefCB.isSelected());
             }
             {
-                final Plugin plugin = dynamicHeuristicChecker;
+                final ModuleService plugin = dynamicHeuristicChecker;
                 QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "model", dynamicHeuristicCheckerModel);
             }
             {
-                final Plugin plugin = proofFinder;
+                final ModuleService plugin = proofFinder;
                 QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "maximumProofLines",
                     proofFinderMaximumProofLengthTF.getText());
                 QedeqGuiConfig.getInstance().setServiceKeyValue(plugin, "logFrequence",
@@ -703,14 +703,14 @@ public class PluginPreferencesDialog extends JDialog {
     private abstract class PluginGuiPreferencesCreator {
 
         /** We work for this plugin. */
-        private final PluginBo plugin;
+        private final ModuleServicePlugin plugin;
 
         /**
          * Constructor.
          *
          * @param   plugin  Plugin we work for.
          */
-        PluginGuiPreferencesCreator(final PluginBo plugin) {
+        PluginGuiPreferencesCreator(final ModuleServicePlugin plugin) {
             this.plugin = plugin;
         }
 
@@ -719,7 +719,7 @@ public class PluginPreferencesDialog extends JDialog {
          *
          * @return  Plugin.
          */
-        public PluginBo getPlugin() {
+        public ModuleServicePlugin getPlugin() {
             return plugin;
         }
 

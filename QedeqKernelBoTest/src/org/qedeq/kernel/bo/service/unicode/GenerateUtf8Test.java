@@ -25,7 +25,7 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
@@ -43,7 +43,7 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
 
     /** This class. */
     private static final Class CLASS = GenerateUtf8Test.class;
-    private InternalServiceCall call;
+    private InternalModuleServiceCall call;
 
     protected void tearDown() throws Exception {
         endServiceCall(call);

@@ -25,9 +25,9 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.xml.handler.common.SaxDefaultHandler;
 import org.qedeq.kernel.xml.handler.list.BasicHandler;
 import org.xml.sax.InputSource;
@@ -52,7 +52,7 @@ public final class BasicParser {
     private XMLReader reader;
 
     /** Here we describe this "plugin". */
-    private static Plugin plugin = new Plugin() {
+    private static ModuleService plugin = new ModuleService() {
         public String getServiceDescription() {
             return "parses element lists and atoms";
         }

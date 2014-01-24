@@ -26,7 +26,7 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.logic.common.FormulaChecker;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckException;
-import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.control.DefaultKernelQedeqBo;
@@ -55,7 +55,7 @@ public final class QedeqBoFormalLogicCheckerDirectTest extends QedeqBoTestCase {
 
     /** This class. */
     private static final Class CLASS = FormulaChecker.class;
-    private InternalServiceCall call;
+    private InternalModuleServiceCall call;
 
 
     protected void tearDown() throws Exception {

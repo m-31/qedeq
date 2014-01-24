@@ -19,7 +19,7 @@ import java.util.Stack;
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
@@ -69,14 +69,14 @@ public class SaxDefaultHandler extends SimpleHandler {
     private String currentElementName;
 
     /** The plugin we work for. */
-    private final Plugin plugin;
+    private final ModuleService plugin;
 
     /**
      * Constructor.
      *
      * @param   plugin  The plugin we work for.
      */
-    public SaxDefaultHandler(final Plugin plugin) {
+    public SaxDefaultHandler(final ModuleService plugin) {
         super();
         this.plugin = plugin;
     }
@@ -344,7 +344,7 @@ public class SaxDefaultHandler extends SimpleHandler {
      *
      * @return  Plugin.
      */
-    public Plugin getPlugin() {
+    public ModuleService getPlugin() {
         return plugin;
     }
 

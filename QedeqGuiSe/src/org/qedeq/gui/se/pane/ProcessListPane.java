@@ -50,7 +50,7 @@ import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.QedeqBoSet;
-import org.qedeq.kernel.bo.common.ServiceCall;
+import org.qedeq.kernel.bo.common.ModuleServiceCall;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -421,7 +421,7 @@ public class ProcessListPane extends JPanel  {
                         result.append(" ").append(qedeq.getName());
                     }
                     result.append("\n\tCalls:   ");
-                    ServiceCall parent = process.getServiceCall();
+                    ModuleServiceCall parent = process.getServiceCall();
                     while (parent != null) {
                         result.append("\n\t\t ").append(parent.getId());
                         tip = "";

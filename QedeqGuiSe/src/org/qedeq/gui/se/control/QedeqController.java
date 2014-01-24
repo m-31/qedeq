@@ -28,8 +28,8 @@ import org.qedeq.gui.se.util.DataDictionary;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.gui.se.util.MenuHelper;
 import org.qedeq.kernel.bo.KernelContext;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.se.common.Plugin;
 
 
 /**
@@ -280,7 +280,7 @@ public class QedeqController {
      * @return  Menu entries for plugins.
      */
     public JMenuItem[] getPluginMenuEntries() {
-        final Plugin[] plugins = KernelContext.getInstance().getPlugins();
+        final ModuleService[] plugins = KernelContext.getInstance().getPlugins();
         final PluginAction[] pluginActions = new PluginAction[plugins.length];
         for (int i = 0; i < plugins.length; i++) {
             pluginActions[i] = new PluginAction(this, plugins[i]);

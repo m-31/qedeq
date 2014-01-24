@@ -15,14 +15,14 @@
 
 package org.qedeq.kernel.bo.test;
 
-import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.bo.common.ModuleService;
 
 
-public class DummyPlugin implements Plugin {
+public class DummyPlugin implements ModuleService {
 
     private static DummyPlugin instance = new DummyPlugin();
 
-    static public Plugin getInstance() {
+    static public ModuleService getInstance() {
         return instance;
     }
     

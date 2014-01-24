@@ -17,6 +17,7 @@ package org.qedeq.kernel.bo.service.heuristic;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.model.CalculateTruth;
 import org.qedeq.kernel.bo.logic.model.HeuristicErrorCodes;
@@ -26,10 +27,10 @@ import org.qedeq.kernel.bo.logic.model.ModelFunctionConstant;
 import org.qedeq.kernel.bo.logic.model.ModelPredicateConstant;
 import org.qedeq.kernel.bo.logic.model.SixDynamicModel;
 import org.qedeq.kernel.bo.module.ControlVisitor;
-import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginBo;
-import org.qedeq.kernel.bo.module.PluginExecutor;
+import org.qedeq.kernel.bo.module.ModuleServicePlugin;
+import org.qedeq.kernel.bo.module.ModuleServicePluginExecutor;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
@@ -39,7 +40,6 @@ import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.common.ModuleDataException;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 
@@ -48,7 +48,7 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
  *
  * @author  Michael Meyling
  */
-public final class HeuristicCheckerExecutor extends ControlVisitor implements PluginExecutor {
+public final class HeuristicCheckerExecutor extends ControlVisitor implements ModuleServicePluginExecutor {
 
     /** This class. */
     private static final Class CLASS = HeuristicCheckerExecutor.class;
@@ -63,7 +63,7 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
      * @param   qedeq       QEDEQ module object.
      * @param   parameters  Execution parameters.
      */
-    HeuristicCheckerExecutor(final PluginBo plugin, final KernelQedeqBo qedeq,
+    HeuristicCheckerExecutor(final ModuleServicePlugin plugin, final KernelQedeqBo qedeq,
             final Parameters parameters) {
         super(plugin, qedeq);
         final String method = "HeuristicChecker(PluginBo, KernelQedeqBo, Map)";
@@ -97,12 +97,12 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
         }
     }
 
-    private Plugin getPlugin() {
-        return (Plugin) getService();
+    private ModuleService getPlugin() {
+        return (ModuleService) getService();
     }
 
 
-    public Object executePlugin(final InternalServiceCall call, final Object data) {
+    public Object executePlugin(final InternalModuleServiceCall call, final Object data) {
         final String method = "executePlugin)";
         try {
             QedeqLog.getInstance().logRequest("Heuristic test", getQedeqBo().getUrl());

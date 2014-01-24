@@ -20,10 +20,10 @@ import java.io.IOException;
 import java.net.URL;
 
 import org.qedeq.kernel.bo.common.KernelServices;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.se.common.ModuleAddress;
-import org.qedeq.kernel.se.common.Plugin;
 
 public class DummyKernelServices implements KernelServices {
 
@@ -67,7 +67,7 @@ public class DummyKernelServices implements KernelServices {
     public boolean checkFormallyProved(ModuleAddress address) {
         return false;
     }
-    public Plugin[] getPlugins() {
+    public ModuleService[] getPlugins() {
         return null;
     }
     public void clearAllPluginResults(ModuleAddress address) {

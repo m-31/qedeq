@@ -23,7 +23,7 @@ import org.qedeq.base.test.DynamicGetter;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
-import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
@@ -75,15 +75,15 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
         }
     }
 
-    public static InternalServiceCall createServiceCall(final String name, final KernelQedeqBo prop)
+    public static InternalModuleServiceCall createServiceCall(final String name, final KernelQedeqBo prop)
             throws InterruptException {
         InternalServiceProcess process = getInternalServices().createServiceProcess(name);
-        InternalServiceCall call = getInternalServices().createServiceCall(DummyPlugin.getInstance(), prop,
+        InternalModuleServiceCall call = getInternalServices().createServiceCall(DummyPlugin.getInstance(), prop,
             Parameters.EMPTY, Parameters.EMPTY, process, null);
         return call;
     }
  
-    public static void endServiceCall(final InternalServiceCall call) {
+    public static void endServiceCall(final InternalModuleServiceCall call) {
         if (call == null) {
             return;
         }
@@ -127,7 +127,7 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
         prop.setQedeqVo(vo);
         final ModuleLabelsCreator mc = new ModuleLabelsCreator(DummyPlugin.getInstance(),
             prop);
-        InternalServiceCall call = null;
+        InternalModuleServiceCall call = null;
         try {
             call = createServiceCall("createQedeq", prop);
             mc.createLabels(call.getInternalServiceProcess());

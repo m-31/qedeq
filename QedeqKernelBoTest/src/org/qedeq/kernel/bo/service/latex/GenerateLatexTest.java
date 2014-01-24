@@ -27,7 +27,7 @@ import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckException;
-import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.service.control.ModuleArbiter;
 import org.qedeq.kernel.bo.service.control.ServiceCallImpl;
@@ -51,7 +51,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
 
     /** This class. */
     private static final Class CLASS = GenerateLatexTest.class;
-    private InternalServiceCall call;
+    private InternalModuleServiceCall call;
 
     protected void tearDown() throws Exception {
         endServiceCall(call);

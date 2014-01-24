@@ -15,7 +15,7 @@
 
 package org.qedeq.kernel.xml.handler.common;
 
-import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
 
 
@@ -137,7 +137,7 @@ public abstract class AbstractSimpleHandler {
      *
      * @return  Plugin in use.
      */
-    public final Plugin getPlugin() {
+    public final ModuleService getPlugin() {
         return defaultHandler.getPlugin();
     }
 

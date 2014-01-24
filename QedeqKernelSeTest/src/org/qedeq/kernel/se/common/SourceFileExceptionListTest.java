@@ -35,7 +35,7 @@ public class SourceFileExceptionListTest extends QedeqTestCase {
 
     private SourceFileExceptionList four;
 
-    private final Plugin plugin = new Plugin(){
+    private final Service plugin = new Service(){
         public String getServiceDescription() {
             return "i am doing nothing";
         }

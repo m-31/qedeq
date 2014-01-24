@@ -28,12 +28,12 @@ import org.qedeq.kernel.bo.common.BasicKernel;
 import org.qedeq.kernel.bo.common.KernelProperties;
 import org.qedeq.kernel.bo.common.KernelServices;
 import org.qedeq.kernel.bo.common.KernelState;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.ServiceModule;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.se.common.ModuleAddress;
-import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.config.QedeqConfig;
 import org.qedeq.kernel.se.visitor.InterruptException;
 
@@ -177,7 +177,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
-        public Plugin[] getPlugins() {
+        public ModuleService[] getPlugins() {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
@@ -281,7 +281,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
-        public Plugin[] getPlugins() {
+        public ModuleService[] getPlugins() {
             return services.getPlugins();
         }
 
@@ -395,7 +395,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
             return services.checkFormallyProved(address);
         }
 
-        public Plugin[] getPlugins() {
+        public ModuleService[] getPlugins() {
             return services.getPlugins();
         }
 
@@ -576,7 +576,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
         return currentState.checkFormallyProved(address);
     }
 
-    public Plugin[] getPlugins() {
+    public ModuleService[] getPlugins() {
         return currentState.getPlugins();
     }
 

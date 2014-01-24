@@ -25,7 +25,7 @@ import org.qedeq.base.test.DynamicGetter;
 import org.qedeq.base.test.ObjectProxy;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.module.InternalServiceCall;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.service.control.DefaultKernelQedeqBo;
 import org.qedeq.kernel.bo.service.control.ModuleLabelsCreator;
 import org.qedeq.kernel.bo.test.DummyPlugin;
@@ -59,7 +59,7 @@ public class QedeqBoFactoryTest extends QedeqBoTestCase {
 
     private File errorFile;
 
-    private InternalServiceCall call;
+    private InternalModuleServiceCall call;
 
     protected void setUp() throws Exception {
         super.setUp();

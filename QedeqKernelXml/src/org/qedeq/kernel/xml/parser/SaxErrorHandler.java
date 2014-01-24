@@ -18,7 +18,7 @@ package org.qedeq.kernel.xml.parser;
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.xml.sax.ErrorHandler;
@@ -40,7 +40,7 @@ public class SaxErrorHandler implements ErrorHandler {
     public static final int SAX_PARSER_EXCEPTION = 9001;
 
     /** This plugin is currently working. */
-    private final Plugin plugin;
+    private final ModuleService plugin;
 
     /** File that is parsed. */
     private final String url;
@@ -55,7 +55,7 @@ public class SaxErrorHandler implements ErrorHandler {
      * @param   url     URL that is parsed.
      * @param   list    Collector for the SAX exceptions.
      */
-    public SaxErrorHandler(final Plugin plugin, final String url,
+    public SaxErrorHandler(final ModuleService plugin, final String url,
             final SourceFileExceptionList list) {
         super();
         Trace.param(CLASS, this, "SaxErrorHandler", "url", url);
