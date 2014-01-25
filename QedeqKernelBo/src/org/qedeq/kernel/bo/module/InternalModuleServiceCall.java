@@ -17,13 +17,13 @@ package org.qedeq.kernel.bo.module;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.common.ModuleServiceCall;
-import org.qedeq.kernel.bo.common.ServiceResult;
+import org.qedeq.kernel.bo.common.ModuleServiceResult;
 import org.qedeq.kernel.se.common.ServiceCompleteness;
 
 
 /**
  * Information for a service call. Occurs during execution of a
- * {@link org.qedeq.kernel.se.common.ServiceProcess}.
+ * {@link org.qedeq.kernel.se.common.ServiceJob}.
  *
  * @author  Michael Meyling
  */
@@ -76,7 +76,7 @@ public interface InternalModuleServiceCall extends ModuleServiceCall {
      *
      * @return  Service process for this call.
      */
-    public InternalServiceProcess getInternalServiceProcess();
+    public InternalServiceJob getInternalServiceProcess();
 
     /**
      * Signal an execution pause.
@@ -108,7 +108,7 @@ public interface InternalModuleServiceCall extends ModuleServiceCall {
      *
      * @param   result  Service result.
      */
-    public void finish(ServiceResult result);
+    public void finish(ModuleServiceResult result);
 
     /**
      * Set result state for call and stop.
@@ -116,7 +116,7 @@ public interface InternalModuleServiceCall extends ModuleServiceCall {
      *
      * @param   result  Must include reason for halting.
      */
-    public void halt(ServiceResult result);
+    public void halt(ModuleServiceResult result);
 
     /**
      * Set generic failure result for call and stop.

@@ -35,7 +35,7 @@ public interface KernelState extends KernelServices {
      * @throws  IllegalStateException   Kernel is already initialized.
      * @throws  IOException             Initialization failed.
      */
-    public void init(QedeqConfig config, ServiceModule moduleServices, KernelProperties basic)
+    public void init(QedeqConfig config, Kernel moduleServices, KernelProperties basic)
         throws IOException;
 
     /**

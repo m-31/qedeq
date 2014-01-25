@@ -21,14 +21,14 @@ package org.qedeq.kernel.bo.common;
  *
  * @author  Michael Meyling
  */
-public interface ServiceProcess extends Comparable {
+public interface ServiceJob extends Comparable {
 
     /**
      * Get currently running service call.
      *
-     * @return  Service call.
+     * @return  Module service call. Might be <code>null</code>.
      */
-    public ModuleServiceCall getServiceCall();
+    public ModuleServiceCall getModuleServiceCall();
 
     /**
      * Get thread the service runs within.
@@ -36,13 +36,6 @@ public interface ServiceProcess extends Comparable {
      * @return  Service thread.
      */
     public Thread getThread();
-
-    /**
-     * Get currently processed QedeqBo.
-     *
-     * @return  QEDEQ module. Might be <code>null</code>.
-     */
-    public QedeqBo getQedeq();
 
     /**
      * Get name of currently processed QedeqBo.

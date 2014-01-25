@@ -20,9 +20,8 @@ import java.io.IOException;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.KernelContext;
-import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.module.ControlVisitor;
-import org.qedeq.kernel.bo.module.InternalServiceProcess;
+import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Add;
@@ -70,6 +69,7 @@ import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Term;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
+import org.qedeq.kernel.se.common.ModuleService;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 
@@ -105,7 +105,7 @@ public final class Qedeq2Xml extends ControlVisitor implements ModuleService {
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException         Writing failed.
      */
-    public static void print(final InternalServiceProcess process,
+    public static void print(final InternalServiceJob process,
             final ModuleService plugin, final KernelQedeqBo bo, final TextOutput printer) throws
             SourceFileExceptionList, IOException {
         final Qedeq2Xml converter = new Qedeq2Xml(plugin, bo, printer);

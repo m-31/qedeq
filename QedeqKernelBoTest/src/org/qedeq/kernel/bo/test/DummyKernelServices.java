@@ -20,10 +20,10 @@ import java.io.IOException;
 import java.net.URL;
 
 import org.qedeq.kernel.bo.common.KernelServices;
-import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.bo.common.ServiceProcess;
+import org.qedeq.kernel.bo.common.ServiceJob;
 import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.common.ModuleService;
 
 public class DummyKernelServices implements KernelServices {
 
@@ -72,10 +72,10 @@ public class DummyKernelServices implements KernelServices {
     }
     public void clearAllPluginResults(ModuleAddress address) {
     }
-    public ServiceProcess[] getServiceProcesses() {
+    public ServiceJob[] getServiceProcesses() {
         return null;
     }
-    public ServiceProcess[] getRunningServiceProcesses() {
+    public ServiceJob[] getRunningServiceProcesses() {
         return null;
     }
     public void terminateAllServiceProcesses() {

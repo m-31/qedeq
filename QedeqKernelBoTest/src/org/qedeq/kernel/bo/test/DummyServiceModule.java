@@ -15,9 +15,9 @@
 
 package org.qedeq.kernel.bo.test;
 
-import org.qedeq.kernel.bo.common.ServiceModule;
+import org.qedeq.kernel.bo.common.Kernel;
 
-public class DummyServiceModule extends DummyKernelServices implements ServiceModule {
+public class DummyServiceModule extends DummyKernelServices implements Kernel {
 
     public void startupServices() {
     }

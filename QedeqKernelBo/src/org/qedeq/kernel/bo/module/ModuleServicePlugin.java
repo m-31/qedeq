@@ -16,7 +16,7 @@
 package org.qedeq.kernel.bo.module;
 
 import org.qedeq.base.io.Parameters;
-import org.qedeq.kernel.bo.common.ModuleService;
+import org.qedeq.kernel.se.common.ModuleService;
 
 
 /**

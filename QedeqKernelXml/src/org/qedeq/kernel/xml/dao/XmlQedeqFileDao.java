@@ -27,15 +27,15 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
-import org.qedeq.kernel.bo.module.InternalServiceProcess;
+import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
+import org.qedeq.kernel.se.common.ModuleService;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.xml.handler.common.SaxDefaultHandler;
 import org.qedeq.kernel.xml.handler.module.QedeqHandler;
@@ -76,7 +76,7 @@ public class XmlQedeqFileDao implements QedeqFileDao, ModuleService {
         return this.services;
     }
 
-    public Qedeq loadQedeq(final InternalServiceProcess process, final QedeqBo prop,
+    public Qedeq loadQedeq(final InternalServiceJob process, final QedeqBo prop,
             final File file) throws SourceFileExceptionList {
         final String method = "loadModule";
         // FIXME 20130321 m31: use process parameter!
@@ -159,7 +159,7 @@ public class XmlQedeqFileDao implements QedeqFileDao, ModuleService {
         return simple.getQedeq();
     }
 
-    public void saveQedeq(final InternalServiceProcess process, final KernelQedeqBo prop,
+    public void saveQedeq(final InternalServiceJob process, final KernelQedeqBo prop,
             final File localFile) throws SourceFileExceptionList, IOException {
         final OutputStream outputStream = new FileOutputStream(localFile);
         final TextOutput printer = new TextOutput(localFile.getName(), outputStream, "UTF-8");

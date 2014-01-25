@@ -21,8 +21,8 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
+import org.qedeq.kernel.se.common.ModuleService;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.xml.handler.common.SaxDefaultHandler;
 import org.qedeq.kernel.xml.parser.SaxParser;

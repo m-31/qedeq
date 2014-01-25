@@ -29,13 +29,13 @@ import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.common.KernelServices;
-import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
-import org.qedeq.kernel.bo.module.InternalServiceProcess;
+import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.service.control.ServiceProcessManager;
 import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.common.ModuleService;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.visitor.InterruptException;
 
@@ -116,7 +116,7 @@ public final class Xml2Xml implements ModuleService {
         try {
             final ModuleAddress address = services.getModuleAddress(from);
             // TODO mime 20080303: find a solution without casting!
-            final InternalServiceProcess process = internal.createServiceProcess("generate XML");
+            final InternalServiceJob process = internal.createServiceProcess("generate XML");
             final ModuleService plugin = new Xml2Xml();
             final KernelQedeqBo prop = internal.loadKernelModule(process, address);
             if (!prop.isLoaded()) {

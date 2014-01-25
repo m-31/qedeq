@@ -21,11 +21,11 @@ import java.util.List;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.KernelContext;
-import org.qedeq.kernel.bo.common.ServiceProcess;
-import org.qedeq.kernel.bo.common.ServiceResult;
+import org.qedeq.kernel.bo.common.ServiceJob;
+import org.qedeq.kernel.bo.common.ModuleServiceResult;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
-import org.qedeq.kernel.bo.module.InternalServiceProcess;
+import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleServicePlugin;
 import org.qedeq.kernel.bo.module.ModuleServicePluginExecutor;
@@ -72,8 +72,8 @@ public class ServiceProcessManager {
      *
      * @return  All service processes.
      */
-    public synchronized ServiceProcess[] getServiceProcesses() {
-        return (ServiceProcess[]) processes.toArray(new ServiceProcess[] {});
+    public synchronized ServiceJob[] getServiceProcesses() {
+        return (ServiceJob[]) processes.toArray(new ServiceJob[] {});
     }
 
     /**
@@ -82,16 +82,16 @@ public class ServiceProcessManager {
      *
      * @return  All service running processes.
      */
-    public synchronized ServiceProcess[] getRunningServiceProcesses() {
+    public synchronized ServiceJob[] getRunningServiceProcesses() {
         final ArrayList result = new ArrayList(processes);
         for (int i = 0; i < result.size(); ) {
-            if (!((ServiceProcess) result.get(i)).isRunning()) {
+            if (!((ServiceJob) result.get(i)).isRunning()) {
                 result.remove(i);
             } else {
                 i++;
             }
         }
-        return (ServiceProcess[]) result.toArray(new ServiceProcess[] {});
+        return (ServiceJob[]) result.toArray(new ServiceJob[] {});
     }
 
     /**
@@ -107,7 +107,7 @@ public class ServiceProcessManager {
      */
     public ServiceCallImpl createServiceCall(final Service service,
             final KernelQedeqBo qedeq, final Parameters configParameters, final Parameters parameters,
-            final InternalServiceProcess process) throws InterruptException {
+            final InternalServiceJob process) throws InterruptException {
         if (!process.isRunning()) { // should not occur
             throw new RuntimeException("Service process is not running any more.");
         }
@@ -115,7 +115,7 @@ public class ServiceProcessManager {
             throw new RuntimeException("thread is already dead");
         }
         final ServiceCallImpl call = new ServiceCallImpl(service, qedeq, configParameters, parameters, process,
-            process.getServiceCall());
+            process.getModuleServiceCall());
         synchronized (this) {
             calls.add(call);
         }
@@ -150,19 +150,19 @@ public class ServiceProcessManager {
      */
     public synchronized void terminateAllServiceProcesses() {
         for (int i = 0; i < processes.size(); i++) {
-            final ServiceProcess proc = (ServiceProcess) processes.get(i);
+            final ServiceJob proc = (ServiceJob) processes.get(i);
             proc.interrupt();
         }
     }
 
-    public synchronized ServiceProcessImpl createServiceProcess(final String action) {
-        final ServiceProcessImpl process = new ServiceProcessImpl(arbiter, action);
+    public synchronized InternalServiceJobImpl createServiceProcess(final String action) {
+        final InternalServiceJobImpl process = new InternalServiceJobImpl(arbiter, action);
         processes.add(process);
         return process;
     }
 
-    ServiceResult executeService(final Service service, final ServiceExecutor executor, final KernelQedeqBo qedeq,
-            final InternalServiceProcess process) throws InterruptException {
+    ModuleServiceResult executeService(final Service service, final ModuleServiceExecutor executor, final KernelQedeqBo qedeq,
+            final InternalServiceJob process) throws InterruptException {
         final String method = "executePlugin(String, KernelQedeqBo, Object)";
         if (process == null) {
             throw new NullPointerException("ServiceProcess must not be null");
@@ -207,7 +207,7 @@ public class ServiceProcessManager {
      * @throws  RuntimeException    Plugin unknown or process is not running any more.
      */
     Object executePlugin(final String id, final KernelQedeqBo qedeq, final Object data,
-            final InternalServiceProcess proc) throws InterruptException {
+            final InternalServiceJob proc) throws InterruptException {
         final String method = "executePlugin(String, KernelQedeqBo, Object)";
         final ModuleServicePlugin plugin = pluginManager.getPlugin(id);
         if (plugin == null) {
@@ -218,7 +218,7 @@ public class ServiceProcessManager {
             throw e;
         }
         final Parameters configParameters = KernelContext.getInstance().getConfig().getServiceEntries(plugin);
-        InternalServiceProcess process = null;
+        InternalServiceJob process = null;
         if (proc != null) {
             if (!proc.isRunning()) {
                 // TODO 20140124 m31: but if it was interrupted we want to throw a InterrruptException

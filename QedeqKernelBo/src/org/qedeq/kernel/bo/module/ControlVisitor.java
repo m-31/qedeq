@@ -130,7 +130,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      * @param   process    We work in this service process.
      * @throws  SourceFileExceptionList  All collected error exceptions.
      */
-    public void traverse(final InternalServiceProcess process) throws SourceFileExceptionList {
+    public void traverse(final InternalServiceJob process) throws SourceFileExceptionList {
         this.call = process.getInternalServiceCall();
         interrupted = false;
         if (getQedeqBo().getQedeq() == null) {

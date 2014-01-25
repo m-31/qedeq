@@ -19,9 +19,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.module.ModuleServicePlugin;
 import org.qedeq.kernel.bo.module.PluginResults;
+import org.qedeq.kernel.se.common.ModuleService;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 /**

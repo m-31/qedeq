@@ -24,7 +24,6 @@ import org.qedeq.base.io.Version;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.FormulaCheckerFactoryImpl;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
@@ -38,7 +37,7 @@ import org.qedeq.kernel.bo.logic.common.PredicateKey;
 import org.qedeq.kernel.bo.logic.wf.FormulaCheckerImpl;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
-import org.qedeq.kernel.bo.module.InternalServiceProcess;
+import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceChecker;
@@ -68,6 +67,7 @@ import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.common.CheckLevel;
 import org.qedeq.kernel.se.common.IllegalModuleDataException;
 import org.qedeq.kernel.se.common.ModuleDataException;
+import org.qedeq.kernel.se.common.ModuleService;
 import org.qedeq.kernel.se.common.RuleKey;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -213,7 +213,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements M
         return Boolean.TRUE;
     }
 
-    public void traverse(final InternalServiceProcess process) throws SourceFileExceptionList {
+    public void traverse(final InternalServiceJob process) throws SourceFileExceptionList {
         try {
             this.existence = new ModuleConstantsExistenceCheckerImpl(getQedeqBo());
         } catch (ModuleDataException me) {

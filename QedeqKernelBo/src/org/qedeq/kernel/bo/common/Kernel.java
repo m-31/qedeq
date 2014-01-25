@@ -13,25 +13,26 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.control;
-
-import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
-import org.qedeq.kernel.se.visitor.InterruptException;
+package org.qedeq.kernel.bo.common;
 
 
 /**
- * Represents a service execution.
+ * Service methods inclusive kernel integration methods.
  *
  * @author  Michael Meyling
  */
-public interface ServiceExecutor {
+public interface Kernel extends KernelServices {
 
     /**
-     * Execute service.
-     *
-     * @param   call    Parameters for service call and current execution status.
-     * @throws  InterruptException  User canceled call.
+     * Initialization of services. This method should be called from the kernel
+     * directly after switching into ready state. Calling this method in ready state is not
+     * supported.
      */
-    public void executeService(InternalModuleServiceCall call) throws InterruptException;
+    public void startupServices();
+
+    /**
+     * Shutdown of services.
+     */
+    public void shutdownServices();
 
 }

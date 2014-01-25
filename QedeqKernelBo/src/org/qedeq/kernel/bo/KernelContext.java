@@ -28,12 +28,12 @@ import org.qedeq.kernel.bo.common.BasicKernel;
 import org.qedeq.kernel.bo.common.KernelProperties;
 import org.qedeq.kernel.bo.common.KernelServices;
 import org.qedeq.kernel.bo.common.KernelState;
-import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.bo.common.ServiceModule;
-import org.qedeq.kernel.bo.common.ServiceProcess;
+import org.qedeq.kernel.bo.common.Kernel;
+import org.qedeq.kernel.bo.common.ServiceJob;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.common.ModuleService;
 import org.qedeq.kernel.se.config.QedeqConfig;
 import org.qedeq.kernel.se.visitor.InterruptException;
 
@@ -66,7 +66,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
     /** Initial kernel state. */
     private final KernelState initialState = new KernelState() {
 
-        public void init(final QedeqConfig config, final ServiceModule moduleServices, final KernelProperties basic)
+        public void init(final QedeqConfig config, final Kernel moduleServices, final KernelProperties basic)
                 throws IOException {
             if (config == null) {
                 throw new NullPointerException("QedeqConfig is null");
@@ -190,11 +190,11 @@ public final class KernelContext implements KernelProperties, KernelServices {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
-        public ServiceProcess[] getServiceProcesses() {
+        public ServiceJob[] getServiceProcesses() {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
-        public ServiceProcess[] getRunningServiceProcesses() {
+        public ServiceJob[] getRunningServiceProcesses() {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
@@ -207,7 +207,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
     /** Initial kernel state. */
     private final KernelState initializedState = new KernelState() {
 
-        public void init(final QedeqConfig config, final ServiceModule moduleServices,
+        public void init(final QedeqConfig config, final Kernel moduleServices,
                 final KernelProperties basic) throws IOException {
             throw new IllegalStateException("Kernel is already initialized");
         }
@@ -294,11 +294,11 @@ public final class KernelContext implements KernelProperties, KernelServices {
             throw new IllegalStateException(KERNEL_NOT_STARTED);
         }
 
-        public ServiceProcess[] getServiceProcesses() {
+        public ServiceJob[] getServiceProcesses() {
             throw new IllegalStateException(KERNEL_NOT_STARTED);
         }
 
-        public ServiceProcess[] getRunningServiceProcesses() {
+        public ServiceJob[] getRunningServiceProcesses() {
             throw new IllegalStateException(KERNEL_NOT_STARTED);
         }
 
@@ -311,7 +311,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
     /** State for ready kernel. */
     private final KernelState readyState = new KernelState() {
 
-        public void init(final QedeqConfig config, final ServiceModule moduleServices,
+        public void init(final QedeqConfig config, final Kernel moduleServices,
                 final KernelProperties basic) throws IOException {
             // we are already ready
         }
@@ -408,11 +408,11 @@ public final class KernelContext implements KernelProperties, KernelServices {
             services.clearAllPluginResults(address);
         }
 
-        public ServiceProcess[] getServiceProcesses() {
+        public ServiceJob[] getServiceProcesses() {
             return services.getServiceProcesses();
         }
 
-        public ServiceProcess[] getRunningServiceProcesses() {
+        public ServiceJob[] getRunningServiceProcesses() {
             return services.getRunningServiceProcesses();
         }
 
@@ -432,7 +432,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
     private KernelProperties basic;
 
     /** This object can service QEDEQ modules. */
-    private ServiceModule services;
+    private Kernel services;
 
     /**
      * Constructor.
@@ -502,7 +502,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
      * @throws  IllegalStateException   Kernel is already initialized.
      * @throws  IOException             Initialization failure.
      */
-    public void init(final QedeqConfig config, final ServiceModule moduleServices) throws IOException {
+    public void init(final QedeqConfig config, final Kernel moduleServices) throws IOException {
         currentState.init(config, moduleServices, basic);
     }
 
@@ -589,11 +589,11 @@ public final class KernelContext implements KernelProperties, KernelServices {
         currentState.clearAllPluginResults(address);
     }
 
-    public ServiceProcess[] getServiceProcesses() {
+    public ServiceJob[] getServiceProcesses() {
         return currentState.getServiceProcesses();
     }
 
-    public ServiceProcess[] getRunningServiceProcesses() {
+    public ServiceJob[] getRunningServiceProcesses() {
         return currentState.getRunningServiceProcesses();
     }
 

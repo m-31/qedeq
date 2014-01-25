@@ -43,7 +43,6 @@ import javax.swing.border.EmptyBorder;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.util.GuiHelper;
-import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.logic.model.FourDynamicModel;
 import org.qedeq.kernel.bo.logic.model.SixDynamicModel;
 import org.qedeq.kernel.bo.logic.model.ThreeDynamicModel;
@@ -54,6 +53,7 @@ import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
 import org.qedeq.kernel.bo.service.logic.SimpleProofFinderPlugin;
 import org.qedeq.kernel.bo.service.unicode.Qedeq2UnicodeTextPlugin;
 import org.qedeq.kernel.bo.service.unicode.Qedeq2Utf8Plugin;
+import org.qedeq.kernel.se.common.ModuleService;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
 import com.jgoodies.forms.builder.DefaultFormBuilder;

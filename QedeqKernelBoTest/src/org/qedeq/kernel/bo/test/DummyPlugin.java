@@ -15,7 +15,7 @@
 
 package org.qedeq.kernel.bo.test;
 
-import org.qedeq.kernel.bo.common.ModuleService;
+import org.qedeq.kernel.se.common.ModuleService;
 
 
 public class DummyPlugin implements ModuleService {

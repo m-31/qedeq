@@ -56,7 +56,7 @@ public interface QedeqFileDao {
      * @return  Loaded QEDEQ.
      * @throws  SourceFileExceptionList     Module could not be successfully loaded.
      */
-    public Qedeq loadQedeq(InternalServiceProcess process, QedeqBo prop, File localFile)
+    public Qedeq loadQedeq(InternalServiceJob process, QedeqBo prop, File localFile)
             throws SourceFileExceptionList;
 
     /**
@@ -68,7 +68,7 @@ public interface QedeqFileDao {
      * @throws  SourceFileExceptionList     Module could not be successfully saved.
      * @throws  IOException                 File saving failed.
      */
-    public void saveQedeq(InternalServiceProcess process, KernelQedeqBo prop, File localFile)
+    public void saveQedeq(InternalServiceJob process, KernelQedeqBo prop, File localFile)
             throws SourceFileExceptionList, IOException;
 
     /**

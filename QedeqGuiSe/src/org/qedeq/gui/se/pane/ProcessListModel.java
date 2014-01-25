@@ -22,7 +22,7 @@ import javax.swing.table.AbstractTableModel;
 import org.qedeq.base.utility.DateUtility;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.bo.common.ServiceProcess;
+import org.qedeq.kernel.bo.common.ServiceJob;
 
 /**
  * Table model for QEDEQ module specific error pane.
@@ -53,7 +53,7 @@ public class ProcessListModel extends AbstractTableModel {
             "/images/eclipse/complete_task.gif"));
 
     /** Last process info. */
-    private ServiceProcess[] process = new ServiceProcess[] {};
+    private ServiceJob[] process = new ServiceJob[] {};
 
     /** Should only running tasks be chosen? */
     private boolean onlyRunning = true;
@@ -90,7 +90,7 @@ public class ProcessListModel extends AbstractTableModel {
 
     public Object getValueAt(final int row, final int col) {
 //        System.out.println("row: " + row + " col: " + col);
-        final ServiceProcess sp = getServiceProcess(row);
+        final ServiceJob sp = getServiceProcess(row);
         if (sp == null) {
             return "";
         }
@@ -116,8 +116,8 @@ public class ProcessListModel extends AbstractTableModel {
         case 5: return DateUtility.getDuration(current - sp.getStart());
         case 6: return "" + sp.getExecutionPercentage();
         case 7: return sp.getExecutionActionDescription().replace('\n', ' ');
-        case 8: return (sp.getServiceCall() != null ? sp.getServiceCall().getConfigParametersString() + "; "
-                    + sp.getServiceCall().getParametersString() : "");
+        case 8: return (sp.getModuleServiceCall() != null ? sp.getModuleServiceCall().getConfigParametersString() + "; "
+                    + sp.getModuleServiceCall().getParametersString() : "");
         default:
                 return "";
         }
@@ -147,7 +147,7 @@ public class ProcessListModel extends AbstractTableModel {
    }
 
     public void fireTableDataChanged() {
-        final ServiceProcess[] changed;
+        final ServiceJob[] changed;
         if (getOnlyRunning()) {
             changed = KernelContext.getInstance().getRunningServiceProcesses();
         } else {
@@ -176,7 +176,7 @@ public class ProcessListModel extends AbstractTableModel {
      * @param   row     Look into this row.
      * @return  Process of this row. Might be <code>null</code> if row doesn't exist.
      */
-    public ServiceProcess getServiceProcess(final int row) {
+    public ServiceJob getServiceProcess(final int row) {
         if (row < process.length && row >= 0) {
             return process[row];
         }

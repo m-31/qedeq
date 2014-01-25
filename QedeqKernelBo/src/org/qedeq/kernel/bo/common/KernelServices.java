@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.common.ModuleService;
 import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
@@ -171,7 +172,7 @@ public interface KernelServices {
      *
      * @return  Result.
      */
-    public ServiceProcess[] getServiceProcesses();
+    public ServiceJob[] getServiceProcesses();
 
     /**
      * Get all running service processes. But remember a running process might currently
@@ -179,7 +180,7 @@ public interface KernelServices {
      *
      * @return  All service running processes.
      */
-    public ServiceProcess[] getRunningServiceProcesses();
+    public ServiceJob[] getRunningServiceProcesses();
 
     /**
      * Stop all currently running service executions.

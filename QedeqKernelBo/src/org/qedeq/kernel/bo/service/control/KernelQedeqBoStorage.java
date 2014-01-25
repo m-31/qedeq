@@ -29,7 +29,7 @@ import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
-import org.qedeq.kernel.bo.module.InternalServiceProcess;
+import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.common.ModuleAddress;
@@ -74,7 +74,7 @@ class KernelQedeqBoStorage {
      * @throws  InterruptException  User stopped process.
      */
     void lockAndRemoveAllModules(final Service service,
-            final ServiceProcessManager processManager, final InternalServiceProcess proc) throws InterruptException {
+            final ServiceProcessManager processManager, final InternalServiceJob proc) throws InterruptException {
         final String method = "removeAllModules()";
         Trace.begin(CLASS, this, method);
         final List calls = new ArrayList();

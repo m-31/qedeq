@@ -19,7 +19,6 @@ package org.qedeq.kernel.bo.service.control;
 /**
  * QEDEQ module file was not found in local file buffer.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class ModuleFileNotFoundException extends Exception {

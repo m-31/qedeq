@@ -82,7 +82,7 @@ public interface InternalKernelServices extends KernelProperties {
      * @return  BO for QEDEQ module. Loading still might have failed. Check status.
      * @throws  InterruptException User canceled request.
      */
-    public KernelQedeqBo loadKernelModule(final InternalServiceProcess process, final ModuleAddress address)
+    public KernelQedeqBo loadKernelModule(final InternalServiceJob process, final ModuleAddress address)
             throws InterruptException;
 
     /**
@@ -95,7 +95,7 @@ public interface InternalKernelServices extends KernelProperties {
      * @throws  SourceFileExceptionList     Loading failed.
      * @throws  InterruptException User canceled request.
      */
-    public KernelQedeqBo loadModule(InternalServiceProcess process, ModuleAddress parent,
+    public KernelQedeqBo loadModule(InternalServiceJob process, ModuleAddress parent,
             Specification spec) throws SourceFileExceptionList, InterruptException;
 
     /**
@@ -107,7 +107,7 @@ public interface InternalKernelServices extends KernelProperties {
      * @return  Successful loading.
      * @throws  InterruptException User canceled request.
      */
-    public boolean loadRequiredModules(InternalServiceProcess process, KernelQedeqBo qedeq) throws InterruptException;
+    public boolean loadRequiredModules(InternalServiceJob process, KernelQedeqBo qedeq) throws InterruptException;
 
     /**
      * Check if all formulas of a QEDEQ module and its required modules are well formed.
@@ -116,7 +116,7 @@ public interface InternalKernelServices extends KernelProperties {
      * @param   qedeq   Module to check.
      * @return  Was check successful?
      */
-    public boolean checkWellFormedness(InternalServiceProcess process, KernelQedeqBo qedeq);
+    public boolean checkWellFormedness(InternalServiceJob process, KernelQedeqBo qedeq);
 
     /**
      * Check if all propositions of this and all required modules have correct formal proofs.
@@ -125,7 +125,7 @@ public interface InternalKernelServices extends KernelProperties {
      * @param   qedeq   Module to check.
      * @return  Was check successful?
      */
-    public boolean checkFormallyProved(InternalServiceProcess process, KernelQedeqBo qedeq);
+    public boolean checkFormallyProved(InternalServiceJob process, KernelQedeqBo qedeq);
 
     /**
      * Execute plugin on given QEDEQ module.
@@ -137,7 +137,7 @@ public interface InternalKernelServices extends KernelProperties {
      * @return  Plugin specific resulting object. Might be <code>null</code>.
      * @throws  InterruptException    Process execution was canceled by user.
      */
-    public Object executePlugin(final InternalServiceProcess parent, final String id, final KernelQedeqBo qedeq,
+    public Object executePlugin(final InternalServiceJob parent, final String id, final KernelQedeqBo qedeq,
         final Object data) throws InterruptException;
 
     /**
@@ -193,7 +193,7 @@ public interface InternalKernelServices extends KernelProperties {
      */
     public ContextChecker getContextChecker();
 
-    public InternalServiceProcess createServiceProcess(final String action);
+    public InternalServiceJob createServiceProcess(final String action);
 
     /**
      * Create service process for given module. Locks also module access.
@@ -209,13 +209,13 @@ public interface InternalKernelServices extends KernelProperties {
      */
     public InternalModuleServiceCall createServiceCall(Service service,
             final KernelQedeqBo qedeq, final Parameters configParameters, final Parameters parameters,
-            final InternalServiceProcess process, final InternalModuleServiceCall parent)
+            final InternalServiceJob process, final InternalModuleServiceCall parent)
             throws InterruptException;
 
 
-    public boolean lockModule(InternalServiceProcess process, KernelQedeqBo qedeq, Service service)
+    public boolean lockModule(InternalServiceJob process, KernelQedeqBo qedeq, Service service)
             throws InterruptException;
 
-    public boolean unlockModule(InternalServiceProcess process, KernelQedeqBo qedeq);
+    public boolean unlockModule(InternalServiceJob process, KernelQedeqBo qedeq);
 
 }

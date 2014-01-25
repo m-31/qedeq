@@ -22,7 +22,7 @@ package org.qedeq.kernel.bo.common;
  *
  * @author  Michael Meyling
  */
-public interface ServiceResult {
+public interface ModuleServiceResult {
 
     /**
      * Was the call interrupted by user interaction?

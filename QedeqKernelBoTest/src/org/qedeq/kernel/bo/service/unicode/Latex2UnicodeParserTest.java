@@ -16,12 +16,12 @@ package org.qedeq.kernel.bo.service.unicode;
 
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.io.SourcePosition;
-import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.service.latex.LatexContentException;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
+import org.qedeq.kernel.se.common.ModuleService;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 

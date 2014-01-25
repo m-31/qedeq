@@ -27,9 +27,8 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.DateUtility;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.kernel.bo.common.ModuleService;
 import org.qedeq.kernel.bo.module.ControlVisitor;
-import org.qedeq.kernel.bo.module.InternalServiceProcess;
+import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.Reference;
@@ -83,6 +82,7 @@ import org.qedeq.kernel.se.base.module.UsedByList;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
+import org.qedeq.kernel.se.common.ModuleService;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.visitor.QedeqNumbers;
 
@@ -178,7 +178,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException     File IO failed.
      */
-    public void generateUtf8(final InternalServiceProcess process, final AbstractOutput printer,
+    public void generateUtf8(final InternalServiceJob process, final AbstractOutput printer,
             final String language, final String level) throws SourceFileExceptionList, IOException {
         setParameters(printer, language);
         try {

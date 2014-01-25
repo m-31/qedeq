@@ -19,7 +19,7 @@ import org.qedeq.kernel.se.common.Service;
 
 
 /**
- * Information for a service call. Occurs during execution of a {@link ServiceProcess}.
+ * Information for a service call. Occurs during execution of a {@link ServiceJob}.
  *
  * @author  Michael Meyling
  */
@@ -86,7 +86,7 @@ public interface ModuleServiceCall extends Comparable {
      *
      * @return  Service process for this call.
      */
-    public ServiceProcess getServiceProcess();
+    public ServiceJob getServiceProcess();
 
     /**
      * Is this service still running? This is also true if the process is paused.
@@ -128,7 +128,7 @@ public interface ModuleServiceCall extends Comparable {
      *
      * @return  Result. Might be <code>null</code>.
      */
-    public ServiceResult getServiceResult();
+    public ModuleServiceResult getServiceResult();
 
     /**
      * Get call id.

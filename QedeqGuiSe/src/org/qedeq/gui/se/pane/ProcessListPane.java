@@ -51,7 +51,7 @@ import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.QedeqBoSet;
 import org.qedeq.kernel.bo.common.ModuleServiceCall;
-import org.qedeq.kernel.bo.common.ServiceProcess;
+import org.qedeq.kernel.bo.common.ServiceJob;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -93,7 +93,7 @@ public class ProcessListPane extends JPanel  {
             final int row = rowAtPoint(p);
             final int col = columnAtPoint(p);
             try {
-                final ServiceProcess process = model.getServiceProcess(row);
+                final ServiceJob process = model.getServiceProcess(row);
                 switch (col) {
                 case 0:
                      if (process.isBlocked()) {
@@ -106,8 +106,8 @@ public class ProcessListPane extends JPanel  {
                          tip = "Process has finished";
                      }
                      break;
-                case 1: tip = (process.getServiceCall() != null
-                     ? process.getServiceCall().getService().getServiceDescription()
+                case 1: tip = (process.getModuleServiceCall() != null
+                     ? process.getModuleServiceCall().getService().getServiceDescription()
                      : process.getExecutionActionDescription());
                      break;
                 case 2:
@@ -117,9 +117,9 @@ public class ProcessListPane extends JPanel  {
                      break;
                 case 7: tip = GuiHelper.getToolTipText(process.getExecutionActionDescription());
                      break;
-                case 8: tip = GuiHelper.getToolTipText(process.getServiceCall() != null
-                     ? process.getServiceCall().getParametersString() + "; "
-                       + process.getServiceCall().getParametersString() : "");
+                case 8: tip = GuiHelper.getToolTipText(process.getModuleServiceCall() != null
+                     ? process.getModuleServiceCall().getParametersString() + "; "
+                       + process.getModuleServiceCall().getParametersString() : "");
                      break;
                 default: tip = "";
                 }
@@ -202,7 +202,7 @@ public class ProcessListPane extends JPanel  {
                     int maxIndex = rowSM.getMaxSelectionIndex();
                     for (int i = minIndex; i <= maxIndex; i++) {
                         if (rowSM.isSelectedIndex(i)) {
-                            final ServiceProcess process = model.getServiceProcess(i);
+                            final ServiceJob process = model.getServiceProcess(i);
                             if (process != null) {
                                 selectedProcesses.add(process);
                             }
@@ -339,7 +339,7 @@ public class ProcessListPane extends JPanel  {
     public void stopSelected() {
         Iterator iterator = selectedProcesses.iterator();
         while (iterator.hasNext()) {
-            final ServiceProcess process = (ServiceProcess) iterator.next();
+            final ServiceJob process = (ServiceJob) iterator.next();
             if (process != null && process.isRunning()) {
                 process.interrupt();
             }
@@ -356,7 +356,7 @@ public class ProcessListPane extends JPanel  {
             StringBuffer result = new StringBuffer();
             Iterator iterator = selectedProcesses.iterator();
             while (iterator.hasNext()) {
-                final ServiceProcess process = (ServiceProcess) iterator.next();
+                final ServiceJob process = (ServiceJob) iterator.next();
                 if (process != null && process.isRunning()
                             && YodaUtility.existsMethod(Thread.class, "getStackTrace", new Class[] {})) {
                     StackTraceElement[] trace = new StackTraceElement[] {};
@@ -391,7 +391,7 @@ public class ProcessListPane extends JPanel  {
             StringBuffer result = new StringBuffer();
             Iterator iterator = selectedProcesses.iterator();
             while (iterator.hasNext()) {
-                final ServiceProcess process = (ServiceProcess) iterator.next();
+                final ServiceJob process = (ServiceJob) iterator.next();
                 if (process != null) {
                     result.append("id ").append(process.getId());
                     String tip = "";
@@ -421,7 +421,7 @@ public class ProcessListPane extends JPanel  {
                         result.append(" ").append(qedeq.getName());
                     }
                     result.append("\n\tCalls:   ");
-                    ModuleServiceCall parent = process.getServiceCall();
+                    ModuleServiceCall parent = process.getModuleServiceCall();
                     while (parent != null) {
                         result.append("\n\t\t ").append(parent.getId());
                         tip = "";

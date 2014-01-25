@@ -22,19 +22,19 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.QedeqBoSet;
 import org.qedeq.kernel.bo.common.ModuleServiceCall;
-import org.qedeq.kernel.bo.common.ServiceProcess;
+import org.qedeq.kernel.bo.common.ServiceJob;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
-import org.qedeq.kernel.bo.module.InternalServiceProcess;
+import org.qedeq.kernel.bo.module.InternalServiceJob;
 
 /**
  * Process info for a kernel service.
  *
  * @author  Michael Meyling
  */
-public class ServiceProcessImpl implements InternalServiceProcess {
+public class InternalServiceJobImpl implements InternalServiceJob {
 
     /** This class. */
-    private static final Class CLASS = ServiceProcessImpl.class;
+    private static final Class CLASS = InternalServiceJobImpl.class;
 
     /** Counter for each service process. */
     private static long globalCounter;
@@ -78,7 +78,7 @@ public class ServiceProcessImpl implements InternalServiceProcess {
      * @param   arbiter     Remember module arbiter.
      * @param   actionName  Main process purpose.
      */
-    public ServiceProcessImpl(final ModuleArbiter arbiter, final String actionName) {
+    public InternalServiceJobImpl(final ModuleArbiter arbiter, final String actionName) {
         this.id = inc();
         this.thread = Thread.currentThread();
         this.call = null;
@@ -95,7 +95,7 @@ public class ServiceProcessImpl implements InternalServiceProcess {
         this.call = call;
     }
 
-    public synchronized ModuleServiceCall getServiceCall() {
+    public synchronized ModuleServiceCall getModuleServiceCall() {
         return call;
     }
 
@@ -105,13 +105,6 @@ public class ServiceProcessImpl implements InternalServiceProcess {
 
     public synchronized Thread getThread() {
         return thread;
-    }
-
-    public synchronized QedeqBo getQedeq() {
-        if (call != null) {
-            return call.getQedeq();
-        }
-        return null;
     }
 
     public synchronized String getQedeqName() {
@@ -239,10 +232,10 @@ public class ServiceProcessImpl implements InternalServiceProcess {
     }
 
     public int compareTo(final Object o) {
-        if (!(o instanceof ServiceProcess)) {
+        if (!(o instanceof ServiceJob)) {
             return -1;
         }
-        final ServiceProcess s = (ServiceProcess) o;
+        final ServiceJob s = (ServiceJob) o;
         return (getId() < s.getId() ? -1 : (getId() == s.getId() ? 0 : 1));
     }
 

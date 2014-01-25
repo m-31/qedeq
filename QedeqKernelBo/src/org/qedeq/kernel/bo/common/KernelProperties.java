@@ -18,7 +18,7 @@ package org.qedeq.kernel.bo.common;
 
 
 /**
- * QEDEQ kernel.
+ * QEDEQ kernel properties.
  *
  * @author  Michael Meyling
  */

@@ -15,7 +15,7 @@
 
 package org.qedeq.kernel.bo.module;
 
-import org.qedeq.kernel.bo.common.ServiceProcess;
+import org.qedeq.kernel.bo.common.ServiceJob;
 
 
 /**
@@ -23,7 +23,7 @@ import org.qedeq.kernel.bo.common.ServiceProcess;
  *
  * @author  Michael Meyling
  */
-public interface InternalServiceProcess extends ServiceProcess {
+public interface InternalServiceJob extends ServiceJob {
 
     /**
      * Mark that thread execution has normally ended.

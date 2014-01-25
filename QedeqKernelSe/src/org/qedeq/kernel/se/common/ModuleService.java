@@ -13,26 +13,16 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.common;
+package org.qedeq.kernel.se.common;
+
+
 
 
 /**
- * Service methods inclusive kernel integration methods.
+ * Currently just a marker interface for services working mainly on one particular module.
  *
  * @author  Michael Meyling
  */
-public interface ServiceModule extends KernelServices {
-
-    /**
-     * Initialization of services. This method should be called from the kernel
-     * directly after switching into ready state. Calling this method in ready state is not
-     * supported.
-     */
-    public void startupServices();
-
-    /**
-     * Shutdown of services.
-     */
-    public void shutdownServices();
+public interface ModuleService extends Service {
 
 }

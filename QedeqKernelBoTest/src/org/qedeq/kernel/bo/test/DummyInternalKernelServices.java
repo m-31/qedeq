@@ -21,7 +21,7 @@ import java.io.IOException;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
-import org.qedeq.kernel.bo.module.InternalServiceProcess;
+import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.se.base.module.Specification;
@@ -49,7 +49,7 @@ public class DummyInternalKernelServices implements InternalKernelServices {
     public KernelQedeqBo getKernelQedeqBo(ModuleAddress address) {
         return null;
     }
-    public KernelQedeqBo loadModule(InternalServiceProcess proc, ModuleAddress parent,
+    public KernelQedeqBo loadModule(InternalServiceJob proc, ModuleAddress parent,
             Specification spec) throws SourceFileExceptionList {
         return null;
     }
@@ -101,34 +101,34 @@ public class DummyInternalKernelServices implements InternalKernelServices {
     public ContextChecker getContextChecker() {
         return null;
     }
-    public boolean loadRequiredModules(InternalServiceProcess process, KernelQedeqBo qedeq) {
+    public boolean loadRequiredModules(InternalServiceJob process, KernelQedeqBo qedeq) {
         return false;
     }
-    public boolean checkWellFormedness(InternalServiceProcess process, KernelQedeqBo qedeq) {
+    public boolean checkWellFormedness(InternalServiceJob process, KernelQedeqBo qedeq) {
         return false;
     }
-    public boolean checkFormallyProved(InternalServiceProcess process, KernelQedeqBo qedeq) {
+    public boolean checkFormallyProved(InternalServiceJob process, KernelQedeqBo qedeq) {
         return false;
     }
-    public Object executePlugin(InternalServiceProcess parent, String id, KernelQedeqBo qedeq, Object data) {
+    public Object executePlugin(InternalServiceJob parent, String id, KernelQedeqBo qedeq, Object data) {
         return null;
     }
-    public boolean lockModule(InternalServiceProcess process, KernelQedeqBo qedeq, Service service)
+    public boolean lockModule(InternalServiceJob process, KernelQedeqBo qedeq, Service service)
             throws InterruptException {
         return false;
     }
-    public boolean unlockModule(InternalServiceProcess process, KernelQedeqBo qedeq) {
+    public boolean unlockModule(InternalServiceJob process, KernelQedeqBo qedeq) {
         return false;
     }
-    public InternalServiceProcess createServiceProcess(String action) {
+    public InternalServiceJob createServiceProcess(String action) {
         return null;
     }
     public InternalModuleServiceCall createServiceCall(Service service, KernelQedeqBo qedeq,
             Parameters configParameters, Parameters parameters,
-            InternalServiceProcess process, InternalModuleServiceCall parent) {
+            InternalServiceJob process, InternalModuleServiceCall parent) {
         return null;
     }
-    public KernelQedeqBo loadKernelModule(InternalServiceProcess process,
+    public KernelQedeqBo loadKernelModule(InternalServiceJob process,
             ModuleAddress address) throws InterruptException {
         return null;
     }

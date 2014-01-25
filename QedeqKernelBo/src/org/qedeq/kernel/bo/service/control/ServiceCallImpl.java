@@ -18,10 +18,10 @@ package org.qedeq.kernel.bo.service.control;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.ModuleServiceCall;
-import org.qedeq.kernel.bo.common.ServiceProcess;
-import org.qedeq.kernel.bo.common.ServiceResult;
+import org.qedeq.kernel.bo.common.ServiceJob;
+import org.qedeq.kernel.bo.common.ModuleServiceResult;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
-import org.qedeq.kernel.bo.module.InternalServiceProcess;
+import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.common.ServiceCompleteness;
@@ -73,7 +73,7 @@ public class ServiceCallImpl implements InternalModuleServiceCall {
     private String action = "not yet started";
 
     /** Service process. */
-    private final InternalServiceProcess process;
+    private final InternalServiceJob process;
 
     /** Parent service call. Might be <code>null</code>. */
     private final ModuleServiceCall parent;
@@ -82,7 +82,7 @@ public class ServiceCallImpl implements InternalModuleServiceCall {
     private final long id;
 
     /** Result of service call. */
-    private ServiceResult result;
+    private ModuleServiceResult result;
 
     /** Was the module newly blocked by this call. Otherwise a previous service call might have locked the module
      * for the process already. */
@@ -102,7 +102,7 @@ public class ServiceCallImpl implements InternalModuleServiceCall {
      * @param   parent      Parent service call if any.
      */
     public ServiceCallImpl(final Service service, final KernelQedeqBo qedeq,
-            final Parameters config, final Parameters parameters, final InternalServiceProcess process,
+            final Parameters config, final Parameters parameters, final InternalServiceJob process,
             final ModuleServiceCall parent) {
         this.id = inc();
         this.qedeq = qedeq;
@@ -199,7 +199,7 @@ public class ServiceCallImpl implements InternalModuleServiceCall {
         finish(new ServiceResultImpl(errorMessage));
     }
 
-    public synchronized void finish(final ServiceResult result) {
+    public synchronized void finish(final ModuleServiceResult result) {
         if (running) {
             action = "finished";
             executionPercentage = 100;
@@ -209,7 +209,7 @@ public class ServiceCallImpl implements InternalModuleServiceCall {
         }
     }
 
-    public synchronized void halt(final ServiceResult result) {
+    public synchronized void halt(final ModuleServiceResult result) {
         if (running) {
             this.result = result;
             if (completeness != null) {
@@ -242,7 +242,7 @@ public class ServiceCallImpl implements InternalModuleServiceCall {
         return running;
     }
 
-    public synchronized ServiceProcess getServiceProcess() {
+    public synchronized ServiceJob getServiceProcess() {
         return process;
     }
 
@@ -296,7 +296,7 @@ public class ServiceCallImpl implements InternalModuleServiceCall {
         return parent;
     }
 
-    public synchronized ServiceResult getServiceResult() {
+    public synchronized ModuleServiceResult getServiceResult() {
         return result;
     }
 
@@ -304,7 +304,7 @@ public class ServiceCallImpl implements InternalModuleServiceCall {
         return qedeq;
     }
 
-    public InternalServiceProcess getInternalServiceProcess() {
+    public InternalServiceJob getInternalServiceProcess() {
         return process;
     }
 

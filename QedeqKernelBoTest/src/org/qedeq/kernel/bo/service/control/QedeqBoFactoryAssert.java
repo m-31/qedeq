@@ -24,7 +24,7 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
-import org.qedeq.kernel.bo.module.InternalServiceProcess;
+import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.control.DefaultInternalKernelServices;
@@ -77,7 +77,7 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
 
     public static InternalModuleServiceCall createServiceCall(final String name, final KernelQedeqBo prop)
             throws InterruptException {
-        InternalServiceProcess process = getInternalServices().createServiceProcess(name);
+        InternalServiceJob process = getInternalServices().createServiceProcess(name);
         InternalModuleServiceCall call = getInternalServices().createServiceCall(DummyPlugin.getInstance(), prop,
             Parameters.EMPTY, Parameters.EMPTY, process, null);
         return call;

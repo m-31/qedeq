@@ -19,7 +19,7 @@ import java.util.Stack;
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.common.ModuleService;
+import org.qedeq.kernel.se.common.ModuleService;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;

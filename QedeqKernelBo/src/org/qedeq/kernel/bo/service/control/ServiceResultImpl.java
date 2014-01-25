@@ -16,7 +16,7 @@
 package org.qedeq.kernel.bo.service.control;
 
 import org.apache.commons.lang.StringUtils;
-import org.qedeq.kernel.bo.common.ServiceResult;
+import org.qedeq.kernel.bo.common.ModuleServiceResult;
 
 
 /**
@@ -24,13 +24,13 @@ import org.qedeq.kernel.bo.common.ServiceResult;
  *
  * @author  Michael Meyling
  */
-public class ServiceResultImpl implements ServiceResult {
+public class ServiceResultImpl implements ModuleServiceResult {
 
     /** A simple service result that has a user interrupt. */
-    public static final ServiceResult INTERRUPTED = new ServiceResultImpl(true);
+    public static final ModuleServiceResult INTERRUPTED = new ServiceResultImpl(true);
 
     /** A simple successful (=ok) service result. */
-    public static final ServiceResult SUCCESSFUL = new ServiceResultImpl(false);
+    public static final ModuleServiceResult SUCCESSFUL = new ServiceResultImpl(false);
 
     /** Did a user interrupt occur and ended the service call? */
     private final boolean interrupted;
