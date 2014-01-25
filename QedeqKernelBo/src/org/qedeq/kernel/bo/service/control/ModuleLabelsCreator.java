@@ -18,7 +18,6 @@ package org.qedeq.kernel.bo.service.control;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.Element2Latex;
 import org.qedeq.kernel.bo.common.Element2Utf8;
-import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleLabels;

@@ -17,11 +17,11 @@ package org.qedeq.kernel.bo.service.dependency;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.ModuleServicePluginExecutor;
+import org.qedeq.kernel.bo.service.common.ModuleServicePluginExecutor;
+import org.qedeq.kernel.bo.service.control.ControlVisitor;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
 import org.qedeq.kernel.se.common.ModuleContext;

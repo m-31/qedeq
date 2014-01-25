@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.module;
+package org.qedeq.kernel.bo.service.common;
 
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
@@ -22,7 +22,7 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
  *
  * @author  Michael Meyling
  */
-public class PluginResults {
+public class ModuleServicePluginResults {
 
     /** Errors that occurred. */
     private SourceFileExceptionList errors;
@@ -33,7 +33,7 @@ public class PluginResults {
     /**
      * Creates a new result container.
      */
-    public PluginResults() {
+    public ModuleServicePluginResults() {
         errors = new SourceFileExceptionList();
         warnings = new SourceFileExceptionList();
     }

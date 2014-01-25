@@ -13,8 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.module;
-
+package org.qedeq.kernel.bo.service.common;
 
 
 /**

@@ -22,13 +22,19 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.ModuleServiceResult;
+import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.ServiceJob;
+import org.qedeq.kernel.bo.job.InternalServiceJobImpl;
+import org.qedeq.kernel.bo.job.ServiceCallImpl;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.ModuleServicePlugin;
-import org.qedeq.kernel.bo.module.ModuleServicePluginExecutor;
+import org.qedeq.kernel.bo.module.ModuleArbiter;
+import org.qedeq.kernel.bo.service.common.ModuleServiceExecutor;
+import org.qedeq.kernel.bo.service.common.ModuleServicePlugin;
+import org.qedeq.kernel.bo.service.common.ModuleServicePluginExecutor;
+import org.qedeq.kernel.bo.service.common.PluginManager;
 import org.qedeq.kernel.se.common.ModuleService;
 import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.visitor.InterruptException;
@@ -107,7 +113,7 @@ public class ServiceProcessManager {
      * @throws  InterruptException  User canceled call.
      */
     public ServiceCallImpl createServiceCall(final Service service,
-            final KernelQedeqBo qedeq, final Parameters configParameters, final Parameters parameters,
+            final QedeqBo qedeq, final Parameters configParameters, final Parameters parameters,
             final InternalServiceJob process) throws InterruptException {
         if (!process.isRunning()) { // should not occur
             throw new RuntimeException("Service process is not running any more.");
@@ -133,7 +139,7 @@ public class ServiceProcessManager {
     public void endServiceCall(final InternalModuleServiceCall call) {
         // TODO 20130521 m31: do it without cast
         if (call != null && ((ServiceCallImpl) call).getNewlyBlockedModule()) {
-            unlockRequiredModule(call, call.getKernelQedeq());
+            unlockRequiredModule(call, call.getQedeq());
         }
     }
 
@@ -163,8 +169,8 @@ public class ServiceProcessManager {
         return process;
     }
 
-    ModuleServiceResult executeService(final ModuleService service, final ModuleServiceExecutor executor,
-            final KernelQedeqBo qedeq, final InternalServiceJob process) throws InterruptException {
+    public ModuleServiceResult executeService(final ModuleService service, final ModuleServiceExecutor executor,
+            final QedeqBo qedeq, final InternalServiceJob process) throws InterruptException {
         final String method = "executePlugin(String, KernelQedeqBo, Object)";
         if (process == null) {
             throw new NullPointerException("ServiceProcess must not be null");
@@ -208,7 +214,7 @@ public class ServiceProcessManager {
      * @throws  InterruptException  User interrupt occurred.
      * @throws  RuntimeException    Plugin unknown or process is not running any more.
      */
-    Object executePlugin(final String id, final KernelQedeqBo qedeq, final Object data,
+    public Object executePlugin(final String id, final KernelQedeqBo qedeq, final Object data,
             final InternalServiceJob proc) throws InterruptException {
         final String method = "executePlugin(String, KernelQedeqBo, Object)";
         final ModuleServicePlugin plugin = pluginManager.getPlugin(id);
@@ -276,7 +282,7 @@ public class ServiceProcessManager {
         }
     }
 
-    public boolean lockRequiredModule(final ServiceCallImpl call, final KernelQedeqBo qedeq, final Service service)
+    public boolean lockRequiredModule(final ServiceCallImpl call, final QedeqBo qedeq, final Service service)
             throws InterruptException {
         call.pause();
         call.getInternalServiceProcess().setBlocked(true);
@@ -290,7 +296,7 @@ public class ServiceProcessManager {
         }
     }
 
-    public boolean unlockRequiredModule(final InternalModuleServiceCall call, final KernelQedeqBo qedeq) {
+    public boolean unlockRequiredModule(final InternalModuleServiceCall call, final QedeqBo qedeq) {
         return arbiter.unlockRequiredModule(call.getInternalServiceProcess(), qedeq);
     }
 

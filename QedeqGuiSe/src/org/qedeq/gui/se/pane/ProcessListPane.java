@@ -48,9 +48,9 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.DateUtility;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.gui.se.util.GuiHelper;
+import org.qedeq.kernel.bo.common.ModuleServiceCall;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.QedeqBoSet;
-import org.qedeq.kernel.bo.common.ModuleServiceCall;
 import org.qedeq.kernel.bo.common.ServiceJob;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;

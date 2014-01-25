@@ -26,12 +26,12 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.QedeqBo;
+import org.qedeq.kernel.bo.job.InternalServiceJobImpl;
+import org.qedeq.kernel.bo.job.ServiceCallImpl;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckException;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.service.control.ModuleArbiter;
-import org.qedeq.kernel.bo.service.control.ServiceCallImpl;
-import org.qedeq.kernel.bo.service.control.InternalServiceJobImpl;
+import org.qedeq.kernel.bo.service.common.ModuleArbiterImpl;
 import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
@@ -403,7 +403,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             final Parameters configParameters = new Parameters(parameters);
             final InputStream latex =(new Qedeq2LatexExecutor(new Qedeq2LatexPlugin(), prop, configParameters))
                 .createLatex(new ServiceCallImpl(DummyPlugin.getInstance(), prop, configParameters, Parameters.EMPTY,
-                new InternalServiceJobImpl(new ModuleArbiter(), "generate LaTeX"), null), language, "1");
+                new InternalServiceJobImpl(new ModuleArbiterImpl(), "generate LaTeX"), null), language, "1");
             if (to != null) {
                 IoUtility.saveFile(latex, to);
                 return to.getCanonicalPath();

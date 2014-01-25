@@ -13,18 +13,19 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.control;
+package org.qedeq.kernel.bo.job;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.common.ModuleServiceCall;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.QedeqBoSet;
-import org.qedeq.kernel.bo.common.ModuleServiceCall;
 import org.qedeq.kernel.bo.common.ServiceJob;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceJob;
+import org.qedeq.kernel.bo.module.ModuleArbiter;
 
 /**
  * Process info for a kernel service.

@@ -13,16 +13,15 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.control;
+package org.qedeq.kernel.bo.job;
 
 import org.qedeq.base.io.Parameters;
-import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.ModuleServiceCall;
-import org.qedeq.kernel.bo.common.ServiceJob;
 import org.qedeq.kernel.bo.common.ModuleServiceResult;
+import org.qedeq.kernel.bo.common.QedeqBo;
+import org.qedeq.kernel.bo.common.ServiceJob;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceJob;
-import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.common.ServiceCompleteness;
 
@@ -40,7 +39,7 @@ public class ServiceCallImpl implements InternalModuleServiceCall {
     private final Service service;
 
     /** QEDEQ module the process is working on. */
-    private final KernelQedeqBo qedeq;
+    private final QedeqBo qedeq;
 
     /** Current global config parameters for the service. */
     private final Parameters config;
@@ -101,7 +100,7 @@ public class ServiceCallImpl implements InternalModuleServiceCall {
      * @param   process     Service process we run within.
      * @param   parent      Parent service call if any.
      */
-    public ServiceCallImpl(final Service service, final KernelQedeqBo qedeq,
+    public ServiceCallImpl(final Service service, final QedeqBo qedeq,
             final Parameters config, final Parameters parameters, final InternalServiceJob process,
             final ModuleServiceCall parent) {
         this.id = inc();
@@ -298,10 +297,6 @@ public class ServiceCallImpl implements InternalModuleServiceCall {
 
     public synchronized ModuleServiceResult getServiceResult() {
         return result;
-    }
-
-    public KernelQedeqBo getKernelQedeq() {
-        return qedeq;
     }
 
     public InternalServiceJob getInternalServiceProcess() {

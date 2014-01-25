@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.control;
+package org.qedeq.kernel.bo.service.common;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -43,7 +43,14 @@ import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.ModuleArbiter;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
+import org.qedeq.kernel.bo.service.control.DefaultKernelQedeqBo;
+import org.qedeq.kernel.bo.service.control.ModuleFileNotFoundException;
+import org.qedeq.kernel.bo.service.control.ModuleLabelsCreator;
+import org.qedeq.kernel.bo.service.control.QedeqVoBuilder;
+import org.qedeq.kernel.bo.service.control.ServiceErrors;
+import org.qedeq.kernel.bo.service.control.ServiceProcessManager;
 import org.qedeq.kernel.bo.service.dependency.LoadDirectlyRequiredModulesPlugin;
 import org.qedeq.kernel.bo.service.dependency.LoadRequiredModulesPlugin;
 import org.qedeq.kernel.bo.service.logic.FormalProofCheckerPlugin;
@@ -136,7 +143,7 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
 
     public void startupServices() {
         modules = new KernelQedeqBoStorage();
-        arbiter = new ModuleArbiter();
+        arbiter = new ModuleArbiterImpl();
         processManager = new ServiceProcessManager(pluginManager, arbiter);
         contextChecker = new DefaultContextChecker();
         if (config.isAutoReloadLastSessionChecked()) {

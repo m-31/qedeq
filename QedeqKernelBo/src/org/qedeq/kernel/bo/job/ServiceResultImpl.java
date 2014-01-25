@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.control;
+package org.qedeq.kernel.bo.job;
 
 import org.apache.commons.lang.StringUtils;
 import org.qedeq.kernel.bo.common.ModuleServiceResult;

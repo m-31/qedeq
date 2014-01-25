@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.control;
+package org.qedeq.kernel.bo.service.common;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -21,11 +21,12 @@ import java.util.Map;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.QedeqBoSet;
 import org.qedeq.kernel.bo.common.ServiceJob;
 import org.qedeq.kernel.bo.module.InternalServiceJob;
-import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.KernelQedeqBoSet;
+import org.qedeq.kernel.bo.module.ModuleArbiter;
+import org.qedeq.kernel.bo.service.control.DefaultKernelQedeqBo;
 import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.visitor.InterruptException;
 
@@ -37,10 +38,10 @@ import org.qedeq.kernel.se.visitor.InterruptException;
  *
  * @author  Michael Meyling
  */
-public class ModuleArbiter {
+public class ModuleArbiterImpl implements ModuleArbiter {
 
     /** This class. */
-    private static final Class CLASS = ModuleArbiter.class;
+    private static final Class CLASS = ModuleArbiterImpl.class;
 
     /** Map blocked QEDEQ modules to service processes. */
     private final Map blocked;
@@ -48,21 +49,12 @@ public class ModuleArbiter {
     /**
      * Constructor.
      */
-    public ModuleArbiter() {
+    public ModuleArbiterImpl() {
         blocked = new HashMap();
     }
 
-    /**
-     * Lock QEDEQ module for exclusive read and write access.
-     *
-     * @param   process This process acquires the lock.
-     * @param   qedeq   Lock this module.
-     * @param   service For this service.
-     * @return  The process locked this module newly. Before this call the module was not locked.
-     * @throws  InterruptException  Lock acquirement interrupted.
-     */
     public boolean lockRequiredModule(final InternalServiceJob process,
-            final KernelQedeqBo qedeq, final Service service) throws  InterruptException {
+            final QedeqBo qedeq, final Service service) throws  InterruptException {
         if (isAlreadyLocked(process, qedeq)) {
             return false;
         }
@@ -90,19 +82,12 @@ public class ModuleArbiter {
         return true;
     }
 
-    /**
-     * Unlock module again.
-     *
-     * @param   process     This process must have acquired the lock.
-     * @param   qedeq       This module was locked before.
-     * @return  Was this module even locked?
-     */
-    public boolean unlockRequiredModule(final ServiceJob process, final KernelQedeqBo qedeq) {
+    public boolean unlockRequiredModule(final ServiceJob process, final QedeqBo qedeq) {
         return unlock(process, qedeq);
 
     }
 
-    private synchronized boolean lock(final ServiceJob process, final KernelQedeqBo qedeq, final Service service) {
+    private synchronized boolean lock(final ServiceJob process, final QedeqBo qedeq, final Service service) {
         final String method = "lock";
         if (Trace.isTraceOn()) {
             Trace.info(CLASS, this, method, getName(process) + " is trying to lock " + qedeq.getName());
@@ -120,7 +105,7 @@ public class ModuleArbiter {
         return true;
     }
 
-    private synchronized boolean unlock(final ServiceJob process, final KernelQedeqBo qedeq) {
+    private synchronized boolean unlock(final ServiceJob process, final QedeqBo qedeq) {
         final String method = "unlock";
         if (Trace.isTraceOn()) {
             Trace.info(CLASS, this, method, getName(process) + " is trying to unlock " + qedeq.getName());
@@ -152,23 +137,23 @@ public class ModuleArbiter {
             process.getModuleServiceCall().getService().getServiceId()) : "");
     }
 
-    private synchronized ServiceJob getProcess(final KernelQedeqBo qedeq) {
+    private synchronized ServiceJob getProcess(final QedeqBo qedeq) {
         return (ServiceJob) blocked.get(qedeq);
     }
 
     private synchronized boolean isAlreadyLocked(final ServiceJob process,
-            final KernelQedeqBo qedeq) {
+            final QedeqBo qedeq) {
         return process.equals(blocked.get(qedeq));
     }
 
-    private synchronized void addLock(final ServiceJob process, final KernelQedeqBo qedeq) {
+    private synchronized void addLock(final ServiceJob process, final QedeqBo qedeq) {
         if (Trace.isTraceOn()) {
             Trace.info(CLASS, this, "addLock", getName(process) + " locked successfuly  " + qedeq.getName());
         }
         blocked.put(qedeq, process);
     }
 
-    private synchronized void removeLock(final ServiceJob process, final KernelQedeqBo qedeq) {
+    private synchronized void removeLock(final ServiceJob process, final QedeqBo qedeq) {
         if (Trace.isTraceOn()) {
             Trace.info(CLASS, this, "removeLock", getName(process) + " unlocked            " + qedeq.getName());
         }
@@ -176,11 +161,11 @@ public class ModuleArbiter {
     }
 
     public synchronized QedeqBoSet getBlockedModules(final ServiceJob process) {
-        KernelQedeqBoSet result = new KernelQedeqBoSet();
+        QedeqBoSet result = new QedeqBoSet();
         final Iterator i = blocked.entrySet().iterator();
         while (i.hasNext()) {
             final Map.Entry entry = (Map.Entry) i.next();
-            KernelQedeqBo qedeq = (KernelQedeqBo) entry.getKey();
+            QedeqBo qedeq = (QedeqBo) entry.getKey();
             if (process.equals(entry.getValue())) {
                 result.add(qedeq);
             }

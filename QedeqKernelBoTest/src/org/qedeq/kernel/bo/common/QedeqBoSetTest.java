@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.module;
+package org.qedeq.kernel.bo.common;
 
 import java.util.Iterator;
 
@@ -22,6 +22,11 @@ import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.bo.common.Element2Latex;
 import org.qedeq.kernel.bo.common.Element2Utf8;
 import org.qedeq.kernel.bo.common.ModuleReferenceList;
+import org.qedeq.kernel.bo.module.InternalKernelServices;
+import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
+import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.ModuleConstantsExistenceChecker;
+import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleDataException;
@@ -41,7 +46,7 @@ import org.qedeq.kernel.se.state.WellFormedState;
  *
  * @author Michael Meyling
  */
-public class KernelQedeqBoSetTest extends QedeqTestCase {
+public class QedeqBoSetTest extends QedeqTestCase {
 
     private static final String URL1 = "http://www.qedeq.org/current/sample/qedeq_sample1.xml";
 
@@ -51,25 +56,25 @@ public class KernelQedeqBoSetTest extends QedeqTestCase {
 
 
     /** {} */
-    private KernelQedeqBoSet empty;
+    private QedeqBoSet empty;
 
     /** {"one"} */
-    private KernelQedeqBoSet one;
+    private QedeqBoSet one;
 
     /** {"two"} */
-    private KernelQedeqBoSet two;
+    private QedeqBoSet two;
 
     /** {"two"} */
-    private KernelQedeqBoSet two2;
+    private QedeqBoSet two2;
 
     /** {"one", "two"} */
-    private KernelQedeqBoSet oneTwo;
+    private QedeqBoSet oneTwo;
 
-    public KernelQedeqBoSetTest(){
+    public QedeqBoSetTest(){
         super();
     }
 
-    public KernelQedeqBoSetTest(final String name){
+    public QedeqBoSetTest(final String name){
         super(name);
     }
 
@@ -82,12 +87,12 @@ public class KernelQedeqBoSetTest extends QedeqTestCase {
      * 
      */
     private void initAttributes() {
-        empty = new KernelQedeqBoSet();
-        one = new KernelQedeqBoSet(new KernelQedeqBo[] {createKernelQedeqBo(URL1)});
-        two = new KernelQedeqBoSet(new KernelQedeqBo[] {createKernelQedeqBo(URL2)});
-        two2 = new KernelQedeqBoSet();
+        empty = new QedeqBoSet();
+        one = new QedeqBoSet(new KernelQedeqBo[] {createKernelQedeqBo(URL1)});
+        two = new QedeqBoSet(new KernelQedeqBo[] {createKernelQedeqBo(URL2)});
+        two2 = new QedeqBoSet();
         two2.add(createKernelQedeqBo(URL2));
-        oneTwo = new KernelQedeqBoSet();
+        oneTwo = new QedeqBoSet();
         oneTwo.add(createKernelQedeqBo(URL1));
         oneTwo.add(createKernelQedeqBo(URL2));
     }
@@ -107,25 +112,25 @@ public class KernelQedeqBoSetTest extends QedeqTestCase {
      */
     public void testConstructor() {
         try {
-            new KernelQedeqBoSet((KernelQedeqBo) null);
+            new QedeqBoSet((KernelQedeqBo) null);
             fail("Exception expected");
         } catch (Exception e) {
             // ok
         }
         try {
-            new KernelQedeqBoSet((KernelQedeqBoSet) null);
+            new QedeqBoSet((QedeqBoSet) null);
             fail("Exception expected");
         } catch (Exception e) {
             // ok
         }
         try {
-            new KernelQedeqBoSet((KernelQedeqBo) null);
+            new QedeqBoSet((KernelQedeqBo) null);
             fail("Exception expected");
         } catch (Exception e) {
             // ok
         }
-        assertEquals(one, new KernelQedeqBoSet(createKernelQedeqBo(URL1)));
-        assertEquals(one, new KernelQedeqBoSet(new KernelQedeqBoSet(new KernelQedeqBoSet(createKernelQedeqBo(
+        assertEquals(one, new QedeqBoSet(createKernelQedeqBo(URL1)));
+        assertEquals(one, new QedeqBoSet(new QedeqBoSet(new QedeqBoSet(createKernelQedeqBo(
             URL1)))));
     }
 
@@ -163,7 +168,7 @@ public class KernelQedeqBoSetTest extends QedeqTestCase {
             // ok
         }
         try {
-            one.add((KernelQedeqBoSet) null);
+            one.add((QedeqBoSet) null);
             fail("Exception expected");
         } catch (Exception e) {
             // ok
@@ -178,7 +183,7 @@ public class KernelQedeqBoSetTest extends QedeqTestCase {
 
     public void testRemoveSet() {
         try {
-            one.remove((KernelQedeqBoSet) null);
+            one.remove((QedeqBoSet) null);
             fail("Exception expected");
         } catch (Exception e) {
             // ok
@@ -189,10 +194,10 @@ public class KernelQedeqBoSetTest extends QedeqTestCase {
         assertEquals(0, one.size());
         initAttributes();
         assertEquals(oneTwo, oneTwo.remove(one));
-        assertEquals(new KernelQedeqBoSet(createKernelQedeqBo(URL2)), oneTwo);
+        assertEquals(new QedeqBoSet(createKernelQedeqBo(URL2)), oneTwo);
         initAttributes();
         assertEquals(oneTwo, oneTwo.remove(two));
-        assertEquals(oneTwo, new KernelQedeqBoSet(createKernelQedeqBo(URL1)));
+        assertEquals(oneTwo, new QedeqBoSet(createKernelQedeqBo(URL1)));
         initAttributes();
         assertEquals(2, oneTwo.size());
         assertEquals(oneTwo, oneTwo.remove(createKernelQedeqBo(URL4)));
@@ -231,15 +236,15 @@ public class KernelQedeqBoSetTest extends QedeqTestCase {
 
     public void testAdd2() {
         try {
-            one.add((KernelQedeqBoSet) null);
+            one.add((QedeqBoSet) null);
             fail("Exception expected");
         } catch (Exception e) {
             // ok
         }
-        assertEquals(one, one.add(new KernelQedeqBoSet(createKernelQedeqBo(URL2))));
+        assertEquals(one, one.add(new QedeqBoSet(createKernelQedeqBo(URL2))));
         assertEquals(2, one.size());
         assertEquals(oneTwo, one);
-        assertEquals(one, one.add(new KernelQedeqBoSet(createKernelQedeqBo(URL2))));
+        assertEquals(one, one.add(new QedeqBoSet(createKernelQedeqBo(URL2))));
         assertEquals(2, one.size());
         assertEquals(oneTwo, one);
     }
@@ -280,7 +285,7 @@ public class KernelQedeqBoSetTest extends QedeqTestCase {
         assertEquals("{" + URL1 + "}", one.toString());
         assertEquals("{" + URL2 + "}", two.toString());
         assertEquals("{" + URL2 + "}", two2.toString());
-        assertEquals("{" + URL4 + "}", new KernelQedeqBoSet(createKernelQedeqBo(URL4)).toString());
+        assertEquals("{" + URL4 + "}", new QedeqBoSet(createKernelQedeqBo(URL4)).toString());
         assertTrue(("{" + URL1 + ", " + URL2 + "}").equals(oneTwo.toString())
             || ("{\"" + URL2 + ", " + URL1 + "}").equals(oneTwo.toString()));
     }
@@ -315,7 +320,7 @@ public class KernelQedeqBoSetTest extends QedeqTestCase {
         assertFalse(two2.equals(one));
         assertTrue(two2.equals(two));
         assertTrue(two2.equals(two2));
-        assertTrue(empty.equals(new KernelQedeqBoSet()));
+        assertTrue(empty.equals(new QedeqBoSet()));
     }
 
     private KernelQedeqBo createKernelQedeqBo(final String url) {

@@ -13,11 +13,20 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.module;
+package org.qedeq.kernel.bo.service.control;
 
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.kernel.bo.module.DefaultReference;
+import org.qedeq.kernel.bo.module.InternalKernelServices;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
+import org.qedeq.kernel.bo.module.InternalServiceJob;
+import org.qedeq.kernel.bo.module.KernelNodeBo;
+import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.ModuleErrors;
+import org.qedeq.kernel.bo.module.Reference;
+import org.qedeq.kernel.bo.module.ReferenceLinkException;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Node;

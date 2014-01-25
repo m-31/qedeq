@@ -18,9 +18,9 @@ package org.qedeq.kernel.bo.service.latex;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.service.control.ControlVisitor;
 import org.qedeq.kernel.se.base.module.Latex;
 import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.common.ModuleContext;
@@ -43,8 +43,9 @@ public final class QedeqBoDuplicateLanguageChecker extends ControlVisitor {
      * @throws  SourceFileExceptionList An error occurred.
      */
     public static void check(final InternalModuleServiceCall call) throws SourceFileExceptionList {
+        // TODO 20140125 m31: don't cast to KernelQedeqBo
         final QedeqBoDuplicateLanguageChecker checker
-            = new QedeqBoDuplicateLanguageChecker(call.getService(), call.getKernelQedeq());
+            = new QedeqBoDuplicateLanguageChecker(call.getService(), (KernelQedeqBo) call.getQedeq());
         checker.traverse(call.getInternalServiceProcess());
     }
 

@@ -41,6 +41,7 @@ public class KernelBoCommonTestSuite extends QedeqTestSuite {
     public KernelBoCommonTestSuite() {
         super();
         addTestSuite(BasicKernelTest.class);
+        addTestSuite(QedeqBoSetTest.class);
     }
 
 }

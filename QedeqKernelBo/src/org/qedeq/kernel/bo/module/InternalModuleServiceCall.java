@@ -30,13 +30,6 @@ import org.qedeq.kernel.se.common.ServiceCompleteness;
 public interface InternalModuleServiceCall extends ModuleServiceCall {
 
     /**
-     * Get QEDEQ module we work on.
-     *
-     * @return  QEDEQ module.
-     */
-    public KernelQedeqBo getKernelQedeq();
-
-    /**
      * Get global config parameters for service call.
      *
      * @return  Service parameter.

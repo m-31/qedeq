@@ -13,8 +13,9 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.module;
+package org.qedeq.kernel.bo.service.common;
 
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.se.common.ServiceCompleteness;
 import org.qedeq.kernel.se.visitor.InterruptException;
 

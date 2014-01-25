@@ -13,14 +13,12 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.control;
+package org.qedeq.kernel.bo.service.common;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.qedeq.kernel.bo.module.ModuleServicePlugin;
-import org.qedeq.kernel.bo.module.PluginResults;
 import org.qedeq.kernel.se.common.ModuleService;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
@@ -58,9 +56,9 @@ public class PluginResultManager {
      */
     public synchronized void setResult(final ModuleServicePlugin plugin, final SourceFileExceptionList errors,
             final SourceFileExceptionList warnings) {
-        PluginResults results = (PluginResults) plugins.get(plugin);
+        ModuleServicePluginResults results = (ModuleServicePluginResults) plugins.get(plugin);
         if (results == null) {
-            results = new PluginResults();
+            results = new ModuleServicePluginResults();
             plugins.put(plugin, results);
         }
         results.clear();
@@ -77,9 +75,9 @@ public class PluginResultManager {
      */
     public synchronized void addResult(final ModuleService plugin, final SourceFileExceptionList errors,
             final SourceFileExceptionList warnings) {
-        PluginResults results = (PluginResults) plugins.get(plugin);
+        ModuleServicePluginResults results = (ModuleServicePluginResults) plugins.get(plugin);
         if (results == null) {
-            results = new PluginResults();
+            results = new ModuleServicePluginResults();
             plugins.put(plugin, results);
         }
         results.addErrors(errors);
@@ -95,7 +93,7 @@ public class PluginResultManager {
         final SourceFileExceptionList errors = new SourceFileExceptionList();
         Iterator iterator = plugins.keySet().iterator();
         while (iterator.hasNext()) {
-            errors.add(((PluginResults) plugins.get(iterator.next())).getErrors());
+            errors.add(((ModuleServicePluginResults) plugins.get(iterator.next())).getErrors());
         }
         return errors;
     }
@@ -109,7 +107,7 @@ public class PluginResultManager {
         final SourceFileExceptionList warnings = new SourceFileExceptionList();
         Iterator iterator = plugins.keySet().iterator();
         while (iterator.hasNext()) {
-            warnings.add(((PluginResults) plugins.get(iterator.next())).getWarnings());
+            warnings.add(((ModuleServicePluginResults) plugins.get(iterator.next())).getWarnings());
         }
         return warnings;
     }
@@ -127,7 +125,7 @@ public class PluginResultManager {
                 text.append(", ");
             }
             final ModuleServicePlugin key = (ModuleServicePlugin) iterator.next();
-            PluginResults result = (PluginResults) plugins.get(key);
+            ModuleServicePluginResults result = (ModuleServicePluginResults) plugins.get(key);
             text.append(key.getServiceAction());
             text.append(" ");
             if (result.hasErrors() && result.hasWarnings()) {
