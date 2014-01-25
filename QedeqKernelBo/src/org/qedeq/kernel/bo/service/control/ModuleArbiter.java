@@ -75,12 +75,12 @@ public class ModuleArbiter {
                     try {
                         monitor.wait(10000);
                     } catch (InterruptedException e) {
-                        process.setFailureState();
+                        process.setInterruptedState();
                         throw new InterruptException(qedeq.getModuleAddress().createModuleContext());
                     }
                 }
                 if (Thread.interrupted()) {
-                    process.setFailureState();
+                    process.setInterruptedState();
                         throw new InterruptException(qedeq.getModuleAddress().createModuleContext());
                 }
             }

@@ -87,11 +87,19 @@ public interface ServiceJob extends Comparable {
     public boolean wasSuccess();
 
     /**
-     * Has the process been canceled?
+     * Has the process finished with an exception?
+     * This is also true, if the user canceled the execution. See {@link #wasInterrupted()}.
      *
-     * @return  The process has been canceled.
+     * @return  The process finished with an exception.
      */
     public boolean wasFailure();
+
+    /**
+     * Has the process execution been canceled by the user?
+     *
+     * @return  The process has been canceled by the user.
+     */
+    public boolean wasInterrupted();
 
     /**
      * Interrupt running thread. Usually because of user canceling. This should initiate a

@@ -233,7 +233,7 @@ public class ServiceCallImpl implements InternalModuleServiceCall {
             } else {
                 completeness = null;
             }
-            process.setFailureState();
+            process.setInterruptedState();
             end();
         }
     }

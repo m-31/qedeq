@@ -51,7 +51,7 @@ public class InternalServiceJobImpl implements InternalServiceJob {
     /** End time for process. */
     private long stop;
 
-    /** State for process. 0 = running, 1 = success, -1 failure. */
+    /** State for process. -1 = interrupted,  0 = running, 1 = success, 2 failure. */
     private int state;
 
     /** Action name. */
@@ -147,9 +147,16 @@ public class InternalServiceJobImpl implements InternalServiceJob {
         }
     }
 
-    public synchronized void setFailureState() {
+    public synchronized void setInterruptedState() {
         if (isRunning()) {
             state = -1;
+            stop();
+        }
+    }
+
+    public synchronized void setFailureState() {
+        if (isRunning()) {
+            state = 2;
             stop();
         }
     }
@@ -184,6 +191,10 @@ public class InternalServiceJobImpl implements InternalServiceJob {
     }
 
     public synchronized boolean wasFailure() {
+        return state == -1 || state == 2;
+    }
+
+    public synchronized boolean wasInterrupted() {
         return state == -1;
     }
 

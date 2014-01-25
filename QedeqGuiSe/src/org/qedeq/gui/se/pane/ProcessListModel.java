@@ -101,6 +101,8 @@ public class ProcessListModel extends AbstractTableModel {
         switch (col) {
         case 0: if (wasFailure(row)) {
                     return errorIcon;
+                } else if (wasInterrupted(row)) {
+                    return errorIcon;
                 } else if (wasSuccess(row)) {
                     return successIcon;
                 } else if (isWaiting(row)) {
@@ -184,10 +186,23 @@ public class ProcessListModel extends AbstractTableModel {
     }
 
     /**
-     * Was the process stopped by the user?
+     * Was the process finished normally?
      *
      * @param   row     Look at this row.
-     * @return  Was the process stopped?
+     * @return  Was the process finished normally?
+     */
+    public boolean wasSuccess(final int row) {
+        if (row >= 0 && row < process.length) {
+            return getServiceProcess(row).wasSuccess();
+        }
+        return false;
+    }
+
+    /**
+     * Did the process stop with an exception?
+     *
+     * @param   row     Look at this row.
+     * @return  Was the process stopped by an exception?
      */
     public boolean wasFailure(final int row) {
         if (row >= 0 && row < process.length) {
@@ -197,14 +212,14 @@ public class ProcessListModel extends AbstractTableModel {
     }
 
     /**
-     * Was the process finished normally?
+     * Was the process stopped by the user?
      *
      * @param   row     Look at this row.
-     * @return  Was the process finished normally?
+     * @return  Was the process stopped?
      */
-    public boolean wasSuccess(final int row) {
+    public boolean wasInterrupted(final int row) {
         if (row >= 0 && row < process.length) {
-            return getServiceProcess(row).wasSuccess();
+            return getServiceProcess(row).wasInterrupted();
         }
         return false;
     }

@@ -21,14 +21,15 @@ import java.util.List;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.KernelContext;
-import org.qedeq.kernel.bo.common.ServiceJob;
 import org.qedeq.kernel.bo.common.ModuleServiceResult;
+import org.qedeq.kernel.bo.common.ServiceJob;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleServicePlugin;
 import org.qedeq.kernel.bo.module.ModuleServicePluginExecutor;
+import org.qedeq.kernel.se.common.ModuleService;
 import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.visitor.InterruptException;
 
@@ -130,7 +131,8 @@ public class ServiceProcessManager {
      * @param   call    End this call, which should be finished, interrupted or halted before.
      */
     public void endServiceCall(final InternalModuleServiceCall call) {
-        if (call != null && ((ServiceCallImpl) call).getNewlyBlockedModule()) { // TODO 20130521 m31: do it without cast
+        // TODO 20130521 m31: do it without cast
+        if (call != null && ((ServiceCallImpl) call).getNewlyBlockedModule()) {
             unlockRequiredModule(call, call.getKernelQedeq());
         }
     }
@@ -161,8 +163,8 @@ public class ServiceProcessManager {
         return process;
     }
 
-    ModuleServiceResult executeService(final Service service, final ModuleServiceExecutor executor, final KernelQedeqBo qedeq,
-            final InternalServiceJob process) throws InterruptException {
+    ModuleServiceResult executeService(final ModuleService service, final ModuleServiceExecutor executor,
+            final KernelQedeqBo qedeq, final InternalServiceJob process) throws InterruptException {
         final String method = "executePlugin(String, KernelQedeqBo, Object)";
         if (process == null) {
             throw new NullPointerException("ServiceProcess must not be null");
@@ -188,7 +190,7 @@ public class ServiceProcessManager {
             if (call != null) {
                 call.interrupt();
             }
-            process.setFailureState();
+            process.setInterruptedState();
             throw e;
         } finally {
             endServiceCall(call);

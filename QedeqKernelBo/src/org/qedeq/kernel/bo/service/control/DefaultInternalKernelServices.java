@@ -200,7 +200,7 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
         } catch (final InterruptException e) {
             QedeqLog.getInstance().logMessage("Remove all modules failed: " + e.getMessage());
             if (proc != null) {
-                proc.setFailureState();
+                proc.setInterruptedState();
             }
         } finally {
             processManager.endServiceCall(call);
@@ -228,7 +228,7 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
                 QedeqLog.getInstance().logFailureReply(
                     "Remove failed", address.getUrl(), e.getMessage());
                 if (proc != null) {
-                    proc.setFailureState();
+                    proc.setInterruptedState();
                 }
             } finally {
                 processManager.endServiceCall(call);
@@ -337,7 +337,7 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
             }
 
         };
-        this.processManager.executeService(new Service() {
+        this.processManager.executeService(new ModuleService() {
             public String getServiceAction() {
                 return "load QEDEQ module";
             }
@@ -393,7 +393,7 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
             loadKernelModule(proc, address);
             proc.setSuccessState();
         } catch (InterruptException e) {
-            proc.setFailureState();
+            proc.setInterruptedState();
         }
         return result;
     }
@@ -588,7 +588,8 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
                                 getCanonicalReadableFile(prop);
                             } catch (ModuleFileNotFoundException e) { // file not found
                                 // we will continue by creating a local copy
-                                saveQedeqFromWebToBuffer((InternalModuleServiceCall) process.getModuleServiceCall(), prop);
+                                saveQedeqFromWebToBuffer((InternalModuleServiceCall) process.getModuleServiceCall(),
+                                    prop);
                             }
                             loadBufferedModule(process, prop);
                         }
@@ -741,7 +742,7 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
             }
         };
 
-        this.processManager.executeService(new Service() {
+        this.processManager.executeService(new ModuleService() {
             public String getServiceAction() {
                 return "saving from web to file buffer";
             }

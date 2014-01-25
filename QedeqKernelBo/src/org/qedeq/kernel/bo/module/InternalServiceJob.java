@@ -38,7 +38,12 @@ public interface InternalServiceJob extends ServiceJob {
     public void setBlocked(boolean blocked);
 
     /**
-     * Mark that thread execution was canceled.
+     * Mark that thread execution was canceled by the user.
+     */
+    public void setInterruptedState();
+
+    /**
+     * Mark that thread execution lead to an exception.
      */
     public void setFailureState();
 
