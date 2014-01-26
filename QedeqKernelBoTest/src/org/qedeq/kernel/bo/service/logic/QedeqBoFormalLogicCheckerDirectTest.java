@@ -31,7 +31,7 @@ import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.basis.ModuleLabelsCreator;
 import org.qedeq.kernel.bo.service.basis.QedeqVoBuilder;
-import org.qedeq.kernel.bo.service.common.DefaultKernelQedeqBo;
+import org.qedeq.kernel.bo.service.internal.DefaultKernelQedeqBo;
 import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;

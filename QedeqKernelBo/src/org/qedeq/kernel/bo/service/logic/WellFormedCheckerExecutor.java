@@ -41,7 +41,7 @@ import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceChecker;
 import org.qedeq.kernel.bo.service.basis.ControlVisitor;
-import org.qedeq.kernel.bo.service.common.ModuleServicePluginExecutor;
+import org.qedeq.kernel.bo.service.basis.ModuleServicePluginExecutor;
 import org.qedeq.kernel.bo.service.dependency.LoadRequiredModulesPlugin;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;

@@ -18,8 +18,8 @@ package org.qedeq.kernel.bo.service.heuristic;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.logic.model.SixDynamicModel;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.service.common.ModuleServicePlugin;
-import org.qedeq.kernel.bo.service.common.ModuleServicePluginExecutor;
+import org.qedeq.kernel.bo.service.basis.ModuleServicePlugin;
+import org.qedeq.kernel.bo.service.basis.ModuleServicePluginExecutor;
 
 
 /**

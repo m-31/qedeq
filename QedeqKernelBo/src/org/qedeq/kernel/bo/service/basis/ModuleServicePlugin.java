@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.common;
+package org.qedeq.kernel.bo.service.basis;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;

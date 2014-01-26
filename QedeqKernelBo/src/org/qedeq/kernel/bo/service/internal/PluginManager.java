@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.common;
+package org.qedeq.kernel.bo.service.internal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +24,8 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.service.basis.InternalModuleServicePlugin;
+import org.qedeq.kernel.bo.service.basis.ModuleServicePlugin;
 
 /**
  * Manage all known plugins.

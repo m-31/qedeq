@@ -59,7 +59,7 @@ import org.qedeq.kernel.bo.parser.ParserException;
 import org.qedeq.kernel.bo.parser.Term;
 import org.qedeq.kernel.bo.service.basis.Element2LatexImpl;
 import org.qedeq.kernel.bo.service.basis.Element2Utf8Impl;
-import org.qedeq.kernel.bo.service.common.DefaultKernelQedeqBo;
+import org.qedeq.kernel.bo.service.internal.DefaultKernelQedeqBo;
 import org.qedeq.kernel.bo.service.unicode.Qedeq2UnicodeVisitor;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.Proposition;

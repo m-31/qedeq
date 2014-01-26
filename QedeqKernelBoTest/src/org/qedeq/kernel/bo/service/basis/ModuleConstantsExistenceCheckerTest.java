@@ -21,7 +21,7 @@ import org.qedeq.kernel.bo.logic.common.PredicateConstant;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceChecker;
-import org.qedeq.kernel.bo.service.common.DefaultKernelQedeqBo;
+import org.qedeq.kernel.bo.service.internal.DefaultKernelQedeqBo;
 import org.qedeq.kernel.bo.service.logic.ModuleConstantsExistenceCheckerImpl;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.base.module.Axiom;

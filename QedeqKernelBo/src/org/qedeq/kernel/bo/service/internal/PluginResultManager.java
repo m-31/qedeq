@@ -13,12 +13,14 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.common;
+package org.qedeq.kernel.bo.service.internal;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.qedeq.kernel.bo.service.basis.ModuleServicePlugin;
+import org.qedeq.kernel.bo.service.basis.ModuleServicePluginResults;
 import org.qedeq.kernel.se.common.ModuleService;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 

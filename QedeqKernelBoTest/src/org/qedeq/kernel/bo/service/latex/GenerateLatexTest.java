@@ -31,7 +31,7 @@ import org.qedeq.kernel.bo.job.ServiceCallImpl;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckException;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.service.common.ModuleArbiterImpl;
+import org.qedeq.kernel.bo.service.internal.ModuleArbiterImpl;
 import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;

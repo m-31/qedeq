@@ -47,7 +47,7 @@ import org.qedeq.kernel.bo.logic.model.FourDynamicModel;
 import org.qedeq.kernel.bo.logic.model.SixDynamicModel;
 import org.qedeq.kernel.bo.logic.model.ThreeDynamicModel;
 import org.qedeq.kernel.bo.logic.model.UnaryDynamicModel;
-import org.qedeq.kernel.bo.service.common.ModuleServicePlugin;
+import org.qedeq.kernel.bo.service.basis.ModuleServicePlugin;
 import org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
 import org.qedeq.kernel.bo.service.logic.SimpleProofFinderPlugin;

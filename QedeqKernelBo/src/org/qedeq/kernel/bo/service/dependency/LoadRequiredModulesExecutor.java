@@ -27,7 +27,7 @@ import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.service.basis.ControlVisitor;
-import org.qedeq.kernel.bo.service.common.ModuleServicePluginExecutor;
+import org.qedeq.kernel.bo.service.basis.ModuleServicePluginExecutor;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.ModuleService;
 import org.qedeq.kernel.se.common.Service;

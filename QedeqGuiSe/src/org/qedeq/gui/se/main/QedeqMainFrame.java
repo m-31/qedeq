@@ -45,7 +45,7 @@ import org.qedeq.kernel.bo.log.ModuleEventListenerLog;
 import org.qedeq.kernel.bo.log.ModuleEventLog;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.log.TraceListener;
-import org.qedeq.kernel.bo.service.common.DefaultInternalKernelServices;
+import org.qedeq.kernel.bo.service.internal.DefaultInternalKernelServices;
 import org.qedeq.kernel.xml.dao.XmlQedeqFileDao;
 
 import com.jgoodies.looks.Options;

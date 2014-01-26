@@ -18,8 +18,8 @@ package org.qedeq.kernel.bo.service.logic;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.logic.ProofCheckerFactoryImpl;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.service.common.InternalModuleServicePlugin;
-import org.qedeq.kernel.bo.service.common.ModuleServicePluginExecutor;
+import org.qedeq.kernel.bo.service.basis.InternalModuleServicePlugin;
+import org.qedeq.kernel.bo.service.basis.ModuleServicePluginExecutor;
 
 
 /**

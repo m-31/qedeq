@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.common;
+package org.qedeq.kernel.bo.service.internal;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -47,6 +47,7 @@ import org.qedeq.kernel.bo.module.ModuleArbiter;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.basis.ModuleFileNotFoundException;
 import org.qedeq.kernel.bo.service.basis.ModuleLabelsCreator;
+import org.qedeq.kernel.bo.service.basis.ModuleServiceExecutor;
 import org.qedeq.kernel.bo.service.basis.QedeqVoBuilder;
 import org.qedeq.kernel.bo.service.basis.ServiceErrors;
 import org.qedeq.kernel.bo.service.dependency.LoadDirectlyRequiredModulesPlugin;

@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.common;
+package org.qedeq.kernel.bo.service.internal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +31,9 @@ import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleArbiter;
+import org.qedeq.kernel.bo.service.basis.ModuleServiceExecutor;
+import org.qedeq.kernel.bo.service.basis.ModuleServicePlugin;
+import org.qedeq.kernel.bo.service.basis.ModuleServicePluginExecutor;
 import org.qedeq.kernel.se.common.ModuleService;
 import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.visitor.InterruptException;
