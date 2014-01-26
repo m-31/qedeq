@@ -26,7 +26,6 @@ import org.qedeq.kernel.bo.logic.common.PredicateConstant;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
 import org.qedeq.kernel.bo.logic.common.SubjectVariable;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.service.control.DefaultKernelQedeqBo;
 import org.qedeq.kernel.bo.service.unicode.Latex2UnicodeParser;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
@@ -257,8 +256,7 @@ public class DynamicDirectInterpreter {
                     final String external = label.substring(0, label.indexOf("."));
                     newProp = null;
                     if (qedeq.getKernelRequiredModules() != null) {
-                        newProp = (DefaultKernelQedeqBo)
-                            qedeq.getKernelRequiredModules().getQedeqBo(external);
+                        newProp = qedeq.getKernelRequiredModules().getKernelQedeqBo(external);
                     }
                     if (newProp == null) {
                         setLocationWithinModule(context + ".getList().getOperator()");
@@ -529,8 +527,7 @@ public class DynamicDirectInterpreter {
                     final String external = label.substring(0, label.indexOf("."));
                     newProp = null;
                     if (qedeq.getKernelRequiredModules() != null) {
-                        newProp = (DefaultKernelQedeqBo)
-                            qedeq.getKernelRequiredModules().getQedeqBo(external);
+                        newProp = qedeq.getKernelRequiredModules().getKernelQedeqBo(external);
                     }
                     if (newProp == null) {
                         setLocationWithinModule(context + ".getList().getOperator()");
