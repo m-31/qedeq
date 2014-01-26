@@ -22,7 +22,7 @@ import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.service.control.ControlVisitor;
+import org.qedeq.kernel.bo.service.basis.ControlVisitor;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Author;
