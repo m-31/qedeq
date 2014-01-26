@@ -32,8 +32,6 @@ import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.service.control.DefaultKernelQedeqBo;
-import org.qedeq.kernel.bo.service.control.ServiceProcessManager;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.state.LoadingState;
