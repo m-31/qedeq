@@ -26,7 +26,6 @@ import org.qedeq.kernel.bo.logic.common.PredicateConstant;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
 import org.qedeq.kernel.bo.logic.common.SubjectVariable;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.service.control.DefaultKernelQedeqBo;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
@@ -528,8 +527,7 @@ public class DynamicInterpreter {
                 final String shortName = label.substring(label.indexOf(".") + 1);
                 final String external = label.substring(0, label.indexOf("."));
                 if (qedeq.getKernelRequiredModules() != null) {
-                    final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo)
-                        qedeq.getKernelRequiredModules().getQedeqBo(external);
+                    final KernelQedeqBo newProp = qedeq.getKernelRequiredModules().getKernelQedeqBo(external);
                     if (newProp != null) {
                         FunctionDefinition definition = newProp.getLabels().getFunction(shortName,
                             termList.size() - 1);

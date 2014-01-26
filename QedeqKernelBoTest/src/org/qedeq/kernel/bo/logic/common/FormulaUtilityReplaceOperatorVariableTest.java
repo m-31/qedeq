@@ -17,8 +17,8 @@ package org.qedeq.kernel.bo.logic.common;
 
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.bo.module.ModuleLabels;
-import org.qedeq.kernel.bo.service.control.Element2LatexImpl;
-import org.qedeq.kernel.bo.service.control.Element2Utf8Impl;
+import org.qedeq.kernel.bo.service.basis.Element2LatexImpl;
+import org.qedeq.kernel.bo.service.basis.Element2Utf8Impl;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.xml.parser.BasicParser;
 
