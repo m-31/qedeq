@@ -34,9 +34,11 @@ import org.qedeq.base.io.TextInput;
 import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.kernel.bo.common.Element2Latex;
+import org.qedeq.kernel.bo.common.Element2Utf8;
+import org.qedeq.kernel.bo.common.Kernel;
 import org.qedeq.kernel.bo.common.KernelProperties;
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.bo.common.Kernel;
 import org.qedeq.kernel.bo.common.ServiceJob;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
@@ -44,6 +46,7 @@ import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleArbiter;
+import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.basis.ModuleFileNotFoundException;
 import org.qedeq.kernel.bo.service.basis.ModuleLabelsCreator;
@@ -511,9 +514,11 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
         // This should be the extended load status.
         final ModuleLabelsCreator moduleNodesCreator = new ModuleLabelsCreator(this, prop);
         try {
-            moduleNodesCreator.createLabels(process);
-            prop.setLoaded(vo, moduleNodesCreator.getLabels(), moduleNodesCreator.getConverter(),
-                moduleNodesCreator.getTextConverter());
+            final ModuleLabels labels = new ModuleLabels();
+            final Element2LatexImpl converter = new Element2LatexImpl(labels);
+            final Element2Utf8 textConverter = new Element2Utf8Impl(converter);
+            moduleNodesCreator.createLabels(process, labels);
+            prop.setLoaded(vo, labels, converter, textConverter);
         } catch (SourceFileExceptionList sfl) {
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, sfl);
             throw sfl;

@@ -110,7 +110,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      *
      * @return  QEDEQ module were are in.
      */
-    public KernelQedeqBo getQedeqBo() {
+    public KernelQedeqBo getKernelQedeqBo() {
         return this.prop;
     }
 
@@ -121,10 +121,10 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      */
     public KernelNodeBo getNodeBo() {
         final Node node = traverser.getNode();
-        if (node == null || getQedeqBo() == null) {
+        if (node == null || getKernelQedeqBo() == null) {
             return null;
         }
-        return getQedeqBo().getLabels().getNode(node.getId());
+        return getKernelQedeqBo().getLabels().getNode(node.getId());
     }
 
     /**
@@ -142,17 +142,17 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
     public void traverse(final InternalServiceJob process) throws SourceFileExceptionList {
         this.call = process.getInternalServiceCall();
         interrupted = false;
-        if (getQedeqBo().getQedeq() == null) {
+        if (getKernelQedeqBo().getQedeq() == null) {
             addWarning(new SourceFileException(getService(),
                 ModuleErrors.QEDEQ_MODULE_NOT_LOADED_CODE,
                 ModuleErrors.QEDEQ_MODULE_NOT_LOADED_TEXT,
                 new IllegalArgumentException(),
-                new SourceArea(getQedeqBo().getModuleAddress().getUrl()),
+                new SourceArea(getKernelQedeqBo().getModuleAddress().getUrl()),
                 null));
             return; // we can do nothing without a loaded module
         }
         try {
-            this.traverser.accept(getQedeqBo().getQedeq());
+            this.traverser.accept(getKernelQedeqBo().getQedeq());
         } catch (InterruptException ie) {
             addError(ie);
             interrupted = true;
@@ -382,14 +382,14 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
             return new DefaultReference(node, null, "", node, node.getNodeVo().getId(), "", reference);
         }
         // is the reference a pure node label?
-        if (getQedeqBo().getLabels().isNode(reference)) {
-            return new DefaultReference(node, null, "", getQedeqBo().getLabels().getNode(
+        if (getKernelQedeqBo().getLabels().isNode(reference)) {
+            return new DefaultReference(node, null, "", getKernelQedeqBo().getLabels().getNode(
                 reference), reference, "", "");
         }
         // do we have an external module reference without node?
-        if (getQedeqBo().getLabels().isModule(reference)) {
+        if (getKernelQedeqBo().getLabels().isModule(reference)) {
             return new DefaultReference(node,
-                 (KernelQedeqBo) getQedeqBo().getLabels().getReferences().getQedeqBo(reference),
+                 (KernelQedeqBo) getKernelQedeqBo().getLabels().getReferences().getQedeqBo(reference),
                  reference, null, "", "", "");
 
         }
@@ -468,10 +468,10 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
         KernelQedeqBo module = null;
         KernelNodeBo eNode = null;
         if (moduleLabel != null && moduleLabel.length() > 0) {
-            module = getQedeqBo().getKernelRequiredModules().getKernelQedeqBo(moduleLabel);
+            module = getKernelQedeqBo().getKernelRequiredModules().getKernelQedeqBo(moduleLabel);
             eNode = (module != null ? module.getLabels().getNode(nodeLabel) : null);
         } else {
-            eNode = getQedeqBo().getLabels().getNode(nodeLabel);
+            eNode = getKernelQedeqBo().getLabels().getNode(nodeLabel);
         }
         if ((moduleLabel != null && moduleLabel.length() > 0) &&  module == null) {
             if (addWarning) {
@@ -573,7 +573,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      */
     public void setLocationWithinModule(final String locationWithinModule) {
         getCurrentContext().setLocationWithinModule(locationWithinModule);
-        getServices().getContextChecker().checkContext(getQedeqBo().getQedeq(), getCurrentContext());
+        getServices().getContextChecker().checkContext(getKernelQedeqBo().getQedeq(), getCurrentContext());
     }
 
     /**

@@ -121,19 +121,19 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements M
     }
 
     public Object executePlugin(final InternalModuleServiceCall call, final Object data) {
-        getServices().checkWellFormedness(call.getInternalServiceProcess(), getQedeqBo());
-        QedeqLog.getInstance().logRequest("Trying to create formal proofs", getQedeqBo().getUrl());
+        getServices().checkWellFormedness(call.getInternalServiceProcess(), getKernelQedeqBo());
+        QedeqLog.getInstance().logRequest("Trying to create formal proofs", getKernelQedeqBo().getUrl());
         try {
             validFormulas = new FormalProofLineListVo();
             traverse(call.getInternalServiceProcess());
             QedeqLog.getInstance().logSuccessfulReply(
-                "Proof creation finished for", getQedeqBo().getUrl());
+                "Proof creation finished for", getKernelQedeqBo().getUrl());
         } catch (SourceFileExceptionList e) {
             final String msg = "Proof creation not (fully?) successful";
-            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), e.getMessage());
+            QedeqLog.getInstance().logFailureReply(msg, getKernelQedeqBo().getUrl(), e.getMessage());
             return Boolean.FALSE;
         } finally {
-            getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
+            getKernelQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
         }
         return Boolean.TRUE;
     }
@@ -213,9 +213,9 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements M
                 finder.findProof(proposition.getFormula().getElement(), validFormulas,
                     getCurrentContext(), parameters, new ModuleLogListener() {
                         public void logMessageState(final String text) {
-                            QedeqLog.getInstance().logMessageState(text, getQedeqBo().getUrl());
+                            QedeqLog.getInstance().logMessageState(text, getKernelQedeqBo().getUrl());
                         }
-                    }, getQedeqBo().getElement2Utf8());
+                    }, getKernelQedeqBo().getElement2Utf8());
             } catch (ProofFoundException e) {
                 proof = e.getProofLines();
             } catch (ProofNotFoundException e) {
@@ -229,7 +229,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements M
                 // TODO 20110323 m31: we do a dirty cast to modify the current module
                 Object state;
                 try {
-                    state = YodaUtility.getFieldValue(getQedeqBo(), "stateManager");
+                    state = YodaUtility.getFieldValue(getKernelQedeqBo(), "stateManager");
                     YodaUtility.executeMethod(state, "setWellFormedState", new Class[] {
                         WellFormedState.class},
                         new Object[] {WellFormedState.STATE_UNCHECKED});
@@ -248,13 +248,13 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements M
             }
             if (proof != null && !noSave) {
                 final File file = getServices().getLocalFilePath(
-                    getQedeqBo().getModuleAddress());
+                    getKernelQedeqBo().getModuleAddress());
                 try {
                     QedeqLog.getInstance().logMessage(
                         "Saving file \"" + file + "\"");
                     QedeqFileDao dao = getServices().getQedeqFileDao();
-                    dao.saveQedeq(getInternalServiceCall().getInternalServiceProcess(), getQedeqBo(), file);
-                    if (!getQedeqBo().getModuleAddress().isFileAddress()) {
+                    dao.saveQedeq(getInternalServiceCall().getInternalServiceProcess(), getKernelQedeqBo(), file);
+                    if (!getKernelQedeqBo().getModuleAddress().isFileAddress()) {
                         QedeqLog.getInstance().logMessage("Only the the buffered file changed!");
                     }
                 } catch (Exception e) {

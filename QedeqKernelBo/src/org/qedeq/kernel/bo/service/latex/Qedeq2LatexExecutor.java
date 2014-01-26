@@ -169,8 +169,8 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
     public Object executePlugin(final InternalModuleServiceCall call, final Object data) {
         final String method = "executePlugin(QedeqBo, Map)";
         try {
-            QedeqLog.getInstance().logRequest("Generate LaTeX", getQedeqBo().getUrl());
-            final String[] languages = getQedeqBo().getSupportedLanguages();
+            QedeqLog.getInstance().logRequest("Generate LaTeX", getKernelQedeqBo().getUrl());
+            final String[] languages = getKernelQedeqBo().getSupportedLanguages();
             for (int j = 0; j < languages.length; j++) {
                 language = languages[j];
 //                level = "1";
@@ -178,11 +178,11 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
                 if (languages[j] != null) {
                     QedeqLog.getInstance().logSuccessfulReply(
                         "LaTeX for language \"" + languages[j]
-                        + "\" was generated from into \"" + result + "\"", getQedeqBo().getUrl());
+                        + "\" was generated from into \"" + result + "\"", getKernelQedeqBo().getUrl());
                 } else {
                     QedeqLog.getInstance().logSuccessfulReply(
                         "LaTeX for default language "
-                        + "was generated into \"" + result + "\"", getQedeqBo().getUrl());
+                        + "was generated into \"" + result + "\"", getKernelQedeqBo().getUrl());
                 }
             }
             if (languages.length == 0) {
@@ -190,20 +190,20 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
                 final String result = generateLatex(call, "en", "1").toString();
                 QedeqLog.getInstance().logSuccessfulReply(
                     "LaTeX for language \"en"
-                    + "\" was generated into \"" + result + "\"", getQedeqBo().getUrl());
+                    + "\" was generated into \"" + result + "\"", getKernelQedeqBo().getUrl());
             }
         } catch (final SourceFileExceptionList e) {
             final String msg = "Generation failed";
             Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), e.getMessage());
+            QedeqLog.getInstance().logFailureReply(msg, getKernelQedeqBo().getUrl(), e.getMessage());
         } catch (IOException e) {
             final String msg = "Generation failed";
             Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), e.getMessage());
+            QedeqLog.getInstance().logFailureReply(msg, getKernelQedeqBo().getUrl(), e.getMessage());
         } catch (final RuntimeException e) {
             Trace.fatal(CLASS, this, method, "unexpected problem", e);
             QedeqLog.getInstance().logFailureReply(
-                "Generation failed", getQedeqBo().getUrl(), "unexpected problem: "
+                "Generation failed", getKernelQedeqBo().getUrl(), "unexpected problem: "
                 + (e.getMessage() != null ? e.getMessage() : e.toString()));
         }
         return null;
@@ -244,13 +244,13 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
 //        this.level = level;
         // first we try to get more information about required modules and their predicates..
         try {
-            getServices().loadRequiredModules(call.getInternalServiceProcess(), getQedeqBo());
-            getServices().checkWellFormedness(call.getInternalServiceProcess(), getQedeqBo());
+            getServices().loadRequiredModules(call.getInternalServiceProcess(), getKernelQedeqBo());
+            getServices().checkWellFormedness(call.getInternalServiceProcess(), getKernelQedeqBo());
         } catch (Exception e) {
             // we continue and ignore external predicates
             Trace.trace(CLASS, method, e);
         }
-        String tex = getQedeqBo().getModuleAddress().getFileName();
+        String tex = getKernelQedeqBo().getModuleAddress().getFileName();
         if (tex.toLowerCase(Locale.US).endsWith(".xml")) {
             tex = tex.substring(0, tex.length() - 4);
         }
@@ -267,14 +267,14 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
         try {
             // TODO 20110204 m31: here we should choose the correct encoding; perhaps GUI configurable?
             if ("de".equals(language)) {
-                printer = new TextOutput(getQedeqBo().getName(), new FileOutputStream(destination),
+                printer = new TextOutput(getKernelQedeqBo().getName(), new FileOutputStream(destination),
                     "ISO-8859-1") {
                     public void append(final String txt) {
                         super.append(escapeUmlauts(txt));
                     }
                 };
             } else {
-                printer = new TextOutput(getQedeqBo().getName(), new FileOutputStream(destination),
+                printer = new TextOutput(getKernelQedeqBo().getName(), new FileOutputStream(destination),
                     "UTF-8") {
                     public void append(final String txt) {
                         super.append(escapeUmlauts(txt));
@@ -283,7 +283,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
             }
             traverse(call.getInternalServiceProcess());
         } finally {
-            getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
+            getKernelQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
             if (printer != null) {
                 printer.flush();
                 printer.close();
@@ -295,7 +295,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
         try {
             QedeqBoDuplicateLanguageChecker.check(call);
         } catch (SourceFileExceptionList warnings) {
-            getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), null, warnings);
+            getKernelQedeqBo().addPluginErrorsAndWarnings(getPlugin(), null, warnings);
         }
         return destination.getCanonicalFile();
     }
@@ -314,7 +314,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
             + (language != null ? ":" + language.toUpperCase(Locale.US) : "") + " -*-");
         printer.println("%%% ====================================================================");
         printer.println("%%% @LaTeX-file    " + printer.getName());
-        printer.println("%%% Generated from " + getQedeqBo().getModuleAddress());
+        printer.println("%%% Generated from " + getKernelQedeqBo().getModuleAddress());
         printer.println("%%% Generated at   " + DateUtility.getTimestamp());
         printer.println("%%% ====================================================================");
         printer.println();
@@ -414,7 +414,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
         printer.print(getLatexListEntry("getTitle()", tit));
         printer.println("}");
         printer.println("\\author{");
-        final AuthorList authors = getQedeqBo().getQedeq().getHeader().getAuthorList();
+        final AuthorList authors = getKernelQedeqBo().getQedeq().getHeader().getAuthorList();
         final StringBuffer authorList = new StringBuffer();
         for (int i = 0; i < authors.size(); i++) {
             if (i > 0) {
@@ -441,7 +441,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
         printer.println("\\mbox{}");
         printer.println("\\vfill");
         printer.println();
-        final String url = getQedeqBo().getUrl();
+        final String url = getKernelQedeqBo().getUrl();
         if (url != null && url.length() > 0) {
             printer.println("\\par");
             if ("de".equals(language)) {
@@ -531,7 +531,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
         if (spec.getLocationList() != null && spec.getLocationList().size() > 0
                 && spec.getLocationList().get(0).getLocation().length() > 0) {
             printer.print(" ");
-            printer.print("\\url{" + getPdfLink((KernelQedeqBo) getQedeqBo()
+            printer.print("\\url{" + getPdfLink((KernelQedeqBo) getKernelQedeqBo()
                 .getLabels().getReferences().getQedeqBo(imp.getLabel())) + "}");
         }
         printer.println();
@@ -796,7 +796,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
             label = "";
         }
         if (line.getFormula() != null) {
-            formula = "$" + getQedeqBo().getElement2Latex().getLatex(line.getFormula().getElement()) + "$";
+            formula = "$" + getKernelQedeqBo().getElement2Latex().getLatex(line.getFormula().getElement()) + "$";
         } else {
             formula = "";
         }
@@ -893,11 +893,11 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
         }
         reason = getRuleReference(r.getName());
         if (r.getOriginalSubjectVariable() != null) {
-            reason += " $" + getQedeqBo().getElement2Latex().getLatex(
+            reason += " $" + getKernelQedeqBo().getElement2Latex().getLatex(
                 r.getOriginalSubjectVariable()) + "$";
         }
         if (r.getReplacementSubjectVariable() != null) {
-            reason += " by $" + getQedeqBo().getElement2Latex().getLatex(
+            reason += " by $" + getKernelQedeqBo().getElement2Latex().getLatex(
                 r.getReplacementSubjectVariable()) + "$";
         }
         if (r.getReference() != null) {
@@ -911,11 +911,11 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
         }
         reason = getRuleReference(r.getName());
         if (r.getSubjectVariable() != null) {
-            reason += " $" + getQedeqBo().getElement2Latex().getLatex(
+            reason += " $" + getKernelQedeqBo().getElement2Latex().getLatex(
                 r.getSubjectVariable()) + "$";
         }
         if (r.getSubstituteTerm() != null) {
-            reason += " by $" + getQedeqBo().getElement2Latex().getLatex(
+            reason += " by $" + getKernelQedeqBo().getElement2Latex().getLatex(
                 r.getSubstituteTerm()) + "$";
         }
         if (r.getReference() != null) {
@@ -929,11 +929,11 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
         }
         reason = getRuleReference(r.getName());
         if (r.getFunctionVariable() != null) {
-            reason += " $" + getQedeqBo().getElement2Latex().getLatex(
+            reason += " $" + getKernelQedeqBo().getElement2Latex().getLatex(
                 r.getFunctionVariable()) + "$";
         }
         if (r.getSubstituteTerm() != null) {
-            reason += " by $" + getQedeqBo().getElement2Latex().getLatex(
+            reason += " by $" + getKernelQedeqBo().getElement2Latex().getLatex(
                 r.getSubstituteTerm()) + "$";
         }
         if (r.getReference() != null) {
@@ -947,11 +947,11 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
         }
         reason = getRuleReference(r.getName());
         if (r.getPredicateVariable() != null) {
-            reason += " $" + getQedeqBo().getElement2Latex().getLatex(
+            reason += " $" + getKernelQedeqBo().getElement2Latex().getLatex(
                 r.getPredicateVariable()) + "$";
         }
         if (r.getSubstituteFormula() != null) {
-            reason += " by $" + getQedeqBo().getElement2Latex().getLatex(
+            reason += " by $" + getKernelQedeqBo().getElement2Latex().getLatex(
                 r.getSubstituteFormula()) + "$";
         }
         if (r.getReference() != null) {
@@ -965,7 +965,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
         }
         reason = getRuleReference(r.getName());
         if (r.getSubjectVariable() != null) {
-            reason += " with $" + getQedeqBo().getElement2Latex().getLatex(
+            reason += " with $" + getKernelQedeqBo().getElement2Latex().getLatex(
                 r.getSubjectVariable()) + "$";
         }
         if (r.getReference() != null) {
@@ -979,7 +979,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
         }
         reason = getRuleReference(r.getName());
         if (r.getSubjectVariable() != null) {
-            reason += " with $" + getQedeqBo().getElement2Latex().getLatex(
+            reason += " with $" + getKernelQedeqBo().getElement2Latex().getLatex(
                 r.getSubjectVariable()) + "$";
         }
         if (r.getReference() != null) {
@@ -1018,7 +1018,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
             label = hypothesis.getLabel();
         }
         if (hypothesis.getFormula() != null) {
-            formula = "$" + getQedeqBo().getElement2Latex().getLatex(
+            formula = "$" + getKernelQedeqBo().getElement2Latex().getLatex(
                 hypothesis.getFormula().getElement()) + "$";
         }
     }
@@ -1040,7 +1040,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
             label = conclusion.getLabel();
         }
         if (conclusion.getFormula() != null) {
-            formula = "$" + getQedeqBo().getElement2Latex().getLatex(
+            formula = "$" + getKernelQedeqBo().getElement2Latex().getLatex(
                     conclusion.getFormula().getElement()) + "$";
         }
     }
@@ -1180,8 +1180,8 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
             + (rule.getName() != null ? "  Name: \\verb]" + rule.getName() + "]" : "")
             + (rule.getVersion() != null ? "  -  Version: \\verb]" + rule.getVersion() + "]" : ""));
         RuleKey old = getLocalRuleKey(rule.getName());
-        if (old == null && getQedeqBo().getExistenceChecker() != null) {
-            old = getQedeqBo().getExistenceChecker().getParentRuleKey(rule.getName());
+        if (old == null && getKernelQedeqBo().getExistenceChecker() != null) {
+            old = getKernelQedeqBo().getExistenceChecker().getParentRuleKey(rule.getName());
         }
         if (old != null) {
             printer.print("  -  Old Version: "
@@ -1210,7 +1210,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
             }
             printer.println("\\addcontentsline{toc}{chapter}{Bibliography}");
         }
-        final ImportList imports = getQedeqBo().getQedeq().getHeader().getImportList();
+        final ImportList imports = getKernelQedeqBo().getQedeq().getHeader().getImportList();
         if (imports != null && imports.size() > 0) {
             printer.println();
             printer.println();
@@ -1228,7 +1228,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
                     //   Also get other informations like authors, title, etc.
                     //   It might also be better to link to URL?
 //                    printer.print("\\url{" + getUrl(getQedeqBo().getModuleAddress(), spec) + "}");
-                    printer.print("\\url{" + getPdfLink((KernelQedeqBo) getQedeqBo()
+                    printer.print("\\url{" + getPdfLink((KernelQedeqBo) getKernelQedeqBo()
                         .getLabels().getReferences().getQedeqBo(imp.getLabel())) + "}");
                 }
                 printer.println();
@@ -1241,7 +1241,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
     }
 
     public void visitLeave(final LiteratureItemList list) {
-        final UsedByList usedby = getQedeqBo().getQedeq().getHeader().getUsedByList();
+        final UsedByList usedby = getKernelQedeqBo().getQedeq().getHeader().getUsedByList();
         if (usedby != null && usedby.size() > 0) {
             printer.println();
             printer.println();
@@ -1250,7 +1250,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
                 final Specification spec = usedby.get(i);
                 printer.print("\\bibitem{" + spec.getName() + "} ");
                 printer.print(getLatex(spec.getName()));
-                final String url = getUrl(getQedeqBo().getModuleAddress(), spec);
+                final String url = getUrl(getKernelQedeqBo().getModuleAddress(), spec);
                 if (url != null && url.length() > 0) {
                     printer.print(" ");
                     printer.print("\\url{" + url + "}");
@@ -1324,7 +1324,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
      * @return  LaTeX form of element.
      */
     private String getLatex(final Element element) {
-        return getQedeqBo().getElement2Latex().getLatex(element);
+        return getKernelQedeqBo().getElement2Latex().getLatex(element);
     }
 
     /**
@@ -1355,7 +1355,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
                 }
             }
             // OK, we didn't found the language, so we take the default language
-            final String def = getQedeqBo().getOriginalLanguage();
+            final String def = getKernelQedeqBo().getOriginalLanguage();
             for (int i = 0; i < list.size(); i++) {
                 if (EqualsUtility.equals(def, list.get(i).getLanguage())) {
                     if (method.length() > 0) {
@@ -1519,23 +1519,23 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
         final String method = "getRuleReference(String, String)";
         Trace.param(CLASS, this, method, "ruleName", ruleName);
         RuleKey key = getLocalRuleKey(ruleName);
-        if (key == null && getQedeqBo().getExistenceChecker() != null) {
-            key = getQedeqBo().getExistenceChecker().getParentRuleKey(ruleName);
+        if (key == null && getKernelQedeqBo().getExistenceChecker() != null) {
+            key = getKernelQedeqBo().getExistenceChecker().getParentRuleKey(ruleName);
         }
         if (key == null) {
-            key = getQedeqBo().getLabels().getRuleKey(ruleName);
+            key = getKernelQedeqBo().getLabels().getRuleKey(ruleName);
         }
-        KernelQedeqBo qedeq = getQedeqBo();
-        if (getQedeqBo().getExistenceChecker() != null) {
-            qedeq = getQedeqBo().getExistenceChecker().getQedeq(key);
+        KernelQedeqBo qedeq = getKernelQedeqBo();
+        if (getKernelQedeqBo().getExistenceChecker() != null) {
+            qedeq = getKernelQedeqBo().getExistenceChecker().getQedeq(key);
         }
-        String localRef = getQedeqBo().getLabels().getRuleLabel(key);
+        String localRef = getKernelQedeqBo().getLabels().getRuleLabel(key);
         final String refRuleName = qedeq.getLabels().getRule(key).getName();
         if (!ruleName.equals(refRuleName)) {
             localRef += "!" + ruleName;
         }
         qedeq.getLabels().getRule(key).getName();
-        boolean local = getQedeqBo().equals(qedeq);
+        boolean local = getKernelQedeqBo().equals(qedeq);
         if (local) {
             return "\\hyperlink{" + localRef + "}{" + caption + "}";
         }

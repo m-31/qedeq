@@ -24,14 +24,19 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
+import org.qedeq.kernel.bo.common.Element2Utf8;
 import org.qedeq.kernel.bo.logic.common.FormulaChecker;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckException;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
+import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
+import org.qedeq.kernel.bo.service.basis.KernelBoServiceTestSuite;
 import org.qedeq.kernel.bo.service.basis.ModuleLabelsCreator;
 import org.qedeq.kernel.bo.service.basis.QedeqVoBuilder;
 import org.qedeq.kernel.bo.service.internal.DefaultKernelQedeqBo;
+import org.qedeq.kernel.bo.service.internal.Element2LatexImpl;
+import org.qedeq.kernel.bo.service.internal.Element2Utf8Impl;
 import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
@@ -167,9 +172,12 @@ public final class QedeqBoFormalLogicCheckerDirectTest extends QedeqBoTestCase {
         final ModuleLabelsCreator creator = new ModuleLabelsCreator(DummyPlugin.getInstance(),
             prop);
         call = createServiceCall("check", prop);
-        creator.createLabels(call.getInternalServiceProcess());
+        final ModuleLabels labels = new ModuleLabels();
+        final Element2LatexImpl converter = new Element2LatexImpl(labels);
+        final Element2Utf8 textConverter = new Element2Utf8Impl(converter);
+        creator.createLabels(call.getInternalServiceProcess(), labels);
         prop.setLoaded(QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq),
-            creator.getLabels(), creator.getConverter(), creator.getTextConverter());
+            labels, converter, textConverter);
         prop.setLoadedImports(new KernelModuleReferenceList());
         prop.setLoadedRequiredModules();
         final WellFormedCheckerPlugin plugin = new WellFormedCheckerPlugin();

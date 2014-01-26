@@ -184,7 +184,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         try {
             traverse(process);
         } finally {
-            getQedeqBo().addPluginErrorsAndWarnings((ModuleService) getService(), getErrorList(), getWarningList());
+            getKernelQedeqBo().addPluginErrorsAndWarnings((ModuleService) getService(), getErrorList(), getWarningList());
         }
     }
 
@@ -246,7 +246,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         if (printer instanceof TextOutput) {
             printer.println("================================================================================");
             printer.println("UTF-8-file     " + ((TextOutput) printer).getName());
-            printer.println("Generated from " + getQedeqBo().getModuleAddress());
+            printer.println("Generated from " + getKernelQedeqBo().getModuleAddress());
             printer.println("Generated at   " + DateUtility.getTimestamp());
             printer.println("================================================================================");
             printer.println();
@@ -272,7 +272,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         final LatexList tit = header.getTitle();
         underlineBig(getLatexListEntry("getTitle()", tit));
         printer.println();
-        final AuthorList authors = getQedeqBo().getQedeq().getHeader().getAuthorList();
+        final AuthorList authors = getKernelQedeqBo().getQedeq().getHeader().getAuthorList();
         final StringBuffer authorList = new StringBuffer();
         for (int i = 0; i < authors.size(); i++) {
             if (i > 0) {
@@ -290,7 +290,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         }
         printer.println();
         printer.println();
-        final String url = getQedeqBo().getUrl();
+        final String url = getKernelQedeqBo().getUrl();
         if (url != null && url.length() > 0) {
             printer.println();
             if ("de".equals(language)) {
@@ -847,7 +847,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     public void visitEnter(final Universal r) throws ModuleDataException {
         String buffer = r.getName();
         if (r.getSubjectVariable() != null) {
-            buffer += " with " + getQedeqBo().getElement2Utf8().getUtf8(
+            buffer += " with " + getKernelQedeqBo().getElement2Utf8().getUtf8(
                 r.getSubjectVariable());
         }
         if (r.getReference() != null) {
@@ -1058,7 +1058,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
      * Print all imports if any.
      */
     private void printImports() {
-        final ImportList imports = getQedeqBo().getQedeq().getHeader().getImportList();
+        final ImportList imports = getKernelQedeqBo().getQedeq().getHeader().getImportList();
         if (imports != null && imports.size() > 0) {
             printer.println();
             printer.println();
@@ -1076,7 +1076,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
                 if (spec.getLocationList() != null && spec.getLocationList().size() > 0
                         && spec.getLocationList().get(0).getLocation().length() > 0) {
                     printer.print("  ");
-                    printer.print(getUrl(getQedeqBo().getModuleAddress(), spec));
+                    printer.print(getUrl(getKernelQedeqBo().getModuleAddress(), spec));
                 }
                 printer.println();
             }
@@ -1086,7 +1086,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     }
 
     public void visitLeave(final LiteratureItemList list) {
-        final UsedByList usedby = getQedeqBo().getQedeq().getHeader().getUsedByList();
+        final UsedByList usedby = getKernelQedeqBo().getQedeq().getHeader().getUsedByList();
         if (usedby != null && usedby.size() > 0) {
             printer.println();
             printer.println();
@@ -1098,7 +1098,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
             for (int i = 0; i < usedby.size(); i++) {
                 final Specification spec = usedby.get(i);
                 printer.print(spec.getName());
-                final String url = getUrl(getQedeqBo().getModuleAddress(), spec);
+                final String url = getUrl(getKernelQedeqBo().getModuleAddress(), spec);
                 if (url != null && url.length() > 0) {
                     printer.print("  ");
                     printer.print(url);
@@ -1182,7 +1182,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
                 }
             }
             // OK, we didn't found the language, so we take the default language
-            final String def = getQedeqBo().getOriginalLanguage();
+            final String def = getKernelQedeqBo().getOriginalLanguage();
             for (int i = 0; i < list.size(); i++) {
                 if (EqualsUtility.equals(def, list.get(i).getLanguage())) {
                     if (method.length() > 0) {
@@ -1269,7 +1269,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
      * @return  UTF-8 form of element.
      */
     protected String[] getUtf8(final Element element, final int max) {
-        return getQedeqBo().getElement2Utf8().getUtf8(element, max);
+        return getKernelQedeqBo().getElement2Utf8().getUtf8(element, max);
     }
 
 
@@ -1280,7 +1280,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
      * @return  UTF-8 form of element.
      */
     protected String getUtf8(final Element element) {
-        return getUtf8(getQedeqBo().getElement2Latex().getLatex(element));
+        return getUtf8(getKernelQedeqBo().getElement2Latex().getLatex(element));
     }
 
     /**

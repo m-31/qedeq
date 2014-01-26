@@ -86,18 +86,18 @@ public class Qedeq2Utf8Executor implements ModuleServicePluginExecutor {
     public Object executePlugin(final InternalModuleServiceCall call, final Object data) {
         final String method = "executePlugin()";
         try {
-            QedeqLog.getInstance().logRequest("Generate UTF-8", visitor.getQedeqBo().getUrl());
-            languages = visitor.getQedeqBo().getSupportedLanguages();
+            QedeqLog.getInstance().logRequest("Generate UTF-8", visitor.getKernelQedeqBo().getUrl());
+            languages = visitor.getKernelQedeqBo().getSupportedLanguages();
             for (run = 0; run < languages.length; run++) {
                 final String result = generateUtf8(call.getInternalServiceProcess(), languages[run], "1");
                 if (languages[run] != null) {
                     QedeqLog.getInstance().logSuccessfulReply(
                         "UTF-8 for language \"" + languages[run]
-                        + "\" was generated into \"" + result + "\"", visitor.getQedeqBo().getUrl());
+                        + "\" was generated into \"" + result + "\"", visitor.getKernelQedeqBo().getUrl());
                 } else {
                     QedeqLog.getInstance().logSuccessfulReply(
                         "UTF-8 for default language "
-                        + "was generated into \"" + result + "\"", visitor.getQedeqBo().getUrl());
+                        + "was generated into \"" + result + "\"", visitor.getKernelQedeqBo().getUrl());
                 }
             }
             if (languages.length == 0) {
@@ -105,20 +105,20 @@ public class Qedeq2Utf8Executor implements ModuleServicePluginExecutor {
                 final String result = generateUtf8(call.getInternalServiceProcess(), "en", "1");
                 QedeqLog.getInstance().logSuccessfulReply(
                     "UTF-8 for language \"en"
-                    + "\" was generated into \"" + result + "\"", visitor.getQedeqBo().getUrl());
+                    + "\" was generated into \"" + result + "\"", visitor.getKernelQedeqBo().getUrl());
             }
         } catch (final SourceFileExceptionList e) {
             final String msg = "Generation failed";
             Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, visitor.getQedeqBo().getUrl(), e.getMessage());
+            QedeqLog.getInstance().logFailureReply(msg, visitor.getKernelQedeqBo().getUrl(), e.getMessage());
         } catch (IOException e) {
             final String msg = "Generation failed";
             Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, visitor.getQedeqBo().getUrl(), e.getMessage());
+            QedeqLog.getInstance().logFailureReply(msg, visitor.getKernelQedeqBo().getUrl(), e.getMessage());
         } catch (final RuntimeException e) {
             Trace.fatal(CLASS, this, method, "unexpected problem", e);
             QedeqLog.getInstance().logFailureReply(
-                "Generation failed", visitor.getQedeqBo().getUrl(), "unexpected problem: "
+                "Generation failed", visitor.getKernelQedeqBo().getUrl(), "unexpected problem: "
                 + (e.getMessage() != null ? e.getMessage() : e.toString()));
         }
         return null;
@@ -141,10 +141,10 @@ public class Qedeq2Utf8Executor implements ModuleServicePluginExecutor {
 
         // first we try to get more information about required modules and their predicates..
         try {
-            visitor.getQedeqBo().getKernelServices().loadRequiredModules(
-                process, visitor.getQedeqBo());
-            visitor.getQedeqBo().getKernelServices().checkWellFormedness(
-                process, visitor.getQedeqBo());
+            visitor.getKernelQedeqBo().getKernelServices().loadRequiredModules(
+                process, visitor.getKernelQedeqBo());
+            visitor.getKernelQedeqBo().getKernelServices().checkWellFormedness(
+                process, visitor.getKernelQedeqBo());
         } catch (Exception e) {
             // we continue and ignore external predicates
             Trace.trace(CLASS, "generateUtf8(KernelQedeqBo, String, String)", e);
@@ -158,7 +158,7 @@ public class Qedeq2Utf8Executor implements ModuleServicePluginExecutor {
 //        } else {
 //            this.level = level;
 //        }
-        String txt = visitor.getQedeqBo().getModuleAddress().getFileName();
+        String txt = visitor.getKernelQedeqBo().getModuleAddress().getFileName();
         if (txt.toLowerCase(Locale.US).endsWith(".xml")) {
             txt = txt.substring(0, txt.length() - 4);
         }
@@ -167,7 +167,7 @@ public class Qedeq2Utf8Executor implements ModuleServicePluginExecutor {
         }
         destination = new File(KernelContext.getInstance().getConfig()
             .getGenerationDirectory(), txt + ".txt").getCanonicalFile();
-        printer = new TextOutput(visitor.getQedeqBo().getName(), new FileOutputStream(destination),
+        printer = new TextOutput(visitor.getKernelQedeqBo().getName(), new FileOutputStream(destination),
             "UTF-8");
 
         try {

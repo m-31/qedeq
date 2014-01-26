@@ -22,13 +22,17 @@ import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.test.DynamicGetter;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
+import org.qedeq.kernel.bo.common.Element2Utf8;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.internal.DefaultInternalKernelServices;
 import org.qedeq.kernel.bo.service.internal.DefaultKernelQedeqBo;
+import org.qedeq.kernel.bo.service.internal.Element2LatexImpl;
+import org.qedeq.kernel.bo.service.internal.Element2Utf8Impl;
 import org.qedeq.kernel.bo.service.internal.ServiceProcessManager;
 import org.qedeq.kernel.bo.service.latex.QedeqBoDuplicateLanguageChecker;
 import org.qedeq.kernel.bo.test.DummyPlugin;
@@ -126,13 +130,16 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
         final ModuleLabelsCreator mc = new ModuleLabelsCreator(DummyPlugin.getInstance(),
             prop);
         InternalModuleServiceCall call = null;
+        final ModuleLabels labels = new ModuleLabels();
+        final Element2LatexImpl converter = new Element2LatexImpl(labels);
+        final Element2Utf8 textConverter = new Element2Utf8Impl(converter);
         try {
             call = createServiceCall("createQedeq", prop);
-            mc.createLabels(call.getInternalServiceProcess());
+            mc.createLabels(call.getInternalServiceProcess(), labels);
         } finally {
             endServiceCall(call);
         }
-        prop.setLoaded(vo, mc.getLabels(), mc.getConverter(), mc.getTextConverter());
+        prop.setLoaded(vo, labels, converter, textConverter);
         KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
         KernelFacade.getKernelContext().checkWellFormedness(prop.getModuleAddress());
         if (!prop.isWellFormed()) {

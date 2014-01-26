@@ -49,19 +49,13 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     /** QEDEQ module labels, definitions, references, etc. */
     private ModuleLabels labels;
 
-    /** Converter to LaTeX. */
-    private Element2LatexImpl converter;
-
-    /** Converter to UTF-8 text. */
-    private Element2Utf8Impl textConverter;
-
     /** Current node id. */
     private String nodeId = "";
 
     /**
      * Constructor.
      *
-     * @param   service      This service we work for.
+     * @param   service     This service we work for.
      * @param   prop        Internal QedeqBo.
      */
     public ModuleLabelsCreator(final Service service, final KernelQedeqBo prop) {
@@ -128,7 +122,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     public void visitLeave(final Node node) {
         nodeId = "";
         try {
-            labels.addNode(getCurrentContext(), (NodeVo) node, getQedeqBo(),
+            labels.addNode(getCurrentContext(), (NodeVo) node, getKernelQedeqBo(),
                 getCurrentNumbers());
         } catch (ModuleDataException me) {
             addError(me);
@@ -138,16 +132,16 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     }
 
     /**
-     * Create QEDEQ module labels and Element2Latex converter.
+     * Fill QEDEQ module labels and Element2Latex and Element2Utf8 converter.
      *
-     * @param   process We work for this process.
+     * @param   process         We work for this process.
+     * @param   labels          Herein the labels are filled.
      * @throws  SourceFileExceptionList Traverse lead to errors.
      */
-    public void createLabels(final InternalServiceJob process) throws SourceFileExceptionList {
+    public void createLabels(final InternalServiceJob process, final ModuleLabels labels)
+            throws SourceFileExceptionList {
         if (this.labels == null) {
-            this.labels = new ModuleLabels();
-            this.converter = new Element2LatexImpl(this.labels);
-            this.textConverter = new Element2Utf8Impl(this.converter);
+            this.labels = labels;
             traverse(process);
         }
     }
@@ -158,24 +152,6 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      * @return  QEDEQ module labels. */
     public ModuleLabels getLabels() {
         return labels;
-    }
-
-    /**
-     * Get converter for module elements.
-     *
-     * @return  Element to LaTeX converter.
-     */
-    public Element2Latex getConverter() {
-        return converter;
-    }
-
-    /**
-     * Get converter for module elements.
-     *
-     * @return  Element to UTF-8 converter.
-     */
-    public Element2Utf8 getTextConverter() {
-        return textConverter;
     }
 
 }

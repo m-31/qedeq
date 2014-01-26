@@ -12,11 +12,11 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  */
-package org.qedeq.kernel.bo.service.basis;
+package org.qedeq.kernel.bo.service.internal;
 
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.bo.module.ModuleLabels;
-import org.qedeq.kernel.bo.service.basis.Element2LatexImpl;
+import org.qedeq.kernel.bo.service.internal.Element2LatexImpl;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.dto.list.DefaultAtom;
 import org.qedeq.kernel.se.dto.list.DefaultElementList;

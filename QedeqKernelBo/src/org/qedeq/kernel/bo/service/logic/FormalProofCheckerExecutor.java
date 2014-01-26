@@ -120,17 +120,17 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         // we set this as module rule version, and hope it will be changed
         ruleVersion = new Version("0.00.00");
         QedeqLog.getInstance().logRequest(
-                "Check logical correctness", getQedeqBo().getUrl());
-        getServices().checkWellFormedness(call.getInternalServiceProcess(), getQedeqBo());
-        if (!getQedeqBo().isWellFormed()) {
+                "Check logical correctness", getKernelQedeqBo().getUrl());
+        getServices().checkWellFormedness(call.getInternalServiceProcess(), getKernelQedeqBo());
+        if (!getKernelQedeqBo().isWellFormed()) {
             final String msg = "Check of logical correctness failed";
-            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
+            QedeqLog.getInstance().logFailureReply(msg, getKernelQedeqBo().getUrl(),
                 "Module is not even well formed.");
             return Boolean.FALSE;
         }
-        getQedeqBo().setFormallyProvedProgressState(FormallyProvedState.STATE_EXTERNAL_CHECKING);
-        getQedeqBo().getLabels().resetNodesToProvedUnchecked();
-        final KernelModuleReferenceList list = getQedeqBo().getKernelRequiredModules();
+        getKernelQedeqBo().setFormallyProvedProgressState(FormallyProvedState.STATE_EXTERNAL_CHECKING);
+        getKernelQedeqBo().getLabels().resetNodesToProvedUnchecked();
+        final KernelModuleReferenceList list = getKernelQedeqBo().getKernelRequiredModules();
         for (int i = 0; i < list.size(); i++) {
             Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label", list.getLabel(i));
             getServices().checkFormallyProved(call.getInternalServiceProcess(), list.getKernelQedeqBo(i));
@@ -143,28 +143,28 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
             }
         }
         // has at least one import errors?
-        if (getQedeqBo().hasErrors()) {
-            getQedeqBo().setFormallyProvedFailureState(FormallyProvedState.STATE_EXTERNAL_CHECKING_FAILED,
+        if (getKernelQedeqBo().hasErrors()) {
+            getKernelQedeqBo().setFormallyProvedFailureState(FormallyProvedState.STATE_EXTERNAL_CHECKING_FAILED,
                 getErrorList());
             final String msg = "Check of logical correctness failed";
-            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
-                 StringUtility.replace(getQedeqBo().getErrors().getMessage(), "\n", "\n\t"));
+            QedeqLog.getInstance().logFailureReply(msg, getKernelQedeqBo().getUrl(),
+                 StringUtility.replace(getKernelQedeqBo().getErrors().getMessage(), "\n", "\n\t"));
             return Boolean.FALSE;
         }
-        getQedeqBo().setFormallyProvedProgressState(FormallyProvedState.STATE_INTERNAL_CHECKING);
+        getKernelQedeqBo().setFormallyProvedProgressState(FormallyProvedState.STATE_INTERNAL_CHECKING);
         try {
             traverse(call.getInternalServiceProcess());
         } catch (SourceFileExceptionList e) {
-            getQedeqBo().setFormallyProvedFailureState(FormallyProvedState.STATE_INTERNAL_CHECKING_FAILED,
+            getKernelQedeqBo().setFormallyProvedFailureState(FormallyProvedState.STATE_INTERNAL_CHECKING_FAILED,
                 getErrorList());
             final String msg = "Check of logical correctness failed";
-            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
+            QedeqLog.getInstance().logFailureReply(msg, getKernelQedeqBo().getUrl(),
                  StringUtility.replace(e.getMessage(), "\n", "\n\t"));
             return Boolean.FALSE;
         }
-        getQedeqBo().setFormallyProvedProgressState(FormallyProvedState.STATE_CHECKED);
+        getKernelQedeqBo().setFormallyProvedProgressState(FormallyProvedState.STATE_CHECKED);
         QedeqLog.getInstance().logSuccessfulReply(
-            "Check of logical correctness successful", getQedeqBo().getUrl());
+            "Check of logical correctness successful", getKernelQedeqBo().getUrl());
         return Boolean.TRUE;
     }
 
@@ -441,7 +441,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
     }
 
     public Element getNormalizedFormula(final Element formula) {
-        return getNormalizedFormula(getQedeqBo(), formula);
+        return getNormalizedFormula(getKernelQedeqBo(), formula);
     }
 
     private Element getNormalizedFormula(final KernelQedeqBo qedeq, final Element formula) {
@@ -502,7 +502,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
     public RuleKey getRule(final String ruleName) {
         final RuleKey local = getLocalRuleKey(ruleName);
         if (local == null) {
-            return getQedeqBo().getExistenceChecker().getParentRuleKey(
+            return getKernelQedeqBo().getExistenceChecker().getParentRuleKey(
             ruleName);
         }
         return local;

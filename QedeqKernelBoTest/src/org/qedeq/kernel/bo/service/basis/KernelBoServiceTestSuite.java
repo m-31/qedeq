@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.service.basis;
 import junit.framework.Test;
 
 import org.qedeq.base.test.QedeqTestSuite;
+import org.qedeq.kernel.bo.service.internal.Element2LatexImplTest;
 import org.qedeq.kernel.bo.service.logic.QedeqBoFormalLogicCheckerDirectTest;
 import org.qedeq.kernel.bo.service.logic.QedeqBoFormalLogicCheckerTest;
 

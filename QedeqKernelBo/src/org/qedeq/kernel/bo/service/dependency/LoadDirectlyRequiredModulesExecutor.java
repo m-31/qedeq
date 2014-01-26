@@ -58,15 +58,15 @@ public final class LoadDirectlyRequiredModulesExecutor extends ControlVisitor
     }
 
     public Object executePlugin(final InternalModuleServiceCall call, final Object data) {
-        if (getQedeqBo().hasLoadedImports()) {
-            return getQedeqBo().getRequiredModules();
+        if (getKernelQedeqBo().hasLoadedImports()) {
+            return getKernelQedeqBo().getRequiredModules();
         }
         this.required = new KernelModuleReferenceList();
         try {
             super.traverse(call.getInternalServiceProcess());
-            getQedeqBo().setLoadedImports(required);
+            getKernelQedeqBo().setLoadedImports(required);
         } catch (final SourceFileExceptionList sfl) {
-            getQedeqBo().setLoadingImportsFailureState(
+            getKernelQedeqBo().setLoadingImportsFailureState(
                 LoadingImportsState.STATE_LOADING_IMPORTS_FAILED, sfl);
         }
         return required;
@@ -91,9 +91,9 @@ public final class LoadDirectlyRequiredModulesExecutor extends ControlVisitor
         final ModuleContext context = getCurrentContext();
         context.setLocationWithinModule(context.getLocationWithinModule() + ".getLabel()");
         try {
-            final KernelQedeqBo propNew = getQedeqBo().getKernelServices().loadModule(
+            final KernelQedeqBo propNew = getKernelQedeqBo().getKernelServices().loadModule(
                 getInternalServiceCall().getInternalServiceProcess(),
-                getQedeqBo().getModuleAddress(), imp.getSpecification());
+                getKernelQedeqBo().getModuleAddress(), imp.getSpecification());
             getRequired().addLabelUnique(context, imp.getLabel(), propNew);
             Trace.param(CLASS, "visitEnter(Import)", "adding context", getCurrentContext());
         } catch (SourceFileExceptionList e) {

@@ -25,8 +25,12 @@ import org.qedeq.base.test.DynamicGetter;
 import org.qedeq.base.test.ObjectProxy;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.common.Element2Utf8;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
+import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.service.internal.DefaultKernelQedeqBo;
+import org.qedeq.kernel.bo.service.internal.Element2LatexImpl;
+import org.qedeq.kernel.bo.service.internal.Element2Utf8Impl;
 import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
@@ -107,7 +111,8 @@ public class QedeqBoFactoryTest extends QedeqBoTestCase {
             // checking any longer
             final ModuleLabelsCreator creator = new ModuleLabelsCreator(DummyPlugin.getInstance(), prop);
             call = createServiceCall("testCreateStringQedeq1", prop);
-            creator.createLabels(call.getInternalServiceProcess());
+            final ModuleLabels labels = new ModuleLabels();
+            creator.createLabels(call.getInternalServiceProcess(), labels);
             fail("SourceFileExceptionList expected");
         } catch (SourceFileExceptionList e) {
             SourceFileException sf = e.get(0);

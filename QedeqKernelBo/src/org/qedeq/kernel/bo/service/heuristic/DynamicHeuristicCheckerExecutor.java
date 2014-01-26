@@ -111,10 +111,10 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
     public Object executePlugin(final InternalModuleServiceCall call, final Object data) {
         final String method = "executePlugin()";
         try {
-            QedeqLog.getInstance().logRequest("Dynamic heuristic test", getQedeqBo().getUrl());
+            QedeqLog.getInstance().logRequest("Dynamic heuristic test", getKernelQedeqBo().getUrl());
             // first we try to get more information about required modules and their predicates..
             try {
-                getServices().checkWellFormedness(call.getInternalServiceProcess(), getQedeqBo());
+                getServices().checkWellFormedness(call.getInternalServiceProcess(), getKernelQedeqBo());
             } catch (Exception e) {
                 // we continue and ignore external predicates
                 Trace.trace(CLASS, method, e);
@@ -122,18 +122,18 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
             condition = new DefaultElementList(Operators.CONJUNCTION_OPERATOR);
             traverse(call.getInternalServiceProcess());
             QedeqLog.getInstance().logSuccessfulReply(
-                "Heuristic test succesfull", getQedeqBo().getUrl());
+                "Heuristic test succesfull", getKernelQedeqBo().getUrl());
         } catch (final SourceFileExceptionList e) {
             final String msg = "Test failed";
             Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), e.getMessage());
+            QedeqLog.getInstance().logFailureReply(msg, getKernelQedeqBo().getUrl(), e.getMessage());
         } catch (final RuntimeException e) {
             Trace.fatal(CLASS, this, method, "unexpected problem", e);
             QedeqLog.getInstance().logFailureReply(
-                "Test failed", getQedeqBo().getUrl(), "unexpected problem: "
+                "Test failed", getKernelQedeqBo().getUrl(), "unexpected problem: "
                 + (e.getMessage() != null ? e.getMessage() : e.toString()));
         } finally {
-            getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
+            getKernelQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
         }
         return null;
     }
@@ -232,7 +232,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
             return;
         }
         final String context = getCurrentContext().getLocationWithinModule();
-        QedeqLog.getInstance().logMessageState("\ttesting axiom", getQedeqBo().getUrl());
+        QedeqLog.getInstance().logMessageState("\ttesting axiom", getKernelQedeqBo().getUrl());
         if (axiom.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula().getElement()");
             final Element test = axiom.getFormula().getElement();
@@ -253,7 +253,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
             return;
         }
         QedeqLog.getInstance().logMessageState("\ttesting initial predicate definition",
-            getQedeqBo().getUrl());
+            getKernelQedeqBo().getUrl());
         final String context = getCurrentContext().getLocationWithinModule();
         try {
             ModelPredicateConstant predicate = new ModelPredicateConstant(
@@ -292,7 +292,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
             return;
         }
         QedeqLog.getInstance().logMessageState("\ttesting predicate definition",
-            getQedeqBo().getUrl());
+            getKernelQedeqBo().getUrl());
         final String context = getCurrentContext().getLocationWithinModule();
         try {
             // test new predicate constant: must always be successful otherwise there
@@ -322,7 +322,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
             return;
         }
         QedeqLog.getInstance().logMessageState("\ttesting initial function definition",
-            getQedeqBo().getUrl());
+            getKernelQedeqBo().getUrl());
         final String context = getCurrentContext().getLocationWithinModule();
         try {
             ModelFunctionConstant function = new ModelFunctionConstant(definition.getName(),
@@ -359,7 +359,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
             return;
         }
         QedeqLog.getInstance().logMessageState("\ttesting function definition",
-            getQedeqBo().getUrl());
+            getKernelQedeqBo().getUrl());
         final String context = getCurrentContext().getLocationWithinModule();
         // test new predicate constant: must always be successful otherwise there
         // must be a programming error or the predicate definition is not formal correct
@@ -375,7 +375,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
 
     public void visitEnter(final Node node) {
         QedeqLog.getInstance().logMessageState(super.getLocationDescription(),
-            getQedeqBo().getUrl());
+            getKernelQedeqBo().getUrl());
     }
 
     public void visitEnter(final Proposition proposition)
@@ -383,7 +383,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         if (proposition == null) {
             return;
         }
-        QedeqLog.getInstance().logMessageState("\ttesting proposition", getQedeqBo().getUrl());
+        QedeqLog.getInstance().logMessageState("\ttesting proposition", getKernelQedeqBo().getUrl());
         final String context = getCurrentContext().getLocationWithinModule();
         if (proposition.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula().getElement()");
@@ -403,7 +403,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
             return;
         }
         QedeqLog.getInstance().logMessageState("\t\ttesting line " + line.getLabel(),
-            getQedeqBo().getUrl());
+            getKernelQedeqBo().getUrl());
         final String context = getCurrentContext().getLocationWithinModule();
         if (line.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula().getElement()");
@@ -427,7 +427,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
                 && line.getHypothesis().getFormula().getElement() != null) {
             condition.add(line.getHypothesis().getFormula().getElement());
             QedeqLog.getInstance().logMessageState("\t\tadd condit. "
-                + line.getHypothesis().getLabel(), getQedeqBo().getUrl());
+                + line.getHypothesis().getLabel(), getKernelQedeqBo().getUrl());
         }
     }
 
@@ -441,7 +441,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
             condition.remove(condition.size() - 1);
         }
         QedeqLog.getInstance().logMessageState("\t\ttesting line "
-            + line.getConclusion().getLabel(), getQedeqBo().getUrl());
+            + line.getConclusion().getLabel(), getKernelQedeqBo().getUrl());
         final String context = getCurrentContext().getLocationWithinModule();
         if (line.getConclusion().getFormula() != null) {
             setLocationWithinModule(context + ".getConclusion().getFormula().getElement()");

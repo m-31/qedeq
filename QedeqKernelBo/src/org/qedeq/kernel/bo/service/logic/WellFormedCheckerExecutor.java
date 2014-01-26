@@ -135,26 +135,26 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements M
     }
 
     public Object executePlugin(final InternalModuleServiceCall call, final Object data) throws InterruptException {
-        if (getQedeqBo().isWellFormed()) {
+        if (getKernelQedeqBo().isWellFormed()) {
             return Boolean.TRUE;
         }
         QedeqLog.getInstance().logRequest(
-            "Check logical well formedness", getQedeqBo().getUrl());
-        if (!getQedeqBo().hasLoadedRequiredModules()) {
+            "Check logical well formedness", getKernelQedeqBo().getUrl());
+        if (!getKernelQedeqBo().hasLoadedRequiredModules()) {
             getServices().executePlugin(call.getInternalServiceProcess(),
-                LoadRequiredModulesPlugin.class.getName(), getQedeqBo(), null);
+                LoadRequiredModulesPlugin.class.getName(), getKernelQedeqBo(), null);
         }
-        if (!getQedeqBo().hasLoadedRequiredModules()) {
+        if (!getKernelQedeqBo().hasLoadedRequiredModules()) {
             final String msg = "Check of logical well formedness failed";
-            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
+            QedeqLog.getInstance().logFailureReply(msg, getKernelQedeqBo().getUrl(),
                 "Not all required modules could be loaded.");
             return Boolean.FALSE;
         }
-        getQedeqBo().setWellFormedProgressState(WellFormedState.STATE_EXTERNAL_CHECKING);
-        getQedeqBo().getLabels().resetNodesToWellFormedUnchecked();
+        getKernelQedeqBo().setWellFormedProgressState(WellFormedState.STATE_EXTERNAL_CHECKING);
+        getKernelQedeqBo().getLabels().resetNodesToWellFormedUnchecked();
         final SourceFileExceptionList sfl = new SourceFileExceptionList();
         final Map rules = new HashMap(); // map RuleKey to KernelQedeqBo
-        final KernelModuleReferenceList list = getQedeqBo().getKernelRequiredModules();
+        final KernelModuleReferenceList list = getKernelQedeqBo().getKernelRequiredModules();
         for (int i = 0; i < list.size(); i++) {
             Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label", list.getLabel(i));
             getServices().checkWellFormedness(call.getInternalServiceProcess(), list.getKernelQedeqBo(i));
@@ -164,7 +164,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements M
                     LogicErrors.MODULE_IMPORT_CHECK_FAILED_TEXT
                     + list.getQedeqBo(i).getModuleAddress(),
                     list.getModuleContext(i));
-                sfl.add(getQedeqBo().createSourceFileException(getService(), md));
+                sfl.add(getKernelQedeqBo().createSourceFileException(getService(), md));
             }
             final ModuleConstantsExistenceChecker existenceChecker
                 = list.getKernelQedeqBo(i).getExistenceChecker();
@@ -180,7 +180,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements M
                             LogicErrors.RULE_DECLARED_IN_DIFFERENT_IMPORT_MODULES_TEXT
                             + key + " " + previousQedeq.getUrl() + " " + newQedeq.getUrl(),
                             list.getModuleContext(i));
-                        sfl.add(getQedeqBo().createSourceFileException(getService(), md));
+                        sfl.add(getKernelQedeqBo().createSourceFileException(getService(), md));
                     } else {
                         rules.put(key, newQedeq);
                     }
@@ -189,33 +189,33 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements M
         }
         // has at least one import errors?
         if (sfl.size() > 0) {
-            getQedeqBo().setWellfFormedFailureState(WellFormedState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
+            getKernelQedeqBo().setWellfFormedFailureState(WellFormedState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
             final String msg = "Check of logical well formedness failed";
-            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
+            QedeqLog.getInstance().logFailureReply(msg, getKernelQedeqBo().getUrl(),
                  StringUtility.replace(sfl.getMessage(), "\n", "\n\t"));
             return Boolean.FALSE;
         }
-        getQedeqBo().setWellFormedProgressState(WellFormedState.STATE_INTERNAL_CHECKING);
+        getKernelQedeqBo().setWellFormedProgressState(WellFormedState.STATE_INTERNAL_CHECKING);
 
         try {
             traverse(call.getInternalServiceProcess());
         } catch (SourceFileExceptionList e) {
-            getQedeqBo().setWellfFormedFailureState(WellFormedState.STATE_INTERNAL_CHECKING_FAILED, e);
-            getQedeqBo().setExistenceChecker(existence);
+            getKernelQedeqBo().setWellfFormedFailureState(WellFormedState.STATE_INTERNAL_CHECKING_FAILED, e);
+            getKernelQedeqBo().setExistenceChecker(existence);
             final String msg = "Check of logical well formedness failed";
-            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
+            QedeqLog.getInstance().logFailureReply(msg, getKernelQedeqBo().getUrl(),
                  StringUtility.replace(sfl.getMessage(), "\n", "\n\t"));
             return Boolean.FALSE;
         }
-        getQedeqBo().setWellFormed(existence);
+        getKernelQedeqBo().setWellFormed(existence);
         QedeqLog.getInstance().logSuccessfulReply(
-            "Check of logical well formedness successful", getQedeqBo().getUrl());
+            "Check of logical well formedness successful", getKernelQedeqBo().getUrl());
         return Boolean.TRUE;
     }
 
     public void traverse(final InternalServiceJob process) throws SourceFileExceptionList {
         try {
-            this.existence = new ModuleConstantsExistenceCheckerImpl(getQedeqBo());
+            this.existence = new ModuleConstantsExistenceCheckerImpl(getKernelQedeqBo());
         } catch (ModuleDataException me) {
             addError(me);
             throw getErrorList();
@@ -224,13 +224,13 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements M
 
         // check if we have the important module parts
         setLocationWithinModule("");
-        if (getQedeqBo().getQedeq().getHeader() == null) {
+        if (getKernelQedeqBo().getQedeq().getHeader() == null) {
             addError(new IllegalModuleDataException(
                 LogicErrors.MODULE_HAS_NO_HEADER_CODE,
                 LogicErrors.MODULE_HAS_NO_HEADER_TEXT,
                 getCurrentContext()));
         }
-        if (getQedeqBo().getQedeq().getHeader().getSpecification() == null) {
+        if (getKernelQedeqBo().getQedeq().getHeader().getSpecification() == null) {
             addError(new IllegalModuleDataException(
                 LogicErrors.MODULE_HAS_NO_HEADER_SPECIFICATION_CODE,
                 LogicErrors.MODULE_HAS_NO_HEADER_SPECIFICATION_TEXT,
@@ -433,7 +433,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements M
         if ("2".equals(predicateKey.getArguments())
                 && ExistenceChecker.NAME_EQUAL.equals(predicateKey.getName())) {
             existence.setIdentityOperatorDefined(predicateKey.getName(),
-                getQedeqBo(), getCurrentContext());
+                getKernelQedeqBo(), getCurrentContext());
         }
         // if we found no errors this node is ok
         if (!getNodeBo().isNotWellFormed()) {
@@ -468,7 +468,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements M
         if ("2".equals(predicateKey.getArguments())
                 && ExistenceChecker.NAME_EQUAL.equals(predicateKey.getName())) {
             existence.setIdentityOperatorDefined(predicateKey.getName(),
-                    getQedeqBo(), getCurrentContext());
+                    getKernelQedeqBo(), getCurrentContext());
         }
         // if we found no errors this node is ok
         if (!getNodeBo().isNotWellFormed()) {
@@ -895,7 +895,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements M
                 if (CLASS_DEFINITION_VIA_FORMULA_RULE.equals(ruleKey)) {
                     // FIXME 20080114 m31: check if this rule can be proposed
                     // are the preconditions for using this rule fulfilled?
-                    existence.setClassOperatorModule(getQedeqBo(),
+                    existence.setClassOperatorModule(getKernelQedeqBo(),
                         getCurrentContext());
                 }
                 existence.add(ruleKey, rule);
@@ -940,7 +940,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements M
                             addError(new IllegalModuleDataException(
                                 LogicErrors.RULE_HAS_BEEN_DECLARED_BEFORE_CODE,
                                 LogicErrors.RULE_HAS_BEEN_DECLARED_BEFORE_TEXT
-                                + ruleName, getCurrentContext(), getQedeqBo().getLabels()
+                                + ruleName, getCurrentContext(), getKernelQedeqBo().getLabels()
                                 .getRuleContext(key2)));
                         } else {
                             try {
@@ -948,14 +948,14 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements M
                                     addError(new IllegalModuleDataException(
                                         LogicErrors.NEW_RULE_HAS_LOWER_VERSION_NUMBER_CODE,
                                         LogicErrors.NEW_RULE_HAS_LOWER_VERSION_NUMBER_TEXT
-                                        + key1 + " " + key2, getCurrentContext(), getQedeqBo().getLabels()
+                                        + key1 + " " + key2, getCurrentContext(), getKernelQedeqBo().getLabels()
                                         .getRuleContext(key2)));
                                 }
                             } catch (RuntimeException e) {
                                 addError(new IllegalModuleDataException(
                                     LogicErrors.OLD_OR_NEW_RULE_HAS_INVALID_VERSION_NUMBER_PATTERN_CODE,
                                     LogicErrors.OLD_OR_NEW_RULE_HAS_INVALID_VERSION_NUMBER_PATTERN_TEXT
-                                    + key1 + " " + key2, getCurrentContext(), getQedeqBo().getLabels()
+                                    + key1 + " " + key2, getCurrentContext(), getKernelQedeqBo().getLabels()
                                     .getRuleContext(key2)));
                             }
                         }

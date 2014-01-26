@@ -73,22 +73,22 @@ public final class Qedeq2UnicodeTextExecutor implements ModuleServicePluginExecu
         final String method = "executePlugin()";
         String result = "";
         try {
-            QedeqLog.getInstance().logRequest("Show UTF-8 text", visitor.getQedeqBo().getUrl());
+            QedeqLog.getInstance().logRequest("Show UTF-8 text", visitor.getKernelQedeqBo().getUrl());
             result = generateUtf8(call.getInternalServiceProcess(), language, "1");
             QedeqLog.getInstance().logSuccessfulReply(
-                "UTF-8 text was shown", visitor.getQedeqBo().getUrl());
+                "UTF-8 text was shown", visitor.getKernelQedeqBo().getUrl());
         } catch (final SourceFileExceptionList e) {
             final String msg = "Generation failed";
             Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, visitor.getQedeqBo().getUrl(), e.getMessage());
+            QedeqLog.getInstance().logFailureReply(msg, visitor.getKernelQedeqBo().getUrl(), e.getMessage());
         } catch (IOException e) {
             final String msg = "Generation failed";
             Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, visitor.getQedeqBo().getUrl(), e.getMessage());
+            QedeqLog.getInstance().logFailureReply(msg, visitor.getKernelQedeqBo().getUrl(), e.getMessage());
         } catch (final RuntimeException e) {
             Trace.fatal(CLASS, this, method, "unexpected problem", e);
             QedeqLog.getInstance().logFailureReply(
-                "Generation failed", visitor.getQedeqBo().getUrl(), "unexpected problem: "
+                "Generation failed", visitor.getKernelQedeqBo().getUrl(), "unexpected problem: "
                 + (e.getMessage() != null ? e.getMessage() : e.toString()));
         }
         return result;

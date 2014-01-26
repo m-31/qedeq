@@ -21,6 +21,8 @@ import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.service.internal.DefaultKernelQedeqBo;
+import org.qedeq.kernel.bo.service.internal.Element2LatexImpl;
+import org.qedeq.kernel.bo.service.internal.Element2Utf8Impl;
 import org.qedeq.kernel.bo.service.logic.ModuleConstantsExistenceCheckerImpl;
 import org.qedeq.kernel.bo.test.DummyInternalKernelServices;
 import org.qedeq.kernel.bo.test.DummyPlugin;

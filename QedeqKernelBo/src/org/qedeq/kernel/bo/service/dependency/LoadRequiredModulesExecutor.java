@@ -65,55 +65,55 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
     public Object executePlugin(final InternalModuleServiceCall call, final Object data) throws InterruptException {
         percentage = 0;
         final String method = "executePlugin";
-        if (getQedeqBo().hasLoadedRequiredModules()) {
+        if (getKernelQedeqBo().hasLoadedRequiredModules()) {
             percentage = 100;
             return Boolean.TRUE; // everything is OK
         }
         QedeqLog.getInstance().logRequest(
-            "Loading required modules", getQedeqBo().getUrl());
+            "Loading required modules", getKernelQedeqBo().getUrl());
         // all QedeqBos currently in state "loading required modules"
         Map loadingRequiredInProgress = (Map) data;
         if (loadingRequiredInProgress == null) {
             loadingRequiredInProgress = new HashMap();
         }
         // remember service that currently locked this module
-        final Service service = getQedeqBo().getCurrentlyRunningService();
+        final Service service = getKernelQedeqBo().getCurrentlyRunningService();
         // we unlock the currently locked module to get rid of death locks
-        getQedeqBo().getKernelServices().unlockModule(call.getInternalServiceProcess(), getQedeqBo());
-        if (!loadAllRequiredModules(call, getQedeqBo())) {
+        getKernelQedeqBo().getKernelServices().unlockModule(call.getInternalServiceProcess(), getKernelQedeqBo());
+        if (!loadAllRequiredModules(call, getKernelQedeqBo())) {
             try {
-                getQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getQedeqBo(),
+                getKernelQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getKernelQedeqBo(),
                      service);
             } catch (InterruptException e) {    // TODO 20130521 m31: ok?
                 call.interrupt();
             }
             final String msg = "Loading required modules failed";
-            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
+            QedeqLog.getInstance().logFailureReply(msg, getKernelQedeqBo().getUrl(),
                 "Not all required modules could not even be loaded.");
-            getQedeqBo().setDependencyFailureState(
-                DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, getQedeqBo().getErrors());
+            getKernelQedeqBo().setDependencyFailureState(
+                DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, getKernelQedeqBo().getErrors());
             return Boolean.FALSE;
         }
         try {
-            getQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getQedeqBo(),
+            getKernelQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getKernelQedeqBo(),
                 service);
         } catch (InterruptException e) {    // TODO 20130521 m31: ok?
             call.interrupt();
             return Boolean.FALSE;
         }
-        if (loadingRequiredInProgress.containsKey(getQedeqBo())) { // already checked?
+        if (loadingRequiredInProgress.containsKey(getKernelQedeqBo())) { // already checked?
             throw new IllegalStateException("Programming error: must not be marked!");
         }
-        getQedeqBo().setDependencyProgressState(DependencyState.STATE_LOADING_REQUIRED_MODULES);
+        getKernelQedeqBo().setDependencyProgressState(DependencyState.STATE_LOADING_REQUIRED_MODULES);
 
-        loadingRequiredInProgress.put(getQedeqBo(), getQedeqBo());
+        loadingRequiredInProgress.put(getKernelQedeqBo(), getKernelQedeqBo());
 
-        final KernelModuleReferenceList required = (KernelModuleReferenceList) getQedeqBo().getRequiredModules();
+        final KernelModuleReferenceList required = (KernelModuleReferenceList) getKernelQedeqBo().getRequiredModules();
 
-        getQedeqBo().getKernelServices().unlockModule(call.getInternalServiceProcess(), getQedeqBo());
+        getKernelQedeqBo().getKernelServices().unlockModule(call.getInternalServiceProcess(), getKernelQedeqBo());
 
         final SourceFileExceptionList sfl = new SourceFileExceptionList();
-        Trace.trace(CLASS, this, method, "loading required modules of " + getQedeqBo().getUrl());
+        Trace.trace(CLASS, this, method, "loading required modules of " + getKernelQedeqBo().getUrl());
         for (int i = 0; i < required.size(); i++) {
             percentage = 100 * (double) i / required.size();
             final KernelQedeqBo current = required.getKernelQedeqBo(i);
@@ -126,7 +126,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
                 sfl.add(createError(me));
                 continue;
             }
-            getQedeqBo().getKernelServices().executePlugin(call.getInternalServiceProcess(),
+            getKernelQedeqBo().getKernelServices().executePlugin(call.getInternalServiceProcess(),
                 LoadRequiredModulesPlugin.class.getName(), current, loadingRequiredInProgress);
             if (!current.hasLoadedRequiredModules()) {
                 // LATER 20110119 m31: we take only the first error, is that ok?
@@ -146,35 +146,35 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         }
         percentage = 100;
 
-        loadingRequiredInProgress.remove(getQedeqBo());
+        loadingRequiredInProgress.remove(getKernelQedeqBo());
 
-        if (getQedeqBo().getDependencyState().areAllRequiredLoaded()) {
+        if (getKernelQedeqBo().getDependencyState().areAllRequiredLoaded()) {
             return Boolean.TRUE; // everything is OK, someone elses thread might have corrected errors!
         }
         try {
-            getQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getQedeqBo(), service);
+            getKernelQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getKernelQedeqBo(), service);
         } catch (InterruptException e) {    // TODO 20130521 m31: ok?
             call.interrupt();
             return Boolean.FALSE;
         }
 
-        getQedeqBo().getLabels().setModuleReferences(required); // FIXME why here?
-        if (!getQedeqBo().hasBasicFailures() && sfl.size() == 0) {
-            getQedeqBo().setLoadedRequiredModules();
+        getKernelQedeqBo().getLabels().setModuleReferences(required); // FIXME why here?
+        if (!getKernelQedeqBo().hasBasicFailures() && sfl.size() == 0) {
+            getKernelQedeqBo().setLoadedRequiredModules();
             QedeqLog.getInstance().logSuccessfulReply(
-                "Loading required modules successful", getQedeqBo().getUrl());
+                "Loading required modules successful", getKernelQedeqBo().getUrl());
             return Boolean.TRUE;
         }
         if (sfl.size() != 0) {
-            getQedeqBo().setDependencyFailureState(
+            getKernelQedeqBo().setDependencyFailureState(
                 DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, sfl);
         } else {
-            getQedeqBo().setDependencyFailureState(
-                DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, getQedeqBo().getErrors());
+            getKernelQedeqBo().setDependencyFailureState(
+                DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, getKernelQedeqBo().getErrors());
         }
         final String msg = "Loading required modules failed";
-        QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
-             StringUtility.replace(getQedeqBo().getErrors().getMessage(), "\n", "\n\t"));
+        QedeqLog.getInstance().logFailureReply(msg, getKernelQedeqBo().getUrl(),
+             StringUtility.replace(getKernelQedeqBo().getErrors().getMessage(), "\n", "\n\t"));
         return  Boolean.FALSE;
     }
 
@@ -218,7 +218,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
      * @return  Error.
      */
     private SourceFileException createError(final ModuleDataException me) {
-        return getQedeqBo().createSourceFileException(getService(), me);
+        return getKernelQedeqBo().createSourceFileException(getService(), me);
     }
 
 }
