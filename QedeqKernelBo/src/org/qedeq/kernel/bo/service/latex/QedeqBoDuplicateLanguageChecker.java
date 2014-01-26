@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.service.control.ControlVisitor;
+import org.qedeq.kernel.bo.service.basis.ControlVisitor;
 import org.qedeq.kernel.se.base.module.Latex;
 import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.common.ModuleContext;
