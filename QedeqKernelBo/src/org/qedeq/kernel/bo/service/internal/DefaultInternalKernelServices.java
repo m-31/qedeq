@@ -34,7 +34,6 @@ import org.qedeq.base.io.TextInput;
 import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.kernel.bo.common.Element2Latex;
 import org.qedeq.kernel.bo.common.Element2Utf8;
 import org.qedeq.kernel.bo.common.Kernel;
 import org.qedeq.kernel.bo.common.KernelProperties;
