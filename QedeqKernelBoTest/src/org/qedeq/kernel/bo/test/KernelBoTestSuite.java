@@ -30,7 +30,7 @@ import org.qedeq.kernel.bo.logic.proof.finder.KernelBoLogicProofFinderTestSuite;
 import org.qedeq.kernel.bo.logic.wf.KernelBoLogicWfTestSuite;
 import org.qedeq.kernel.bo.module.KernelBoModuleTestSuite;
 import org.qedeq.kernel.bo.parser.KernelBoParserTestSuite;
-import org.qedeq.kernel.bo.service.basis.KernelBoServiceTestSuite;
+import org.qedeq.kernel.bo.service.basis.KernelBoServiceBasisTestSuite;
 import org.qedeq.kernel.bo.service.heuristic.KernelBoServiceHeuristicTestSuite;
 import org.qedeq.kernel.bo.service.internal.KernelBoServiceInternalTestSuite;
 import org.qedeq.kernel.bo.service.latex.KernelBoServiceLatexTestSuite;
@@ -81,7 +81,7 @@ public class KernelBoTestSuite extends QedeqTestSuite {
         addTest(KernelBoModuleTestSuite.suite());
         addTest(KernelBoParserTestSuite.suite());
         addTest(KernelBoServiceInternalTestSuite.suite());
-        addTest(KernelBoServiceTestSuite.suite());
+        addTest(KernelBoServiceBasisTestSuite.suite());
         addTest(KernelBoServiceLatexTestSuite.suite());
         addTest(KernelBoLogicModelTestSuite.suite());
         addTest(KernelBoServiceHeuristicTestSuite.suite());
