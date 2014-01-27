@@ -152,7 +152,8 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
             return Boolean.TRUE; // everything is OK, someone elses thread might have corrected errors!
         }
         try {
-            getKernelQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getKernelQedeqBo(), service);
+            getKernelQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getKernelQedeqBo(),
+              service);
         } catch (InterruptException e) {    // TODO 20130521 m31: ok?
             call.interrupt();
             return Boolean.FALSE;
