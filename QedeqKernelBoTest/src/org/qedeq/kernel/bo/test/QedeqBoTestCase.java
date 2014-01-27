@@ -15,10 +15,13 @@
 
 package org.qedeq.kernel.bo.test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import org.qedeq.base.io.Parameters;
+import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
@@ -28,8 +31,13 @@ import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.service.internal.DefaultKernelQedeqBo;
 import org.qedeq.kernel.bo.service.internal.ServiceProcessManager;
+import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.common.DefaultModuleAddress;
+import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.visitor.InterruptException;
+import org.qedeq.kernel.xml.dao.Qedeq2Xml;
 
 /**
  * Test generating LaTeX files for all known samples.
@@ -134,5 +142,20 @@ public abstract class QedeqBoTestCase extends QedeqTestCase {
             throw new RuntimeException(e);
         }
     }
+
+    public void printlnXml(final Element element) throws ModuleDataException {
+        final KernelQedeqBo prop = new DefaultKernelQedeqBo(null, DefaultModuleAddress.MEMORY);
+        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        final TextOutput output = new TextOutput("out", outputStream, "UTF-8");
+        final Qedeq2Xml visitor = new Qedeq2Xml(null, prop, output);
+        visitor.getTraverser().accept(element);
+        try {
+            System.out.println(outputStream.toString("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            // should never happen
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }

@@ -15,10 +15,10 @@
 
 package org.qedeq.kernel.bo.logic.common;
 
-import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.service.internal.Element2LatexImpl;
 import org.qedeq.kernel.bo.service.internal.Element2Utf8Impl;
+import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.xml.parser.BasicParser;
 
@@ -27,7 +27,7 @@ import org.qedeq.kernel.xml.parser.BasicParser;
  *
  * @author  Michael Meyling
  */
-public class FormulaUtilityReplaceOperatorVariableTest extends QedeqTestCase {
+public class FormulaUtilityReplaceOperatorVariableTest extends QedeqBoTestCase {
 
     
     private Element predVar1;
@@ -43,7 +43,7 @@ public class FormulaUtilityReplaceOperatorVariableTest extends QedeqTestCase {
                 "<VAR id=\"y\" />" +
             "</PREDVAR>");
         funVar1 = BasicParser.createElement(
-            "<FUNVAR id=\"union\">" +
+            "<FUNVAR id=\"u\">" +
                 "<VAR id=\"u\" />" +
                 "<VAR id=\"v\" />" +
             "</FUNVAR>");
@@ -143,6 +143,96 @@ public class FormulaUtilityReplaceOperatorVariableTest extends QedeqTestCase {
 //            predVar1, ele2));
         assertTrue(ele3.equals(FormulaUtility.replaceOperatorVariable(ele1,
             predVar1, ele2)));
+    }
+
+    /**
+     * Function: replaceOperatorVariable.
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void test_Positive02() throws Exception {
+        final Element ele1 = BasicParser.createElement(
+            "<AND>" +
+              "<FORALL>" +
+                "<VAR id=\"x\" />" +
+                "<PREDCON id=\"equal\">" +
+                    "<FUNVAR id=\"u\"> " +
+                      "<VAR id=\"x\" />" +
+                      "<VAR id=\"x\" />" +
+                    "</FUNVAR>" +
+                    "<VAR id=\"x\" />" +
+                "</PREDCON>" +
+              "</FORALL>" +
+              "<FORALL>" +
+                "<VAR id=\"y\" />" +
+                "<FORALL>" +
+                  "<VAR id=\"z\" />" +
+                  "<PREDCON id=\"equal\">" +
+                    "<VAR id=\"z\" />" +
+                    "<FUNVAR id=\"u\">" +
+                      "<CLASS>" +
+                        "<VAR id=\"x\" />" +
+                        "<PREDVAR id=\"\\phi\">" +
+                          "<VAR id=\"x\" />" +
+                        "</PREDVAR>" +
+                      "</CLASS>" +
+                      "<VAR id=\"y\" />" +
+                    "</FUNVAR>" +
+                  "</PREDCON>" +
+                "</FORALL>" +
+              "</FORALL>" +
+            "</AND>");
+        // System.out.println(ele1.toString());
+
+        final Element ele2 = BasicParser.createElement(
+              "<FUNCON id=\"union\">" +
+                  "<VAR id=\"v\" />" +
+                  "<VAR id=\"u\" />" +
+                  "<VAR id=\"v\" />" +
+               "</FUNCON>");
+        // System.out.println(ele2.toString());
+        
+        final Element ele3 = BasicParser.createElement(
+              "<AND>\r\n" + 
+              "  <FORALL>\r\n" + 
+              "    <VAR id=\"x\"/>\r\n" + 
+              "    <PREDCON ref=\"equal\">\r\n" + 
+              "      <FUNCON ref=\"union\">\r\n" + 
+              "        <VAR id=\"x\"/>\r\n" + 
+              "        <VAR id=\"x\"/>\r\n" + 
+              "        <VAR id=\"x\"/>\r\n" + 
+              "      </FUNCON>\r\n" + 
+              "      <VAR id=\"x\"/>\r\n" + 
+              "    </PREDCON>\r\n" + 
+              "  </FORALL>\r\n" + 
+              "  <FORALL>\r\n" + 
+              "    <VAR id=\"y\"/>\r\n" + 
+              "    <FORALL>\r\n" + 
+              "      <VAR id=\"z\"/>\r\n" + 
+              "      <PREDCON ref=\"equal\">\r\n" + 
+              "        <VAR id=\"z\"/>\r\n" + 
+              "        <FUNCON ref=\"union\">\r\n" + 
+              "          <VAR id=\"y\"/>\r\n" + 
+              "          <CLASS>\r\n" + 
+              "            <VAR id=\"x\"/>\r\n" + 
+              "            <PREDVAR id=\"\\phi\">\r\n" + 
+              "              <VAR id=\"x\"/>\r\n" + 
+              "            </PREDVAR>\r\n" + 
+              "          </CLASS>\r\n" + 
+              "          <VAR id=\"y\"/>\r\n" + 
+              "        </FUNCON>\r\n" + 
+              "      </PREDCON>\r\n" + 
+              "    </FORALL>\r\n" + 
+              "  </FORALL>\r\n" + 
+              "</AND>\r\n" + 
+              "");
+                
+//        println(ele1);
+//        println(funVar1);
+//        println(ele2);
+//        println(FormulaUtility.replaceOperatorVariable(ele1, funVar1, ele2));
+//        printlnXml(FormulaUtility.replaceOperatorVariable(ele1, funVar1, ele2));
+        assertTrue(ele3.equals(FormulaUtility.replaceOperatorVariable(ele1, funVar1, ele2)));
     }
 
     public void println(final Element element) {
