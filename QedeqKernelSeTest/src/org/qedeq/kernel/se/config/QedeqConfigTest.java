@@ -230,7 +230,7 @@ public class QedeqConfigTest extends QedeqTestCase {
     public void testGetLogFile() throws Exception {
         assertEquals(new File(basis1.getCanonicalFile(), "search/for/me/log.txt"),
             con1.getLogFile());
-        assertEquals(new File(basis2.getCanonicalFile(), "log/trace.log"),
+        assertEquals(new File(basis2.getCanonicalFile(), "log/log.txt"),
             con2.getLogFile());
     }
 

@@ -47,7 +47,7 @@ public class QedeqConfig {
 
     /** Default log file inclusive path. */
     private static final String DEFAULT_LOG_FILE
-        = "log/trace.log";
+        = "log/log.txt";
 
     /** This class organizes the access to the configuration parameters. */
     private final ConfigAccess configAccess;

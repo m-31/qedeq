@@ -36,6 +36,7 @@ import org.apache.log4j.xml.DOMConfigurator;
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.StringUtility;
 import org.qedeq.gui.se.control.QedeqController;
 import org.qedeq.gui.se.pane.QedeqGuiConfig;
 import org.qedeq.gui.se.util.GuiHelper;
@@ -57,6 +58,9 @@ import com.jgoodies.looks.Options;
  * @author  Michael Meyling
  */
 public class QedeqMainFrame extends JFrame {
+
+    /** Directory for start within IDE. */
+    private static final String QEDEQ_IDE_START = "../../qedeq_ide_run";
 
     /** Initial frame resolution. */
 //    protected static final Dimension PREFERRED_SIZE = (LookUtils.IS_LOW_RESOLUTION
@@ -156,6 +160,11 @@ public class QedeqMainFrame extends JFrame {
                     final StringBuffer buffer = new StringBuffer();
                     // if this would be a properties file would have to load it with ISO-8859-1
                     IoUtility.loadFile(log4jConfigUrl, buffer, "UTF-8");
+                    // if we start this within our IDE we don't want to fiddle with our SCM system
+                    System.out.println("basis dir: " + config.getBasisDirectory());
+                    if (QEDEQ_IDE_START.equals(config.getBasisDirectory().toString())) {
+                        StringUtility.replace(buffer, "log/trace.log", QEDEQ_IDE_START + "/log/trace.log");
+                    }
                     IoUtility.saveFile(log4jConfig, buffer, "UTF-8");
                 } catch (IOException e1) {
                     errorPrintln("Resource can not be saved: " + log4jConfig.getAbsolutePath());
@@ -197,7 +206,7 @@ public class QedeqMainFrame extends JFrame {
             // if we start this within our IDE we don't want to fiddle with our SCM system
             if (startDirectory.toString().equals(".") && startDirectory.getCanonicalFile().getName()
                     .equals("QedeqGuiSe")) {
-                startDirectory = new File("../../qedeq_gen");
+                startDirectory = new File(QEDEQ_IDE_START);
             }
             QedeqGuiConfig.init(new File(startDirectory,
                 "config/org.qedeq.properties"), startDirectory);
