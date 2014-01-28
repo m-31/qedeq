@@ -45,11 +45,11 @@ public class QedeqConfig {
     private static final String DEFAULT_GENERATED
         = "generated";
 
-    /** Default log file path. */
+    /** Default log file inclusive path. */
     private static final String DEFAULT_LOG_FILE
-        = "log/log.txt";
+        = "log/trace.log";
 
-    /** This class organizes the access to the config parameters. */
+    /** This class organizes the access to the configuration parameters. */
     private final ConfigAccess configAccess;
 
     /** Basis directory of application for all variable data. Basis for all relative paths. */
@@ -71,7 +71,7 @@ public class QedeqConfig {
     }
 
     /**
-     * Store properties in config file.
+     * Store properties in configuration file.
      *
      * @throws  IOException Writing failed.
      */
