@@ -745,7 +745,7 @@ public class TextInput extends InputStream {
             this.lineNumber = 0;
             this.column = 0;
         }
-        for (int i = 0; getRow() < r; i++) {
+        while (getRow() < r) {
             if (EOF == read()) {
                 return;
             }

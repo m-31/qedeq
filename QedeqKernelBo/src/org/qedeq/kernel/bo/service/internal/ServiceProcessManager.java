@@ -209,7 +209,7 @@ public class ServiceProcessManager {
      * @param   qedeq       QEDEQ module to work on.
      * @param   data        Process parameters.
      * @param   proc        Process. Might be <code>null</code>. Otherwise should be a process that is still running.
-     * @return  Plugin 		 Specific result object. Might be <code>null</code>.
+     * @return  Plugin      Specific result object. Might be <code>null</code>.
      * @throws  InterruptException  User interrupt occurred.
      * @throws  RuntimeException    Plugin unknown or process is not running any more.
      */

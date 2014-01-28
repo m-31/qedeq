@@ -1177,5 +1177,5 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
     public InternalServiceJob createServiceProcess(final String action) {
         return processManager.createServiceProcess(action);
     }
-    
+
 }
