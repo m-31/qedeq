@@ -101,6 +101,7 @@ public class QedeqMainFrame extends JFrame {
         final JMenuBar menuBar =  new QedeqMenuBar(controller, settings);
         setJMenuBar(menuBar);
         setIconImage(GuiHelper.readImageIcon("qedeq/16x16/qedeq.png").getImage());
+        setIconImage(GuiHelper.readImageIcon("qedeq/48x48/qedeq.png").getImage());
         addWindowListener(new WindowAdapter() {
             public void windowClosing(final WindowEvent e) {
                 controller.getExitAction().actionPerformed(null);
