@@ -60,7 +60,10 @@ import com.jgoodies.looks.Options;
 public class QedeqMainFrame extends JFrame {
 
     /** Directory for start within IDE. */
-    private static final String QEDEQ_IDE_START = "../../qedeq_ide_run";
+    private static final String QEDEQ_IDE = "qedeq_ide_run";
+
+    /** Directory for start within IDE. */
+    private static final String QEDEQ_IDE_START = "../../" + QEDEQ_IDE;
 
     /** Initial frame resolution. */
 //    protected static final Dimension PREFERRED_SIZE = (LookUtils.IS_LOW_RESOLUTION
@@ -162,7 +165,7 @@ public class QedeqMainFrame extends JFrame {
                     IoUtility.loadFile(log4jConfigUrl, buffer, "UTF-8");
                     // if we start this within our IDE we don't want to fiddle with our SCM system
                     System.out.println("basis dir: " + config.getBasisDirectory());
-                    if (QEDEQ_IDE_START.equals(config.getBasisDirectory().toString())) {
+                    if (config.getBasisDirectory().toString().endsWith(QEDEQ_IDE)) {
                         StringUtility.replace(buffer, "log/trace.log", QEDEQ_IDE_START + "/log/trace.log");
                     }
                     IoUtility.saveFile(log4jConfig, buffer, "UTF-8");
