@@ -192,7 +192,12 @@ public class QedeqMainFrame extends JFrame {
     public static void main(final String[] args) {
         // load configuration file
         try {
-            final File startDirectory = IoUtility.getStartDirectory("qedeq");
+            File startDirectory = IoUtility.getStartDirectory("qedeq");
+            // if we start this within our IDE we don't want to fiddle with our SCM system
+            if (startDirectory.toString().equals(".") && startDirectory.getCanonicalFile().getName()
+                    .equals("QedeqGuiSe")) {
+                startDirectory = new File("../../qedeq_gen");
+            }
             QedeqGuiConfig.init(new File(startDirectory,
                 "config/org.qedeq.properties"), startDirectory);
         } catch (Throwable e) {
