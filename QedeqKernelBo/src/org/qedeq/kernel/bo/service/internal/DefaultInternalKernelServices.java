@@ -1177,11 +1177,5 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
     public InternalServiceJob createServiceProcess(final String action) {
         return processManager.createServiceProcess(action);
     }
-
-    public InternalModuleServiceCall createServiceCall(final Service service, final KernelQedeqBo qedeq,
-            final Parameters configParameters, final Parameters parameters,
-            final InternalServiceJob process, final InternalModuleServiceCall parent) throws InterruptException {
-        return processManager.createServiceCall(service, qedeq, configParameters, parameters, process);
-    }
-
+    
 }

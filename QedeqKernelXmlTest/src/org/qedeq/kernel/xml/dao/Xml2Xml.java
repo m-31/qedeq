@@ -27,13 +27,11 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.common.KernelServices;
+import org.qedeq.kernel.bo.job.ServiceCallImpl;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
-import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.service.internal.ServiceProcessManager;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleService;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -112,10 +110,8 @@ public final class Xml2Xml implements ModuleService {
         Trace.param(CLASS, method, "from", from);
         Trace.param(CLASS, method, "to", to);
         TextOutput printer = null;
-        InternalModuleServiceCall call = null;
         try {
             final ModuleAddress address = services.getModuleAddress(from);
-            // TODO mime 20080303: find a solution without casting!
             final InternalServiceJob process = internal.createServiceProcess("generate XML");
             final ModuleService plugin = new Xml2Xml();
             final KernelQedeqBo prop = internal.loadKernelModule(process, address);
@@ -125,20 +121,10 @@ public final class Xml2Xml implements ModuleService {
             IoUtility.createNecessaryDirectories(to);
             final OutputStream outputStream = new FileOutputStream(to);
             printer = new TextOutput(to.getName(), outputStream, "UTF-8");
-            call = internal.createServiceCall(plugin, prop, Parameters.EMPTY,
-                Parameters.EMPTY, process, null);
+            final ServiceCallImpl call = new ServiceCallImpl(plugin, prop, Parameters.EMPTY, Parameters.EMPTY, process, null);
             Qedeq2Xml.print(call.getInternalServiceProcess(), plugin, prop, printer);
             return to.getCanonicalPath();
         } finally {
-            // FIXME 20130521 m31: use executePlugin or something that automatically ends the service call
-            if (call != null) {
-                try {
-                    ((ServiceProcessManager) YodaUtility.getFieldValue(internal, "processManager"))
-                        .endServiceCall(call);
-                } catch (NoSuchFieldException e) {
-                    throw new RuntimeException(e);
-                }
-            }
             if (printer != null) {
                 printer.close();
             }

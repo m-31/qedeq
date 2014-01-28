@@ -26,11 +26,12 @@ import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.KernelContext;
-import org.qedeq.kernel.bo.common.KernelServices;
+import org.qedeq.kernel.bo.job.ServiceCallImpl;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.service.internal.DefaultInternalKernelServices;
 import org.qedeq.kernel.bo.service.internal.DefaultKernelQedeqBo;
 import org.qedeq.kernel.bo.service.internal.ServiceProcessManager;
 import org.qedeq.kernel.se.base.list.Element;
@@ -112,10 +113,10 @@ public abstract class QedeqBoTestCase extends QedeqTestCase {
         }
     }
 
-    public KernelServices getServices() {
+    public DefaultInternalKernelServices getServices() {
         final KernelContext c = KernelFacade.getKernelContext();
         try {
-            return (KernelServices) YodaUtility.getFieldValue(c, "services");
+            return (DefaultInternalKernelServices) YodaUtility.getFieldValue(c, "services");
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -124,9 +125,8 @@ public abstract class QedeqBoTestCase extends QedeqTestCase {
 
     public InternalModuleServiceCall createServiceCall(final String name, final KernelQedeqBo prop)
             throws InterruptException {
-        InternalServiceJob process = getInternalServices().createServiceProcess(name);
-        InternalModuleServiceCall call = getInternalServices().createServiceCall(DummyPlugin.getInstance(), prop,
-            Parameters.EMPTY, Parameters.EMPTY, process, null);
+        final InternalServiceJob process = getInternalServices().createServiceProcess(name);
+        final ServiceCallImpl call = new ServiceCallImpl(DummyPlugin.getInstance(), prop, Parameters.EMPTY, Parameters.EMPTY, process, null);
         return call;
     }
 

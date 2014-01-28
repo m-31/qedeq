@@ -18,7 +18,6 @@ package org.qedeq.kernel.bo.module;
 import java.io.File;
 import java.io.IOException;
 
-import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.common.KernelProperties;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.common.ModuleAddress;
@@ -194,24 +193,6 @@ public interface InternalKernelServices extends KernelProperties {
     public ContextChecker getContextChecker();
 
     public InternalServiceJob createServiceProcess(final String action);
-
-    /**
-     * Create service process for given module. Locks also module access.
-     *
-     * @param   service             The service that runs in current thread.
-     * @param   qedeq               QEDEQ module for service.
-     * @param   configParameters    Config parameters for the service.
-     * @param   parameters          Parameter for this service call.
-     * @param   process             We run in this process.
-     * @param   parent              Parent process that creates a new one.
-     * @return  Created service call.
-     * @throws  InterruptException  Locking of module was canceled by user.
-     */
-    public InternalModuleServiceCall createServiceCall(Service service,
-            final KernelQedeqBo qedeq, final Parameters configParameters, final Parameters parameters,
-            final InternalServiceJob process, final InternalModuleServiceCall parent)
-            throws InterruptException;
-
 
     public boolean lockModule(InternalServiceJob process, KernelQedeqBo qedeq, Service service)
             throws InterruptException;

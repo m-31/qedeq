@@ -130,7 +130,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     }
 
     /**
-     * Fill QEDEQ module labels and Element2Latex and Element2Utf8 converter.
+     * Fill QEDEQ module labels.
      *
      * @param   process         We work for this process.
      * @param   labels          Herein the labels are filled.
@@ -138,10 +138,8 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      */
     public void createLabels(final InternalServiceJob process, final ModuleLabels labels)
             throws SourceFileExceptionList {
-        if (this.labels == null) {
-            this.labels = labels;
-            traverse(process);
-        }
+             this.labels = labels;
+        traverse(process);
     }
 
     /**
