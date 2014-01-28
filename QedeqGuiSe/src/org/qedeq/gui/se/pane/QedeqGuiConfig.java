@@ -47,12 +47,12 @@ public final class QedeqGuiConfig extends QedeqConfig {
     }
 
     /**
-     * Load config file from start directory. This method must be called at the beginning.
+     * Load configuration file from start directory. This method must be called at the beginning.
      * Look at {link IoUtility#getStartDirectory(String)} with parameter <code>qedeq</code>
      *
-     * @param   configFile      Config file.
+     * @param   configFile      Configuration file.
      * @param   basisDirectory  Start directory of application. Basis for all relative paths.
-     * @throws  IOException Config file not found or readable.
+     * @throws  IOException     Configuration file not found or readable.
      */
     public static void init(final File configFile, final File basisDirectory) throws IOException {
         instance = new QedeqGuiConfig(configFile,
