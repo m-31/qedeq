@@ -321,4 +321,23 @@ public class LoadRequiredModulesTest extends QedeqBoTestCase {
         }
     }
 
+    /**
+     * Load following dependencies:
+     * <pre>
+     * 9901 -> 9902
+     * 9902 -> 9903
+     * </pre>
+     *
+     * @throws Exception
+     */
+    public void testLoadRequiredModules_99() throws Exception {
+        final ModuleAddress address = new DefaultModuleAddress(getFile("loadRequired/LRM9901.xml"));
+        if (!getServices().loadRequiredModules(address)) {
+            System.out.println(getServices().getQedeqBo(address).getCurrentState());
+            SourceFileExceptionList e = getServices().getQedeqBo(address).getErrors();
+            System.out.println(e.size());
+            fail("loading should be successful");
+        }
+    }
+
 }
