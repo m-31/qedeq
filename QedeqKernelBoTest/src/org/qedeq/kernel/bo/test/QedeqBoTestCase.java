@@ -125,7 +125,14 @@ public abstract class QedeqBoTestCase extends QedeqTestCase {
 
     public InternalModuleServiceCall createServiceCall(final String name, final KernelQedeqBo prop)
             throws InterruptException {
-        final InternalServiceJob process = ((ServiceProcessManager) getInternalServices()).createServiceProcess(name);
+        final InternalServiceJob process;
+        try {
+            process = ((ServiceProcessManager) YodaUtility.getFieldValue(getInternalServices(), "processManager"))
+                .createServiceProcess(name);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
         final InternalModuleServiceCallImpl call = new InternalModuleServiceCallImpl(DummyPlugin.getInstance(), prop, Parameters.EMPTY, Parameters.EMPTY, process, null);
         return call;
     }
