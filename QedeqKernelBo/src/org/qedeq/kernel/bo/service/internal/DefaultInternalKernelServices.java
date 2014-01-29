@@ -1173,8 +1173,4 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
         return arbiter.unlockRequiredModule(call);
     }
 
-    public InternalServiceJob createServiceProcess(final String action) {
-        return processManager.createServiceProcess(action);
-    }
-
 }
