@@ -33,6 +33,8 @@ public class LoadRequiredModulesTest extends QedeqBoTestCase {
      * 011 -> 013 -> 012
      * </pre>
      *
+     * Should be OK.
+     *
      * @throws Exception
      */
     public void testLoadRequiredModules_01() throws Exception {
@@ -47,6 +49,8 @@ public class LoadRequiredModulesTest extends QedeqBoTestCase {
      * <pre>
      * 021 -> 021
      * </pre>
+     *
+     * Should be not OK.
      *
      * @throws Exception
      */
@@ -71,6 +75,8 @@ public class LoadRequiredModulesTest extends QedeqBoTestCase {
      * <pre>
      * 031 -> 032 -> 031
      * </pre>
+     *
+     * Should be not OK.
      *
      * @throws Exception
      */
@@ -100,6 +106,8 @@ public class LoadRequiredModulesTest extends QedeqBoTestCase {
      * 041 -> 043 -> 044
      * 041 -> 044 -> 042
      * </pre>
+     *
+     * Should be not OK.
      *
      * @throws Exception
      */
@@ -150,6 +158,8 @@ public class LoadRequiredModulesTest extends QedeqBoTestCase {
      * 051 -> 055 -> 057
      * </pre>
      *
+     * Should be OK.
+     *
      * @throws Exception
      */
     public void testLoadRequiredModules_05() throws Exception {
@@ -171,6 +181,8 @@ public class LoadRequiredModulesTest extends QedeqBoTestCase {
      * 061 -> 064 -> 066 -> 067
      * 061 -> 065 -> 067
      * </pre>
+     *
+     * Should be OK.
      *
      * @throws Exception
      */
@@ -202,6 +214,8 @@ public class LoadRequiredModulesTest extends QedeqBoTestCase {
      * 071 -> 075 -> 073 -> 076 -> 071             c
      * 071 -> 075 -> 073 -> 075 - >073             c
      * </pre>
+     *
+     * Should be not OK.
      *
      * @throws Exception
      */
@@ -251,6 +265,8 @@ public class LoadRequiredModulesTest extends QedeqBoTestCase {
      * 081 -> 082 -> 083 -> 084 -> 085 -> 086 -> 087 -> 089
      * </pre>
      *
+     * Should be OK.
+     *
      * @throws Exception
      */
     public void testLoadRequiredModules_08() throws Exception {
@@ -267,6 +283,8 @@ public class LoadRequiredModulesTest extends QedeqBoTestCase {
      * <pre>
      * 091 -> 092 -> 093 -> 094 -> 095 -> 096 -> 097 -> 099 -> 091
      * </pre>
+     *
+     * Should be not OK.
      *
      * @throws Exception
      */
@@ -301,6 +319,8 @@ public class LoadRequiredModulesTest extends QedeqBoTestCase {
      * 101 -> 104
      * </pre>
      *
+     * Should be not OK.
+     *
      * @throws Exception
      */
     public void testLoadRequiredModules_10() throws Exception {
@@ -324,20 +344,26 @@ public class LoadRequiredModulesTest extends QedeqBoTestCase {
     /**
      * Load following dependencies:
      * <pre>
-     * 9901 -> 9902
-     * 9902 -> 9903
+     * 111 -> 112
+     * 112 -> 113 and 113 doesn't exist
      * </pre>
+     *
+     * Should be not OK.
      *
      * @throws Exception
      */
-    public void testLoadRequiredModules_99() throws Exception {
-        final ModuleAddress address = new DefaultModuleAddress(getFile("loadRequired/LRM9901.xml"));
-        if (!getServices().loadRequiredModules(address)) {
-            System.out.println(getServices().getQedeqBo(address).getCurrentState());
-            SourceFileExceptionList e = getServices().getQedeqBo(address).getErrors();
-            System.out.println(e.size());
-            fail("loading should be successful");
+    public void testLoadRequiredModules_11() throws Exception {
+        final ModuleAddress address = new DefaultModuleAddress(getFile("loadRequired/LRM111.xml"));
+        if (getServices().loadRequiredModules(address)) {
+            fail("loading should be not be successful");
         }
+        SourceFileExceptionList e = getServices().getQedeqBo(address).getErrors();
+        assertEquals(1, e.size());
+        assertEquals(90723, e.get(0).getErrorCode());
+//        System.out.println(e);
+        assertTrue(0 <= e.get(0).getDescription().indexOf("Import of module failed, label: \"LRM112\""));
+        assertEquals(31, e.get(0).getSourceArea().getStartPosition().getRow());
+        assertEquals(15, e.get(0).getSourceArea().getStartPosition().getColumn());
     }
 
 }

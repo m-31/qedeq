@@ -78,16 +78,9 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         // we unlock the currently locked module to get rid of death locks
         getKernelQedeqBo().getKernelServices().unlockModule(call);
         if (!loadAllRequiredModules(call, getKernelQedeqBo())) {
-            try {
-                getKernelQedeqBo().getKernelServices().lockModule(call);
-            } catch (InterruptException e) {    // TODO 20130521 m31: ok?
-                call.interrupt();
-            }
             final String msg = "Loading required modules failed";
             QedeqLog.getInstance().logFailureReply(msg, getKernelQedeqBo().getUrl(),
                 "Not all required modules could not even be loaded.");
-            getKernelQedeqBo().setDependencyFailureState(
-                DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, getKernelQedeqBo().getErrors());
             return Boolean.FALSE;
         }
         try {
@@ -148,7 +141,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         }
         try {
             getKernelQedeqBo().getKernelServices().lockModule(call);
-        } catch (InterruptException e) {    // TODO 20130521 m31: ok?
+        } catch (InterruptException e) {    // TODO 20130521 m31: OK?
             call.interrupt();
             return Boolean.FALSE;
         }
@@ -184,11 +177,36 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
             return false;
         }
         final ModuleReferenceList imports = bo.getRequiredModules();
+        final SourceFileExceptionList sfl = new SourceFileExceptionList();
         boolean result = true;
         for (int i = 0; i < imports.size(); i++) {
             if (!imports.getQedeqBo(i).hasLoadedImports()) {
-                result &= loadAllRequiredModules(call, (KernelQedeqBo) imports.getQedeqBo(i));
+                if (!loadAllRequiredModules(call, (KernelQedeqBo) imports.getQedeqBo(i))) {
+                    result = false;
+                    // LATER 20110119 m31: we take only the first error, is that ok?
+                    String text = DependencyErrors.IMPORT_OF_MODULE_FAILED_TEXT + "\""
+                        + imports.getLabel(i) + "\"";
+                    if (bo.getErrors().size() > 0) {
+                        // TODO 20130324 m31: what if this changed directly after .size() call?
+                        //                    check if locking the module is active
+                        text += ", " + bo.getErrors().get(0).getMessage();
+                    }
+                    ModuleDataException me = new LoadRequiredModuleException(
+                        DependencyErrors.IMPORT_OF_MODULE_FAILED_CODE,
+                        text, imports.getModuleContext(i));
+                    sfl.add(createError(me));
+                }
             }
+        }
+        if (sfl.size() > 0) {
+            try {
+                getKernelQedeqBo().getKernelServices().lockModule(call);
+            } catch (InterruptException e) {    // TODO 20130521 m31: ok?
+                call.interrupt();
+                return false;
+            }
+            bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, sfl);
+            getKernelQedeqBo().getKernelServices().unlockModule(call);
         }
         return result;
     }

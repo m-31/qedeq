@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_08/xml/qedeq.xsd">
   <HEADER email="mime@qedeq.org">
-    <SPECIFICATION name="LRM9901" ruleVersion="1.00.00">
+    <SPECIFICATION name="LRM112" ruleVersion="1.00.00">
       <LOCATIONS>
         <LOCATION value="file:///."/>
       </LOCATIONS>
@@ -15,7 +15,7 @@
     </TITLE>
     <ABSTRACT>
       <LATEX language="en">
-         Incorrect reference example with circle.
+         Incorrect reference example with missing module.
       </LATEX>
     </ABSTRACT>
     <AUTHORS>
@@ -28,8 +28,8 @@
       </AUTHOR>
     </AUTHORS>
     <IMPORTS>
-      <IMPORT label="LRM9902">
-        <SPECIFICATION name="LRM9902" ruleVersion="1.00.00">
+      <IMPORT label="LRM113">
+        <SPECIFICATION name="LRM113" ruleVersion="1.00.00">
           <LOCATIONS>
             <LOCATION value="."/>
           </LOCATIONS>
