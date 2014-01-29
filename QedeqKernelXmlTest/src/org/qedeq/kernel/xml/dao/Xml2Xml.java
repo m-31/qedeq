@@ -27,6 +27,7 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.common.KernelServices;
 import org.qedeq.kernel.bo.job.InternalModuleServiceCallImpl;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
@@ -113,8 +114,15 @@ public final class Xml2Xml implements ModuleService {
         TextOutput printer = null;
         try {
             final ModuleAddress address = services.getModuleAddress(from);
-            // if this class returns into production code you must get rid of the following cast:
-            final InternalServiceJob process = ((ServiceProcessManager) internal).createServiceProcess("generate XML");
+            // if this class returns into production code you must get rid of the following:
+            final InternalServiceJob process;
+            try {
+                process = ((ServiceProcessManager) YodaUtility.getFieldValue(internal, "processManager"))
+                    .createServiceProcess("generate XML");
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
             final ModuleService plugin = new Xml2Xml();
             final KernelQedeqBo prop = internal.loadKernelModule(process, address);
             if (!prop.isLoaded()) {
