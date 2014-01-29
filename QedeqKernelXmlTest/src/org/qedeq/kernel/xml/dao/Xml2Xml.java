@@ -28,7 +28,7 @@ import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.KernelServices;
-import org.qedeq.kernel.bo.job.ServiceCallImpl;
+import org.qedeq.kernel.bo.job.InternalModuleServiceCallImpl;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -121,7 +121,7 @@ public final class Xml2Xml implements ModuleService {
             IoUtility.createNecessaryDirectories(to);
             final OutputStream outputStream = new FileOutputStream(to);
             printer = new TextOutput(to.getName(), outputStream, "UTF-8");
-            final ServiceCallImpl call = new ServiceCallImpl(plugin, prop, Parameters.EMPTY, Parameters.EMPTY, process, null);
+            final InternalModuleServiceCallImpl call = new InternalModuleServiceCallImpl(plugin, prop, Parameters.EMPTY, Parameters.EMPTY, process, null);
             Qedeq2Xml.print(call.getInternalServiceProcess(), plugin, prop, printer);
             return to.getCanonicalPath();
         } finally {
