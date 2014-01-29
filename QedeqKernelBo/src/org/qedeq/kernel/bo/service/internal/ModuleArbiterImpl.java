@@ -24,6 +24,8 @@ import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.QedeqBoSet;
 import org.qedeq.kernel.bo.common.ServiceJob;
+import org.qedeq.kernel.bo.job.InternalModuleServiceCallImpl;
+import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.ModuleArbiter;
 import org.qedeq.kernel.se.common.Service;
@@ -52,7 +54,21 @@ public class ModuleArbiterImpl implements ModuleArbiter {
         blocked = new HashMap();
     }
 
-    public boolean lockRequiredModule(final InternalServiceJob process,
+    public boolean lockRequiredModule(final InternalModuleServiceCall call) throws  InterruptException {
+        call.pause();
+        call.getInternalServiceProcess().setBlocked(true);
+        try {
+            final boolean result = lockRequiredModule(call.getInternalServiceProcess(), call.getQedeq(),
+                call.getService());
+            ((InternalModuleServiceCallImpl) call).setNewlyBlockedModule(result);
+            return result;
+        } finally {
+            call.getInternalServiceProcess().setBlocked(false);
+            call.resume();
+        }
+    }
+
+    private boolean lockRequiredModule(final InternalServiceJob process,
             final QedeqBo qedeq, final Service service) throws  InterruptException {
         if (isAlreadyLocked(process, qedeq)) {
             return false;
@@ -79,6 +95,14 @@ public class ModuleArbiterImpl implements ModuleArbiter {
             process.setBlocked(false);
         }
         return true;
+    }
+
+    public boolean unlockRequiredModule(final InternalModuleServiceCall call) {
+        // TODO 20130521 m31: do it without cast
+        if (call != null && ((InternalModuleServiceCallImpl) call).getNewlyBlockedModule()) {
+            return unlockRequiredModule(call.getInternalServiceProcess(), call.getQedeq());
+        }
+        return false;
     }
 
     public boolean unlockRequiredModule(final ServiceJob process, final QedeqBo qedeq) {

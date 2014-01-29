@@ -27,7 +27,7 @@ import org.qedeq.base.io.UrlUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.job.InternalServiceJobImpl;
-import org.qedeq.kernel.bo.job.ServiceCallImpl;
+import org.qedeq.kernel.bo.job.InternalModuleServiceCallImpl;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckException;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -402,7 +402,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             parameters.put("info", "true");
             final Parameters configParameters = new Parameters(parameters);
             final InputStream latex =(new Qedeq2LatexExecutor(new Qedeq2LatexPlugin(), prop, configParameters))
-                .createLatex(new ServiceCallImpl(DummyPlugin.getInstance(), prop, configParameters, Parameters.EMPTY,
+                .createLatex(new InternalModuleServiceCallImpl(DummyPlugin.getInstance(), prop, configParameters, Parameters.EMPTY,
                 new InternalServiceJobImpl(new ModuleArbiterImpl(), "generate LaTeX"), null), language, "1");
             if (to != null) {
                 IoUtility.saveFile(latex, to);

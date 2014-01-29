@@ -26,7 +26,7 @@ import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.KernelContext;
-import org.qedeq.kernel.bo.job.ServiceCallImpl;
+import org.qedeq.kernel.bo.job.InternalModuleServiceCallImpl;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceJob;
@@ -126,7 +126,7 @@ public abstract class QedeqBoTestCase extends QedeqTestCase {
     public InternalModuleServiceCall createServiceCall(final String name, final KernelQedeqBo prop)
             throws InterruptException {
         final InternalServiceJob process = getInternalServices().createServiceProcess(name);
-        final ServiceCallImpl call = new ServiceCallImpl(DummyPlugin.getInstance(), prop, Parameters.EMPTY, Parameters.EMPTY, process, null);
+        final InternalModuleServiceCallImpl call = new InternalModuleServiceCallImpl(DummyPlugin.getInstance(), prop, Parameters.EMPTY, Parameters.EMPTY, process, null);
         return call;
     }
 

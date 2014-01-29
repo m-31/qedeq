@@ -25,7 +25,7 @@ import org.qedeq.kernel.bo.common.ModuleServiceResult;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.ServiceJob;
 import org.qedeq.kernel.bo.job.InternalServiceJobImpl;
-import org.qedeq.kernel.bo.job.ServiceCallImpl;
+import org.qedeq.kernel.bo.job.InternalModuleServiceCallImpl;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceJob;
@@ -111,7 +111,7 @@ public class ServiceProcessManager {
      * @return  Created service call. Never <code>null</code> (if no {@link InterruptException} occurred).
      * @throws  InterruptException  User canceled call.
      */
-    public ServiceCallImpl createServiceCall(final Service service,
+    public InternalModuleServiceCallImpl createServiceCall(final Service service,
             final QedeqBo qedeq, final Parameters configParameters, final Parameters parameters,
             final InternalServiceJob process) throws InterruptException {
         if (!process.isRunning()) { // should not occur
@@ -120,13 +120,13 @@ public class ServiceProcessManager {
         if (!process.getThread().isAlive()) {
             throw new RuntimeException("thread is already dead");
         }
-        final ServiceCallImpl call = new ServiceCallImpl(service, qedeq, configParameters, parameters, process,
-            process.getModuleServiceCall());
+        final InternalModuleServiceCallImpl call = new InternalModuleServiceCallImpl(service, qedeq, configParameters,
+            parameters, process, process.getModuleServiceCall());
         synchronized (this) {
             calls.add(call);
         }
         process.setInternalServiceCall(call);
-        lockRequiredModule(call, qedeq, service);
+        arbiter.lockRequiredModule(call);
         return call;
     }
 
@@ -136,10 +136,7 @@ public class ServiceProcessManager {
      * @param   call    End this call, which should be finished, interrupted or halted before.
      */
     public void endServiceCall(final InternalModuleServiceCall call) {
-        // TODO 20130521 m31: do it without cast
-        if (call != null && ((ServiceCallImpl) call).getNewlyBlockedModule()) {
-            unlockRequiredModule(call, call.getQedeq());
-        }
+        arbiter.unlockRequiredModule(call);
     }
 
     /**
@@ -175,7 +172,7 @@ public class ServiceProcessManager {
             throw new NullPointerException("ServiceProcess must not be null");
         }
         final Parameters configParameters = KernelContext.getInstance().getConfig().getServiceEntries(service);
-        ServiceCallImpl call = null;
+        InternalModuleServiceCallImpl call = null;
         try {
             call = createServiceCall(service, qedeq, configParameters, Parameters.EMPTY, process);
             executor.executeService(call);
@@ -240,7 +237,7 @@ public class ServiceProcessManager {
         } else {
             process = createServiceProcess(plugin.getServiceAction());
         }
-        ServiceCallImpl call = null;
+        InternalModuleServiceCallImpl call = null;
         try {
             call = createServiceCall(plugin, qedeq, configParameters, Parameters.EMPTY,
                 process);
@@ -279,24 +276,6 @@ public class ServiceProcessManager {
                 }
             }
         }
-    }
-
-    public boolean lockRequiredModule(final ServiceCallImpl call, final QedeqBo qedeq, final Service service)
-            throws InterruptException {
-        call.pause();
-        call.getInternalServiceProcess().setBlocked(true);
-        try {
-            final boolean result = arbiter.lockRequiredModule(call.getInternalServiceProcess(), qedeq, service);
-            call.setNewlyBlockedModule(result);
-            return result;
-        } finally {
-            call.getInternalServiceProcess().setBlocked(false);
-            call.resume();
-        }
-    }
-
-    public boolean unlockRequiredModule(final InternalModuleServiceCall call, final QedeqBo qedeq) {
-        return arbiter.unlockRequiredModule(call.getInternalServiceProcess(), qedeq);
     }
 
 }

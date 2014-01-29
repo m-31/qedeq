@@ -30,7 +30,7 @@ import org.qedeq.kernel.se.common.ServiceCompleteness;
  *
  * @author  Michael Meyling
  */
-public class ServiceCallImpl implements InternalModuleServiceCall {
+public class InternalModuleServiceCallImpl implements InternalModuleServiceCall {
 
     /** Counter for each service call. */
     private static volatile long globalCounter;
@@ -100,7 +100,7 @@ public class ServiceCallImpl implements InternalModuleServiceCall {
      * @param   process     Service process we run within.
      * @param   parent      Parent service call if any.
      */
-    public ServiceCallImpl(final Service service, final QedeqBo qedeq,
+    public InternalModuleServiceCallImpl(final Service service, final QedeqBo qedeq,
             final Parameters config, final Parameters parameters, final InternalServiceJob process,
             final ModuleServiceCall parent) {
         this.id = inc();

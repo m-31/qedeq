@@ -113,13 +113,6 @@ public class DummyInternalKernelServices implements InternalKernelServices {
     public Object executePlugin(InternalServiceJob parent, String id, KernelQedeqBo qedeq, Object data) {
         return null;
     }
-    public boolean lockModule(InternalServiceJob process, KernelQedeqBo qedeq, Service service)
-            throws InterruptException {
-        return false;
-    }
-    public boolean unlockModule(InternalServiceJob process, KernelQedeqBo qedeq) {
-        return false;
-    }
     public InternalServiceJob createServiceProcess(String action) {
         return null;
     }
@@ -131,6 +124,12 @@ public class DummyInternalKernelServices implements InternalKernelServices {
     public KernelQedeqBo loadKernelModule(InternalServiceJob process,
             ModuleAddress address) throws InterruptException {
         return null;
+    }
+    public boolean lockModule(InternalModuleServiceCall call) throws InterruptException {
+        return false;
+    }
+    public boolean unlockModule(InternalModuleServiceCall call) {
+        return false;
     }
 
 }

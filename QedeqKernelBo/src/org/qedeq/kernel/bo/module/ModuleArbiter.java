@@ -15,10 +15,8 @@
 
 package org.qedeq.kernel.bo.module;
 
-import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.QedeqBoSet;
 import org.qedeq.kernel.bo.common.ServiceJob;
-import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
@@ -31,24 +29,19 @@ public interface ModuleArbiter {
     /**
      * Lock QEDEQ module for exclusive read and write access.
      *
-     * @param   process This process acquires the lock.
-     * @param   qedeq   Lock this module.
-     * @param   service For this service.
-     * @return  The process locked this module newly. Before this call the module was not locked.
+     * @param   call    This service call acquires the lock.
+     * @return  The call locked this module newly. Before this call the module was not locked.
      * @throws  InterruptException  Lock acquirement interrupted.
      */
-    public boolean lockRequiredModule(InternalServiceJob process,
-            QedeqBo qedeq, Service service) throws InterruptException;
+    public boolean lockRequiredModule(InternalModuleServiceCall call) throws InterruptException;
 
     /**
      * Unlock module again.
      *
-     * @param   process     This process must have acquired the lock.
-     * @param   qedeq       This module was locked before.
+     * @param   call    This call must have acquired the lock.
      * @return  Was this module even locked?
      */
-    public boolean unlockRequiredModule(ServiceJob process,
-            QedeqBo qedeq);
+    public boolean unlockRequiredModule(InternalModuleServiceCall call);
 
     /**
      * Get all blocked modules from given process.

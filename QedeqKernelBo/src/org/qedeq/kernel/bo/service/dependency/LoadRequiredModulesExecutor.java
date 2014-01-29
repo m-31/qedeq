@@ -30,7 +30,6 @@ import org.qedeq.kernel.bo.service.basis.ControlVisitor;
 import org.qedeq.kernel.bo.service.basis.ModuleServicePluginExecutor;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.ModuleService;
-import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.state.DependencyState;
@@ -76,14 +75,11 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         if (loadingRequiredInProgress == null) {
             loadingRequiredInProgress = new HashMap();
         }
-        // remember service that currently locked this module
-        final Service service = getKernelQedeqBo().getCurrentlyRunningService();
         // we unlock the currently locked module to get rid of death locks
-        getKernelQedeqBo().getKernelServices().unlockModule(call.getInternalServiceProcess(), getKernelQedeqBo());
+        getKernelQedeqBo().getKernelServices().unlockModule(call);
         if (!loadAllRequiredModules(call, getKernelQedeqBo())) {
             try {
-                getKernelQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getKernelQedeqBo(),
-                     service);
+                getKernelQedeqBo().getKernelServices().lockModule(call);
             } catch (InterruptException e) {    // TODO 20130521 m31: ok?
                 call.interrupt();
             }
@@ -95,8 +91,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
             return Boolean.FALSE;
         }
         try {
-            getKernelQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getKernelQedeqBo(),
-                service);
+            getKernelQedeqBo().getKernelServices().lockModule(call);
         } catch (InterruptException e) {    // TODO 20130521 m31: ok?
             call.interrupt();
             return Boolean.FALSE;
@@ -110,7 +105,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
 
         final KernelModuleReferenceList required = (KernelModuleReferenceList) getKernelQedeqBo().getRequiredModules();
 
-        getKernelQedeqBo().getKernelServices().unlockModule(call.getInternalServiceProcess(), getKernelQedeqBo());
+        getKernelQedeqBo().getKernelServices().unlockModule(call);
 
         final SourceFileExceptionList sfl = new SourceFileExceptionList();
         Trace.trace(CLASS, this, method, "loading required modules of " + getKernelQedeqBo().getUrl());
@@ -149,11 +144,10 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         loadingRequiredInProgress.remove(getKernelQedeqBo());
 
         if (getKernelQedeqBo().getDependencyState().areAllRequiredLoaded()) {
-            return Boolean.TRUE; // everything is OK, someone elses thread might have corrected errors!
+            return Boolean.TRUE; // everything is OK, someone else's thread might have corrected errors!
         }
         try {
-            getKernelQedeqBo().getKernelServices().lockModule(call.getInternalServiceProcess(), getKernelQedeqBo(),
-              service);
+            getKernelQedeqBo().getKernelServices().lockModule(call);
         } catch (InterruptException e) {    // TODO 20130521 m31: ok?
             call.interrupt();
             return Boolean.FALSE;

@@ -21,7 +21,6 @@ import java.io.IOException;
 import org.qedeq.kernel.bo.common.KernelProperties;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.common.ModuleAddress;
-import org.qedeq.kernel.se.common.Service;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.config.QedeqConfig;
 import org.qedeq.kernel.se.visitor.ContextChecker;
@@ -194,9 +193,9 @@ public interface InternalKernelServices extends KernelProperties {
 
     public InternalServiceJob createServiceProcess(final String action);
 
-    public boolean lockModule(InternalServiceJob process, KernelQedeqBo qedeq, Service service)
+    public boolean lockModule(InternalModuleServiceCall call)
             throws InterruptException;
 
-    public boolean unlockModule(InternalServiceJob process, KernelQedeqBo qedeq);
+    public boolean unlockModule(InternalModuleServiceCall call);
 
 }
