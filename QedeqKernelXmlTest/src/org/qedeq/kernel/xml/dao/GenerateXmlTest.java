@@ -114,7 +114,7 @@ public final class GenerateXmlTest extends QedeqBoTestCase {
             throws IOException, SourceFileExceptionList, SAXException, InterruptException {
         final File destination = new File(destinationDirectory, xmlFile.getName() + "_").getAbsoluteFile();
         System.out.println("generation of " + xmlFile + " to " + destination);
-        Xml2Xml.generate(getServices(), (DefaultInternalKernelServices) getInternalServices(), xmlFile, destination);
+        Xml2Xml.generate(getServices(), getInternalServices(), xmlFile, destination);
         if (!normalize) {
             assertEquals(true, IoUtility.compareTextFiles(xmlFile, destination, "UTF-8"));
 //            assertEquals(IoUtility.loadFile(xmlFile.getAbsolutePath(), "UTF-8"), 

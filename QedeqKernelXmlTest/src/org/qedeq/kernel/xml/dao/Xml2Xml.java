@@ -32,6 +32,7 @@ import org.qedeq.kernel.bo.job.InternalModuleServiceCallImpl;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.InternalServiceJob;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.service.internal.ServiceProcessManager;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleService;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -112,7 +113,8 @@ public final class Xml2Xml implements ModuleService {
         TextOutput printer = null;
         try {
             final ModuleAddress address = services.getModuleAddress(from);
-            final InternalServiceJob process = internal.createServiceProcess("generate XML");
+            // if this class returns into production code you must get rid of the following cast:
+            final InternalServiceJob process = ((ServiceProcessManager) internal).createServiceProcess("generate XML");
             final ModuleService plugin = new Xml2Xml();
             final KernelQedeqBo prop = internal.loadKernelModule(process, address);
             if (!prop.isLoaded()) {

@@ -125,7 +125,7 @@ public abstract class QedeqBoTestCase extends QedeqTestCase {
 
     public InternalModuleServiceCall createServiceCall(final String name, final KernelQedeqBo prop)
             throws InterruptException {
-        final InternalServiceJob process = getInternalServices().createServiceProcess(name);
+        final InternalServiceJob process = ((ServiceProcessManager) getInternalServices()).createServiceProcess(name);
         final InternalModuleServiceCallImpl call = new InternalModuleServiceCallImpl(DummyPlugin.getInstance(), prop, Parameters.EMPTY, Parameters.EMPTY, process, null);
         return call;
     }
