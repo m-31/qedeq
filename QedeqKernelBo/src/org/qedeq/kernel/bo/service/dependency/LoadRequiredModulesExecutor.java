@@ -77,7 +77,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         }
         // we unlock the currently locked module to get rid of death locks
         getKernelQedeqBo().getKernelServices().unlockModule(call);
-        if (!loadAllRequiredModules(call, getKernelQedeqBo())) {
+        if (!loadAllRequiredModules(call, getKernelQedeqBo(), true)) {
             final String msg = "Loading required modules failed";
             QedeqLog.getInstance().logFailureReply(msg, getKernelQedeqBo().getUrl(),
                 "Not all required modules could not even be loaded.");
@@ -166,8 +166,8 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         return  Boolean.FALSE;
     }
 
-    private boolean loadAllRequiredModules(final InternalModuleServiceCall call, final KernelQedeqBo bo)
-                throws InterruptException {
+    private boolean loadAllRequiredModules(final InternalModuleServiceCall call, final KernelQedeqBo bo,
+                final boolean first) throws InterruptException {
         if (bo.hasLoadedRequiredModules()) {
             return true;
         }
@@ -181,20 +181,22 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         boolean result = true;
         for (int i = 0; i < imports.size(); i++) {
             if (!imports.getQedeqBo(i).hasLoadedImports()) {
-                if (!loadAllRequiredModules(call, (KernelQedeqBo) imports.getQedeqBo(i))) {
+                if (!loadAllRequiredModules(call, (KernelQedeqBo) imports.getQedeqBo(i), first)) {
                     result = false;
-                    // LATER 20110119 m31: we take only the first error, is that ok?
-                    String text = DependencyErrors.IMPORT_OF_MODULE_FAILED_TEXT + "\""
-                        + imports.getLabel(i) + "\"";
-                    if (bo.getErrors().size() > 0) {
-                        // TODO 20130324 m31: what if this changed directly after .size() call?
-                        //                    check if locking the module is active
-                        text += ", " + bo.getErrors().get(0).getMessage();
+                    if (first) {
+                        // LATER 20110119 m31: we take only the first error, is that ok?
+                        String text = DependencyErrors.IMPORT_OF_MODULE_FAILED_TEXT + "\""
+                            + imports.getLabel(i) + "\"";
+                        if (bo.getErrors().size() > 0) {
+                            // TODO 20130324 m31: what if this changed directly after .size() call?
+                            //                    check if locking the module is active
+                            text += ", " + bo.getErrors().get(0).getMessage();
+                        }
+                        ModuleDataException me = new LoadRequiredModuleException(
+                            DependencyErrors.IMPORT_OF_MODULE_FAILED_CODE,
+                            text, imports.getModuleContext(i));
+                        sfl.add(createError(me));
                     }
-                    ModuleDataException me = new LoadRequiredModuleException(
-                        DependencyErrors.IMPORT_OF_MODULE_FAILED_CODE,
-                        text, imports.getModuleContext(i));
-                    sfl.add(createError(me));
                 }
             }
         }
