@@ -1168,11 +1168,11 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
 
     // FIXME necessary?
     public void lockModule(final InternalModuleServiceCall call) throws InterruptException {
-        arbiter.lockRequiredModule(call);
+//        arbiter.lockRequiredModule(call);
     }
 
     public void unlockModule(final InternalModuleServiceCall call) {
-        arbiter.unlockRequiredModule(call);
+//        arbiter.unlockRequiredModule(call);
     }
 
 }

@@ -80,7 +80,7 @@ public class ModuleArbiterImpl implements ModuleArbiter {
                 final Object monitor = new Object();
                 synchronized (monitor) {
                     try {
-                        monitor.wait(10000);
+                        monitor.wait(1000);
                     } catch (InterruptedException e) {
                         process.setInterruptedState();
                         throw new InterruptException(qedeq.getModuleAddress().createModuleContext());

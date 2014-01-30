@@ -365,6 +365,73 @@ public class LoadRequiredModulesTest extends QedeqBoTestCase {
     /**
      * Load following dependencies:
      * <pre>
+     * 091 -> 092 -> 093 -> 094 -> 095 -> 096 -> 097 -> 099 -> 091
+     * </pre>
+     *
+     * Should be not OK.
+     *
+     * @throws Exception
+     */
+    public void testLoadRequiredModules_09c() throws Exception {
+        final ModuleAddress address1 = new DefaultModuleAddress(
+            getFile("loadRequired/LRM091.xml"));
+        final DefaultInternalKernelServices services = getServices();
+        final Thread thread1 = new Thread() {
+            public void run() {
+                System.out.println("1 running");
+                services.loadRequiredModules(address1);
+                SourceFileExceptionList e1 = services.getQedeqBo(address1).getErrors();
+                System.out.println("1 " + e1);
+                System.out.println("1 stopped");
+            }
+        };
+        thread1.setDaemon(true);
+
+        final ModuleAddress address2 = new DefaultModuleAddress(
+                getFile("loadRequired/LRM096.xml"));
+        final Thread thread2 = new Thread() {
+            public void run() {
+                System.out.println("2 running");
+                services.loadRequiredModules(address1);
+                SourceFileExceptionList e2 = services.getQedeqBo(address2).getErrors();
+                System.out.println("2 " + e2);
+                System.out.println("2 stopped");
+            }
+        };
+        thread2.setDaemon(true);
+
+        final ModuleAddress address3 = new DefaultModuleAddress(
+                getFile("loadRequired/LRM095.xml"));
+        final Thread thread3 = new Thread() {
+            public void run() {
+                System.out.println("3 running");
+                services.loadRequiredModules(address1);
+                SourceFileExceptionList e2 = services.getQedeqBo(address3).getErrors();
+                System.out.println("3 " + e2);
+                System.out.println("3 stopped");
+            }
+        };
+        thread3.setDaemon(true);
+
+        thread1.start();
+        thread2.start();
+        thread3.start();
+        
+        thread1.join();
+        thread2.join();
+        thread3.join();
+        System.out.println("******************************************");
+        SourceFileExceptionList e1 = services.getQedeqBo(address1).getErrors();
+        SourceFileExceptionList e2 = services.getQedeqBo(address2).getErrors();
+
+        assertEquals(1, e1.size());
+        assertEquals(1, e2.size());
+        // 091 -> 092 -> 093 -> 094 -> 095 -> 096 -> 097 -> 098 -> 099 -> 091 cycle\n");
+    }
+
+    /**
+     * Load following dependencies:
+     * <pre>
      * 101 -> 102
      * 101 -> notThere
      * 101 -> 103
