@@ -112,6 +112,7 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
     /** We check the context with this checker. */
     private ContextChecker contextChecker;
 
+
     /**
      * Constructor.
      *
@@ -142,7 +143,7 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
         pluginManager.addPlugin(FormalProofCheckerPlugin.class.getName());
     }
 
-    public void startupServices() {
+    public synchronized void startupServices() {
         modules = new KernelQedeqBoStorage();
         arbiter = new ModuleArbiterImpl();
         processManager = new ServiceProcessManager(pluginManager, arbiter);
@@ -152,7 +153,7 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
         }
     }
 
-    public void shutdownServices() {
+    public synchronized void shutdownServices() {
         processManager.terminateAndRemoveAllServiceProcesses();
         processManager = null;
         modules.removeAllModules();
@@ -165,7 +166,7 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
     /**
      * If configured load all QEDEQ modules that where successfully loaded the last time.
      */
-    public void autoReloadLastSessionChecked() {
+    private void autoReloadLastSessionChecked() {
         if (config.isAutoReloadLastSessionChecked()) {
             final Thread thread = new Thread() {
                 public void run() {
@@ -1165,12 +1166,13 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
         this.contextChecker = contextChecker;
     }
 
-    public boolean lockModule(final InternalModuleServiceCall call) throws InterruptException {
-        return arbiter.lockRequiredModule(call);
+    // FIXME necessary?
+    public void lockModule(final InternalModuleServiceCall call) throws InterruptException {
+        arbiter.lockRequiredModule(call);
     }
 
-    public boolean unlockModule(final InternalModuleServiceCall call) {
-        return arbiter.unlockRequiredModule(call);
+    public void unlockModule(final InternalModuleServiceCall call) {
+        arbiter.unlockRequiredModule(call);
     }
 
 }
