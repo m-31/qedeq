@@ -197,18 +197,16 @@ public interface InternalKernelServices extends KernelProperties {
      * after calling {@link #unlockModule(InternalModuleServiceCall)}.
      *
      * @param   call    The QEDEQ module of this call will be locked.
-     * @return  Was the module already locked?
      * @throws  InterruptException  The user canceled locking process.
      */
-    public boolean lockModule(InternalModuleServiceCall call) throws InterruptException;
+    public void lockModule(InternalModuleServiceCall call) throws InterruptException;
 
     /**
      * Unlock QEDEQ module from a QEDEQ ModuleServiceCall. This might be necessary if another process
      * should be able to alter the module.
      *
      * @param   call    The QEDEQ module of this call will be unlocked.
-     * @return  Was the module locked at all?
      */
-    public boolean unlockModule(InternalModuleServiceCall call);
+    public void unlockModule(InternalModuleServiceCall call);
 
 }
