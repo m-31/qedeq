@@ -125,11 +125,9 @@ public class DummyInternalKernelServices implements InternalKernelServices {
             ModuleAddress address) throws InterruptException {
         return null;
     }
-    public boolean lockModule(InternalModuleServiceCall call) throws InterruptException {
-        return false;
+    public void lockModule(InternalModuleServiceCall call) throws InterruptException {
     }
-    public boolean unlockModule(InternalModuleServiceCall call) {
-        return false;
+    public void unlockModule(InternalModuleServiceCall call) {
     }
 
 }
