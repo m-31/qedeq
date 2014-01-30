@@ -77,7 +77,7 @@ final class ConfigAccess {
      *
      * @return  Config file.
      */
-    public final File getConfigFile() {
+    public final synchronized File getConfigFile() {
         return configFile;
     }
 
@@ -86,7 +86,7 @@ final class ConfigAccess {
      *
      * @return  Config file description.
      */
-    public final String getConfigDescription() {
+    public final synchronized String getConfigDescription() {
         return description;
     }
 
@@ -115,7 +115,7 @@ final class ConfigAccess {
      *
      * @throws  IOException Saving failed.
      */
-    public final void store() throws IOException {
+    public final synchronized void store() throws IOException {
         OutputStream out = null;
         try {
             final File file = getConfigFile();
@@ -141,7 +141,7 @@ final class ConfigAccess {
      * @param   name    Get this property.
      * @return  String for looked property. <code>null</code>, if property is missing.
      */
-    public final String getString(final String name) {
+    public final synchronized String getString(final String name) {
         return getProperties().getProperty(name);
     }
 
@@ -152,7 +152,7 @@ final class ConfigAccess {
      * @param   defaultValue    Return this value if property doesn't exist.
      * @return  Value of property. Equal to default value if parameter doesn't exist.
      */
-    public final String getString(final String name, final String defaultValue) {
+    public final synchronized String getString(final String name, final String defaultValue) {
         final String value = getProperties().getProperty(name);
         if (value == null) {
             setString(name, defaultValue);
@@ -167,7 +167,7 @@ final class ConfigAccess {
      * @param name   Set this property.
      * @param value  Set property to this value.
      */
-    public final void setString(final String name, final String value) {
+    public final synchronized void setString(final String name, final String value) {
         getProperties().setProperty(name, value);
     }
 
@@ -192,7 +192,7 @@ final class ConfigAccess {
      * @param   namePrefix  Prefix of seek property name.
      * @return  List of key sorted string properties (maybe empty).
      */
-    public final String[] getStringProperties(final String namePrefix) {
+    public final synchronized String[] getStringProperties(final String namePrefix) {
         final List list = new ArrayList();
         final Enumeration keys = getProperties().keys();
         final List keyList = Collections.list(keys);
@@ -213,7 +213,7 @@ final class ConfigAccess {
      * @return  Map of properties that have String keys that start with <code>namePrefix</code>.
      *          The prefix is removed of for the resulting map.
      */
-    public final Map getProperties(final String namePrefix) {
+    public final synchronized Map getProperties(final String namePrefix) {
         final Map result = new HashMap();
         Iterator i = getProperties().entrySet().iterator();
         while (i.hasNext()) {
@@ -232,7 +232,7 @@ final class ConfigAccess {
      * @param name   Set this property.
      * @param value  Set property to this value.
      */
-    public final void setInteger(final String name, final int value) {
+    public final synchronized void setInteger(final String name, final int value) {
         setString(name, "" + value);
     }
 
@@ -245,7 +245,7 @@ final class ConfigAccess {
      * @throws  IllegalArgumentException    Property is no valid int value
      * @throws  NullPointerException        Property doesn't exist
      */
-    public final int getInteger(final String name) {
+    public final synchronized int getInteger(final String name) {
         final String intPropAsString = getProperties().getProperty(name);
         if (intPropAsString == null) {
             throw new NullPointerException("property \"" + name + "\" not found");
@@ -266,7 +266,7 @@ final class ConfigAccess {
      * @return  int value of property. Equal to default value if parameter doesn't exist.
      * @throws  IllegalArgumentException    Property is no valid int value.
      */
-    public final int getInteger(final String name, final int defaultValue) {
+    public final synchronized int getInteger(final String name, final int defaultValue) {
         final String intPropAsString = getProperties().getProperty(name);
         if (intPropAsString == null || intPropAsString.length() == 0) {
             setInteger(name, defaultValue);
@@ -285,7 +285,7 @@ final class ConfigAccess {
      *
      * @param   name    Property to delete.
      */
-    public final void removeProperty(final String name) {
+    public final synchronized void removeProperty(final String name) {
         getProperties().remove(name);
     }
 
@@ -302,7 +302,7 @@ final class ConfigAccess {
      *
      * @param   namePrefix  Prefix of seeked property name.
      */
-    public final void removeProperties(final String namePrefix) {
+    public final synchronized void removeProperties(final String namePrefix) {
         final Enumeration keys = getProperties().keys();
         while (keys.hasMoreElements()) {
             final String key = (String) keys.nextElement();
