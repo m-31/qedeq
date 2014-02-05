@@ -1166,13 +1166,13 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
         this.contextChecker = contextChecker;
     }
 
-    // FIXME necessary?
-    public void lockModule(final InternalModuleServiceCall call) throws InterruptException {
+// LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
+//    public void lockModule(final InternalModuleServiceCall call) throws InterruptException {
 //        arbiter.lockRequiredModule(call);
-    }
-
-    public void unlockModule(final InternalModuleServiceCall call) {
+//    }
+//
+//    public void unlockModule(final InternalModuleServiceCall call) {
 //        arbiter.unlockRequiredModule(call);
-    }
+//    }
 
 }

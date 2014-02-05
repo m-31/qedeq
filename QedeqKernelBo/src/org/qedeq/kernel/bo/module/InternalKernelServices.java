@@ -191,22 +191,23 @@ public interface InternalKernelServices extends KernelProperties {
      */
     public ContextChecker getContextChecker();
 
-    /**
-     * Lock QEDEQ module from a ModuleServiceCall. This is automatically done when a call is created.
-     * Only in very special circumstances it necessary to lock the module again. For example
-     * after calling {@link #unlockModule(InternalModuleServiceCall)}.
-     *
-     * @param   call    The QEDEQ module of this call will be locked.
-     * @throws  InterruptException  The user canceled locking process.
-     */
-    public void lockModule(InternalModuleServiceCall call) throws InterruptException;
-
-    /**
-     * Unlock QEDEQ module from a QEDEQ ModuleServiceCall. This might be necessary if another process
-     * should be able to alter the module.
-     *
-     * @param   call    The QEDEQ module of this call will be unlocked.
-     */
-    public void unlockModule(InternalModuleServiceCall call);
-
+// LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
+//    /**
+//     * Lock QEDEQ module from a ModuleServiceCall. This is automatically done when a call is created.
+//     * Only in very special circumstances it necessary to lock the module again. For example
+//     * after calling {@link #unlockModule(InternalModuleServiceCall)}.
+//     *
+//     * @param   call    The QEDEQ module of this call will be locked.
+//     * @throws  InterruptException  The user canceled locking process.
+//     */
+//    public void lockModule(InternalModuleServiceCall call) throws InterruptException;
+//
+//    /**
+//     * Unlock QEDEQ module from a QEDEQ ModuleServiceCall. This might be necessary if another process
+//     * should be able to alter the module.
+//     *
+//     * @param   call    The QEDEQ module of this call will be unlocked.
+//     */
+//    public void unlockModule(InternalModuleServiceCall call);
+//
 }
