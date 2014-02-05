@@ -15,6 +15,7 @@
 package org.qedeq.kernel.bo.service.basis;
 
 import org.qedeq.kernel.bo.service.internal.DefaultInternalKernelServices;
+import org.qedeq.kernel.bo.service.logic.SimpleProofFinderPlugin;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
@@ -429,6 +430,83 @@ public class LoadRequiredModulesTest extends QedeqBoTestCase {
         // 091 -> 092 -> 093 -> 094 -> 095 -> 096 -> 097 -> 098 -> 099 -> 091 cycle\n");
     }
 
+    /**
+     * Load following dependencies:
+     * <pre>
+     * 091 -> 092 -> 093 -> 094 -> 095 -> 096 -> 097 -> 099 -> 091
+     * </pre>
+     *
+     * Should be not OK.
+     *
+     * @throws Exception
+     */
+    public void testLoadRequiredModules_09d() throws Exception {
+        final ModuleAddress address1 = new DefaultModuleAddress(
+            getFile("loadRequired/LRM091.xml"));
+        final DefaultInternalKernelServices services = getServices();
+        final Thread thread1 = new Thread() {
+            public void run() {
+                System.out.println("1 running");
+                testFind(address1);
+                SourceFileExceptionList e1 = services.getQedeqBo(address1).getErrors();
+                System.out.println("1 " + e1);
+                System.out.println("1 stopped");
+            }
+        };
+        thread1.setDaemon(true);
+
+        final ModuleAddress address2 = new DefaultModuleAddress(
+                getFile("loadRequired/LRM096.xml"));
+        final Thread thread2 = new Thread() {
+            public void run() {
+                System.out.println("2 running");
+                testFind(address2);
+                SourceFileExceptionList e2 = services.getQedeqBo(address2).getErrors();
+                System.out.println("2 " + e2);
+                System.out.println("2 stopped");
+            }
+        };
+        thread2.setDaemon(true);
+
+        final ModuleAddress address3 = new DefaultModuleAddress(
+                getFile("loadRequired/LRM095.xml"));
+        final Thread thread3 = new Thread() {
+            public void run() {
+                System.out.println("3 running");
+                testFind(address3);
+                SourceFileExceptionList e2 = services.getQedeqBo(address3).getErrors();
+                System.out.println("3 " + e2);
+                System.out.println("3 stopped");
+            }
+        };
+        thread3.setDaemon(true);
+
+        thread1.start();
+        thread2.start();
+        thread3.start();
+        
+        thread1.join();
+        thread2.join();
+        thread3.join();
+        System.out.println("******************************************");
+        SourceFileExceptionList e1 = services.getQedeqBo(address1).getErrors();
+        SourceFileExceptionList e2 = services.getQedeqBo(address2).getErrors();
+
+        assertEquals(1, e1.size());
+        assertEquals(1, e2.size());
+        // 091 -> 092 -> 093 -> 094 -> 095 -> 096 -> 097 -> 098 -> 099 -> 091 cycle\n");
+    }
+
+    /**
+     * Find a proof.
+     *
+     * @throws Exception
+     */
+    public void testFind(final ModuleAddress address) {
+        getServices().executePlugin(SimpleProofFinderPlugin.class.getName(), address, null); 
+    }
+
+    
     /**
      * Load following dependencies:
      * <pre>
