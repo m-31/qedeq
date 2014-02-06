@@ -15,8 +15,9 @@
 
 package org.qedeq.kernel.bo.service.dependency;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
@@ -71,87 +72,52 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         QedeqLog.getInstance().logRequest(
             "Loading required modules", getKernelQedeqBo().getUrl());
         // all QedeqBos currently in state "loading required modules"
-        Map loadingRequiredInProgress = (Map) data;
-        if (loadingRequiredInProgress == null) {
-            loadingRequiredInProgress = new HashMap();
-        }
-// LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
-//        // we unlock the currently locked module to get rid of death locks
-//        getKernelQedeqBo().getKernelServices().unlockModule(call);
+
         if (!loadAllRequiredModules(call, getKernelQedeqBo(), true)) {
             final String msg = "Loading required modules failed";
             QedeqLog.getInstance().logFailureReply(msg, getKernelQedeqBo().getUrl(),
                 "Not all required modules could not even be loaded.");
             return Boolean.FALSE;
         }
-// LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
-//        try {
-//            getKernelQedeqBo().getKernelServices().lockModule(call);
-//        } catch (InterruptException e) {    // TODO 20130521 m31: ok?
-//            call.interrupt();
-//            return Boolean.FALSE;
-//        }
-        if (loadingRequiredInProgress.containsKey(getKernelQedeqBo())) { // already checked?
-            throw new IllegalStateException("Programming error: must not be marked!");
-        }
-        getKernelQedeqBo().setDependencyProgressState(DependencyState.STATE_LOADING_REQUIRED_MODULES);
-
-        loadingRequiredInProgress.put(getKernelQedeqBo(), getKernelQedeqBo());
-
-        final KernelModuleReferenceList required = (KernelModuleReferenceList) getKernelQedeqBo().getRequiredModules();
-
-// LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
-//        getKernelQedeqBo().getKernelServices().unlockModule(call);
-
-        final SourceFileExceptionList sfl = new SourceFileExceptionList();
-        Trace.trace(CLASS, this, method, "loading required modules of " + getKernelQedeqBo().getUrl());
-        for (int i = 0; i < required.size(); i++) {
-            percentage = 100 * (double) i / required.size();
-            final KernelQedeqBo current = required.getKernelQedeqBo(i);
-            if (loadingRequiredInProgress.containsKey(current)) {
-                ModuleDataException me = new LoadRequiredModuleException(
-                    DependencyErrors.RECURSIVE_IMPORT_OF_MODULES_IS_FORBIDDEN_CODE,
-                    DependencyErrors.RECURSIVE_IMPORT_OF_MODULES_IS_FORBIDDEN_TEXT + "\""
-                    + required.getLabel(i) + "\"",
-                    required.getModuleContext(i));
-                sfl.add(createError(me));
-                continue;
-            }
-            getKernelQedeqBo().getKernelServices().executePlugin(call.getInternalServiceProcess(),
-                LoadRequiredModulesPlugin.class.getName(), current, loadingRequiredInProgress);
-            if (!current.hasLoadedRequiredModules()) {
-                // LATER 20110119 m31: we take only the first error, is that ok?
-                String text = DependencyErrors.IMPORT_OF_MODULE_FAILED_TEXT + "\""
-                    + required.getLabel(i) + "\"";
-                if (current.getErrors().size() > 0) {
-                    // TODO 20130324 m31: what if this changed directly after .size() call?
-                    //                    check if locking the module is active
-                    text += ", " + current.getErrors().get(0).getMessage();
-                }
-                ModuleDataException me = new LoadRequiredModuleException(
-                    DependencyErrors.IMPORT_OF_MODULE_FAILED_CODE,
-                    text, required.getModuleContext(i));
-                sfl.add(createError(me));
-                continue;
-            }
+        // LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
+        try {
+            getKernelQedeqBo().getKernelServices().lockModule(call);
+        } catch (InterruptException e) {    // TODO 20130521 m31: ok?
+            call.interrupt();
+            return Boolean.FALSE;
         }
         percentage = 100;
+        Trace.trace(CLASS, this, method, "loading required modules of " + getKernelQedeqBo().getUrl());
+        getKernelQedeqBo().setDependencyProgressState(DependencyState.STATE_LOADING_REQUIRED_MODULES);
 
-        loadingRequiredInProgress.remove(getKernelQedeqBo());
+        // LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
+        // we unlock the currently locked module to get rid of death locks
+        getKernelQedeqBo().getKernelServices().unlockModule(call);
+
+        // LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
+        getKernelQedeqBo().getKernelServices().unlockModule(call);
+
+        final SourceFileExceptionList sfl = new SourceFileExceptionList();
+        if (circlesInRequiredModules(call, getKernelQedeqBo(), sfl)) {
+            final String msg = "Loading required modules failed";
+            QedeqLog.getInstance().logFailureReply(msg, getKernelQedeqBo().getUrl(),
+                "There were circular dependencies.");
+            return Boolean.FALSE;
+        }
 
         if (getKernelQedeqBo().getDependencyState().areAllRequiredLoaded()) {
             return Boolean.TRUE; // everything is OK, someone else's thread might have corrected errors!
         }
 
-// LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
-//        try {
-//            getKernelQedeqBo().getKernelServices().lockModule(call);
-//        } catch (InterruptException e) {    // TODO 20130521 m31: OK?
-//            call.interrupt();
-//            return Boolean.FALSE;
-//        }
+        // LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
+        try {
+            getKernelQedeqBo().getKernelServices().lockModule(call);
+        } catch (InterruptException e) {    // TODO 20130521 m31: OK?
+            call.interrupt();
+            return Boolean.FALSE;
+        }
 
-        getKernelQedeqBo().getLabels().setModuleReferences(required); // FIXME why here?
+        getKernelQedeqBo().getLabels().setModuleReferences(getKernelQedeqBo().getRequiredModules()); // FIXME why here?
         if (!getKernelQedeqBo().hasBasicFailures() && sfl.size() == 0) {
             getKernelQedeqBo().setLoadedRequiredModules();
             QedeqLog.getInstance().logSuccessfulReply(
@@ -171,9 +137,109 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         return  Boolean.FALSE;
     }
 
-    private boolean loadAllRequiredModules(final InternalModuleServiceCall call, final KernelQedeqBo bo,
-                final boolean first) throws InterruptException {
+    private boolean circlesInRequiredModules(final InternalModuleServiceCall call, final KernelQedeqBo bo,
+            final SourceFileExceptionList sfl) {
         if (bo.hasLoadedRequiredModules()) {
+            return false;
+        }
+        Stack loadingRequiredInProgress = new Stack();
+        Stack labels = new Stack();
+        System.out.println("->checking " + bo.getName());
+        loadingRequiredInProgress.push(bo);
+        final KernelModuleReferenceList required = bo.getKernelRequiredModules();
+        final StringBuffer error = new StringBuffer();
+        for (int i = 0; i < required.size(); i++) {
+            final KernelQedeqBo current = required.getKernelQedeqBo(i);
+            System.out.println("-->testing " + current.getName());
+            labels.push(required.getLabel(i));
+            if (loadingRequiredInProgress.contains(current)) {
+                for (int j = 0; j < loadingRequiredInProgress.size(); j++) {
+                    System.out.print("-> " + labels.get(j).toString());
+                }
+                ModuleDataException me = new LoadRequiredModuleException(
+                    DependencyErrors.RECURSIVE_IMPORT_OF_MODULES_IS_FORBIDDEN_CODE,
+                    DependencyErrors.RECURSIVE_IMPORT_OF_MODULES_IS_FORBIDDEN_TEXT + "\""
+                    + required.getLabel(i) + "\"",
+                    required.getModuleContext(i));
+                sfl.add(createError(me));
+                me.printStackTrace(System.out);
+                labels.pop();
+                continue;
+            }
+
+//            System.out.println("->removing " + bo.getName());
+//            loadingRequiredInProgress.remove(bo);
+            error.setLength(0);
+            if (!noCirclesInRequiredModules(call, required.getKernelQedeqBo(i), loadingRequiredInProgress, labels,
+                    error)) {
+                // LATER 20110119 m31: we take only the first error, is that ok?
+                String text = DependencyErrors.RECURSIVE_IMPORT_OF_MODULES_IS_FORBIDDEN_TEXT + error.toString();
+                ModuleDataException me = new LoadRequiredModuleException(
+                    DependencyErrors.RECURSIVE_IMPORT_OF_MODULES_IS_FORBIDDEN_CODE,
+                    text, required.getModuleContext(i));
+                sfl.add(createError(me));
+            }
+            labels.pop();
+        }
+        System.out.println("->removing " + bo.getName());
+        loadingRequiredInProgress.pop();
+        if (sfl.size() > 0) {
+            // LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
+            try {
+                getKernelQedeqBo().getKernelServices().lockModule(call);
+            } catch (InterruptException e) {    // TODO 20130521 m31: ok?
+                call.interrupt();
+                return false;
+            }
+            bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, sfl);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean noCirclesInRequiredModules(final InternalModuleServiceCall call, final KernelQedeqBo bo,
+            final Stack loadingRequiredInProgress, final Stack labels, final StringBuffer error) {
+        if (!bo.hasLoadedImports()) {
+            return false;
+        }
+        System.out.println("->checking " + bo.getName());
+        loadingRequiredInProgress.push(bo);
+        final KernelModuleReferenceList required = bo.getKernelRequiredModules();
+        boolean result = true;
+        for (int i = 0; i < required.size(); i++) {
+            final KernelQedeqBo current = required.getKernelQedeqBo(i);
+            System.out.println("-->testing " + current.getName() + " (" + required.getLabel(i) + ")");
+            labels.push(required.getLabel(i));
+            if (loadingRequiredInProgress.contains(current)) {
+                for (int j = 0; j < loadingRequiredInProgress.size(); j++) {
+                    if (j > 0) {
+                        error.append(" -> ");
+                    }
+                    error.append("\"" + labels.get(j).toString() + "\"");
+                }
+                result = false;
+                System.out.println("## " + error);
+                labels.pop();
+                break;
+            }
+
+            if (!noCirclesInRequiredModules(call, required.getKernelQedeqBo(i), loadingRequiredInProgress, labels,
+                    error)) {
+                result = false;
+                System.out.println("## " + error);
+                labels.pop();
+                break;
+            }
+            labels.pop();
+        }
+        System.out.println("->removing " + bo.getName());
+        loadingRequiredInProgress.pop();
+        return result;
+    }
+
+    private boolean loadAllRequiredModules(final InternalModuleServiceCall call, final KernelQedeqBo bo,
+            final boolean first) throws InterruptException {
+        if (bo.hasLoadedImports()) {
             return true;
         }
         getServices().executePlugin(call.getInternalServiceProcess(),
@@ -193,8 +259,6 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
                         String text = DependencyErrors.IMPORT_OF_MODULE_FAILED_TEXT + "\""
                             + imports.getLabel(i) + "\"";
                         if (bo.getErrors().size() > 0) {
-                            // TODO 20130324 m31: what if this changed directly after .size() call?
-                            //                    check if locking the module is active
                             text += ", " + bo.getErrors().get(0).getMessage();
                         }
                         ModuleDataException me = new LoadRequiredModuleException(
@@ -206,21 +270,23 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
             }
         }
         if (sfl.size() > 0) {
-// LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
-//            try {
-//                getKernelQedeqBo().getKernelServices().lockModule(call);
-//            } catch (InterruptException e) {    // TODO 20130521 m31: ok?
-//                call.interrupt();
-//                return false;
-//            }
+            // LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
+            try {
+                getKernelQedeqBo().getKernelServices().lockModule(call);
+            } catch (InterruptException e) {    // TODO 20130521 m31: ok?
+                call.interrupt();
+                return false;
+            }
             bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, sfl);
-
-// LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
-//            getKernelQedeqBo().getKernelServices().unlockModule(call);
+    
+            // LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
+            getKernelQedeqBo().getKernelServices().unlockModule(call);
         }
         return result;
     }
 
+
+    
     public double getVisitPercentage() {
         return percentage;
     }

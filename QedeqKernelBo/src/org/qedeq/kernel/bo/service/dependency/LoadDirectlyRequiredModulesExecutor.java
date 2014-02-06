@@ -63,6 +63,7 @@ public final class LoadDirectlyRequiredModulesExecutor extends ControlVisitor
         }
         this.required = new KernelModuleReferenceList();
         try {
+            getKernelQedeqBo().setLoadingImportsProgressState(LoadingImportsState.STATE_LOADING_IMPORTS);
             super.traverse(call.getInternalServiceProcess());
             getKernelQedeqBo().setLoadedImports(required);
         } catch (final SourceFileExceptionList sfl) {
