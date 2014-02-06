@@ -222,14 +222,14 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         boolean result = true;
         for (int i = 0; i < imports.size(); i++) {
             if (!imports.getQedeqBo(i).hasLoadedImports()) {
-                if (!loadAllRequiredModules(call, (KernelQedeqBo) imports.getQedeqBo(i), first)) {
+                if (!loadAllRequiredModules(call, (KernelQedeqBo) imports.getQedeqBo(i), false)) {
                     result = false;
                     if (first) {
                         // LATER 20110119 m31: we take only the first error, is that ok?
                         String text = DependencyErrors.IMPORT_OF_MODULE_FAILED_TEXT + "\""
                             + imports.getLabel(i) + "\"";
-                        if (bo.getErrors().size() > 0) {
-                            text += ", " + bo.getErrors().get(0).getMessage();
+                        if (imports.getQedeqBo(i).getErrors().size() > 0) {
+                            text += ", " + imports.getQedeqBo(i).getErrors().get(0).getMessage();
                         }
                         ModuleDataException me = new LoadRequiredModuleException(
                             DependencyErrors.IMPORT_OF_MODULE_FAILED_CODE,
