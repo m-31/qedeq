@@ -121,25 +121,25 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         }
         Stack loadingRequiredInProgress = new Stack();
         Stack labels = new Stack();
-        System.out.println("->checking " + bo.getName());
+//        System.out.println("->checking " + bo.getName());
         loadingRequiredInProgress.push(bo);
         final KernelModuleReferenceList required = bo.getKernelRequiredModules();
         final StringBuffer error = new StringBuffer();
         for (int i = 0; i < required.size(); i++) {
             final KernelQedeqBo current = required.getKernelQedeqBo(i);
-            System.out.println("-->testing " + current.getName());
+//            System.out.println("-->testing " + current.getName());
             labels.push(required.getLabel(i));
             if (loadingRequiredInProgress.contains(current)) {
-                for (int j = 0; j < loadingRequiredInProgress.size(); j++) {
-                    System.out.print("-> " + labels.get(j).toString());
-                }
+//                for (int j = 0; j < loadingRequiredInProgress.size(); j++) {
+//                    System.out.print("-> " + labels.get(j).toString());
+//                }
                 ModuleDataException me = new LoadRequiredModuleException(
                     DependencyErrors.RECURSIVE_IMPORT_OF_MODULES_IS_FORBIDDEN_CODE,
                     DependencyErrors.RECURSIVE_IMPORT_OF_MODULES_IS_FORBIDDEN_TEXT + "\""
                     + required.getLabel(i) + "\"",
                     required.getModuleContext(i));
                 sfl.add(createError(me));
-                me.printStackTrace(System.out);
+//                me.printStackTrace(System.out);
                 labels.pop();
                 continue;
             }
@@ -158,7 +158,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
             }
             labels.pop();
         }
-        System.out.println("->removing " + bo.getName());
+//        System.out.println("->removing " + bo.getName());
         loadingRequiredInProgress.pop();
         if (sfl.size() > 0) {
             bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, sfl);
@@ -172,13 +172,13 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         if (!bo.hasLoadedImports()) {
             return false;
         }
-        System.out.println("->checking " + bo.getName());
+//        System.out.println("->checking " + bo.getName());
         loadingRequiredInProgress.push(bo);
         final KernelModuleReferenceList required = bo.getKernelRequiredModules();
         boolean result = true;
         for (int i = 0; i < required.size(); i++) {
             final KernelQedeqBo current = required.getKernelQedeqBo(i);
-            System.out.println("-->testing " + current.getName() + " (" + required.getLabel(i) + ")");
+//            System.out.println("-->testing " + current.getName() + " (" + required.getLabel(i) + ")");
             labels.push(required.getLabel(i));
             if (loadingRequiredInProgress.contains(current)) {
                 for (int j = 0; j < loadingRequiredInProgress.size(); j++) {
@@ -188,7 +188,7 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
                     error.append("\"" + labels.get(j).toString() + "\"");
                 }
                 result = false;
-                System.out.println("## " + error);
+//                System.out.println("## " + error);
                 labels.pop();
                 break;
             }
@@ -196,13 +196,13 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
             if (!noCirclesInRequiredModules(call, required.getKernelQedeqBo(i), loadingRequiredInProgress, labels,
                     error)) {
                 result = false;
-                System.out.println("## " + error);
+//                System.out.println("## " + error);
                 labels.pop();
                 break;
             }
             labels.pop();
         }
-        System.out.println("->removing " + bo.getName());
+//        System.out.println("->removing " + bo.getName());
         loadingRequiredInProgress.pop();
         return result;
     }
