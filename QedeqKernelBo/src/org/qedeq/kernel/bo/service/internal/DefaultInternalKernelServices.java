@@ -992,6 +992,7 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
 
     public Object executePlugin(final InternalServiceJob process, final String id, final KernelQedeqBo qedeq,
             final Object data) throws InterruptException {
+        loadModule(qedeq.getModuleAddress());
         return processManager.executePlugin(id, qedeq, data, process);
     }
 
