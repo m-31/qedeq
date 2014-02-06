@@ -111,7 +111,7 @@ public class StateManager {
      * @return  Failure during loading or logical check occurred.
      */
     public boolean hasBasicFailures() {
-        return loadingState.isFailure() || dependencyState.isFailure()
+        return loadingState.isFailure() || loadingImportsState.isFailure() || dependencyState.isFailure()
             || wellFormedState.isFailure() || formallyProvedState.isFailure();
     }
 
