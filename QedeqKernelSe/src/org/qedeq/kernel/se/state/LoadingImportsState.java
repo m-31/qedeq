@@ -19,8 +19,7 @@ import org.qedeq.kernel.se.common.State;
 
 
 /**
- * Represents a mathematical module state. All existing instances of this class are the public
- * constants of this class.
+ * Represents a module state. Every instance of this class is unique.
  *
  * @author  Michael Meyling
  */
@@ -41,7 +40,7 @@ public final class LoadingImportsState extends AbstractState implements State {
         LoadingImportsStateDescriptions.STATE_STRING_LOADING_IMPORTS_FAILED, true,
         LoadingImportsStateDescriptions.STATE_CODE_LOADING_IMPORTS_FAILED);
 
-    /** Completely loaded. */
+    /** All directly required modules are loaded. */
     public static final LoadingImportsState STATE_LOADED_IMPORTED_MODULES = new LoadingImportsState(
         LoadingImportsStateDescriptions.STATE_STRING_LOADED_IMPORTED_MODULES, false,
         LoadingImportsStateDescriptions.STATE_CODE_LOADED_IMPORTED_MODULES);

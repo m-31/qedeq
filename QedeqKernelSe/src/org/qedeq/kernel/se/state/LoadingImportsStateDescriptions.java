@@ -18,7 +18,6 @@ package org.qedeq.kernel.se.state;
 /**
  * This interface provides constants of this package.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public interface LoadingImportsStateDescriptions {
@@ -29,23 +28,23 @@ public interface LoadingImportsStateDescriptions {
     /** Undefined state description. */
     public static final String STATE_STRING_UNDEFINED = "undefined";
 
-    /** Loading required modules code. */
+    /** Loading imported modules code. */
     public static final int STATE_CODE_LOADING_IMPORTS = 12;
 
-    /** Loading required modules description. */
+    /** Loading imported modules description. */
     public static final String STATE_STRING_LOADING_IMPORTS = "loading imported modules";
 
-    /** Loading required modules code. */
+    /** Loading imported modules failure code. */
     public static final int STATE_CODE_LOADING_IMPORTS_FAILED = 13;
 
-    /** Loading required modules description. */
+    /** Loading imported modules failure description. */
     public static final String STATE_STRING_LOADING_IMPORTS_FAILED
         = "loading imported modules failed";
 
-    /** Loading required modules failed code. */
+    /** Loading imported modules code. */
     public static final int STATE_CODE_LOADED_IMPORTED_MODULES = 14;
 
-    /** Loading required modules failed description. */
+    /** Loading imported modules description. */
     public static final String STATE_STRING_LOADED_IMPORTED_MODULES
         = "loaded imported modules";
 
