@@ -106,7 +106,7 @@ public interface KernelQedeqBo extends QedeqBo {
     public void setLoadingImportsProgressState(LoadingImportsState stateLoadImports);
 
     /**
-     * Set loaded imports state.
+     * Set loaded imports state. All directly required modules were loaded.
      *
      * @param   imports                 These imports were loaded.
      * @throws  IllegalStateException   Module is not yet loaded.
