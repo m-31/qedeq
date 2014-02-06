@@ -465,7 +465,7 @@ public final class StringUtility {
      * Trim a String with leading spaces to a given maximum length.
      *
      * @param   string  Format this string.
-     * @param   length  Maximum length. Must not be bigger than 20 and less than 1.
+     * @param   length  Minimum length. Must not be bigger than 20 and less than 1.
      * @return  String with minimum <code>length</code>, trimmed with leading spaces.
      */
     public static final String alignRight(final String string, final int length) {
