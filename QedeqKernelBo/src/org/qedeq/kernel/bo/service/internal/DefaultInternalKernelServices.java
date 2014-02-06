@@ -304,6 +304,9 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
             throws InterruptException {
         final String method = "loadModule(InternalServiceProcess, ModuleAddress)";
         final DefaultKernelQedeqBo prop = getModules().getKernelQedeqBo(this, address);
+        if (prop.isLoaded()) {
+            return prop;
+        }
         final ModuleServiceExecutor executor = new ModuleServiceExecutor() {
             public void executeService(final InternalModuleServiceCall call) throws InterruptException {
                 try {
@@ -1166,13 +1169,12 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
         this.contextChecker = contextChecker;
     }
 
-// LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
-//    public void lockModule(final InternalModuleServiceCall call) throws InterruptException {
+    public void lockModule(final InternalModuleServiceCall call) throws InterruptException {
 //        arbiter.lockRequiredModule(call);
-//    }
-//
-//    public void unlockModule(final InternalModuleServiceCall call) {
+    }
+
+    public void unlockModule(final InternalModuleServiceCall call) {
 //        arbiter.unlockRequiredModule(call);
-//    }
+    }
 
 }
