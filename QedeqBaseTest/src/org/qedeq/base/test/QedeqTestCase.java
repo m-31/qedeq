@@ -23,9 +23,12 @@ import junit.framework.TestCase;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
+import org.apache.log4j.WriterAppender;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.UrlUtility;
+import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
 
 /**
@@ -163,6 +166,24 @@ public abstract class QedeqTestCase extends TestCase {
            return false;
        }
        return true;
+    }
+
+    protected void setTraceOn() {
+        Logger rootLogger = Logger.getRootLogger();
+        rootLogger.removeAllAppenders();
+        rootLogger.setLevel(Level.DEBUG);
+        rootLogger.addAppender(new WriterAppender(
+            new PatternLayout(PatternLayout.TTCC_CONVERSION_PATTERN), System.out));
+        Trace.setTraceOn(true);
+    }
+
+    protected void setErrorOn() {
+        Logger rootLogger = Logger.getRootLogger();
+        rootLogger.removeAllAppenders();
+        rootLogger.setLevel(Level.ERROR);
+        rootLogger.addAppender(new WriterAppender(
+            new PatternLayout(PatternLayout.TTCC_CONVERSION_PATTERN), System.out));
+        Trace.setTraceOn(true);
     }
 
 }

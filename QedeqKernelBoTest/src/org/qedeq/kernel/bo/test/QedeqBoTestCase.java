@@ -24,9 +24,16 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.DateUtility;
+import org.qedeq.base.utility.StringUtility;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.KernelContext;
+import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.job.InternalModuleServiceCallImpl;
+import org.qedeq.kernel.bo.log.LogListener;
+import org.qedeq.kernel.bo.log.ModuleEventListener;
+import org.qedeq.kernel.bo.log.ModuleEventLog;
+import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceJob;
@@ -45,7 +52,7 @@ import org.qedeq.kernel.xml.dao.Qedeq2Xml;
  *
  * @author  Michael Meyling
  */
-public abstract class QedeqBoTestCase extends QedeqTestCase {
+public class QedeqBoTestCase extends QedeqTestCase implements LogListener, ModuleEventListener {
 
     /** Here should the result get into. */
     private File genDir;
@@ -162,6 +169,115 @@ public abstract class QedeqBoTestCase extends QedeqTestCase {
             // should never happen
             throw new RuntimeException(e);
         }
+    }
+    
+    public void setTraceOn() {
+        QedeqLog.getInstance().addLog(this);
+        ModuleEventLog.getInstance().addLog(this);
+        super.setTraceOn();
+        
+    }
+
+
+    public void setErrorOn() {
+        QedeqLog.getInstance().addLog(this);
+        ModuleEventLog.getInstance().addLog(this);
+        super.setErrorOn();
+    }
+
+    // LogListener
+    
+    /** For this module we logged the last event. */
+    private String lastModuleUrl = "";
+
+    public synchronized final void logMessageState(final String text, final String url) {
+        handleModuleUrl(url, "state:   " + text);
+    }
+
+    public synchronized final void logFailureState(final String text, final String url,
+            final String description) {
+        handleModuleUrl(url, "failure: " + text + "\n\t" + description);
+    }
+
+    public synchronized final void logSuccessfulState(final String text, final String url) {
+        handleModuleUrl(url, "success: " + text);
+    }
+
+    public synchronized void logRequest(final String text, final String url) {
+        handleModuleUrl(url, "request: " + text);
+    }
+
+    public synchronized final void logMessage(final String text) {
+        handleModuleUrl("", text);
+    }
+
+    public synchronized void logSuccessfulReply(final String text, final String url) {
+        handleModuleUrl(url, "reply:   " + text);
+    }
+
+    public synchronized void logFailureReply(final String text, final String url, final String description) {
+        handleModuleUrl(url, "reply:   " + text + "\n\t" + description);
+    }
+
+    // ModuleEventListener
+    
+    public synchronized void addModule(final QedeqBo prop) {
+        handleModuleUrl(prop.getUrl(), "module added.");
+    }
+
+    public synchronized void stateChanged(final QedeqBo prop) {
+        handleModuleUrl(prop.getUrl(), "module state changed: " + prop.getStateDescription());
+    }
+
+    public synchronized void removeModule(final QedeqBo prop) {
+        handleModuleUrl(prop.getUrl(), "module removed");
+    }
+
+    private void handleModuleUrl(final String url, final String text) {
+        final String urlShort;
+        if (!lastModuleUrl.equals(url)) {
+            urlShort = StringUtility.alignRight(getWithoutExtension(getLastSlashString(url)), 10);
+            lastModuleUrl = (url != null ? url : "");
+        } else {
+            urlShort = StringUtility.getSpaces(10).toString();
+        }
+        System.out.println(DateUtility.getTimestamp() + " " + urlShort + " " + text);
+    }
+
+
+    /**
+     * Get last / separated string part.
+     *
+     * @param   full    String with / characters in it. Also <code>null</code> is accepted.
+     * @return  All after the last / in <code>full</code>. Is never <code>null</code>.
+     */
+    public static String getLastSlashString(final String full) {
+        if (full == null) {
+            return "";
+        }
+        final int p = full.lastIndexOf('/');
+        if (p < 0) {
+            return full;
+        }
+        return full.substring(p + 1);
+    }
+
+
+    /**
+     * Get string part before last dot.
+     *
+     * @param   full    String with dots in it. Also <code>null</code> is accepted.
+     * @return  All before the last dot in <code>full</code>. Is never <code>null</code>.
+     */
+    public static String getWithoutExtension(final String full) {
+        if (full == null) {
+            return "";
+        }
+        final int p = full.lastIndexOf('.');
+        if (p < 0) {
+            return full;
+        }
+        return full.substring(0, p);
     }
 
 
