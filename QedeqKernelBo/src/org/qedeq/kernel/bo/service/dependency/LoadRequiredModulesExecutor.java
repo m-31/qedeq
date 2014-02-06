@@ -15,8 +15,6 @@
 
 package org.qedeq.kernel.bo.service.dependency;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Stack;
 
 import org.qedeq.base.io.Parameters;
@@ -79,23 +77,10 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
                 "Not all required modules could not even be loaded.");
             return Boolean.FALSE;
         }
-        // LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
-        try {
-            getKernelQedeqBo().getKernelServices().lockModule(call);
-        } catch (InterruptException e) {    // TODO 20130521 m31: ok?
-            call.interrupt();
-            return Boolean.FALSE;
-        }
         percentage = 100;
         Trace.trace(CLASS, this, method, "loading required modules of " + getKernelQedeqBo().getUrl());
         getKernelQedeqBo().setDependencyProgressState(DependencyState.STATE_LOADING_REQUIRED_MODULES);
 
-        // LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
-        // we unlock the currently locked module to get rid of death locks
-        getKernelQedeqBo().getKernelServices().unlockModule(call);
-
-        // LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
-        getKernelQedeqBo().getKernelServices().unlockModule(call);
 
         final SourceFileExceptionList sfl = new SourceFileExceptionList();
         if (circlesInRequiredModules(call, getKernelQedeqBo(), sfl)) {
@@ -107,14 +92,6 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
 
         if (getKernelQedeqBo().getDependencyState().areAllRequiredLoaded()) {
             return Boolean.TRUE; // everything is OK, someone else's thread might have corrected errors!
-        }
-
-        // LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
-        try {
-            getKernelQedeqBo().getKernelServices().lockModule(call);
-        } catch (InterruptException e) {    // TODO 20130521 m31: OK?
-            call.interrupt();
-            return Boolean.FALSE;
         }
 
         getKernelQedeqBo().getLabels().setModuleReferences(getKernelQedeqBo().getRequiredModules()); // FIXME why here?
@@ -184,13 +161,6 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
         System.out.println("->removing " + bo.getName());
         loadingRequiredInProgress.pop();
         if (sfl.size() > 0) {
-            // LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
-            try {
-                getKernelQedeqBo().getKernelServices().lockModule(call);
-            } catch (InterruptException e) {    // TODO 20130521 m31: ok?
-                call.interrupt();
-                return false;
-            }
             bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, sfl);
             return true;
         }
@@ -270,23 +240,11 @@ public final class LoadRequiredModulesExecutor extends ControlVisitor implements
             }
         }
         if (sfl.size() > 0) {
-            // LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
-            try {
-                getKernelQedeqBo().getKernelServices().lockModule(call);
-            } catch (InterruptException e) {    // TODO 20130521 m31: ok?
-                call.interrupt();
-                return false;
-            }
             bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, sfl);
-    
-            // LATER 20140205 m31: remove if plugin locking is no problem any more (load required modules)
-            getKernelQedeqBo().getKernelServices().unlockModule(call);
         }
         return result;
     }
 
-
-    
     public double getVisitPercentage() {
         return percentage;
     }

@@ -1169,12 +1169,4 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
         this.contextChecker = contextChecker;
     }
 
-    public void lockModule(final InternalModuleServiceCall call) throws InterruptException {
-//        arbiter.lockRequiredModule(call);
-    }
-
-    public void unlockModule(final InternalModuleServiceCall call) {
-//        arbiter.unlockRequiredModule(call);
-    }
-
 }

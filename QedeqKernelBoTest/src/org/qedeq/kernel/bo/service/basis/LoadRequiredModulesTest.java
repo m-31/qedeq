@@ -131,13 +131,11 @@ public class LoadRequiredModulesTest extends QedeqBoTestCase {
             assertEquals(38, e.get(1).getSourceArea().getStartPosition().getRow());
             assertEquals(15, e.get(1).getSourceArea().getStartPosition().getColumn());
             assertEquals(90722, e.get(1).getErrorCode());
-            System.out.println(e.get(1).getDescription());
             assertTrue(e.get(1).getDescription().endsWith("Recursive import of modules is forbidden, label: " +
                 "\"LRM043\" -> \"LRM044\" -> \"LRM042\" -> \"LRM043\""));
             assertEquals(45, e.get(2).getSourceArea().getStartPosition().getRow());
             assertEquals(15, e.get(2).getSourceArea().getStartPosition().getColumn());
             assertEquals(90722, e.get(2).getErrorCode());
-            System.out.println(e.get(2).getDescription());
             assertTrue(e.get(2).getDescription().endsWith("Recursive import of modules is forbidden, label: " +
                     "\"LRM044\" -> \"LRM042\" -> \"LRM043\" -> \"LRM044\""));
         }
@@ -282,19 +280,18 @@ public class LoadRequiredModulesTest extends QedeqBoTestCase {
     public void testLoadRequiredModules_09() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(
             getFile("loadRequired/LRM091.xml"));
-        setErrorOn();
         if (getServices().loadRequiredModules(address)) {
             fail("091 -> 092 -> 093 -> 094 -> 095 -> 096 -> 097 -> 098 -> 099 -> 091 cycle\n");
         } else {
             SourceFileExceptionList e = getServices().getQedeqBo(address).getErrors();
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getRow());
             assertEquals(15, e.get(0).getSourceArea().getStartPosition().getColumn());
-            System.out.println(e.get(0).getDescription());
             assertEquals(90722, e.get(0).getErrorCode());
             assertEquals(1, e.size());
-            assertTrue(e.get(0).getDescription().endsWith("Recursive import of modules is forbidden, label: " +
-        		"\"LRM092\" -> \"LRM092\" -> \"LRM093\" -> \"LRM094\" -> \"LRM095\" -> \"LRM096\" -> " +
-        		"\"LRM097\" -> \"LRM098\" -> \"LRM099\" -> \"LRM091\"" ));
+            System.out.println(e.get(0).getDescription());
+            assertTrue(e.get(0).getDescription().endsWith("Recursive import of modules is forbidden, label: "
+        		+ "\"LRM092\" -> \"LRM093\" -> \"LRM094\" -> \"LRM095\" -> \"LRM096\" -> "
+        		+ "\"LRM097\" -> \"LRM098\" -> \"LRM099\" -> \"LRM091\"" ));
         }
     }
 
@@ -380,7 +377,7 @@ public class LoadRequiredModulesTest extends QedeqBoTestCase {
         final Thread thread2 = new Thread() {
             public void run() {
                 System.out.println("2 running");
-                services.loadRequiredModules(address1);
+                services.loadRequiredModules(address2);
                 SourceFileExceptionList e2 = services.getQedeqBo(address2).getErrors();
                 System.out.println("2 " + e2);
                 System.out.println("2 stopped");
@@ -393,7 +390,7 @@ public class LoadRequiredModulesTest extends QedeqBoTestCase {
         final Thread thread3 = new Thread() {
             public void run() {
                 System.out.println("3 running");
-                services.loadRequiredModules(address1);
+                services.loadRequiredModules(address3);
                 SourceFileExceptionList e2 = services.getQedeqBo(address2).getErrors();
                 System.out.println("3 " + e2);
                 System.out.println("3 stopped");
@@ -414,7 +411,11 @@ public class LoadRequiredModulesTest extends QedeqBoTestCase {
         SourceFileExceptionList e3 = services.getQedeqBo(address3).getErrors();
 
         assertEquals(1, e1.size());
+        System.out.println("e2: " + e2);
+        System.out.println("e2.size(): " + e2.size());
         assertEquals(1, e2.size());
+        System.out.println("e3: " + e3);
+        System.out.println("e3.size(): " + e3.size());
         assertEquals(1, e3.size());
         // 091 -> 092 -> 093 -> 094 -> 095 -> 096 -> 097 -> 098 -> 099 -> 091 cycle\n");
     }
@@ -470,8 +471,6 @@ public class LoadRequiredModulesTest extends QedeqBoTestCase {
         };
         thread3.setDaemon(true);
 
-        setErrorOn();
-        
         thread1.start();
         thread2.start();
         thread3.start();
