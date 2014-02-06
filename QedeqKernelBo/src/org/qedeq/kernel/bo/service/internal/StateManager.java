@@ -289,6 +289,7 @@ public class StateManager {
             throw new IllegalArgumentException(
                 "this state could only be set by calling method setLoadedImports");
         }
+        setLoadingImportsState(state);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
 
@@ -329,9 +330,9 @@ public class StateManager {
     }
 
     /**
-     * Is the module loaded?
+     * Are all imported modules loaded?
      *
-     * @return  Is the module loaded?
+     * @return  Are all imported module loaded?
      */
     public boolean hasLoadedImports() {
         return loadingImportsState == LoadingImportsState.STATE_LOADED_IMPORTED_MODULES;
