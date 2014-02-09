@@ -49,7 +49,7 @@ public class DummyInternalKernelServices implements InternalKernelServices {
     public KernelQedeqBo getKernelQedeqBo(ModuleAddress address) {
         return null;
     }
-    public KernelQedeqBo loadModule(InternalServiceJob proc, ModuleAddress parent,
+    public KernelQedeqBo loadKernelModule(InternalServiceJob proc, ModuleAddress parent,
             Specification spec) throws SourceFileExceptionList {
         return null;
     }
