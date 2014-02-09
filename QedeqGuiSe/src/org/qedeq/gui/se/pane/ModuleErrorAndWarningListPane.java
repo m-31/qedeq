@@ -44,9 +44,11 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
 import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.DateUtility;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.gui.se.control.SelectionListenerList;
 import org.qedeq.gui.se.util.GuiHelper;
+import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.log.ModuleEventListener;
 import org.qedeq.kernel.se.common.SourceFileException;
@@ -336,7 +338,10 @@ public class ModuleErrorAndWarningListPane extends JPanel implements ModuleEvent
         final String s = actionevent.getActionCommand();
         if (s.equals("copy")) {
             if (model.getQedeq() != null) {
-                final StringBuffer sb = new StringBuffer();
+                final StringBuffer sb = new StringBuffer(512);
+                sb.append(KernelContext.getInstance().getDescriptiveKernelVersion() + "\n");
+                sb.append("Date\t" + DateUtility.getGmtTimestamp() + "\n");
+                sb.append("QEDEQ module\t" + prop.getUrl() + "\n");
                 sb.append("Kind\tType\tCode\tFrom\tTo\tDescription\n");
                 for (int i = 0; i < model.getQedeq().getErrors().size(); i++) {
                     SourceFileException e = model.getQedeq().getErrors().get(i);
