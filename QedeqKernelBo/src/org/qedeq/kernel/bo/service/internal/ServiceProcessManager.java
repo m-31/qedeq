@@ -24,8 +24,8 @@ import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.ModuleServiceResult;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.ServiceJob;
-import org.qedeq.kernel.bo.job.InternalServiceJobImpl;
 import org.qedeq.kernel.bo.job.InternalModuleServiceCallImpl;
+import org.qedeq.kernel.bo.job.InternalServiceJobImpl;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.InternalServiceJob;
@@ -212,7 +212,7 @@ public class ServiceProcessManager {
      */
     public Object executePlugin(final String id, final KernelQedeqBo qedeq, final Object data,
             final InternalServiceJob proc) throws InterruptException {
-        final String method = "executePlugin(String, KernelQedeqBo, Object)";
+        final String method = "executePlugin(String, KernelQedeqBo, Object, InternalServiceJob)";
         final ModuleServicePlugin plugin = pluginManager.getPlugin(id);
         if (plugin == null) {
             final String message = "Kernel does not know about plugin: ";
@@ -276,6 +276,24 @@ public class ServiceProcessManager {
                 }
             }
         }
+    }
+
+    /**
+     * Create a service job for executing a plugin.
+     *
+     * @param   id          Plugin to use.
+     * @return  Process.
+     * @throws  RuntimeException    Plugin unknown.
+     */
+    public InternalServiceJob createServiceJob(final String id) {
+        final ModuleServicePlugin plugin = pluginManager.getPlugin(id);
+        if (plugin == null) {
+            final String message = "Kernel does not know about plugin: ";
+            final RuntimeException e = new RuntimeException(message + id);
+            Trace.fatal(CLASS, this, "createServiceJob", message + id, e);
+            throw e;
+        }
+        return createServiceProcess(plugin.getServiceAction());
     }
 
 }

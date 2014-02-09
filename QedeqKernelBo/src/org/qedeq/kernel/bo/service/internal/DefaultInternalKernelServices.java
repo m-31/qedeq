@@ -397,15 +397,14 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
 //        return prop;
     }
 
-
     public QedeqBo loadModule(final ModuleAddress address) {
-        final InternalServiceJob proc = processManager.createServiceProcess("LoadModule");
+        final InternalServiceJob process = processManager.createServiceProcess("LoadModule");
         final QedeqBo result = getQedeqBo(address);
         try {
-            loadKernelModule(proc, address);
-            proc.setSuccessState();
+            loadKernelModule(process, address);
+            process.setSuccessState();
         } catch (InterruptException e) {
-            proc.setInterruptedState();
+            process.setInterruptedState();
         }
         return result;
     }
@@ -563,7 +562,7 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
      * @throws  SourceFileExceptionList Loading failed.
      * @throws  InterruptException User canceled request.
      */
-    public KernelQedeqBo loadModule(final InternalServiceJob process, final ModuleAddress parent,
+    public KernelQedeqBo loadKernelModule(final InternalServiceJob process, final ModuleAddress parent,
             final Specification spec) throws SourceFileExceptionList, InterruptException {
 
         final String method = "loadModule(Module, Specification)";
@@ -878,15 +877,7 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
         if (prop.hasLoadedRequiredModules()) {
             return true; // everything is OK
         }
-        try {
-            loadModule(address);
-            executePlugin(null, LoadRequiredModulesPlugin.class.getName(), prop, null);
-        } catch (InterruptException e) {    // TODO 20130521 m31: ok?
-            // ignore;
-        }
-        if (validate) {
-            modules.validateDependencies();
-        }
+        executePlugin(LoadRequiredModulesPlugin.class.getName(), prop.getModuleAddress(), null);
         return prop.hasLoadedRequiredModules();
     }
 
@@ -906,31 +897,17 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
         if (prop.isWellFormed()) {
             return true; // everything is OK
         }
-        try {
-            loadModule(address);
-            executePlugin(null, WellFormedCheckerPlugin.class.getName(), prop, null);
-        } catch (InterruptException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        if (validate) {
-            modules.validateDependencies();
-        }
+        executePlugin(WellFormedCheckerPlugin.class.getName(), prop.getModuleAddress(), null);
         return prop.isWellFormed();
     }
 
-    public boolean checkWellFormedness(final InternalServiceJob process, final KernelQedeqBo qedeq) {
+    public boolean checkWellFormedness(final InternalServiceJob process, final KernelQedeqBo qedeq)
+            throws InterruptException {
         // did we check this already?
         if (qedeq.isWellFormed()) {
             return true; // everything is OK
         }
-        try {
-            executePlugin(process, WellFormedCheckerPlugin.class.getName(), qedeq,
-                null);
-        } catch (InterruptException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        executePlugin(process, WellFormedCheckerPlugin.class.getName(), qedeq, null);
         return qedeq.isWellFormed();
     }
 
@@ -940,30 +917,17 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
         if (prop.isFullyFormallyProved()) {
             return true; // everything is OK
         }
-        try {
-            loadModule(address);
-            executePlugin(null, FormalProofCheckerPlugin.class.getName(), prop, null);
-        } catch (InterruptException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        if (validate) {
-            modules.validateDependencies();
-        }
+        executePlugin(FormalProofCheckerPlugin.class.getName(), prop.getModuleAddress(), null);
         return prop.isFullyFormallyProved();
     }
 
-    public boolean checkFormallyProved(final InternalServiceJob process, final KernelQedeqBo qedeq) {
+    public boolean checkFormallyProved(final InternalServiceJob process, final KernelQedeqBo qedeq)
+            throws InterruptException {
         // did we check this already?
         if (qedeq.isFullyFormallyProved()) {
             return true; // everything is OK
         }
-        try {
-            executePlugin(process, FormalProofCheckerPlugin.class.getName(), qedeq, null);
-        } catch (InterruptException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        executePlugin(process, FormalProofCheckerPlugin.class.getName(), qedeq, null);
         return qedeq.isFullyFormallyProved();
     }
 
@@ -981,18 +945,33 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
         return pluginManager.getNonInternalPlugins();
     }
 
+
     public Object executePlugin(final String id, final ModuleAddress address, final Object data) {
+        final InternalServiceJob process = processManager.createServiceJob(id);
         try {
-            loadModule(address);
-            return processManager.executePlugin(id, getKernelQedeqBo(address), data, null);
+            final KernelQedeqBo qedeq = loadKernelModule(process, address);
+            if (qedeq.isLoaded()) {
+                return processManager.executePlugin(id, qedeq, data, process);
+            } else {
+                process.setFailureState();
+            }
         } catch (InterruptException e) {
-            return null;
+            process.setInterruptedState();
+        } finally {
+            process.setSuccessState();
+            if (validate) {
+                modules.validateDependencies();
+            }
         }
+        return null;
     }
 
     public Object executePlugin(final InternalServiceJob process, final String id, final KernelQedeqBo qedeq,
             final Object data) throws InterruptException {
-        loadModule(qedeq.getModuleAddress());
+        if (process == null) {
+            throw new NullPointerException("process parameter must not be null");
+        }
+        loadKernelModule(process, qedeq.getModuleAddress());
         return processManager.executePlugin(id, qedeq, data, process);
     }
 
