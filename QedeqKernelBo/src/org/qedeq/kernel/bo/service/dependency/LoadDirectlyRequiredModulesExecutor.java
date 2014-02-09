@@ -92,7 +92,7 @@ public final class LoadDirectlyRequiredModulesExecutor extends ControlVisitor
         final ModuleContext context = getCurrentContext();
         context.setLocationWithinModule(context.getLocationWithinModule() + ".getLabel()");
         try {
-            final KernelQedeqBo propNew = getKernelQedeqBo().getKernelServices().loadModule(
+            final KernelQedeqBo propNew = getKernelQedeqBo().getKernelServices().loadKernelModule(
                 getInternalServiceCall().getInternalServiceProcess(),
                 getKernelQedeqBo().getModuleAddress(), imp.getSpecification());
             getRequired().addLabelUnique(context, imp.getLabel(), propNew);
