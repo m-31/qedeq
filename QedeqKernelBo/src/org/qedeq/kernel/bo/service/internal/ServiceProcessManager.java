@@ -205,13 +205,13 @@ public class ServiceProcessManager {
      * @param   id          Plugin to use.
      * @param   qedeq       QEDEQ module to work on.
      * @param   data        Process parameters.
-     * @param   proc        Process. Might be <code>null</code>. Otherwise should be a process that is still running.
+     * @param   process     Process. Must not be <code>null</code>..
      * @return  Plugin      Specific result object. Might be <code>null</code>.
      * @throws  InterruptException  User interrupt occurred.
      * @throws  RuntimeException    Plugin unknown or process is not running any more.
      */
     public Object executePlugin(final String id, final KernelQedeqBo qedeq, final Object data,
-            final InternalServiceJob proc) throws InterruptException {
+            final InternalServiceJob process) throws InterruptException {
         final String method = "executePlugin(String, KernelQedeqBo, Object, InternalServiceJob)";
         final ModuleServicePlugin plugin = pluginManager.getPlugin(id);
         if (plugin == null) {
@@ -222,20 +222,14 @@ public class ServiceProcessManager {
             throw e;
         }
         final Parameters configParameters = KernelContext.getInstance().getConfig().getServiceEntries(plugin);
-        InternalServiceJob process = null;
-        if (proc != null) {
-            if (!proc.isRunning()) {
-                // TODO 20140124 m31: but if it was interrupted we want to throw a InterrruptException
-                final String message = "Process " + proc.getId() + " was already finished: "
-                    + proc.getExecutionActionDescription();
-                final RuntimeException e = new RuntimeException(message + id);
-                Trace.fatal(CLASS, this, method, message + id,
-                    e);
-                throw e;
-            }
-            process = proc;
-        } else {
-            process = createServiceProcess(plugin.getServiceAction());
+        if (!process.isRunning()) {
+            // TODO 20140124 m31: but if it was interrupted we want to throw a InterrruptException
+            final String message = "Process " + process.getId() + " was already finished: "
+                + process.getExecutionActionDescription();
+            final RuntimeException e = new RuntimeException(message + id);
+            Trace.fatal(CLASS, this, method, message + id,
+                e);
+            throw e;
         }
         InternalModuleServiceCallImpl call = null;
         try {
@@ -269,12 +263,6 @@ public class ServiceProcessManager {
             throw e;
         } finally {
             endServiceCall(call);
-            // if we created the process we also close it
-            if (proc == null) {
-                if (process.isRunning()) {
-                    process.setSuccessState();
-                }
-            }
         }
     }
 
