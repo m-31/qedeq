@@ -60,6 +60,7 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.dto.list.DefaultAtom;
 import org.qedeq.kernel.se.dto.list.DefaultElementList;
 import org.qedeq.kernel.se.state.FormallyProvedState;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 
 /**
@@ -116,7 +117,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         }
     }
 
-    public Object executePlugin(final InternalModuleServiceCall call, final Object data) {
+    public Object executePlugin(final InternalModuleServiceCall call, final Object data) throws InterruptException {
         // we set this as module rule version, and hope it will be changed
         ruleVersion = new Version("0.00.00");
         QedeqLog.getInstance().logRequest(

@@ -50,6 +50,7 @@ import org.qedeq.kernel.se.dto.module.FormalProofVo;
 import org.qedeq.kernel.se.dto.module.FormulaVo;
 import org.qedeq.kernel.se.dto.module.PropositionVo;
 import org.qedeq.kernel.se.state.WellFormedState;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 
 /**
@@ -120,7 +121,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements M
         return (ModuleService) getService();
     }
 
-    public Object executePlugin(final InternalModuleServiceCall call, final Object data) {
+    public Object executePlugin(final InternalModuleServiceCall call, final Object data) throws InterruptException {
         getServices().checkWellFormedness(call.getInternalServiceProcess(), getKernelQedeqBo());
         QedeqLog.getInstance().logRequest("Trying to create formal proofs", getKernelQedeqBo().getUrl());
         try {
