@@ -58,8 +58,7 @@ public interface InternalKernelServices extends KernelProperties {
      * Get {@link KernelQedeqBo} for an address.
      *
      * @param   address Look for this address.
-     * @return  Existing or new {@link KernelQedeqBo}, if address is malformed
-     *          <code>null</code> is returned.
+     * @return  Existing or new {@link KernelQedeqBo}. Never <code>null</code>.
      */
     public KernelQedeqBo getKernelQedeqBo(ModuleAddress address);
 
@@ -93,7 +92,7 @@ public interface InternalKernelServices extends KernelProperties {
      * @throws  SourceFileExceptionList     Loading failed.
      * @throws  InterruptException User canceled request.
      */
-    public KernelQedeqBo loadModule(InternalServiceJob process, ModuleAddress parent,
+    public KernelQedeqBo loadKernelModule(InternalServiceJob process, ModuleAddress parent,
             Specification spec) throws SourceFileExceptionList, InterruptException;
 
     /**
@@ -113,8 +112,9 @@ public interface InternalKernelServices extends KernelProperties {
      * @param   process Working process.
      * @param   qedeq   Module to check.
      * @return  Was check successful?
+     * @throws  InterruptException User canceled request.
      */
-    public boolean checkWellFormedness(InternalServiceJob process, KernelQedeqBo qedeq);
+    public boolean checkWellFormedness(InternalServiceJob process, KernelQedeqBo qedeq) throws InterruptException;
 
     /**
      * Check if all propositions of this and all required modules have correct formal proofs.
@@ -122,18 +122,20 @@ public interface InternalKernelServices extends KernelProperties {
      * @param   process Working process.
      * @param   qedeq   Module to check.
      * @return  Was check successful?
+     * @throws  InterruptException      Process execution was canceled by user.
      */
-    public boolean checkFormallyProved(InternalServiceJob process, KernelQedeqBo qedeq);
+    public boolean checkFormallyProved(InternalServiceJob process, KernelQedeqBo qedeq) throws InterruptException;
 
     /**
      * Execute plugin on given QEDEQ module.
      *
-     * @param   parent      Parent service process. Might be <code>null</code>
+     * @param   parent      Parent service process. Must not be <code>null</code>
      * @param   id          Plugin id.
      * @param   qedeq       QEDEQ module.
      * @param   data        Process data. Additional data beside module.
      * @return  Plugin specific resulting object. Might be <code>null</code>.
-     * @throws  InterruptException    Process execution was canceled by user.
+     * @throws  InterruptException      Process execution was canceled by user.
+     * @throws  NullPointerException    <code>parent</code> was null.
      */
     public Object executePlugin(final InternalServiceJob parent, final String id, final KernelQedeqBo qedeq,
         final Object data) throws InterruptException;
