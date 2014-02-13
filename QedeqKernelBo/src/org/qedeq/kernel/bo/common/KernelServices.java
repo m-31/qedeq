@@ -32,8 +32,10 @@ public interface KernelServices {
 
     /**
      * Remove all modules from memory.
+     *
+     * @return  Was removal successful?
      */
-    public void removeAllModules();
+    public boolean removeAllModules();
 
     /**
      * Clear local buffer and all loaded QEDEQ modules.

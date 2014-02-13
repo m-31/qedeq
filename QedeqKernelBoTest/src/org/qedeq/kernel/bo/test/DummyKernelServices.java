@@ -27,7 +27,8 @@ import org.qedeq.kernel.se.common.ModuleService;
 
 public class DummyKernelServices implements KernelServices {
 
-    public void removeAllModules() {
+    public boolean removeAllModules() {
+        return true;
     }
     public boolean clearLocalBuffer() {
         return true;

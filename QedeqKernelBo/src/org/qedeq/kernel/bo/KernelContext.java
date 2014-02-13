@@ -121,7 +121,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
             services = null;
         }
 
-        public void removeAllModules() {
+        public boolean removeAllModules() {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
@@ -225,7 +225,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
             QedeqLog.getInstance().logMessage("QEDEQ Kernel closed.");
         }
 
-        public void removeAllModules() {
+        public boolean removeAllModules() {
             throw new IllegalStateException(KERNEL_NOT_STARTED);
         }
 
@@ -339,8 +339,8 @@ public final class KernelContext implements KernelProperties, KernelServices {
             initializedState.shutdown();
         }
 
-        public void removeAllModules() {
-            services.removeAllModules();
+        public boolean removeAllModules() {
+            return services.removeAllModules();
         }
 
         public void removeModule(final ModuleAddress address) {
@@ -520,8 +520,8 @@ public final class KernelContext implements KernelProperties, KernelServices {
         currentState.shutdown();
     }
 
-    public void removeAllModules() {
-        currentState.removeAllModules();
+    public boolean removeAllModules() {
+        return currentState.removeAllModules();
     }
 
     public void removeModule(final ModuleAddress address) {

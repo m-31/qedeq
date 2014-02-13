@@ -199,7 +199,7 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
         }
     }
 
-    public void removeAllModules() {
+    public boolean removeAllModules() {
         final String method = "removeAllModules()";
         Trace.begin(CLASS, this, method);
 //        getModules().removeAllModules();
@@ -247,6 +247,7 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
             modules.validateDependencies();
         }
         Trace.end(CLASS, this, method);
+        return ok;
     }
 
     public void removeModule(final ModuleAddress address) {
@@ -302,17 +303,20 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
         try {
             QedeqLog.getInstance().logMessage(
                 "Clear local buffer from all QEDEQ files.");
-            removeAllModules();
-            final File bufferDir = getBufferDirectory().getCanonicalFile();
-            if (bufferDir.exists() && !IoUtility.deleteDir(bufferDir, new FileFilter() {
-                        public boolean accept(final File pathname) {
-                            return pathname.getName().endsWith(".xml");
-                        }
-                    })) {
-                throw new IOException("buffer could not be deleted: " + bufferDir);
+            if (removeAllModules()) {
+                final File bufferDir = getBufferDirectory().getCanonicalFile();
+                if (bufferDir.exists() && !IoUtility.deleteDir(bufferDir, new FileFilter() {
+                            public boolean accept(final File pathname) {
+                                return pathname.getName().endsWith(".xml");
+                            }
+                        })) {
+                    throw new IOException("buffer could not be deleted: " + bufferDir);
+                }
+                QedeqLog.getInstance().logMessage("Local buffer was cleared.");
+                return true;
             }
-            QedeqLog.getInstance().logMessage("Local buffer was cleared.");
-            return true;
+            QedeqLog.getInstance().logMessage("Local buffer was not cleared.");
+            return false;
         } catch (IOException e) {
             Trace.fatal(CLASS, this, method, "IO access problem", e);
             QedeqLog.getInstance().logMessage(
