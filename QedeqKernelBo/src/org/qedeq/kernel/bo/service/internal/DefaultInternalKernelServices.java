@@ -24,6 +24,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.qedeq.base.io.IoUtility;
@@ -199,46 +200,71 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
     }
 
     public void removeAllModules() {
+        final String method = "removeAllModules()";
+        Trace.begin(CLASS, this, method);
 //        getModules().removeAllModules();
         InternalServiceJob proc = null;
-        InternalModuleServiceCall call = null;
+        proc = processManager.createServiceProcess("remove all modules");
+        final List calls = new ArrayList();
+        final List m = getModules().getAllModules();
+        boolean ok = false;
         try {
-            proc = processManager.createServiceProcess("remove all modules");
-            getModules().lockAndRemoveAllModules(this, processManager, proc);
-            proc.setSuccessState();
-        } catch (final InterruptException e) {
-            QedeqLog.getInstance().logMessage("Remove all modules failed: " + e.getMessage());
-            if (proc != null) {
-                proc.setInterruptedState();
+            // lock all modules
+            for (final Iterator iterator = m.iterator(); iterator.hasNext(); ) {
+                final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) iterator.next();
+                final InternalModuleServiceCall call  = processManager.createServiceCall(this, prop, Parameters.EMPTY,
+                    Parameters.EMPTY, proc);
+                calls.add(call);
             }
+
+            // delete all modules
+            for (final Iterator iterator = m.iterator(); iterator.hasNext(); ) {
+                final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) iterator.next();
+                removeModule(prop);
+            }
+            ok = true;
+        } catch (final InterruptException e) {
+            for (final Iterator iterator = calls.iterator(); iterator.hasNext(); ) {
+                final InternalModuleServiceCall call = (InternalModuleServiceCall) iterator.next();
+                call.finishError("couldn't lock all modules");
+                processManager.endServiceCall(call);
+            }
+            QedeqLog.getInstance().logMessage("Remove all modules failed: " + e.getMessage());
+            proc.setInterruptedState();
         } finally {
-            processManager.endServiceCall(call);
+            for (final Iterator iterator = calls.iterator(); iterator.hasNext(); ) {
+                final InternalModuleServiceCall call = (InternalModuleServiceCall) iterator.next();
+                call.finishOk();
+                processManager.endServiceCall(call);
+            }
+            if (ok) {
+                proc.setSuccessState();
+            } else {
+                proc.setFailureState();
+            }
         }
         if (validate) {
             modules.validateDependencies();
         }
-        // FIXME implement as below for removeModule
+        Trace.end(CLASS, this, method);
     }
 
     public void removeModule(final ModuleAddress address) {
         final KernelQedeqBo prop = getKernelQedeqBo(address);
         if (prop != null) {
             QedeqLog.getInstance().logRequest("Removing module", address.getUrl());
-            InternalServiceJob proc = null;
+            InternalServiceJob proc = processManager.createServiceProcess("remove module");
             InternalModuleServiceCall call = null;
             try {
-                proc = processManager.createServiceProcess("remove module");
                 call = processManager.createServiceCall(this, prop, Parameters.EMPTY,
                     Parameters.EMPTY, proc);
                 removeModule((DefaultKernelQedeqBo) prop);
-                call.finish();
+                call.finishOk();
                 proc.setSuccessState();
             } catch (final InterruptException e) {
                 QedeqLog.getInstance().logFailureReply(
                     "Remove failed", address.getUrl(), e.getMessage());
-                if (proc != null) {
-                    proc.setInterruptedState();
-                }
+                proc.setInterruptedState();
             } finally {
                 processManager.endServiceCall(call);
             }
@@ -312,7 +338,7 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
                 try {
                     synchronized (prop) {
                         if (prop.isLoaded()) {
-                            call.finish();
+                            call.finishOk();
                             return;
                         }
                         QedeqLog.getInstance().logRequest("Load module", address.getUrl());
@@ -334,17 +360,17 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
                         }
                         QedeqLog.getInstance().logSuccessfulReply(
                             "Successfully loaded", address.getUrl());
-                        call.finish();
+                        call.finishOk();
                     }
                 } catch (SourceFileExceptionList e) {
                     Trace.trace(CLASS, this, method, e);
                     QedeqLog.getInstance().logFailureState("Loading of module failed.", address.getUrl(),
                         e.toString());
-                    call.finish("Loading of module failed.");
+                    call.finishError("Loading of module failed.");
                 } catch (final RuntimeException e) {
                     Trace.fatal(CLASS, this, method, "unexpected problem", e);
                     QedeqLog.getInstance().logFailureReply("Loading failed", address.getUrl(), e.getMessage());
-                    call.finish("Loading of module failed: " + e.getMessage());
+                    call.finishError("Loading of module failed: " + e.getMessage());
                 }
             }
 
@@ -736,7 +762,7 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
                             prop.setLoadingCompleteness((int) percentage);
                         }
                     });
-                    call.finish();
+                    call.finishOk();
                 } catch (IOException e) {
                     Trace.trace(CLASS, this, method, e);
                     try {
@@ -750,7 +776,7 @@ public class DefaultInternalKernelServices implements Kernel, InternalKernelServ
                         prop.getUrl(), e);
                     prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_WEB_FAILED, sfl);
                     Trace.trace(CLASS, this, method, "Couldn't access " + prop.getUrl());
-                    call.finish("Couldn't save URL " + prop.getUrl() + " to file: " + e.getMessage());
+                    call.finishError("Couldn't save URL " + prop.getUrl() + " to file: " + e.getMessage());
                 }
             }
         };

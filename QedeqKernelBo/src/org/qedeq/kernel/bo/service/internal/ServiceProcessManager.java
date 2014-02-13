@@ -101,7 +101,7 @@ public class ServiceProcessManager {
     }
 
     /**
-     * Create service process. Might block further execution, because an exclusive access to given module is given.
+     * Create service call. Might block further execution, because an exclusive access to given module is given.
      *
      * @param   service             The service that runs in current thread.
      * @param   qedeq               QEDEQ module for service.
@@ -182,7 +182,7 @@ public class ServiceProcessManager {
             Trace.fatal(CLASS, this, method, msg, e);
             QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
             if (call != null) {
-                call.finish(msg + " " + e.getMessage());
+                call.finishError(msg + " " + e.getMessage());
             }
             process.setFailureState();
             return call != null ? call.getServiceResult() : null;
@@ -242,7 +242,7 @@ public class ServiceProcessManager {
                 call.interrupt();
                 throw new InterruptException(qedeq.getModuleAddress().createModuleContext());
             } else {
-                call.finish();
+                call.finishOk();
                 process.setInternalServiceCall((InternalModuleServiceCall) call.getParentServiceCall());
             }
             return result;
@@ -251,7 +251,7 @@ public class ServiceProcessManager {
             Trace.fatal(CLASS, this, method, msg, e);
             QedeqLog.getInstance().logFailureReply(msg, qedeq.getUrl(), e.getMessage());
             if (call != null) {
-                call.finish(msg + ": " + e.getMessage());
+                call.finishError(msg + ": " + e.getMessage());
             }
             return null;
         } catch (final InterruptException e) {

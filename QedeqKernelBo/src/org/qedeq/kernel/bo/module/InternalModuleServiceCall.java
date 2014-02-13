@@ -85,7 +85,7 @@ public interface InternalModuleServiceCall extends ModuleServiceCall {
      * Set generic success result for call and stop.
      * Can only be done if call is still running.
      */
-    public void finish();
+    public void finishOk();
 
     /**
      * Set generic failure result for call and stop.
@@ -93,7 +93,7 @@ public interface InternalModuleServiceCall extends ModuleServiceCall {
      *
      * @param   errorMessage    Reason for finishing with error.
      */
-    public void finish(final String errorMessage);
+    public void finishError(final String errorMessage);
 
     /**
      * Set result state for call and stop.

@@ -190,11 +190,11 @@ public class InternalModuleServiceCallImpl implements InternalModuleServiceCall 
         return this.newlyBlockedModule;
     }
 
-    public synchronized void finish() {
+    public synchronized void finishOk() {
         finish(ServiceResultImpl.SUCCESSFUL);
     }
 
-    public synchronized void finish(final String errorMessage) {
+    public synchronized void finishError(final String errorMessage) {
         finish(new ServiceResultImpl(errorMessage));
     }
 
