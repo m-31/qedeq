@@ -204,7 +204,7 @@ class KernelQedeqBoStorage {
         Trace.begin(CLASS, this, method);
         try {
             final List list = new ArrayList();
-            list.addAll(bos.entrySet());
+            list.addAll(bos.values());
             return list;
         } finally {
             Trace.end(CLASS, this, method);
