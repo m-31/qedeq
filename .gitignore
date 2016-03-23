@@ -1,2 +1,11 @@
 .idea/
 out/
+QedeqBase/bin/
+QedeqBaseTest/bin/
+QedeqGuiSe/bin/
+QedeqKernelSe/bin/
+QedeqKernelSeTest/bin/
+QedeqKernelBo/bin/
+QedeqKernelBoTest/bin/
+QedeqKernelXml/bin/
+QedeqKernelXmlTest/bin/
