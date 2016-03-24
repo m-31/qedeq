@@ -116,64 +116,43 @@ public class ProofFinderImpl implements ProofFinder {
             skipFormulas = "," + StringUtility.replace(skipFormulas, " ", "") + ",";
         }
         // TODO 20110606 m31: check that we have the correct format (e.g. only "," as separator)
-        System.out.println("maximumProofLines = " + maxProofLines);
-        int weight = 0;
-        weight = parameters.getInt("propositionVariableWeight");
-        if (weight > 0) {
-            substitutionMethods.add(new SubstituteBase(weight, parameters.getInt("propositionVariableOrder")) {
-                public void substitute(final int i) throws ProofException {
-                    substituteByPropositionVariables(i);
-                }
-            });
-        }
-        weight = parameters.getInt("partFormulaWeight");
-        if (weight > 0) {
-            substitutionMethods.add(new SubstituteBase(weight, parameters.getInt("partFormulaOrder")) {
-                public void substitute(final int i) throws ProofException {
-                    substitutePartGoalFormulas(i);
-                }
-            });
-        }
-        weight = parameters.getInt("disjunctionWeight");
-        if (weight > 0) {
-            substitutionMethods.add(new SubstituteBase(weight, parameters.getInt("disjunctionOrder")) {
-                public void substitute(final int i) throws ProofException {
-                    substituteDisjunction(i);
-                }
-            });
-        }
-        weight = parameters.getInt("implicationWeight");
-        if (weight > 0) {
-            substitutionMethods.add(new SubstituteBase(weight, parameters.getInt("implicationOrder")) {
-                public void substitute(final int i) throws ProofException {
-                    substituteImplication(i);
-                }
-            });
-        }
-        weight = parameters.getInt("negationWeight");
-        if (weight > 0) {
-            substitutionMethods.add(new SubstituteBase(weight, parameters.getInt("negationOrder")) {
-                public void substitute(final int i) throws ProofException {
-                    substituteNegation(i);
-                }
-            });
-        }
-        weight = parameters.getInt("conjunctionWeight");
-        if (weight > 0) {
-            substitutionMethods.add(new SubstituteBase(weight, parameters.getInt("conjunctionOrder")) {
-                public void substitute(final int i) throws ProofException {
-                    substituteConjunction(i);
-                }
-            });
-        }
-        weight = parameters.getInt("equivalenceWeight");
-        if (weight > 0) {
-            substitutionMethods.add(new SubstituteBase(weight, parameters.getInt("equivalenceOrder")) {
-                public void substitute(final int i) throws ProofException {
-                    substituteEquivalence(i);
-                }
-            });
-        }
+        log.logMessageState("maximumProofLines = " + maxProofLines);
+        addSubstitionMethod(new SubstituteBase("propositionVariable", parameters) {
+            public void substitute(final int i) throws ProofException {
+                substituteByPropositionVariables(i);
+            }
+        });
+        addSubstitionMethod(new SubstituteBase("partFormula", parameters) {
+            public void substitute(final int i) throws ProofException {
+                substitutePartGoalFormulas(i);
+            }
+        });
+        addSubstitionMethod(new SubstituteBase("disjunction", parameters) {
+            public void substitute(final int i) throws ProofException {
+                substituteDisjunction(i);
+            }
+        });
+        addSubstitionMethod(new SubstituteBase("implication", parameters) {
+            public void substitute(final int i) throws ProofException {
+                substituteImplication(i);
+            }
+        });
+        addSubstitionMethod(new SubstituteBase("negation", parameters) {
+            public void substitute(final int i) throws ProofException {
+                substituteNegation(i);
+            }
+        });
+        addSubstitionMethod(new SubstituteBase("conjunction", parameters) {
+            public void substitute(final int i) throws ProofException {
+                substituteConjunction(i);
+            }
+        });
+        addSubstitionMethod(new SubstituteBase("equivalence", parameters) {
+            public void substitute(final int i) throws ProofException {
+                substituteEquivalence(i);
+            }
+        });
+
         logFrequence = parameters.getInt("logFrequence");
 
         lines = new ArrayList();
@@ -181,6 +160,14 @@ public class ProofFinderImpl implements ProofFinder {
         setAllPredVars(proof);
         partGoalFormulas = FormulaUtility.getPartFormulas(goalFormula);
         log.logMessageState("our goal: " + trans.getUtf8(formula));
+        log.logMessageState(("beside modus ponens we use following "
+            + substitutionMethods.size() + " substitution rules:"));
+        {
+            final Iterator iter = substitutionMethods.iterator();
+            while (iter.hasNext()) {
+                log.logMessageState("\t" + iter.next());
+            }
+        }
         int size2 = 0;
         while (true) {
             // check if the thread should be interrupted
@@ -192,23 +179,33 @@ public class ProofFinderImpl implements ProofFinder {
             final Iterator iter = substitutionMethods.iterator();
             while (iter.hasNext()) {
                 final Substitute method = (Substitute) iter.next();
-//                System.out.println(method.getClass());
                 for (int j = 0; j < method.getWeight(); j++) {
                     if (method.nextLine() >= lines.size()) {
                         break;
                     }
                     method.substitute();
-                    tryModusPonensAll();
+                }
+                tryModusPonensAll();
+            }
+            size2 = lines.size();
+            if (size1 == size2) {
+                boolean ready = true;
+                final Iterator i = substitutionMethods.iterator();
+                while (i.hasNext()) {
+                    final Substitute method = (Substitute) i.next();
+                    if (method.nextLine() < lines.size()) {
+                        ready = false;
+                        break;
+                    }
+                }
+                if (ready) {
+                    // we didn't generate new lines, so we just quit
+                    log.logMessageState(FinderErrors.PROOF_NOT_FOUND_TEXT + size2);
+                    throw new ProofNotFoundException(FinderErrors.PROOF_NOT_FOUND_CODE,
+                            FinderErrors.PROOF_NOT_FOUND_TEXT + size2, context);
                 }
             }
-//            System.out.println(lines.size());
-            if (size2 == lines.size()) {
-                // we didn't generate new lines, so we just quit
-                log.logMessageState(FinderErrors.PROOF_NOT_FOUND_TEXT + size2);
-                throw new ProofNotFoundException(FinderErrors.PROOF_NOT_FOUND_CODE,
-                    FinderErrors.PROOF_NOT_FOUND_TEXT + size2, context);
-            }
-            size2 = size1;
+            size1 = size2;
         }
     }
 
@@ -241,10 +238,10 @@ public class ProofFinderImpl implements ProofFinder {
                 max = name;
             }
         }
-        System.out.println("Adding extra variables:");
+        log.logMessageState("Adding extra variables:");
         for (int i = 1; i <= extraVars; i++) {
             max = (char) (max.charAt(0) + i) + "";
-            System.out.println("\t" + max);
+            log.logMessageState("\t" + max);
             // add extra predicate variable
             allPredVars.add(FormulaUtility.createPredicateVariable(max));
         }
@@ -481,10 +478,19 @@ public class ProofFinderImpl implements ProofFinder {
         return ProofFinderUtility.getUtf8Line(lines, reasons, lines.size() - 1, trans);
     }
 
+    private void addSubstitionMethod(Substitute rule) {
+        if (rule.getWeight() > 0) {
+            substitutionMethods.add(rule);
+        }
+    }
+
     /**
      * These is the basis implementation for substitution methods.
      */
     private abstract class SubstituteBase implements Substitute {
+
+        /** Name of substitution method. */
+        private final String name;
 
         /** Next proof line we will work on. */
         private int next = 0;
@@ -495,10 +501,19 @@ public class ProofFinderImpl implements ProofFinder {
         /** Order of proof method. */
         private final int order;
 
-        SubstituteBase(final int weight, final int order) {
-            this.weight = weight;
-            this.order = order;
+        /**
+         * Substitute rule implementation.
+         *
+         * @param name        What kind of term we want to replace.
+         * @param parameters  Parameters with name + "Weight" and name + "Order"
+         */
+        SubstituteBase(final String name, final Parameters parameters) {
+            this.name = name;
+            this.weight = parameters.getInt(name + "Weight");
+            this.order = parameters.getInt(name + "Order");
         }
+
+        public String getName() { return name; }
 
         public int getWeight() {
             return weight;
@@ -507,6 +522,7 @@ public class ProofFinderImpl implements ProofFinder {
         public int getOrder() {
             return order;
         }
+
         public int nextLine() {
             return next;
         }
@@ -527,6 +543,14 @@ public class ProofFinderImpl implements ProofFinder {
             return -1;
         }
 
+        public String toString() {
+            return "" + order + ": " + name + " " + weight;
+        }
+
+        public int hashCode() {
+            return toString().hashCode();
+        }
+
         public void substitute() throws ProofException {
             substitute(next);
             next++;
@@ -542,6 +566,13 @@ public class ProofFinderImpl implements ProofFinder {
      *
      */
     interface Substitute extends Comparable {
+
+        /**
+         * Get name substitution rule.
+         *
+         * @return  Name.
+         */
+        public String getName();
 
         /**
          * Return next proof line number we will work on.

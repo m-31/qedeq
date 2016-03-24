@@ -210,7 +210,11 @@ public class QedeqMainFrame extends JFrame {
             if (startDirectory.toString().equals(".") && startDirectory.getCanonicalFile().getName()
                     .equals("QedeqGuiSe")) {
                 startDirectory = new File(QEDEQ_IDE_START);
+            } else  if (startDirectory.toString().equals(".") && new File(startDirectory.getCanonicalFile(),
+                    "QedeqGuiSe").exists()) {
+                startDirectory = new File(startDirectory.getCanonicalFile().getParentFile(), QEDEQ_IDE);
             }
+
             QedeqGuiConfig.init(new File(startDirectory,
                 "config/org.qedeq.properties"), startDirectory);
         } catch (Throwable e) {

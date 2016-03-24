@@ -59,7 +59,7 @@ public final class Qedeq2Utf8Plugin implements ModuleServicePlugin {
         parameters.setDefault("info", true);
         parameters.setDefault("brief", false);
         // automatically line break after this column. 0 means no automatic line breaking
-        parameters.setDefault("maximumColumn", 80);
+        parameters.setDefault("maximumColumn", 120);
     }
 
 }

@@ -52,7 +52,7 @@ import org.qedeq.kernel.xml.dao.Qedeq2Xml;
  *
  * @author  Michael Meyling
  */
-public class QedeqBoTestCase extends QedeqTestCase implements LogListener, ModuleEventListener {
+public abstract class QedeqBoTestCase extends QedeqTestCase implements LogListener, ModuleEventListener {
 
     /** Here should the result get into. */
     private File genDir;
