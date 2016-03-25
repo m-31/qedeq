@@ -23,10 +23,7 @@ import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.log.ModuleLogListener;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.ProofFinderFactoryImpl;
-import org.qedeq.kernel.bo.logic.proof.common.ProofFinder;
-import org.qedeq.kernel.bo.logic.proof.common.ProofFinderFactory;
-import org.qedeq.kernel.bo.logic.proof.common.ProofFoundException;
-import org.qedeq.kernel.bo.logic.proof.common.ProofNotFoundException;
+import org.qedeq.kernel.bo.logic.proof.common.*;
 import org.qedeq.kernel.bo.module.InternalModuleServiceCall;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
@@ -221,6 +218,8 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements M
                 proof = e.getProofLines();
             } catch (ProofNotFoundException e) {
                 addWarning(e);
+            } catch (ProofFinderArgumentException e) {
+                addError(e);
             } finally {
                 finder = null;  // so we always new if we are currently searching
             }

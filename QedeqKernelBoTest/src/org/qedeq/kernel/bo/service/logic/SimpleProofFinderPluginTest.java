@@ -184,8 +184,7 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         parameters.put("extraVars", "0");
         parameters.put("propositionVariableOrder", "2");
         parameters.put("propositionVariableWeight", "3");
-        parameters.put("partFormulaOrder", "1");
-        parameters.put("partFormulaWeight", "1");
+        parameters.put("partFormulaWeight", "0");
         parameters.put("disjunctionOrder", "1");
         parameters.put("disjunctionWeight", "3");
         parameters.put("implicationWeight", "0");

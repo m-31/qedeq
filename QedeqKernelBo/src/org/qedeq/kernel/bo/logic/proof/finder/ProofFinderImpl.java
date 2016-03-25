@@ -27,10 +27,7 @@ import org.qedeq.kernel.bo.common.Element2Utf8;
 import org.qedeq.kernel.bo.log.ModuleLogListener;
 import org.qedeq.kernel.bo.logic.common.FormulaUtility;
 import org.qedeq.kernel.bo.logic.common.Operators;
-import org.qedeq.kernel.bo.logic.proof.common.ProofException;
-import org.qedeq.kernel.bo.logic.proof.common.ProofFinder;
-import org.qedeq.kernel.bo.logic.proof.common.ProofFoundException;
-import org.qedeq.kernel.bo.logic.proof.common.ProofNotFoundException;
+import org.qedeq.kernel.bo.logic.proof.common.*;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Add;
@@ -478,7 +475,16 @@ public class ProofFinderImpl implements ProofFinder {
         return ProofFinderUtility.getUtf8Line(lines, reasons, lines.size() - 1, trans);
     }
 
-    private void addSubstitionMethod(Substitute rule) {
+    private void addSubstitionMethod(final Substitute rule) throws ProofException {
+        final Iterator iter = substitutionMethods.iterator();
+        while (iter.hasNext()) {
+            Substitute r = (Substitute) iter.next();
+            if (rule.getOrder() == r.getOrder()) {
+                throw new ProofFinderArgumentException(FinderErrors.PROOF_FINDER_ARGUMENTS_ERROR_CODE,
+                    FinderErrors.PROOF_FINDER_ARGUMENTS_ERROR_TEXT + "same order for rules "
+                    + r + " and " + rule, context);
+            }
+        }
         if (rule.getWeight() > 0) {
             substitutionMethods.add(rule);
         }

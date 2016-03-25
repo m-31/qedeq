@@ -42,4 +42,12 @@ public interface FinderErrors extends ErrorCodes {
             + "this number of proof lines: ";
 
 
+    /** Error code. */
+    public static final int PROOF_FINDER_ARGUMENTS_ERROR_CODE = 23791220;
+
+    /** Error message. */
+    public static final String PROOF_FINDER_ARGUMENTS_ERROR_TEXT
+        = "Proof finder arguments error: ";
+
+
 }
