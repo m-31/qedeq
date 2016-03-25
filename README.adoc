@@ -1,5 +1,11 @@
 == HILBERT II
 
+=== Overview
+In the tradition of Hilbert's program we create a formal correct (checkable by a proof verifier) but readable
+(like an ordinary LaTeX textbook) mathematical knowledge base which is freely accessible within the internet.
+Logic and set theory started.
+
+=== Introduction
 The goal of *Hilbert II* is decentralised access to verified and readable mathematical knowledge.
 As its name already suggests, this project is in the tradition of Hilbert's program.
 
@@ -20,8 +26,63 @@ proofs could be verified by *Hilbert II*. For each theorem the dependency of oth
 could be easily derived.
 
 The main project is still in development but you can already download the current application. It has a GUI and can 
-load QEDEQ module files located anywhere in the internet. It can transform QEDEQ modules into LaTeX and 
+load *QEDEQ* module files located anywhere in the internet. It can transform *QEDEQ* modules into LaTeX and
 UTF-8 text files. Most PDF documents of this web site were generated in fact by this application. It even can check 
 simple formal proofs. For set theory there are simple discrete models integrated so the application can check if a 
-formula is valid. In new QEDEQ modules you can use QEDEQ modules that exist already in the web just by referencing 
+formula is valid. In new *QEDEQ* modules you can use *QEDEQ* modules that exist already in the web just by referencing
 them. 
+
+=== Status
+The main project is still in development but you can already download the current application. It has a GUI and
+can load *QEDEQ* module files located anywhere in the internet. It can transform *QEDEQ* modules into LaTeX and
+UTF-8 text files.
+It even can check simple formal proofs. For set theory there are simple discrete models integrated so the application
+can check if a formula is valid. In new *QEDEQ* modules you can use *QEDEQ* modules that exist already in the web
+just by referencing them.
+
+=== Trial
+If you just want to try the current code you can do the following.
+
+==== Get source code
+
+   git clone https://github.com/m-31/qedeq.git
+
+==== Import into Idea
+
+"File / New / Project from Existing Sources ..."
+
+- select _qedeq_ directory
+- [x] create project from existing sources
+- reload
+- add VCS support for root
+
+"File / Project Structure..."
+
+- "Project Settings / Modules"
+- add module, import "QedeqBuild"
+- add module, import "QedeqDoc"
+
+Turn back changes to iml files.
+
+  git checkout .
+
+==== Run GUI
+
+Run GUI by starting "QedeqGuiSe/src/org/qedeq/gui/se/main/QedeqMainFrame"
+
+"File / Load all from QEDEQ.org"
+
+"qedeq_sample3" right click "Check Fully-Formally-Proved"
+
+"qedeq_sample3" right click "Show Module as UTF-8-text"
+
+"qedeq_sample4" right click "Check Fully-Formally-Proved"
+
+"qedeq_sample4" right click "Show Module as UTF-8-text"
+
+"qedeq_sample4" right click "Find Proofs"
+
+
+=== Comprehensive Information
+
+More in-depth information can be found under http://qedeq.org/
