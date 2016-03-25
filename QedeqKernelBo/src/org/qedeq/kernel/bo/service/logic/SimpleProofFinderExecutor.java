@@ -125,7 +125,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements M
             validFormulas = new FormalProofLineListVo();
             traverse(call.getInternalServiceProcess());
             QedeqLog.getInstance().logSuccessfulReply(
-                "Proof creation finished for", getKernelQedeqBo().getUrl());
+                "Proof creation successful", getKernelQedeqBo().getUrl());
         } catch (SourceFileExceptionList e) {
             final String msg = "Proof creation not (fully?) successful";
             QedeqLog.getInstance().logFailureReply(msg, getKernelQedeqBo().getUrl(), e.getMessage());
