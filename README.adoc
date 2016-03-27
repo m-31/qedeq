@@ -97,7 +97,14 @@ Run GUI by starting "QedeqGuiSe/src/org/qedeq/gui/se/main/QedeqMainFrame"
 
 "qedeq_sample4" right click "Show Module as UTF-8-text"
 
+If you want to check your computer power (will take several minutes):
+
 "qedeq_sample4" right click "Find Proofs"
+
+Meanwhile you can check the process progress with
+
+"Tools / View Processes" " Details"
+
 
 
 === Comprehensive Information
