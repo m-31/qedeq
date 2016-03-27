@@ -1,4 +1,5 @@
 .idea/
+.metadata/
 out/
 QedeqBase/bin/
 QedeqBaseTest/bin/
