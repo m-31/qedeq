@@ -47,7 +47,24 @@ If you just want to try the current code you can do the following.
 
    git clone https://github.com/m-31/qedeq.git
 
-==== Import into Idea
+==== Import sources to IDE
+
+We descibe the necessary steps for _eclipse_ and _idea_
+
+===== Eclipse
+
+Open a new workspace in the newly checked out qedeq repository.
+
+"File / import / General / Existing Projects into Workspace"
+
+[x] Select root directory
+
+Choose checked out qedeq repository.
+
+Import all projects.
+
+
+===== Idea
 
 "File / New / Project from Existing Sources ..."
 
