@@ -89,7 +89,6 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
                                                                    // works, this might be useful
         getServices().checkFormallyProved(address);
         assertFalse(getServices().getQedeqBo(address).isFullyFormallyProved());
-        System.out.println("failure was ok, now we try to find a proof");
         final Map parameters = new HashMap();
         parameters.put("noSave", "true");
         parameters.put("extraVars", "0");
@@ -185,7 +184,8 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         parameters.put("extraVars", "0");
         parameters.put("propositionVariableOrder", "2");
         parameters.put("propositionVariableWeight", "3");
-        parameters.put("partFormulaWeight", "0");
+        parameters.put("partFormulaOrder", "1");
+        parameters.put("partFormulaWeight", "1");
         parameters.put("disjunctionOrder", "1");
         parameters.put("disjunctionWeight", "3");
         parameters.put("implicationWeight", "0");

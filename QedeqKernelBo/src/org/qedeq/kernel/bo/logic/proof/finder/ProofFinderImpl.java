@@ -100,7 +100,6 @@ public class ProofFinderImpl implements ProofFinder {
             final FormalProofLineList proof, final ModuleContext context,
             final Parameters parameters, final ModuleLogListener log, final Element2Utf8 trans)
             throws ProofException, InterruptException {
-        System.out.println("we are in the ProofFinderImpl.findProof method");
         this.goalFormula = formula;
         this.context = new ModuleContext(context);  // use copy constructor to fix it
         this.log = log;
@@ -120,43 +119,36 @@ public class ProofFinderImpl implements ProofFinder {
                 substituteByPropositionVariables(i);
             }
         });
-        System.out.println("1");
         addSubstitionMethod(new SubstituteBase("partFormula", parameters) {
             public void substitute(final int i) throws ProofException {
                 substitutePartGoalFormulas(i);
             }
         });
-        System.out.println("2");
         addSubstitionMethod(new SubstituteBase("disjunction", parameters) {
             public void substitute(final int i) throws ProofException {
                 substituteDisjunction(i);
             }
         });
-        System.out.println("3");
         addSubstitionMethod(new SubstituteBase("implication", parameters) {
             public void substitute(final int i) throws ProofException {
                 substituteImplication(i);
             }
         });
-        System.out.println("4");
         addSubstitionMethod(new SubstituteBase("negation", parameters) {
             public void substitute(final int i) throws ProofException {
                 substituteNegation(i);
             }
         });
-        System.out.println("5");
         addSubstitionMethod(new SubstituteBase("conjunction", parameters) {
             public void substitute(final int i) throws ProofException {
                 substituteConjunction(i);
             }
         });
-        System.out.println("6");
         addSubstitionMethod(new SubstituteBase("equivalence", parameters) {
             public void substitute(final int i) throws ProofException {
                 substituteEquivalence(i);
             }
         });
-        System.out.println("7");
 
         logFrequence = parameters.getInt("logFrequence");
 

@@ -217,11 +217,9 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements M
             } catch (ProofFoundException e) {
                 proof = e.getProofLines();
             } catch (ProofNotFoundException e) {
-                e.printStackTrace(System.out);
                 addWarning(e);
             } catch (ProofFinderArgumentException e) {
-                Trace.fatal(CLASS, "visitEnter(Proposition)", "Wrong Configuration in Proof Finder Arguments", e);
-                e.printStackTrace(System.out);
+                Trace.trace(CLASS, "visitEnter(Proposition)", "Wrong Configuration in Proof Finder Arguments", e);
                 addError(e);
             } finally {
                 finder = null;  // so we always new if we are currently searching
