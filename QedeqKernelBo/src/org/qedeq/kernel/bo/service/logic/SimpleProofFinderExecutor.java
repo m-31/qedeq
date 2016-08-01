@@ -217,8 +217,10 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements M
             } catch (ProofFoundException e) {
                 proof = e.getProofLines();
             } catch (ProofNotFoundException e) {
+                e.printStackTrace(System.out);
                 addWarning(e);
             } catch (ProofFinderArgumentException e) {
+                e.printStackTrace(System.out);
                 addError(e);
             } finally {
                 finder = null;  // so we always new if we are currently searching
