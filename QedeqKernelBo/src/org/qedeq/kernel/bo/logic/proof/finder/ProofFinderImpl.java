@@ -487,7 +487,7 @@ public class ProofFinderImpl implements ProofFinder {
         final Iterator iter = substitutionMethods.iterator();
         while (iter.hasNext()) {
             Substitute r = (Substitute) iter.next();
-            if (rule.getOrder() == r.getOrder()) {
+            if (rule.getWeight() > 0 && rule.getOrder() == r.getOrder()) {
                 throw new ProofFinderArgumentException(FinderErrors.PROOF_FINDER_ARGUMENTS_ERROR_CODE,
                     FinderErrors.PROOF_FINDER_ARGUMENTS_ERROR_TEXT + "same order for rules "
                     + r + " and " + rule, context);

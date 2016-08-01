@@ -220,6 +220,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements M
                 e.printStackTrace(System.out);
                 addWarning(e);
             } catch (ProofFinderArgumentException e) {
+                Trace.fatal(CLASS, "visitEnter(Proposition)", "Wrong Configuration in Proof Finder Arguments", e);
                 e.printStackTrace(System.out);
                 addError(e);
             } finally {
