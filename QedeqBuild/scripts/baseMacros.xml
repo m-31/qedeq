@@ -511,8 +511,14 @@
                 <arg value="@{dir}/@{file}" />
             </exec>
             <echo>makeindex @{dir}/@{file}</echo>
+<!--
             <exec failonerror="true" executable="makeindex">
                 <arg value="@{dir}/@{file}" />
+            </exec>
+-->
+            <exec failonerror="true" executable="bash">
+                <arg value="-c" />
+                <arg value="cd @{dir}; makeindex @{file}" />
             </exec>
             <echo>latex -output-directory @{dir} @{dir}/@{file}</echo>
             <exec failonerror="true" executable="latex">
@@ -521,8 +527,14 @@
                 <arg value="@{dir}/@{file}" />
             </exec>
             <echo>makeindex @{dir}/@{file}</echo>
+<!--
             <exec failonerror="true" executable="makeindex">
                 <arg value="@{dir}/@{file}" />
+            </exec>
+-->
+            <exec failonerror="true" executable="bash">
+                <arg value="-c" />
+                <arg value="cd @{dir}; makeindex @{file}" />
             </exec>
             <echo>pdflatex -output-directory @{dir} @{dir}/@{file}</echo>
             <exec failonerror="true" executable="pdflatex">
