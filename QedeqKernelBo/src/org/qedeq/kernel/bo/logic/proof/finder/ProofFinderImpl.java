@@ -100,6 +100,7 @@ public class ProofFinderImpl implements ProofFinder {
             final FormalProofLineList proof, final ModuleContext context,
             final Parameters parameters, final ModuleLogListener log, final Element2Utf8 trans)
             throws ProofException, InterruptException {
+        System.out.println("we are in the ProofFinderImpl.findProof method");
         this.goalFormula = formula;
         this.context = new ModuleContext(context);  // use copy constructor to fix it
         this.log = log;
