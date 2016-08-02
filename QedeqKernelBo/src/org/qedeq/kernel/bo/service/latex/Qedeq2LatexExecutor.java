@@ -1188,7 +1188,6 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
                 + getRuleReference(rule.getName(), old.getVersion()));
         }
         printer.println("}");
-        rule.getName();
         printer.println();
         if (rule.getDescription() != null) {
             printer.println(getLatexListEntry("getDescription()", rule.getDescription()));
