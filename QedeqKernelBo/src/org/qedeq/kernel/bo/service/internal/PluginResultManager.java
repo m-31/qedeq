@@ -121,13 +121,14 @@ public class PluginResultManager {
      */
     public synchronized String getPluginStateDescription() {
         final StringBuffer text = new StringBuffer();
-        Iterator iterator = plugins.keySet().iterator();
+        Iterator iterator = plugins.entrySet().iterator();
         while (iterator.hasNext()) {
             if (text.length() > 0) {
                 text.append(", ");
             }
-            final ModuleServicePlugin key = (ModuleServicePlugin) iterator.next();
-            ModuleServicePluginResults result = (ModuleServicePluginResults) plugins.get(key);
+            final Map.Entry entry = (Map.Entry) iterator.next();
+            final ModuleServicePlugin key = (ModuleServicePlugin) entry.getKey();
+            ModuleServicePluginResults result = (ModuleServicePluginResults) entry.getValue();
             text.append(key.getServiceAction());
             text.append(" ");
             if (result.hasErrors() && result.hasWarnings()) {
