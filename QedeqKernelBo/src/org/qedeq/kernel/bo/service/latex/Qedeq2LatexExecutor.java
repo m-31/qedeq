@@ -1526,7 +1526,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
             key = getKernelQedeqBo().getLabels().getRuleKey(ruleName);
         }
         KernelQedeqBo qedeq = getKernelQedeqBo();
-        if (getKernelQedeqBo().getExistenceChecker() != null) {
+        if (qedeq.getExistenceChecker() != null) {
             qedeq = getKernelQedeqBo().getExistenceChecker().getQedeq(key);
         }
         String localRef = getKernelQedeqBo().getLabels().getRuleLabel(key);
@@ -1534,7 +1534,6 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements ModuleS
         if (!ruleName.equals(refRuleName)) {
             localRef += "!" + ruleName;
         }
-        qedeq.getLabels().getRule(key).getName();
         boolean local = getKernelQedeqBo().equals(qedeq);
         if (local) {
             return "\\hyperlink{" + localRef + "}{" + caption + "}";
