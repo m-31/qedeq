@@ -61,7 +61,7 @@ public class FindDialog extends JDialog {
     private static final int MAX_HISTORY_SIZE = 20;
 
     /** Here we remember all previous search texts. */
-    public static final List HISTORY = new ArrayList();
+    private static final List HISTORY = new ArrayList();
 
     /** Search in this text field. */
     private JTextComponent text;
