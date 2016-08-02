@@ -570,6 +570,9 @@ public final class IoUtility {
                 targetLocation.mkdir();
             }
             String[] children = sourceLocation.list();
+            if (children == null) {
+                throw new IOException("invalid path: '" + sourceLocation.toString() + "'");
+            }
             for (int i = 0; i < children.length; i++) { // recursive call for all children
                 copy(new File(sourceLocation, children[i]),
                         new File(targetLocation, children[i]));
@@ -596,6 +599,9 @@ public final class IoUtility {
         final List result = new ArrayList();
         if (sourceLocation.isDirectory()) {
             final File[] children = sourceLocation.listFiles();
+            if (children == null) {
+                throw new IOException("invalid path: '" + sourceLocation.toString() + "'");
+            }
             for (int i = 0; i < children.length; i++) { // recursive call for all children
                 result.addAll(listFilesRecursivelyIntern(children[i], filter));
             }
@@ -621,6 +627,9 @@ public final class IoUtility {
         if (filter.accept(sourceLocation)) {
             if (sourceLocation.isDirectory()) {
                 File[] children = sourceLocation.listFiles();
+                if (children == null) {
+                    throw new IOException("invalid path: '" + sourceLocation.toString() + "'");
+                }
                 for (int i = 0; i < children.length; i++) { // recursive call for all children
                     result.addAll(listFilesRecursivelyIntern(children[i], filter));
                 }
