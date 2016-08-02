@@ -93,4 +93,10 @@
       <Bug pattern="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" />
     </Match>
 
+    <!-- yep, might be a problem; but this is not our class...  -->
+    <Match>
+        <Class name="com.sun.syndication.io.XmlReader" />
+        <Bug pattern="DM_DEFAULT_ENCODING" />
+    </Match>
+
 </FindBugsFilter>
