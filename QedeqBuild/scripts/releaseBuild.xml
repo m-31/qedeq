@@ -15,7 +15,9 @@
     <!-- get content of findbugs environment variable -->
     <property environment="env" />
     <property name="findbugs.home" value="${env.FINDBUGS_HOME}" />
-    
+    <property name="keystore.password" value="${env.KEYSTORE_PASSWORD}" />
+    <property name="keystore.location" value="${env.KEYSTORE_LOCATION}" />
+
     <import file="baseMacros.xml" />
 
     <!-- set global properties for this build -->
@@ -633,25 +635,25 @@ currently in ants classpath
             </fileset>
         </copy>
         <signjar jar="${qedeq.webstart}/qedeq_kernel-${qedeq.release.version}.jar" alias="qedeqkey"
-            storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
+            storepass="${keystore.password}" keystore="${keystore.location}"/>
         <signjar jar="${qedeq.webstart}/qedeq_gui_se-${qedeq.release.version}.jar" alias="qedeqkey"
-            storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
+            storepass="${keystore.password}" keystore="${keystore.location}"/>
         <signjar jar="${qedeq.webstart}/commons-io-1.4.jar" alias="qedeqkey"
-            storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
+            storepass="${keystore.password}" keystore="${keystore.location}"/>
         <signjar jar="${qedeq.webstart}/commons-lang-2.4.jar" alias="qedeqkey"
-            storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
+            storepass="${keystore.password}" keystore="${keystore.location}"/>
         <signjar jar="${qedeq.webstart}/commons-logging-1.1.1.jar" alias="qedeqkey"
-            storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
+            storepass="${keystore.password}" keystore="${keystore.location}"/>
         <signjar jar="${qedeq.webstart}/commons-httpclient-3.1.jar" alias="qedeqkey"
-            storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
+            storepass="${keystore.password}" keystore="${keystore.location}"/>
         <signjar jar="${qedeq.webstart}/commons-codec-1.3.jar" alias="qedeqkey"
-            storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
+            storepass="${keystore.password}" keystore="${keystore.location}"/>
         <signjar jar="${qedeq.webstart}/log4j-1.2.14.jar" alias="qedeqkey"
-            storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
+            storepass="${keystore.password}" keystore="${keystore.location}"/>
         <signjar jar="${qedeq.webstart}/forms-1.1.0.jar" alias="qedeqkey"
-            storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
+            storepass="${keystore.password}" keystore="${keystore.location}"/>
         <signjar jar="${qedeq.webstart}/looks-2.1.4.jar" alias="qedeqkey"
-            storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
+            storepass="${keystore.password}" keystore="${keystore.location}"/>
 <!-- mime 20100705: the signed XML-Parser Jars and the JHjar have to be replaced by other ones
              so that it works under an old JNLP version
 -->
