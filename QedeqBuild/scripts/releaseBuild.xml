@@ -660,11 +660,11 @@ currently in ants classpath
         <copy todir="${qedeq.webstart}" overwrite="true" >
             <fileset dir="${qedeq.resources}/webstart/lib" />
         </copy>
-        <signjar jar="${qedeq.webstart}/jh-2.0.5.jar" alias="meyling.de" force="true"
+        <signjar jar="${qedeq.webstart}/jh-2.0.5.jar" alias="qedeqkey"
             storepass="${keystore.password}" keystore="${keystore.location}"/>
-        <signjar jar="${qedeq.webstart}/xercesImpl.jar" alias="meyling.de" force="true"
+        <signjar jar="${qedeq.webstart}/xercesImpl.jar" alias="qedeqkey"
             storepass="${keystore.password}" keystore="${keystore.location}"/>
-        <signjar jar="${qedeq.webstart}/xml-apis.jar" alias="meyling.de" force="true"
+        <signjar jar="${qedeq.webstart}/xml-apis.jar" alias="qedeqkey"
             storepass="${keystore.password}" keystore="${keystore.location}"/>
         <copy todir="${qedeq.webstart}">
             <fileset file="${qedeq.resources}/webstart/qedeq.jnlp" />
