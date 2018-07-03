@@ -2687,18 +2687,18 @@
                   \par
                   \begin{tabularx}{\linewidth}{rclX}
                     $u \in x$ & $\leftrightarrow$ & $(\mathfrak{M}(u) \land u \in x)$
-                      & \qref{definition:complement} \\
+                      & \qref{theorem:inSetEqualInSetAndIsSet} \\
                               & $\leftrightarrow$ & $(\bot \lor (\mathfrak{M}(u) \land u \in x))$
                       & \qref{l.theorem:propositionalCalculus/ax} \\
                               & $\leftrightarrow$ & $((\mathfrak{M}(u) \land \neg \mathfrak{M}(u)) \lor (\mathfrak{M}(u) \land u \in x))$
                       & \qref{l.theorem:propositionalCalculus/az} \\
-                              & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (\neg \mathfrak{M}(u)) \land u \in x))$
+                              & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (\neg \mathfrak{M}(u) \lor u \in x))$
                       & \qref{l.theorem:propositionalCalculus/at} \\
-                              & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (\neg \mathfrak{M}(u)) \land \neg \neg u \in x))$
+                              & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (\neg \mathfrak{M}(u) \lor \neg \neg u \in x))$
                       & \qref{l.theorem:propositionalCalculus/am} \\
-                              & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (\neg \mathfrak{M}(u)) \land \neg u \notin x))$
+                              & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (\neg \mathfrak{M}(u) \lor \neg u \notin x))$
                       & \qref{definition:notIn} \\
-                              & $\leftrightarrow$ & $(\mathfrak{M}(u) \land \neg (\mathfrak{M}(u)) \lor u \notin x))$
+                              & $\leftrightarrow$ & $(\mathfrak{M}(u) \land \neg (\mathfrak{M}(u) \land u \notin x))$
                       & \qref{l.theorem:propositionalCalculus/aq} \\
                               & $\leftrightarrow$ & $(\mathfrak{M}(u) \land \neg (u \in \overline{x}))$
                       & \qref{theorem:complementMember} \\
